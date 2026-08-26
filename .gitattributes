@@ -1,0 +1,17 @@
+# Keep LF in the repository for everything textual. Lab scripts are executed
+# on Linux by CI and by attendees; CRLF in a shell script is a runtime error
+# that only shows up on someone else's machine.
+* text=auto eol=lf
+
+*.sh    text eol=lf
+*.py    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.adoc  text eol=lf
+*.json  text eol=lf
+*.ini   text eol=lf
+Makefile text eol=lf
+
+*.pptx  binary
+*.png   binary
+*.pdf   binary
