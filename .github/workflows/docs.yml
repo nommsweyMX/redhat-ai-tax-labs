@@ -1,0 +1,96 @@
+name: docs
+
+# Build the documentation and slides on every push, and publish them to
+# GitHub Pages from the default branch. The lab smoke test runs first: if the
+# labs do not execute cleanly, the docs describing them are not worth building.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint and run every lab
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check shell syntax
+        run: |
+          for f in bin/*.sh labs/*/run.sh; do
+            bash -n "$f"
+          done
+
+      - name: Check Python syntax
+        run: python3 -m py_compile bin/build-pptx.py labs/lab04-rag/*.py
+
+      - name: Run every lab in simulate mode
+        env:
+          LAB_SPEED: "0"
+          NO_COLOR: "1"
+        run: ./bin/run-all-labs.sh
+
+  build:
+    name: Build docs, slides and exports
+    needs: test
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/asciidoctor/docker-asciidoctor:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build documentation
+        run: asciidoctor -D build -o index.html docs/index.adoc
+
+      - name: Build reveal.js slides
+        run: |
+          asciidoctor-revealjs \
+            -a revealjsdir=https://cdn.jsdelivr.net/npm/reveal.js@4.6.1 \
+            -D build -o slides.html slides/slides.adoc
+
+      - name: Build PDF
+        run: asciidoctor-pdf -D build -o redhat-ai-tax-administration.pdf docs/index.adoc
+
+      - name: Stage the interactive deck and exports alongside the build
+        run: |
+          cp slides/deck.html build/deck.html
+          mkdir -p build/exports
+          cp -r slides/exports/. build/exports/ 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: build/
+
+  publish:
+    name: Publish to GitHub Pages
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+      - id: deploy
+        uses: actions/deploy-pages@v4

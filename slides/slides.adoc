@@ -1,0 +1,235 @@
+= Red Hat AI for Intelligent Tax Administration
+Red Hat · Four Inc. · Carahsoft
+:revealjs_theme: white
+:revealjs_transition: fade
+:revealjs_slideNumber: c/t
+:revealjs_hash: true
+:revealjs_history: true
+:revealjs_width: 1280
+:revealjs_height: 720
+:revealjs_controls: true
+:source-highlighter: highlight.js
+:icons: font
+// Built with asciidoctor-revealjs. See ../Makefile target: slides
+// Speaker notes are in [.notes] blocks — press S in the browser to open them.
+
+== Turning AI strategy into tax administration outcomes
+
+A secure, flexible foundation that connects automation, hybrid cloud and
+intelligent workflows.
+
+Then six labs where you run it yourself.
+
+[.notes]
+--
+Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the hour —
+25 minutes of story, 30 minutes of live terminal, 5 for questions.
+
+The promise: every claim we make today, we run in a shell before you leave.
+--
+
+== The work is seasonal, textual and unforgiving
+
+[cols="1,1"]
+|===
+| *Demand* | Filing season concentrates a year of volume into weeks
+| *Systems* | Notice and offset logic locked in decades-old code
+| *Data* | The answers live in correspondence, not in tables
+| *Constraint* | Federal tax information cannot go to a public endpoint
+|===
+
+[.notes]
+--
+Do not lead with the technology. Lead with the shape of the problem.
+
+AI is interesting here precisely because it works on unstructured language —
+which is most of what a tax agency actually handles.
+
+The last row is the one that decides the architecture. The model has to come to
+the data.
+--
+
+== So the platform is the decision
+
+Choosing a model is a six-month decision.
+
+Choosing *where models run, how they are governed and how they scale* is a
+ten-year one.
+
+[.notes]
+--
+This is the pivot of the whole deck. If they accept this sentence, everything
+after it follows.
+--
+
+== Where AI lands in the filing lifecycle
+
+[cols="2,1", options="header"]
+|===
+| Stage | Start here?
+
+| Intake and classification | Yes
+| Validation | Yes
+| Correspondence drafting | Yes
+| *Exam selection* | *No — governance first*
+| Collections support | Yes
+| Taxpayer service | Yes
+|===
+
+[.notes]
+--
+Walk the table top to bottom. The "yes" rows already have a human reviewer in
+the loop, which makes them honest places to start.
+
+Exam selection is deliberately excluded: that is a determination affecting a
+taxpayer, and it needs a much heavier governance conversation than a drafting
+assistant does. Saying this unprompted buys enormous credibility.
+--
+
+== Two rules of thumb
+
+. *Start where a human already reviews the output.* If a person signs the letter
+  today, a model that drafts it changes throughput without changing
+  accountability.
+
+. *Automate the toil around the model, not just the model.* Provisioning,
+  patching, scaling and evidence collection are most of the work — and that
+  problem is already solved.
+
+== Five outcomes, and where each is proven
+
+[cols="3,1", options="header"]
+|===
+| Outcome | Lab
+
+| Modernize mission-critical operations | 05
+| Improve efficiency and accuracy | 01, 02
+| Unlock data-driven insights | 04
+| Strengthen security and compliance | 06
+| Build an AI-ready foundation | 03
+|===
+
+[.notes]
+--
+This slide is the event abstract made concrete. Do not linger — it exists so
+people can map the rest of the hour.
+--
+
+== One foundation, from bare metal to the taxpayer
+
+[cols="1,3", options="header"]
+|===
+| Layer | What it provides
+
+| Mission applications | Intake, drafting, summarization, guidance assistant
+| OpenShift AI | KServe + vLLM serving, pipelines, model registry, retrieval
+| OpenShift | Scheduling, GPU partitioning, network policy, GitOps
+| RHEL / RHEL AI | Bare metal, virtualized, accredited cloud, classified enclave
+|===
+
+*Automation* and *trust* run vertically through every layer.
+
+[.notes]
+--
+Read bottom to top. The point of the picture is the two vertical bands:
+automation and trust are not a layer you add at the end.
+
+A project that treats compliance as a phase after deployment discovers, at the
+worst possible moment, that it cannot produce evidence for anything that
+already happened.
+--
+
+== The questions an AO will ask
+
+[cols="2,2", options="header"]
+|===
+| Question | Control
+
+| Where does our data go? | Inference runs on your cluster. Nowhere.
+| Is this the approved model? | Signed artifacts, verified before admission
+| Is the crypto validated? | FIPS mode, a supported operating state
+| Still compliant next quarter? | Scheduled Compliance Operator scans
+| Is it drifting? | TrustyAI drift and fairness on live traffic
+| What if we are air-gapped? | Mirror images and models into the enclave
+| Who is accountable? | A named reviewer. The model drafts; it never sends.
+|===
+
+[.notes]
+--
+This is the slide that unblocks the deal. Expect interruptions — let them
+happen, this is the conversation you want.
+
+Offer to take the whole table offline with their ISSO.
+--
+
+== Ninety days, then ninety more
+
+[cols="1,1,1", options="header"]
+|===
+| Prove (0–90) | Ground (90–180) | Scale (180+)
+
+| One endpoint on RHEL AI | Serving on OpenShift AI | Registry with real approvals
+| Accelerator capacity plan | Retrieval over your guidance | Workflows two to five
+| Data classes agreed in writing | Tune on agency vocabulary | Filing-season rehearsal
+| One workflow with a reviewer | Drift and compliance wired | Extend to the enclave
+| Baseline measured first | Provisioning automated | Report in mission terms
+|===
+
+[.notes]
+--
+Be honest about sequencing. Most agencies stall on rows 2 and 3 of the Prove
+phase — no accelerator capacity plan, and no written agreement on which data
+may be used. Neither is technical.
+
+Ask the room directly which phase they are in.
+--
+
+== Six labs — real commands, run them yourself
+
+[cols="1,3", options="header"]
+|===
+| Lab | What you do
+
+| 01 | Serve a model inside your boundary — RHEL AI
+| 02 | Teach it your notice taxonomy — InstructLab
+| 03 | Survive filing season — OpenShift AI, KServe, vLLM
+| 04 | Ground answers in your guidance — retrieval with citations
+| 05 | Automate the toil — Ansible and Event-Driven Ansible
+| 06 | Prove it to your ISSO — signing, FIPS, compliance, drift
+|===
+
+[.notes]
+--
+Transition slide. Switch to a terminal now.
+
+Tell them the labs run in simulate mode on a laptop with no cluster, and in
+live mode against their own environment. Same script, same commands.
+
+Run Lab 01 and stop hard on step 4 — the endpoint bound to 127.0.0.1.
+--
+
+== What happens after this hour
+
+*Architecture workshop* — half a day with your platform and security teams.
+Size accelerators, place the first workload, name the data classes in scope.
+
+*Guided pilot* — one workflow, your infrastructure, a measured baseline and an
+agreed definition of success before we start.
+
+*Acquisition path* — Four Inc. and Carahsoft carry the vehicles. Bring them in
+early, not at the end.
+
+[.notes]
+--
+Close with a specific ask, not a thank-you. The architecture workshop is the
+natural next step.
+
+Then hand off for the contract vehicle conversation.
+--
+
+== One thing to remember
+
+Nothing in these six labs required a public model endpoint, an internet
+connection at inference time, or a rewrite of a system of record.
+
+That is the whole argument.

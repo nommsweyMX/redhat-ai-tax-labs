@@ -1,0 +1,124 @@
+[#lab-02]
+= Lab 02 — Teach it your notice taxonomy
+
+[cols="1,3"]
+|===
+| Product   | InstructLab on {rhelai}
+| Time      | About 6 minutes to walk; hours of GPU time to run for real
+| Script    | `labs/lab02-instructlab/run.sh`
+| Outcome   | A tuned model that knows your notice families, queues and house style
+|===
+
+== Objective
+
+The base model from <<lab-01>> does not know your agency's notice codes, your
+routing queues or how your correspondence is meant to read. Add that knowledge
+as YAML a subject matter expert can write and a reviewer can approve, generate
+synthetic training data from it, tune, and prove the result is better than what
+you started with.
+
+== Why this matters more than it looks
+
+Domain adaptation is usually where AI programmes stall. The conventional path
+needs a labelled dataset, which needs annotators, which needs a budget and six
+months. InstructLab inverts it: a handful of examples written by the people who
+already own the knowledge become thousands of training samples, and the
+contribution is reviewed like code.
+
+The file at
+`labs/lab02-instructlab/taxonomy/knowledge/gov/tax/notices/qna.yaml` is worth
+reading in full. It is deliberately written the way a real contribution would
+be — plain language, one notice family per context block, and a house-style
+section that captures the rules a correspondence reviewer applies by instinct.
+
+== Prerequisites
+
+For live mode: a {rhelai} host with `ilab`, a working accelerator, and several
+hours of GPU time for the training step.
+
+[source,bash]
+----
+cd labs/lab02-instructlab
+LAB_PACE=step ./run.sh
+----
+
+== Walkthrough
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Command | What to look for
+
+| 1
+| `cat .../qna.yaml`
+| Knowledge written as prose, not as feature vectors. A tax specialist can
+  review this. That is the whole design goal.
+
+| 2
+| `ilab taxonomy diff`
+| Schema validation. *Put this step in CI.* A malformed contribution should
+  fail in a pull request, not after four hours of GPU time.
+
+| 3
+| `ilab data generate`
+| 12 seed examples becoming roughly 2,200 kept samples after quality filtering.
+  Every sample traces back to something a human wrote.
+
+| 4
+| `ilab model train`
+| Loss dropping across three epochs. The checkpoint path is what you promote.
+
+| 5
+| `ilab model evaluate`
+| The comparison table against the base model. This is the artifact your
+  governance board actually wants.
+|===
+
+== What good looks like
+
+The evaluation table shows meaningful gains on agency-specific tasks — notice
+family accuracy, correct routing queue, citing the right form — and a smaller
+gain on general readability. That pattern is the healthy one. If general
+benchmarks move a lot, you have probably overfitted to the seed examples.
+
+.Representative evaluation output
+[cols="2,1,1,1", options="header"]
+|===
+| Measure | Base | Tuned | Delta
+
+| Notice family accuracy       | 0.61 | 0.94 | +0.33
+| Correct routing queue        | 0.58 | 0.91 | +0.33
+| Cites the right form         | 0.44 | 0.89 | +0.45
+| Plain-language readability   | 0.72 | 0.86 | +0.14
+| Overall MT-Bench             | 6.1  | 7.8  | +1.7
+|===
+
+IMPORTANT: Keep the held-out evaluation set *out* of the taxonomy. If the
+questions you evaluate on are in the material you generated training data from,
+the numbers are meaningless and someone will eventually notice.
+
+== Troubleshooting
+
+`ilab taxonomy diff` reports a schema error::
+Check `version: 3` at the top and the indentation under `questions_and_answers`.
+Nearly every failure is one of those two.
+
+Data generation produces very few samples::
+The quality filter is discarding them. Usually the seed contexts are too short
+or too similar to each other. Aim for a paragraph of real context per example.
+
+Training runs out of memory::
+Lower the effective batch size, or use the LoRA pipeline rather than full
+fine-tuning. The lab uses LoRA rank 32.
+
+The tuned model regresses on general questions::
+Too many epochs, or too narrow a seed set. Add skills examples alongside
+knowledge examples.
+
+== Discussion questions
+
+. Who at your agency writes the equivalent of this YAML, and would they be
+  willing to review a pull request?
+. What is your held-out evaluation set, and who decides when a score is good
+  enough to promote?
+. What would you need to see before letting a tuned model draft correspondence
+  that a reviewer signs?

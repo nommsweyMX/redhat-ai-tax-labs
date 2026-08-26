@@ -1,0 +1,53 @@
+---
+# Event-Driven Ansible: the rulebook IS the runbook.
+#
+# Alertmanager on the cluster posts here. Each rule maps one condition to one
+# job template in Automation Controller, so every action is recorded as a job
+# with a launching identity — which is the audit trail Lab 06 relies on.
+- name: Respond to tax inference saturation
+  hosts: all
+  sources:
+    - ansible.eda.alertmanager:
+        host: 0.0.0.0
+        port: 5000
+
+  rules:
+    - name: Queue depth sustained over threshold
+      condition: >-
+        event.alert.labels.alertname == "InferenceQueueDepth" and
+        event.alert.status == "firing"
+      action:
+        run_job_template:
+          name: "Expand tax-inference capacity"
+          organization: "Revenue Modernization"
+          job_args:
+            extra_vars:
+              reason: "{{ event.alert.annotations.summary }}"
+              queue_depth: "{{ event.alert.labels.depth }}"
+
+    - name: Endpoint failed its canary
+      condition: >-
+        event.alert.labels.alertname == "CanaryFailed" and
+        event.alert.status == "firing"
+      action:
+        run_job_template:
+          name: "Roll back to last approved model"
+          organization: "Revenue Modernization"
+
+    - name: Served model digest no longer matches the change record
+      condition: event.alert.labels.alertname == "ModelProvenanceMismatch"
+      action:
+        run_job_template:
+          # Deliberately does NOT self-remediate. A provenance mismatch is a
+          # security event: page a human, do not quietly redeploy over it.
+          name: "Escalate provenance mismatch"
+          organization: "Revenue Modernization"
+
+    - name: Saturation cleared
+      condition: >-
+        event.alert.labels.alertname == "InferenceQueueDepth" and
+        event.alert.status == "resolved"
+      action:
+        run_job_template:
+          name: "Return tax-inference to baseline capacity"
+          organization: "Revenue Modernization"

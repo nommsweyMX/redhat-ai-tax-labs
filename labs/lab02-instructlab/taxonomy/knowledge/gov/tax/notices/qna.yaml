@@ -1,0 +1,84 @@
+# Agency notice taxonomy — InstructLab knowledge contribution.
+#
+# Written and reviewed by subject matter experts, not by the platform team.
+# Reviewed like code: "ilab taxonomy diff" runs in CI on every pull request.
+#
+# The wording below is illustrative sample content for the lab. Replace it with
+# your own published guidance before generating any training data.
+version: 3
+domain: tax_administration
+created_by: revenue-modernization-team
+document_outline: |
+  Agency notice families, their meaning in plain language, the response window
+  each carries, and the queue that owns them.
+
+seed_examples:
+  - context: |
+      Notice CP2000 proposes changes to a return based on third-party income
+      reporting that does not match the return as filed. It is a proposal,
+      not a bill, and carries a 30-day response window. It is owned by the
+      Automated Underreporter queue.
+    questions_and_answers:
+      - question: A taxpayer asks why they received a CP2000. What is it?
+        answer: |
+          It is a proposed change, not a bill. Third-party income records do
+          not match the return as filed. They have 30 days to agree or to
+          respond with documentation.
+      - question: Which queue owns a CP2000 response?
+        answer: |
+          Automated Underreporter. Route the contact there unless the taxpayer
+          also reports identity theft, which takes precedence.
+      - question: Is a CP2000 a determination that additional tax is owed?
+        answer: |
+          No. It is a proposal. Describing it as a bill in correspondence is a
+          quality defect and must be corrected before the notice is sent.
+
+  - context: |
+      Notice CP14 is the first notice of an unpaid balance. It states the
+      amount due and the payment due date. Taxpayers who cannot pay in full
+      have four documented options: a short-term payment plan of up to 180
+      days, an installment agreement, an offer in compromise, and currently
+      not collectible status.
+    questions_and_answers:
+      - question: A taxpayer received a CP14 and cannot pay in full. What are the options?
+        answer: |
+          Four options: a short-term payment plan of up to 180 days with no
+          setup fee; an installment agreement with monthly payments; an offer
+          in compromise where collectability is in doubt; and currently not
+          collectible status where payment would prevent meeting basic living
+          expenses.
+      - question: Does a CP14 mean enforcement action has started?
+        answer: |
+          No. It is the first notice of the balance. Enforcement language does
+          not belong in a reply to a CP14 contact.
+
+  - context: |
+      A refund status inquiry where the taxpayer has moved and not filed a
+      change of address is a common pairing. The missing document is Form
+      8822. The correct handling is to update the address first, then request
+      a refund trace, because a trace filed against a stale address restarts
+      the cycle.
+    questions_and_answers:
+      - question: A taxpayer has no refund and moved without updating their address. What is missing?
+        answer: |
+          Form 8822, Change of Address. Update the address before requesting a
+          refund trace, or the trace will be worked against the stale address.
+      - question: What is the correct routing for that contact?
+        answer: |
+          Accounts Management, refund trace queue, normal urgency.
+
+  - context: |
+      House style for taxpayer correspondence: second person, active voice,
+      one action per paragraph, no internal reference numbers in the body, and
+      an explicit statement of what happens if the taxpayer does nothing.
+      Every drafted reply is edited and signed by a named reviewer.
+    questions_and_answers:
+      - question: What tone should a drafted reply use?
+        answer: |
+          Second person and active voice, one action per paragraph. State
+          plainly what happens if the taxpayer takes no action. Do not include
+          internal reference numbers in the body of the letter.
+      - question: Who is accountable for a drafted reply?
+        answer: |
+          A named human reviewer, who edits and signs it. The model drafts; it
+          never sends.

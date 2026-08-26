@@ -1,0 +1,69 @@
+---
+# Verify the taxpayer-facing inference endpoint the way a caseworker would,
+# then prove the model being served is the artefact that was approved.
+#
+# Scheduled hourly in Automation Controller. On failure, the Event-Driven
+# Ansible rulebook in ../rulebooks/inference_saturation.yml takes over.
+- name: Verify tax inference endpoints
+  hosts: inference
+  gather_facts: true
+  vars:
+    endpoint: "https://tax-classifier.tax-inference.svc"
+    approved_digest: "sha256:4b91c0e2f7a3"
+    change_record: "CR-8841"
+    canary_threshold_seconds: 2.0
+
+  tasks:
+    - name: Query the model list endpoint
+      ansible.builtin.uri:
+        url: "{{ endpoint }}/v1/models"
+        method: GET
+        validate_certs: false
+        return_content: true
+      register: model_list
+      failed_when: "'granite-8b-tax-v1' not in model_list.content"
+
+    - name: Send a canary inquiry
+      ansible.builtin.uri:
+        url: "{{ endpoint }}/v1/chat/completions"
+        method: POST
+        validate_certs: false
+        body_format: json
+        body:
+          model: granite-8b-tax-v1
+          temperature: 0.1
+          max_tokens: 64
+          messages:
+            - role: user
+              content: >-
+                Classify this contact: I filed in February and still have no
+                refund. I moved in March and never updated my address.
+      register: canary
+
+    - name: Fail if the canary was slower than the service threshold
+      ansible.builtin.assert:
+        that:
+          - canary.elapsed | float < canary_threshold_seconds
+        fail_msg: >-
+          Canary took {{ canary.elapsed }}s, over the
+          {{ canary_threshold_seconds }}s threshold. Capacity or the model
+          has changed.
+        success_msg: "classified in {{ canary.elapsed }}s"
+
+    - name: Read the digest of the model actually being served
+      ansible.builtin.uri:
+        url: "{{ endpoint }}/v1/models"
+        method: GET
+        validate_certs: false
+        return_content: true
+      register: served
+
+    - name: Verify served model digest matches the approved change record
+      ansible.builtin.assert:
+        that:
+          - approved_digest in served.content
+        fail_msg: >-
+          Served model digest does not match {{ approved_digest }} from
+          {{ change_record }}. This is an accreditation finding. Stop and
+          escalate before taking any remediation action.
+        success_msg: "{{ approved_digest }} matches {{ change_record }}"

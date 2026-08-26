@@ -1,0 +1,15 @@
+{
+  "model": "granite-8b-lab-v1",
+  "temperature": 0.1,
+  "max_tokens": 300,
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a tax administration triage assistant. Classify the contact, name any missing document, choose a routing queue, and draft a plain-language reply for a human reviewer to edit and sign. Never state a determination as final. Output the fields category, secondary, missing_doc, routing, urgency, draft_reply."
+    },
+    {
+      "role": "user",
+      "content": "I filed in February and still have no refund. I moved in March and never updated my address."
+    }
+  ]
+}

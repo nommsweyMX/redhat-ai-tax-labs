@@ -1,0 +1,30 @@
+// Shared attributes for every document in this repository.
+// Included by docs/index.adoc and by each module when built standalone.
+
+:toc: left
+:toclevels: 3
+:sectnums:
+:sectanchors:
+:icons: font
+:source-highlighter: rouge
+:experimental:
+:idprefix:
+:idseparator: -
+
+// Product names, in one place, so a rename is one edit.
+:rhel: Red Hat Enterprise Linux
+:rhelai: Red Hat Enterprise Linux AI
+:ocp: Red Hat OpenShift
+:rhoai: Red Hat OpenShift AI
+:aap: Red Hat Ansible Automation Platform
+:eda: Event-Driven Ansible
+
+// Environment defaults the labs assume. Override these for your own estate.
+:ns: tax-inference
+:base-model: granite-8b-lab-v1
+:tuned-model: granite-8b-tax-v1
+:change-record: CR-8841
+
+// Repository layout.
+:labs-dir: labs
+:repo-url: https://github.com/OWNER/redhat-ai-tax-labs

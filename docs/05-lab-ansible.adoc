@@ -1,0 +1,126 @@
+[#lab-05]
+= Lab 05 — Automate the toil around the model
+
+[cols="1,3"]
+|===
+| Product   | {aap} with {eda}
+| Time      | About 5 minutes
+| Script    | `labs/lab05-ansible/run.sh`
+| Outcome   | Saturation detected and remediated in about a minute, with an audit trail
+|===
+
+== Objective
+
+Most of the effort in production AI is not the model. It is provisioning,
+patching, scaling and evidence collection. Wire a health check that tests the
+endpoint the way a taxpayer would, then an {eda} rulebook that remediates
+saturation before anyone opens a ticket.
+
+== The rulebook is the runbook
+
+`labs/lab05-ansible/rulebooks/inference_saturation.yml` maps four conditions to
+four job templates. There is no separate runbook document to go stale, because
+this file *is* the runbook and it executes.
+
+One rule in it is deliberately different from the others. When the served model
+digest stops matching the approved change record, the rulebook escalates rather
+than self-remediating:
+
+[source,yaml]
+----
+- name: Served model digest no longer matches the change record
+  condition: event.alert.labels.alertname == "ModelProvenanceMismatch"
+  action:
+    run_job_template:
+      # Deliberately does NOT self-remediate. A provenance mismatch is a
+      # security event: page a human, do not quietly redeploy over it.
+      name: "Escalate provenance mismatch"
+----
+
+Automatically redeploying over a provenance mismatch would destroy the evidence
+of what was actually running. That is a decision worth making explicitly, and
+worth defending in a design review.
+
+== The digest check people forget
+
+The health check playbook does four things, and the fourth is the one that
+usually gets left out: it asserts that the model actually being served matches
+the digest in the approved change record. A model that has drifted from the
+approved artifact is an accreditation finding, not an incident, and it will be
+found by an assessor if it is not found by automation first.
+
+== Prerequisites
+
+For live mode: {aap} 2.4 or later, `ansible-navigator` and `ansible-rulebook`
+on the path, the `ansible.eda` collection, an Automation Controller with the
+named job templates, and Alertmanager configured to post to the rulebook
+source.
+
+[source,bash]
+----
+cd labs/lab05-ansible
+LAB_PACE=step ./run.sh
+----
+
+== Walkthrough
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Command | What to look for
+
+| 1
+| `ansible-navigator run playbooks/model_endpoint_health.yml`
+| Four tasks: the model list, a canary inquiry, the latency assertion, and the
+  digest match against `{change-record}`.
+
+| 2
+| `cat rulebooks/inference_saturation.yml`
+| Four conditions, four job templates, one of which deliberately escalates
+  instead of fixing.
+
+| 3
+| `ansible-rulebook --rulebook ...`
+| An alert at 14:38:02, remediation launched at 14:38:03, resolved at 14:39:04.
+  Sixty-two seconds, no pager.
+
+| 4
+| `awx job list`
+| The audit trail, with a launching identity on every row — including
+  `eda-rulebook` for the automated action.
+|===
+
+== What good looks like
+
+The alert-to-resolved interval is under two minutes and no human touched it.
+More importantly, the `awx job list` output at the end is a complete record of
+what changed, when, and what launched it — assembled continuously rather than
+reconstructed at the end of a quarter.
+
+That job list is the evidence <<lab-06>> depends on. Automation and compliance
+are the same investment described from two directions.
+
+== Troubleshooting
+
+`ansible-rulebook: command not found`::
+Install `ansible-rulebook` and a JDK — the rules engine needs Java. Or run in
+simulate mode.
+
+Rulebook starts but no events arrive::
+Confirm Alertmanager is posting to the rulebook host and port, and that nothing
+between them is dropping the webhook.
+
+Job template not found::
+The names in the rulebook must match the job templates in Controller exactly,
+including the organization.
+
+The canary assertion fails intermittently::
+`canary_threshold_seconds` is 2.0 in the playbook. If the endpoint is genuinely
+that slow under load, that is a capacity finding — raising the threshold hides
+it rather than fixing it.
+
+== Discussion questions
+
+. What do you check today after a model deployment, and how much of it is manual?
+. Which conditions at your agency should escalate rather than self-remediate?
+. Who would you let launch an automated capacity change in production, and what
+  approval sits in front of it?

@@ -1,0 +1,107 @@
+[#facilitator-guide]
+= Facilitator guide
+
+For whoever is running the session. Attendees do not need this section.
+
+== Timing a 60-minute virtual event
+
+[cols="1,3,1", options="header"]
+|===
+| Minutes | Content | Mode
+
+| 0–3   | Welcome. Red Hat, Four Inc., Carahsoft. Set the promise: every claim gets run in a shell. | Slides 1
+| 3–10  | The operating reality, and where AI lands in the filing lifecycle. | Slides 2–3
+| 10–16 | The five outcomes and the reference architecture. | Slides 4–5
+| 16–22 | Security posture — the questions an AO asks. Expect interruptions here; let them happen. | Slide 6
+| 22–26 | Adoption path. Ask the room which phase they are in. | Slide 7
+| 26–30 | Switch to labs. Explain simulate versus live mode. | Slide 8
+| 30–38 | *Run Lab 01 live on screen.* Stop on `ss -ltnp`. That single line answers the data question. | Lab 01
+| 38–46 | *Run Lab 05 live on screen.* The 62-second remediation is the moment people remember. | Lab 05
+| 46–52 | Skim Labs 02, 03, 04, 06. Tell them the repo is theirs to take home. | Labs
+| 52–60 | Next steps and questions. | Slide 9
+|===
+
+TIP: If you only have 30 minutes, cut to slides 1, 2, 4, 6 and run Lab 01 and
+the drift section of Lab 06. Those four screens carry the argument.
+
+== Which labs to run live
+
+Lab 01:: Always. Step 4 — the endpoint bound to `127.0.0.1` — is the single
+most persuasive screen in the whole deck for a tax agency audience.
+
+Lab 05:: Almost always. Watching an alert resolve itself in 62 seconds lands
+harder than any slide about automation.
+
+Lab 06:: If security staff are in the room, run steps 3 to 5. The deliberate
+`NON-COMPLIANT` result and the drift misreading are both good discussion.
+
+Lab 04:: Run step 4 — the refusal — if anyone raises hallucination. It is a
+30-second answer to a question that otherwise consumes ten minutes.
+
+Labs 02 and 03:: Usually better as a walkthrough than a live run. Both have
+long-running steps that do not demo well in real time.
+
+== Running the labs on a projector
+
+[source,bash]
+----
+# Larger pauses, no colour issues on unfamiliar terminals
+LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh
+
+# If the room's screen share mangles ANSI colour
+NO_COLOR=1 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh
+----
+
+Increase your terminal font size before the session, not during it. Eighty
+columns is enough for every lab — none of the output wraps at that width.
+
+== Questions you will get, and short answers
+
+"Can this run air-gapped?"::
+Yes. Mirror images and models into the enclave with `oc-mirror`. The platform is
+built for disconnected operation; it is a supported configuration, not a
+workaround.
+
+"What does it cost in GPUs?"::
+An 8B model serving a pilot workload fits on one accelerator. Filing-season
+concurrency is the number that sets the ceiling, and almost nobody knows theirs.
+That measurement is a good first engagement.
+
+"How do we stop it hallucinating?"::
+You constrain it with retrieval and you let it refuse. Show Lab 04, step 4.
+
+"Is our data used to train anything?"::
+No. Inference runs on your hardware. Retrieval queries your corpus without
+learning it. Tuning happens only on data you deliberately place in the taxonomy.
+
+"Can we use a different model?"::
+Yes. The serving layer is model-agnostic — KServe and vLLM will serve what you
+bring. The support relationship differs, which is worth being precise about.
+
+"What about FedRAMP?"::
+Ask which boundary they are operating in before answering. The honest response
+is that the platform runs inside accredited environments and the accreditation
+belongs to the environment, not to the software.
+
+== Facilitator's honesty checklist
+
+Say these out loud during the session. They buy more credibility than any demo.
+
+* The sample notice content is illustrative, written for the exercise. No agency
+  reviewed it.
+* The numbers in simulated output are representative of a working environment,
+  not measurements from a named deployment.
+* Exam selection is deliberately not on the list of good first candidates.
+  Determinations affecting a taxpayer need governance long before automation.
+* Every workflow in the deck keeps a named human on the signature. The model
+  drafts; it never sends.
+
+== After the session
+
+. Share the repository link. The labs are the same commands attendees will run
+  on day one.
+. Offer the architecture workshop — half a day with platform and security staff
+  to size accelerators, place the first workload and name the data classes in
+  scope.
+. Bring Four Inc. and Carahsoft into the acquisition conversation early rather
+  than at the end.

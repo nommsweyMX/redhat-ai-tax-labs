@@ -1,0 +1,105 @@
+[#lab-01]
+= Lab 01 — Serve a model inside your boundary
+
+[cols="1,3"]
+|===
+| Product   | {rhelai}
+| Time      | About 5 minutes
+| Script    | `labs/lab01-rhel-ai/run.sh`
+| Outcome   | A supported LLM classifying taxpayer contacts on hardware you control
+|===
+
+== Objective
+
+Bring up a large language model on a single GPU host and use it to classify a
+real taxpayer inquiry — with no inference call leaving the machine.
+
+This lab exists to answer one question directly, because it is the question
+that decides whether anything else in this guide is relevant to a tax agency:
+*where does our data go when someone prompts the model?*
+
+== Prerequisites
+
+For `LAB_MODE=simulate`, nothing. For `LAB_MODE=live`:
+
+* A {rhelai} host with a supported accelerator
+* `ilab` on the path (it ships in the {rhelai} image)
+* Registry credentials for `registry.redhat.io`
+* Roughly 20 GB of free disk for the model
+
+[source,bash]
+----
+cd labs/lab01-rhel-ai
+LAB_PACE=step ./run.sh
+----
+
+== Walkthrough
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Command | What to look for
+
+| 1
+| `ilab config init`
+| The detected hardware profile. If this reports the wrong accelerator, every
+  later step inherits the mistake.
+
+| 2
+| `ilab model download`
+| `manifest sha256:... verified`. The artifact is signed; verification happens
+  on the way in, not as an audit afterwards.
+
+| 3
+| `ilab model serve`
+| The vLLM engine starting and the listening address. In production this is a
+  systemd unit, not a foreground process.
+
+| 4
+| `ss -ltnp \| grep :8000`
+| *The point of the lab.* The endpoint is bound to `127.0.0.1`. There is no
+  egress path from this process to a public model API.
+
+| 5
+| `curl .../v1/chat/completions`
+| A structured classification with a routing queue, the missing form, and a
+  draft reply written for a human to edit and sign.
+|===
+
+== What good looks like
+
+The model returns a category, a routing queue, the missing document and a draft
+reply. It does *not* state a determination as final — that behaviour comes from
+the system prompt in `assets/inquiry.json`, which is worth reading before you
+change it.
+
+Latency on a single H100 for an 8B model at this prompt length lands under two
+seconds. If yours is much slower, check that the model actually loaded onto the
+accelerator rather than falling back to CPU.
+
+== Troubleshooting
+
+`ilab: command not found`::
+You are not on a {rhelai} host. Run the lab in simulate mode, or install
+InstructLab upstream — the commands are the same, the support relationship is
+not.
+
+Download fails with an authentication error::
+Run `podman login registry.redhat.io` first. The lab does not handle
+credentials, deliberately.
+
+The model loads but inference is slow::
+Check `nvidia-smi` during a request. If GPU utilization stays near zero, the
+runtime fell back to CPU — usually a driver or container toolkit mismatch.
+
+Port 8000 already in use::
+Another serving process is running. `ss -ltnp` will name it.
+
+== Discussion questions
+
+. Which host in your estate would run this, and who owns its accreditation?
+. What would have to be true for this endpoint to be reachable from your
+  case-management application — and what network policy would you want around it?
+. The base model here knows nothing about your notice codes or routing queues.
+  Who in your organization owns that knowledge today, and in what format?
+
+That last question is <<lab-02>>.

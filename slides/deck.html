@@ -1,0 +1,1503 @@
+<title>Intelligent Tax Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;600;700&family=Red+Hat+Text:wght@400;500;700&display=swap">
+
+<style>
+/* ============================================================
+   TOKENS — light is the bare :root; dark redefines tokens only
+   ============================================================ */
+:root{
+  --ground:#FBF9F8;
+  --surface:#FFFFFF;
+  --surface-2:#F4EFED;
+  --border:#E6DDDA;
+  --border-strong:#CFC2BE;
+  --ink:#1B1211;
+  --ink-2:#54423E;
+  --ink-3:#8A7671;
+  --accent:#CC0000;
+  --accent-ink:#A30000;
+  --accent-wash:#FBEAE8;
+  --steel:#286C88;
+  --steel-wash:#E7F1F5;
+  --amber:#96620A;
+  --amber-wash:#F8EFDC;
+  --good:#1E7A55;
+  --shadow:0 1px 2px rgba(27,18,17,.06), 0 8px 28px -14px rgba(27,18,17,.28);
+  --shadow-lift:0 2px 4px rgba(27,18,17,.08), 0 22px 48px -22px rgba(27,18,17,.42);
+
+  /* terminal is a fixed dark world in both themes */
+  --term-bg:#120D0C;
+  --term-bg-2:#1C1513;
+  --term-border:#3A2B27;
+  --term-ink:#E8DFDC;
+  --term-dim:#93807B;
+  --term-green:#4FC1A0;
+  --term-red:#FF6B58;
+  --term-amber:#E9B45C;
+  --term-blue:#77B9E0;
+  --term-violet:#B49BE0;
+
+  --rail:238px;
+  --step:clamp(.72rem,.62rem + .5vw,.95rem);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#141010;
+    --surface:#1E1817;
+    --surface-2:#271F1D;
+    --border:#382B28;
+    --border-strong:#4E3C38;
+    --ink:#F1E9E7;
+    --ink-2:#C4B1AC;
+    --ink-3:#93807B;
+    --accent:#FF5747;
+    --accent-ink:#FF7A6B;
+    --accent-wash:#3A1613;
+    --steel:#6FBCD8;
+    --steel-wash:#132A34;
+    --amber:#E5AB4B;
+    --amber-wash:#33260F;
+    --good:#4FC1A0;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
+    --shadow-lift:0 2px 4px rgba(0,0,0,.55), 0 22px 48px -22px rgba(0,0,0,.95);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141010;
+  --surface:#1E1817;
+  --surface-2:#271F1D;
+  --border:#382B28;
+  --border-strong:#4E3C38;
+  --ink:#F1E9E7;
+  --ink-2:#C4B1AC;
+  --ink-3:#93807B;
+  --accent:#FF5747;
+  --accent-ink:#FF7A6B;
+  --accent-wash:#3A1613;
+  --steel:#6FBCD8;
+  --steel-wash:#132A34;
+  --amber:#E5AB4B;
+  --amber-wash:#33260F;
+  --good:#4FC1A0;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
+  --shadow-lift:0 2px 4px rgba(0,0,0,.55), 0 22px 48px -22px rgba(0,0,0,.95);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Red Hat Text","Segoe UI",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Red Hat Display","Red Hat Text",system-ui,sans-serif;margin:0;text-wrap:balance;line-height:1.08;letter-spacing:-.018em}
+p{margin:0}
+code,kbd,.mono{font-family:"Red Hat Mono",ui-monospace,"Cascadia Mono",Consolas,monospace}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.eyebrow{
+  font-family:"Red Hat Mono",ui-monospace,monospace;
+  font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--ink-3);
+}
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+.shell{display:grid;grid-template-columns:var(--rail) 1fr;min-height:100vh}
+
+.rail{
+  border-right:1px solid var(--border);
+  background:var(--surface);
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;overflow:hidden;
+}
+.brandmark{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.brandmark .bars{display:flex;gap:3px;margin-bottom:12px}
+.brandmark .bars i{display:block;width:14px;height:5px;background:var(--accent);border-radius:1px}
+.brandmark .bars i:nth-child(2){opacity:.55;width:9px}
+.brandmark .bars i:nth-child(3){opacity:.28;width:5px}
+.brandmark h1{font-size:1.02rem;font-weight:800;letter-spacing:-.02em}
+.brandmark .sub{font-size:.74rem;color:var(--ink-3);margin-top:4px;line-height:1.35}
+
+.modes{display:flex;gap:2px;padding:12px 14px 10px}
+.modes button{
+  flex:1;appearance:none;border:1px solid var(--border);background:transparent;
+  color:var(--ink-2);font-family:"Red Hat Mono",monospace;font-size:.7rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:7px 4px;cursor:pointer;border-radius:4px;
+}
+.modes button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+.railscroll{overflow-y:auto;flex:1;padding:4px 10px 18px}
+.railgroup{padding:12px 6px 6px}
+.navitem{
+  width:100%;text-align:left;appearance:none;background:transparent;border:0;cursor:pointer;
+  display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:baseline;
+  padding:7px 8px;border-radius:5px;color:var(--ink-2);font-family:inherit;font-size:.82rem;line-height:1.3;
+}
+.navitem .n{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.navitem:hover{background:var(--surface-2);color:var(--ink)}
+.navitem[aria-current="true"]{background:var(--accent-wash);color:var(--ink)}
+.navitem[aria-current="true"] .n{color:var(--accent)}
+.navitem[aria-current="true"] span:last-child{font-weight:700}
+
+.railfoot{border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.ghost{
+  appearance:none;background:transparent;border:1px solid var(--border);color:var(--ink-2);
+  border-radius:5px;padding:5px 9px;font-family:"Red Hat Mono",monospace;font-size:.68rem;cursor:pointer;
+}
+.ghost:hover{border-color:var(--border-strong);color:var(--ink)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+
+/* ============================================================
+   DECK
+   ============================================================ */
+.deckwrap{flex:1;display:flex;flex-direction:column;padding:26px 30px 16px;gap:14px}
+.stage{
+  width:100%;max-width:1180px;margin:0 auto;aspect-ratio:16/9;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  box-shadow:var(--shadow-lift);position:relative;overflow:hidden;
+}
+.slide{
+  position:absolute;inset:0;padding:clamp(28px,3.4vw,54px);
+  display:none;flex-direction:column;overflow:auto;
+}
+.slide[data-active="true"]{display:flex;animation:rise .34s cubic-bezier(.2,.7,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide[data-active="true"]{animation:none}}
+
+.slide h2{font-size:clamp(1.5rem,2.5vw,2.5rem);font-weight:800}
+.slide h3{font-size:clamp(1rem,1.25vw,1.28rem);font-weight:700}
+.slide .lede{color:var(--ink-2);font-size:clamp(.92rem,1.05vw,1.1rem);max-width:60ch;margin-top:12px}
+.slide-head{display:flex;flex-direction:column;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.slide-body{padding-top:20px;flex:1;min-height:0}
+
+.slidenum{
+  position:absolute;right:clamp(18px,2vw,28px);bottom:clamp(14px,1.6vw,22px);
+  font-family:"Red Hat Mono",monospace;font-size:.7rem;color:var(--ink-3);font-variant-numeric:tabular-nums;
+}
+.rule{position:absolute;left:0;top:0;height:4px;background:var(--accent);width:100%}
+
+/* title slide */
+.title-slide{justify-content:center;background:
+  radial-gradient(120% 90% at 88% 8%, var(--accent-wash) 0%, transparent 56%);}
+.title-slide h2{font-size:clamp(2rem,4.4vw,4rem);font-weight:900;letter-spacing:-.032em;max-width:20ch}
+.title-slide .kicker{font-size:clamp(1rem,1.4vw,1.3rem);color:var(--ink-2);margin-top:18px;max-width:52ch}
+.hosts{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
+.host{
+  border:1px solid var(--border-strong);border-radius:100px;padding:5px 14px;
+  font-family:"Red Hat Mono",monospace;font-size:.72rem;font-weight:600;color:var(--ink-2);
+}
+.host:first-child{border-color:var(--accent);color:var(--accent-ink)}
+
+/* generic content pieces */
+.cols{display:grid;gap:clamp(14px,1.6vw,26px)}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:repeat(3,1fr)}
+.c5{grid-template-columns:repeat(5,1fr)}
+
+.card{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:8px;
+  padding:clamp(12px,1.2vw,18px);display:flex;flex-direction:column;gap:7px;min-width:0;
+}
+.card h4{font-size:clamp(.86rem,1vw,1.02rem);font-weight:700}
+.card p{font-size:clamp(.78rem,.86vw,.93rem);color:var(--ink-2);line-height:1.45}
+.card .tag{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+
+.pain{border-left:3px solid var(--accent);padding-left:14px;background:transparent;border-radius:0;border-top:0;border-right:0;border-bottom:0}
+.gain{border-left:3px solid var(--good);padding-left:14px;background:transparent;border-radius:0;border-top:0;border-right:0;border-bottom:0}
+
+.pillar{
+  display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;
+  padding:clamp(10px,1vw,15px) 0;border-bottom:1px solid var(--border);
+}
+.pillar:last-child{border-bottom:0}
+.pillar .idx{
+  font-family:"Red Hat Mono",monospace;font-size:.72rem;font-weight:700;color:var(--accent);
+  border:1px solid var(--accent);border-radius:4px;text-align:center;padding:2px 0;font-variant-numeric:tabular-nums;
+}
+.pillar h4{font-size:clamp(.9rem,1.05vw,1.08rem)}
+.pillar p{font-size:clamp(.78rem,.88vw,.94rem);color:var(--ink-2);margin-top:3px}
+.pillar .stack{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--ink-3);margin-top:6px}
+
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:6px}
+.flow .node{
+  border:1px solid var(--border);border-radius:6px;padding:10px 9px;background:var(--surface-2);
+  display:flex;flex-direction:column;gap:5px;min-width:0;
+}
+.flow .node .step{font-family:"Red Hat Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.flow .node b{font-size:clamp(.74rem,.85vw,.9rem);font-family:"Red Hat Display",sans-serif;font-weight:700;line-height:1.15}
+.flow .node em{font-style:normal;font-size:.72rem;color:var(--ink-2);line-height:1.35}
+.flow .node[data-ai="true"]{border-color:var(--accent);background:var(--accent-wash)}
+.flow .node[data-ai="true"] .step{color:var(--accent)}
+
+table.grid{width:100%;border-collapse:collapse;font-size:clamp(.76rem,.86vw,.93rem)}
+table.grid th,table.grid td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+table.grid th{
+  font-family:"Red Hat Mono",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--border-strong);
+}
+table.grid td.mono{font-family:"Red Hat Mono",monospace;font-size:.8rem;color:var(--steel)}
+.tablewrap{overflow-x:auto}
+
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
+.phase{border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.phase header{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.phase header b{font-family:"Red Hat Display",sans-serif;font-size:.95rem}
+.phase header span{font-family:"Red Hat Mono",monospace;font-size:.66rem;color:var(--ink-3)}
+.phase ul{margin:0;padding:12px 16px 14px 28px;display:flex;flex-direction:column;gap:6px}
+.phase li{font-size:clamp(.76rem,.85vw,.9rem);color:var(--ink-2)}
+.phase[data-p="1"] header{background:var(--steel-wash)}
+.phase[data-p="2"] header{background:var(--amber-wash)}
+.phase[data-p="3"] header{background:var(--accent-wash)}
+
+.archi{width:100%;height:auto;display:block}
+.archi text{font-family:"Red Hat Mono",ui-monospace,monospace}
+
+.notes{
+  max-width:1180px;margin:0 auto;width:100%;
+  border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:6px;
+  background:var(--surface);padding:12px 16px;font-size:.86rem;color:var(--ink-2);
+}
+.notes b{font-family:"Red Hat Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:5px}
+.notes[hidden]{display:none}
+
+.deckbar{
+  max-width:1180px;margin:0 auto;width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:8px;
+}
+.deckbar .hint{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--ink-3)}
+.deckbar .grp{display:flex;gap:6px}
+kbd{
+  border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;padding:1px 5px;
+  font-size:.68rem;color:var(--ink-2);background:var(--surface);
+}
+
+/* ============================================================
+   LABS
+   ============================================================ */
+.labs{padding:30px clamp(20px,3vw,46px) 90px;max-width:1080px;margin:0 auto;width:100%}
+.labs-intro{border-bottom:1px solid var(--border);padding-bottom:22px;margin-bottom:8px}
+.labs-intro h2{font-size:clamp(1.7rem,2.8vw,2.4rem);font-weight:800}
+.labs-intro p{color:var(--ink-2);max-width:66ch;margin-top:10px}
+
+.lab{padding:38px 0;border-bottom:1px solid var(--border)}
+.lab:last-child{border-bottom:0}
+.lab-head{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.lab-head .badge{
+  font-family:"Red Hat Mono",monospace;font-weight:700;font-size:.8rem;color:var(--surface);
+  background:var(--accent);border-radius:5px;text-align:center;padding:6px 0;font-variant-numeric:tabular-nums;
+}
+.lab-head h3{font-size:clamp(1.15rem,1.7vw,1.5rem);font-weight:800}
+.lab-head .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.chip{
+  font-family:"Red Hat Mono",monospace;font-size:.66rem;font-weight:600;letter-spacing:.06em;
+  border:1px solid var(--border-strong);border-radius:100px;padding:3px 10px;color:var(--ink-2);
+}
+.chip[data-k="product"]{border-color:var(--steel);color:var(--steel);background:var(--steel-wash)}
+.chip[data-k="time"]{border-color:var(--amber);color:var(--amber);background:var(--amber-wash)}
+.lab-head p.goal{color:var(--ink-2);margin-top:12px;max-width:68ch}
+
+.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 18px}
+.box{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--surface)}
+.box h5{
+  font-family:"Red Hat Mono",monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 8px;font-weight:600;
+}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.box li{font-size:.87rem;color:var(--ink-2)}
+.box li b{color:var(--ink);font-weight:700}
+
+/* terminal */
+.term{
+  border:1px solid var(--term-border);border-radius:9px;overflow:hidden;background:var(--term-bg);
+  box-shadow:var(--shadow);
+}
+.term-bar{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--term-bg-2);
+  border-bottom:1px solid var(--term-border);
+}
+.dots{display:flex;gap:5px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#4A3A36;display:block}
+.dots i:first-child{background:#C4463A}
+.dots i:nth-child(2){background:#B98B33}
+.term-bar .who{
+  font-family:"Red Hat Mono",monospace;font-size:.7rem;color:var(--term-dim);flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.term-bar .prog{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--term-dim);font-variant-numeric:tabular-nums}
+.term-bar button{
+  appearance:none;background:transparent;border:1px solid var(--term-border);color:var(--term-dim);
+  font-family:"Red Hat Mono",monospace;font-size:.66rem;padding:3px 8px;border-radius:4px;cursor:pointer;
+}
+.term-bar button:hover{color:var(--term-ink);border-color:#5A4642}
+
+.screen{
+  padding:14px 16px 6px;min-height:270px;max-height:440px;overflow-y:auto;
+  font-family:"Red Hat Mono",ui-monospace,monospace;font-size:var(--step);line-height:1.62;
+  color:var(--term-ink);white-space:pre-wrap;word-break:break-word;
+}
+.screen .ps1{color:var(--term-green);font-weight:600}
+.screen .cmd{color:var(--term-ink);font-weight:600}
+.screen .dim{color:var(--term-dim)}
+.screen .ok{color:var(--term-green)}
+.screen .warn{color:var(--term-amber)}
+.screen .err{color:var(--term-red)}
+.screen .key{color:var(--term-blue)}
+.screen .vio{color:var(--term-violet)}
+.screen .note{color:var(--term-amber)}
+.screen .yaml{color:var(--term-dim)}
+.line{display:block}
+.caret{display:inline-block;width:8px;height:1.05em;background:var(--term-green);vertical-align:-2px;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.caret{animation:none}}
+
+.entry{
+  display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--term-border);
+  background:var(--term-bg-2);
+}
+.entry .ps1{font-family:"Red Hat Mono",monospace;font-size:var(--step);color:var(--term-green);font-weight:600}
+.entry input{
+  flex:1;background:transparent;border:0;color:var(--term-ink);
+  font-family:"Red Hat Mono",monospace;font-size:var(--step);padding:2px 0;
+}
+.entry input:focus{outline:none}
+.entry input::placeholder{color:#5F4B47}
+.entry button{
+  appearance:none;border:1px solid var(--term-border);background:transparent;color:var(--term-dim);
+  font-family:"Red Hat Mono",monospace;font-size:.66rem;padding:4px 9px;border-radius:4px;cursor:pointer;white-space:nowrap;
+}
+.entry button:hover{color:var(--term-ink);border-color:#5A4642}
+.entry button.primary{border-color:var(--term-green);color:var(--term-green)}
+.entry button.primary:hover{background:rgba(79,193,160,.12)}
+.entry[data-done="true"] input{display:none}
+
+.takeaway{
+  margin-top:16px;border-left:3px solid var(--accent);padding:2px 0 2px 14px;
+  font-size:.9rem;color:var(--ink-2);
+}
+.takeaway b{color:var(--ink);font-family:"Red Hat Display",sans-serif}
+
+.closing{padding:34px 0 0}
+.closing h3{font-size:1.3rem}
+.contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+
+@media (max-width:1080px){
+  .lab-grid,.c2{grid-template-columns:1fr}
+  .contactgrid{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
+  .railscroll{max-height:190px}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .c3,.c5,.phases{grid-template-columns:1fr}
+  .stage{aspect-ratio:auto;min-height:78vh}
+}
+</style>
+
+<div class="shell">
+  <nav class="rail">
+    <div class="brandmark">
+      <div class="bars" aria-hidden="true"><i></i><i></i><i></i></div>
+      <h1>Intelligent Tax Administration</h1>
+      <div class="sub">Red Hat AI · virtual event deck &amp; hands-on labs</div>
+    </div>
+
+    <div class="modes" role="group" aria-label="View">
+      <button id="mode-deck" aria-pressed="true">Deck</button>
+      <button id="mode-labs" aria-pressed="false">Labs</button>
+    </div>
+
+    <div class="railscroll">
+      <div class="railgroup eyebrow" id="rail-label">Slides</div>
+      <div id="railnav"></div>
+    </div>
+
+    <div class="railfoot">
+      <button class="ghost" id="notesToggle" aria-pressed="false">Notes</button>
+      <span class="eyebrow" id="clock">16:9</span>
+    </div>
+  </nav>
+
+  <main class="main">
+    <!-- =====================  DECK  ===================== -->
+    <section id="deck" class="deckwrap">
+      <div class="deckbar">
+        <span class="hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes</span>
+        <div class="grp">
+          <button class="ghost" id="prev">&larr; Prev</button>
+          <button class="ghost" id="next">Next &rarr;</button>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+
+        <!-- 1 -->
+        <article class="slide title-slide" data-title="Title" data-notes="Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the hour — 25 minutes of story, 30 minutes of live terminal, 5 for questions. The promise: every claim we make today, we run in a shell before you leave.">
+          <div class="rule"></div>
+          <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event</span>
+          <h2>Turning AI strategy into tax administration outcomes</h2>
+          <p class="kicker">A secure, flexible foundation that connects automation, hybrid cloud and intelligent workflows — then six labs where you run it yourself.</p>
+          <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 2 -->
+        <article class="slide" data-title="Why now" data-notes="Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk. AI is interesting here precisely because it works on unstructured language — which is most of what a tax agency actually handles.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">The operating reality</span>
+            <h2>The work is seasonal, textual and unforgiving</h2>
+          </div>
+          <div class="slide-body">
+            <div class="cols c3">
+              <div class="card pain"><span class="tag">Demand</span><h4>Peak load, fixed staff</h4><p>Filing season concentrates a year of volume into weeks. Capacity that sits idle in August cannot be justified — and capacity that runs out in April becomes a headline.</p></div>
+              <div class="card pain"><span class="tag">Systems</span><h4>Rules locked in legacy code</h4><p>Notice generation, eligibility and offset logic live in systems written decades ago. Rewriting them is a decade-long program; wrapping them is a quarter.</p></div>
+              <div class="card pain"><span class="tag">Data</span><h4>Answers are in the text</h4><p>Correspondence, transcripts, guidance and case notes are unstructured. Traditional analytics never reached them; language models are built for them.</p></div>
+            </div>
+            <div class="cols c2" style="margin-top:18px">
+              <div class="card gain"><span class="tag">The constraint</span><h4>You cannot send this data anywhere</h4><p>Federal tax information carries handling rules that rule out sending prompts to a public endpoint. The model has to come to the data — on premises, in an accredited cloud, or in an air-gapped enclave.</p></div>
+              <div class="card gain"><span class="tag">The consequence</span><h4>So the platform is the decision</h4><p>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one. That is the choice this session is about.</p></div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 3 -->
+        <article class="slide" data-title="Where AI lands" data-notes="Walk left to right. The highlighted stages are where language models earn their keep first — they are high-volume, text-heavy, and have a human reviewer already in the loop, which makes them safe places to start. Exam selection is deliberately NOT highlighted: that is a determination affecting a taxpayer, and it needs a much heavier governance conversation.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Workflow map</span>
+            <h2>Where AI actually lands in the filing lifecycle</h2>
+            <p class="lede">Highlighted stages already have a human reviewer in the loop — which makes them the honest places to start.</p>
+          </div>
+          <div class="slide-body">
+            <div class="flow">
+              <div class="node" data-ai="true"><span class="step">Stage 01</span><b>Intake &amp; classification</b><em>Route paper, portal and phone contacts by intent, not by keyword.</em></div>
+              <div class="node" data-ai="true"><span class="step">Stage 02</span><b>Validation</b><em>Flag inconsistencies and missing documentation before a case is opened.</em></div>
+              <div class="node" data-ai="true"><span class="step">Stage 03</span><b>Correspondence</b><em>Draft plain-language notices; the reviewer edits and signs.</em></div>
+              <div class="node"><span class="step">Stage 04</span><b>Exam selection</b><em>Determinations affecting taxpayers — governance first, automation later.</em></div>
+              <div class="node" data-ai="true"><span class="step">Stage 05</span><b>Collections support</b><em>Summarize case history so an officer opens a case already briefed.</em></div>
+              <div class="node" data-ai="true"><span class="step">Stage 06</span><b>Taxpayer service</b><em>Answer from published guidance, with the citation attached.</em></div>
+            </div>
+            <div class="cols c2" style="margin-top:20px">
+              <div class="card"><span class="tag">Rule of thumb</span><h4>Start where a human already reviews the output</h4><p>If a person signs the letter today, a model that drafts it changes throughput without changing accountability. That is a defensible first deployment.</p></div>
+              <div class="card"><span class="tag">Rule of thumb</span><h4>Automate the toil around the model, not just the model</h4><p>Most of the effort in production AI is provisioning, patching, scaling and evidence collection. That is an automation problem, and it is solved.</p></div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 4 -->
+        <article class="slide" data-title="Five outcomes" data-notes="These five are the event abstract, made concrete. Each one names the product that delivers it and the lab number where the audience runs it. Do not linger — this slide exists so people can map the rest of the hour.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">What teams get</span>
+            <h2>Five outcomes, and where each one is proven</h2>
+          </div>
+          <div class="slide-body">
+            <div class="pillar"><span class="idx">01</span><div>
+              <h4>Modernize mission-critical operations</h4>
+              <p>Wrap legacy systems in intelligent workflows instead of rewriting them. Events trigger automation; automation calls the model; the system of record stays untouched.</p>
+              <div class="stack">Ansible Automation Platform · Event-Driven Ansible · OpenShift &nbsp;→&nbsp; Lab 05</div></div></div>
+            <div class="pillar"><span class="idx">02</span><div>
+              <h4>Improve efficiency and accuracy</h4>
+              <p>Classification, extraction and drafting move first-pass work off people. Reviewers spend their time on judgment, not transcription.</p>
+              <div class="stack">Red Hat Enterprise Linux AI · InstructLab &nbsp;→&nbsp; Labs 01–02</div></div></div>
+            <div class="pillar"><span class="idx">03</span><div>
+              <h4>Unlock data-driven insights</h4>
+              <p>Retrieval grounds every answer in your own published guidance and case data, with the source citation returned alongside the answer.</p>
+              <div class="stack">Red Hat OpenShift AI · vector store · Llama Stack &nbsp;→&nbsp; Lab 04</div></div></div>
+            <div class="pillar"><span class="idx">04</span><div>
+              <h4>Strengthen security and compliance</h4>
+              <p>Signed models, FIPS-validated cryptography, continuous compliance scanning and bias/drift monitoring — as platform features, not project work.</p>
+              <div class="stack">RHEL · Compliance Operator · TrustyAI · Sigstore &nbsp;→&nbsp; Lab 06</div></div></div>
+            <div class="pillar"><span class="idx">05</span><div>
+              <h4>Build an AI-ready foundation</h4>
+              <p>One platform, one operating model, from a datacenter GPU node to an accredited cloud region — so scaling innovation is a capacity decision, not a re-architecture.</p>
+              <div class="stack">OpenShift AI · KServe · vLLM &nbsp;→&nbsp; Lab 03</div></div></div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 5 -->
+        <article class="slide" data-title="Architecture" data-notes="Read this bottom to top. The point of the picture is the two vertical bands: automation and trust are not a layer you add at the end, they run through every layer. If someone asks about GPUs — the accelerator is a detail of the bottom band, and it is deliberately drawn small.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Reference architecture</span>
+            <h2>One foundation, from bare metal to the taxpayer</h2>
+          </div>
+          <div class="slide-body">
+            <svg class="archi" viewBox="0 0 920 400" role="img" aria-label="Layered architecture: infrastructure and RHEL at the base, OpenShift above it, OpenShift AI model services above that, and mission applications on top. Automation and trust bands run vertically through every layer.">
+              <defs>
+                <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/>
+                </marker>
+              </defs>
+              <!-- vertical bands -->
+              <rect x="10" y="10" width="104" height="380" rx="8" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1"/>
+              <rect x="806" y="10" width="104" height="380" rx="8" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1"/>
+              <text x="62" y="34" font-size="10" font-weight="700" fill="var(--accent)" text-anchor="middle" letter-spacing="1.2">TRUST</text>
+              <text x="62" y="62" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Signed models</text>
+              <text x="62" y="82" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">FIPS crypto</text>
+              <text x="62" y="102" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">SELinux</text>
+              <text x="62" y="122" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Compliance</text>
+              <text x="62" y="142" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Operator</text>
+              <text x="62" y="170" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">TrustyAI</text>
+              <text x="62" y="190" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">drift + bias</text>
+              <text x="62" y="218" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Audit trail</text>
+              <text x="62" y="246" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Air-gap</text>
+              <text x="62" y="266" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">mirroring</text>
+              <text x="62" y="378" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 06</text>
+
+              <text x="858" y="34" font-size="10" font-weight="700" fill="var(--steel)" text-anchor="middle" letter-spacing="1.2">AUTOMATION</text>
+              <text x="858" y="62" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Ansible</text>
+              <text x="858" y="82" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Automation</text>
+              <text x="858" y="102" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Platform</text>
+              <text x="858" y="130" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Event-Driven</text>
+              <text x="858" y="150" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Ansible</text>
+              <text x="858" y="178" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Provision</text>
+              <text x="858" y="198" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Patch</text>
+              <text x="858" y="218" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Remediate</text>
+              <text x="858" y="246" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Evidence</text>
+              <text x="858" y="266" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">collection</text>
+              <text x="858" y="378" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 05</text>
+
+              <!-- horizontal layers -->
+              <g>
+                <rect x="128" y="316" width="664" height="74" rx="7" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+                <text x="146" y="338" font-size="11" font-weight="700" fill="var(--ink)">Red Hat Enterprise Linux · RHEL AI</text>
+                <text x="146" y="356" font-size="10.5" fill="var(--ink-2)">Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave</text>
+                <text x="146" y="374" font-size="10.5" fill="var(--ink-3)">Granite models, accelerator drivers and the InstructLab toolchain shipped as one supported image</text>
+                <text x="774" y="374" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Lab 01</text>
+              </g>
+              <g>
+                <rect x="128" y="234" width="664" height="66" rx="7" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+                <text x="146" y="256" font-size="11" font-weight="700" fill="var(--ink)">Red Hat OpenShift</text>
+                <text x="146" y="274" font-size="10.5" fill="var(--ink-2)">Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery</text>
+                <text x="146" y="292" font-size="10.5" fill="var(--ink-3)">The same cluster runs the modernized case-management apps beside the models they call</text>
+              </g>
+              <g>
+                <rect x="128" y="140" width="664" height="78" rx="7" fill="var(--accent-wash)" stroke="var(--accent)"/>
+                <text x="146" y="162" font-size="11" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
+                <rect x="146" y="172" width="146" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
+                <text x="219" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Model serving</text>
+                <text x="219" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">KServe + vLLM</text>
+                <rect x="302" y="172" width="146" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
+                <text x="375" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Pipelines</text>
+                <text x="375" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">tune · evaluate · promote</text>
+                <rect x="458" y="172" width="146" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
+                <text x="531" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Model registry</text>
+                <text x="531" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">versions · lineage</text>
+                <rect x="614" y="172" width="160" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
+                <text x="694" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Retrieval + vector store</text>
+                <text x="694" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">grounded answers</text>
+                <text x="774" y="162" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04</text>
+              </g>
+              <g>
+                <rect x="128" y="46" width="664" height="78" rx="7" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+                <text x="146" y="68" font-size="11" font-weight="700" fill="var(--ink)">Mission applications</text>
+                <rect x="146" y="78" width="152" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
+                <text x="222" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Correspondence intake</text>
+                <rect x="308" y="78" width="152" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
+                <text x="384" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Notice drafting</text>
+                <rect x="470" y="78" width="152" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
+                <text x="546" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Case summarization</text>
+                <rect x="632" y="78" width="142" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
+                <text x="703" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Guidance assistant</text>
+              </g>
+              <!-- legacy systems feed -->
+              <path d="M460,316 L460,300" stroke="var(--ink-3)" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
+              <path d="M460,234 L460,218" stroke="var(--ink-3)" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
+              <path d="M460,140 L460,124" stroke="var(--ink-3)" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
+              <text x="470" y="26" font-size="9.5" fill="var(--ink-3)">Systems of record stay where they are — reached through APIs and automation, not replaced</text>
+              <line x1="128" y1="32" x2="462" y2="32" stroke="var(--border-strong)" stroke-dasharray="3 3"/>
+            </svg>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 6 -->
+        <article class="slide" data-title="Security posture" data-notes="This is the slide that unblocks the deal. Every row is a control the platform provides, mapped to the question an authorizing official actually asks. Offer to take the whole table offline with their ISSO.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Trusted, enterprise-ready AI</span>
+            <h2>The questions an authorizing official will ask</h2>
+          </div>
+          <div class="slide-body">
+            <div class="tablewrap">
+              <table class="grid">
+                <thead><tr><th>Their question</th><th>The platform control</th><th>Where it lives</th></tr></thead>
+                <tbody>
+                  <tr><td>Where does our data go when someone prompts the model?</td><td>Nowhere. Inference runs on your cluster, in your enclave, on your accelerators.</td><td class="mono">RHEL AI · OpenShift AI</td></tr>
+                  <tr><td>Can you prove this model is the one we approved?</td><td>Model artifacts are signed and verified before they are admitted to the cluster.</td><td class="mono">Sigstore / cosign</td></tr>
+                  <tr><td>Is the cryptography validated?</td><td>FIPS mode is a supported operating state of the OS and the platform on top of it.</td><td class="mono">RHEL FIPS mode</td></tr>
+                  <tr><td>How do we know it stays compliant next quarter?</td><td>Scheduled scans against a hardening profile, with machine-readable results.</td><td class="mono">Compliance Operator</td></tr>
+                  <tr><td>How do we detect the model drifting or skewing?</td><td>Continuous drift and fairness metrics on live inference traffic.</td><td class="mono">TrustyAI</td></tr>
+                  <tr><td>What if we have no internet at all?</td><td>Mirror images and models into the enclave; the platform is built for disconnected operation.</td><td class="mono">oc-mirror · registry</td></tr>
+                  <tr><td>Who is accountable when it is wrong?</td><td>A named reviewer — the deployment patterns we recommend keep a person on the signature.</td><td class="mono">Workflow design</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 7 -->
+        <article class="slide" data-title="Adoption path" data-notes="Be honest about sequencing. Most agencies fail at AI not on the model but on the second and third bullets of Phase 1 — no GPU capacity plan, and no agreement on which data may be used. Ask directly which phase they are in.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Adoption path</span>
+            <h2>Ninety days, then ninety more</h2>
+            <p class="lede">Nothing here requires a rewrite of a system of record. Each phase produces something you can show.</p>
+          </div>
+          <div class="slide-body">
+            <div class="phases">
+              <div class="phase" data-p="1">
+                <header><b>Prove</b><span>Days 0–90</span></header>
+                <ul>
+                  <li>Stand up one supported inference endpoint on RHEL AI</li>
+                  <li>Agree the accelerator capacity plan and where it physically sits</li>
+                  <li>Settle which data classes may be used, in writing</li>
+                  <li>Pick one text-heavy workflow with a human already reviewing</li>
+                  <li>Measure the baseline before you change anything</li>
+                </ul>
+              </div>
+              <div class="phase" data-p="2">
+                <header><b>Ground</b><span>Days 90–180</span></header>
+                <ul>
+                  <li>Move serving onto OpenShift AI with autoscaling</li>
+                  <li>Add retrieval over your own published guidance</li>
+                  <li>Tune on agency vocabulary with InstructLab</li>
+                  <li>Wire drift, fairness and compliance monitoring</li>
+                  <li>Automate provisioning and patching end to end</li>
+                </ul>
+              </div>
+              <div class="phase" data-p="3">
+                <header><b>Scale</b><span>Days 180+</span></header>
+                <ul>
+                  <li>Promote through a model registry with real approvals</li>
+                  <li>Add workflows two through five on the same platform</li>
+                  <li>Prove the filing-season surge with a load rehearsal</li>
+                  <li>Extend to the disconnected or classified enclave</li>
+                  <li>Report outcomes in mission terms, not token counts</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 8 -->
+        <article class="slide" data-title="Labs preview" data-notes="Transition slide. Switch to the Labs view now. Tell them the terminals are typed by them — commands are real and copyable, output is representative. Encourage them to run Lab 1 and Lab 5 live and take the rest home.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Hands on</span>
+            <h2>Six labs — real commands, run them yourself</h2>
+            <p class="lede">Switch to the <b>Labs</b> view in the sidebar. Each terminal accepts the command you type; every command is copyable into your own environment.</p>
+          </div>
+          <div class="slide-body">
+            <div class="cols c3">
+              <div class="card"><span class="tag">Lab 01 · RHEL AI</span><h4>Serve a model inside your boundary</h4><p>Initialize, download a Granite model, serve it, and classify a taxpayer inquiry — without a single byte leaving the host.</p></div>
+              <div class="card"><span class="tag">Lab 02 · InstructLab</span><h4>Teach it your notice taxonomy</h4><p>Add agency knowledge as YAML, generate synthetic training data, tune, and evaluate the result against the base model.</p></div>
+              <div class="card"><span class="tag">Lab 03 · OpenShift AI</span><h4>Survive filing season</h4><p>Deploy with KServe and vLLM, then watch it autoscale from two replicas to twenty under an April load rehearsal.</p></div>
+              <div class="card"><span class="tag">Lab 04 · Retrieval</span><h4>Ground answers in your guidance</h4><p>Ingest a publication corpus into a vector store and return answers that carry their citation.</p></div>
+              <div class="card"><span class="tag">Lab 05 · Ansible</span><h4>Automate the toil around the model</h4><p>An Event-Driven Ansible rulebook detects inference saturation and remediates it before anyone opens a ticket.</p></div>
+              <div class="card"><span class="tag">Lab 06 · Trust</span><h4>Prove it to your ISSO</h4><p>Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.</p></div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 9 -->
+        <article class="slide" data-title="Next steps" data-notes="Close with a specific ask, not a thank-you. The architecture workshop is the natural next step and it is free. Hand off to Four Inc. and Carahsoft for the contract vehicle conversation.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Next steps</span>
+            <h2>What happens after this hour</h2>
+          </div>
+          <div class="slide-body">
+            <div class="cols c3">
+              <div class="card"><span class="tag">Step one</span><h4>Architecture workshop</h4><p>A half-day session with your platform and security teams to size accelerators, place the first workload and name the data classes in scope.</p></div>
+              <div class="card"><span class="tag">Step two</span><h4>Guided pilot</h4><p>One workflow, on your infrastructure, with a measured baseline and an agreed definition of success before we start.</p></div>
+              <div class="card"><span class="tag">Step three</span><h4>Acquisition path</h4><p>Four Inc. and Carahsoft carry the vehicles and pricing — bring them into the conversation early, not at the end.</p></div>
+            </div>
+            <div class="cols c2" style="margin-top:20px">
+              <div class="card gain"><h4>Take the labs with you</h4><p>This page runs standalone. Share the link with the engineers who could not attend — the six labs are the same commands they will run on day one.</p></div>
+              <div class="card gain"><h4>Bring your hardest question</h4><p>Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. Those conversations are the useful ones.</p></div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+      </div>
+
+      <div class="notes" id="notes" hidden><b>Presenter notes</b><span id="notesText"></span></div>
+    </section>
+
+    <!-- =====================  LABS  ===================== -->
+    <section id="labs" class="labs" hidden>
+      <div class="labs-intro">
+        <span class="eyebrow">Hands-on track</span>
+        <h2>Virtual terminal labs</h2>
+        <p>Six labs, roughly five minutes each. Type the command shown, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Show</b> fills in the next command if you would rather watch than type.</p>
+      </div>
+      <div id="labholder"></div>
+
+      <div class="closing">
+        <h3>After the labs</h3>
+        <div class="contactgrid">
+          <div class="card"><span class="tag">Red Hat</span><h4>Architecture and delivery</h4><p>Bring the reference architecture from slide 5 to your own platform and security teams in a half-day workshop.</p></div>
+          <div class="card"><span class="tag">Four Inc.</span><h4>Public sector distribution</h4><p>Contract vehicles, pricing and the paperwork path for a pilot that has to start this fiscal year.</p></div>
+          <div class="card"><span class="tag">Carahsoft</span><h4>Government aggregation</h4><p>Procurement support across the agencies and integrators already running Red Hat platforms.</p></div>
+        </div>
+        <p class="takeaway" style="margin-top:22px"><b>One thing to remember.</b> Nothing in these six labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- DECK ---------------- */
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+  var railnav = document.getElementById('railnav');
+  var railLabel = document.getElementById('rail-label');
+  var notes = document.getElementById('notes');
+  var notesText = document.getElementById('notesText');
+  var notesToggle = document.getElementById('notesToggle');
+  var clock = document.getElementById('clock');
+  var cur = 0, notesOn = false, mode = 'deck';
+
+  slides.forEach(function(s,i){
+    s.querySelector('.slidenum').textContent = String(i+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
+  });
+
+  function buildRail(){
+    railnav.innerHTML = '';
+    if(mode === 'deck'){
+      railLabel.textContent = 'Slides';
+      slides.forEach(function(s,i){
+        var b = document.createElement('button');
+        b.className = 'navitem';
+        b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
+        b.lastChild.textContent = s.dataset.title;
+        b.setAttribute('aria-current', i === cur ? 'true' : 'false');
+        b.addEventListener('click', function(){ go(i); });
+        railnav.appendChild(b);
+      });
+    } else {
+      railLabel.textContent = 'Labs';
+      LABS.forEach(function(l,i){
+        var b = document.createElement('button');
+        b.className = 'navitem';
+        b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
+        b.lastChild.textContent = l.title;
+        b.addEventListener('click', function(){
+          var el = document.getElementById('lab-' + i);
+          if(el) el.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'start'});
+        });
+        railnav.appendChild(b);
+      });
+    }
+  }
+
+  function go(i){
+    cur = Math.max(0, Math.min(slides.length-1, i));
+    slides.forEach(function(s,n){ s.setAttribute('data-active', n === cur ? 'true' : 'false'); });
+    notesText.textContent = ' ' + slides[cur].dataset.notes;
+    clock.textContent = String(cur+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
+    Array.prototype.forEach.call(railnav.children, function(b,n){
+      b.setAttribute('aria-current', n === cur ? 'true' : 'false');
+      if(n === cur) b.scrollIntoView({block:'nearest'});
+    });
+  }
+
+  document.getElementById('prev').addEventListener('click', function(){ go(cur-1); });
+  document.getElementById('next').addEventListener('click', function(){ go(cur+1); });
+
+  notesToggle.addEventListener('click', function(){
+    notesOn = !notesOn;
+    notes.hidden = !notesOn;
+    notesToggle.setAttribute('aria-pressed', String(notesOn));
+  });
+
+  function setMode(m){
+    mode = m;
+    document.getElementById('deck').hidden = (m !== 'deck');
+    document.getElementById('labs').hidden = (m !== 'labs');
+    document.getElementById('mode-deck').setAttribute('aria-pressed', String(m === 'deck'));
+    document.getElementById('mode-labs').setAttribute('aria-pressed', String(m === 'labs'));
+    clock.textContent = (m === 'deck') ? String(cur+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0') : 'Labs';
+    buildRail();
+    if(m === 'deck') go(cur);
+  }
+  document.getElementById('mode-deck').addEventListener('click', function(){ setMode('deck'); });
+  document.getElementById('mode-labs').addEventListener('click', function(){ setMode('labs'); });
+
+  document.addEventListener('keydown', function(e){
+    var t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if(mode !== 'deck') return;
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); go(cur+1); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(e.key === 'n' || e.key === 'N'){ notesToggle.click(); }
+    else if(e.key === 'Home'){ go(0); }
+    else if(e.key === 'End'){ go(slides.length-1); }
+  });
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- LAB CONTENT ---------------- */
+  /* out lines: [cssClass, text] — class '' is plain terminal text */
+  var LABS = [
+  {
+    title:'Serve a model inside your boundary',
+    product:'Red Hat Enterprise Linux AI',
+    time:'~5 min',
+    host:'admin@rhelai-gpu-01:~',
+    goal:'Bring up a supported large language model on a single GPU host and use it to classify a real taxpayer inquiry. Nothing leaves the machine — this is the whole answer to "where does our data go".',
+    youll:[
+      '<b>ilab</b> — the RHEL AI command line, shipped in the image',
+      'A signed <b>Granite</b> model pulled from the Red Hat registry',
+      'An OpenAI-compatible endpoint on <b>localhost:8000</b>'
+    ],
+    watch:[
+      'The model path is on local disk — there is no remote inference call',
+      '<b>ilab model serve</b> is a systemd-managed service in production, not a foreground process',
+      'One host is a pilot; Lab 03 is what you run for filing season'
+    ],
+    take:'A defensible AI pilot can start on one machine you already own, with a supported product rather than a pile of Python.',
+    steps:[
+      { cmd:'ilab config init',
+        out:[
+          ['dim','Welcome to InstructLab CLI. This guide will help you set up your environment.'],
+          ['','Generating config file and profiles:'],
+          ['key','    /home/admin/.config/instructlab/config.yaml'],
+          ['','Detecting hardware profile...'],
+          ['ok','    Detected: NVIDIA H100 80GB HBM3 x1  ->  profile applied'],
+          ['ok','Initialization complete.']
+        ]},
+      { cmd:'ilab model download --repository docker://registry.redhat.io/rhelai1/granite-8b-lab-v1',
+        out:[
+          ['dim','Downloading model from registry.redhat.io ...'],
+          ['','  manifest      sha256:9c41ab7f  verified'],
+          ['','  layer 1/4     [####################]  4.1 GB'],
+          ['','  layer 2/4     [####################]  3.8 GB'],
+          ['','  layer 3/4     [####################]  2.2 GB'],
+          ['','  layer 4/4     [####################]  1.4 GB'],
+          ['ok','Model saved to /var/home/admin/.cache/instructlab/models/granite-8b-lab-v1']
+        ]},
+      { cmd:'ilab model serve --model-path ~/.cache/instructlab/models/granite-8b-lab-v1',
+        out:[
+          ['dim','INFO  Using model /var/home/admin/.cache/instructlab/models/granite-8b-lab-v1'],
+          ['dim','INFO  vLLM engine starting  |  gpu_memory_utilization=0.90  max_model_len=8192'],
+          ['dim','INFO  Loading weights ... 8.1 GB in 11.4s'],
+          ['ok','INFO  Started server process — listening on http://127.0.0.1:8000/v1'],
+          ['note','Server is bound to localhost. No egress. Ctrl-C stops it; systemd keeps it up in production.']
+        ]},
+      { cmd:'ilab model chat -m granite-8b-lab-v1',
+        out:[
+          ['dim','╭──────────────── system ────────────────╮'],
+          ['dim','│ Welcome to the InstructLab chat shell. │'],
+          ['dim','╰────────────────────────────────────────╯'],
+          ['','Type your message. /q to quit.']
+        ]},
+      { cmd:'Classify this contact and name the missing document: "I filed in February and still have no refund. I moved in March and never updated my address."',
+        prompt:'>>> ',
+        out:[
+          ['vio','category:        refund_status_inquiry'],
+          ['vio','secondary:       address_change'],
+          ['vio','missing_doc:     Form 8822, Change of Address'],
+          ['vio','routing:         Accounts Management — refund trace queue'],
+          ['vio','urgency:         normal'],
+          ['vio','draft_reply:     "We show a refund issued for tax year 2024. Because our'],
+          ['vio','                  records still list your prior address, the check may have'],
+          ['vio','                  been returned. Submit Form 8822 to update your address,'],
+          ['vio','                  then request a refund trace."'],
+          ['dim',''],
+          ['dim','tokens: 214 in / 96 out   ·   latency: 1.31s   ·   host: rhelai-gpu-01']
+        ]}
+    ]
+  },
+  {
+    title:'Teach it your notice taxonomy',
+    product:'InstructLab on RHEL AI',
+    time:'~6 min',
+    host:'admin@rhelai-gpu-01:~/taxonomy',
+    goal:'The base model does not know your agency\'s notice codes, your routing queues or your house style. Add that knowledge as reviewable YAML, generate synthetic training data from it, tune, and prove the tuned model is better than the one you started with.',
+    youll:[
+      'Knowledge contributed as <b>YAML a subject matter expert can read</b>',
+      '<b>Synthetic data generation</b> — a few examples become thousands',
+      'An <b>evaluation</b> that compares tuned against base, with numbers'
+    ],
+    watch:[
+      'The taxonomy is a git tree — knowledge changes get reviewed like code',
+      'Nobody on the team had to label ten thousand examples by hand',
+      'The evaluation step is the one you show your governance board'
+    ],
+    take:'Domain adaptation stops being a data science project and becomes a pull request a subject matter expert can review.',
+    steps:[
+      { cmd:'mkdir -p knowledge/gov/tax/notices && $EDITOR knowledge/gov/tax/notices/qna.yaml',
+        out:[
+          ['dim','# knowledge/gov/tax/notices/qna.yaml'],
+          ['yaml','version: 3'],
+          ['yaml','domain: tax_administration'],
+          ['yaml','created_by: revenue-modernization-team'],
+          ['yaml','seed_examples:'],
+          ['yaml','  - context: |'],
+          ['yaml','      Notice CP2000 proposes changes to a return based on third-party'],
+          ['yaml','      income reporting that does not match the filed return. It is a'],
+          ['yaml','      proposal, not a bill, and carries a 30-day response window.'],
+          ['yaml','    questions_and_answers:'],
+          ['yaml','      - question: A taxpayer asks why they received a CP2000. What is it?'],
+          ['yaml','        answer: |'],
+          ['yaml','          It is a proposed change, not a bill. Third-party income records'],
+          ['yaml','          do not match the return as filed. They have 30 days to agree'],
+          ['yaml','          or respond with documentation.'],
+          ['ok','Saved. 12 seed examples across 6 notice families.']
+        ]},
+      { cmd:'ilab taxonomy diff',
+        out:[
+          ['ok','knowledge/gov/tax/notices/qna.yaml'],
+          ['dim','Taxonomy in /home/admin/taxonomy is valid :)'],
+          ['dim','1 new leaf node · 12 seed examples · schema v3 · no errors']
+        ]},
+      { cmd:'ilab data generate --taxonomy-path ./knowledge/gov/tax --output-dir ./sdg --sdg-scale-factor 30',
+        out:[
+          ['dim','INFO  Teacher model: granite-8b-lab-v1 (local)'],
+          ['dim','INFO  Generating synthetic instruction data from 12 seed examples ...'],
+          ['','  knowledge generation   [####################]  1,842 samples'],
+          ['','  skills generation      [####################]    714 samples'],
+          ['','  quality filter         [####################]  2,556 -> 2,203 kept'],
+          ['ok','Wrote ./sdg/knowledge_train_msgs_2026-08-26T14_02_11.jsonl'],
+          ['note','Every sample traces back to a seed example a human wrote and reviewed.']
+        ]},
+      { cmd:'ilab model train --data-path ./sdg --pipeline accelerated --device cuda',
+        out:[
+          ['dim','INFO  Base: granite-8b-lab-v1   ·   LoRA rank 32   ·   bf16'],
+          ['','  epoch 1/3  loss 1.884 -> 0.913   [####################]  4m 12s'],
+          ['','  epoch 2/3  loss 0.913 -> 0.604   [####################]  4m 08s'],
+          ['','  epoch 3/3  loss 0.604 -> 0.471   [####################]  4m 10s'],
+          ['ok','Checkpoint: ./checkpoints/granite-8b-tax-v1/samples_2203']
+        ]},
+      { cmd:'ilab model evaluate --benchmark mt_bench --model ./checkpoints/granite-8b-tax-v1/samples_2203',
+        out:[
+          ['dim','Evaluating tuned model against base on held-out agency questions ...'],
+          ['','                              base     tuned    delta'],
+          ['','  notice family accuracy      0.61     0.94     +0.33'],
+          ['','  correct routing queue       0.58     0.91     +0.33'],
+          ['','  cites the right form        0.44     0.89     +0.45'],
+          ['','  plain-language readability  0.72     0.86     +0.14'],
+          ['ok','  overall mt_bench            6.1      7.8      +1.7'],
+          ['note','Promote this checkpoint to the model registry — Lab 03 serves it.']
+        ]}
+    ]
+  },
+  {
+    title:'Survive filing season',
+    product:'Red Hat OpenShift AI',
+    time:'~6 min',
+    host:'you@bastion:~',
+    goal:'One GPU host is a pilot. Filing season is a capacity event. Deploy the tuned model with KServe and vLLM, then run an April load rehearsal and watch the platform scale from two replicas to twenty and back down again.',
+    youll:[
+      'A declarative <b>InferenceService</b> — the deployment is a reviewable YAML file',
+      '<b>vLLM</b> serving runtime with continuous batching',
+      'Autoscaling driven by real concurrency, not a guess'
+    ],
+    watch:[
+      'Scale-up is a platform behavior, not an application change',
+      'The same manifest deploys to a datacenter cluster or an accredited cloud region',
+      'Scale-to-two, not scale-to-zero — cold starts on an 8B model are not free'
+    ],
+    take:'Capacity for the April peak that costs nothing in August is the difference between a demo and a production service.',
+    steps:[
+      { cmd:'oc new-project tax-inference',
+        out:[
+          ['ok','Now using project "tax-inference" on server "https://api.ocp.agency.gov:6443".'],
+          ['dim','You can add applications to this project with the "new-app" command.']
+        ]},
+      { cmd:'oc get servingruntimes -n redhat-ods-applications',
+        out:[
+          ['dim','NAME                          DISABLED   MODELTYPE     AGE'],
+          ['','vllm-runtime                  false      vLLM          31d'],
+          ['','vllm-multinode-runtime        false      vLLM          31d'],
+          ['','caikit-tgis-runtime           false      caikit        31d'],
+          ['','ovms-runtime                  false      openvino_ir   31d']
+        ]},
+      { cmd:'oc apply -f inferenceservice-tax-classifier.yaml',
+        out:[
+          ['yaml','apiVersion: serving.kserve.io/v1beta1'],
+          ['yaml','kind: InferenceService'],
+          ['yaml','metadata:'],
+          ['yaml','  name: tax-classifier'],
+          ['yaml','  annotations:'],
+          ['yaml','    serving.knative.dev/target-utilization-percentage: "70"'],
+          ['yaml','spec:'],
+          ['yaml','  predictor:'],
+          ['yaml','    minReplicas: 2'],
+          ['yaml','    maxReplicas: 20'],
+          ['yaml','    scaleMetric: concurrency'],
+          ['yaml','    scaleTarget: 24'],
+          ['yaml','    model:'],
+          ['yaml','      runtime: vllm-runtime'],
+          ['yaml','      storageUri: oci://registry.agency.gov/models/granite-8b-tax-v1'],
+          ['yaml','      resources: { limits: { nvidia.com/gpu: 1 } }'],
+          ['ok','inferenceservice.serving.kserve.io/tax-classifier created']
+        ]},
+      { cmd:'oc get inferenceservice tax-classifier -w',
+        out:[
+          ['dim','NAME             URL                                          READY   AGE'],
+          ['','tax-classifier                                                        8s'],
+          ['','tax-classifier                                                       42s'],
+          ['ok','tax-classifier   https://tax-classifier.tax-inference.svc      True    96s']
+        ]},
+      { cmd:'curl -sk https://tax-classifier.tax-inference.svc/v1/completions -H "Content-Type: application/json" -d @inquiry.json | jq .choices[0].text',
+        out:[
+          ['vio','"category: refund_status_inquiry | queue: AM-refund-trace | form: 8822"'],
+          ['dim',''],
+          ['dim','real  0m0.412s']
+        ]},
+      { cmd:'hey -z 90s -c 400 -m POST -D inquiry.json https://tax-classifier.tax-inference.svc/v1/completions',
+        note:'April load rehearsal — 400 concurrent taxpayers',
+        out:[
+          ['dim','Summary:'],
+          ['','  Total:        90.0041 secs'],
+          ['','  Requests/sec: 1183.42'],
+          ['','  Latency  p50: 0.238s   p95: 0.612s   p99: 0.904s'],
+          ['','  Errors:       0'],
+          ['dim',''],
+          ['dim','Replicas observed during the run:'],
+          ['','  t+00s   2    ████'],
+          ['','  t+12s   6    ████████████'],
+          ['','  t+24s  13    ██████████████████████████'],
+          ['ok','  t+40s  20    ████████████████████████████████████████  (max)'],
+          ['','  t+95s   9    ██████████████████'],
+          ['','  t+180s  2    ████   scaled back to floor'],
+          ['note','No application change. The manifest is the capacity plan.']
+        ]}
+    ]
+  },
+  {
+    title:'Ground answers in your own guidance',
+    product:'OpenShift AI · vector store · Llama Stack',
+    time:'~5 min',
+    host:'you@workbench:~/rag',
+    goal:'A model that sounds confident and cites nothing is a liability in a tax agency. Put your published guidance behind the model with retrieval, so every answer comes back with the passage it came from.',
+    youll:[
+      'A <b>vector store</b> running on the same cluster as the model',
+      'An ingest pass over a real publication corpus',
+      'Answers that <b>return their citation</b> — the part your reviewers need'
+    ],
+    watch:[
+      'When the corpus has no answer, the correct behavior is to say so',
+      'Re-ingest on publication updates — guidance changes, weights should not have to',
+      'Retrieval keeps sensitive text out of training entirely'
+    ],
+    take:'Retrieval is what turns a general model into an agency system of reference — and it is far cheaper than retraining.',
+    steps:[
+      { cmd:'oc apply -k ./vectorstore/ && oc get pods -l app=pgvector',
+        out:[
+          ['ok','statefulset.apps/pgvector created'],
+          ['ok','service/pgvector created'],
+          ['dim','NAME          READY   STATUS    RESTARTS   AGE'],
+          ['','pgvector-0    1/1     Running   0          38s']
+        ]},
+      { cmd:'python ingest.py --source ./corpus/publications --chunk 800 --overlap 120 --embed-model granite-embedding-125m',
+        out:[
+          ['dim','Scanning ./corpus/publications ...'],
+          ['','  Publication 17  General rules              412 pages   1,904 chunks'],
+          ['','  Publication 501 Filing status              38 pages      171 chunks'],
+          ['','  Publication 594 Collection process         14 pages       62 chunks'],
+          ['','  Internal guidance — notices CP01..CP2000  221 pages     998 chunks'],
+          ['','  embedding [####################] 3,135 / 3,135'],
+          ['ok','Indexed 3,135 chunks into pgvector.tax_guidance (768-dim, HNSW)']
+        ]},
+      { cmd:'llama-stack-client inference chat-completion --message "A taxpayer received a CP14 and cannot pay in full. What are their options and where is that documented?"',
+        out:[
+          ['vio','A CP14 is a notice of unpaid balance. Options for a taxpayer who'],
+          ['vio','cannot pay in full:'],
+          ['vio',''],
+          ['vio','  1. Short-term payment plan — up to 180 days, no setup fee.'],
+          ['vio','  2. Installment agreement — monthly payments; setup fee may be'],
+          ['vio','     waived for low-income applicants.'],
+          ['vio','  3. Offer in compromise — settles for less than owed where'],
+          ['vio','     collectability is in doubt.'],
+          ['vio','  4. Currently not collectible status — collection paused where'],
+          ['vio','     payment would prevent meeting basic living expenses.'],
+          ['dim',''],
+          ['key','sources:'],
+          ['key','  [1] Publication 594, p.4  "Options for paying"        score 0.891'],
+          ['key','  [2] Publication 594, p.7  "Currently not collectible"  score 0.864'],
+          ['key','  [3] Internal guidance CP14 §3.2                        score 0.842']
+        ]},
+      { cmd:'llama-stack-client inference chat-completion --message "What is the penalty rate for late filing in the 2031 tax year?"',
+        note:'Ask something the corpus cannot answer',
+        out:[
+          ['warn','I do not have guidance covering tax year 2031 in the indexed corpus.'],
+          ['warn','The most recent published rates I can cite are for tax year 2025.'],
+          ['warn','Refer this to a specialist rather than relying on this answer.'],
+          ['dim',''],
+          ['key','sources: none above threshold (0.75)'],
+          ['note','This is the behavior to demo to your governance board. Refusal is a feature.']
+        ]}
+    ]
+  },
+  {
+    title:'Automate the toil around the model',
+    product:'Ansible Automation Platform · Event-Driven Ansible',
+    time:'~5 min',
+    host:'you@aap-controller:~',
+    goal:'Most of the effort in production AI is not the model — it is provisioning, patching, scaling and evidence. Wire a rulebook that detects inference saturation and remediates it before anyone opens a ticket.',
+    youll:[
+      'A playbook that <b>checks the endpoint the way a taxpayer would</b>',
+      'An <b>Event-Driven Ansible</b> rulebook listening to platform alerts',
+      'Automatic remediation, with the audit record written as it happens'
+    ],
+    watch:[
+      'The rulebook is the runbook — there is no separate document to go stale',
+      'The same automation reaches legacy systems the model never touches',
+      'Every action lands in the controller job history: that is your evidence'
+    ],
+    take:'Automation is what makes AI operable at agency scale. Without it, every model becomes a pet someone has to feed.',
+    steps:[
+      { cmd:'ansible-navigator run playbooks/model_endpoint_health.yml -i inventory/prod --mode stdout',
+        out:[
+          ['dim','PLAY [Verify tax inference endpoints] ******************************'],
+          ['','TASK [Gathering Facts] ********************************************'],
+          ['ok','ok: [ocp-prod-1]'],
+          ['','TASK [Query /v1/models] *******************************************'],
+          ['ok','ok: [ocp-prod-1] => granite-8b-tax-v1 ready'],
+          ['','TASK [Send a canary inquiry] **************************************'],
+          ['ok','ok: [ocp-prod-1] => classified in 0.31s (threshold 2.00s)'],
+          ['','TASK [Verify model signature matches approved digest] *************'],
+          ['ok','ok: [ocp-prod-1] => sha256:4b91c0e2 matches change record CR-8841'],
+          ['dim','PLAY RECAP ********************************************************'],
+          ['ok','ocp-prod-1   ok=4  changed=0  unreachable=0  failed=0']
+        ]},
+      { cmd:'cat rulebooks/inference_saturation.yml',
+        out:[
+          ['yaml','- name: Respond to tax inference saturation'],
+          ['yaml','  hosts: all'],
+          ['yaml','  sources:'],
+          ['yaml','    - ansible.eda.alertmanager:'],
+          ['yaml','        host: 0.0.0.0'],
+          ['yaml','        port: 5000'],
+          ['yaml','  rules:'],
+          ['yaml','    - name: Queue depth sustained over threshold'],
+          ['yaml','      condition: event.alert.labels.alertname == "InferenceQueueDepth"'],
+          ['yaml','      action:'],
+          ['yaml','        run_job_template:'],
+          ['yaml','          name: "Expand tax-inference capacity"'],
+          ['yaml','          organization: "Revenue Modernization"'],
+          ['yaml','    - name: Endpoint failed its canary'],
+          ['yaml','      condition: event.alert.labels.alertname == "CanaryFailed"'],
+          ['yaml','      action:'],
+          ['yaml','        run_job_template:'],
+          ['yaml','          name: "Roll back to last approved model"']
+        ]},
+      { cmd:'ansible-rulebook --rulebook rulebooks/inference_saturation.yml -i inventory/prod --controller-url https://aap.agency.gov',
+        out:[
+          ['dim','INFO  Starting rules engine ...'],
+          ['ok','INFO  Ruleset "Respond to tax inference saturation" started'],
+          ['dim','INFO  Listening for alertmanager events on 0.0.0.0:5000'],
+          ['dim',''],
+          ['warn','[14:38:02] EVENT  InferenceQueueDepth  severity=warning  depth=612'],
+          ['','[14:38:02] RULE   "Queue depth sustained over threshold" matched'],
+          ['','[14:38:03] ACTION run_job_template -> "Expand tax-inference capacity"'],
+          ['','[14:38:19]        job 40213 | scaled maxReplicas 20 -> 32'],
+          ['','[14:38:41]        job 40213 | 11 new replicas Ready'],
+          ['ok','[14:39:04] EVENT  InferenceQueueDepth  resolved  depth=38'],
+          ['note','Elapsed from alert to resolved: 62 seconds. No ticket. No pager.']
+        ]},
+      { cmd:'awx job list --status successful --created__gte 2026-08-26 -f human',
+        out:[
+          ['dim','id     name                              status       elapsed  launched_by'],
+          ['','40213  Expand tax-inference capacity     successful   21.4s    eda-rulebook'],
+          ['','40209  Patch GPU nodes (rolling)         successful   14m 02s  scheduled'],
+          ['','40204  Collect compliance evidence       successful   3m 11s   scheduled'],
+          ['','40198  Mirror model to enclave registry  successful   8m 47s   j.rivera'],
+          ['note','This list is the audit trail your assessor asks for. It writes itself.']
+        ]}
+    ]
+  },
+  {
+    title:'Prove it to your ISSO',
+    product:'RHEL · Compliance Operator · TrustyAI · Sigstore',
+    time:'~6 min',
+    host:'you@bastion:~',
+    goal:'Walk the exact checks an authorizing official will run: is the model the approved one, is the cryptography validated, is the platform still hardened this quarter, and is the model behaving the way it did at accreditation.',
+    youll:[
+      '<b>Signature verification</b> on the model artifact itself',
+      '<b>FIPS mode</b> confirmed on the node running inference',
+      'A <b>compliance scan</b> with machine-readable results, and <b>drift metrics</b> on live traffic'
+    ],
+    watch:[
+      'Provenance is checked before admission, not audited after the fact',
+      'The failed compliance rule is deliberate — show what a real result looks like',
+      'Drift monitoring is what tells you the world changed, not the model'
+    ],
+    take:'Every one of these is a platform feature you turn on, not a project you fund. That is what "enterprise-ready" has to mean.',
+    steps:[
+      { cmd:'cosign verify --key agency-model-signing.pub registry.agency.gov/models/granite-8b-tax-v1',
+        out:[
+          ['dim','Verification for registry.agency.gov/models/granite-8b-tax-v1 --'],
+          ['ok','The cosign claims were validated'],
+          ['ok','The signatures were verified against the specified public key'],
+          ['','  digest:    sha256:4b91c0e2f7a3...'],
+          ['','  signed by: revenue-modernization-release'],
+          ['','  timestamp: 2026-08-19T18:22:04Z'],
+          ['','  change:    CR-8841 (approved by AO 2026-08-20)']
+        ]},
+      { cmd:'ssh ocp-gpu-04 fips-mode-setup --check && ssh ocp-gpu-04 sestatus | head -3',
+        out:[
+          ['ok','FIPS mode is enabled.'],
+          ['dim',''],
+          ['','SELinux status:                 enabled'],
+          ['','SELinuxfs mount:                /sys/fs/selinux'],
+          ['ok','Current mode:                   enforcing']
+        ]},
+      { cmd:'oc get compliancescan -n openshift-compliance',
+        out:[
+          ['dim','NAME                     PHASE   RESULT'],
+          ['ok','ocp4-moderate            DONE    NON-COMPLIANT'],
+          ['ok','ocp4-moderate-node       DONE    COMPLIANT'],
+          ['ok','rhcos4-moderate-worker   DONE    COMPLIANT'],
+          ['note','NON-COMPLIANT is the honest result. Now look at what failed.']
+        ]},
+      { cmd:'oc get compliancecheckresult -n openshift-compliance -l compliance.openshift.io/check-status=FAIL',
+        out:[
+          ['dim','NAME                                              STATUS   SEVERITY'],
+          ['err','ocp4-moderate-audit-log-forwarding-enabled        FAIL     medium'],
+          ['dim',''],
+          ['dim','1 of 217 checks failed. Remediation is available:'],
+          ['key','  oc apply -f complianceremediation/audit-log-forwarding'],
+          ['note','Or let the Lab 05 rulebook apply it and record the job. Same result, with evidence.']
+        ]},
+      { cmd:'oc apply -f trustyai-service.yaml && curl -sk https://trustyai.tax-inference.svc/metrics | grep -E "drift|fairness"',
+        out:[
+          ['ok','trustyaiservice.trustyai.opendatahub.io/tax-trustyai created'],
+          ['dim',''],
+          ['dim','# HELP trustyai_meanshift_drift  Distribution shift vs accreditation baseline'],
+          ['','trustyai_meanshift_drift{model="granite-8b-tax-v1",feature="inquiry_len"}   0.031'],
+          ['','trustyai_meanshift_drift{model="granite-8b-tax-v1",feature="channel_mix"}   0.212'],
+          ['','trustyai_fairness_dir{model="granite-8b-tax-v1",group="filing_status"}      0.968'],
+          ['','trustyai_fairness_spd{model="granite-8b-tax-v1",group="filing_status"}     -0.014'],
+          ['dim',''],
+          ['warn','channel_mix drift 0.212 exceeds the 0.150 alert threshold.'],
+          ['note','Nothing is wrong with the model — more taxpayers moved to the portal.'],
+          ['note','That is exactly the signal you want, and exactly why you monitor it.']
+        ]}
+    ]
+  }
+  ];
+
+  /* ---------------- TERMINAL ENGINE ---------------- */
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function norm(s){ return String(s).trim().replace(/\s+/g,' ').toLowerCase(); }
+
+  function buildLab(lab, idx){
+    var wrap = document.createElement('article');
+    wrap.className = 'lab';
+    wrap.id = 'lab-' + idx;
+
+    var head = document.createElement('div');
+    head.className = 'lab-head';
+    head.innerHTML =
+      '<span class="badge">' + String(idx+1).padStart(2,'0') + '</span>' +
+      '<div>' +
+        '<h3>' + esc(lab.title) + '</h3>' +
+        '<div class="meta">' +
+          '<span class="chip" data-k="product">' + esc(lab.product) + '</span>' +
+          '<span class="chip" data-k="time">' + esc(lab.time) + '</span>' +
+          '<span class="chip">' + lab.steps.length + ' commands</span>' +
+        '</div>' +
+        '<p class="goal">' + esc(lab.goal) + '</p>' +
+      '</div>';
+    wrap.appendChild(head);
+
+    var grid = document.createElement('div');
+    grid.className = 'lab-grid';
+    grid.innerHTML =
+      '<div class="box"><h5>What you use</h5><ul>' + lab.youll.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="box"><h5>What to notice</h5><ul>' + lab.watch.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+    wrap.appendChild(grid);
+
+    /* terminal */
+    var term = document.createElement('div');
+    term.className = 'term';
+    term.innerHTML =
+      '<div class="term-bar">' +
+        '<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
+        '<span class="who">' + esc(lab.host) + '</span>' +
+        '<span class="prog">0 / ' + lab.steps.length + '</span>' +
+        '<button type="button" data-act="copyall">Copy all</button>' +
+        '<button type="button" data-act="reset">Reset</button>' +
+      '</div>' +
+      '<div class="screen" tabindex="0" role="log" aria-label="Lab ' + (idx+1) + ' terminal output"></div>' +
+      '<div class="entry">' +
+        '<span class="ps1">$</span>' +
+        '<input type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Type the next command">' +
+        '<button type="button" data-act="show">Show</button>' +
+        '<button type="button" data-act="run" class="primary">Run</button>' +
+      '</div>';
+    wrap.appendChild(term);
+
+    var take = document.createElement('p');
+    take.className = 'takeaway';
+    take.innerHTML = '<b>Takeaway.</b> ' + esc(lab.take);
+    wrap.appendChild(take);
+
+    var screen = term.querySelector('.screen');
+    var input = term.querySelector('.entry input');
+    var entry = term.querySelector('.entry');
+    var prog = term.querySelector('.prog');
+    var ps1El = term.querySelector('.entry .ps1');
+    var i = 0, busy = false;
+
+    function ps1For(n){
+      var st = lab.steps[n];
+      return (st && st.prompt) ? st.prompt : '$';
+    }
+    function print(cls, text){
+      var el = document.createElement('span');
+      el.className = 'line' + (cls ? ' ' + cls : '');
+      el.textContent = text;
+      screen.appendChild(el);
+      screen.scrollTop = screen.scrollHeight;
+      return el;
+    }
+    function printCmd(step){
+      var el = document.createElement('span');
+      el.className = 'line';
+      var p = document.createElement('span');
+      p.className = 'ps1';
+      p.textContent = (step.prompt ? step.prompt : '$ ');
+      var c = document.createElement('span');
+      c.className = 'cmd';
+      c.textContent = step.cmd;
+      el.appendChild(p); el.appendChild(c);
+      screen.appendChild(el);
+      screen.scrollTop = screen.scrollHeight;
+    }
+    function updateProg(){
+      prog.textContent = i + ' / ' + lab.steps.length;
+      ps1El.textContent = (i < lab.steps.length) ? ps1For(i).trim() : '$';
+      if(i >= lab.steps.length){
+        entry.setAttribute('data-done','true');
+        input.value = '';
+      } else {
+        entry.removeAttribute('data-done');
+      }
+      input.placeholder = (i < lab.steps.length)
+        ? 'type the command, or press Run'
+        : 'lab complete';
+    }
+
+    function emit(step, done){
+      var n = 0;
+      var lines = step.out;
+      function tick(){
+        if(n >= lines.length){ done(); return; }
+        print(lines[n][0], lines[n][1]);
+        n++;
+        if(reduced){ tick(); }
+        else { setTimeout(tick, lines[n-1][1].length > 60 ? 90 : 55); }
+      }
+      tick();
+    }
+
+    function runStep(){
+      if(busy || i >= lab.steps.length) return;
+      busy = true;
+      var step = lab.steps[i];
+      if(step.note) print('note', '# ' + step.note);
+      printCmd(step);
+      input.value = '';
+      emit(step, function(){
+        print('', '');
+        i++;
+        busy = false;
+        updateProg();
+        if(i >= lab.steps.length){
+          print('ok', '✓ Lab ' + String(idx+1).padStart(2,'0') + ' complete — ' + lab.title.toLowerCase() + '.');
+        }
+      });
+    }
+
+    function submit(){
+      if(busy || i >= lab.steps.length) return;
+      var typed = input.value;
+      if(!typed.trim()){ runStep(); return; }
+      if(norm(typed) === norm(lab.steps[i].cmd)){
+        runStep();
+      } else {
+        printCmd({cmd: typed, prompt: lab.steps[i].prompt});
+        print('err', 'Not the command this step expects.');
+        print('dim', 'Press Show to fill it in, or Run to execute it for you.');
+        print('', '');
+        input.value = '';
+      }
+    }
+
+    term.addEventListener('click', function(e){
+      var b = e.target.closest('button');
+      if(!b) return;
+      var act = b.dataset.act;
+      if(act === 'run'){ input.value = ''; runStep(); }
+      else if(act === 'show'){
+        if(i < lab.steps.length){ input.value = lab.steps[i].cmd; input.focus(); }
+      }
+      else if(act === 'reset'){
+        screen.innerHTML = ''; i = 0; busy = false; input.value = ''; updateProg(); banner();
+      }
+      else if(act === 'copyall'){
+        var text = lab.steps.map(function(s){ return s.cmd; }).join('\n');
+        try {
+          navigator.clipboard.writeText(text).then(function(){
+            b.textContent = 'Copied';
+            setTimeout(function(){ b.textContent = 'Copy all'; }, 1400);
+          }, function(){ b.textContent = 'Copy failed'; setTimeout(function(){ b.textContent='Copy all'; },1400); });
+        } catch(err){
+          b.textContent = 'Copy failed';
+          setTimeout(function(){ b.textContent = 'Copy all'; }, 1400);
+        }
+      }
+    });
+
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); submit(); }
+      if(e.key === 'Tab' && i < lab.steps.length){ e.preventDefault(); input.value = lab.steps[i].cmd; }
+    });
+
+    function banner(){
+      print('dim', 'Red Hat Enterprise Linux 9.6 — lab environment ' + String(idx+1).padStart(2,'0'));
+      print('dim', 'Last login: Wed Aug 26 09:14:02 2026 from bastion.agency.gov');
+      print('', '');
+    }
+
+    banner();
+    updateProg();
+    return wrap;
+  }
+
+  var holder = document.getElementById('labholder');
+  LABS.forEach(function(lab, i){ holder.appendChild(buildLab(lab, i)); });
+
+  buildRail();
+  go(0);
+})();
+</script>

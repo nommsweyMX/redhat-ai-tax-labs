@@ -1,0 +1,19 @@
+# Build output
+build/
+*.pyc
+__pycache__/
+
+# Lab working directories created by live runs
+labs/*/sdg/
+labs/*/checkpoints/
+labs/*/.venv/
+
+# Local corpora - do not commit agency guidance to a public repository
+labs/lab04-rag/corpus/*
+!labs/lab04-rag/corpus/README.txt
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

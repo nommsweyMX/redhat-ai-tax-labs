@@ -1,0 +1,51 @@
+# Filing-season inference service.
+#
+# This file IS the capacity plan. Review it the way you would review a change
+# to a production system, because that is what it is.
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: tax-classifier
+  namespace: tax-inference
+  labels:
+    app.kubernetes.io/part-of: revenue-modernization
+    change-record: CR-8841
+  annotations:
+    openshift.io/display-name: "Taxpayer contact classifier"
+    serving.knative.dev/target-utilization-percentage: "70"
+    # Hold capacity for 5 minutes after a spike so a bursty afternoon does not
+    # thrash the scheduler.
+    autoscaling.knative.dev/scale-down-delay: "5m"
+spec:
+  predictor:
+    # Floor of 2: cold-starting an 8B model costs ~90s. Never scale to zero on
+    # a taxpayer-facing path.
+    minReplicas: 2
+    maxReplicas: 20
+    scaleMetric: concurrency
+    scaleTarget: 24
+    model:
+      runtime: vllm-runtime
+      modelFormat:
+        name: vLLM
+      # Pulled by digest, not tag. The digest is what the AO approved.
+      storageUri: oci://registry.agency.gov/models/granite-8b-tax-v1@sha256:4b91c0e2f7a3
+      args:
+        - --max-model-len=8192
+        - --gpu-memory-utilization=0.90
+        - --enable-chunked-prefill
+      resources:
+        requests:
+          cpu: "4"
+          memory: 24Gi
+          nvidia.com/gpu: "1"
+        limits:
+          cpu: "8"
+          memory: 32Gi
+          nvidia.com/gpu: "1"
+    tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+    nodeSelector:
+      node-role.kubernetes.io/gpu: ""

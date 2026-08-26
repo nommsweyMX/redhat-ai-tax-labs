@@ -1,0 +1,70 @@
+---
+# Drift and fairness monitoring on live inference traffic.
+#
+# The baseline is captured at accreditation. Everything this service reports is
+# a comparison against that baseline, which is why the baseline reference below
+# points at an immutable snapshot rather than "whatever ran last month".
+apiVersion: trustyai.opendatahub.io/v1alpha1
+kind: TrustyAIService
+metadata:
+  name: tax-trustyai
+  namespace: tax-inference
+  labels:
+    app.kubernetes.io/part-of: revenue-modernization
+spec:
+  storage:
+    format: PVC
+    folder: /inputs
+    size: 100Gi
+  data:
+    filename: tax-classifier-inference.csv
+    format: CSV
+  metrics:
+    schedule: 5m
+    batchSize: 5000
+---
+# Alert on the two things that actually matter to an authorizing official:
+# the model drifting away from its accredited behaviour, and the served
+# artefact no longer matching the approved digest.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: tax-model-assurance
+  namespace: tax-inference
+spec:
+  groups:
+    - name: model-assurance
+      rules:
+        - alert: ModelDriftDetected
+          expr: trustyai_meanshift_drift{model="granite-8b-tax-v1"} > 0.15
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: >-
+              Input distribution has shifted from the accreditation baseline.
+              Investigate before assuming the model is at fault — a channel mix
+              change is far more common than model failure.
+
+        - alert: FairnessOutOfBand
+          expr: >-
+            trustyai_fairness_dir{model="granite-8b-tax-v1"} < 0.80 or
+            trustyai_fairness_dir{model="granite-8b-tax-v1"} > 1.25
+          for: 1h
+          labels:
+            severity: critical
+          annotations:
+            summary: >-
+              Disparate impact ratio outside the agreed band. Route affected
+              contacts to human review until this is resolved.
+
+        - alert: ModelProvenanceMismatch
+          expr: model_served_digest_matches_approved == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: >-
+              Served model digest does not match the approved change record.
+              Handled by the Lab 05 rulebook, which escalates rather than
+              self-remediating.

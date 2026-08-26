@@ -1,0 +1,110 @@
+[#lab-03]
+= Lab 03 — Survive filing season
+
+[cols="1,3"]
+|===
+| Product   | {rhoai} with KServe and vLLM
+| Time      | About 6 minutes
+| Script    | `labs/lab03-openshift-ai/run.sh`
+| Outcome   | An autoscaling inference service that absorbs an April load rehearsal
+|===
+
+== Objective
+
+One GPU host is a pilot. Filing season is a capacity event. Deploy the tuned
+model from <<lab-02>> with KServe and vLLM, then run a load rehearsal and watch
+the platform scale from two replicas to twenty and back down again — with no
+application change.
+
+== The manifest is the capacity plan
+
+The single most important file in this lab is
+`labs/lab03-openshift-ai/manifests/inferenceservice-tax-classifier.yaml`.
+Read it before you run anything. Four decisions in it are worth arguing about
+with your own team:
+
+`minReplicas: 2`::
+Not zero. Cold-starting an 8B model costs roughly 90 seconds, which is not a
+number you want on a taxpayer-facing path. Scale-to-zero is for batch work.
+
+`scaleMetric: concurrency` with `scaleTarget: 24`::
+Scaling on concurrent requests rather than CPU. GPU inference saturates on
+in-flight requests long before CPU looks busy, so CPU-based autoscaling reacts
+far too late.
+
+`scale-down-delay: 5m`::
+Holds capacity for five minutes after a spike so a bursty afternoon does not
+thrash the scheduler.
+
+`storageUri` pinned to a digest::
+`@sha256:...`, not a tag. The digest is what the authorizing official approved.
+A mutable tag means the thing you accredited and the thing you are serving can
+silently diverge — which is exactly the failure <<lab-06>> checks for.
+
+== Prerequisites
+
+For live mode: an OpenShift cluster with {rhoai} installed, GPU nodes with the
+NVIDIA GPU Operator, `oc` authenticated, and `hey` for the load test.
+
+[source,bash]
+----
+cd labs/lab03-openshift-ai
+LAB_PACE=step ./run.sh
+----
+
+== Walkthrough
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Command | What to look for
+
+| 1 | `oc new-project` | A dedicated namespace. Quota and network policy attach here.
+| 2 | `oc get servingruntimes` | vLLM is already there. You are not building a serving stack.
+| 3 | `oc apply -f manifests/...` | The deployment is a reviewable file in git.
+| 4 | `oc get inferenceservice -w` | Ready at roughly 90 seconds. That number is your cold-start cost.
+| 5 | `curl .../v1/completions` | One classification, sub-second.
+| 6 | `hey -z 90s -c 400` | Replicas climbing 2 → 20, latency holding, zero errors, then scaling back to the floor.
+|===
+
+== What good looks like
+
+Under 400 concurrent requests the service holds p95 latency under a second,
+returns no errors, and reaches its replica ceiling within about 40 seconds.
+Afterwards it returns to `minReplicas` once the scale-down delay expires.
+
+The behaviour to watch for is the *shape*, not the absolute numbers: fast
+scale-up, stable latency through the ramp, and a return to floor that does not
+happen so fast it re-triggers.
+
+WARNING: This load test will consume every GPU the namespace is allowed to
+schedule, for 90 seconds. Run it against a non-production cluster, or during a
+window your platform team has agreed to.
+
+== Troubleshooting
+
+InferenceService never becomes Ready::
+`oc describe inferenceservice tax-classifier`. The usual causes are no
+schedulable GPU node, a missing image pull secret for the model registry, or a
+digest that does not exist.
+
+Ready, but requests time out::
+Check `oc logs` on the predictor pod for the vLLM startup line. A model that
+exceeds GPU memory will start and then stall.
+
+Replicas do not scale up under load::
+Confirm the KServe autoscaler is reading concurrency, and that the namespace
+quota permits more GPUs. Hitting a quota ceiling looks exactly like a broken
+autoscaler.
+
+Scaling oscillates::
+Increase `scale-down-delay`. Thrashing usually means capacity is being released
+faster than the arrival pattern warrants.
+
+== Discussion questions
+
+. What is your actual filing-season concurrency, and how would you measure it
+  before you need it?
+. Where do the GPUs physically live, and does that placement satisfy your data
+  handling rules?
+. Who approves a change to this manifest, and is that the same person who
+  approves a change to the model?

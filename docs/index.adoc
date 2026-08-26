@@ -1,0 +1,143 @@
+= Red Hat AI for Intelligent Tax Administration
+Red Hat, Four Inc. and Carahsoft
+:doctype: book
+include::attributes.adoc[]
+
+[abstract]
+== About this guide
+
+Artificial intelligence is changing how organizations modernize operations,
+improve taxpayer services and unlock the value of their data. Adopting it at
+scale needs a secure, flexible foundation that connects automation, hybrid
+cloud and intelligent workflows.
+
+This guide is the hands-on half of that conversation. It carries six labs that
+walk the whole path — standing a model up inside your boundary, teaching it
+your agency's vocabulary, serving it through a filing-season peak, grounding
+its answers in your published guidance, automating the operational toil around
+it, and proving the result to an authorizing official.
+
+Every command in these labs is real and copyable. Every lab runs in two modes:
+one that needs nothing but a shell, and one that executes against your own
+environment.
+
+== Who this is for
+
+[cols="1,3", options="header"]
+|===
+| Reader | Where to start
+
+| Platform engineers
+| Labs 01, 03 and 05. You are the people who will operate this.
+
+| Data and application teams
+| Labs 02 and 04. Domain adaptation and retrieval are where mission value shows up.
+
+| Security, ISSO and compliance staff
+| Lab 06 first, then the security section of the event brief. Lab 06 is written
+  as the checklist you would run yourself.
+
+| Programme and acquisition leads
+| The event brief, then the adoption path. Skip the terminals.
+|===
+
+== The five outcomes, and where each is proven
+
+[cols="3,2,1", options="header"]
+|===
+| Outcome | Platform capability | Lab
+
+| Modernize mission-critical operations with intelligent automation and
+  streamlined workflows
+| {aap}, {eda}, {ocp}
+| <<lab-05>>
+
+| Improve efficiency and accuracy by reducing manual processes and accelerating
+  service delivery
+| {rhelai}, InstructLab
+| <<lab-01>>, <<lab-02>>
+
+| Unlock data-driven insights to support smarter decision-making
+| {rhoai}, vector retrieval
+| <<lab-04>>
+
+| Strengthen security and compliance with trusted, enterprise-ready AI
+| {rhel} FIPS mode, Compliance Operator, TrustyAI, Sigstore
+| <<lab-06>>
+
+| Build an AI-ready foundation with flexible platforms designed to scale
+| {rhoai}, KServe, vLLM
+| <<lab-03>>
+|===
+
+== How to run the labs
+
+Every lab is a shell script under `{labs-dir}/`. The scripts run in two modes.
+
+`LAB_MODE=simulate`:: The default. Prints each command followed by the output
+you should expect from it. Runs on a laptop with no cluster, no GPU and no
+credentials. This is the mode to use during the event.
+
+`LAB_MODE=live`:: Executes each command against your own environment. The
+simulated output stays visible on failure, so you can see what should have
+happened. Requires the tools named in each lab's prerequisites.
+
+[source,bash]
+----
+# Walk a lab, one command at a time, pausing for Enter
+LAB_PACE=step ./labs/lab01-rhel-ai/run.sh
+
+# Walk every lab end to end without pausing
+./bin/run-all-labs.sh
+
+# Run for real against your own cluster
+LAB_MODE=live ./labs/lab03-openshift-ai/run.sh
+----
+
+.Environment variables
+[cols="1,2,1", options="header"]
+|===
+| Variable | Meaning | Default
+
+| `LAB_MODE`   | `simulate` or `live`                        | `simulate`
+| `LAB_PACE`   | `auto` or `step` (wait for Enter)           | `auto`
+| `LAB_SPEED`  | Seconds between simulated output lines      | `0.04`
+| `NO_COLOR`   | Set to any value to disable ANSI colour     | unset
+|===
+
+WARNING: `LAB_MODE=live` runs real commands. Lab 03 includes a load test that
+will consume every GPU its namespace can schedule, and Lab 06 reads node
+configuration over SSH. Point these at a non-production cluster first.
+
+== A note on the sample content
+
+The notice families, publication references and taxonomy entries in these labs
+are illustrative examples written for the exercise. They are shaped like real
+agency content so the labs feel real, but they are not authoritative guidance
+and no agency has reviewed them. Replace them with your own published material
+before generating training data or indexing a corpus.
+
+The numbers in the simulated output — latencies, replica counts, evaluation
+scores — are representative figures for a working environment, not measurements
+from a specific deployment. Treat them as the shape of a good result, and
+measure your own.
+
+:leveloffset: +1
+
+include::00-event-brief.adoc[]
+
+include::01-lab-rhel-ai.adoc[]
+
+include::02-lab-instructlab.adoc[]
+
+include::03-lab-openshift-ai.adoc[]
+
+include::04-lab-rag.adoc[]
+
+include::05-lab-ansible.adoc[]
+
+include::06-lab-trust.adoc[]
+
+include::90-facilitator-guide.adoc[]
+
+:leveloffset: -1
