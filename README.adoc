@@ -22,7 +22,7 @@ toc::[]
 
 [source,bash]
 ----
-git clone https://github.com/OWNER/redhat-ai-tax-labs.git
+git clone https://github.com/nommsweyMX/redhat-ai-tax-labs.git
 cd redhat-ai-tax-labs
 
 # What can run live here, and what cannot
