@@ -161,7 +161,6 @@ a{color:var(--accent-ink)}
 .cols{display:grid;gap:clamp(14px,1.6vw,26px)}
 .c2{grid-template-columns:1fr 1fr}
 .c3{grid-template-columns:repeat(3,1fr)}
-.c5{grid-template-columns:repeat(5,1fr)}
 
 .card{
   background:var(--surface-2);border:1px solid var(--border);border-radius:8px;
@@ -186,17 +185,6 @@ a{color:var(--accent-ink)}
 .pillar h4{font-size:clamp(.9rem,1.05vw,1.08rem)}
 .pillar p{font-size:clamp(.78rem,.88vw,.94rem);color:var(--ink-2);margin-top:3px}
 .pillar .stack{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--ink-3);margin-top:6px}
-
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:6px}
-.flow .node{
-  border:1px solid var(--border);border-radius:6px;padding:10px 9px;background:var(--surface-2);
-  display:flex;flex-direction:column;gap:5px;min-width:0;
-}
-.flow .node .step{font-family:"Red Hat Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.flow .node b{font-size:clamp(.74rem,.85vw,.9rem);font-family:"Red Hat Display",sans-serif;font-weight:700;line-height:1.15}
-.flow .node em{font-style:normal;font-size:.72rem;color:var(--ink-2);line-height:1.35}
-.flow .node[data-ai="true"]{border-color:var(--accent);background:var(--accent-wash)}
-.flow .node[data-ai="true"] .step{color:var(--accent)}
 
 table.grid{width:100%;border-collapse:collapse;font-size:clamp(.76rem,.86vw,.93rem)}
 table.grid th,table.grid td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
@@ -315,9 +303,6 @@ kbd{
 .screen .note{color:var(--term-amber)}
 .screen .yaml{color:var(--term-dim)}
 .line{display:block}
-.caret{display:inline-block;width:8px;height:1.05em;background:var(--term-green);vertical-align:-2px;animation:blink 1.05s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.caret{animation:none}}
 
 .entry{
   display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--term-border);
@@ -351,6 +336,7 @@ kbd{
 
 /* fullscreen presenting — fill the shared screen with the 16:9 stage */
 #stage:fullscreen{max-width:none;border:0;border-radius:0}
+#stage:focus{outline:none}
 #stage::backdrop{background:#FBF9F8}
 
 /* demo mode — the labs playing themselves */
@@ -381,8 +367,7 @@ kbd{
   .shell{grid-template-columns:1fr}
   .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
   .railscroll{max-height:190px}
-  .flow{grid-template-columns:repeat(2,1fr)}
-  .c3,.c5,.phases{grid-template-columns:1fr}
+  .c3,.phases{grid-template-columns:1fr}
   .stage{aspect-ratio:auto;min-height:78vh}
 }
 </style>
@@ -424,7 +409,7 @@ kbd{
         </div>
       </div>
 
-      <div class="stage" id="stage">
+      <div class="stage" id="stage" tabindex="-1">
 
         <!-- 1 -->
         <article class="slide title-slide" data-title="Title" data-notes="Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the hour — 25 minutes of story, 30 minutes of live terminal, 5 for questions. The promise: every claim we make today, we run in a shell before you leave.">
@@ -523,7 +508,6 @@ kbd{
                 <rect x="188" y="37" width="12" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="191,44 193.5,46.5 198,41" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
                 <text x="296" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">02</text>
                 <text x="180" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Validation</text>
-                <text x="180" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)"></text>
                 <text x="180" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Catch gaps before</text>
                 <text x="180" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">a case is opened</text>
                 <rect x="180" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
@@ -536,7 +520,6 @@ kbd{
                 <path d="M349,37 h7 l3,3 v11 h-10 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><line x1="351.5" y1="44" x2="356.5" y2="44" stroke="#fff" stroke-width="1.6"/><line x1="351.5" y1="47.5" x2="356.5" y2="47.5" stroke="#fff" stroke-width="1.6"/>
                 <text x="456" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">03</text>
                 <text x="340" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Correspondence</text>
-                <text x="340" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)"></text>
                 <text x="340" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Draft; a reviewer</text>
                 <text x="340" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">edits and signs</text>
                 <rect x="340" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
@@ -1040,8 +1023,14 @@ kbd{
   document.getElementById('prev').addEventListener('click', function(){ go(cur-1); });
   document.getElementById('next').addEventListener('click', function(){ go(cur+1); });
   function toggleFS(){
-    if(document.fullscreenElement){ document.exitFullscreen(); }
-    else if(stage.requestFullscreen){ stage.requestFullscreen(); }
+    if(document.fullscreenElement){ document.exitFullscreen(); return; }
+    if(stage.requestFullscreen){
+      var p = stage.requestFullscreen();
+      // Take focus off the Present button so Space/Enter keep driving the
+      // deck instead of re-activating the now-hidden button.
+      if(p && p.then){ p.then(function(){ stage.focus(); }, function(){}); }
+      else { stage.focus(); }
+    }
   }
   document.getElementById('fs').addEventListener('click', toggleFS);
 
