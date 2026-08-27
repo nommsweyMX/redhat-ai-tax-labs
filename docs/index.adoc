@@ -105,6 +105,10 @@ LAB_MODE=live ./labs/lab03-openshift-ai/run.sh
 | `NO_COLOR`   | Set to any value to disable ANSI colour     | unset
 |===
 
+TIP: The interactive deck at `slides/deck.html` has a Demo view that plays
+all six labs hands-free — useful when you want the room watching one screen
+instead of typing, and as a looping holding screen via `#demo` on the URL.
+
 WARNING: `LAB_MODE=live` runs real commands. Lab 03 includes a load test that
 will consume every GPU its namespace can schedule, and Lab 06 reads node
 configuration over SSH. Point these at a non-production cluster first.

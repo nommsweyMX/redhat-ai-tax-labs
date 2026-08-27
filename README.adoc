@@ -54,8 +54,10 @@ Nothing above needs a cluster, a GPU, or credentials.
 | The event deck as asciidoctor-revealjs source, with speaker notes.
 
 | `slides/deck.html`
-| A self-contained interactive deck: the same nine slides plus six virtual
-  terminals you type into. Open it in a browser — no build step, no server.
+| A self-contained interactive deck: nine slides plus six virtual terminals
+  you type into, and a Demo view that plays all six labs hands-free. Open it
+  in a browser — no build step, no server. Opening it with `#demo` on the URL
+  starts the Demo view playing on a continuous loop.
 
 | `slides/exports/`
 | Generated `.pptx` for platforms that require a slide upload.

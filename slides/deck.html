@@ -15,7 +15,7 @@
   --border-strong:#CFC2BE;
   --ink:#1B1211;
   --ink-2:#54423E;
-  --ink-3:#8A7671;
+  --ink-3:#7E6A64;
   --accent:#CC0000;
   --accent-ink:#A30000;
   --accent-wash:#FBEAE8;
@@ -42,50 +42,10 @@
   --rail:238px;
   --step:clamp(.72rem,.62rem + .5vw,.95rem);
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#141010;
-    --surface:#1E1817;
-    --surface-2:#271F1D;
-    --border:#382B28;
-    --border-strong:#4E3C38;
-    --ink:#F1E9E7;
-    --ink-2:#C4B1AC;
-    --ink-3:#93807B;
-    --accent:#FF5747;
-    --accent-ink:#FF7A6B;
-    --accent-wash:#3A1613;
-    --steel:#6FBCD8;
-    --steel-wash:#132A34;
-    --amber:#E5AB4B;
-    --amber-wash:#33260F;
-    --good:#4FC1A0;
-    --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
-    --shadow-lift:0 2px 4px rgba(0,0,0,.55), 0 22px 48px -22px rgba(0,0,0,.95);
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#141010;
-  --surface:#1E1817;
-  --surface-2:#271F1D;
-  --border:#382B28;
-  --border-strong:#4E3C38;
-  --ink:#F1E9E7;
-  --ink-2:#C4B1AC;
-  --ink-3:#93807B;
-  --accent:#FF5747;
-  --accent-ink:#FF7A6B;
-  --accent-wash:#3A1613;
-  --steel:#6FBCD8;
-  --steel-wash:#132A34;
-  --amber:#E5AB4B;
-  --amber-wash:#33260F;
-  --good:#4FC1A0;
-  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
-  --shadow-lift:0 2px 4px rgba(0,0,0,.55), 0 22px 48px -22px rgba(0,0,0,.95);
-}
-
+/* This deck deliberately commits to the light palette in every viewer
+   theme; the terminals remain their own fixed dark world by design. */
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{
   margin:0;
   background:var(--ground);
@@ -216,7 +176,7 @@ a{color:var(--accent-ink)}
 
 .pillar{
   display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;
-  padding:clamp(10px,1vw,15px) 0;border-bottom:1px solid var(--border);
+  padding:clamp(7px,.8vw,11px) 0;border-bottom:1px solid var(--border);
 }
 .pillar:last-child{border-bottom:0}
 .pillar .idx{
@@ -259,7 +219,7 @@ table.grid td.mono{font-family:"Red Hat Mono",monospace;font-size:.8rem;color:va
 .phase[data-p="3"] header{background:var(--accent-wash)}
 
 .archi{width:100%;height:auto;display:block}
-.archi text{font-family:"Red Hat Mono",ui-monospace,monospace}
+.archi text{font-family:"Red Hat Text",system-ui,sans-serif}
 
 .notes{
   max-width:1180px;margin:0 auto;width:100%;
@@ -389,6 +349,30 @@ kbd{
 .closing h3{font-size:1.3rem}
 .contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
 
+/* fullscreen presenting — fill the shared screen with the 16:9 stage */
+#stage:fullscreen{max-width:none;border:0;border-radius:0}
+#stage::backdrop{background:#FBF9F8}
+
+/* demo mode — the labs playing themselves */
+.demo{padding:26px clamp(20px,3vw,46px) 60px;max-width:1180px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px}
+.demo-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.demo-head .lab-head{flex:1;min-width:280px}
+.demo-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.playbtn{
+  appearance:none;border:1px solid var(--accent);background:var(--accent);color:var(--surface);
+  border-radius:5px;padding:6px 18px;font-family:"Red Hat Display",sans-serif;font-weight:700;
+  font-size:.85rem;cursor:pointer;min-width:88px;
+}
+.playbtn:hover{filter:brightness(1.08)}
+.demo-controls select{
+  background:var(--surface);border:1px solid var(--border-strong);color:var(--ink-2);
+  border-radius:5px;padding:6px 8px;font-family:"Red Hat Mono",monospace;font-size:.7rem;
+}
+.demo .screen{min-height:50vh;max-height:62vh}
+.demo .foot{font-size:.8rem;color:var(--ink-3)}
+.demo .foot code{font-size:.75rem;color:var(--ink-2)}
+@media (max-width:900px){.demo .screen{min-height:40vh}}
+
 @media (max-width:1080px){
   .lab-grid,.c2{grid-template-columns:1fr}
   .contactgrid{grid-template-columns:1fr}
@@ -414,6 +398,7 @@ kbd{
     <div class="modes" role="group" aria-label="View">
       <button id="mode-deck" aria-pressed="true">Deck</button>
       <button id="mode-labs" aria-pressed="false">Labs</button>
+      <button id="mode-demo" aria-pressed="false">Demo</button>
     </div>
 
     <div class="railscroll">
@@ -431,10 +416,11 @@ kbd{
     <!-- =====================  DECK  ===================== -->
     <section id="deck" class="deckwrap">
       <div class="deckbar">
-        <span class="hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes</span>
+        <span class="hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes &nbsp;·&nbsp; <kbd>F</kbd> present full-screen</span>
         <div class="grp">
           <button class="ghost" id="prev">&larr; Prev</button>
           <button class="ghost" id="next">Next &rarr;</button>
+          <button class="ghost" id="fs">Present</button>
         </div>
       </div>
 
@@ -458,14 +444,44 @@ kbd{
             <h2>The work is seasonal, textual and unforgiving</h2>
           </div>
           <div class="slide-body">
-            <div class="cols c3">
-              <div class="card pain"><span class="tag">Demand</span><h4>Peak load, fixed staff</h4><p>Filing season concentrates a year of volume into weeks. Capacity that sits idle in August cannot be justified — and capacity that runs out in April becomes a headline.</p></div>
-              <div class="card pain"><span class="tag">Systems</span><h4>Rules locked in legacy code</h4><p>Notice generation, eligibility and offset logic live in systems written decades ago. Rewriting them is a decade-long program; wrapping them is a quarter.</p></div>
-              <div class="card pain"><span class="tag">Data</span><h4>Answers are in the text</h4><p>Correspondence, transcripts, guidance and case notes are unstructured. Traditional analytics never reached them; language models are built for them.</p></div>
-            </div>
-            <div class="cols c2" style="margin-top:18px">
-              <div class="card gain"><span class="tag">The constraint</span><h4>You cannot send this data anywhere</h4><p>Federal tax information carries handling rules that rule out sending prompts to a public endpoint. The model has to come to the data — on premises, in an accredited cloud, or in an air-gapped enclave.</p></div>
-              <div class="card gain"><span class="tag">The consequence</span><h4>So the platform is the decision</h4><p>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one. That is the choice this session is about.</p></div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <svg viewBox="0 0 1180 312" role="img" style="width:100%;height:auto" aria-label="Area chart: taxpayer contacts per week across a filing year. Volume peaks in April at roughly six times the August low, far above a flat staffed-capacity line; the shaded gap between curve and line is the surge automation absorbs. A second smaller rise follows the October extension deadline.">
+                <defs>
+                  <linearGradient id="s2fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#CC0000" stop-opacity=".50"/>
+                    <stop offset="1" stop-color="#CC0000" stop-opacity=".05"/>
+                  </linearGradient>
+                  <filter id="s2sh" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#1B1211" flood-opacity=".13"/>
+                  </filter>
+                </defs>
+                <rect x="4" y="4" width="1172" height="304" rx="12" fill="var(--surface)" stroke="var(--border)" filter="url(#s2sh)"/>
+                <text x="28" y="36" font-family="Red Hat Display" font-size="18" font-weight="800" fill="var(--ink)">A year of demand arrives in six weeks</text>
+                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">Taxpayer contacts per week — illustrative shape of a filing year</text>
+                <line x1="60" y1="120" x2="1140" y2="120" stroke="var(--border)"/>
+                <line x1="60" y1="200" x2="1140" y2="200" stroke="var(--border)"/>
+                <line x1="60" y1="260" x2="1140" y2="260" stroke="var(--border-strong)"/>
+                <path d="M60,232 C93,225 125,222 158,214 C191,206 223,190 256,152 C289,114 322,84 355,84 C388,84 420,160 453,204 C486,232 518,224 551,228 C584,232 616,233 649,236 C682,239 714,241 747,242 C780,243 813,238 846,232 C879,226 911,190 944,186 C977,182 1009,222 1042,230 C1075,238 1107,228 1140,222 L1140,260 L60,260 Z" fill="url(#s2fill)"/>
+                <path d="M225,174 C235,166 245,158 256,152 C289,114 322,84 355,84 C372,84 388,124 405,174 Z" fill="#CC0000" opacity=".28"/>
+                <path d="M60,232 C93,225 125,222 158,214 C191,206 223,190 256,152 C289,114 322,84 355,84 C388,84 420,160 453,204 C486,232 518,224 551,228 C584,232 616,233 649,236 C682,239 714,241 747,242 C780,243 813,238 846,232 C879,226 911,190 944,186 C977,182 1009,222 1042,230 C1075,238 1107,228 1140,222" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="60" y1="174" x2="1140" y2="174" stroke="var(--ink-2)" stroke-width="1.8" stroke-dasharray="7 5"/>
+                <text x="1136" y="166" text-anchor="end" font-family="Red Hat Mono" font-size="11" font-weight="600" fill="var(--ink-2)">staffed capacity</text>
+                <circle cx="355" cy="84" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+                <text x="375" y="82" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">April — 6× the August low</text>
+                <line x1="414" y1="136" x2="352" y2="120" stroke="var(--ink-3)" stroke-width="1.2"/>
+                <text x="420" y="140" font-family="Red Hat Text" font-size="12" fill="var(--ink-2)">the surge automation absorbs</text>
+                <line x1="944" y1="182" x2="952" y2="152" stroke="var(--ink-3)" stroke-width="1.2"/>
+                <text x="958" y="148" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">extension deadline</text>
+                <g font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)" text-anchor="middle">
+                  <text x="60" y="282">J</text><text x="158" y="282">F</text><text x="256" y="282">M</text><text x="355" y="282">A</text><text x="453" y="282">M</text><text x="551" y="282">J</text><text x="649" y="282">J</text><text x="747" y="282">A</text><text x="846" y="282">S</text><text x="944" y="282">O</text><text x="1042" y="282">N</text><text x="1140" y="282">D</text>
+                </g>
+              </svg>
+              <div class="cols" style="grid-template-columns:repeat(4,1fr)">
+                <div class="card pain"><span class="tag">Demand</span><h4>Peak load, fixed staff</h4><p>Idle capacity in August is unjustifiable; exhausted capacity in April is a headline.</p></div>
+                <div class="card pain"><span class="tag">Systems</span><h4>Rules locked in legacy code</h4><p>Rewriting the systems of record is a decade. Wrapping them in intelligent workflows is a quarter.</p></div>
+                <div class="card pain"><span class="tag">Data</span><h4>The answers are in the text</h4><p>Correspondence, transcripts and case notes are unstructured — exactly what language models are built for.</p></div>
+                <div class="card gain"><span class="tag">The constraint that decides everything</span><h4>The data cannot leave</h4><p>FTI handling rules rule out public endpoints. The model comes to the data — on premises, accredited cloud, or air-gapped enclave.</p></div>
+              </div>
             </div>
           </div>
           <span class="slidenum"></span>
@@ -480,14 +496,91 @@ kbd{
             <p class="lede">Highlighted stages already have a human reviewer in the loop — which makes them the honest places to start.</p>
           </div>
           <div class="slide-body">
-            <div class="flow">
-              <div class="node" data-ai="true"><span class="step">Stage 01</span><b>Intake &amp; classification</b><em>Route paper, portal and phone contacts by intent, not by keyword.</em></div>
-              <div class="node" data-ai="true"><span class="step">Stage 02</span><b>Validation</b><em>Flag inconsistencies and missing documentation before a case is opened.</em></div>
-              <div class="node" data-ai="true"><span class="step">Stage 03</span><b>Correspondence</b><em>Draft plain-language notices; the reviewer edits and signs.</em></div>
-              <div class="node"><span class="step">Stage 04</span><b>Exam selection</b><em>Determinations affecting taxpayers — governance first, automation later.</em></div>
-              <div class="node" data-ai="true"><span class="step">Stage 05</span><b>Collections support</b><em>Summarize case history so an officer opens a case already briefed.</em></div>
-              <div class="node" data-ai="true"><span class="step">Stage 06</span><b>Taxpayer service</b><em>Answer from published guidance, with the citation attached.</em></div>
-            </div>
+            <svg viewBox="0 0 960 208" role="img" style="width:100%;height:auto" aria-label="Six-stage filing lifecycle flow. Intake, validation, correspondence, collections support and taxpayer service are highlighted as AI-assisted with a human in the loop; exam selection is deliberately held back for governance first.">
+                <defs>
+                  <marker id="s3ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
+                  <filter id="s3sh" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1B1211" flood-opacity=".13"/></filter>
+                </defs>
+                <line x1="149" y1="101" x2="171" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="309" y1="101" x2="331" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="469" y1="101" x2="491" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="629" y1="101" x2="651" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="789" y1="101" x2="811" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+                <g filter="url(#s3sh)">
+                  <rect x="8" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+                </g>
+                <rect x="8" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
+                <circle cx="34" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="27" y="39" width="14" height="10" rx="1.5" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="27,40 34,45 41,40" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+                <text x="136" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">01</text>
+                <text x="20" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Intake &amp;</text>
+                <text x="20" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">classification</text>
+                <text x="20" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Route by intent,</text>
+                <text x="20" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">not by keyword</text>
+                <rect x="20" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
+                <text x="77" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">human in the loop</text>
+                <g filter="url(#s3sh)">
+                  <rect x="168" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+                </g>
+                <rect x="168" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
+                <circle cx="194" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="188" y="37" width="12" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="191,44 193.5,46.5 198,41" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="296" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">02</text>
+                <text x="180" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Validation</text>
+                <text x="180" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)"></text>
+                <text x="180" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Catch gaps before</text>
+                <text x="180" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">a case is opened</text>
+                <rect x="180" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
+                <text x="237" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">human in the loop</text>
+                <g filter="url(#s3sh)">
+                  <rect x="328" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+                </g>
+                <rect x="328" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
+                <circle cx="354" cy="44" r="13" fill="var(--accent)"/>
+                <path d="M349,37 h7 l3,3 v11 h-10 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><line x1="351.5" y1="44" x2="356.5" y2="44" stroke="#fff" stroke-width="1.6"/><line x1="351.5" y1="47.5" x2="356.5" y2="47.5" stroke="#fff" stroke-width="1.6"/>
+                <text x="456" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">03</text>
+                <text x="340" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Correspondence</text>
+                <text x="340" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)"></text>
+                <text x="340" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Draft; a reviewer</text>
+                <text x="340" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">edits and signs</text>
+                <rect x="340" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
+                <text x="397" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">human in the loop</text>
+                <g filter="url(#s3sh)">
+                  <rect x="488" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-dasharray="5 4"/>
+                </g>
+                <rect x="488" y="12" width="138" height="4" rx="2" fill="#CFC2BE"/>
+                <circle cx="514" cy="44" r="13" fill="var(--ink-3)"/>
+                <rect x="508" y="43" width="12" height="9" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M510.5,43 v-2.5 a3.5,3.5 0 0 1 7,0 v2.5" fill="none" stroke="#fff" stroke-width="1.8"/>
+                <text x="616" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">04</text>
+                <text x="500" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Exam</text>
+                <text x="500" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">selection</text>
+                <text x="500" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Taxpayer</text>
+                <text x="500" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">determinations</text>
+                <rect x="500" y="152" width="114" height="21" rx="10.5" fill="var(--surface-2)"/>
+                <text x="557" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--ink-3)">governance first</text>
+                <g filter="url(#s3sh)">
+                  <rect x="648" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+                </g>
+                <rect x="648" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
+                <circle cx="674" cy="44" r="13" fill="var(--accent)"/>
+                <path d="M667,49 v-8 h5 l2,2 h7 v6 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+                <text x="776" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">05</text>
+                <text x="660" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Collections</text>
+                <text x="660" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">support</text>
+                <text x="660" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Brief the officer</text>
+                <text x="660" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">before the case</text>
+                <rect x="660" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
+                <text x="717" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">human in the loop</text>
+                <g filter="url(#s3sh)">
+                  <rect x="808" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+                </g>
+                <rect x="808" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
+                <circle cx="834" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="827" y="38" width="14" height="10" rx="3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M831,48 L829,52 L835,48" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+                <text x="936" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">06</text>
+                <text x="820" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Taxpayer</text>
+                <text x="820" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">service</text>
+                <text x="820" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Answers carry</text>
+                <text x="820" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">their citation</text>
+                <rect x="820" y="152" width="114" height="21" rx="10.5" fill="var(--accent-wash)"/>
+                <text x="877" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">human in the loop</text>
+            </svg>
             <div class="cols c2" style="margin-top:20px">
               <div class="card"><span class="tag">Rule of thumb</span><h4>Start where a human already reviews the output</h4><p>If a person signs the letter today, a model that drafts it changes throughput without changing accountability. That is a defensible first deployment.</p></div>
               <div class="card"><span class="tag">Rule of thumb</span><h4>Automate the toil around the model, not just the model</h4><p>Most of the effort in production AI is provisioning, patching, scaling and evidence collection. That is an automation problem, and it is solved.</p></div>
@@ -536,90 +629,124 @@ kbd{
             <h2>One foundation, from bare metal to the taxpayer</h2>
           </div>
           <div class="slide-body">
-            <svg class="archi" viewBox="0 0 920 400" role="img" aria-label="Layered architecture: infrastructure and RHEL at the base, OpenShift above it, OpenShift AI model services above that, and mission applications on top. Automation and trust bands run vertically through every layer.">
+            <svg class="archi" viewBox="0 0 920 420" role="img" aria-label="Layered architecture with depth: mission applications on top, OpenShift AI model services beneath, OpenShift, then RHEL and RHEL AI on GPU hardware at the base. A trust pillar with a shield runs down the left; an automation pillar with a gear runs down the right — both span every layer.">
               <defs>
-                <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/>
-                </marker>
+                <marker id="a5ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
+                <filter id="a5sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2.5" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".16"/></filter>
+                <linearGradient id="a5layer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
+                <linearGradient id="a5ai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEAE8"/><stop offset="1" stop-color="#F5D3CE"/></linearGradient>
+                <linearGradient id="a5trust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEAE8"/><stop offset="1" stop-color="#F2CBC5"/></linearGradient>
+                <linearGradient id="a5auto" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7F1F5"/><stop offset="1" stop-color="#D2E4EC"/></linearGradient>
               </defs>
-              <!-- vertical bands -->
-              <rect x="10" y="10" width="104" height="380" rx="8" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1"/>
-              <rect x="806" y="10" width="104" height="380" rx="8" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1"/>
-              <text x="62" y="34" font-size="10" font-weight="700" fill="var(--accent)" text-anchor="middle" letter-spacing="1.2">TRUST</text>
-              <text x="62" y="62" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Signed models</text>
-              <text x="62" y="82" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">FIPS crypto</text>
-              <text x="62" y="102" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">SELinux</text>
-              <text x="62" y="122" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Compliance</text>
-              <text x="62" y="142" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Operator</text>
-              <text x="62" y="170" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">TrustyAI</text>
-              <text x="62" y="190" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">drift + bias</text>
-              <text x="62" y="218" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Audit trail</text>
-              <text x="62" y="246" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Air-gap</text>
-              <text x="62" y="266" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">mirroring</text>
-              <text x="62" y="378" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 06</text>
 
-              <text x="858" y="34" font-size="10" font-weight="700" fill="var(--steel)" text-anchor="middle" letter-spacing="1.2">AUTOMATION</text>
-              <text x="858" y="62" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Ansible</text>
-              <text x="858" y="82" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Automation</text>
-              <text x="858" y="102" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Platform</text>
-              <text x="858" y="130" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Event-Driven</text>
-              <text x="858" y="150" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Ansible</text>
-              <text x="858" y="178" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Provision</text>
-              <text x="858" y="198" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Patch</text>
-              <text x="858" y="218" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Remediate</text>
-              <text x="858" y="246" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">Evidence</text>
-              <text x="858" y="266" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">collection</text>
-              <text x="858" y="378" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 05</text>
+              <!-- trust pillar -->
+              <rect x="10" y="10" width="106" height="400" rx="10" fill="url(#a5trust)" stroke="#CC0000" stroke-width="1.2" filter="url(#a5sh)"/>
+              <path d="M63 26 L77 31 V41 C77 51 71 58 63 62 C55 58 49 51 49 41 V31 Z" fill="#CC0000"/>
+              <polyline points="56,42 61,47 71,36" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="63" y="80" font-size="10.5" font-weight="700" fill="#A30000" text-anchor="middle" letter-spacing="1.6">TRUST</text>
+              <g font-size="10.5" fill="var(--ink-2)" text-anchor="middle">
+                <text x="63" y="102">Signed models</text>
+                <text x="63" y="120">FIPS crypto</text>
+                <text x="63" y="138">SELinux</text>
+                <text x="63" y="156">Compliance</text>
+                <text x="63" y="170">Operator</text>
+                <text x="63" y="192">TrustyAI</text>
+                <text x="63" y="206">drift + bias</text>
+                <text x="63" y="228">Audit trail</text>
+                <text x="63" y="250">Air-gap</text>
+                <text x="63" y="264">mirroring</text>
+              </g>
+              <text x="63" y="396" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 06</text>
 
-              <!-- horizontal layers -->
-              <g>
-                <rect x="128" y="316" width="664" height="74" rx="7" fill="var(--surface-2)" stroke="var(--border-strong)"/>
-                <text x="146" y="338" font-size="11" font-weight="700" fill="var(--ink)">Red Hat Enterprise Linux · RHEL AI</text>
-                <text x="146" y="356" font-size="10.5" fill="var(--ink-2)">Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave</text>
-                <text x="146" y="374" font-size="10.5" fill="var(--ink-3)">Granite models, accelerator drivers and the InstructLab toolchain shipped as one supported image</text>
-                <text x="774" y="374" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Lab 01</text>
+              <!-- automation pillar -->
+              <rect x="804" y="10" width="106" height="400" rx="10" fill="url(#a5auto)" stroke="#286C88" stroke-width="1.2" filter="url(#a5sh)"/>
+              <g stroke="#286C88" stroke-width="2.6" stroke-linecap="round">
+                <circle cx="857" cy="44" r="8.5" fill="none"/>
+                <line x1="857" y1="30" x2="857" y2="34"/><line x1="857" y1="54" x2="857" y2="58"/>
+                <line x1="843" y1="44" x2="847" y2="44"/><line x1="867" y1="44" x2="871" y2="44"/>
+                <line x1="847" y1="34" x2="850" y2="37"/><line x1="864" y1="51" x2="867" y2="54"/>
+                <line x1="867" y1="34" x2="864" y2="37"/><line x1="850" y1="51" x2="847" y2="54"/>
               </g>
-              <g>
-                <rect x="128" y="234" width="664" height="66" rx="7" fill="var(--surface-2)" stroke="var(--border-strong)"/>
-                <text x="146" y="256" font-size="11" font-weight="700" fill="var(--ink)">Red Hat OpenShift</text>
-                <text x="146" y="274" font-size="10.5" fill="var(--ink-2)">Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery</text>
-                <text x="146" y="292" font-size="10.5" fill="var(--ink-3)">The same cluster runs the modernized case-management apps beside the models they call</text>
+              <circle cx="857" cy="44" r="3" fill="#286C88"/>
+              <text x="857" y="80" font-size="10.5" font-weight="700" fill="#286C88" text-anchor="middle" letter-spacing="1.2">AUTOMATION</text>
+              <g font-size="10.5" fill="var(--ink-2)" text-anchor="middle">
+                <text x="857" y="102">Ansible</text>
+                <text x="857" y="116">Automation</text>
+                <text x="857" y="130">Platform</text>
+                <text x="857" y="152">Event-Driven</text>
+                <text x="857" y="166">Ansible</text>
+                <text x="857" y="188">Provision</text>
+                <text x="857" y="202">Patch</text>
+                <text x="857" y="216">Remediate</text>
+                <text x="857" y="238">Evidence</text>
+                <text x="857" y="252">collection</text>
               </g>
+              <text x="857" y="396" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 05</text>
+
+              <!-- base: RHEL / RHEL AI -->
+              <g filter="url(#a5sh)"><rect x="128" y="330" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g>
+              <text x="146" y="354" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat Enterprise Linux · RHEL AI</text>
+              <text x="146" y="372" font-size="10.5" fill="var(--ink-2)">Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave</text>
+              <text x="146" y="390" font-size="10.5" fill="var(--ink-3)">Granite models, accelerator drivers and the InstructLab toolchain in one supported image</text>
               <g>
-                <rect x="128" y="140" width="664" height="78" rx="7" fill="var(--accent-wash)" stroke="var(--accent)"/>
-                <text x="146" y="162" font-size="11" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
-                <rect x="146" y="172" width="146" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
-                <text x="219" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Model serving</text>
-                <text x="219" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">KServe + vLLM</text>
-                <rect x="302" y="172" width="146" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
-                <text x="375" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Pipelines</text>
-                <text x="375" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">tune · evaluate · promote</text>
-                <rect x="458" y="172" width="146" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
-                <text x="531" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Model registry</text>
-                <text x="531" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">versions · lineage</text>
-                <rect x="614" y="172" width="160" height="34" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/>
-                <text x="694" y="187" font-size="10" fill="var(--ink)" text-anchor="middle">Retrieval + vector store</text>
-                <text x="694" y="200" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">grounded answers</text>
-                <text x="774" y="162" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04</text>
+                <rect x="694" y="346" width="38" height="26" rx="3" fill="#54423E"/>
+                <text x="713" y="363" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" font-family="Red Hat Mono">GPU</text>
+                <g stroke="#54423E" stroke-width="1.6"><line x1="699" y1="342" x2="699" y2="346"/><line x1="708" y1="342" x2="708" y2="346"/><line x1="717" y1="342" x2="717" y2="346"/><line x1="726" y1="342" x2="726" y2="346"/><line x1="699" y1="372" x2="699" y2="376"/><line x1="708" y1="372" x2="708" y2="376"/><line x1="717" y1="372" x2="717" y2="376"/><line x1="726" y1="372" x2="726" y2="376"/></g>
+                <rect x="742" y="346" width="38" height="26" rx="3" fill="#54423E"/>
+                <text x="761" y="363" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" font-family="Red Hat Mono">GPU</text>
+                <g stroke="#54423E" stroke-width="1.6"><line x1="747" y1="342" x2="747" y2="346"/><line x1="756" y1="342" x2="756" y2="346"/><line x1="765" y1="342" x2="765" y2="346"/><line x1="774" y1="342" x2="774" y2="346"/><line x1="747" y1="372" x2="747" y2="376"/><line x1="756" y1="372" x2="756" y2="376"/><line x1="765" y1="372" x2="765" y2="376"/><line x1="774" y1="372" x2="774" y2="376"/></g>
               </g>
-              <g>
-                <rect x="128" y="46" width="664" height="78" rx="7" fill="var(--surface-2)" stroke="var(--border-strong)"/>
-                <text x="146" y="68" font-size="11" font-weight="700" fill="var(--ink)">Mission applications</text>
-                <rect x="146" y="78" width="152" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
-                <text x="222" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Correspondence intake</text>
-                <rect x="308" y="78" width="152" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
-                <text x="384" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Notice drafting</text>
-                <rect x="470" y="78" width="152" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
-                <text x="546" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Case summarization</text>
-                <rect x="632" y="78" width="142" height="32" rx="5" fill="var(--surface)" stroke="var(--border)"/>
-                <text x="703" y="98" font-size="10" fill="var(--ink-2)" text-anchor="middle">Guidance assistant</text>
-              </g>
-              <!-- legacy systems feed -->
-              <path d="M460,316 L460,300" stroke="var(--ink-3)" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
-              <path d="M460,234 L460,218" stroke="var(--ink-3)" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
-              <path d="M460,140 L460,124" stroke="var(--ink-3)" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
-              <text x="470" y="26" font-size="9.5" fill="var(--ink-3)">Systems of record stay where they are — reached through APIs and automation, not replaced</text>
-              <line x1="128" y1="32" x2="462" y2="32" stroke="var(--border-strong)" stroke-dasharray="3 3"/>
+              <text x="778" y="404" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Lab 01</text>
+
+              <!-- OpenShift -->
+              <g filter="url(#a5sh)"><rect x="128" y="244" width="664" height="70" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g>
+              <text x="146" y="268" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift</text>
+              <text x="146" y="286" font-size="10.5" fill="var(--ink-2)">Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery</text>
+              <text x="146" y="304" font-size="10.5" fill="var(--ink-3)">The same cluster runs the modernized case-management apps beside the models they call</text>
+
+              <!-- OpenShift AI -->
+              <g filter="url(#a5sh)"><rect x="128" y="142" width="664" height="86" rx="8" fill="url(#a5ai)" stroke="#CC0000"/></g>
+              <text x="146" y="164" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
+              <text x="778" y="164" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04</text>
+              <rect x="146" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <path d="M158,189 l10,6 -10,6 z" fill="#CC0000"/>
+              <text x="176" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model serving</text>
+              <text x="176" y="205" font-size="9.5" fill="var(--ink-3)">KServe + vLLM</text>
+              <rect x="304" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <g fill="#286C88"><circle cx="318" cy="196" r="3.4"/><circle cx="330" cy="196" r="3.4"/><circle cx="342" cy="196" r="3.4"/></g>
+              <text x="352" y="192" font-size="10" font-weight="700" fill="var(--ink)">Pipelines</text>
+              <text x="352" y="205" font-size="9.5" fill="var(--ink-3)">tune · eval · promote</text>
+              <rect x="462" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <path d="M476,187 l9,-5 9,5 v10 l-9,5 -9,-5 z" fill="none" stroke="#96620A" stroke-width="1.8"/><line x1="476" y1="187" x2="485" y2="192" stroke="#96620A" stroke-width="1.4"/><line x1="494" y1="187" x2="485" y2="192" stroke="#96620A" stroke-width="1.4"/><line x1="485" y1="192" x2="485" y2="202" stroke="#96620A" stroke-width="1.4"/>
+              <text x="500" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model registry</text>
+              <text x="500" y="205" font-size="9.5" fill="var(--ink-3)">versions · approvals</text>
+              <rect x="620" y="176" width="154" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <circle cx="637" cy="193" r="6" fill="none" stroke="#CC0000" stroke-width="2"/><line x1="641.5" y1="197.5" x2="647" y2="203" stroke="#CC0000" stroke-width="2" stroke-linecap="round"/>
+              <text x="654" y="192" font-size="10" font-weight="700" fill="var(--ink)">Retrieval</text>
+              <text x="654" y="205" font-size="9.5" fill="var(--ink-3)">vector store · citations</text>
+
+              <!-- apps -->
+              <g filter="url(#a5sh)"><rect x="128" y="46" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g>
+              <text x="146" y="70" font-size="11.5" font-weight="700" fill="var(--ink)">Mission applications</text>
+              <rect x="146" y="80" width="152" height="34" rx="6" fill="var(--surface)" stroke="var(--border)"/>
+              <circle cx="160" cy="97" r="4" fill="#CC0000"/>
+              <text x="170" y="101" font-size="10" fill="var(--ink-2)">Correspondence intake</text>
+              <rect x="308" y="80" width="150" height="34" rx="6" fill="var(--surface)" stroke="var(--border)"/>
+              <circle cx="322" cy="97" r="4" fill="#286C88"/>
+              <text x="332" y="101" font-size="10" fill="var(--ink-2)">Notice drafting</text>
+              <rect x="468" y="80" width="152" height="34" rx="6" fill="var(--surface)" stroke="var(--border)"/>
+              <circle cx="482" cy="97" r="4" fill="#96620A"/>
+              <text x="492" y="101" font-size="10" fill="var(--ink-2)">Case summarization</text>
+              <rect x="630" y="80" width="144" height="34" rx="6" fill="var(--surface)" stroke="var(--border)"/>
+              <circle cx="644" cy="97" r="4" fill="#1E7A55"/>
+              <text x="654" y="101" font-size="10" fill="var(--ink-2)">Guidance assistant</text>
+
+              <!-- flow arrows -->
+              <line x1="460" y1="330" x2="460" y2="318" stroke="var(--ink-3)" stroke-width="1.4" marker-end="url(#a5ar)"/>
+              <line x1="460" y1="244" x2="460" y2="232" stroke="var(--ink-3)" stroke-width="1.4" marker-end="url(#a5ar)"/>
+              <line x1="460" y1="142" x2="460" y2="130" stroke="var(--ink-3)" stroke-width="1.4" marker-end="url(#a5ar)"/>
+              <text x="130" y="28" font-size="9.5" fill="var(--ink-3)">Systems of record stay where they are — reached through APIs and automation, not replaced</text>
+              <line x1="128" y1="34" x2="462" y2="34" stroke="var(--border-strong)" stroke-dasharray="3 3"/>
             </svg>
           </div>
           <span class="slidenum"></span>
@@ -660,6 +787,39 @@ kbd{
             <p class="lede">Nothing here requires a rewrite of a system of record. Each phase produces something you can show.</p>
           </div>
           <div class="slide-body">
+            <svg viewBox="0 0 960 108" role="img" style="width:100%;height:auto;margin-bottom:10px" aria-label="Roadmap timeline: Prove runs day 0 to 90 ending in a measured live pilot; Ground runs day 90 to 180 ending grounded, monitored and automated; Scale runs from day 180 onward, surge-proven at agency scale.">
+              <defs><marker id="s7ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--border-strong)"/></marker></defs>
+              <line x1="30" y1="64" x2="930" y2="64" stroke="var(--border-strong)" stroke-width="2" marker-end="url(#s7ar)"/>
+              <rect x="63" y="59" width="284" height="10" rx="5" fill="#286C88"/>
+              <rect x="353" y="59" width="284" height="10" rx="5" fill="#96620A"/>
+              <rect x="643" y="59" width="272" height="10" rx="5" fill="#CC0000"/>
+              <g font-family="Red Hat Mono" font-size="11" font-weight="700" letter-spacing="1.5">
+                <text x="205" y="48" text-anchor="middle" fill="#286C88">PROVE</text>
+                <text x="495" y="48" text-anchor="middle" fill="#96620A">GROUND</text>
+                <text x="779" y="48" text-anchor="middle" fill="#CC0000">SCALE</text>
+              </g>
+              <g>
+                <circle cx="60" cy="64" r="5.5" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="2"/>
+                <circle cx="350" cy="64" r="5.5" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="2"/>
+                <circle cx="640" cy="64" r="5.5" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="2"/>
+              </g>
+              <g font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)" text-anchor="middle">
+                <text x="60" y="92">day 0</text>
+                <text x="350" y="92">day 90</text>
+                <text x="640" y="92">day 180</text>
+                <text x="905" y="92">day 270+</text>
+              </g>
+              <g font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)" text-anchor="middle">
+                <text x="350" y="24">one workflow live, measured</text>
+                <text x="640" y="24">grounded · monitored · automated</text>
+                <text x="905" y="24">surge-proven at scale</text>
+              </g>
+              <g stroke="var(--ink-3)" stroke-width="1">
+                <line x1="350" y1="29" x2="350" y2="55"/>
+                <line x1="640" y1="29" x2="640" y2="55"/>
+                <line x1="905" y1="29" x2="905" y2="55"/>
+              </g>
+            </svg>
             <div class="phases">
               <div class="phase" data-p="1">
                 <header><b>Prove</b><span>Days 0–90</span></header>
@@ -702,7 +862,7 @@ kbd{
           <div class="slide-head">
             <span class="eyebrow">Hands on</span>
             <h2>Six labs — real commands, run them yourself</h2>
-            <p class="lede">Switch to the <b>Labs</b> view in the sidebar. Each terminal accepts the command you type; every command is copyable into your own environment.</p>
+            <p class="lede">Switch to the <b>Labs</b> view in the sidebar. Each terminal accepts the command you type; every command is copyable into your own environment. Prefer to watch? The <b>Demo</b> view plays all six labs end to end, hands-free.</p>
           </div>
           <div class="slide-body">
             <div class="cols c3">
@@ -748,7 +908,7 @@ kbd{
       <div class="labs-intro">
         <span class="eyebrow">Hands-on track</span>
         <h2>Virtual terminal labs</h2>
-        <p>Six labs, roughly five minutes each. Type the command shown, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Show</b> fills in the next command if you would rather watch than type.</p>
+        <p>Six labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all six on a loop.</p>
       </div>
       <div id="labholder"></div>
 
@@ -761,6 +921,44 @@ kbd{
         </div>
         <p class="takeaway" style="margin-top:22px"><b>One thing to remember.</b> Nothing in these six labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</p>
       </div>
+    </section>
+
+    <!-- =====================  DEMO  ===================== -->
+    <section id="demoview" class="demo" hidden>
+      <div class="demo-head">
+        <div class="lab-head">
+          <span class="badge" id="demo-badge">01</span>
+          <div>
+            <h3 id="demo-title">Serve a model inside your boundary</h3>
+            <div class="meta">
+              <span class="chip" data-k="product" id="demo-product"></span>
+              <span class="chip" data-k="time" id="demo-time"></span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-controls">
+          <button class="playbtn" id="demo-play">Play</button>
+          <button class="ghost" id="demo-prev" aria-label="Previous lab">&larr; Lab</button>
+          <button class="ghost" id="demo-next" aria-label="Next lab">Lab &rarr;</button>
+          <button class="ghost" id="demo-restart">Restart lab</button>
+          <label class="eyebrow" for="demo-speed">Speed</label>
+          <select id="demo-speed" aria-label="Playback speed">
+            <option value="1" selected>1&times;</option>
+            <option value="1.6">1.6&times;</option>
+            <option value="2.4">2.4&times;</option>
+            <option value="4">4&times;</option>
+          </select>
+        </div>
+      </div>
+      <div class="term">
+        <div class="term-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="who" id="demo-host"></span>
+          <span class="prog" id="demo-prog">ready</span>
+        </div>
+        <div class="screen" id="demo-screen" tabindex="0" role="log" aria-live="off" aria-label="Automated lab walkthrough"></div>
+      </div>
+      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;&middot;&nbsp; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> switch labs &nbsp;&middot;&nbsp; loops through all six continuously. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
     </section>
   </main>
 </div>
@@ -797,7 +995,7 @@ kbd{
         b.addEventListener('click', function(){ go(i); });
         railnav.appendChild(b);
       });
-    } else {
+    } else if(mode === 'labs'){
       railLabel.textContent = 'Labs';
       LABS.forEach(function(l,i){
         var b = document.createElement('button');
@@ -807,6 +1005,21 @@ kbd{
         b.addEventListener('click', function(){
           var el = document.getElementById('lab-' + i);
           if(el) el.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'start'});
+        });
+        railnav.appendChild(b);
+      });
+    } else {
+      railLabel.textContent = 'Demo';
+      LABS.forEach(function(l,i){
+        var b = document.createElement('button');
+        b.className = 'navitem';
+        b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
+        b.lastChild.textContent = l.title;
+        b.setAttribute('aria-current', i === D.lab ? 'true' : 'false');
+        b.addEventListener('click', function(){
+          demoLoad(i);
+          if(!D.playing) demoSetPlaying(true);
+          demoGo();
         });
         railnav.appendChild(b);
       });
@@ -826,6 +1039,11 @@ kbd{
 
   document.getElementById('prev').addEventListener('click', function(){ go(cur-1); });
   document.getElementById('next').addEventListener('click', function(){ go(cur+1); });
+  function toggleFS(){
+    if(document.fullscreenElement){ document.exitFullscreen(); }
+    else if(stage.requestFullscreen){ stage.requestFullscreen(); }
+  }
+  document.getElementById('fs').addEventListener('click', toggleFS);
 
   notesToggle.addEventListener('click', function(){
     notesOn = !notesOn;
@@ -837,22 +1055,42 @@ kbd{
     mode = m;
     document.getElementById('deck').hidden = (m !== 'deck');
     document.getElementById('labs').hidden = (m !== 'labs');
+    document.getElementById('demoview').hidden = (m !== 'demo');
     document.getElementById('mode-deck').setAttribute('aria-pressed', String(m === 'deck'));
     document.getElementById('mode-labs').setAttribute('aria-pressed', String(m === 'labs'));
-    clock.textContent = (m === 'deck') ? String(cur+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0') : 'Labs';
+    document.getElementById('mode-demo').setAttribute('aria-pressed', String(m === 'demo'));
+    clock.textContent = (m === 'deck')
+      ? String(cur+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0')
+      : (m === 'labs' ? 'Labs' : 'Demo');
+    if(m !== 'demo' && D.playing) demoSetPlaying(false);
+    if(m !== 'labs') autoStops.forEach(function(f){ f(); });
+    notesToggle.hidden = (m !== 'deck');
     buildRail();
     if(m === 'deck') go(cur);
+    if(m === 'demo'){
+      if(!D.inited){ D.inited = true; demoLoad(0); }
+      demoRail();
+    }
   }
   document.getElementById('mode-deck').addEventListener('click', function(){ setMode('deck'); });
   document.getElementById('mode-labs').addEventListener('click', function(){ setMode('labs'); });
+  document.getElementById('mode-demo').addEventListener('click', function(){ setMode('demo'); });
 
   document.addEventListener('keydown', function(e){
     var t = e.target;
-    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
+    if(mode === 'demo'){
+      if(t && t.tagName === 'BUTTON') return;
+      if(e.key === ' ' || e.code === 'Space'){ e.preventDefault(); demoToggle(); }
+      else if(e.key === 'ArrowRight'){ e.preventDefault(); demoStepLab(1); }
+      else if(e.key === 'ArrowLeft'){ e.preventDefault(); demoStepLab(-1); }
+      return;
+    }
     if(mode !== 'deck') return;
     if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); go(cur+1); }
     else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(cur-1); }
     else if(e.key === 'n' || e.key === 'N'){ notesToggle.click(); }
+    else if(e.key === 'f' || e.key === 'F'){ toggleFS(); }
     else if(e.key === 'Home'){ go(0); }
     else if(e.key === 'End'){ go(slides.length-1); }
   });
@@ -1309,6 +1547,8 @@ kbd{
   }
   function norm(s){ return String(s).trim().replace(/\s+/g,' ').toLowerCase(); }
 
+  var autoStops = [];
+
   function buildLab(lab, idx){
     var wrap = document.createElement('article');
     wrap.className = 'lab';
@@ -1351,6 +1591,7 @@ kbd{
       '<div class="entry">' +
         '<span class="ps1">$</span>' +
         '<input type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Type the next command">' +
+        '<button type="button" data-act="autoplay">Demo</button>' +
         '<button type="button" data-act="show">Show</button>' +
         '<button type="button" data-act="run" class="primary">Run</button>' +
       '</div>';
@@ -1397,6 +1638,7 @@ kbd{
       prog.textContent = i + ' / ' + lab.steps.length;
       ps1El.textContent = (i < lab.steps.length) ? ps1For(i).trim() : '$';
       if(i >= lab.steps.length){
+        if(document.activeElement === input) screen.focus();
         entry.setAttribute('data-done','true');
         input.value = '';
       } else {
@@ -1407,10 +1649,13 @@ kbd{
         : 'lab complete';
     }
 
-    function emit(step, done){
+    var gen = 0, autoOn = false, autoTok = 0;
+
+    function emit(step, g, done){
       var n = 0;
       var lines = step.out;
       function tick(){
+        if(g !== gen){ return; }
         if(n >= lines.length){ done(); return; }
         print(lines[n][0], lines[n][1]);
         n++;
@@ -1420,22 +1665,78 @@ kbd{
       tick();
     }
 
-    function runStep(){
+    function typeCmd(step, g, cb){
+      var el = document.createElement('span');
+      el.className = 'line';
+      var p = document.createElement('span');
+      p.className = 'ps1';
+      p.textContent = (step.prompt ? step.prompt : '$ ');
+      var c = document.createElement('span');
+      c.className = 'cmd';
+      el.appendChild(p); el.appendChild(c);
+      screen.appendChild(el);
+      var n = 0, delay = Math.max(14, Math.min(46, Math.round(1400 / step.cmd.length)));
+      (function ch(){
+        if(g !== gen){ return; }
+        if(n < step.cmd.length){
+          c.textContent += step.cmd.charAt(n);
+          n++;
+          screen.scrollTop = screen.scrollHeight;
+          setTimeout(ch, delay);
+        } else {
+          setTimeout(cb, 260);
+        }
+      })();
+    }
+
+    function runStep(opts){
+      opts = opts || {};
       if(busy || i >= lab.steps.length) return;
       busy = true;
+      var g = gen;
       var step = lab.steps[i];
       if(step.note) print('note', '# ' + step.note);
-      printCmd(step);
       input.value = '';
-      emit(step, function(){
-        print('', '');
-        i++;
-        busy = false;
-        updateProg();
-        if(i >= lab.steps.length){
-          print('ok', '✓ Lab ' + String(idx+1).padStart(2,'0') + ' complete — ' + lab.title.toLowerCase() + '.');
-        }
-      });
+      function proceed(){
+        if(g !== gen){ return; }
+        emit(step, g, function(){
+          print('', '');
+          i++;
+          busy = false;
+          updateProg();
+          if(i >= lab.steps.length){
+            print('ok', '✓ Lab ' + String(idx+1).padStart(2,'0') + ' complete — ' + lab.title.toLowerCase() + '.');
+          }
+          if(opts.done) opts.done();
+        });
+      }
+      if(opts.typed && !reduced){ typeCmd(step, g, proceed); }
+      else { printCmd(step); proceed(); }
+    }
+
+    function stopAuto(){
+      autoOn = false;
+      autoTok++;
+      var b = term.querySelector('[data-act="autoplay"]');
+      if(b) b.textContent = 'Demo';
+    }
+    autoStops.push(stopAuto);
+
+    function toggleAuto(){
+      if(autoOn){ stopAuto(); return; }
+      if(i >= lab.steps.length) return;
+      autoOn = true;
+      var b = term.querySelector('[data-act="autoplay"]');
+      if(b) b.textContent = 'Stop';
+      var tok = ++autoTok;
+      (function next(){
+        if(!autoOn || tok !== autoTok) return;
+        if(busy){ setTimeout(next, 150); return; }
+        if(i >= lab.steps.length){ stopAuto(); return; }
+        runStep({typed:true, done:function(){
+          if(autoOn && tok === autoTok) setTimeout(next, reduced ? 250 : 850);
+        }});
+      })();
     }
 
     function submit(){
@@ -1458,10 +1759,12 @@ kbd{
       if(!b) return;
       var act = b.dataset.act;
       if(act === 'run'){ input.value = ''; runStep(); }
+      else if(act === 'autoplay'){ toggleAuto(); }
       else if(act === 'show'){
         if(i < lab.steps.length){ input.value = lab.steps[i].cmd; input.focus(); }
       }
       else if(act === 'reset'){
+        gen++; stopAuto();
         screen.innerHTML = ''; i = 0; busy = false; input.value = ''; updateProg(); banner();
       }
       else if(act === 'copyall'){
@@ -1480,7 +1783,12 @@ kbd{
 
     input.addEventListener('keydown', function(e){
       if(e.key === 'Enter'){ e.preventDefault(); submit(); }
-      if(e.key === 'Tab' && i < lab.steps.length){ e.preventDefault(); input.value = lab.steps[i].cmd; }
+      // Tab completes like a shell: only when something is already typed,
+      // so an empty input never traps keyboard focus.
+      if(e.key === 'Tab' && !e.shiftKey && input.value.trim() && i < lab.steps.length){
+        e.preventDefault();
+        input.value = lab.steps[i].cmd;
+      }
     });
 
     function banner(){
@@ -1497,7 +1805,163 @@ kbd{
   var holder = document.getElementById('labholder');
   LABS.forEach(function(lab, i){ holder.appendChild(buildLab(lab, i)); });
 
+  /* ---------------- DEMO MODE — the labs playing themselves ---------------- */
+  var demoScreen = document.getElementById('demo-screen');
+  var demoProgEl = document.getElementById('demo-prog');
+  var demoPlayBtn = document.getElementById('demo-play');
+  var D = {lab:0, actions:[], ai:0, ci:0, playing:false, token:0, speed:1, inited:false, clock:0};
+
+  function dprint(cls, text){
+    var el = document.createElement('span');
+    el.className = 'line' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    demoScreen.appendChild(el);
+    demoScreen.scrollTop = demoScreen.scrollHeight;
+  }
+
+  function demoHead(){
+    var lab = LABS[D.lab];
+    document.getElementById('demo-badge').textContent = String(D.lab+1).padStart(2,'0');
+    document.getElementById('demo-title').textContent = lab.title;
+    document.getElementById('demo-product').textContent = lab.product;
+    document.getElementById('demo-time').textContent = lab.time;
+    document.getElementById('demo-host').textContent = lab.host;
+  }
+
+  function demoProg(stepIdx){
+    var total = LABS[D.lab].steps.length;
+    demoProgEl.textContent = stepIdx > 0
+      ? 'lab ' + (D.lab+1) + '/' + LABS.length + ' · step ' + stepIdx + ' / ' + total
+      : 'lab ' + (D.lab+1) + '/' + LABS.length + ' · ready';
+  }
+
+  function demoBuild(lab){
+    var a = [{t:'gap', ms:250}];
+    a.push({t:'line', cls:'dim', text:'Red Hat Enterprise Linux 9.6 — automated walkthrough, no input needed'});
+    a.push({t:'line', cls:'dim', text:'Commands are real and copyable; output is representative of a working environment.'});
+    a.push({t:'line', text:''});
+    lab.steps.forEach(function(st, si){
+      if(st.note) a.push({t:'line', cls:'note', text:'# ' + st.note, step:si+1});
+      a.push({t:'cmd', prompt:(st.prompt ? st.prompt : '$ '), text:st.cmd, step:si+1});
+      st.out.forEach(function(o){ a.push({t:'line', cls:o[0], text:o[1], step:si+1}); });
+      a.push({t:'line', text:'', step:si+1});
+      a.push({t:'gap', ms:1100, step:si+1});
+    });
+    a.push({t:'line', cls:'ok', text:'✓ Lab ' + String(D.lab+1).padStart(2,'0') + ' complete — ' + lab.title.toLowerCase() + '.'});
+    a.push({t:'line', cls:'note', text:'Takeaway: ' + lab.take});
+    a.push({t:'gap', ms:3400});
+    a.push({t:'next'});
+    return a;
+  }
+
+  function demoLoad(i){
+    D.lab = (i + LABS.length) % LABS.length;
+    D.ai = 0; D.ci = 0;
+    D.actions = demoBuild(LABS[D.lab]);
+    demoScreen.innerHTML = '';
+    demoHead();
+    demoProg(0);
+    demoRail();
+  }
+
+  function demoRail(){
+    if(mode !== 'demo') return;
+    Array.prototype.forEach.call(railnav.children, function(b, n){
+      b.setAttribute('aria-current', n === D.lab ? 'true' : 'false');
+    });
+  }
+
+  // One atomic unit of playback: a printed line, a typed character, a pause.
+  // Advances D.clock by the unit's duration; the pump replays every unit that
+  // has come due, so a throttled timer (hidden tab, kiosk behind another
+  // window) drops smoothness but never pace.
+  function demoStep1(){
+    if(D.ai >= D.actions.length) return false;
+    var act = D.actions[D.ai];
+    if(act.step) demoProg(act.step);
+    if(act.t === 'line'){
+      dprint(act.cls || '', act.text);
+      D.ai++;
+      D.clock += (act.text.length > 60 ? 95 : 55) / D.speed;
+    } else if(act.t === 'gap'){
+      D.ai++;
+      D.clock += act.ms / D.speed;
+    } else if(act.t === 'next'){
+      demoLoad(D.lab + 1);
+      D.clock += 420 / D.speed;
+    } else if(act.t === 'cmd'){
+      if(!act.el || act.el.parentNode !== demoScreen){
+        act.el = document.createElement('span');
+        act.el.className = 'line';
+        var p = document.createElement('span');
+        p.className = 'ps1';
+        p.textContent = act.prompt;
+        act.c = document.createElement('span');
+        act.c.className = 'cmd';
+        act.el.appendChild(p); act.el.appendChild(act.c);
+        demoScreen.appendChild(act.el);
+        D.ci = 0;
+      }
+      if(reduced){ act.c.textContent = act.text; D.ci = act.text.length; }
+      if(D.ci < act.text.length){
+        act.c.textContent += act.text.charAt(D.ci);
+        D.ci++;
+        demoScreen.scrollTop = demoScreen.scrollHeight;
+        D.clock += 26 / D.speed;
+      } else {
+        D.ai++; D.ci = 0;
+        D.clock += 430 / D.speed;
+      }
+    }
+    return true;
+  }
+
+  function demoPump(){
+    if(!D.playing) return;
+    var now = performance.now();
+    if(now - D.clock > 3000) D.clock = now - 3000;  // cap catch-up after a long stall
+    var guard = 0;
+    while(D.playing && D.clock <= now && guard < 600){
+      if(!demoStep1()) break;
+      guard++;
+    }
+    var tok = D.token;
+    setTimeout(function(){ if(tok === D.token) demoPump(); }, Math.max(16, D.clock - performance.now()));
+  }
+
+  function demoGo(){
+    D.token++;
+    if(D.playing){ D.clock = performance.now(); demoPump(); }
+  }
+
+  function demoSetPlaying(p){
+    D.playing = p;
+    demoPlayBtn.textContent = p ? 'Pause' : 'Play';
+    if(!p) D.token++;
+  }
+
+  function demoToggle(){
+    demoSetPlaying(!D.playing);
+    if(D.playing) demoGo();
+  }
+
+  function demoStepLab(d){ demoLoad(D.lab + d); demoGo(); }
+
+  demoPlayBtn.addEventListener('click', demoToggle);
+  document.getElementById('demo-prev').addEventListener('click', function(){ demoStepLab(-1); });
+  document.getElementById('demo-next').addEventListener('click', function(){ demoStepLab(1); });
+  document.getElementById('demo-restart').addEventListener('click', function(){ demoLoad(D.lab); demoGo(); });
+  document.getElementById('demo-speed').addEventListener('change', function(e){
+    D.speed = parseFloat(e.target.value) || 1;
+  });
+
   buildRail();
   go(0);
+
+  if(location.hash === '#demo'){
+    setMode('demo');
+    demoSetPlaying(true);
+    demoGo();
+  }
 })();
 </script>

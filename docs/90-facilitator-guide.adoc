@@ -55,6 +55,14 @@ NO_COLOR=1 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh
 Increase your terminal font size before the session, not during it. Eighty
 columns is enough for every lab — none of the output wraps at that width.
 
+If you would rather not type at all, open the interactive deck
+(`slides/deck.html`) and switch to its *Demo* view — it plays every lab
+hands-free with play/pause, per-lab jumps and a speed control, and each lab
+terminal also has its own *Demo* button. Opening the page with `#demo` on the
+URL starts the Demo view playing on a continuous loop, which doubles as a
+holding screen before the session begins. For screen sharing, the *Present*
+button (or kbd:[F]) fullscreens the 16:9 slide stage.
+
 == Questions you will get, and short answers
 
 "Can this run air-gapped?"::
