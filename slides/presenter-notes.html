@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tax AI Presenter Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;600;700&family=Red+Hat+Text:wght@400;500;700&display=swap">
+<style>
+/* Companion console to slides/deck.html — same palette, committed to light. */
+:root{
+  --ground:#FBF9F8; --surface:#FFFFFF; --surface-2:#F4EFED;
+  --border:#E6DDDA; --border-strong:#CFC2BE;
+  --ink:#1B1211; --ink-2:#54423E; --ink-3:#7E6A64;
+  --accent:#CC0000; --accent-ink:#A30000; --accent-wash:#FBEAE8;
+  --steel:#286C88; --steel-wash:#E7F1F5;
+  --amber:#96620A; --amber-wash:#F8EFDC;
+  --good:#1E7A55;
+  --term-bg:#120D0C; --term-bg-2:#1C1513; --term-border:#3A2B27;
+  --term-ink:#E8DFDC; --term-dim:#93807B; --term-green:#4FC1A0;
+  --term-amber:#E9B45C; --term-red:#FF6B58; --term-blue:#77B9E0; --term-violet:#B49BE0;
+  --shadow:0 1px 2px rgba(27,18,17,.06), 0 8px 28px -14px rgba(27,18,17,.28);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Red Hat Text","Segoe UI",system-ui,sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Red Hat Display","Red Hat Text",system-ui,sans-serif;margin:0;line-height:1.12;letter-spacing:-.015em;text-wrap:balance}
+p{margin:0}
+code,kbd,.mono{font-family:"Red Hat Mono",ui-monospace,Consolas,monospace}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.eyebrow{font-family:"Red Hat Mono",monospace;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.15em;color:var(--ink-3)}
+
+/* top bar */
+.bar{
+  position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;padding:10px 20px;
+}
+.bar .bars{display:flex;gap:3px}
+.bar .bars i{display:block;width:13px;height:5px;background:var(--accent);border-radius:1px}
+.bar .bars i:nth-child(2){opacity:.55;width:8px}
+.bar .bars i:nth-child(3){opacity:.28;width:5px}
+.bar h1{font-size:.98rem;font-weight:800}
+.bar .who{font-size:.76rem;color:var(--ink-3)}
+.bar .spacer{flex:1}
+.bar .pos{font-family:"Red Hat Mono",monospace;font-size:.78rem;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar button{
+  appearance:none;border:1px solid var(--border-strong);background:transparent;color:var(--ink-2);
+  border-radius:5px;padding:5px 11px;font-family:"Red Hat Mono",monospace;font-size:.72rem;cursor:pointer;
+}
+.bar button:hover{color:var(--ink);border-color:var(--ink-3)}
+.bar button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+/* run of show drawer */
+.ros{max-width:980px;margin:14px auto 0;padding:0 20px}
+.ros details{border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:7px;background:var(--surface);padding:10px 16px}
+.ros summary{cursor:pointer;font-family:"Red Hat Mono",monospace;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:600}
+.ros table{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:10px}
+.ros th,.ros td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.ros th{font-family:"Red Hat Mono",monospace;font-size:.64rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);font-weight:600}
+.ros td.mono{font-family:"Red Hat Mono",monospace;font-size:.76rem;color:var(--steel);white-space:nowrap}
+.ros .tip{margin-top:10px;font-size:.84rem;color:var(--ink-2)}
+.ros code{font-size:.76rem;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 6px}
+
+/* steps */
+main{max-width:980px;margin:0 auto;padding:18px 20px 120px}
+.step{display:none}
+.step[data-active="true"]{display:block;animation:rise .28s cubic-bezier(.2,.7,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.step[data-active="true"]{animation:none}}
+body.scroll .step{display:block;margin-bottom:34px}
+body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:34px}
+
+.step-head{padding:16px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.step-head .kind{display:inline-block;font-family:"Red Hat Mono",monospace;font-size:.7rem;font-weight:700;letter-spacing:.12em;border-radius:4px;padding:3px 9px;margin-bottom:10px}
+.step-head .kind.slide{background:var(--accent-wash);color:var(--accent-ink)}
+.step-head .kind.lab{background:var(--term-bg);color:var(--term-green)}
+.step-head h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800}
+.step-head .time{font-family:"Red Hat Mono",monospace;font-size:.74rem;color:var(--amber);margin-top:8px}
+.step-head .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{font-family:"Red Hat Mono",monospace;font-size:.68rem;font-weight:600;border:1px solid var(--border-strong);border-radius:100px;padding:3px 11px;color:var(--ink-2)}
+.chip.prod{border-color:var(--steel);color:var(--steel);background:var(--steel-wash)}
+
+.onscreen{
+  border:1px solid var(--border);border-left:3px solid var(--steel);border-radius:7px;
+  background:var(--steel-wash);padding:10px 16px;font-size:.9rem;color:var(--ink-2);margin-bottom:18px;
+}
+.onscreen b{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:4px}
+
+.talk{display:flex;flex-direction:column;gap:14px;max-width:70ch}
+.talk p{font-size:1.02rem;color:var(--ink)}
+.talk p b{font-weight:700}
+.beat{
+  border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:7px;
+  background:var(--surface);padding:10px 16px;font-size:.9rem;color:var(--ink-2);
+}
+.beat b{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-ink);display:block;margin-bottom:4px}
+
+.cue{
+  margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  font-family:"Red Hat Mono",monospace;font-size:.74rem;color:var(--ink-3);
+}
+.cue .next{border:1px dashed var(--border-strong);border-radius:100px;padding:4px 13px}
+.cue .next b{color:var(--ink-2)}
+
+/* lab command blocks */
+.cmds{display:flex;flex-direction:column;gap:16px;margin-top:6px}
+.cmd{border:1px solid var(--term-border);border-radius:8px;overflow:hidden;background:var(--term-bg);box-shadow:var(--shadow)}
+.cmd .c{padding:10px 14px;font-family:"Red Hat Mono",monospace;font-size:.84rem;color:var(--term-ink);white-space:pre-wrap;word-break:break-word;border-bottom:1px solid var(--term-border)}
+.cmd .c::before{content:"$ ";color:var(--term-green);font-weight:700}
+.cmd .o{padding:9px 14px;font-family:"Red Hat Mono",monospace;font-size:.78rem;line-height:1.55;color:var(--term-dim);white-space:pre-wrap;word-break:break-word}
+.cmd .o .ok{color:var(--term-green)}
+.cmd .o .err{color:var(--term-red)}
+.cmd .o .wr{color:var(--term-amber)}
+.cmd .o .ky{color:var(--term-blue)}
+.cmd .o .vi{color:var(--term-violet)}
+.cmd .say{background:var(--term-bg-2);border-top:1px solid var(--term-border);padding:8px 14px;font-size:.84rem;color:var(--term-amber)}
+.cmd .say::before{content:"SAY · ";font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.12em}
+
+.takeaway{margin-top:18px;border-left:3px solid var(--accent);padding:2px 0 2px 14px;font-size:.94rem;color:var(--ink-2);max-width:75ch}
+.takeaway b{color:var(--ink);font-family:"Red Hat Display",sans-serif}
+
+.jumpbtn{
+  appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:6px;
+  padding:8px 18px;font-family:"Red Hat Display",sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:16px;
+}
+.jumpbtn.ghosted{background:transparent;color:var(--accent-ink)}
+.jumpbtn:hover{filter:brightness(1.06)}
+
+/* bottom nav */
+.nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);
+  border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:10px 20px;
+}
+.nav .hint{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--ink-3)}
+.nav .spacer{flex:1}
+.nav button{
+  appearance:none;border:1px solid var(--border-strong);background:transparent;color:var(--ink);
+  border-radius:6px;padding:9px 22px;font-family:"Red Hat Display",sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;
+}
+.nav button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav button:hover{filter:brightness(1.05)}
+.nav button:disabled{opacity:.35;cursor:default}
+kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:.68rem;color:var(--ink-2);background:var(--surface)}
+
+/* jump panel */
+.jump{position:fixed;inset:0;z-index:9;background:rgba(27,18,17,.35);display:flex;align-items:flex-start;justify-content:center;padding:60px 20px}
+.jump .panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);max-width:640px;width:100%;max-height:75vh;overflow-y:auto;padding:14px}
+.jump h3{font-size:.9rem;padding:4px 8px 10px}
+.jump button.item{
+  display:grid;grid-template-columns:64px 1fr;gap:10px;width:100%;text-align:left;appearance:none;background:transparent;
+  border:0;border-radius:5px;padding:6px 8px;cursor:pointer;color:var(--ink-2);font-family:inherit;font-size:.88rem;
+}
+.jump button.item:hover{background:var(--surface-2);color:var(--ink)}
+.jump button.item .n{font-family:"Red Hat Mono",monospace;font-size:.7rem;color:var(--ink-3)}
+
+@media print{
+  .bar,.nav,.jump,.jumpbtn{display:none!important}
+  .step{display:block!important;page-break-after:always}
+  body{background:#fff}
+}
+@media (max-width:700px){
+  .bar .who{display:none}
+  .nav .hint{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+  <div><h1>Presenter console</h1><div class="who">Intelligent Tax Administration · Jon Keam &amp; Brad Scalio</div></div>
+  <span class="spacer"></span>
+  <span class="pos" id="pos">Slide 01 / 17</span>
+  <button id="modeBtn" aria-pressed="false" title="Toggle step / read-all">Read all</button>
+  <button id="jumpOpen" title="Jump to a step (J)">Jump</button>
+</header>
+
+<div class="ros">
+  <details>
+    <summary>Run of show · 60 minutes</summary>
+    <table>
+      <tr><th>Minutes</th><th>Content</th><th>Where</th></tr>
+      <tr><td class="mono">0–3</td><td>Welcome — Jon Keam and Brad Scalio. Set the promise: every claim gets run in a shell.</td><td class="mono">Slide 1</td></tr>
+      <tr><td class="mono">3–12</td><td>AI foundations: four jobs called AI, inside an LLM, data to judgement, predictive vs generative.</td><td class="mono">Slides 2–6</td></tr>
+      <tr><td class="mono">12–18</td><td>Where AI lands, the five outcomes, the reference architecture.</td><td class="mono">Slides 7–9</td></tr>
+      <tr><td class="mono">18–24</td><td>Why Red Hat AI, why one platform, security posture. Expect interruptions — let them happen.</td><td class="mono">Slides 10–12</td></tr>
+      <tr><td class="mono">24–28</td><td>The operations loop, logs-to-MTTR, adoption path. Ask the room which phase they are in.</td><td class="mono">Slides 13–15</td></tr>
+      <tr><td class="mono">28–30</td><td>Switch to labs. Simulate vs live mode.</td><td class="mono">Slide 16</td></tr>
+      <tr><td class="mono">30–38</td><td><b>Run Lab 01 live.</b> Stop hard on <code>ss -ltnp</code>.</td><td class="mono">Lab 01</td></tr>
+      <tr><td class="mono">38–46</td><td><b>Run Lab 05 live.</b> The 62-second remediation is the moment people remember.</td><td class="mono">Lab 05</td></tr>
+      <tr><td class="mono">46–52</td><td>Skim Labs 02, 03, 04, 06, 07. The repo is theirs to take home.</td><td class="mono">Labs</td></tr>
+      <tr><td class="mono">52–60</td><td>Next steps and questions.</td><td class="mono">Slide 17</td></tr>
+    </table>
+    <p class="tip"><b>Only 30 minutes?</b> Cut to slides 1, 3, 8, 12 and run Lab 01 plus the drift section of Lab 06. Those four screens carry the argument.</p>
+    <p class="tip"><b>On a projector:</b> <code>LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh</code> — and <code>NO_COLOR=1</code> if the room washes out color.</p>
+    <p class="tip"><b>Main screen:</b> open <code>slides/deck.html</code>. This console mirrors it one-for-one: when the deck goes next, press <kbd>→</kbd> here.</p>
+  </details>
+</div>
+
+<main id="steps">
+
+<!-- ============ SLIDE 1 ============ -->
+<section class="step" data-label="Slide 01 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 01 · TITLE</span>
+    <h2>AI foundations for intelligent tax administration</h2>
+    <div class="time">0–3 min</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Title, kicker, "Presented by Jon Keam and Brad Scalio", host chips: Red Hat · Four Inc. · Carahsoft.</div>
+  <div class="talk">
+    <p>Name the room: Red Hat, Four Inc. and Carahsoft. Introduce yourselves — Jon and Brad — and frame the hour: foundations first, then the platform story, then the live terminal, with five minutes held for questions.</p>
+    <p><b>The promise, stated out loud:</b> every claim we make today, we run in a shell before you leave.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the operating reality</b> (the demand chart)</span></div>
+</section>
+
+<!-- ============ SLIDE 2 ============ -->
+<section class="step" data-label="Slide 02 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 02 · WHY NOW</span>
+    <h2>The work is seasonal, textual and unforgiving</h2>
+    <div class="time">3–12 min block begins</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Demand curve — April at 6× the August low, far above the flat staffed-capacity line — plus four cards ending on the red one: "the data cannot leave."</div>
+  <div class="talk">
+    <p>Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk.</p>
+    <p>The chart is the argument: <b>a year of demand arrives in six weeks</b>, far above any capacity you can justify staffing year-round. The shaded gap is what automation absorbs.</p>
+    <p>AI is interesting here precisely because it works on unstructured language — which is most of what a tax agency actually handles. And the last card decides the architecture: <b>federal tax information cannot go to a public endpoint. The model has to come to the data.</b></p>
+  </div>
+  <div class="beat"><b>Pivot line</b>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one. If they accept that sentence, everything after it follows.</div>
+  <div class="cue"><span class="next">NEXT → <b>four different jobs get called AI</b></span></div>
+</section>
+
+<!-- ============ SLIDE 3 ============ -->
+<section class="step" data-label="Slide 03 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 03 · AI IN PLAIN ENGLISH</span>
+    <h2>Four different jobs get called &ldquo;AI&rdquo;</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Four cards — Predictive (estimate), Generative/LLM (create), Agentic (reason + act), Automation (execute) — with analogies, and a dashed "what it is not" box.</div>
+  <div class="talk">
+    <p>Start with the umbrella. Federal audiences hear "AI" used as if every technique is the same. It is not. <b>Predictive AI estimates or classifies. Generative AI creates. An LLM is a generative model specialized in language. Agentic systems add tools and workflow. Automation executes known steps.</b></p>
+    <p>Walk the analogies — the weather forecast, the well-read drafting assistant, the junior analyst with a restricted tool belt, the checklist that performs the checklist (that is where Ansible belongs).</p>
+    <p>The strongest mission pattern combines them rather than asking one model to do everything.</p>
+  </div>
+  <div class="beat"><b>Land the not-box</b>Predictive AI is not a crystal ball. An LLM is not a database, a policy authority, or a source of truth. An agent is not permission to bypass controls.</div>
+  <div class="cue"><span class="next">NEXT → <b>inside an LLM</b> (the stack)</span></div>
+</section>
+
+<!-- ============ SLIDE 4 ============ -->
+<section class="step" data-label="Slide 04 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 04 · INSIDE AN LLM</span>
+    <h2>An LLM is the engine — not the whole vehicle</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Six stacked layers (mission app → context/RAG → model → inference → platform → compute + data) and the "three knobs people confuse" box.</div>
+  <div class="talk">
+    <p>Explain the layers <b>from the bottom up</b>. The GPU is compute. Inference is the running engine — vLLM, the Red Hat AI Inference Server. The model contains learned statistical patterns — <b>not a live copy of IRS policy</b>. Context is the open book we hand it for this request. RAG retrieves relevant, approved material into that context. The mission app sits on top and asks for help.</p>
+    <p>Then the three knobs: <b>prompting</b> is better instructions for this request; <b>RAG</b> is the right reference material for this request; <b>fine-tuning</b> changes learned behavior for future requests. Use fine-tuning for durable behavior — not for facts that change every filing season.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>data to judgement</b> (the staircase)</span></div>
+</section>
+
+<!-- ============ SLIDE 5 ============ -->
+<section class="step" data-label="Slide 05 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 05 · DATA TO JUDGEMENT</span>
+    <h2>From data to judgement — and who climbs each step</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Four-step staircase: Data → Information → Knowledge → Judgement. Pills on the risers: predictive AI, generative AI + RAG, people. The top step is marked "stays human."</div>
+  <div class="talk">
+    <p>Walk the stairs left to right. Each step up is worth more to the mission and harder to automate honestly. <b>Predictive models climb the first riser</b> — score, match, flag. <b>Generative models with retrieval climb the second</b> — read, ground, draft. <b>The top step is deliberately human</b> — a determination someone signs.</p>
+    <p>The backlog lives at the bottom of the ladder: transcribing, matching, routing, summarizing. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p>
+    <p>Judgement is never automated <b>by design</b> — that rule is what makes the deployment defensible to counsel and oversight.</p>
+  </div>
+  <div class="beat"><b>If the room remembers one picture</b>Make it this one.</div>
+  <div class="cue"><span class="next">NEXT → <b>predictive vs generative</b> (the governance table)</span></div>
+</section>
+
+<!-- ============ SLIDE 6 ============ -->
+<section class="step" data-label="Slide 06 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 06 · TWO KINDS OF AI</span>
+    <h2>Predictive and generative AI answer different questions</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Five-row comparison table (learns from / produces / in tax terms / fails as / governed by) plus two cards: "they compose" and "one platform runs both."</div>
+  <div class="talk">
+    <p>Most rooms use one word — AI — for two different tools, and most failed projects picked the wrong one. One produces <b>a number</b> from structured history; the other produces <b>language</b>.</p>
+    <p>The row that matters is <b>how they fail</b>: a predictive model fails as a bad number, visible in precision and recall. A generative model fails as <b>a plausible sentence</b> — which is why grounding and human review are non-negotiable. They fail differently, so they are governed differently.</p>
+    <p>Close on composition: a risk score picks which case deserves attention, a language model prepares the brief and the draft, and a person decides. One cluster serves both, side by side — same GPUs, same registry, same audit trail.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>where AI lands</b> in the filing lifecycle</span></div>
+</section>
+
+<!-- ============ SLIDE 7 ============ -->
+<section class="step" data-label="Slide 07 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 07 · WHERE AI LANDS</span>
+    <h2>Where AI actually lands in the filing lifecycle</h2>
+    <div class="time">12–18 min block begins</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Six lifecycle stages. Five carry a red "human in the loop" pill; exam selection is greyed with "governance first."</div>
+  <div class="talk">
+    <p>Walk left to right. The highlighted stages are where language models earn their keep first — high-volume, text-heavy, and a human reviewer is already in the loop, which makes them safe places to start.</p>
+    <p><b>Exam selection is deliberately NOT highlighted.</b> That is a determination affecting a taxpayer, and it needs a much heavier governance conversation. Saying this unprompted buys enormous credibility.</p>
+    <p>Two rules of thumb: start where a human already reviews the output — if a person signs the letter today, a model that drafts it changes throughput without changing accountability. And automate the toil around the model, not just the model — provisioning, patching, scaling and evidence are most of the work, and that problem is already solved.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the five outcomes</b></span></div>
+</section>
+
+<!-- ============ SLIDE 8 ============ -->
+<section class="step" data-label="Slide 08 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 08 · FIVE OUTCOMES</span>
+    <h2>Five outcomes, and where each one is proven</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Five numbered pillars, each naming the product stack and the lab that proves it (01–07).</div>
+  <div class="talk">
+    <p>These five are the event abstract made concrete. Each one names the product that delivers it and the lab number where the audience runs it: modernize operations (Labs 05 · 07), efficiency and accuracy (Labs 01–02), data-driven insights (Lab 04), security and compliance (Lab 06), and an AI-ready foundation (Lab 03).</p>
+    <p><b>Do not linger</b> — this slide exists so people can map the rest of the hour.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the reference architecture</b></span></div>
+</section>
+
+<!-- ============ SLIDE 9 ============ -->
+<section class="step" data-label="Slide 09 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 09 · ARCHITECTURE</span>
+    <h2>One foundation, from bare metal to the taxpayer</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Layered diagram: mission apps / OpenShift AI / OpenShift / RHEL + AI Inference Server on GPU nodes — with a red TRUST pillar down the left and a blue AUTOMATION pillar down the right, spanning every layer.</div>
+  <div class="talk">
+    <p>Read this <b>bottom to top</b>. The point of the picture is the two vertical bands: automation and trust are not a layer you add at the end — they run through every layer.</p>
+    <p>A project that treats compliance as a phase after deployment discovers, at the worst possible moment, that it cannot produce evidence for anything that already happened.</p>
+    <p>Systems of record stay where they are — reached through APIs and automation, not replaced. If someone asks about GPUs: the accelerator is a detail of the bottom band, and it is deliberately drawn small.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>Why Red Hat AI</b> (the proposition)</span></div>
+</section>
+
+<!-- ============ SLIDE 10 ============ -->
+<section class="step" data-label="Slide 10 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 10 · WHY RED HAT AI</span>
+    <h2>The federal problem is not &ldquo;get a model.&rdquo; It is operate AI without giving up control.</h2>
+    <div class="time">18–24 min block begins</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>The proposition panel — "Bring the model to the mission — not the mission data to somebody else's model" — with the Inference / Data / Agents / Platform strip and six proof points.</div>
+  <div class="talk">
+    <p>This is the branded answer. <b>Do not sell a particular model as the moat.</b> The value is operational control: choose the model, the accelerator and the location; keep data where authorization requires; run inference efficiently with vLLM and llm-d; integrate agency knowledge; govern agents and lifecycle; automate the surrounding environment.</p>
+    <p>Walk the strip — Inference, Data, Agents, Platform — that is Red Hat's current AI story in four words. The six cards on the right are the proof points: model freedom, data locality, AI as a platform service, accelerator economics, one lifecycle for predictive and generative, and Ansible closing the loop.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the mechanics</b> — define once, run anywhere</span></div>
+</section>
+
+<!-- ============ SLIDE 11 ============ -->
+<section class="step" data-label="Slide 11 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 11 · WHY ONE PLATFORM</span>
+    <h2>Define the service once — run it wherever the mission needs it</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>One service definition (manifest, signed model, GitOps) fanning to three venues: datacenter GPU nodes, accredited cloud region, air-gapped enclave — "oc apply — unchanged."</div>
+  <div class="talk">
+    <p>The left box is the definition of the service — a manifest, a signed model, a GitOps repo. The three boxes on the right are the places it runs, <b>unchanged</b>. Only the venue differs: the iron, the boundary, or no internet at all.</p>
+    <p>Three consequences: <b>accredit once</b> — the controls attach to the platform, so workflow two starts with workflow one's evidence. <b>April becomes a scheduling event</b> — the 6× surge is absorbed by autoscaling on pooled GPUs. <b>Placement is policy</b> — moving a workload is a redeploy, and the exit door stays open.</p>
+  </div>
+  <div class="beat"><b>The counter-pitch</b>If the competing pitch is one cloud's AI stack, this is the counter: the mission does not have to marry the venue.</div>
+  <div class="cue"><span class="next">NEXT → <b>security posture</b> (expect interruptions)</span></div>
+</section>
+
+<!-- ============ SLIDE 12 ============ -->
+<section class="step" data-label="Slide 12 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 12 · SECURITY POSTURE</span>
+    <h2>The questions an authorizing official will ask</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Seven-row table: each AO question, the platform control that answers it, and where it lives (AI Inference Server, Sigstore, FIPS, Compliance Operator, TrustyAI, oc-mirror, workflow design).</div>
+  <div class="talk">
+    <p>This is the slide that unblocks the deal. Every row is a control the platform provides, mapped to the question an authorizing official actually asks: where does the data go (nowhere — inference runs on your cluster), is this the approved model (signed and verified before admission), is the crypto validated (FIPS is a supported operating state), does it stay compliant (scheduled scans), is it drifting (TrustyAI on live traffic), what if we are air-gapped (mirror everything in), and who is accountable (a named reviewer — the model drafts, it never sends).</p>
+    <p><b>Expect interruptions here — let them happen.</b> This is the conversation you want. Offer to take the whole table offline with their ISSO.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the operations loop</b></span></div>
+</section>
+
+<!-- ============ SLIDE 13 ============ -->
+<section class="step" data-label="Slide 13 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 13 · AI FOR OPERATIONS</span>
+    <h2>The useful pattern is a loop, not a chatbot</h2>
+    <div class="time">24–28 min block begins</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Three flywheel steps — predict, explain, ground + act — the knowledge-flywheel bar, and the "why is this service slow?" example.</div>
+  <div class="talk">
+    <p>Use the concrete story: <b>predictive AI</b> sees telemetry patterns and flags elevated failure risk. <b>Generative AI</b> summarizes the evidence and explains the likely issue in language. <b>RAG</b> pulls the approved troubleshooting and operations knowledge. <b>Ansible</b> performs only the remediations that policy permits.</p>
+    <p>Then the flywheel: after review, the incident summary, root cause and successful remediation become searchable operations knowledge for the next event.</p>
+    <p>The key boundary: <b>generated text does not become truth automatically.</b> A human or workflow gate curates it first. The LLM can propose a root cause; telemetry, retrieved sources and deterministic checks establish whether it is actually supported. Do not let fluency become authority.</p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the MTTR proof</b> (this loop, quantified)</span></div>
+</section>
+
+<!-- ============ SLIDE 14 ============ -->
+<section class="step" data-label="Slide 14 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 14 · LOGS TO MTTR</span>
+    <h2>Point the same pattern at your logs — MTTR is the proof</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Two MTTR bars: before, 3h 16m dominated by 2h 41m of diagnosis; with the notebook, diagnosis at 24m and 59m total. Three cards: notebook vs dashboard, why local, why it transfers.</div>
+  <div class="talk">
+    <p>The NotebookLM analogy lands instantly: a private notebook that has read everything yours — except this one has read <b>your logs, your runbooks, your incident history and your change records</b>, and it runs on the same cluster it observes.</p>
+    <p>Walk the two bars: detection was already fast. Fix and verify were never the problem. <b>The hours lived in diagnosis</b> — and a cited answer to "what changed, has this happened before, which runbook applies" is what removes them. Diagnosis −84%; total from 3h 16m to 59m.</p>
+    <p>Why local: logs carry hostnames, account fragments and case identifiers — FTI-adjacent by nature. Nothing is exported to anyone's hosted service. And it is the same stack as the taxpayer-facing system — one retrieval pattern, two corpora, one governance story.</p>
+  </div>
+  <div class="beat"><b>If the room is operational</b>Offer to jump straight to Lab 07 — it runs this incident end to end.</div>
+  <div class="cue"><span class="next">NEXT → <b>the adoption path</b></span></div>
+</section>
+
+<!-- ============ SLIDE 15 ============ -->
+<section class="step" data-label="Slide 15 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 15 · ADOPTION PATH</span>
+    <h2>Ninety days, then ninety more</h2>
+  </div>
+  <div class="onscreen"><b>On screen</b>Prove (0–90) / Ground (90–180) / Scale (180+) timeline and the three phase columns.</div>
+  <div class="talk">
+    <p>Be honest about sequencing. Most agencies fail at AI not on the model but on the second and third bullets of Prove — <b>no accelerator capacity plan, and no written agreement on which data may be used</b>. Neither is technical, and both take longer than the pilot.</p>
+    <p>Nothing in any phase requires a rewrite of a system of record, and each phase produces something you can show: one endpoint with the AI Inference Server and a measured workflow by day 90; grounded, monitored, automated by day 180; surge-proven at scale after that.</p>
+    <p><b>Ask the room directly which phase they are in.</b></p>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>the labs</b> (transition to hands-on)</span></div>
+</section>
+
+<!-- ============ SLIDE 16 ============ -->
+<section class="step" data-label="Slide 16 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 16 · LABS PREVIEW</span>
+    <h2>Seven labs — real commands, run them yourself</h2>
+    <div class="time">28–30 min · then labs 30–52</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Seven lab cards. You are about to switch the main screen to the Labs view.</div>
+  <div class="talk">
+    <p>Transition slide. <b>Switch the deck to the Labs view now.</b> Tell them the terminals are typed by them — commands are real and copyable into their own environment; output is representative so the lab runs the same for everyone. The Demo view plays all seven end to end, hands-free.</p>
+    <p>The plan: run <b>Lab 01</b> live on screen and stop hard on the <code>ss -ltnp</code> step. Run <b>Lab 05</b> live — the 62-second remediation. Skim the rest and tell them the repo is theirs to take home.</p>
+  </div>
+  <div class="beat"><b>Console handoff</b>From here, step through the lab pages in this console (they follow slide 17). Come back to slide 17 to close at minute 52.</div>
+  <button class="jumpbtn" data-goto="17">Go to Lab 01 notes →</button>
+  <div class="cue"><span class="next">NEXT → <b>Lab 01 notes</b> · deck stays in Labs view</span></div>
+</section>
+
+<!-- ============ SLIDE 17 ============ -->
+<section class="step" data-label="Slide 17 / 17">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 17 · NEXT STEPS</span>
+    <h2>What happens after this hour</h2>
+    <div class="time">52–60 min · the close</div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Three steps — architecture workshop, guided pilot, acquisition path — plus "take the labs with you" and "bring your hardest question."</div>
+  <div class="talk">
+    <p><b>Close with a specific ask, not a thank-you.</b> Step one is a half-day architecture workshop with their platform and security teams — size accelerators, place the first workload, name the data classes in scope. It is free, and it is the natural next step.</p>
+    <p>Step two is a guided pilot: one workflow, their infrastructure, a measured baseline and an agreed definition of success before anything starts. Step three: Four Inc. and Carahsoft carry the vehicles and pricing — bring them in early, not at the end.</p>
+    <p>Hand them the deck link — it runs standalone, labs included. Invite the hardest question: air-gap, FedRAMP boundaries, accelerator scarcity, model provenance. Those conversations are the useful ones.</p>
+  </div>
+  <div class="beat"><b>One thing to remember</b>Nothing in these seven labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</div>
+  <div class="cue"><span class="next">DONE · <b>questions</b></span></div>
+</section>
+
+<!-- ============ LAB 01 ============ -->
+<section class="step" data-label="Lab 01 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 01 · RUN LIVE — ALWAYS</span>
+    <h2>Serve a model inside your boundary</h2>
+    <div class="time">30–38 min</div>
+    <div class="meta"><span class="chip prod">Red Hat AI Inference Server</span><span class="chip">~5 min</span><span class="chip mono">admin@rhaiis-gpu-01:~</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>A supported LLM classifying a real taxpayer inquiry on hardware you control. Nothing leaves the machine — this is the whole answer to "where does our data go."</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">podman pull registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2</div>
+      <div class="o"><span class="ok">Signature verified — policy: signedBy release key</span>
+Writing manifest to image destination — sha256:51b7ec39</div>
+      <div class="say">The serving engine is a signed container, patched and lifecycled like any other RHEL content.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">huggingface-cli download RedHatAI/granite-3.3-8b-instruct --local-dir /var/models/granite-3.3-8b-instruct</div>
+      <div class="o">model-0000x-of-00004.safetensors  [####################]  ~16 GB total
+<span class="ok">Download complete: /var/models/granite-3.3-8b-instruct</span></div>
+      <div class="say">A validated model from the Red Hat AI repository. In an enclave you mirror it into your own registry — Lab 06 verifies the signature.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">podman run --rm --device nvidia.com/gpu=all --shm-size 4g -p 127.0.0.1:8000:8000 -v /var/models:/models:Z registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2 --model /models/granite-3.3-8b-instruct</div>
+      <div class="o">INFO  vLLM API server  |  gpu_memory_utilization=0.90
+<span class="ok">INFO  Started server — OpenAI-compatible API on port 8000</span></div>
+      <div class="say">Published only on 127.0.0.1. In production a Quadlet unit keeps it up — this is not a foreground pet.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">ss -ltnp | grep ':8000'</div>
+      <div class="o">LISTEN 0  2048  <span class="ky">127.0.0.1:8000</span>  0.0.0.0:*  users:(("conmon",...))</div>
+      <div class="say">STOP HARD HERE. Bound to localhost. No egress path. This single line answers "where does our data go when someone prompts the model?" — the most persuasive screen of the hour for this audience.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">curl -sS http://127.0.0.1:8000/v1/chat/completions -H 'Content-Type: application/json' -d @inquiry.json | jq -r '.choices[0].message.content'</div>
+      <div class="o"><span class="vi">category:  refund_status_inquiry · missing_doc: Form 8822
+routing:   Accounts Management — refund trace queue
+draft_reply: "…Submit Form 8822 to update your address, then request a refund trace."</span></div>
+      <div class="say">A category, a queue, the missing form, and a draft reply written for a human to edit and sign. It classifies; a person decides.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> A defensible AI pilot starts on one machine you already own, with a supported product rather than a pile of Python. The base model does not yet know your notice codes — that is Lab 02.</p>
+</section>
+
+<!-- ============ LAB 02 ============ -->
+<section class="step" data-label="Lab 02 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 02 · WALKTHROUGH, NOT LIVE</span>
+    <h2>Teach it your notice taxonomy</h2>
+    <div class="meta"><span class="chip prod">Red Hat AI · SDG Hub + Training Hub</span><span class="chip">~6 min</span><span class="chip mono">admin@rhaiis-gpu-01:~/customize</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>Agency knowledge enters the model as seed YAML a subject matter expert can read and a reviewer can approve in a pull request. The training step takes hours of GPU time, so walk it rather than run it.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">$EDITOR seeds/notices.yaml</div>
+      <div class="o">seed_examples:  (CP2000 — a proposal, not a bill; 30-day window …)
+<span class="ok">12 seed examples across 6 notice families.</span></div>
+      <div class="say">Knowledge written as prose, not feature vectors. A tax specialist can review this — that is the whole design goal.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python check_seeds.py --seeds ./seeds</div>
+      <div class="o"><span class="ok">Seed data is valid.</span> 1 topic · 12 seed examples · schema v3 · no errors</div>
+      <div class="say">This gate belongs in CI. A bad contribution fails here, not after four hours of GPU time.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python generate.py --seeds ./seeds --endpoint http://127.0.0.1:8000/v1 --scale 30 --output ./sdg</div>
+      <div class="o">sdg_hub flow: knowledge_generation · teacher = <span class="ky">the Lab 01 endpoint</span>
+quality filter  2,556 -&gt; <span class="ok">2,203 kept</span></div>
+      <div class="say">Twelve examples become two thousand. Every sample traces back to a seed a human wrote and reviewed — nobody labelled ten thousand rows by hand.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python train.py --base /var/models/granite-3.3-8b-instruct --data ./sdg --method lora</div>
+      <div class="o">training_hub sft | LoRA rank 32 · loss 1.884 -&gt; 0.471
+<span class="ok">Checkpoint: ./checkpoints/granite-8b-tax-v1/samples_2203</span></div>
+      <div class="say">The checkpoint is what gets promoted — Lab 03 serves it.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python evaluate.py --base /var/models/granite-3.3-8b-instruct --tuned ./checkpoints/granite-8b-tax-v1</div>
+      <div class="o">notice family accuracy  0.61 -&gt; <span class="ok">0.94</span>   routing queue  0.58 -&gt; <span class="ok">0.91</span>
+cites the right form    0.44 -&gt; <span class="ok">0.89</span>   overall judge  6.1 -&gt; <span class="ok">7.8</span></div>
+      <div class="say">This table is the artifact the governance board asks for. Keep the held-out set out of the seeds or the numbers mean nothing.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> Domain adaptation stops being a data science project and becomes a pull request a subject matter expert can review.</p>
+</section>
+
+<!-- ============ LAB 03 ============ -->
+<section class="step" data-label="Lab 03 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 03 · WALKTHROUGH, NOT LIVE</span>
+    <h2>Survive filing season</h2>
+    <div class="meta"><span class="chip prod">Red Hat OpenShift AI</span><span class="chip">~6 min</span><span class="chip mono">you@bastion:~</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>One GPU host is a pilot; filing season is a capacity event. Deploy the tuned model with KServe and vLLM, then watch an April load rehearsal scale it from two replicas to twenty and back.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">oc apply -f inferenceservice-tax-classifier.yaml</div>
+      <div class="o">minReplicas: 2 · maxReplicas: 20 · scaleMetric: concurrency
+storageUri: oci://registry.agency.gov/models/<span class="ky">granite-8b-tax-v1</span>
+<span class="ok">inferenceservice.serving.kserve.io/tax-classifier created</span></div>
+      <div class="say">The deployment is a reviewable YAML file. The manifest IS the capacity plan.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">hey -z 90s -c 400 -m POST -D inquiry.json https://tax-classifier.tax-inference.svc/v1/completions</div>
+      <div class="o">Requests/sec 1183 · p95 0.612s · <span class="ok">Errors: 0</span>
+replicas  t+00s 2 → t+40s <span class="ok">20 (max)</span> → t+180s 2  <span class="wr">scaled back to floor</span></div>
+      <div class="say">400 concurrent taxpayers. No application change — scale-up is a platform behavior. Scale-to-two, not scale-to-zero: cold starts on an 8B model are not free.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> Capacity for the April peak that costs nothing in August is the difference between a demo and a production service.</p>
+</section>
+
+<!-- ============ LAB 04 ============ -->
+<section class="step" data-label="Lab 04 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 04 · RUN THE REFUSAL IF HALLUCINATION COMES UP</span>
+    <h2>Ground answers in your own guidance</h2>
+    <div class="meta"><span class="chip prod">OpenShift AI · vector store · Llama Stack</span><span class="chip">~5 min</span><span class="chip mono">you@workbench:~/rag</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>A model that sounds confident and cites nothing is a liability in a tax agency. Put the published guidance behind the model so every answer returns the passage it came from.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">python ingest.py --source ./corpus/publications --chunk 800 --embed-model granite-embedding-125m</div>
+      <div class="o">Pub 17 · Pub 501 · Pub 594 · internal notice guidance
+<span class="ok">Indexed 3,135 chunks into pgvector.tax_guidance</span></div>
+      <div class="say">Re-ingest when guidance changes — the weights do not have to.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">llama-stack-client inference chat-completion --message "A taxpayer received a CP14 and cannot pay in full. What are their options and where is that documented?"</div>
+      <div class="o"><span class="vi">Four options: short-term plan · installment agreement · offer in compromise · currently-not-collectible</span>
+<span class="ky">sources: [1] Pub 594 p.4 (0.891) · [2] Pub 594 p.7 · [3] internal CP14 §3.2</span></div>
+      <div class="say">The citation comes back with the answer — that is what reviewers need.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">llama-stack-client inference chat-completion --message "What is the penalty rate for late filing in the 2031 tax year?"</div>
+      <div class="o"><span class="wr">I do not have guidance covering tax year 2031 in the indexed corpus.
+Refer this to a specialist rather than relying on this answer.</span>
+<span class="ky">sources: none above threshold (0.75)</span></div>
+      <div class="say">THE 30-SECOND ANSWER to any hallucination question. When the corpus has no answer, the correct behavior is to say so. Refusal is a feature — demo this to the governance board.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> Retrieval turns a general model into an agency system of reference — far cheaper than retraining.</p>
+</section>
+
+<!-- ============ LAB 05 ============ -->
+<section class="step" data-label="Lab 05 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 05 · RUN LIVE — ALMOST ALWAYS</span>
+    <h2>Automate the toil around the model</h2>
+    <div class="time">38–46 min</div>
+    <div class="meta"><span class="chip prod">Ansible Automation Platform · Event-Driven Ansible</span><span class="chip">~5 min</span><span class="chip mono">you@aap-controller:~</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>Most of the effort in production AI is not the model — it is provisioning, patching, scaling and evidence. A rulebook detects inference saturation and remediates it before anyone opens a ticket.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">ansible-navigator run playbooks/model_endpoint_health.yml -i inventory/prod --mode stdout</div>
+      <div class="o"><span class="ok">canary classified in 0.31s · signature sha256:4b91c0e2 matches change record CR-8841</span></div>
+      <div class="say">The health check verifies the model is the approved one — provenance is operational, not paperwork.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">ansible-rulebook --rulebook rulebooks/inference_saturation.yml -i inventory/prod</div>
+      <div class="o"><span class="wr">[14:38:02] EVENT  InferenceQueueDepth  depth=612</span>
+[14:38:03] ACTION run_job_template -&gt; "Expand tax-inference capacity"
+<span class="ok">[14:39:04] EVENT  InferenceQueueDepth  resolved  depth=38</span></div>
+      <div class="say">THE MOMENT PEOPLE REMEMBER: alert to resolved in 62 seconds. No ticket. No pager. The rulebook is the runbook — there is no separate document to go stale.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">awx job list --status successful -f human</div>
+      <div class="o">40213 Expand tax-inference capacity · 40209 Patch GPU nodes · 40204 Collect compliance evidence</div>
+      <div class="say">This list is the audit trail your assessor asks for. It writes itself.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> Automation is what makes AI operable at agency scale. Without it, every model becomes a pet someone has to feed.</p>
+</section>
+
+<!-- ============ LAB 06 ============ -->
+<section class="step" data-label="Lab 06 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 06 · IF SECURITY STAFF ARE IN THE ROOM — STEPS 3–5</span>
+    <h2>Prove it to your ISSO</h2>
+    <div class="meta"><span class="chip prod">RHEL · Compliance Operator · TrustyAI · Sigstore</span><span class="chip">~6 min</span><span class="chip mono">you@bastion:~</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>Walk the exact checks an authorizing official runs: is the model the approved one, is the crypto validated, is the platform still hardened this quarter, is the model behaving the way it did at accreditation.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">cosign verify --key agency-model-signing.pub registry.agency.gov/models/granite-8b-tax-v1</div>
+      <div class="o"><span class="ok">Signatures verified</span> · signed by revenue-modernization-release · change CR-8841 (approved by AO)</div>
+      <div class="say">Provenance is checked before admission, not audited after the fact.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">oc get compliancescan -n openshift-compliance</div>
+      <div class="o">ocp4-moderate  DONE  <span class="err">NON-COMPLIANT</span>  ·  node + worker scans <span class="ok">COMPLIANT</span></div>
+      <div class="say">NON-COMPLIANT is the honest result — 1 of 217 checks failed, remediation available. Show what a real result looks like; the Lab 05 rulebook can apply it and record the job.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">curl -sk https://trustyai.tax-inference.svc/metrics | grep -E "drift|fairness"</div>
+      <div class="o">meanshift_drift{feature="channel_mix"}  <span class="wr">0.212 — over the 0.150 threshold</span>
+fairness_spd{group="filing_status"}     <span class="ok">-0.014</span></div>
+      <div class="say">Nothing is wrong with the model — more taxpayers moved to the portal. The world changed, and this is exactly the signal you want, and exactly why you monitor it.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> Every one of these is a platform feature you turn on, not a project you fund. That is what "enterprise-ready" has to mean.</p>
+</section>
+
+<!-- ============ LAB 07 ============ -->
+<section class="step" data-label="Lab 07 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 07 · IF OPERATIONS / SRE LEADERS ARE IN THE ROOM</span>
+    <h2>Ask your own logs</h2>
+    <div class="meta"><span class="chip prod">OpenShift AI · OpenShift Logging · Granite</span><span class="chip">~5 min</span><span class="chip mono">sre@ops-notebook:~</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>The Lab 04 retrieval pattern aimed at operations itself: logs, runbooks, incidents and change records become a private notebook you question during a live incident. The payoff is measured in MTTR.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">logcli query '{namespace="tax-inference"} |= "ERROR"' --since 24h --limit 4</div>
+      <div class="o"><span class="err">14:02:11Z predictor-7f9cd  CUDA out of memory</span> · restart loops · readiness flapping</div>
+      <div class="say">Set the scene: 14:20 on a Tuesday, p99 tripled, pods restarting.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python ingest_ops.py --loki … --runbooks ./runbooks --incidents ./postmortems --changes ./change-records</div>
+      <div class="o">90 days of logs · 48 runbooks · 312 postmortems · 1,240 change records
+<span class="ok">Indexed 12,135 chunks into pgvector.ops_notebook</span></div>
+      <div class="say">Same stack as Lab 04 — only the corpus changed. Nothing left the cluster.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">llama-stack-client inference chat-completion --message "tax-classifier p99 tripled since 14:00 … What changed, has this happened before, and which runbook applies?"</div>
+      <div class="o"><span class="vi">Probable cause: change CR-9012 raised max_model_len 8192 → 16384 … pods OOM under load.
+Precedent: INC-2209 · Runbook: RB-114 "vLLM memory pressure", steps 3–5.</span>
+<span class="ky">sources: CR-9012 (0.93) · INC-2209 (0.91) · RB-114 (0.88) · the log line (0.86)</span></div>
+      <div class="say">THE SELLING SCREEN: forty minutes of grepping and paging, answered in eleven seconds — with citations to check before acting.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python mttr_report.py --window last-quarter</div>
+      <div class="o">before: detect 4m · <span class="err">diagnose 2h 41m</span> · fix 22m · verify 9m = 3h 16m
+after:  detect 4m · <span class="ok">diagnose 24m</span>    · fix 22m · verify 9m = <span class="ok">59m</span></div>
+      <div class="say">Detection was already fast. The hours lived in diagnosis — that is what a notebook over your own logs removes. Diagnosis −84%, total −70%.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.</p>
+  <button class="jumpbtn ghosted" data-goto="16">← Back to Slide 17 to close</button>
+</section>
+
+</main>
+
+<nav class="nav">
+  <span class="hint"><kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd> to move · <kbd>J</kbd> jump · <kbd>M</kbd> read-all — press <kbd>→</kbd> here each time the deck goes next</span>
+  <span class="spacer"></span>
+  <button id="prev">← Prev</button>
+  <button id="next" class="primary">Next →</button>
+</nav>
+
+<div class="jump" id="jump" hidden>
+  <div class="panel">
+    <h3>Jump to</h3>
+    <div id="jumplist"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var pos = document.getElementById('pos');
+  var prevB = document.getElementById('prev');
+  var nextB = document.getElementById('next');
+  var modeBtn = document.getElementById('modeBtn');
+  var jump = document.getElementById('jump');
+  var jumplist = document.getElementById('jumplist');
+  var cur = 0, scrollMode = false;
+
+  try { var saved = parseInt(localStorage.getItem('ptc-pos'), 10);
+        if (saved >= 0 && saved < steps.length) cur = saved; } catch (e) {}
+
+  function go(i){
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach(function(s, n){ s.setAttribute('data-active', n === cur ? 'true' : 'false'); });
+    pos.textContent = steps[cur].dataset.label;
+    prevB.disabled = (cur === 0);
+    nextB.disabled = (cur === steps.length - 1);
+    if (!scrollMode) window.scrollTo({ top: 0 });
+    else steps[cur].scrollIntoView({ block: 'start' });
+    try { localStorage.setItem('ptc-pos', String(cur)); } catch (e) {}
+  }
+
+  prevB.addEventListener('click', function(){ go(cur - 1); });
+  nextB.addEventListener('click', function(){ go(cur + 1); });
+
+  modeBtn.addEventListener('click', function(){
+    scrollMode = !scrollMode;
+    document.body.classList.toggle('scroll', scrollMode);
+    modeBtn.setAttribute('aria-pressed', String(scrollMode));
+    modeBtn.textContent = scrollMode ? 'Step mode' : 'Read all';
+    go(cur);
+  });
+
+  steps.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'item';
+    b.innerHTML = '<span class="n"></span><span></span>';
+    b.firstChild.textContent = s.dataset.label.split(' / ')[0];
+    b.lastChild.textContent = s.querySelector('h2').textContent;
+    b.addEventListener('click', function(){ jump.hidden = true; go(i); });
+    jumplist.appendChild(b);
+  });
+  document.getElementById('jumpOpen').addEventListener('click', function(){ jump.hidden = false; });
+  jump.addEventListener('click', function(e){ if (e.target === jump) jump.hidden = true; });
+
+  document.querySelectorAll('[data-goto]').forEach(function(b){
+    b.addEventListener('click', function(){ go(parseInt(b.dataset.goto, 10)); });
+  });
+
+  document.addEventListener('keydown', function(e){
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if (!jump.hidden && e.key === 'Escape'){ jump.hidden = true; return; }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.code === 'Space'){
+      if (t && t.tagName === 'BUTTON' && (e.key === ' ' || e.code === 'Space')) return;
+      e.preventDefault(); go(cur + 1);
+    }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home'){ go(0); }
+    else if (e.key === 'End'){ go(steps.length - 1); }
+    else if (e.key === 'j' || e.key === 'J'){ jump.hidden = !jump.hidden; }
+    else if (e.key === 'm' || e.key === 'M'){ modeBtn.click(); }
+  });
+
+  go(cur);
+})();
+</script>
+</body>
+</html>
