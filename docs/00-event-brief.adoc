@@ -76,10 +76,10 @@ through all of them.
 |===
 | Layer | What it provides
 
-| {rhel} and {rhelai}
+| {rhel} and the {rhaiis}
 | Bare metal GPU nodes, virtualized datacenter, accredited public cloud or a
-  classified enclave. Granite models, accelerator drivers and the InstructLab
-  toolchain ship as one supported image.
+  classified enclave. Granite models, accelerator drivers and the vLLM-based
+  inference server ship as one supported stack.
 
 | {ocp}
 | Scheduling, GPU partitioning, network policy, multi-site placement and GitOps
@@ -147,7 +147,7 @@ anything that already happened.
 == Adoption path
 
 .Prove — days 0 to 90
-* Stand up one supported inference endpoint on {rhelai}
+* Stand up one supported endpoint with the {rhaiis}
 * Agree the accelerator capacity plan and where it physically sits
 * Settle which data classes may be used, in writing
 * Pick one text-heavy workflow that already has a human reviewer
@@ -156,7 +156,7 @@ anything that already happened.
 .Ground — days 90 to 180
 * Move serving onto {rhoai} with autoscaling
 * Add retrieval over your own published guidance
-* Tune on agency vocabulary with InstructLab
+* Tune on agency vocabulary with SDG Hub and Training Hub
 * Wire drift, fairness and compliance monitoring
 * Automate provisioning and patching end to end
 

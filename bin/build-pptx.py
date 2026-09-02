@@ -291,16 +291,20 @@ def build(out_path: Path) -> None:
     prs.slide_height = SLIDE_H
 
     # ---- 1 title -----------------------------------------------------------
-    s = add_base(prs, "Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the "
-                      "hour - 25 minutes of story, 30 minutes of live terminal, 5 for questions. "
+    s = add_base(prs, "Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four "
+                      "Inc. and Carahsoft. Frame the hour - foundations, then the platform story, "
+                      "then live terminal, 5 for questions. "
                       "The promise: every claim we make today, we run in a shell before you leave.")
     add_text(s, MARGIN, Inches(2.05), Inches(11.2), Inches(0.34),
              [("RED HAT  ·  FOUR INC.  ·  CARAHSOFT — VIRTUAL EVENT", 12, True, RED, MONO_FONT, 0)])
     add_text(s, MARGIN, Inches(2.55), Inches(10.6), Inches(2.0),
-             [("Turning AI strategy into tax administration outcomes", 44, True, INK, HEAD_FONT, 0)])
+             [("AI foundations for intelligent tax administration", 44, True, INK, HEAD_FONT, 0)])
     add_text(s, MARGIN, Inches(4.75), Inches(9.4), Inches(1.1),
-             [("A secure, flexible foundation that connects automation, hybrid cloud and "
-               "intelligent workflows — then six labs where you run it yourself.", 17, False, INK_2, BODY_FONT, 0)])
+             [("What predictive AI, generative AI and LLMs actually do — then how Red Hat turns "
+               "models, agency knowledge and automation into an operable mission capability, "
+               "proven in seven labs you run yourself.", 17, False, INK_2, BODY_FONT, 0)])
+    add_text(s, MARGIN, Inches(5.85), Inches(9.4), Inches(0.4),
+             [("Presented by Jon Keam and Brad Scalio", 14, True, INK_2, BODY_FONT, 0)])
 
     # ---- 2 operating reality: demand curve ---------------------------------
     s = add_base(prs, "Do not lead with the technology. Lead with the shape of the problem. The "
@@ -390,7 +394,7 @@ def build(out_path: Path) -> None:
     add_table(s, [
         ["Outcome", "Platform capability", "Lab"],
         ["Modernize mission-critical operations", "Ansible Automation Platform, Event-Driven Ansible", "05"],
-        ["Improve efficiency and accuracy", "Red Hat Enterprise Linux AI, InstructLab", "01, 02"],
+        ["Improve efficiency and accuracy", "Red Hat AI Inference Server, SDG Hub + Training Hub", "01, 02"],
         ["Unlock data-driven insights", "OpenShift AI, vector retrieval", "04"],
         ["Strengthen security and compliance", "FIPS, Compliance Operator, TrustyAI, Sigstore", "06"],
         ["Build an AI-ready foundation", "OpenShift AI, KServe, vLLM", "03"],
@@ -469,7 +473,7 @@ def build(out_path: Path) -> None:
           "Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery")
     # rhel
     ry = osy + Inches(1.03)
-    layer(ry, Inches(1.0), "Red Hat Enterprise Linux · RHEL AI",
+    layer(ry, Inches(1.0), "Red Hat Enterprise Linux · AI Inference Server",
           "Bare metal GPU nodes · virtualized datacenter · accredited cloud · classified enclave",
           tag="Lab 01")
     for i in range(2):
@@ -499,7 +503,7 @@ def build(out_path: Path) -> None:
     eyebrow_and_title(s, "Trusted, enterprise-ready AI", "The questions an authorizing official will ask")
     add_table(s, [
         ["Their question", "The platform control", "Where"],
-        ["Where does our data go?", "Nowhere. Inference runs on your cluster, your accelerators.", "RHEL AI"],
+        ["Where does our data go?", "Nowhere. Inference runs on your cluster, your accelerators.", "AI Inference"],
         ["Is this the model we approved?", "Artifacts signed and verified before admission", "Sigstore"],
         ["Is the cryptography validated?", "FIPS mode is a supported operating state", "RHEL"],
         ["Still compliant next quarter?", "Scheduled scans, machine-readable results", "Compliance Op."],
@@ -535,7 +539,7 @@ def build(out_path: Path) -> None:
                  [(dl, 9, False, INK_3, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
     phase_cols = [
         (STEEL_WASH, STEEL, "Prove — days 0–90",
-         ["One endpoint on RHEL AI", "Accelerator capacity plan", "Data classes agreed in writing",
+         ["One endpoint on AI Inference Server", "Accelerator capacity plan", "Data classes agreed in writing",
           "One workflow with a reviewer", "Baseline measured first"]),
         (AMBER_WASH, AMBER, "Ground — days 90–180",
          ["Serving on OpenShift AI", "Retrieval over your guidance", "Tune on agency vocabulary",
@@ -562,16 +566,17 @@ def build(out_path: Path) -> None:
                       "own environment - same script, same commands. Run Lab 01 and stop hard on "
                       "step 4, the endpoint bound to 127.0.0.1. The deck's Demo view plays every "
                       "lab hands-free if you would rather narrate than type.")
-    eyebrow_and_title(s, "Hands on", "Six labs — real commands, run them yourself",
+    eyebrow_and_title(s, "Hands on", "Seven labs — real commands, run them yourself",
                       "Simulate mode needs no cluster, no GPU and no credentials. The Demo view plays them hands-free.")
     add_table(s, [
         ["Lab", "What you do", "Product"],
-        ["01", "Serve a model inside your boundary", "RHEL AI"],
-        ["02", "Teach it your notice taxonomy", "InstructLab"],
+        ["01", "Serve a model inside your boundary", "AI Inference Server"],
+        ["02", "Teach it your notice taxonomy", "SDG + Training Hub"],
         ["03", "Survive filing season", "OpenShift AI"],
         ["04", "Ground answers in your guidance", "Retrieval"],
         ["05", "Automate the toil around the model", "Ansible"],
         ["06", "Prove it to your ISSO", "Compliance, TrustyAI"],
+        ["07", "Ask your own logs", "Ops notebook"],
     ], Inches(2.4), [Inches(1.0), Inches(6.6), Inches(4.0)], mono_cols=(0, 2))
 
     # ---- 9 next steps ------------------------------------------------------
@@ -589,7 +594,7 @@ def build(out_path: Path) -> None:
     ])
     add_text(s, MARGIN, Inches(5.1), Inches(11.5), Inches(1.3),
              [("One thing to remember", 17, True, INK, HEAD_FONT, 8),
-              ("Nothing in these six labs required a public model endpoint, an internet "
+              ("Nothing in these seven labs required a public model endpoint, an internet "
                "connection at inference time, or a rewrite of a system of record. That is the "
                "whole argument.", 14, False, INK_2, BODY_FONT, 0)])
 

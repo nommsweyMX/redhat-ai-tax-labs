@@ -17,12 +17,13 @@ check() {
 }
 
 echo "Lab readiness for LAB_MODE=live:"
-check "lab01-rhel-ai"      ilab curl jq
-check "lab02-instructlab"  ilab
+check "lab01-rhel-ai"      podman huggingface-cli curl jq
+check "lab02-instructlab"  python3
 check "lab03-openshift-ai" oc curl jq hey
 check "lab04-rag"          oc python3
 check "lab05-ansible"      ansible-navigator ansible-rulebook
 check "lab06-trust"        oc cosign ssh
+check "lab07-ops-notebook" logcli python3
 echo
 echo "Every lab runs today in simulate mode, which needs nothing above."
 echo "  ./bin/run-all-labs.sh"

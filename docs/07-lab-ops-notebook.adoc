@@ -1,0 +1,128 @@
+[#lab-07]
+= Lab 07 — Ask your own logs
+
+[cols="1,3"]
+|===
+| Product   | {rhoai}, OpenShift Logging (Loki), Granite
+| Time      | About 5 minutes
+| Script    | `labs/lab07-ops-notebook/run.sh`
+| Outcome   | An on-cluster notebook over your own operational data, and the MTTR case for it
+|===
+
+== Objective
+
+Aim the <<lab-04>> retrieval pattern at operations itself. Cluster logs,
+runbooks, incident history and change records become a private notebook you
+can question during a live incident — a NotebookLM for the platform, running
+on the platform. Then read the numbers: the payoff is measured in mean time to
+restore, because diagnosis is where the hours live.
+
+== Why this matters more than it looks
+
+When something breaks at 2 a.m., the answer usually already exists — in a
+runbook, a past incident's postmortem, a change record from that afternoon, or
+a log line from the failing pod. What costs hours is that those four things
+live in four systems and three people's heads. A notebook grounded in all of
+them answers the on-call question — *what changed, has this happened before,
+which runbook applies* — in seconds, with citations the engineer can check
+before acting.
+
+Two properties make this defensible in a tax agency:
+
+* *It is the same stack as the taxpayer-facing system.* Nothing new is
+  installed; only the corpus changes. One retrieval pattern, two corpora, one
+  governance story.
+* *It stays inside the boundary.* Logs carry hostnames, account fragments and
+  case identifiers — FTI-adjacent by nature. The notebook runs on the same
+  OpenShift install it observes; nothing is exported to a hosted service.
+
+== Prerequisites
+
+For live mode: an OpenShift cluster with OpenShift Logging (Loki), the
+<<lab-04>> vector store and model serving in place, `logcli`, and Python for
+the ingest and reporting helpers.
+
+[source,bash]
+----
+cd labs/lab07-ops-notebook
+LAB_PACE=step ./run.sh
+----
+
+== Walkthrough
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Command | What to look for
+
+| 1
+| `logcli query '{namespace="{ns}"} \|= "ERROR"'`
+| The incident: OOM errors and restart loops on the predictor pods. This is
+  the raw material the notebook will read.
+
+| 2
+| `python3 ingest_ops.py`
+| Four corpora going into one index: Loki export, runbooks, postmortems,
+  change records. Same vector store as <<lab-04>> — only the corpus changed.
+
+| 3
+| `llama-stack-client inference chat-completion ...`
+| A cited diagnosis: the change record that caused it, the past incident that
+  matches it, and the runbook section that fixes it. Verify, then act.
+
+| 4
+| `awx job_templates launch ...`
+| Remediation through the <<lab-05>> automation, so the fix lands in the
+  controller's job history — that list is your evidence trail.
+
+| 5
+| `python3 mttr_report.py`
+| The decomposition. Detect, fix and verify are unchanged; diagnosis falls
+  from hours to minutes. That is the whole argument.
+|===
+
+== What good looks like
+
+The diagnosis names a specific change record, a specific precedent incident
+and a specific runbook section, each with a retrieval score — and the on-call
+engineer can open all three before acting. If answers come back without
+citations, or citations that do not support the claim, treat that exactly as
+you would in <<lab-04>>: the retrieval threshold or the corpus needs work, and
+the model's fluency is not a substitute.
+
+The representative MTTR decomposition:
+
+[cols="2,1,1,1,1,1", options="header"]
+|===
+| | Detect | Diagnose | Fix | Verify | Total
+
+| Four quarters before | 4m | 2h 41m | 22m | 9m | 3h 16m
+| With the notebook    | 4m | 24m    | 22m | 9m | 59m
+|===
+
+IMPORTANT: Generated incident summaries are draft artifacts. They become
+operations knowledge for the next event only after the same curation and
+review that any other knowledge record gets — do not let fluency become
+authority.
+
+== Troubleshooting
+
+`logcli` returns nothing::
+Check the tenant header and that the LokiStack gateway route is reachable
+from the workbench. `oc -n openshift-logging get lokistack` first.
+
+The notebook answers without citations::
+Same failure mode as <<lab-04>>: the retrieval score threshold is too low or
+the corpus is missing the relevant material. Ingest the runbooks before you
+trust the answers.
+
+Ingest is slow or huge::
+Summarize log windows before embedding rather than embedding raw lines — the
+notebook needs the shape of the incident, not every log line ever written.
+
+== Discussion questions
+
+. Where do your runbooks, postmortems and change records live today, and who
+  would own keeping the notebook's corpus current?
+. What approval gate do you want between a cited recommendation and an
+  automated remediation — and does <<lab-05>>'s rulebook already express it?
+. Which incident from the last year would this have shortened, and by how much?

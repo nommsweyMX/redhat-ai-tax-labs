@@ -13,17 +13,21 @@ Red Hat · Four Inc. · Carahsoft
 // Built with asciidoctor-revealjs. See ../Makefile target: slides
 // Speaker notes are in [.notes] blocks — press S in the browser to open them.
 
-== Turning AI strategy into tax administration outcomes
+== AI foundations for intelligent tax administration
 
-A secure, flexible foundation that connects automation, hybrid cloud and
-intelligent workflows.
+What predictive AI, generative AI and LLMs actually do — then how Red Hat
+turns models, agency knowledge and automation into an operable mission
+capability.
 
-Then six labs where you run it yourself.
+Then seven labs where you run it yourself.
+
+Presented by *Jon Keam* and *Brad Scalio*.
 
 [.notes]
 --
-Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the hour —
-25 minutes of story, 30 minutes of live terminal, 5 for questions.
+Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four Inc.
+and Carahsoft. Frame the hour — foundations, then the platform story, then
+live terminal, 5 for questions.
 
 The promise: every claim we make today, we run in a shell before you leave.
 --
@@ -124,7 +128,7 @@ people can map the rest of the hour.
 | Mission applications | Intake, drafting, summarization, guidance assistant
 | OpenShift AI | KServe + vLLM serving, pipelines, model registry, retrieval
 | OpenShift | Scheduling, GPU partitioning, network policy, GitOps
-| RHEL / RHEL AI | Bare metal, virtualized, accredited cloud, classified enclave
+| RHEL / AI Inference Server | Bare metal, virtualized, accredited cloud, classified enclave
 |===
 
 *Automation* and *trust* run vertically through every layer.
@@ -168,7 +172,7 @@ Offer to take the whole table offline with their ISSO.
 |===
 | Prove (0–90) | Ground (90–180) | Scale (180+)
 
-| One endpoint on RHEL AI | Serving on OpenShift AI | Registry with real approvals
+| One endpoint on AI Inference Server | Serving on OpenShift AI | Registry with real approvals
 | Accelerator capacity plan | Retrieval over your guidance | Workflows two to five
 | Data classes agreed in writing | Tune on agency vocabulary | Filing-season rehearsal
 | One workflow with a reviewer | Drift and compliance wired | Extend to the enclave
@@ -184,18 +188,19 @@ may be used. Neither is technical.
 Ask the room directly which phase they are in.
 --
 
-== Six labs — real commands, run them yourself
+== Seven labs — real commands, run them yourself
 
 [cols="1,3", options="header"]
 |===
 | Lab | What you do
 
-| 01 | Serve a model inside your boundary — RHEL AI
-| 02 | Teach it your notice taxonomy — InstructLab
+| 01 | Serve a model inside your boundary — Red Hat AI Inference Server
+| 02 | Teach it your notice taxonomy — SDG Hub + Training Hub
 | 03 | Survive filing season — OpenShift AI, KServe, vLLM
 | 04 | Ground answers in your guidance — retrieval with citations
 | 05 | Automate the toil — Ansible and Event-Driven Ansible
 | 06 | Prove it to your ISSO — signing, FIPS, compliance, drift
+| 07 | Ask your own logs — a cited diagnosis, then the MTTR numbers
 |===
 
 [.notes]
@@ -229,7 +234,7 @@ Then hand off for the contract vehicle conversation.
 
 == One thing to remember
 
-Nothing in these six labs required a public model endpoint, an internet
+Nothing in these seven labs required a public model endpoint, an internet
 connection at inference time, or a rewrite of a system of record.
 
 That is the whole argument.

@@ -11,11 +11,12 @@ improve taxpayer services and unlock the value of their data. Adopting it at
 scale needs a secure, flexible foundation that connects automation, hybrid
 cloud and intelligent workflows.
 
-This guide is the hands-on half of that conversation. It carries six labs that
-walk the whole path — standing a model up inside your boundary, teaching it
-your agency's vocabulary, serving it through a filing-season peak, grounding
+This guide is the hands-on half of that conversation. It carries seven labs
+that walk the whole path — standing a model up inside your boundary, teaching
+it your agency's vocabulary, serving it through a filing-season peak, grounding
 its answers in your published guidance, automating the operational toil around
-it, and proving the result to an authorizing official.
+it, proving the result to an authorizing official, and pointing the same
+retrieval pattern at your own logs to drive incident diagnosis time down.
 
 Every command in these labs is real and copyable. Every lab runs in two modes:
 one that needs nothing but a shell, and one that executes against your own
@@ -32,6 +33,10 @@ environment.
 
 | Data and application teams
 | Labs 02 and 04. Domain adaptation and retrieval are where mission value shows up.
+
+| Operations and SRE teams
+| Lab 07. The retrieval pattern from Lab 04, pointed at your own logs, runbooks
+  and incident history — the payoff is measured in MTTR.
 
 | Security, ISSO and compliance staff
 | Lab 06 first, then the security section of the event brief. Lab 06 is written
@@ -54,7 +59,7 @@ environment.
 
 | Improve efficiency and accuracy by reducing manual processes and accelerating
   service delivery
-| {rhelai}, InstructLab
+| {rhaiis}, SDG Hub + Training Hub
 | <<lab-01>>, <<lab-02>>
 
 | Unlock data-driven insights to support smarter decision-making
@@ -106,7 +111,7 @@ LAB_MODE=live ./labs/lab03-openshift-ai/run.sh
 |===
 
 TIP: The interactive deck at `slides/deck.html` has a Demo view that plays
-all six labs hands-free — useful when you want the room watching one screen
+all seven labs hands-free — useful when you want the room watching one screen
 instead of typing, and as a looping holding screen via `#demo` on the URL.
 
 WARNING: `LAB_MODE=live` runs real commands. Lab 03 includes a load test that
@@ -141,6 +146,8 @@ include::04-lab-rag.adoc[]
 include::05-lab-ansible.adoc[]
 
 include::06-lab-trust.adoc[]
+
+include::07-lab-ops-notebook.adoc[]
 
 include::90-facilitator-guide.adoc[]
 

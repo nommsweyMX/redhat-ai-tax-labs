@@ -8,10 +8,11 @@ Presentation, hands-on labs and documentation for the Red Hat, Four Inc. and
 Carahsoft virtual event on modernizing tax administration with AI and
 automation.
 
-Six labs walk the whole path: standing a model up inside your boundary,
+Seven labs walk the whole path: standing a model up inside your boundary,
 teaching it your agency's vocabulary, serving it through a filing-season peak,
 grounding its answers in your published guidance, automating the operational
-toil around it, and proving the result to an authorizing official.
+toil around it, proving the result to an authorizing official, and pointing
+the same retrieval pattern at your own logs to drive MTTR down.
 
 Every command is real and copyable. Every lab runs in two modes — one that
 needs nothing but a shell, and one that executes against your own environment.
@@ -31,7 +32,7 @@ cd redhat-ai-tax-labs
 # Walk one lab, pausing for Enter at each command
 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh
 
-# Walk all six end to end
+# Walk all seven end to end
 ./bin/run-all-labs.sh
 ----
 
@@ -44,7 +45,7 @@ Nothing above needs a cluster, a GPU, or credentials.
 | Path | Contents
 
 | `labs/`
-| Six runnable lab scripts with their manifests, playbooks and sample data.
+| Seven runnable lab scripts with their manifests, playbooks and sample data.
 
 | `docs/`
 | AsciiDoc documentation — event brief, one module per lab, facilitator guide.
@@ -54,10 +55,10 @@ Nothing above needs a cluster, a GPU, or credentials.
 | The event deck as asciidoctor-revealjs source, with speaker notes.
 
 | `slides/deck.html`
-| A self-contained interactive deck: nine slides plus six virtual terminals
-  you type into, and a Demo view that plays all six labs hands-free. Open it
-  in a browser — no build step, no server. Opening it with `#demo` on the URL
-  starts the Demo view playing on a continuous loop.
+| A self-contained interactive deck: seventeen slides plus seven virtual
+  terminals you type into, and a Demo view that plays all seven labs
+  hands-free. Open it in a browser — no build step, no server. Opening it
+  with `#demo` on the URL starts the Demo view playing on a continuous loop.
 
 | `slides/exports/`
 | Generated `.pptx` for platforms that require a slide upload.
@@ -74,11 +75,11 @@ Nothing above needs a cluster, a GPU, or credentials.
 
 | link:labs/lab01-rhel-ai/run.sh[01]
 | Serve a model inside your boundary and classify a taxpayer contact
-| Red Hat Enterprise Linux AI
+| Red Hat AI Inference Server
 
 | link:labs/lab02-instructlab/run.sh[02]
 | Teach it your notice taxonomy, then prove the tuned model is better
-| InstructLab
+| SDG Hub + Training Hub
 
 | link:labs/lab03-openshift-ai/run.sh[03]
 | Survive filing season — autoscale from 2 to 20 replicas under load
@@ -95,6 +96,10 @@ Nothing above needs a cluster, a GPU, or credentials.
 | link:labs/lab06-trust/run.sh[06]
 | Run the four checks an authorizing official actually runs
 | Compliance Operator, TrustyAI, Sigstore
+
+| link:labs/lab07-ops-notebook/run.sh[07]
+| Ask your own logs — a cited diagnosis during a live incident, then the MTTR numbers
+| OpenShift AI + OpenShift Logging
 |===
 
 Full write-ups, prerequisites, troubleshooting and discussion questions are in
@@ -167,7 +172,7 @@ Before opening a pull request:
 make test
 ----
 
-That runs `bash -n` over every script and executes all six labs in simulate
+That runs `bash -n` over every script and executes all seven labs in simulate
 mode. CI runs the same thing.
 
 == License
