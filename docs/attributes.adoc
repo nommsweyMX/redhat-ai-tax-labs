@@ -13,7 +13,7 @@
 
 // Product names, in one place, so a rename is one edit.
 :rhel: Red Hat Enterprise Linux
-:rhelai: Red Hat Enterprise Linux AI
+:rhaiis: Red Hat AI Inference Server
 :ocp: Red Hat OpenShift
 :rhoai: Red Hat OpenShift AI
 :aap: Red Hat Ansible Automation Platform
@@ -21,7 +21,7 @@
 
 // Environment defaults the labs assume. Override these for your own estate.
 :ns: tax-inference
-:base-model: granite-8b-lab-v1
+:base-model: granite-3.3-8b-instruct
 :tuned-model: granite-8b-tax-v1
 :change-record: CR-8841
 

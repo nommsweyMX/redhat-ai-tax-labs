@@ -3,7 +3,7 @@
 
 [cols="1,3"]
 |===
-| Product   | InstructLab on {rhelai}
+| Product   | SDG Hub + Training Hub on Red Hat AI
 | Time      | About 6 minutes to walk; hours of GPU time to run for real
 | Script    | `labs/lab02-instructlab/run.sh`
 | Outcome   | A tuned model that knows your notice families, queues and house style
@@ -13,17 +13,19 @@
 
 The base model from <<lab-01>> does not know your agency's notice codes, your
 routing queues or how your correspondence is meant to read. Add that knowledge
-as YAML a subject matter expert can write and a reviewer can approve, generate
-synthetic training data from it, tune, and prove the result is better than what
-you started with.
+as seed YAML a subject matter expert can write and a reviewer can approve,
+generate synthetic training data from it with the SDG Hub library, fine-tune
+with Training Hub, and prove the result is better than what you started with.
 
 == Why this matters more than it looks
 
 Domain adaptation is usually where AI programmes stall. The conventional path
 needs a labelled dataset, which needs annotators, which needs a budget and six
-months. InstructLab inverts it: a handful of examples written by the people who
-already own the knowledge become thousands of training samples, and the
-contribution is reviewed like code.
+months. The seed-example approach inverts it: a handful of examples written by
+the people who already own the knowledge become thousands of training samples,
+and the contribution is reviewed like code. (This workflow began life in
+InstructLab; the retired `ilab` CLI is gone, and its ideas carry forward as
+the composable `sdg_hub` and `training_hub` Python libraries.)
 
 The file at
 `labs/lab02-instructlab/taxonomy/knowledge/gov/tax/notices/qna.yaml` is worth
@@ -33,7 +35,8 @@ section that captures the rules a correspondence reviewer applies by instinct.
 
 == Prerequisites
 
-For live mode: a {rhelai} host with `ilab`, a working accelerator, and several
+For live mode: a GPU host, Python with the `sdg-hub` and `training-hub`
+libraries, the <<lab-01>> endpoint running as the teacher model, and several
 hours of GPU time for the training step.
 
 [source,bash]
@@ -54,21 +57,22 @@ LAB_PACE=step ./run.sh
   review this. That is the whole design goal.
 
 | 2
-| `ilab taxonomy diff`
+| `python3 check_seeds.py`
 | Schema validation. *Put this step in CI.* A malformed contribution should
   fail in a pull request, not after four hours of GPU time.
 
 | 3
-| `ilab data generate`
-| 12 seed examples becoming roughly 2,200 kept samples after quality filtering.
-  Every sample traces back to something a human wrote.
+| `python3 generate.py --endpoint http://127.0.0.1:8000/v1`
+| 12 seed examples becoming roughly 2,200 kept samples after quality
+  filtering, with the <<lab-01>> endpoint as the teacher. Every sample traces
+  back to something a human wrote.
 
 | 4
-| `ilab model train`
+| `python3 train.py --method lora`
 | Loss dropping across three epochs. The checkpoint path is what you promote.
 
 | 5
-| `ilab model evaluate`
+| `python3 evaluate.py`
 | The comparison table against the base model. This is the artifact your
   governance board actually wants.
 |===
@@ -89,25 +93,27 @@ benchmarks move a lot, you have probably overfitted to the seed examples.
 | Correct routing queue        | 0.58 | 0.91 | +0.33
 | Cites the right form         | 0.44 | 0.89 | +0.45
 | Plain-language readability   | 0.72 | 0.86 | +0.14
-| Overall MT-Bench             | 6.1  | 7.8  | +1.7
+| Overall judge score          | 6.1  | 7.8  | +1.7
 |===
 
-IMPORTANT: Keep the held-out evaluation set *out* of the taxonomy. If the
+IMPORTANT: Keep the held-out evaluation set *out* of the seed data. If the
 questions you evaluate on are in the material you generated training data from,
 the numbers are meaningless and someone will eventually notice.
 
 == Troubleshooting
 
-`ilab taxonomy diff` reports a schema error::
+`check_seeds.py` reports a schema error::
 Check `version: 3` at the top and the indentation under `questions_and_answers`.
 Nearly every failure is one of those two.
 
 Data generation produces very few samples::
 The quality filter is discarding them. Usually the seed contexts are too short
 or too similar to each other. Aim for a paragraph of real context per example.
+Also confirm the teacher endpoint from <<lab-01>> is up — generation quality
+is bounded by the teacher.
 
 Training runs out of memory::
-Lower the effective batch size, or use the LoRA pipeline rather than full
+Lower the effective batch size, or use the LoRA method rather than full
 fine-tuning. The lab uses LoRA rank 32.
 
 The tuned model regresses on general questions::

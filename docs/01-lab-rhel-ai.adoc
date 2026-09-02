@@ -3,7 +3,7 @@
 
 [cols="1,3"]
 |===
-| Product   | {rhelai}
+| Product   | {rhaiis}
 | Time      | About 5 minutes
 | Script    | `labs/lab01-rhel-ai/run.sh`
 | Outcome   | A supported LLM classifying taxpayer contacts on hardware you control
@@ -18,12 +18,18 @@ This lab exists to answer one question directly, because it is the question
 that decides whether anything else in this guide is relevant to a tax agency:
 *where does our data go when someone prompts the model?*
 
+The serving engine is the {rhaiis}: the vLLM engine, packaged and supported as
+a signed container that runs anywhere {rhel} runs. (Earlier versions of this
+lab used the retired InstructLab `ilab` CLI; the endpoint it exposes — an
+OpenAI-compatible API on localhost — is unchanged.)
+
 == Prerequisites
 
 For `LAB_MODE=simulate`, nothing. For `LAB_MODE=live`:
 
-* A {rhelai} host with a supported accelerator
-* `ilab` on the path (it ships in the {rhelai} image)
+* A {rhel} host with a supported accelerator and the container toolkit's CDI
+  devices generated (`nvidia-ctk cdi generate`)
+* `podman` and `huggingface-cli` on the path
 * Registry credentials for `registry.redhat.io`
 * Roughly 20 GB of free disk for the model
 
@@ -40,24 +46,25 @@ LAB_PACE=step ./run.sh
 | Step | Command | What to look for
 
 | 1
-| `ilab config init`
-| The detected hardware profile. If this reports the wrong accelerator, every
-  later step inherits the mistake.
+| `podman pull registry.redhat.io/rhaiis/...`
+| The signature check on the way in. The serving engine is signed content,
+  patched and lifecycled like any other RHEL container.
 
 | 2
-| `ilab model download`
-| `manifest sha256:... verified`. The artifact is signed; verification happens
-  on the way in, not as an audit afterwards.
+| `huggingface-cli download RedHatAI/...`
+| A validated model from the Red Hat AI repository, landing on local disk.
+  For an enclave, mirror it into your own registry instead — Lab 06 verifies
+  the signature.
 
 | 3
-| `ilab model serve`
-| The vLLM engine starting and the listening address. In production this is a
-  systemd unit, not a foreground process.
+| `podman run ... -p 127.0.0.1:8000:8000 ...`
+| The vLLM engine starting and the port publication. In production this is a
+  Quadlet-managed systemd unit, not a foreground process.
 
 | 4
 | `ss -ltnp \| grep :8000`
-| *The point of the lab.* The endpoint is bound to `127.0.0.1`. There is no
-  egress path from this process to a public model API.
+| *The point of the lab.* The endpoint is published on `127.0.0.1`. There is
+  no egress path from this process to a public model API.
 
 | 5
 | `curl .../v1/chat/completions`
@@ -78,12 +85,11 @@ accelerator rather than falling back to CPU.
 
 == Troubleshooting
 
-`ilab: command not found`::
-You are not on a {rhelai} host. Run the lab in simulate mode, or install
-InstructLab upstream — the commands are the same, the support relationship is
-not.
+`Error: setting up CDI devices: unresolvable CDI devices nvidia.com/gpu`::
+The container toolkit has not generated CDI specs on this host. Run
+`nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml` and retry.
 
-Download fails with an authentication error::
+Pull fails with an authentication error::
 Run `podman login registry.redhat.io` first. The lab does not handle
 credentials, deliberately.
 
