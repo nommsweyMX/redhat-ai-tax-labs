@@ -161,6 +161,7 @@ a{color:var(--accent-ink)}
 .cols{display:grid;gap:clamp(14px,1.6vw,26px)}
 .c2{grid-template-columns:1fr 1fr}
 .c3{grid-template-columns:repeat(3,1fr)}
+.c4{grid-template-columns:repeat(4,1fr)}
 
 .card{
   background:var(--surface-2);border:1px solid var(--border);border-radius:8px;
@@ -367,7 +368,7 @@ kbd{
   .shell{grid-template-columns:1fr}
   .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
   .railscroll{max-height:190px}
-  .c3,.phases{grid-template-columns:1fr}
+  .c3,.c4,.phases{grid-template-columns:1fr}
   .stage{aspect-ratio:auto;min-height:78vh}
 }
 </style>
@@ -416,7 +417,7 @@ kbd{
           <div class="rule"></div>
           <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event</span>
           <h2>Turning AI strategy into tax administration outcomes</h2>
-          <p class="kicker">A secure, flexible foundation that connects automation, hybrid cloud and intelligent workflows — then six labs where you run it yourself.</p>
+          <p class="kicker">A secure, flexible foundation that connects automation, hybrid cloud and intelligent workflows — then seven labs where you run it yourself.</p>
           <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
           <span class="slidenum"></span>
         </article>
@@ -473,6 +474,98 @@ kbd{
         </article>
 
         <!-- 3 -->
+        <article class="slide" data-title="Data to judgement" data-notes="This is the why-it-matters slide. Walk the stairs left to right: data, information, knowledge, judgement. Each step up is worth more to the mission and harder to automate honestly. Predictive models climb the first riser, generative models with retrieval climb the second, and the top step is deliberately human. If the room remembers one picture from today, make it this one.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Why it matters</span>
+            <h2>From data to judgement — and who climbs each step</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <svg viewBox="0 0 1180 332" role="img" style="width:100%;height:auto" aria-label="A four-step staircase rising left to right: data, information, knowledge, judgement. Predictive AI climbs the first riser by scoring, matching and flagging; generative AI with retrieval climbs the second by reading, grounding and drafting; the final step to judgement is climbed by people, who decide and sign. The judgement step is marked as staying human.">
+                <defs>
+                  <filter id="sLsh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#1B1211" flood-opacity=".13"/></filter>
+                  <marker id="sLar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-2)"/></marker>
+                  <linearGradient id="sLstep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
+                </defs>
+                <rect x="4" y="4" width="1172" height="324" rx="12" fill="var(--surface)" stroke="var(--border)" filter="url(#sLsh)"/>
+                <text x="28" y="36" font-family="Red Hat Display" font-size="18" font-weight="800" fill="var(--ink)">Every step up is worth more to the mission</text>
+                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">AI moves the work up the ladder — it never takes the top step</text>
+                <line x1="40" y1="300" x2="1132" y2="300" stroke="var(--border-strong)"/>
+                <!-- step 1: data -->
+                <rect x="40" y="216" width="258" height="84" rx="6" fill="url(#sLstep)" stroke="var(--border-strong)" filter="url(#sLsh)"/>
+                <text x="56" y="244" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Data</text>
+                <text x="56" y="264" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">What happened, uninterpreted</text>
+                <text x="56" y="284" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">returns · transcripts · calls · scans</text>
+                <!-- step 2: information -->
+                <rect x="318" y="172" width="258" height="128" rx="6" fill="url(#sLstep)" stroke="var(--border-strong)" filter="url(#sLsh)"/>
+                <text x="334" y="200" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Information</text>
+                <text x="334" y="220" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Data in context for one case</text>
+                <text x="334" y="240" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">matched · flagged · routed by intent</text>
+                <!-- step 3: knowledge -->
+                <rect x="596" y="128" width="258" height="172" rx="6" fill="url(#sLstep)" stroke="var(--border-strong)" filter="url(#sLsh)"/>
+                <text x="612" y="156" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Knowledge</text>
+                <text x="612" y="176" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">What the institution knows</text>
+                <text x="612" y="196" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">guidance · precedent · taxonomies</text>
+                <!-- step 4: judgement -->
+                <rect x="874" y="84" width="258" height="216" rx="6" fill="var(--accent-wash)" stroke="var(--accent)" filter="url(#sLsh)"/>
+                <text x="890" y="112" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Judgement</text>
+                <text x="890" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">A determination someone signs</text>
+                <text x="890" y="152" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">the decision — and the accountability</text>
+                <rect x="890" y="170" width="118" height="21" rx="10.5" fill="var(--surface)" stroke="var(--accent)"/>
+                <text x="949" y="184" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">stays human</text>
+                <!-- riser 1: predictive -->
+                <line x1="292" y1="208" x2="336" y2="180" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
+                <rect x="210" y="138" width="216" height="22" rx="11" fill="var(--steel-wash)" stroke="var(--steel)"/>
+                <text x="318" y="153" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--steel)">PREDICTIVE AI — score · match · flag</text>
+                <!-- riser 2: generative -->
+                <line x1="570" y1="164" x2="614" y2="136" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
+                <rect x="466" y="94" width="260" height="22" rx="11" fill="var(--amber-wash)" stroke="var(--amber)"/>
+                <text x="596" y="109" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--amber)">GENERATIVE AI + RAG — read · ground · draft</text>
+                <!-- riser 3: people -->
+                <line x1="848" y1="120" x2="892" y2="92" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
+                <rect x="794" y="50" width="160" height="22" rx="11" fill="var(--accent-wash)" stroke="var(--accent)"/>
+                <text x="874" y="65" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--accent-ink)">PEOPLE — decide &amp; sign</text>
+              </svg>
+              <div class="cols c2">
+                <div class="card"><span class="tag">Why it matters</span><h4>The backlog lives at the bottom of the ladder</h4><p>Transcribing, matching, routing and summarizing consume the workforce. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p></div>
+                <div class="card"><span class="tag">Why it matters</span><h4>Judgement is deliberately never automated</h4><p>The model classifies, grounds and drafts; a named person decides and signs. That is a design rule, not a technical limit — and it is what makes the deployment defensible to counsel and oversight.</p></div>
+              </div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 4 -->
+        <article class="slide" data-title="Two kinds of AI" data-notes="Most rooms use one word — AI — for two different tools, and most failed projects picked the wrong one. Predictive models produce a number from structured history; generative models produce language. They fail differently, so they are governed differently. Close on the compose line: the strongest workflows chain them, and the platform runs both side by side.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Why it matters</span>
+            <h2>Predictive and generative AI answer different questions</h2>
+            <p class="lede">One produces a number from structured history. The other produces language. They fail differently — so they are governed differently.</p>
+          </div>
+          <div class="slide-body">
+            <div class="tablewrap">
+              <table class="grid">
+                <thead><tr><th style="width:13%"></th><th style="color:var(--steel)">Predictive AI</th><th style="color:var(--accent-ink)">Generative AI</th></tr></thead>
+                <tbody>
+                  <tr><td class="mono" style="color:var(--ink-3)">learns from</td><td>Patterns in structured history — filings, payments, outcomes</td><td>Language itself — how guidance, notices and case notes are written</td></tr>
+                  <tr><td class="mono" style="color:var(--ink-3)">produces</td><td>A number: a score, a forecast, a flag</td><td>Text: a classification, a draft, a summary, a cited answer</td></tr>
+                  <tr><td class="mono" style="color:var(--ink-3)">in tax terms</td><td>Refund-risk scoring · workload forecasting · anomaly flags</td><td>Read correspondence · draft notices · summarize case files · answer from guidance</td></tr>
+                  <tr><td class="mono" style="color:var(--ink-3)">fails as</td><td>A bad number — visible in precision and recall</td><td>A plausible sentence — which is why grounding and review are non-negotiable</td></tr>
+                  <tr><td class="mono" style="color:var(--ink-3)">governed by</td><td>Back-testing, thresholds, fairness metrics</td><td>Retrieval with citations, human sign-off, drift monitoring — Labs 04 · 06</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="cols c2" style="margin-top:18px">
+              <div class="card"><span class="tag">They compose</span><h4>Predictive picks the case, generative prepares it</h4><p>A risk score decides which case deserves attention; a language model assembles the brief, the draft and the citations; a person decides. The strongest workflows chain all three.</p></div>
+              <div class="card"><span class="tag">Same platform</span><h4>One cluster serves both, side by side</h4><p>A gradient-boosted scorer and a Granite language model deploy through the same registry, share the same GPUs and land in the same audit trail — that is the point of the platform (→ Lab 03).</p></div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 5 -->
         <article class="slide" data-title="Where AI lands" data-notes="Walk left to right. The highlighted stages are where language models earn their keep first — they are high-volume, text-heavy, and have a human reviewer already in the loop, which makes them safe places to start. Exam selection is deliberately NOT highlighted: that is a determination affecting a taxpayer, and it needs a much heavier governance conversation.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -572,7 +665,7 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 4 -->
+        <!-- 6 -->
         <article class="slide" data-title="Five outcomes" data-notes="These five are the event abstract, made concrete. Each one names the product that delivers it and the lab number where the audience runs it. Do not linger — this slide exists so people can map the rest of the hour.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -583,7 +676,7 @@ kbd{
             <div class="pillar"><span class="idx">01</span><div>
               <h4>Modernize mission-critical operations</h4>
               <p>Wrap legacy systems in intelligent workflows instead of rewriting them. Events trigger automation; automation calls the model; the system of record stays untouched.</p>
-              <div class="stack">Ansible Automation Platform · Event-Driven Ansible · OpenShift &nbsp;→&nbsp; Lab 05</div></div></div>
+              <div class="stack">Ansible Automation Platform · Event-Driven Ansible · OpenShift &nbsp;→&nbsp; Labs 05 · 07</div></div></div>
             <div class="pillar"><span class="idx">02</span><div>
               <h4>Improve efficiency and accuracy</h4>
               <p>Classification, extraction and drafting move first-pass work off people. Reviewers spend their time on judgment, not transcription.</p>
@@ -604,7 +697,7 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 5 -->
+        <!-- 7 -->
         <article class="slide" data-title="Architecture" data-notes="Read this bottom to top. The point of the picture is the two vertical bands: automation and trust are not a layer you add at the end, they run through every layer. If someone asks about GPUs — the accelerator is a detail of the bottom band, and it is deliberately drawn small.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -690,7 +783,7 @@ kbd{
               <!-- OpenShift AI -->
               <g filter="url(#a5sh)"><rect x="128" y="142" width="664" height="86" rx="8" fill="url(#a5ai)" stroke="#CC0000"/></g>
               <text x="146" y="164" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
-              <text x="778" y="164" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04</text>
+              <text x="778" y="164" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04 · 07</text>
               <rect x="146" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
               <path d="M158,189 l10,6 -10,6 z" fill="#CC0000"/>
               <text x="176" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model serving</text>
@@ -735,7 +828,64 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 6 -->
+        <!-- 8 -->
+        <article class="slide" data-title="Why one platform" data-notes="The Red Hat argument in one slide. Left box is the definition of the service — a manifest, a signed model, a GitOps repo. The three boxes on the right are the places it runs, unchanged. Accredit the controls once and every later workflow inherits the evidence; scale is a scheduling decision; placement across clouds is policy, not re-architecture. If the competing pitch is one cloud&#39;s AI stack, this is the counter: the mission does not have to marry the venue.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Why Red Hat</span>
+            <h2>Define the service once — run it wherever the mission needs it</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <svg viewBox="0 0 1180 252" role="img" style="width:100%;height:auto" aria-label="One service definition — an InferenceService manifest with a signed model, delivered by GitOps — deploys unchanged, via oc apply, to three environments: a datacenter with bare-metal GPU nodes, an accredited cloud region, and an air-gapped enclave. Only the venue differs; the image, controls and skills are the same.">
+                <defs>
+                  <filter id="sPsh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".14"/></filter>
+                  <marker id="sPar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
+                  <linearGradient id="sPbox" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
+                </defs>
+                <!-- source: one definition -->
+                <rect x="12" y="56" width="280" height="140" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" filter="url(#sPsh)"/>
+                <text x="32" y="86" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">One service definition</text>
+                <text x="32" y="110" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">inferenceservice.yaml</text>
+                <text x="32" y="128" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">model: granite-8b-tax-v1 (signed)</text>
+                <text x="32" y="146" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">delivery: GitOps — main branch</text>
+                <text x="32" y="174" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">The manifest is the capacity plan — Lab 03</text>
+                <!-- arrows -->
+                <line x1="292" y1="100" x2="556" y2="46" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
+                <line x1="292" y1="126" x2="556" y2="126" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
+                <line x1="292" y1="152" x2="556" y2="206" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
+                <text x="424" y="114" text-anchor="middle" font-family="Red Hat Text" font-size="11" font-weight="700" fill="var(--ink-2)">oc apply — unchanged</text>
+                <text x="424" y="146" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">same image · same controls · same skills</text>
+                <!-- env 1 -->
+                <rect x="560" y="12" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
+                <circle cx="586" cy="46" r="5" fill="var(--steel)"/>
+                <text x="602" y="38" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Datacenter — bare-metal GPU nodes</text>
+                <text x="602" y="58" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)">Your floor, your hardware, shortest path to the systems of record</text>
+                <text x="1140" y="38" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: the iron</text>
+                <!-- env 2 -->
+                <rect x="560" y="92" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
+                <circle cx="586" cy="126" r="5" fill="var(--amber)"/>
+                <text x="602" y="118" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Accredited cloud region</text>
+                <text x="602" y="138" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)">FedRAMP boundary; surge capacity rented for the season, released after</text>
+                <text x="1140" y="118" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: the boundary</text>
+                <!-- env 3 -->
+                <rect x="560" y="172" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
+                <circle cx="586" cy="206" r="5" fill="var(--accent)"/>
+                <text x="602" y="198" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Air-gapped enclave</text>
+                <text x="602" y="218" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)">Mirrored registry and models; no internet at inference or update time</text>
+                <text x="1140" y="198" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: no internet</text>
+              </svg>
+              <div class="cols c3">
+                <div class="card"><span class="tag">Same platform</span><h4>Accredit once, inherit everywhere</h4><p>Signing, FIPS mode, compliance scanning and drift monitoring attach to the platform — so workflow two starts with workflow one&rsquo;s evidence, and the skills and pipelines carry over the same way.</p></div>
+                <div class="card"><span class="tag">At scale</span><h4>April becomes a scheduling event</h4><p>The 6&times; filing surge is absorbed by autoscaling on pooled GPUs (Lab 03) — capacity follows the season instead of sitting siloed inside one project&rsquo;s budget.</p></div>
+                <div class="card"><span class="tag">Across clouds</span><h4>Placement is policy, not re-architecture</h4><p>Datacenter, accredited region or enclave — moving a workload is a redeploy of the same manifest. Residency and cost decide where it runs, and the exit door stays open.</p></div>
+              </div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 9 -->
         <article class="slide" data-title="Security posture" data-notes="This is the slide that unblocks the deal. Every row is a control the platform provides, mapped to the question an authorizing official actually asks. Offer to take the whole table offline with their ISSO.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -761,7 +911,65 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 7 -->
+        <!-- 10 -->
+        <article class="slide" data-title="Logs to MTTR" data-notes="The NotebookLM analogy lands instantly: a private notebook that has read everything yours — except this one has read your logs, runbooks, incident history and change records, and it runs on the same cluster it observes. Walk the two bars: detection was already fast, the hours lived in diagnosis, and a cited answer to what-changed-and-which-runbook is what removes them. Lab 07 runs this live — offer to jump straight there if the room is operational.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">The platform on its own data</span>
+            <h2>Point the same pattern at your logs — MTTR is the proof</h2>
+            <p class="lede">The Lab 04 retrieval stack, aimed at operations: logs, runbooks, incident history and change records become a private notebook the on-call engineer can question — on the cluster, inside the boundary.</p>
+          </div>
+          <div class="slide-body">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <svg viewBox="0 0 1180 240" role="img" style="width:100%;height:auto" aria-label="Two horizontal bars decompose mean time to restore into detect, diagnose, fix and verify. Before: 3 hours 16 minutes, dominated by 2 hours 41 minutes of diagnosis. With the ops notebook, diagnosis falls 84 percent to 24 minutes and the total to 59 minutes; detect, fix and verify are unchanged.">
+                <defs>
+                  <filter id="sMsh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#1B1211" flood-opacity=".13"/></filter>
+                </defs>
+                <rect x="4" y="4" width="1172" height="232" rx="12" fill="var(--surface)" stroke="var(--border)" filter="url(#sMsh)"/>
+                <text x="28" y="36" font-family="Red Hat Display" font-size="18" font-weight="800" fill="var(--ink)">Where the hours actually live</text>
+                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">Mean time to restore, decomposed — representative incident pattern, before and after the notebook</text>
+                <g font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-2)">
+                  <rect x="210" y="66" width="10" height="10" fill="var(--steel)"/><text x="226" y="75">detect</text>
+                  <rect x="300" y="66" width="10" height="10" fill="var(--accent)"/><text x="316" y="75">diagnose</text>
+                  <rect x="410" y="66" width="10" height="10" fill="var(--amber)"/><text x="426" y="75">fix</text>
+                  <rect x="470" y="66" width="10" height="10" fill="var(--good)"/><text x="486" y="75">verify</text>
+                </g>
+                <!-- before -->
+                <text x="28" y="104" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">before</text>
+                <text x="28" y="119" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">grep · page · guess</text>
+                <rect x="210" y="88" width="18.4" height="32" fill="var(--steel)"/>
+                <rect x="228.4" y="88" width="739.3" height="32" fill="var(--accent)"/>
+                <rect x="967.7" y="88" width="101" height="32" fill="var(--amber)"/>
+                <rect x="1068.7" y="88" width="41.3" height="32" fill="var(--good)"/>
+                <text x="598" y="108" text-anchor="middle" font-family="Red Hat Display" font-size="11.5" font-weight="700" fill="#FFFFFF">diagnose — 2h 41m</text>
+                <text x="1018" y="108" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="#FFFFFF">fix 22m</text>
+                <text x="1120" y="108" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">3h 16m</text>
+                <!-- after -->
+                <text x="28" y="168" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">with the notebook</text>
+                <text x="28" y="183" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">ask · verify · act</text>
+                <rect x="210" y="152" width="18.4" height="32" fill="var(--steel)"/>
+                <rect x="228.4" y="152" width="110.2" height="32" fill="var(--accent)"/>
+                <rect x="338.6" y="152" width="101" height="32" fill="var(--amber)"/>
+                <rect x="439.6" y="152" width="41.3" height="32" fill="var(--good)"/>
+                <text x="283" y="172" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="#FFFFFF">24m</text>
+                <text x="389" y="172" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="#FFFFFF">fix 22m</text>
+                <text x="491" y="172" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">59m</text>
+                <text x="555" y="168" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">diagnosis −84% — the notebook answers &ldquo;what changed, has this</text>
+                <text x="555" y="184" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">happened before, which runbook applies&rdquo; in seconds, with citations</text>
+                <text x="210" y="216" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">Detect, fix and verify are unchanged — the hours lived in diagnosis. Lab 07 walks the incident end to end.</text>
+                <text x="1148" y="216" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--accent-ink)">→ Lab 07</text>
+              </svg>
+              <div class="cols c3">
+                <div class="card"><span class="tag">Why a notebook, not a dashboard</span><h4>Dashboards answer anticipated questions</h4><p>A notebook over your own data answers the one you did not anticipate — &ldquo;what changed, has this happened before, which runbook applies&rdquo; — in language, with citations you check before acting.</p></div>
+                <div class="card"><span class="tag">Why it must be local</span><h4>Logs are FTI-adjacent</h4><p>They carry hostnames, account fragments and case identifiers. The notebook runs on the same OpenShift install it observes — nothing is exported to anyone&rsquo;s hosted service.</p></div>
+                <div class="card"><span class="tag">Why it transfers</span><h4>Same stack as the taxpayer system</h4><p>The team that grounds answers for operations (Lab 07) has already built the taxpayer-facing version (Lab 04) — one retrieval pattern, two corpora, one governance story.</p></div>
+              </div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 11 -->
         <article class="slide" data-title="Adoption path" data-notes="Be honest about sequencing. Most agencies fail at AI not on the model but on the second and third bullets of Phase 1 — no GPU capacity plan, and no agreement on which data may be used. Ask directly which phase they are in.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -839,28 +1047,29 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 8 -->
+        <!-- 12 -->
         <article class="slide" data-title="Labs preview" data-notes="Transition slide. Switch to the Labs view now. Tell them the terminals are typed by them — commands are real and copyable, output is representative. Encourage them to run Lab 1 and Lab 5 live and take the rest home.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Hands on</span>
-            <h2>Six labs — real commands, run them yourself</h2>
-            <p class="lede">Switch to the <b>Labs</b> view in the sidebar. Each terminal accepts the command you type; every command is copyable into your own environment. Prefer to watch? The <b>Demo</b> view plays all six labs end to end, hands-free.</p>
+            <h2>Seven labs — real commands, run them yourself</h2>
+            <p class="lede">Switch to the <b>Labs</b> view in the sidebar. Each terminal accepts the command you type; every command is copyable into your own environment. Prefer to watch? The <b>Demo</b> view plays all seven labs end to end, hands-free.</p>
           </div>
           <div class="slide-body">
-            <div class="cols c3">
+            <div class="cols c4">
               <div class="card"><span class="tag">Lab 01 · RHEL AI</span><h4>Serve a model inside your boundary</h4><p>Initialize, download a Granite model, serve it, and classify a taxpayer inquiry — without a single byte leaving the host.</p></div>
               <div class="card"><span class="tag">Lab 02 · InstructLab</span><h4>Teach it your notice taxonomy</h4><p>Add agency knowledge as YAML, generate synthetic training data, tune, and evaluate the result against the base model.</p></div>
               <div class="card"><span class="tag">Lab 03 · OpenShift AI</span><h4>Survive filing season</h4><p>Deploy with KServe and vLLM, then watch it autoscale from two replicas to twenty under an April load rehearsal.</p></div>
               <div class="card"><span class="tag">Lab 04 · Retrieval</span><h4>Ground answers in your guidance</h4><p>Ingest a publication corpus into a vector store and return answers that carry their citation.</p></div>
               <div class="card"><span class="tag">Lab 05 · Ansible</span><h4>Automate the toil around the model</h4><p>An Event-Driven Ansible rulebook detects inference saturation and remediates it before anyone opens a ticket.</p></div>
               <div class="card"><span class="tag">Lab 06 · Trust</span><h4>Prove it to your ISSO</h4><p>Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.</p></div>
+              <div class="card"><span class="tag">Lab 07 · Ops notebook</span><h4>Ask your own logs</h4><p>Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.</p></div>
             </div>
           </div>
           <span class="slidenum"></span>
         </article>
 
-        <!-- 9 -->
+        <!-- 13 -->
         <article class="slide" data-title="Next steps" data-notes="Close with a specific ask, not a thank-you. The architecture workshop is the natural next step and it is free. Hand off to Four Inc. and Carahsoft for the contract vehicle conversation.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -891,7 +1100,7 @@ kbd{
       <div class="labs-intro">
         <span class="eyebrow">Hands-on track</span>
         <h2>Virtual terminal labs</h2>
-        <p>Six labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all six on a loop.</p>
+        <p>Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop.</p>
       </div>
       <div id="labholder"></div>
 
@@ -902,7 +1111,7 @@ kbd{
           <div class="card"><span class="tag">Four Inc.</span><h4>Public sector distribution</h4><p>Contract vehicles, pricing and the paperwork path for a pilot that has to start this fiscal year.</p></div>
           <div class="card"><span class="tag">Carahsoft</span><h4>Government aggregation</h4><p>Procurement support across the agencies and integrators already running Red Hat platforms.</p></div>
         </div>
-        <p class="takeaway" style="margin-top:22px"><b>One thing to remember.</b> Nothing in these six labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</p>
+        <p class="takeaway" style="margin-top:22px"><b>One thing to remember.</b> Nothing in these seven labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</p>
       </div>
     </section>
 
@@ -941,7 +1150,7 @@ kbd{
         </div>
         <div class="screen" id="demo-screen" tabindex="0" role="log" aria-live="off" aria-label="Automated lab walkthrough"></div>
       </div>
-      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;&middot;&nbsp; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> switch labs &nbsp;&middot;&nbsp; loops through all six continuously. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
+      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;&middot;&nbsp; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> switch labs &nbsp;&middot;&nbsp; loops through all seven continuously. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
     </section>
   </main>
 </div>
@@ -1525,6 +1734,88 @@ kbd{
           ['warn','channel_mix drift 0.212 exceeds the 0.150 alert threshold.'],
           ['note','Nothing is wrong with the model — more taxpayers moved to the portal.'],
           ['note','That is exactly the signal you want, and exactly why you monitor it.']
+        ]}
+    ]
+  },
+  {
+    title:'Ask your own logs',
+    product:'OpenShift AI · OpenShift Logging · Granite',
+    time:'~5 min',
+    host:'sre@ops-notebook:~',
+    goal:'Aim the Lab 04 retrieval pattern at operations itself. Cluster logs, runbooks, incident history and change records become a private notebook you can question during a live incident — a NotebookLM for the platform, running on the platform. The payoff is measured in MTTR, because diagnosis is where the hours live.',
+    youll:[
+      'The <b>same RAG stack as Lab 04</b> — vector store, Granite, Llama Stack — pointed at ops data',
+      'An ingest across <b>Loki logs, runbooks, incidents and change records</b>',
+      'A <b>cited diagnosis</b> during a live incident, and the MTTR numbers a quarter later'
+    ],
+    watch:[
+      'Nothing new is installed — Lab 04 taught the pattern; only the corpus changed',
+      'The answer cites the log line, the change record and the runbook — verify, then act',
+      'Logs carry hostnames and case identifiers: keeping this notebook on-cluster is not optional'
+    ],
+    take:'Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.',
+    steps:[
+      { cmd:'logcli query \'{namespace="tax-inference"} |= "ERROR"\' --since 24h --limit 4',
+        note:'14:20 on a Tuesday. p99 latency has tripled and predictor pods are restarting.',
+        out:[
+          ['dim','https://loki-gateway.openshift-logging.svc — tenant: infrastructure'],
+          ['err','14:02:11Z predictor-7f9cd  CUDA out of memory. Tried to allocate 1.42 GiB'],
+          ['err','14:02:14Z predictor-7f9cd  vLLM engine loop crashed — restarting'],
+          ['err','14:07:52Z predictor-b2d14  CUDA out of memory. Tried to allocate 1.42 GiB'],
+          ['warn','14:09:33Z kserve  readiness flapping on 2 of 6 replicas']
+        ]},
+      { cmd:'python ingest_ops.py --loki https://loki-gateway.openshift-logging.svc --runbooks ./runbooks --incidents ./postmortems --changes ./change-records',
+        out:[
+          ['dim','Building the operations corpus ...'],
+          ['','  loki export       90 days · tax-inference + platform    8,912 chunks'],
+          ['','  runbooks          48 documents                            517 chunks'],
+          ['','  incident history  312 postmortems                       1,466 chunks'],
+          ['','  change records    1,240 entries                         1,240 chunks'],
+          ['','  embedding [####################] 12,135 / 12,135'],
+          ['ok','Indexed 12,135 chunks into pgvector.ops_notebook (768-dim, HNSW)'],
+          ['note','Same stack as Lab 04 — only the corpus changed. Nothing left the cluster.']
+        ]},
+      { cmd:'llama-stack-client inference chat-completion --message "tax-classifier p99 tripled since 14:00 and predictor pods are OOM-restarting. What changed, has this happened before, and which runbook applies?"',
+        out:[
+          ['vio','Probable cause: change CR-9012, applied 13:47 today, raised'],
+          ['vio','max_model_len 8192 -> 16384 on tax-classifier. At the configured'],
+          ['vio','gpu_memory_utilization of 0.90 this leaves too little headroom'],
+          ['vio','for the KV cache, and predictor pods OOM under load.'],
+          ['vio',''],
+          ['vio','Precedent: INC-2209 (March filing surge) — identical OOM signature'],
+          ['vio','after a context-length change; resolved by reverting and re-testing'],
+          ['vio','at reduced memory utilization.'],
+          ['vio',''],
+          ['vio','Applicable runbook: RB-114 "vLLM memory pressure", steps 3–5.'],
+          ['dim',''],
+          ['key','sources:'],
+          ['key','  [1] change record CR-9012                      score 0.93'],
+          ['key','  [2] INC-2209 postmortem — root cause           score 0.91'],
+          ['key','  [3] runbook RB-114 §3–5                        score 0.88'],
+          ['key','  [4] loki predictor-7f9cd 14:02:11Z             score 0.86'],
+          ['note','Forty minutes of grepping and paging, answered in eleven seconds — with citations to check.']
+        ]},
+      { cmd:'awx job_templates launch "RB-114 — revert model config change" --extra_vars \'{"change": "CR-9012"}\' --monitor -f human',
+        out:[
+          ['dim','Resolved change CR-9012 -> revert max_model_len to 8192'],
+          ['','job 40417 pending -> running'],
+          ['','TASK [Revert InferenceService config] ****************************'],
+          ['ok','changed: [ocp-prod-1] => max_model_len 16384 -> 8192'],
+          ['','TASK [Wait for predictors Ready] *********************************'],
+          ['ok','ok: [ocp-prod-1] => 6/6 replicas Ready, 0 restarts in 5m window'],
+          ['','TASK [Send canary inquiry] ***************************************'],
+          ['ok','ok: [ocp-prod-1] => classified in 0.29s (threshold 2.00s)'],
+          ['ok','job 40417 successful — evidence lands in controller history (Lab 05)']
+        ]},
+      { cmd:'python mttr_report.py --window last-quarter',
+        out:[
+          ['dim','MTTR decomposition — tax platform production incidents'],
+          ['','                        detect   diagnose   fix     verify   total'],
+          ['','  4 quarters before       4m      2h 41m    22m      9m     3h 16m'],
+          ['ok','  with the notebook       4m        24m     22m      9m       59m'],
+          ['dim',''],
+          ['','  incidents this quarter: 17 · diagnosis time −84% · total −70%'],
+          ['note','Detection was already fast. The hours lived in diagnosis — that is what a notebook over your own logs removes.']
         ]}
     ]
   }
