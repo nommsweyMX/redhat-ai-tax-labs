@@ -207,7 +207,7 @@ table.grid td.mono{font-family:"Red Hat Mono",monospace;font-size:.8rem;color:va
 .phase[data-p="2"] header{background:var(--amber-wash)}
 .phase[data-p="3"] header{background:var(--accent-wash)}
 
-.archi{width:100%;height:auto;display:block}
+.archi{width:100%;height:100%;display:block;min-height:0}
 .archi text{font-family:"Red Hat Text",system-ui,sans-serif}
 
 .notes{
@@ -412,6 +412,20 @@ kbd{
 .portfolio-strip{margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .portfolio-strip div{border-top:3px solid var(--accent);background:var(--surface-2);padding:8px 9px;border-radius:4px;font-size:.7rem;color:var(--ink-2)}
 .portfolio-strip b{display:block;color:var(--ink);font-family:"Red Hat Display",sans-serif;font-size:.82rem;margin-bottom:2px}
+.leavebehind{display:inline-block;align-self:flex-start;margin-left:0;font-family:"Red Hat Mono",monospace;font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);border:1px dashed var(--amber);border-radius:100px;padding:2px 10px;vertical-align:middle}
+.why-rh2{display:flex;flex-direction:column;gap:8px;min-height:0}
+.why-rh2 .promise{max-width:820px;margin:0 auto;width:100%}
+.why-rh2 .rhgrid{grid-template-columns:repeat(3,1fr);gap:8px}
+.why-rh2 .rhpoint{padding:9px 11px}
+.why-rh2 .rhpoint h4{font-size:.84rem;margin-top:3px}
+.why-rh2 .rhpoint p{font-size:.7rem;line-height:1.28;margin-top:3px}
+.why-rh2 .promise{padding:12px 16px}
+.why-rh2 .promise .quote{font-size:1.3rem}
+.why-rh2 .promise .subq{font-size:.78rem;margin-top:8px}
+.why-rh2 .portfolio-strip{margin-top:9px;gap:6px}
+.why-rh2 .portfolio-strip div{padding:5px 8px;font-size:.66rem}
+.why-rh2 .refnote{font-size:.62rem;text-align:center;font-family:"Red Hat Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+@media (max-width:1080px){.why-rh2 .rhgrid{grid-template-columns:1fr 1fr}}
 
 @media (max-width:1080px){.ai-spectrum{grid-template-columns:1fr 1fr}.llm-stack,.why-rh{grid-template-columns:1fr}.flywheel{grid-template-columns:1fr}.fwarrow{transform:rotate(90deg)}.portfolio-strip{grid-template-columns:1fr 1fr}}
 
@@ -468,9 +482,9 @@ kbd{
       <div class="stage" id="stage" tabindex="-1">
 
         <!-- 1 -->
-        <article class="slide title-slide" data-title="Title" data-notes="Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the hour — foundations first, then the platform story, then live terminal, 5 for questions. The promise: every claim we make today, we run in a shell before you leave.">
+        <article class="slide title-slide" data-title="Title" data-notes="Brad drives, Jon adds color commentary — objective one is to keep the room engaged; entertainment precedes learning. Open by naming the room: Red Hat, Four Inc. and Carahsoft. Frame the hour — terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway. The promise: every claim we make today, we run in a shell before you leave. Security lives in the appendix — pull it up the moment an ISSO engages.">
           <div class="rule"></div>
-          <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event</span>
+          <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026</span>
           <h2>AI foundations for intelligent tax administration</h2>
           <p class="kicker">What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in seven labs you run yourself.</p>
           <p style="margin-top:16px;font-size:.95rem;color:var(--ink-2)">Presented by <b>Jon Keam</b> and <b>Brad Scalio</b></p>
@@ -479,7 +493,27 @@ kbd{
         </article>
 
         <!-- 2 -->
-        <article class="slide" data-title="Why now" data-notes="Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk. AI is interesting here precisely because it works on unstructured language — which is most of what a tax agency actually handles.">
+        <article class="slide" data-title="AI in plain English" data-notes="Start with the umbrella. Federal audiences hear AI used as if every technique is the same. It is not. Predictive AI estimates or classifies. Generative AI creates. An LLM is a generative model specialized in language. Agentic systems add tools and workflow. Automation executes known steps. The strongest mission pattern combines them rather than asking one model to do everything. Land the on-ramp line: if you are not automated, you are not going to have a good generative or predictive AI inside your boundary — automation is the prerequisite.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">AI foundations · no alphabet soup</span>
+            <h2>Four different jobs get called &ldquo;AI&rdquo;</h2>
+            <p class="lede">Treat AI as a toolbox, not a magic employee. Pick the tool by the job you need done.</p>
+          </div>
+          <div class="slide-body" style="display:flex;flex-direction:column">
+            <div class="ai-spectrum">
+              <div class="ai-kind predict"><span class="tag">Estimate</span><div class="big">Predictive AI</div><div class="plain">Finds patterns in historical data to score, classify or forecast an outcome.</div><div class="analogy"><b>Analogy</b><br>A weather forecast: &ldquo;there is a 70% chance,&rdquo; not a guarantee.</div></div>
+              <div class="ai-kind generate"><span class="tag">Create</span><div class="big">Generative AI / LLM</div><div class="plain">Produces new language by predicting useful next tokens from patterns learned during training and context supplied now.</div><div class="analogy"><b>Analogy</b><br>A very well-read drafting assistant — fast, fluent, and still capable of being wrong.</div></div>
+              <div class="ai-kind agent"><span class="tag">Reason + act</span><div class="big">Agentic AI</div><div class="plain">Pairs a model with approved tools, state and rules so it can plan steps and call systems.</div><div class="analogy"><b>Analogy</b><br>A junior analyst with a badge and a restricted tool belt — permissions still matter.</div></div>
+              <div class="ai-kind auto"><span class="tag">Execute</span><div class="big">Automation</div><div class="plain">Runs deterministic, tested steps when a condition or human decision says to act.</div><div class="analogy"><b>Analogy</b><br>A checklist that actually performs the checklist. This is where Ansible belongs.</div></div>
+            </div>
+            <div class="notbox"><b>What predictive AI is not:</b> a crystal ball. &nbsp; <b>What an LLM is not:</b> a database, policy authority or source of truth. &nbsp; <b>What an agent is not:</b> permission to bypass controls.</div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 3 -->
+        <article class="slide" data-title="Why now" data-notes="Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk. AI is interesting here precisely because it works on unstructured language — which is most of what a tax agency actually handles. Context to use with tact: large federal accounts are losing institutional knowledge as people age out or are RIF&#39;d — capturing what the workforce knows is part of why this matters now. The chart: a year of demand arrives in six weeks. And the constraint that decides the architecture — federal tax information cannot go to a public endpoint; the model comes to the data.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">The operating reality</span>
@@ -529,56 +563,29 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 3 -->
-        <article class="slide" data-title="AI in plain English" data-notes="Start with the umbrella. Federal audiences hear AI used as if every technique is the same. It is not. Predictive AI estimates or classifies. Generative AI creates. An LLM is a generative model specialized in language. Agentic systems add tools and workflow. Automation executes known steps. The strongest mission pattern combines them rather than asking one model to do everything.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">AI foundations · no alphabet soup</span>
-            <h2>Four different jobs get called &ldquo;AI&rdquo;</h2>
-            <p class="lede">Treat AI as a toolbox, not a magic employee. Pick the tool by the job you need done.</p>
-          </div>
-          <div class="slide-body" style="display:flex;flex-direction:column">
-            <div class="ai-spectrum">
-              <div class="ai-kind predict"><span class="tag">Estimate</span><div class="big">Predictive AI</div><div class="plain">Finds patterns in historical data to score, classify or forecast an outcome.</div><div class="analogy"><b>Analogy</b><br>A weather forecast: &ldquo;there is a 70% chance,&rdquo; not a guarantee.</div></div>
-              <div class="ai-kind generate"><span class="tag">Create</span><div class="big">Generative AI / LLM</div><div class="plain">Produces new language by predicting useful next tokens from patterns learned during training and context supplied now.</div><div class="analogy"><b>Analogy</b><br>A very well-read drafting assistant — fast, fluent, and still capable of being wrong.</div></div>
-              <div class="ai-kind agent"><span class="tag">Reason + act</span><div class="big">Agentic AI</div><div class="plain">Pairs a model with approved tools, state and rules so it can plan steps and call systems.</div><div class="analogy"><b>Analogy</b><br>A junior analyst with a badge and a restricted tool belt — permissions still matter.</div></div>
-              <div class="ai-kind auto"><span class="tag">Execute</span><div class="big">Automation</div><div class="plain">Runs deterministic, tested steps when a condition or human decision says to act.</div><div class="analogy"><b>Analogy</b><br>A checklist that actually performs the checklist. This is where Ansible belongs.</div></div>
-            </div>
-            <div class="notbox"><b>What predictive AI is not:</b> a crystal ball. &nbsp; <b>What an LLM is not:</b> a database, policy authority or source of truth. &nbsp; <b>What an agent is not:</b> permission to bypass controls.</div>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
         <!-- 4 -->
-        <article class="slide" data-title="Inside an LLM" data-notes="Explain the layers from bottom to top. The GPU is compute. Inference is the running engine. The model contains learned statistical patterns, not a live copy of IRS policy. Context is the open book we hand it for this request. RAG retrieves relevant approved material into that context. Fine tuning changes behavior and weights; use it for durable behavior, not for facts that change every filing season.">
+        <article class="slide" data-title="Inside an LLM" data-notes="One central visual, minimal text. This slide has ONE job: show that there is a lot around the LLM, not just the model — the inference runtime, the platform controls and the system around it are what is critical. Do not try to teach every concept here. Use the car analogy: the LLM is the engine, and an engine alone does not drive you to the store and pick up groceries — you need the vehicle. Running an LLM on a laptop is easy; that is not an enterprise-worthy AI solution. Then the three knobs, spoken not shown: prompting is better instructions for THIS request; RAG is the right references for THIS request; fine-tuning changes learned behavior for FUTURE requests — durable behavior, never facts that change each filing season. Land Jon&#39;s analogy on screen: fine-tuning is studying for the test, retrieval is bringing the notebook — an AND, not an either/or, and Red Hat&#39;s own metrics show doing both gives the best results. Brad&#39;s rejoinder if it lands well: some people are bad test takers — that does not mean they did not study. Tell the room the text stands alone as a takeaway so they stop reading and listen.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Large language model · what is actually happening</span>
             <h2>An LLM is the engine — not the whole vehicle</h2>
-            <p class="lede">Useful federal AI comes from the model <em>plus</em> trusted context, an inference runtime, platform controls and the systems around it.</p>
           </div>
-          <div class="slide-body llm-stack">
-            <div class="stacklayers">
-              <div class="stacklayer"><strong>Mission app</strong><span>The taxpayer-service UI, troubleshooting console, case workflow or API that asks for help.</span></div>
-              <div class="stacklayer context"><strong>Context / RAG</strong><span>Retrieves the approved runbook, IRM, knowledge article or case material relevant to this exact question. Think <b>open-book exam</b>.</span></div>
-              <div class="stacklayer model"><strong>Model / LLM</strong><span>Interprets language and generates the response. Its weights hold learned patterns; they are not your live system of record.</span></div>
-              <div class="stacklayer"><strong>Inference</strong><span>The serving engine that turns prompts into tokens efficiently — vLLM / Red Hat AI Inference Server.</span></div>
-              <div class="stacklayer platform"><strong>Platform</strong><span>Identity, scaling, isolation, observability, lifecycle and policy — RHEL with the AI Inference Server for a single host; OpenShift AI for shared production scale.</span></div>
-              <div class="stacklayer"><strong>Compute + data</strong><span>Accelerators, storage, networks and agency data — located where mission, sovereignty and authorization require.</span></div>
+          <div class="slide-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div class="stacklayers" style="width:min(860px,100%)">
+              <div class="stacklayer"><strong>Mission app</strong><span>The taxpayer-service UI, case workflow or console that asks for help.</span></div>
+              <div class="stacklayer context"><strong>Context / RAG</strong><span>The approved guidance for this exact question — the <b>open book</b>.</span></div>
+              <div class="stacklayer model"><strong>Model / LLM</strong><span>Learned language patterns — not your live system of record.</span></div>
+              <div class="stacklayer"><strong>Inference</strong><span>The engine — vLLM, the Red Hat AI Inference Server.</span></div>
+              <div class="stacklayer platform"><strong>Platform</strong><span>Identity, scaling, isolation, lifecycle, policy — RHEL and OpenShift AI.</span></div>
+              <div class="stacklayer"><strong>Compute + data</strong><span>Accelerators and agency data — wherever authorization requires.</span></div>
             </div>
-            <div class="brainbox">
-              <h3>Three knobs people confuse</h3>
-              <p><b>Prompting</b> = giving better instructions for this request.</p>
-              <p><b>RAG</b> = giving the model the right reference material for this request.</p>
-              <p><b>Fine-tuning</b> = changing the model&rsquo;s learned behavior for future requests.</p>
-              <div class="equation">LLM + approved context + controls<br>&ne; &ldquo;the model knows the truth&rdquo;<br><br>It means: the system can produce a useful answer that is grounded, observable and reviewable.</div>
-            </div>
+            <p class="takeaway" style="margin-top:22px;max-width:66ch"><b>Fine-tuning is studying for the test. Retrieval is bringing the notebook.</b> You want both — and neither makes the model a source of truth.</p>
           </div>
           <span class="slidenum"></span>
         </article>
 
         <!-- 5 -->
-        <article class="slide" data-title="Data to judgement" data-notes="This is the why-it-matters slide. Walk the stairs left to right: data, information, knowledge, judgement. Each step up is worth more to the mission and harder to automate honestly. Predictive models climb the first riser, generative models with retrieval climb the second, and the top step is deliberately human. If the room remembers one picture from today, make it this one.">
+        <article class="slide" data-title="Data to judgement" data-notes="The masterpiece slide — Jon&#39;s word. Walk the stairs left to right: data, information, knowledge, judgement. Brad&#39;s line, said out loud: we are really good at creating data and information and pretending it is knowledge — if it is not informing anything we need, it is not knowledge. Knowledge has to drive action, not check a box. Each rung is worth more to the mission. Predictive climbs the first riser, generative with retrieval the second, and judgement is deliberately never automated — that is where people come in and always will. PLANTED QUESTION: Jon asks &#39;so is AI taking jobs?&#39; — Brad answers: it is not coming for your job, because right now it does not have judgement. The make-the-tests-pass example: ask an AI to make all the tests pass and it edits the code so they pass — it did exactly what you asked. That is information, not knowledge and judgement. Optional garnish, correctly attributed: Karpathy&#39;s &#39;you can outsource intelligence but you cannot outsource understanding.&#39;">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Why it matters</span>
@@ -609,7 +616,7 @@ kbd{
                 <!-- step 3: knowledge -->
                 <rect x="596" y="128" width="258" height="172" rx="6" fill="url(#sLstep)" stroke="var(--border-strong)" filter="url(#sLsh)"/>
                 <text x="612" y="156" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Knowledge</text>
-                <text x="612" y="176" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">What the institution knows</text>
+                <text x="612" y="176" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Information that informs an outcome</text>
                 <text x="612" y="196" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">guidance · precedent · taxonomies</text>
                 <!-- step 4: judgement -->
                 <rect x="874" y="84" width="258" height="216" rx="6" fill="var(--accent-wash)" stroke="var(--accent)" filter="url(#sLsh)"/>
@@ -644,9 +651,9 @@ kbd{
         <article class="slide" data-title="Two kinds of AI" data-notes="Most rooms use one word — AI — for two different tools, and most failed projects picked the wrong one. Predictive models produce a number from structured history; generative models produce language. They fail differently, so they are governed differently. Close on the compose line: the strongest workflows chain them, and the platform runs both side by side.">
           <div class="rule"></div>
           <div class="slide-head">
-            <span class="eyebrow">Why it matters</span>
+            <span class="eyebrow">Why it matters</span><span class="leavebehind">table reads standalone — take it home</span>
             <h2>Predictive and generative AI answer different questions</h2>
-            <p class="lede">One produces a number from structured history. The other produces language. They fail differently — so they are governed differently.</p>
+            <p class="lede">They fail differently — so they are governed differently.</p>
           </div>
           <div class="slide-body">
             <div class="tablewrap">
@@ -661,16 +668,29 @@ kbd{
                 </tbody>
               </table>
             </div>
-            <div class="cols c2" style="margin-top:18px">
-              <div class="card"><span class="tag">They compose</span><h4>Predictive picks the case, generative prepares it</h4><p>A risk score decides which case deserves attention; a language model assembles the brief, the draft and the citations; a person decides. The strongest workflows chain all three.</p></div>
-              <div class="card"><span class="tag">Same platform</span><h4>One cluster serves both, side by side</h4><p>A gradient-boosted scorer and a Granite language model deploy through the same registry, share the same GPUs and land in the same audit trail — that is the point of the platform (→ Lab 03).</p></div>
-            </div>
+            <svg viewBox="0 0 1180 160" role="img" style="width:100%;height:auto;margin-top:10px" aria-label="Venn diagram: a predictive circle producing numbers — score, forecast, flag — overlaps a generative circle producing language — read, draft, cite. The overlap is labeled compose: the score picks the case, the draft prepares it, a person decides, and one platform serves both models side by side.">
+              <circle cx="300" cy="80" r="66" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="2"/>
+              <circle cx="400" cy="80" r="66" fill="var(--accent-wash)" fill-opacity=".72" stroke="var(--accent)" stroke-width="2"/>
+              <text x="272" y="70" text-anchor="middle" font-family="Red Hat Display" font-size="13" font-weight="800" fill="var(--ink)">Predictive</text>
+              <text x="272" y="87" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">a number</text>
+              <text x="272" y="102" text-anchor="middle" font-family="Red Hat Mono" font-size="8.5" fill="var(--ink-3)">score · flag</text>
+              <text x="428" y="70" text-anchor="middle" font-family="Red Hat Display" font-size="13" font-weight="800" fill="var(--ink)">Generative</text>
+              <text x="428" y="87" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">language</text>
+              <text x="428" y="102" text-anchor="middle" font-family="Red Hat Mono" font-size="8.5" fill="var(--ink-3)">draft · cite</text>
+              <text x="350" y="78" text-anchor="middle" font-family="Red Hat Mono" font-size="8.5" font-weight="600" fill="var(--accent-ink)">com-</text>
+              <text x="350" y="89" text-anchor="middle" font-family="Red Hat Mono" font-size="8.5" font-weight="600" fill="var(--accent-ink)">pose</text>
+              <text x="510" y="52" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">They compose — and one platform serves both</text>
+              <text x="510" y="76" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">The score picks the case. The language model prepares the brief, the draft</text>
+              <text x="510" y="94" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">and the citations. A person decides.</text>
+              <text x="510" y="118" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">Both share the same GPUs, registry, monitoring and audit trail.</text>
+              <text x="510" y="140" font-family="Red Hat Mono" font-size="9" fill="var(--ink-3)">→ Lab 03 serves both side by side</text>
+            </svg>
           </div>
           <span class="slidenum"></span>
         </article>
 
         <!-- 7 -->
-        <article class="slide" data-title="Where AI lands" data-notes="Walk left to right. The highlighted stages are where language models earn their keep first — they are high-volume, text-heavy, and have a human reviewer already in the loop, which makes them safe places to start. Exam selection is deliberately NOT highlighted: that is a determination affecting a taxpayer, and it needs a much heavier governance conversation.">
+        <article class="slide" data-title="Where AI lands" data-notes="Walk left to right. The highlighted stages are where language models earn their keep first — high-volume, text-heavy, and a human reviewer is already in the loop, which makes them the honest places to start. Exam selection is deliberately NOT highlighted: that is a determination affecting a taxpayer and needs a much heavier governance conversation — saying so unprompted buys enormous credibility. Two rules of thumb: start where a human already reviews the output; and automate the toil around the model, not just the model. Worth naming: most of the effort in production AI is provisioning, patching, scaling and data collection — an automation problem, already solved.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Workflow map</span>
@@ -770,7 +790,7 @@ kbd{
         </article>
 
         <!-- 8 -->
-        <article class="slide" data-title="Five outcomes" data-notes="These five are the event abstract, made concrete. Each one names the product that delivers it and the lab number where the audience runs it. Do not linger — this slide exists so people can map the rest of the hour.">
+        <article class="slide" data-title="Five outcomes" data-notes="These five come straight from the Carahsoft event description, and each one names the product that delivers it and the lab where the audience runs it. The point to make: this is how buzzword bingo ties to specific, actual outcomes — things you can start on a laptop today, so you can convince yourself before you try to convince an authorizing official and a CIO. The lab tags here match the tags Brad already uses in the IRS bi-weekly, so people can find things later. Do not linger — this slide exists so people can map the rest of the hour.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">What teams get</span>
@@ -802,14 +822,15 @@ kbd{
         </article>
 
         <!-- 9 -->
-        <article class="slide" data-title="Architecture" data-notes="Read this bottom to top. The point of the picture is the two vertical bands: automation and trust are not a layer you add at the end, they run through every layer. If someone asks about GPUs — the accelerator is a detail of the bottom band, and it is deliberately drawn small.">
+        <article class="slide" data-title="Architecture" data-notes="Open with the seams riff — Jon asked for this one specifically. Most failures do not happen inside a system; they happen at the seams, the integration points between systems. The pants analogy: gain weight and your pants split at the seams, never in the middle where the fabric is strongest. RHEL and OpenShift interoperating layer to layer is what makes integration less cumbersome — we are not the only ones who do it, but we are uniquely positioned. Read the picture bottom to top; the point is the two vertical bands — automation and trust are not a layer you add at the end. New Training box gives SDG Hub and Training Hub a home next to serving, pipelines, registry and retrieval. Watch the naming rabbit hole: OpenShift versus OpenShift AI invites a product-versus-value tangent — for a value-seeking audience, serving and retrieval are one thing (&#39;I want my data out of it&#39;); split them only for a platform-technical room. The framing Jon called the core of it: one foundation from bare metal to the taxpayer — but how do you turn your information into actionable knowledge you can act on? PLANTED QUESTION: Brad cold-asks Jon &#39;what is fine-tuning to you?&#39; — Jon is comfortable with that.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Reference architecture</span>
             <h2>One foundation, from bare metal to the taxpayer</h2>
+            <p class="lede">Most failures happen at the seams between systems, not inside them. The platform&rsquo;s job is to make those seams boring.</p>
           </div>
           <div class="slide-body">
-            <svg class="archi" viewBox="0 0 920 420" role="img" aria-label="Layered architecture with depth: mission applications on top, OpenShift AI model services beneath, OpenShift, then RHEL with the AI Inference Server on GPU hardware at the base. A trust pillar with a shield runs down the left; an automation pillar with a gear runs down the right — both span every layer.">
+            <svg class="archi" viewBox="0 0 920 420" role="img" aria-label="Layered architecture with depth: mission applications on top, OpenShift AI model services beneath (serving, training, pipelines, registry, retrieval), OpenShift, then RHEL with the AI Inference Server on GPU hardware at the base. A trust pillar with a shield runs down the left; an automation pillar with a gear runs down the right — both span every layer.">
               <defs>
                 <marker id="a5ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
                 <filter id="a5sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2.5" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".16"/></filter>
@@ -888,22 +909,26 @@ kbd{
               <g filter="url(#a5sh)"><rect x="128" y="142" width="664" height="86" rx="8" fill="url(#a5ai)" stroke="#CC0000"/></g>
               <text x="146" y="164" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
               <text x="778" y="164" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04 · 07</text>
-              <rect x="146" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
-              <path d="M158,189 l10,6 -10,6 z" fill="#CC0000"/>
-              <text x="176" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model serving</text>
-              <text x="176" y="205" font-size="9.5" fill="var(--ink-3)">KServe + vLLM</text>
-              <rect x="304" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
-              <g fill="#286C88"><circle cx="318" cy="196" r="3.4"/><circle cx="330" cy="196" r="3.4"/><circle cx="342" cy="196" r="3.4"/></g>
-              <text x="352" y="192" font-size="10" font-weight="700" fill="var(--ink)">Pipelines</text>
-              <text x="352" y="205" font-size="9.5" fill="var(--ink-3)">tune · eval · promote</text>
-              <rect x="462" y="176" width="148" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
-              <path d="M476,187 l9,-5 9,5 v10 l-9,5 -9,-5 z" fill="none" stroke="#96620A" stroke-width="1.8"/><line x1="476" y1="187" x2="485" y2="192" stroke="#96620A" stroke-width="1.4"/><line x1="494" y1="187" x2="485" y2="192" stroke="#96620A" stroke-width="1.4"/><line x1="485" y1="192" x2="485" y2="202" stroke="#96620A" stroke-width="1.4"/>
-              <text x="500" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model registry</text>
-              <text x="500" y="205" font-size="9.5" fill="var(--ink-3)">versions · approvals</text>
-              <rect x="620" y="176" width="154" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
-              <circle cx="637" cy="193" r="6" fill="none" stroke="#CC0000" stroke-width="2"/><line x1="641.5" y1="197.5" x2="647" y2="203" stroke="#CC0000" stroke-width="2" stroke-linecap="round"/>
-              <text x="654" y="192" font-size="10" font-weight="700" fill="var(--ink)">Retrieval</text>
-              <text x="654" y="205" font-size="9.5" fill="var(--ink-3)">vector store · citations</text>
+              <rect x="146" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <path d="M156,189 l9,6 -9,6 z" fill="#CC0000"/>
+              <text x="172" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model serving</text>
+              <text x="172" y="205" font-size="9" fill="var(--ink-3)">KServe + vLLM</text>
+              <rect x="274" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <polyline points="284,201 289,195 294,198 300,189" fill="none" stroke="#1E7A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="306" y="192" font-size="10" font-weight="700" fill="var(--ink)">Training</text>
+              <text x="306" y="205" font-size="9" fill="var(--ink-3)">SDG · Training Hub</text>
+              <rect x="402" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <g fill="#286C88"><circle cx="414" cy="196" r="3.2"/><circle cx="424" cy="196" r="3.2"/><circle cx="434" cy="196" r="3.2"/></g>
+              <text x="444" y="192" font-size="10" font-weight="700" fill="var(--ink)">Pipelines</text>
+              <text x="444" y="205" font-size="9" fill="var(--ink-3)">tune · eval · ship</text>
+              <rect x="530" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <path d="M540,188 l8,-4.5 8,4.5 v9 l-8,4.5 -8,-4.5 z" fill="none" stroke="#96620A" stroke-width="1.7"/><line x1="540" y1="188" x2="548" y2="192.5" stroke="#96620A" stroke-width="1.3"/><line x1="556" y1="188" x2="548" y2="192.5" stroke="#96620A" stroke-width="1.3"/><line x1="548" y1="192.5" x2="548" y2="201.5" stroke="#96620A" stroke-width="1.3"/>
+              <text x="564" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model registry</text>
+              <text x="564" y="205" font-size="9" fill="var(--ink-3)">signed versions</text>
+              <rect x="658" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+              <circle cx="671" cy="193" r="5.5" fill="none" stroke="#CC0000" stroke-width="1.9"/><line x1="675" y1="197" x2="680" y2="202" stroke="#CC0000" stroke-width="1.9" stroke-linecap="round"/>
+              <text x="688" y="192" font-size="10" font-weight="700" fill="var(--ink)">Retrieval</text>
+              <text x="688" y="205" font-size="9" fill="var(--ink-3)">vector store</text>
 
               <!-- apps -->
               <g filter="url(#a5sh)"><rect x="128" y="46" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g>
@@ -933,17 +958,17 @@ kbd{
         </article>
 
         <!-- 10 -->
-        <article class="slide" data-title="Why Red Hat AI" data-notes="This is the branded answer. Do not sell a particular model as the moat. The value is operational control: choose the model, accelerator and location; keep data where authorization requires; run inference efficiently; integrate agency data; govern agents and lifecycle; automate the surrounding environment. This maps to Red Hat&#39;s current Inference, Data, Agents and Platform story. The next slide shows the mechanics.">
+        <article class="slide" data-title="Why Red Hat AI" data-notes="One focal point: the red box in the middle — bring the model to the mission, not the mission data to somebody else&#39;s model. Say the supporting lines rather than pointing at them: cloud AI is ultimately someone else&#39;s computer; on your computer, next to your data, you can go check and verify. Agencies buy ten thousand chatbot seats and start plugging things in — the alternative they are not shown is running their own instances beside their own data, feeding self-healing closed-loop systems. Colocation cuts attack surface AND transit time. Automation alone is a differentiator; the estate — one OS, the interconnect, the ecosystem, the execution layer tying them together — is the discriminator nobody else has. The six cards below are explicitly the take-home reference; tell the room that so they stop reading. The next slide shows the mechanics.">
           <div class="rule"></div>
           <div class="slide-head">
-            <span class="eyebrow">Why Red Hat AI</span>
+            <span class="eyebrow">Why Red Hat AI</span><span class="leavebehind">the grid below is your take-home reference</span>
             <h2>The federal problem is not &ldquo;get a model.&rdquo; It is operate AI without giving up control.</h2>
           </div>
-          <div class="slide-body why-rh">
+          <div class="slide-body why-rh2">
             <div class="promise">
               <span class="tag">The Red Hat proposition</span>
               <div class="quote">Bring the model to the mission — not the mission data to somebody else&rsquo;s model.</div>
-              <div class="subq">Use the model, accelerator and deployment location that fit the workload. Keep one operating model across datacenter, accredited cloud, edge and disconnected environments.</div>
+              <div class="subq">Use the model, accelerator and deployment location that fit the workload. One operating model across datacenter, accredited cloud, edge and disconnected — and a <b>glass box</b> you can open and inspect, not a black box.</div>
               <div class="portfolio-strip">
                 <div><b>Inference</b>Serve efficiently with vLLM / llm-d.</div>
                 <div><b>Data</b>Connect private agency knowledge.</div>
@@ -951,10 +976,11 @@ kbd{
                 <div><b>Platform</b>Scale and operate consistently.</div>
               </div>
             </div>
+            <div class="refnote">For later review — these six read standalone</div>
             <div class="rhgrid">
-              <div class="rhpoint"><span class="tag">Choice</span><h4>Model freedom</h4><p>Open models and standard APIs reduce dependence on one model provider or one accelerator generation.</p></div>
+              <div class="rhpoint"><span class="tag">Choice</span><h4>Model freedom</h4><p>Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.</p></div>
               <div class="rhpoint"><span class="tag">Control</span><h4>Data locality</h4><p>Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.</p></div>
-              <div class="rhpoint"><span class="tag">Operations</span><h4>AI as a platform service</h4><p>Central teams can provide governed model endpoints instead of every project building its own fragile AI stack.</p></div>
+              <div class="rhpoint"><span class="tag">Operations</span><h4>Models-as-a-Service</h4><p>Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.</p></div>
               <div class="rhpoint"><span class="tag">Economics</span><h4>Use accelerators efficiently</h4><p>vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.</p></div>
               <div class="rhpoint"><span class="tag">Lifecycle</span><h4>Predictive + generative</h4><p>OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.</p></div>
               <div class="rhpoint"><span class="tag">Execution</span><h4>Ansible closes the loop</h4><p>Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.</p></div>
@@ -964,7 +990,7 @@ kbd{
         </article>
 
         <!-- 11 -->
-        <article class="slide" data-title="Why one platform" data-notes="The Red Hat argument in one slide. Left box is the definition of the service — a manifest, a signed model, a GitOps repo. The three boxes on the right are the places it runs, unchanged. Accredit the controls once and every later workflow inherits the evidence; scale is a scheduling decision; placement across clouds is policy, not re-architecture. If the competing pitch is one cloud&#39;s AI stack, this is the counter: the mission does not have to marry the venue.">
+        <article class="slide" data-title="Why one platform" data-notes="The left box is the definition of the service — infrastructure as code: a manifest, a signed model, a GitOps repo. The three on the right are where it runs, unchanged: cloud burst, air-gapped enclave, dev and research. Infrastructure as code decouples the placement so it becomes a policy, not a re-architecture — this is the hybrid multicloud value prop. The lock-in riff: modern lock-in is far more dangerous than the old kind, because it limits your FUTURE decisions without you even knowing. The Mexico phone-plan analogy — a plan where you cannot call Pizza Hut, only Domino&#39;s. Real lock-in is tying into bespoke hyperscaler-unique services. Honesty caveat, say it out loud: this is not easy and not right for every situation — sometimes you legitimately need a native service. The ask is only that you define infrastructure and services as code, so placement is policy rather than a rewrite. Fine to spin up fast — then ground it after you prove it.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Why Red Hat</span>
@@ -984,7 +1010,7 @@ kbd{
                 <text x="32" y="110" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">inferenceservice.yaml</text>
                 <text x="32" y="128" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">model: granite-8b-tax-v1 (signed)</text>
                 <text x="32" y="146" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">delivery: GitOps — main branch</text>
-                <text x="32" y="174" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">The manifest is the capacity plan — Lab 03</text>
+                <text x="32" y="174" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">Infrastructure as code — the manifest is the capacity plan (Lab 03)</text>
                 <!-- arrows -->
                 <line x1="292" y1="100" x2="556" y2="46" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
                 <line x1="292" y1="126" x2="556" y2="126" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
@@ -1021,38 +1047,12 @@ kbd{
         </article>
 
         <!-- 12 -->
-        <article class="slide" data-title="Security posture" data-notes="This is the slide that unblocks the deal. Every row is a control the platform provides, mapped to the question an authorizing official actually asks. Offer to take the whole table offline with their ISSO.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">Trusted, enterprise-ready AI</span>
-            <h2>The questions an authorizing official will ask</h2>
-          </div>
-          <div class="slide-body">
-            <div class="tablewrap">
-              <table class="grid">
-                <thead><tr><th>Their question</th><th>The platform control</th><th>Where it lives</th></tr></thead>
-                <tbody>
-                  <tr><td>Where does our data go when someone prompts the model?</td><td>Nowhere. Inference runs on your cluster, in your enclave, on your accelerators.</td><td class="mono">AI Inference Server · OpenShift AI</td></tr>
-                  <tr><td>Can you prove this model is the one we approved?</td><td>Model artifacts are signed and verified before they are admitted to the cluster.</td><td class="mono">Sigstore / cosign</td></tr>
-                  <tr><td>Is the cryptography validated?</td><td>FIPS mode is a supported operating state of the OS and the platform on top of it.</td><td class="mono">RHEL FIPS mode</td></tr>
-                  <tr><td>How do we know it stays compliant next quarter?</td><td>Scheduled scans against a hardening profile, with machine-readable results.</td><td class="mono">Compliance Operator</td></tr>
-                  <tr><td>How do we detect the model drifting or skewing?</td><td>Continuous drift and fairness metrics on live inference traffic.</td><td class="mono">TrustyAI</td></tr>
-                  <tr><td>What if we have no internet at all?</td><td>Mirror images and models into the enclave; the platform is built for disconnected operation.</td><td class="mono">oc-mirror · registry</td></tr>
-                  <tr><td>Who is accountable when it is wrong?</td><td>A named reviewer — the deployment patterns we recommend keep a person on the signature.</td><td class="mono">Workflow design</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
-        <!-- 13 -->
-        <article class="slide" data-title="AI for operations" data-notes="Use a concrete operations story. Predictive AI sees telemetry patterns and flags elevated failure risk. Generative AI summarizes evidence and explains the likely issue. RAG pulls the approved troubleshooting and operations knowledge. Ansible performs only the remediations that policy permits. Then the reviewed incident summary becomes new knowledge. The key is that generated text does not become truth automatically — a human or workflow gate curates it first. The next slide quantifies this loop in MTTR.">
+        <article class="slide" data-title="AI for operations" data-notes="Segue Brad rehearsed: I talk to my chatbot at night and it tells me how great I am — but you do not want reassurance during a tax audit, a criminal investigation, or a hunt for a pattern. It is not a chatbot. You want something that predicts and explains, then grounds, acts and learns. Predictive AI flags the risk from telemetry; the LLM explains the evidence; RAG grounds it in approved runbooks; Ansible does only what policy permits, with a human in the loop supplying knowledge and judgement. Key emphasis: the fluency that becomes authority must be grounded in YOUR language and YOUR processes — not OpenAI&#39;s. Most of the effort here is provisioning, patching, scaling, data collection and inputs — that is an automation problem, not an AI problem. Automation alone is a differentiator; the estate — one OS, the interconnect, the whole ecosystem with an execution layer tying it together — is the discriminator. And generated text is a draft until it passes the same curation any knowledge record gets.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Troubleshooting · operations · knowledge</span>
             <h2>The useful pattern is a loop, not a chatbot</h2>
-            <p class="lede">Predict, explain, ground, act, learn — with a different technology doing the job it is actually good at.</p>
+            <p class="lede">Predict, explain, ground, act, learn — a closed loop, with a different technology doing the job it is actually good at. Automation closes the loop and makes the system self-healing — and the connected estate underneath it is the discriminator nobody else has.</p>
           </div>
           <div class="slide-body">
             <div class="flywheel">
@@ -1071,8 +1071,8 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 14 -->
-        <article class="slide" data-title="Logs to MTTR" data-notes="The NotebookLM analogy lands instantly: a private notebook that has read everything yours — except this one has read your logs, runbooks, incident history and change records, and it runs on the same cluster it observes. Walk the two bars: detection was already fast, the hours lived in diagnosis, and a cited answer to what-changed-and-which-runbook is what removes them. Lab 07 runs this live — offer to jump straight there if the room is operational.">
+        <!-- 13 -->
+        <article class="slide" data-title="Logs to MTTR" data-notes="The NotebookLM analogy lands instantly: a private notebook that has read everything yours — except this one has read your logs, runbooks, incident history and change records, and it runs on the same cluster it observes. Say resolution, not restoration — mean time to RESOLUTION. Pair the chart with an outside number, then the personal story (industry numbers for authority, then the must-gather anecdote: the notebook diagnosed in 2 minutes what took the team 46 hours — people love stories). Then Jon&#39;s requested narration: the big red bar is diagnosis — that is all information; the blue does not change; what changed is the time to create the information. It ties this chart straight back to the ladder. Walk the two bars: detection was already fast, the hours lived in diagnosis, and a cited answer to what-changed-and-which-runbook is what removes them. Lab 07 runs this live — offer to jump straight there if the room is operational.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">The platform on its own data</span>
@@ -1081,13 +1081,13 @@ kbd{
           </div>
           <div class="slide-body">
             <div style="display:flex;flex-direction:column;gap:14px">
-              <svg viewBox="0 0 1180 240" role="img" style="width:100%;height:auto" aria-label="Two horizontal bars decompose mean time to restore into detect, diagnose, fix and verify. Before: 3 hours 16 minutes, dominated by 2 hours 41 minutes of diagnosis. With the ops notebook, diagnosis falls 84 percent to 24 minutes and the total to 59 minutes; detect, fix and verify are unchanged.">
+              <svg viewBox="0 0 1180 240" role="img" style="width:100%;height:auto" aria-label="Two horizontal bars decompose mean time to resolution into detect, diagnose, fix and verify. Before: 3 hours 16 minutes, dominated by 2 hours 41 minutes of diagnosis. With the ops notebook, diagnosis falls 84 percent to 24 minutes and the total to 59 minutes; detect, fix and verify are unchanged.">
                 <defs>
                   <filter id="sMsh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#1B1211" flood-opacity=".13"/></filter>
                 </defs>
                 <rect x="4" y="4" width="1172" height="232" rx="12" fill="var(--surface)" stroke="var(--border)" filter="url(#sMsh)"/>
                 <text x="28" y="36" font-family="Red Hat Display" font-size="18" font-weight="800" fill="var(--ink)">Where the hours actually live</text>
-                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">Mean time to restore, decomposed — representative incident pattern, before and after the notebook</text>
+                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">Mean time to resolution, decomposed — representative incident pattern, before and after the notebook</text>
                 <g font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-2)">
                   <rect x="210" y="66" width="10" height="10" fill="var(--steel)"/><text x="226" y="75">detect</text>
                   <rect x="300" y="66" width="10" height="10" fill="var(--accent)"/><text x="316" y="75">diagnose</text>
@@ -1116,7 +1116,7 @@ kbd{
                 <text x="491" y="172" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">59m</text>
                 <text x="555" y="168" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">diagnosis −84% — the notebook answers &ldquo;what changed, has this</text>
                 <text x="555" y="184" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">happened before, which runbook applies&rdquo; in seconds, with citations</text>
-                <text x="210" y="216" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">Detect, fix and verify are unchanged — the hours lived in diagnosis. Lab 07 walks the incident end to end.</text>
+                <text x="210" y="216" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">Detect, fix and verify are unchanged — the hours lived in diagnosis, where industry incident studies consistently put most of resolution time. Lab 07 walks it end to end.</text>
                 <text x="1148" y="216" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--accent-ink)">→ Lab 07</text>
               </svg>
               <div class="cols c3">
@@ -1129,13 +1129,13 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 15 -->
-        <article class="slide" data-title="Adoption path" data-notes="Be honest about sequencing. Most agencies fail at AI not on the model but on the second and third bullets of Phase 1 — no GPU capacity plan, and no agreement on which data may be used. Ask directly which phase they are in.">
+        <!-- 14 -->
+        <article class="slide" data-title="Adoption path" data-notes="Be honest about sequencing. Most agencies fail at AI not on the model but on the second and third bullets of Phase 1 — no GPU capacity plan, and no agreement on which data may be used. Two riffs to land: plan for problems, not predicaments — the problem right now is grounding the proof so you CAN scale, not the scale itself; no decision today may limit tomorrow&#39;s options. And success means changing your processes, not just moving workloads onto new technology. Prove, ground, scale maps to data, information, knowledge. Ask directly which phase they are in.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Adoption path</span>
             <h2>Ninety days, then ninety more</h2>
-            <p class="lede">Nothing here requires a rewrite of a system of record. Each phase produces something you can show.</p>
+            <p class="lede">Crawl, walk, run. Nothing here requires a rewrite of a system of record — ground the current phase before you scale, and each phase produces something you can show.</p>
           </div>
           <div class="slide-body">
             <svg viewBox="0 0 960 108" role="img" style="width:100%;height:auto;margin-bottom:10px" aria-label="Roadmap timeline: Prove runs day 0 to 90 ending in a measured live pilot; Ground runs day 90 to 180 ending grounded, monitored and automated; Scale runs from day 180 onward, surge-proven at agency scale.">
@@ -1173,7 +1173,7 @@ kbd{
             </svg>
             <div class="phases">
               <div class="phase" data-p="1">
-                <header><b>Prove</b><span>Days 0–90</span></header>
+                <header><b>Prove</b><span>Crawl · days 0–90</span></header>
                 <ul>
                   <li>Stand up one supported endpoint with the AI Inference Server</li>
                   <li>Agree the accelerator capacity plan and where it physically sits</li>
@@ -1183,7 +1183,7 @@ kbd{
                 </ul>
               </div>
               <div class="phase" data-p="2">
-                <header><b>Ground</b><span>Days 90–180</span></header>
+                <header><b>Ground</b><span>Walk · days 90–180</span></header>
                 <ul>
                   <li>Move serving onto OpenShift AI with autoscaling</li>
                   <li>Add retrieval over your own published guidance</li>
@@ -1193,7 +1193,7 @@ kbd{
                 </ul>
               </div>
               <div class="phase" data-p="3">
-                <header><b>Scale</b><span>Days 180+</span></header>
+                <header><b>Scale</b><span>Run · days 180+</span></header>
                 <ul>
                   <li>Promote through a model registry with real approvals</li>
                   <li>Add workflows two through five on the same platform</li>
@@ -1207,13 +1207,35 @@ kbd{
           <span class="slidenum"></span>
         </article>
 
-        <!-- 16 -->
-        <article class="slide" data-title="Labs preview" data-notes="Transition slide. Switch to the Labs view now. Tell them the terminals are typed by them — commands are real and copyable, output is representative. Encourage them to run Lab 1 and Lab 5 live and take the rest home.">
+        <!-- 15 -->
+        <article class="slide" data-title="Next steps" data-notes="Close with a specific ask, not a thank-you. Architecture workshop, guided pilot, acquisition path — and engage the solution architects early, because unanswered foundational questions build a shaky foundation that gets reworked later. There is no stupid question. Say the line: if you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product. Models-as-a-Service is a good example to name here for the platform people. Point at the contact strip — Brad&#39;s email is there deliberately: reach out to me and I will get you in touch with the right person, I am not going to stick you on somebody else. Brad&#39;s closer if it fits the room: that is why we get paid as solution architects — I would rather talk to you than my manager. Never end a talk with nothing happening afterwards. Then the labs, as the takeaway.">
           <div class="rule"></div>
           <div class="slide-head">
-            <span class="eyebrow">Hands on</span>
+            <span class="eyebrow">Next steps</span>
+            <h2>What happens after this hour</h2>
+          </div>
+          <div class="slide-body">
+            <div class="cols c3">
+              <div class="card"><span class="tag">Step one</span><h4>Architecture workshop</h4><p>A half-day session with your platform and security teams to size accelerators, place the first workload and name the data classes in scope.</p></div>
+              <div class="card"><span class="tag">Step two</span><h4>Guided pilot</h4><p>One workflow, on your infrastructure, with a measured baseline and an agreed definition of success before we start.</p></div>
+              <div class="card"><span class="tag">Step three</span><h4>Acquisition path</h4><p>Four Inc. and Carahsoft carry the vehicles and pricing — bring them into the conversation early, not at the end.</p></div>
+            </div>
+            <div class="cols c2" style="margin-top:20px">
+              <div class="card gain"><h4>Take the labs with you</h4><p>This page runs standalone, and the whole kit — deck, labs, docs — lives at <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>. The seven labs are the same commands your engineers will run on day one.</p></div>
+              <div class="card gain"><h4>Bring your hardest question</h4><p>Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. And if you did not see it here today, that does not mean it does not exist — ask.</p></div>
+            </div>
+            <div class="card" style="margin-top:16px;border-left:3px solid var(--accent)"><span class="tag">Stay in touch</span><h4>Reach out — we&rsquo;ll connect you to the right expert</h4><p><b>Brad Scalio</b> — <span class="mono">scalio@gmail.com</span> &nbsp;·&nbsp; <b>Jon Keam</b> — Red Hat &nbsp;·&nbsp; Engage the solution architects early: the foundational questions are free to ask and expensive to skip.</p></div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 16 -->
+        <article class="slide" data-title="Labs preview" data-notes="The concluding takeaway — the deck ends hands-on. Frame it as an opinionated approach: we lead with one path so you do not drown in options. Disclaimer, say it: run this on a personal laptop, not in production and not on a work laptop. The point is to prove it to YOURSELF — you will watch the model serve on 127.0.0.1 with no egress — because if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal is the selling point: type each command step by step without installing anything, and off-script commands are refused, which is what makes it a prescriptive, defensible path for a pilot. And the punchline for the AO: your installation and scripting become the artifact you hand them. The full labs live in the repo — that is where people actually run them, not inside this page.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Hands on · the takeaway</span>
             <h2>Seven labs — real commands, run them yourself</h2>
-            <p class="lede">Switch to the <b>Labs</b> view in the sidebar. Each terminal accepts the command you type; every command is copyable into your own environment. Prefer to watch? The <b>Demo</b> view plays all seven labs end to end, hands-free.</p>
+            <p class="lede">An opinionated approach, on a personal laptop — never production. Prove it to <em>yourself</em>: you will watch the model serve on 127.0.0.1. The labs live in the repo — <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>.</p>
           </div>
           <div class="slide-body">
             <div class="cols c4">
@@ -1230,21 +1252,27 @@ kbd{
         </article>
 
         <!-- 17 -->
-        <article class="slide" data-title="Next steps" data-notes="Close with a specific ask, not a thank-you. The architecture workshop is the natural next step and it is free. Hand off to Four Inc. and Carahsoft for the contract vehicle conversation.">
+        <article class="slide" data-title="Security posture" data-notes="Parked in the appendix deliberately to keep momentum — but this is the slide that unblocks the deal. Pull it up when an ISSO or security lead engages, and if you speak to it live, pick only a few rows and drill in rather than reading the table. The security talk track is crucial — &#39;is AI safe, can we put guardrails on it&#39; comes up over and over. Cover: FIPS 199 categorization and FISMA moderate or high; the tailored templating and reporting for federal agencies that ship WITH the platform as a value-add; disconnected and air-gapped operation with registry mirroring and the Compliance Operator baked in; federal civilian and DoD carry the same requirements. Then the paperwork reality — the one real difference from commercial: security attestation, POA&amp;Ms, FITARA scorecards. And say it plainly: do not roll your own validations — reach out and we will connect you with a specialist. Recent anecdote if it fits: the Hugging Face breach — attackers went after the SaaS model in the cloud to pivot in. On-prem and SaaS answer different questions.">
           <div class="rule"></div>
           <div class="slide-head">
-            <span class="eyebrow">Next steps</span>
-            <h2>What happens after this hour</h2>
+            <span class="eyebrow">Appendix · Trusted, enterprise-ready AI</span>
+            <h2>The questions an authorizing official will ask</h2>
           </div>
           <div class="slide-body">
-            <div class="cols c3">
-              <div class="card"><span class="tag">Step one</span><h4>Architecture workshop</h4><p>A half-day session with your platform and security teams to size accelerators, place the first workload and name the data classes in scope.</p></div>
-              <div class="card"><span class="tag">Step two</span><h4>Guided pilot</h4><p>One workflow, on your infrastructure, with a measured baseline and an agreed definition of success before we start.</p></div>
-              <div class="card"><span class="tag">Step three</span><h4>Acquisition path</h4><p>Four Inc. and Carahsoft carry the vehicles and pricing — bring them into the conversation early, not at the end.</p></div>
-            </div>
-            <div class="cols c2" style="margin-top:20px">
-              <div class="card gain"><h4>Take the labs with you</h4><p>This page runs standalone. Share the link with the engineers who could not attend — the six labs are the same commands they will run on day one.</p></div>
-              <div class="card gain"><h4>Bring your hardest question</h4><p>Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. Those conversations are the useful ones.</p></div>
+            <div class="tablewrap">
+              <table class="grid">
+                <thead><tr><th>Their question</th><th>The platform control</th><th>Where it lives</th></tr></thead>
+                <tbody>
+                  <tr><td>Where does our data go when someone prompts the model?</td><td>Nowhere. Inference runs on your cluster, in your enclave, on your accelerators.</td><td class="mono">AI Inference Server · OpenShift AI</td></tr>
+                  <tr><td>Can you prove this model is the one we approved?</td><td>Model artifacts are signed and verified before they are admitted to the cluster.</td><td class="mono">Sigstore / cosign</td></tr>
+                  <tr><td>Is the cryptography validated?</td><td>FIPS mode is a supported operating state of the OS and the platform on top of it.</td><td class="mono">RHEL FIPS mode</td></tr>
+                  <tr><td>Can this land in our FISMA moderate or high boundary?</td><td>Platform controls map to the NIST 800-53 moderate and high baselines; your FIPS 199 categorization picks the venue — the platform is the same in all of them.</td><td class="mono">RHEL · OpenShift</td></tr>
+                  <tr><td>How do we know it stays compliant next quarter?</td><td>Scheduled scans against a hardening profile, with machine-readable results.</td><td class="mono">Compliance Operator</td></tr>
+                  <tr><td>How do we detect the model drifting or skewing?</td><td>Continuous drift and fairness metrics on live inference traffic.</td><td class="mono">TrustyAI</td></tr>
+                  <tr><td>What if we have no internet at all?</td><td>Mirror images and models into the enclave; the platform is built for disconnected operation.</td><td class="mono">oc-mirror · registry</td></tr>
+                  <tr><td>Who is accountable when it is wrong?</td><td>A named reviewer — the deployment patterns we recommend keep a person on the signature.</td><td class="mono">Workflow design</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <span class="slidenum"></span>
@@ -1532,7 +1560,7 @@ kbd{
     goal:'The base model does not know your agency\'s notice codes, your routing queues or your house style. Add that knowledge as reviewable seed YAML, generate synthetic training data from it with SDG Hub, fine-tune with Training Hub, and prove the tuned model is better than the one you started with.',
     youll:[
       'Knowledge contributed as <b>seed YAML a subject matter expert can read</b>',
-      '<b>SDG Hub</b> — a few seed examples become thousands, with the Lab 01 endpoint as teacher',
+      '<b>SDG Hub</b> — a few seed examples become thousands, generated against the Lab 01 endpoint',
       'A <b>Training Hub</b> LoRA fine-tune and an <b>evaluation</b> with numbers'
     ],
     watch:[
@@ -1571,7 +1599,7 @@ kbd{
       { cmd:'python generate.py --seeds ./seeds --endpoint http://127.0.0.1:8000/v1 --scale 30 --output ./sdg',
         out:[
           ['dim','INFO  sdg_hub flow: knowledge_generation'],
-          ['dim','INFO  Teacher: granite-3.3-8b-instruct via http://127.0.0.1:8000/v1 — the Lab 01 endpoint'],
+          ['dim','INFO  Generating against granite-3.3-8b-instruct via http://127.0.0.1:8000/v1 — the Lab 01 endpoint'],
           ['','  knowledge generation   [####################]  1,842 samples'],
           ['','  skills generation      [####################]    714 samples'],
           ['','  quality filter         [####################]  2,556 -> 2,203 kept'],

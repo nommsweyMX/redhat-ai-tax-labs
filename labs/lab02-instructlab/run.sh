@@ -51,7 +51,7 @@ lab_note "not after four hours of GPU time."
 lab_section "3. Synthetic data generation - 12 examples become thousands"
 step "python3 generate.py --seeds $SEEDS --endpoint $TEACHER_ENDPOINT --scale 30 --output $SDG_OUT" <<'OUT'
 INFO  sdg_hub flow: knowledge_generation
-INFO  Teacher: granite-3.3-8b-instruct via http://127.0.0.1:8000/v1 (the Lab 01 endpoint)
+INFO  Generating against granite-3.3-8b-instruct via http://127.0.0.1:8000/v1 (the Lab 01 endpoint)
   knowledge generation   [####################]  1,842 samples
   skills generation      [####################]    714 samples
   quality filter         [####################]  2,556 -> 2,203 kept

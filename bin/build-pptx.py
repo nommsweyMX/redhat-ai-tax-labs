@@ -290,7 +290,7 @@ def build(out_path: Path) -> None:
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
 
-    # ---- 1 title -----------------------------------------------------------
+    # ---- 1 title ---------------------------------------------------------------
     s = add_base(prs, "Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four "
                       "Inc. and Carahsoft. Frame the hour - foundations, then the platform story, "
                       "then live terminal, 5 for questions. "
@@ -306,7 +306,7 @@ def build(out_path: Path) -> None:
     add_text(s, MARGIN, Inches(5.85), Inches(9.4), Inches(0.4),
              [("Presented by Jon Keam and Brad Scalio", 14, True, INK_2, BODY_FONT, 0)])
 
-    # ---- 2 operating reality: demand curve ---------------------------------
+    # ---- 2 operating reality: demand curve -------------------------------------
     s = add_base(prs, "Do not lead with the technology. Lead with the shape of the problem. The "
                       "chart is the argument: a year of demand arrives in six weeks, far above any "
                       "capacity you can justify staffing year-round. The shaded gap is what "
@@ -326,7 +326,7 @@ def build(out_path: Path) -> None:
               "FTI rules rule out public endpoints. The model comes to the data — on premises, "
               "accredited cloud, or air-gapped enclave.", bar=GREEN)
 
-    # ---- 3 where AI lands: chevron lifecycle -------------------------------
+    # ---- 3 where AI lands: chevron lifecycle -----------------------------------
     s = add_base(prs, "Walk the flow left to right. The red stages already have a human reviewer "
                       "in the loop, which makes them honest places to start. Exam selection is "
                       "deliberately gray: that is a determination affecting a taxpayer, and it "
@@ -386,7 +386,7 @@ def build(out_path: Path) -> None:
          "and that problem is already solved."),
     ], height=Inches(1.5))
 
-    # ---- 4 five outcomes ---------------------------------------------------
+    # ---- 4 five outcomes -------------------------------------------------------
     s = add_base(prs, "These five are the event abstract made concrete. Each names the product "
                       "that delivers it and the lab where the audience runs it. Do not linger - "
                       "this slide exists so people can map the rest of the hour.")
@@ -400,7 +400,7 @@ def build(out_path: Path) -> None:
         ["Build an AI-ready foundation", "OpenShift AI, KServe, vLLM", "03"],
     ], Inches(2.4), [Inches(4.6), Inches(5.9), Inches(1.1)], mono_cols=(2,))
 
-    # ---- 5 architecture: layered diagram -----------------------------------
+    # ---- 5 architecture: layered diagram ---------------------------------------
     s = add_base(prs, "Read bottom to top. The point is the two vertical pillars: automation and "
                       "trust are not a layer you add at the end. A project that treats compliance "
                       "as a phase after deployment discovers, at the worst possible moment, that "
@@ -495,24 +495,7 @@ def build(out_path: Path) -> None:
                                 Inches(0.18), Inches(0.14))
         solid(ar, BORDER_STRONG)
 
-    # ---- 6 AO questions ----------------------------------------------------
-    s = add_base(prs, "This is the slide that unblocks the deal. Every row is a control the "
-                      "platform provides, mapped to the question an authorizing official actually "
-                      "asks. Expect interruptions here - let them happen, this is the conversation "
-                      "you want. Offer to take the table offline with their ISSO.")
-    eyebrow_and_title(s, "Trusted, enterprise-ready AI", "The questions an authorizing official will ask")
-    add_table(s, [
-        ["Their question", "The platform control", "Where"],
-        ["Where does our data go?", "Nowhere. Inference runs on your cluster, your accelerators.", "AI Inference"],
-        ["Is this the model we approved?", "Artifacts signed and verified before admission", "Sigstore"],
-        ["Is the cryptography validated?", "FIPS mode is a supported operating state", "RHEL"],
-        ["Still compliant next quarter?", "Scheduled scans, machine-readable results", "Compliance Op."],
-        ["How do we detect drift?", "Drift and fairness metrics on live traffic", "TrustyAI"],
-        ["What if we are air-gapped?", "Mirror images and models into the enclave", "oc-mirror"],
-        ["Who is accountable?", "A named reviewer. The model drafts; it never sends.", "Workflow"],
-    ], Inches(2.3), [Inches(3.6), Inches(5.9), Inches(2.1)], mono_cols=(2,))
-
-    # ---- 7 adoption path: roadmap timeline ---------------------------------
+    # ---- 6 adoption path: roadmap timeline -------------------------------------
     s = add_base(prs, "Be honest about sequencing. Most agencies stall on rows 2 and 3 of the "
                       "Prove phase - no accelerator capacity plan, and no written agreement on "
                       "which data may be used. Neither is technical. Ask the room directly which "
@@ -560,7 +543,26 @@ def build(out_path: Path) -> None:
             runs.append(("•  " + it, 11, False, INK_2, BODY_FONT, 5))
         add_text(s, px + Inches(0.16), py + Inches(0.52), pw - Inches(0.3), Inches(2.6), runs)
 
-    # ---- 8 labs ------------------------------------------------------------
+    # ---- 7 next steps ----------------------------------------------------------
+    s = add_base(prs, "Close with a specific ask, not a thank-you. The architecture workshop is "
+                      "the natural next step. Then hand off to Four Inc. and Carahsoft for the "
+                      "contract vehicle conversation.")
+    eyebrow_and_title(s, "Next steps", "What happens after this hour")
+    bullet_cards(s, Inches(2.45), [
+        ("Architecture workshop", "Half a day with your platform and security teams to size "
+         "accelerators, place the first workload and name the data classes in scope."),
+        ("Guided pilot", "One workflow, on your infrastructure, with a measured baseline and an "
+         "agreed definition of success before we start."),
+        ("Acquisition path", "Four Inc. and Carahsoft carry the vehicles and pricing. Bring them "
+         "into the conversation early, not at the end."),
+    ])
+    add_text(s, MARGIN, Inches(5.1), Inches(11.5), Inches(1.3),
+             [("One thing to remember", 17, True, INK, HEAD_FONT, 8),
+              ("Nothing in these seven labs required a public model endpoint, an internet "
+               "connection at inference time, or a rewrite of a system of record. That is the "
+               "whole argument.", 14, False, INK_2, BODY_FONT, 0)])
+
+    # ---- 8 labs ----------------------------------------------------------------
     s = add_base(prs, "Transition slide. Switch to a terminal now. Tell them the labs run in "
                       "simulate mode on a laptop with no cluster, and in live mode against their "
                       "own environment - same script, same commands. Run Lab 01 and stop hard on "
@@ -579,24 +581,22 @@ def build(out_path: Path) -> None:
         ["07", "Ask your own logs", "Ops notebook"],
     ], Inches(2.4), [Inches(1.0), Inches(6.6), Inches(4.0)], mono_cols=(0, 2))
 
-    # ---- 9 next steps ------------------------------------------------------
-    s = add_base(prs, "Close with a specific ask, not a thank-you. The architecture workshop is "
-                      "the natural next step. Then hand off to Four Inc. and Carahsoft for the "
-                      "contract vehicle conversation.")
-    eyebrow_and_title(s, "Next steps", "What happens after this hour")
-    bullet_cards(s, Inches(2.45), [
-        ("Architecture workshop", "Half a day with your platform and security teams to size "
-         "accelerators, place the first workload and name the data classes in scope."),
-        ("Guided pilot", "One workflow, on your infrastructure, with a measured baseline and an "
-         "agreed definition of success before we start."),
-        ("Acquisition path", "Four Inc. and Carahsoft carry the vehicles and pricing. Bring them "
-         "into the conversation early, not at the end."),
-    ])
-    add_text(s, MARGIN, Inches(5.1), Inches(11.5), Inches(1.3),
-             [("One thing to remember", 17, True, INK, HEAD_FONT, 8),
-              ("Nothing in these seven labs required a public model endpoint, an internet "
-               "connection at inference time, or a rewrite of a system of record. That is the "
-               "whole argument.", 14, False, INK_2, BODY_FONT, 0)])
+    # ---- 9 appendix: AO questions ----------------------------------------------
+    s = add_base(prs, "This is the slide that unblocks the deal. Every row is a control the "
+                      "platform provides, mapped to the question an authorizing official actually "
+                      "asks. Expect interruptions here - let them happen, this is the conversation "
+                      "you want. Offer to take the table offline with their ISSO.")
+    eyebrow_and_title(s, "Appendix · Trusted, enterprise-ready AI", "The questions an authorizing official will ask")
+    add_table(s, [
+        ["Their question", "The platform control", "Where"],
+        ["Where does our data go?", "Nowhere. Inference runs on your cluster, your accelerators.", "AI Inference"],
+        ["Is this the model we approved?", "Artifacts signed and verified before admission", "Sigstore"],
+        ["Is the cryptography validated?", "FIPS mode is a supported operating state", "RHEL"],
+        ["Still compliant next quarter?", "Scheduled scans, machine-readable results", "Compliance Op."],
+        ["How do we detect drift?", "Drift and fairness metrics on live traffic", "TrustyAI"],
+        ["What if we are air-gapped?", "Mirror images and models into the enclave", "oc-mirror"],
+        ["Who is accountable?", "A named reviewer. The model drafts; it never sends.", "Workflow"],
+    ], Inches(2.3), [Inches(3.6), Inches(5.9), Inches(2.1)], mono_cols=(2,))
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     prs.save(out_path)

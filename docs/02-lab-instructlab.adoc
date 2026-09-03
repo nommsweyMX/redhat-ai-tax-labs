@@ -36,7 +36,8 @@ section that captures the rules a correspondence reviewer applies by instinct.
 == Prerequisites
 
 For live mode: a GPU host, Python with the `sdg-hub` and `training-hub`
-libraries, the <<lab-01>> endpoint running as the teacher model, and several
+libraries, the <<lab-01>> endpoint running as the generating model (the
+"teacher" in SDG Hub's terms — the model that writes the new examples), and several
 hours of GPU time for the training step.
 
 [source,bash]
@@ -64,7 +65,7 @@ LAB_PACE=step ./run.sh
 | 3
 | `python3 generate.py --endpoint http://127.0.0.1:8000/v1`
 | 12 seed examples becoming roughly 2,200 kept samples after quality
-  filtering, with the <<lab-01>> endpoint as the teacher. Every sample traces
+  filtering, generated against the <<lab-01>> endpoint. Every sample traces
   back to something a human wrote.
 
 | 4
@@ -109,8 +110,8 @@ Nearly every failure is one of those two.
 Data generation produces very few samples::
 The quality filter is discarding them. Usually the seed contexts are too short
 or too similar to each other. Aim for a paragraph of real context per example.
-Also confirm the teacher endpoint from <<lab-01>> is up — generation quality
-is bounded by the teacher.
+Also confirm the <<lab-01>> endpoint is up — generation quality is bounded by
+the model doing the generating.
 
 Training runs out of memory::
 Lower the effective batch size, or use the LoRA method rather than full
