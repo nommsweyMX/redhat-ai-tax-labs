@@ -9,20 +9,38 @@ For whoever is running the session. Attendees do not need this section.
 |===
 | Minutes | Content | Mode
 
-| 0–3   | Welcome — Jon Keam and Brad Scalio. Red Hat, Four Inc., Carahsoft. Set the promise: every claim gets run in a shell. | Slide 1
-| 3–12  | AI foundations: the four jobs called AI, inside an LLM, data to judgement, predictive vs generative. | Slides 2–6
-| 12–18 | Where AI lands, the five outcomes and the reference architecture. | Slides 7–9
-| 18–24 | Why Red Hat AI and why one platform; security posture — the questions an AO asks. Expect interruptions; let them happen. | Slides 10–12
-| 24–28 | The operations loop, logs-to-MTTR, and the adoption path. Ask the room which phase they are in. | Slides 13–15
-| 28–30 | Switch to labs. Explain simulate versus live mode. | Slide 16
-| 30–38 | *Run Lab 01 live on screen.* Stop on `ss -ltnp`. That single line answers the data question. | Lab 01
-| 38–46 | *Run Lab 05 live on screen.* The 62-second remediation is the moment people remember. | Lab 05
-| 46–52 | Skim Labs 02, 03, 04, 06, 07. Tell them the repo is theirs to take home. | Labs
-| 52–60 | Next steps and questions. | Slide 17
+| 0–3   | Welcome — Brad drives, Jon color-commentates. Set the promise: every claim gets run in a shell. | Slide 1
+| 3–11  | Foundations first, so the room shares a vocabulary: terminology, why now, inside an LLM, data-to-judgement, predictive vs generative. | Slides 2–6
+| 11–17 | Where AI lands, the five outcomes, the reference architecture (open with the seams riff). | Slides 7–9
+| 17–23 | Why Red Hat AI (glass box, Models-as-a-Service) and define-once-run-anywhere. | Slides 10–11
+| 23–28 | The operations loop and logs-to-MTTR — industry metric first, then the personal story. | Slides 12–13
+| 28–32 | Adoption path (crawl, walk, run) and next steps — point at the contact strip. | Slides 14–15
+| 32–34 | Labs preview — the concluding takeaway. Switch to the Labs view. | Slide 16
+| 34–42 | *Run Lab 01 live on screen.* Stop on `ss -ltnp`. That single line answers the data question. | Lab 01
+| 42–50 | *Run Lab 05 live on screen.* The 62-second remediation is the moment people remember. | Lab 05
+| 50–56 | Skim Labs 02, 03, 04, 06, 07. Tell them the repo is theirs to take home. | Labs
+| 56–60 | Questions. The security appendix stays on standby — pull it up when an ISSO engages. | Slide 17
 |===
 
-TIP: If you only have 30 minutes, cut to slides 1, 3, 8, 12 and run Lab 01 and
-the drift section of Lab 06. Those four screens carry the argument.
+TIP: If you only have 30 minutes, cut to slides 1, 2, 8 and run Lab 01 plus the
+drift section of Lab 06. Keep the appendix (slide 17) loaded for security
+questions.
+
+== Delivery
+
+Brad drives; Jon is the color commentator — interrupt, add commentary, call out
+misspeaks live, and take over if the driver flounders. The number one goal is to
+entertain: a tuned-out audience learns nothing. Keep it light, and if humour
+lands on anyone, self-deprecate first.
+
+Two planted questions are rehearsed. On the data-to-judgement slide Jon asks
+"so is AI taking our jobs?" — the answer is that it is not, because it has no
+judgement. On the architecture slide Brad asks Jon "what is fine-tuning to you?"
+— the studying-for-the-test answer. Plan deliberate pauses to engage the room.
+
+The full talk track, including the seams, lock-in and MTTR riffs, lives in
+`slides/presenter-notes.html` — open it beside the deck and advance both
+together.
 
 == Which labs to run live
 

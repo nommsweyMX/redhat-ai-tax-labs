@@ -32,6 +32,35 @@ live terminal, 5 for questions.
 The promise: every claim we make today, we run in a shell before you leave.
 --
 
+== Four different jobs get called "AI"
+
+[cols="1,2", options="header"]
+|===
+| Term | What it actually does
+
+| *Predictive AI* | Estimates — scores, classifies, forecasts from history
+| *Generative AI / LLM* | Creates — produces language from learned patterns plus context
+| *Agentic AI* | Reasons and acts — a model with approved tools, state and rules
+| *Automation* | Executes — deterministic, tested steps. This is where Ansible belongs
+|===
+
+*Not* a crystal ball. *Not* a database or a policy authority. *Not* permission
+to bypass controls.
+
+[.notes]
+--
+Terminology first, so the room shares a vocabulary. When people say "AI" they
+usually mean the consumer chatbots — Claude, ChatGPT, Gemini, Copilot. That is
+the mental model to break.
+
+Analogies: a weather forecast; a very well-read drafting assistant; a junior
+analyst with a badge and a restricted tool belt; a checklist that performs
+itself.
+
+And the on-ramp line: if you are not automated, you are not going to have a good
+generative or predictive AI inside your boundary.
+--
+
 == The work is seasonal, textual and unforgiving
 
 [cols="1,1"]
@@ -143,29 +172,6 @@ worst possible moment, that it cannot produce evidence for anything that
 already happened.
 --
 
-== The questions an AO will ask
-
-[cols="2,2", options="header"]
-|===
-| Question | Control
-
-| Where does our data go? | Inference runs on your cluster. Nowhere.
-| Is this the approved model? | Signed artifacts, verified before admission
-| Is the crypto validated? | FIPS mode, a supported operating state
-| Still compliant next quarter? | Scheduled Compliance Operator scans
-| Is it drifting? | TrustyAI drift and fairness on live traffic
-| What if we are air-gapped? | Mirror images and models into the enclave
-| Who is accountable? | A named reviewer. The model drafts; it never sends.
-|===
-
-[.notes]
---
-This is the slide that unblocks the deal. Expect interruptions — let them
-happen, this is the conversation you want.
-
-Offer to take the whole table offline with their ISSO.
---
-
 == Ninety days, then ninety more
 
 [cols="1,1,1", options="header"]
@@ -186,6 +192,25 @@ phase — no accelerator capacity plan, and no written agreement on which data
 may be used. Neither is technical.
 
 Ask the room directly which phase they are in.
+--
+
+== What happens after this hour
+
+*Architecture workshop* — half a day with your platform and security teams.
+Size accelerators, place the first workload, name the data classes in scope.
+
+*Guided pilot* — one workflow, your infrastructure, a measured baseline and an
+agreed definition of success before we start.
+
+*Acquisition path* — Four Inc. and Carahsoft carry the vehicles. Bring them in
+early, not at the end.
+
+[.notes]
+--
+Close with a specific ask, not a thank-you. The architecture workshop is the
+natural next step.
+
+Then hand off for the contract vehicle conversation.
 --
 
 == Seven labs — real commands, run them yourself
@@ -213,28 +238,33 @@ live mode against their own environment. Same script, same commands.
 Run Lab 01 and stop hard on step 4 — the endpoint bound to 127.0.0.1.
 --
 
-== What happens after this hour
-
-*Architecture workshop* — half a day with your platform and security teams.
-Size accelerators, place the first workload, name the data classes in scope.
-
-*Guided pilot* — one workflow, your infrastructure, a measured baseline and an
-agreed definition of success before we start.
-
-*Acquisition path* — Four Inc. and Carahsoft carry the vehicles. Bring them in
-early, not at the end.
-
-[.notes]
---
-Close with a specific ask, not a thank-you. The architecture workshop is the
-natural next step.
-
-Then hand off for the contract vehicle conversation.
---
-
 == One thing to remember
 
 Nothing in these seven labs required a public model endpoint, an internet
 connection at inference time, or a rewrite of a system of record.
 
 That is the whole argument.
+
+== Appendix — the questions an AO will ask
+
+[cols="2,2", options="header"]
+|===
+| Question | Control
+
+| Where does our data go? | Inference runs on your cluster. Nowhere.
+| Is this the approved model? | Signed artifacts, verified before admission
+| Is the crypto validated? | FIPS mode, a supported operating state
+| Still compliant next quarter? | Scheduled Compliance Operator scans
+| Is it drifting? | TrustyAI drift and fairness on live traffic
+| What if we are air-gapped? | Mirror images and models into the enclave
+| Who is accountable? | A named reviewer. The model drafts; it never sends.
+|===
+
+[.notes]
+--
+This is the slide that unblocks the deal. Expect interruptions — let them
+happen, this is the conversation you want.
+
+Offer to take the whole table offline with their ISSO.
+--
+
