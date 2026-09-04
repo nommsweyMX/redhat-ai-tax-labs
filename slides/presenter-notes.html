@@ -193,7 +193,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <tr><td class="mono">3–11</td><td>Foundations first, so the room shares a vocabulary: terminology, why now, inside an LLM, data-to-judgement, predictive vs generative.</td><td class="mono">Slides 2–6</td></tr>
       <tr><td class="mono">11–17</td><td>Where AI lands, the five outcomes, the reference architecture (open with the seams line).</td><td class="mono">Slides 7–9</td></tr>
       <tr><td class="mono">17–23</td><td>Why Red Hat AI (glass box, Models-as-a-Service) and define-once-run-anywhere.</td><td class="mono">Slides 10–11</td></tr>
-      <tr><td class="mono">23–28</td><td>The operations loop and logs-to-MTTR (industry stat + Brad&rsquo;s case study).</td><td class="mono">Slides 12–13</td></tr>
+      <tr><td class="mono">23–28</td><td>The operations loop and logs-to-MTTR (industry stat + Brad’s case study).</td><td class="mono">Slides 12–13</td></tr>
       <tr><td class="mono">28–32</td><td>Adoption path (crawl, walk, run) and next steps — point at the contact strip.</td><td class="mono">Slides 14–15</td></tr>
       <tr><td class="mono">32–34</td><td>Labs preview — the concluding takeaway. Switch to the Labs view.</td><td class="mono">Slide 16</td></tr>
       <tr><td class="mono">34–42</td><td><b>Run Lab 01 live.</b> Stop hard on <code>ss -ltnp</code>.</td><td class="mono">Lab 01</td></tr>
@@ -205,7 +205,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p class="tip"><b>Running long?</b> Slide 6 (predictive vs generative) is a deep dive on two of slide 2’s four cards — drop it first and let its table stand as the leave-behind, pulling it up only if the room asks how the two are governed differently. That buys back the slack the planted questions and pauses need.</p>
     <p class="tip"><b>On a projector:</b> <code>LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh</code> — and <code>NO_COLOR=1</code> if the room washes out color.</p>
     <p class="tip"><b>Main screen:</b> open <code>slides/deck.html</code>. This console mirrors it one-for-one: when the deck goes next, press <kbd>→</kbd> here.</p>
-    <p class="tip"><b>Delivery:</b> Brad drives, Jon color-commentates — interrupt, add commentary, be a little annoying, call out misspeaks live (&ldquo;wait a minute, Brad&hellip; have another cup of coffee&rdquo;), and take over if the driver flounders. <b>Goal number one is to entertain</b> — learning is second, because a tuned-out audience learns nothing. Keep it light; they know it is work, but there is no need to be boring. If humor lands on anyone, self-deprecate first — never accuse first. Plan deliberate pauses to engage the room (open question for the organizers: can attendees unmute?). Planted questions are marked <b>PLANTED</b> in the steps below.</p>
+    <p class="tip"><b>Delivery:</b> Brad drives, Jon color-commentates — interrupt, add commentary, be a little annoying, call out misspeaks live (“wait a minute, Brad… have another cup of coffee”), and take over if the driver flounders. <b>Goal number one is to entertain</b> — learning is second, because a tuned-out audience learns nothing. Keep it light; they know it is work, but there is no need to be boring. If humor lands on anyone, self-deprecate first — never accuse first. Plan deliberate pauses to engage the room (open question for the organizers: can attendees unmute?). Planted questions are marked <b>PLANTED</b> in the steps below.</p>
   </details>
 </div>
 
@@ -231,7 +231,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 <section class="step" data-label="Slide 02 / 17">
   <div class="step-head">
     <span class="kind slide">SLIDE 02 · AI IN PLAIN ENGLISH</span>
-    <h2>Four different jobs get called &ldquo;AI&rdquo;</h2>
+    <h2>Four different jobs get called “AI”</h2>
     <div class="time">3–11 min block begins</div>
   </div>
   <div class="onscreen"><b>On screen</b>Four cards — Predictive (estimate), Generative/LLM (create), Agentic (reason + act), Automation (execute) — with analogies, and a dashed "what it is not" box.</div>
@@ -270,8 +270,8 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>The three knobs, spoken rather than shown: <b>prompting</b> is better instructions for this request. <b>RAG</b> is the right reference material for this request. <b>Fine-tuning</b> changes learned behavior for future requests — use it for durable behavior, never for facts that change every filing season.</p>
   </div>
   <div class="beat"><b>This slide has one job</b>Show that there is a lot around the LLM — not just the model. The inference runtime, the platform controls and the surrounding system are what is critical. Do not try to teach every concept here. <b>The car analogy:</b> the LLM is the engine — an engine alone does not drive you to the store and pick up the groceries. You need the vehicle. Running an LLM on a laptop is easy; that is not an enterprise-worthy AI solution.</div>
-  <div class="beat"><b>Jon&rsquo;s analogy — land it</b>Fine-tuning is studying for the test. Retrieval is bringing the notebook into the test. An AND, not an either/or — Red Hat’s own metrics show doing both gives the best results. Brad’s rejoinder if it lands: some people are bad test takers — that does not mean they did not study.</div>
-  <div class="beat"><b>Why the prompt itself matters</b>The model never reads your sentence the way you wrote it — it breaks it into tokens and reassembles intent, so an ask that bundles everything into one line comes back flattened and literal. <span style="color:var(--ink-3)">Optional, if the room is enjoying the analogies: the tattoo story — ask for &ldquo;towers on hills&rdquo; all in one breath and towers on hills is literally what you get. The punchline: it is really in your prompting — the way you construct the action — because people like to say everything at once.</span></div>
+  <div class="beat"><b>Jon’s analogy — land it</b>Fine-tuning is studying for the test. Retrieval is bringing the notebook into the test. An AND, not an either/or — Red Hat’s own metrics show doing both gives the best results. Brad’s rejoinder if it lands: some people are bad test takers — that does not mean they did not study.</div>
+  <div class="beat"><b>Why the prompt itself matters</b>The model never reads your sentence the way you wrote it — it breaks it into tokens and reassembles intent, so an ask that bundles everything into one line comes back flattened and literal. <span style="color:var(--ink-3)">Optional, if the room is enjoying the analogies: the tattoo story — ask for “towers on hills” all in one breath and towers on hills is literally what you get. The punchline: it is really in your prompting — the way you construct the action — because people like to say everything at once.</span></div>
   <div class="beat"><b>Tell them to stop reading</b>On any dense slide, say it out loud: this is a leave-behind that stands alone when you review it later — this is not death by slideshow. People read on instinct; releasing them from it buys you their attention.</div>
   <div class="cue"><span class="next">NEXT → <b>data to judgement</b> (the staircase)</span></div>
 </section>
@@ -284,12 +284,12 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   </div>
   <div class="onscreen"><b>On screen</b>Four-step staircase: Data → Information → Knowledge ("information that informs an outcome") → Judgement. Pills on the risers: predictive AI, generative AI + RAG, people. Top step marked "stays human."</div>
   <div class="talk">
-    <p>Walk the stairs left to right. <b>Brad&rsquo;s line, said out loud: information is only knowledge when it informs a specific outcome.</b> Knowledge has to drive action, not check a box — and most organizations stall exactly there.</p>
+    <p>Walk the stairs left to right. <b>Brad’s line, said out loud: information is only knowledge when it informs a specific outcome.</b> Knowledge has to drive action, not check a box — and most organizations stall exactly there.</p>
     <p>Predictive models climb the first riser — score, match, flag. Generative models with retrieval climb the second — read, ground, draft. <b>The top step is deliberately human</b> — a determination someone signs. That is a design rule, not a technical limit, and it is what makes the deployment defensible.</p>
     <p>The backlog lives at the bottom of the ladder. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p>
   </div>
-  <div class="beat"><b>PLANTED — Jon asks it</b>&ldquo;So is AI taking our jobs?&rdquo; — Brad answers: it is not coming for your job, because right now it does not have judgement. Jon’s read: everyone quietly feels this, which is why it is the masterpiece slide.</div>
-  <div class="beat"><b>The make-the-tests-pass story</b>Ask an AI to &ldquo;make all these tests pass&rdquo; and it edits the code until they pass. It did exactly what you asked. That is information — not knowledge, and not judgement. <span style="color:var(--ink-3)">Optional garnish, attributed: Karpathy — &ldquo;you can outsource intelligence but you cannot outsource understanding.&rdquo;</span></div>
+  <div class="beat"><b>PLANTED — Jon asks it</b>“So is AI taking our jobs?” — Brad answers: it is not coming for your job, because right now it does not have judgement. Jon’s read: everyone quietly feels this, which is why it is the masterpiece slide.</div>
+  <div class="beat"><b>The make-the-tests-pass story</b>Ask an AI to “make all these tests pass” and it edits the code until they pass. It did exactly what you asked. That is information — not knowledge, and not judgement. <span style="color:var(--ink-3)">Optional garnish, attributed: Karpathy — “you can outsource intelligence but you cannot outsource understanding.”</span></div>
   <div class="beat"><b>If the room remembers one picture</b>Make it this one.</div>
   <div class="cue"><span class="next">NEXT → <b>predictive vs generative</b> (the governance table)</span></div>
 </section>
@@ -351,9 +351,9 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Systems of record stay where they are — reached through APIs and automation, not replaced.</p>
   </div>
   <div class="beat"><b>The seams riff — Jon asked for this on paper</b>Problems happen at the seams, not inside the systems. <b>The pants analogy:</b> gain a little weight and your pants split at the seams — never in the middle, where the fabric and the stitching are strongest. RHEL and OpenShift interoperating layer to layer is what makes integration less cumbersome and more seamless. We are not the only ones who do it — but we are uniquely positioned.</div>
-  <div class="beat"><b>PLANTED — Jon plays the foil</b>&ldquo;I don&rsquo;t know what you&rsquo;re talking about there — what&rsquo;s a seam?&rdquo; Brad answers with the pants analogy.</div>
-  <div class="beat"><b>PLANTED — Brad asks Jon</b>&ldquo;What is fine-tuning to you, Jon?&rdquo; Jon is comfortable being put on the spot here. Also worth saying: one foundation from bare metal to the taxpayer — but how do you turn your <em>information</em> into <em>actionable knowledge</em> you can act on? Jon calls that the core of it.</div>
-  <div class="beat"><b>Naming caution</b>&ldquo;OpenShift&rdquo; next to &ldquo;OpenShift AI&rdquo; invites a product-versus-value rabbit hole. For a value-seeking audience, serving and retrieval are one thing — &ldquo;you serve a model, I want my data out of it.&rdquo; Split them only for a platform-technical room.</div>
+  <div class="beat"><b>PLANTED — Jon plays the foil</b>“I don’t know what you’re talking about there — what’s a seam?” Brad answers with the pants analogy.</div>
+  <div class="beat"><b>PLANTED — Brad asks Jon</b>“What is fine-tuning to you, Jon?” Jon is comfortable being put on the spot here. Also worth saying: one foundation from bare metal to the taxpayer — but how do you turn your <em>information</em> into <em>actionable knowledge</em> you can act on? Jon calls that the core of it.</div>
+  <div class="beat"><b>Naming caution</b>“OpenShift” next to “OpenShift AI” invites a product-versus-value rabbit hole. For a value-seeking audience, serving and retrieval are one thing — “you serve a model, I want my data out of it.” Split them only for a platform-technical room.</div>
   <div class="cue"><span class="next">NEXT → <b>Why Red Hat AI</b> (the proposition)</span></div>
 </section>
 
@@ -361,13 +361,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 <section class="step" data-label="Slide 10 / 17">
   <div class="step-head">
     <span class="kind slide">SLIDE 10 · WHY RED HAT AI</span>
-    <h2>The federal problem is not &ldquo;get a model.&rdquo; It is operate AI without giving up control.</h2>
+    <h2>The federal problem is not “get a model.” It is operate AI without giving up control.</h2>
     <div class="time">17–23 min block begins</div>
   </div>
   <div class="onscreen"><b>On screen</b>"Bring the model to the mission" proposition (now with the glass-box line), Inference / Data / Agents / Platform strip, and six proof points including Models-as-a-Service and the modern-lock-in framing.</div>
   <div class="talk">
     <p><b>Do not sell a particular model as the moat.</b> The value is operational control: choose the model, accelerator and location; keep data where authorization requires; run inference efficiently; govern agents and lifecycle; automate the surrounding environment.</p>
-    <p>Two lines to land: <b>glass box, not black box</b> — open source means you can inspect what the system is doing; and <b>modern lock-in limits what you can build next</b> — a worse trap than the old hardware kind, because it constrains future functionality, not just today&rsquo;s invoice.</p>
+    <p>Two lines to land: <b>glass box, not black box</b> — open source means you can inspect what the system is doing; and <b>modern lock-in limits what you can build next</b> — a worse trap than the old hardware kind, because it constrains future functionality, not just today’s invoice.</p>
     <p>For the platform people in the room: <b>Models-as-a-Service</b> — a central team publishes governed model endpoints the projects consume, instead of every project building its own fragile AI stack.</p>
   </div>
   <div class="beat"><b>The 10,000 seats story</b>Agencies buy ten thousand chatbot seats and start plugging things into them. What they are never shown is the alternative: running their own instances <em>next to their own data</em> — feeding self-healing, closed-loop systems of record, tied into operations, extended toward fraud, waste and abuse. The knowledge that matters lives in workflows, policies and procedures you cannot paste into a public chatbot.</div>
@@ -385,12 +385,12 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="onscreen"><b>On screen</b>One service definition (manifest, signed model, GitOps — "infrastructure as code") fanning to three venues: datacenter, accredited cloud, air-gapped enclave — "oc apply — unchanged."</div>
   <div class="talk">
     <p>The left box is the definition of the service — <b>infrastructure as code</b>: a manifest, a signed model, a GitOps repo. The three boxes on the right are the places it runs, <b>unchanged</b>. Placement becomes policy, not manual re-architecture.</p>
-    <p>Three consequences: <b>accredit once</b> — workflow two starts with workflow one&rsquo;s evidence. <b>April becomes a scheduling event</b> — the 6× surge is absorbed by autoscaling on pooled GPUs. <b>The exit door stays open.</b></p>
+    <p>Three consequences: <b>accredit once</b> — workflow two starts with workflow one’s evidence. <b>April becomes a scheduling event</b> — the 6× surge is absorbed by autoscaling on pooled GPUs. <b>The exit door stays open.</b></p>
   </div>
   <div class="beat"><b>The lock-in riff</b>Modern lock-in is more dangerous than the old kind — buying your OS from your hardware vendor was visible; this limits your <em>future</em> decisions without you even knowing. <b>The phone-plan analogy:</b> a plan where you cannot call Pizza Hut, only Domino’s. Real lock-in is tying into bespoke, hyperscaler-unique services. Fine to spin up fast — then ground it after you prove it, because scale is where the inability to adapt shows up.</div>
-  <div class="beat"><b>PLANTED — Jon plays the foil</b>&ldquo;Hang on, Brad — what do you actually mean by lock-in? I thought we already bought the software.&rdquo; Brad answers with the phone-plan analogy. Jon flagged this riff as one that lands in a small room but misses a large virtual audience — the set-up question is what carries it.</div>
+  <div class="beat"><b>PLANTED — Jon plays the foil</b>“Hang on, Brad — what do you actually mean by lock-in? I thought we already bought the software.” Brad answers with the phone-plan analogy. Jon flagged this riff as one that lands in a small room but misses a large virtual audience — the set-up question is what carries it.</div>
   <div class="beat"><b>Say the honest caveat</b>This is not easy, and not right for every situation — sometimes you legitimately need a native service. The ask is narrower: define your infrastructure and services as code, so placement becomes a policy instead of a complete re-architecture.</div>
-  <div class="beat"><b>The counter-pitch</b>If the competing pitch is one cloud&rsquo;s AI stack, this is the counter: the mission does not have to marry the venue.</div>
+  <div class="beat"><b>The counter-pitch</b>If the competing pitch is one cloud’s AI stack, this is the counter: the mission does not have to marry the venue.</div>
   <div class="cue"><span class="next">NEXT → <b>the operations loop</b></span></div>
 </section>
 
@@ -406,7 +406,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>The concrete story: <b>predictive AI</b> flags the risk from telemetry, the <b>LLM</b> explains the evidence in language, <b>RAG</b> grounds it in approved runbooks, and <b>Ansible</b> performs only what policy permits. <b>Automation is the discriminator</b> — it is what closes the loop and makes the system self-healing across heterogeneous environments.</p>
     <p>The flywheel: after review, the incident summary becomes searchable knowledge for the next event. The boundary: <b>generated text does not become truth automatically</b> — a human or workflow gate curates it first. Do not let fluency become authority.</p>
   </div>
-  <div class="beat"><b>The segue Brad rehearsed</b>&ldquo;I talk to my chatbot every night and it tells me how great I am&rdquo; — but you do not want reassurance during a tax audit, a criminal investigation, or a hunt for a pattern. <b>It is not a chatbot.</b> You want something that predicts and explains, then grounds, acts and learns.</div>
+  <div class="beat"><b>The segue Brad rehearsed</b>“I talk to my chatbot every night and it tells me how great I am” — but you do not want reassurance during a tax audit, a criminal investigation, or a hunt for a pattern. <b>It is not a chatbot.</b> You want something that predicts and explains, then grounds, acts and learns.</div>
   <div class="beat"><b>Authority comes from your language</b>The fluency that becomes authority has to be grounded in <em>your</em> language and <em>your</em> approved processes — not OpenAI’s. And most of the effort here is provisioning, patching, scaling, data collection and inputs: an automation problem, not an AI problem.</div>
   <div class="cue"><span class="next">NEXT → <b>the MTTR proof</b> (this loop, quantified)</span></div>
 </section>
@@ -420,10 +420,10 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="onscreen"><b>On screen</b>Two MTTR bars: before, 3h 16m dominated by 2h 41m of diagnosis; with the notebook, 24m diagnosis and 59m total. Bottom note cites industry incident studies on diagnosis dominating resolution time.</div>
   <div class="talk">
     <p>The NotebookLM analogy lands instantly: a private notebook that has read <b>your logs, your runbooks, your incident history and your change records</b> — running on the same cluster it observes.</p>
-    <p>Pair the chart with the outside number and the personal story: industry incident studies consistently put diagnosis at most of resolution time — <b>and this is where Brad tells the case-study anecdote</b> that makes it concrete. Then the bars: detection was already fast; the hours lived in diagnosis; −84%.</p>
-    <p>Why local: logs are FTI-adjacent — hostnames, account fragments, case identifiers. Nothing is exported to anyone&rsquo;s hosted service.</p>
+    <p>Pair the chart with the outside number and the personal story: industry incident studies consistently put diagnosis at most of resolution time — <b>and this is where Brad tells the case-study anecdote</b> that makes it concrete. Then the bars: detection was already fast; the hours lived in diagnosis; -84%.</p>
+    <p>Why local: logs are FTI-adjacent — hostnames, account fragments, case identifiers. Nothing is exported to anyone’s hosted service.</p>
   </div>
-  <div class="beat"><b>Say resolution, not restoration</b>MTTR here is <b>mean time to resolution</b>. Jon corrected this live — and the direction is <em>reducing</em> it, never &ldquo;increasing the mean time to&hellip;&rdquo;.</div>
+  <div class="beat"><b>Say resolution, not restoration</b>MTTR here is <b>mean time to resolution</b>. Jon corrected this live — and the direction is <em>reducing</em> it, never “increasing the mean time to…”.</div>
   <div class="beat"><b>Industry number first, then the story</b>Lead with the independent industry metrics so the claim has outside authority — then tell the personal one: the notebook read a must-gather and diagnosed in two minutes what had taken the team forty-six hours. People love stories, but the number is what makes it credible. <span style="color:var(--ink-3)">(If the must-gather visual is ever shown, use a sanitized version — the original came from a real customer instance.)</span></div>
   <div class="beat"><b>Jon asked for this narration verbatim</b>The big red bar is diagnosis — <em>that is all information</em>. The blue is data; the data does not change. What changed is the time to create the information. That ties this chart straight back to the ladder.</div>
   <div class="beat"><b>If the room is operational</b>Offer to jump straight to Lab 07 — it runs this incident end to end.</div>
@@ -444,7 +444,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p><b>Ask the room directly which phase they are in.</b></p>
   </div>
   <div class="beat"><b>Plan for problems, not predicaments</b>Do not let a hypothetical chip shortage derail the project. The problem right now is grounding the proof so you <em>can</em> scale — not the scale itself. The success test: none of the decisions you make today may limit your options tomorrow.</div>
-  <div class="beat"><b>PLANTED — Jon plays the foil</b>&ldquo;Wait — what is a predicament versus a problem?&rdquo; Brad answers: a problem you can solve today; a predicament you can only plan around — so a hypothetical GPU shortage must not stall the pilot. Same reason as the lock-in riff: too nuanced to survive a big virtual room without the question in front of it.</div>
+  <div class="beat"><b>PLANTED — Jon plays the foil</b>“Wait — what is a predicament versus a problem?” Brad answers: a problem you can solve today; a predicament you can only plan around — so a hypothetical GPU shortage must not stall the pilot. Same reason as the lock-in riff: too nuanced to survive a big virtual room without the question in front of it.</div>
   <div class="beat"><b>Processes, not just workloads</b>Success depends on changing how you deploy — your processes — not merely moving workloads onto new technology. <span style="color:var(--ink-3)">Optional: containers took off because we did not have to teach people containers; developers just needed it to fit their workflow. That is still what is missing in a lot of places.</span> And use the ground truth you already have: your experience with the agency’s applications, software and data layers is what proves it.</div>
   <div class="cue"><span class="next">NEXT → <b>next steps</b> (the ask + the contact strip)</span></div>
 </section>
@@ -460,7 +460,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p><b>Close with a specific ask, not a thank-you.</b> Step one is the free half-day architecture workshop. Step two is a guided pilot with a measured baseline. Step three: Four Inc. and Carahsoft carry the vehicles — bring them in early.</p>
     <p><b>Engage the solution architects early</b> — the foundational questions are free to ask and expensive to skip. Point at the contact strip: reach out and we will connect you with the right subject-matter expert. The whole kit lives at <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>.</p>
   </div>
-  <div class="beat"><b>Say this line</b>&ldquo;If you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product.&rdquo; Then: reach out to me and I will get you in touch with the right person. Models-as-a-Service is the example worth naming for platform architects. There is no stupid question — unanswered foundational questions are what build a shaky foundation that gets reworked later. Brad’s closer if the room is warm: that is why we get paid as solution architects — I would rather talk to you than my manager.</div>
+  <div class="beat"><b>Say this line</b>“If you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product.” Then: reach out to me and I will get you in touch with the right person. Models-as-a-Service is the example worth naming for platform architects. There is no stupid question — unanswered foundational questions are what build a shaky foundation that gets reworked later. Brad’s closer if the room is warm: that is why we get paid as solution architects — I would rather talk to you than my manager.</div>
   <div class="beat"><b>One thing to remember</b>Nothing in these seven labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</div>
   <div class="cue"><span class="next">NEXT → <b>the labs</b> — the concluding takeaway</span></div>
 </section>
@@ -499,7 +499,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   </div>
   <div class="beat"><b>The federal paperwork reality</b>The one real difference from commercial: attestation is not the end of it. Name the artifacts — security attestation, POA&amp;Ms, FITARA scorecards — and note that the tailored templating and reporting for FIPS 199 / FISMA moderate and high ship <em>with</em> the platform as a value-add. Federal civilian and DoD carry the same requirements.</div>
   <div class="beat"><b>Do not roll your own validations</b>Say it plainly, then offer the introduction: reach out and we will connect you with a solution architect or specialist. Disconnected operation, registry mirroring and the Compliance Operator come baked in for zero-internet environments.</div>
-  <div class="beat"><b>Glass box, not black box</b>You do not want to be handed a box and told &ldquo;this is AI&rdquo; when you cannot see inside it. You want a glass box you can break open and inspect — vital when the work is a tax audit or a criminal investigation. Recent anecdote if it fits: the Hugging Face breach — attackers went after the SaaS model in the cloud to pivot in. On-prem and SaaS answer different questions.</div>
+  <div class="beat"><b>Glass box, not black box</b>You do not want to be handed a box and told “this is AI” when you cannot see inside it. You want a glass box you can break open and inspect — vital when the work is a tax audit or a criminal investigation. Recent anecdote if it fits: the Hugging Face breach — attackers went after the SaaS model in the cloud to pivot in. On-prem and SaaS answer different questions.</div>
   <div class="cue"><span class="next">NEXT → <b>Lab 01 notes</b> · deck stays in Labs view</span></div>
 </section>
 
@@ -738,7 +738,7 @@ Precedent: INC-2209 · Runbook: RB-114 "vLLM memory pressure", steps 3–5.</spa
       <div class="c">python mttr_report.py --window last-quarter</div>
       <div class="o">before: detect 4m · <span class="err">diagnose 2h 41m</span> · fix 22m · verify 9m = 3h 16m
 after:  detect 4m · <span class="ok">diagnose 24m</span>    · fix 22m · verify 9m = <span class="ok">59m</span></div>
-      <div class="say">Detection was already fast. The hours lived in diagnosis — that is what a notebook over your own logs removes. Diagnosis −84%, total −70%.</div>
+      <div class="say">Detection was already fast. The hours lived in diagnosis — that is what a notebook over your own logs removes. Diagnosis -84%, total -70%.</div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.</p>
