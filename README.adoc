@@ -29,7 +29,9 @@ The kit is published at https://nommsweymx.github.io/redhat-ai-tax-labs/ — the
 interactive deck, with its Labs and Demo views, is the landing page. The
 presenter console is at `/presenter-notes.html`, the documentation at
 `/docs/`, the reveal.js deck at `/slides.html` and the PowerPoint export under
-`/exports/`. Drop presenter photos at `slides/assets/brad-scalio.jpg` and
+`/exports/`. Not sure where to start? `/adventure.html` is the
+choose-your-own-adventure catalogue: six reading orders by job, every lab,
+slide, guide and tool, and what a live run needs. Drop presenter photos at `slides/assets/brad-scalio.jpg` and
 `slides/assets/jon-keam.jpg` and the contact slide picks them up.
 
 toc::[]
@@ -160,6 +162,7 @@ image so you do not have to install Ruby.
 make docs      # docs/index.adoc  -> build/docs/index.html
 make slides    # slides/slides.adoc -> build/slides.html (reveal.js)
 make pptx      # slides/exports/redhat-ai-tax-administration.pptx
+make adventure # slides/adventure.html from bin/adventure-inventory.json
 make pdf       # build/redhat-ai-tax-administration.pdf
 make test      # shell syntax check + run all labs in simulate mode
 make all       # everything above

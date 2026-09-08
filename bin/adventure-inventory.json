@@ -1,0 +1,1289 @@
+{
+ "items": [
+  {
+   "id": "lab-01",
+   "kind": "lab",
+   "title": "Lab 01 — Serve a model inside your boundary",
+   "path": "labs/lab01-rhel-ai/run.sh",
+   "site_url": "/docs/index.html#lab-01",
+   "audience": "Platform and infrastructure engineers; anyone who has to answer \"where does our data go when someone prompts the model?\"",
+   "minutes": "About 5 minutes (5 steps)",
+   "rung": "data → information",
+   "prerequisites": "LAB_MODE=simulate: nothing. LAB_MODE=live: a RHEL host with a supported accelerator and CDI devices generated (nvidia-ctk cdi generate), podman, huggingface-cli, curl and jq on the path, registry.redhat.io credentials, ~20 GB free disk. Step 3 blocks in live mode; run it in a second terminal.",
+   "what_you_learn": "Pull the signed Red Hat AI Inference Server (vLLM) image, download the validated RedHatAI/granite-3.3-8b-instruct model, serve it on localhost, and classify a real taxpayer refund inquiry without any inference call leaving the host.",
+   "highlights": [
+    "ss -ltnp shows 127.0.0.1:8000 — the endpoint has no egress path; that screen is the point",
+    "podman pull prints 'Signature verified — policy: signedBy release key' on the way in",
+    "The curl reply returns category, routing queue, missing Form 8822 and a draft for a human to sign",
+    "assets/inquiry.json's system prompt forbids stating a determination as final"
+   ],
+   "next": [
+    "lab-02",
+    "lab-06"
+   ],
+   "anchors": [
+    "ladder",
+    "lab-02"
+   ]
+  },
+  {
+   "id": "lab-02",
+   "kind": "lab",
+   "title": "Lab 02 — Teach it your notice taxonomy",
+   "path": "labs/lab02-customization/run.sh",
+   "site_url": "/docs/index.html#lab-02",
+   "audience": "Subject matter experts and data leads who own notice families, routing rules and correspondence house style",
+   "minutes": "About 6 minutes (5 steps); hours of GPU to run live",
+   "rung": "knowledge",
+   "prerequisites": "LAB_MODE=simulate: only python3 (and only checked in live mode). LAB_MODE=live: a GPU host, Python with the sdg-hub and training-hub libraries, the Lab 01 endpoint (http://127.0.0.1:8000/v1) running as the teacher model, and several hours of GPU time. Note: check_seeds.py, generate.py, train.py and evaluate.py are not shipped in the lab directory — only taxonomy/knowledge/gov/tax/notices/qna.yaml is.",
+   "what_you_learn": "Write agency knowledge as reviewable seed YAML (qna.yaml, schema v3), validate it, expand 12 seed examples into ~2,200 kept samples with SDG Hub, LoRA-tune Granite with Training Hub, and prove the tuned model beats the base.",
+   "highlights": [
+    "12 seed examples become 2,556 generated, 2,203 kept — every sample traces to a human-written seed",
+    "Evaluation table: notice family accuracy 0.61 → 0.94, cites the right form 0.44 → 0.89",
+    "check_seeds.py is the CI gate: fail in a pull request, not after four hours of GPU",
+    "Keep the held-out evaluation set out of the seed data or the numbers mean nothing"
+   ],
+   "next": [
+    "lab-03"
+   ],
+   "anchors": [
+    "ladder",
+    "lab-01",
+    "lab-03"
+   ]
+  },
+  {
+   "id": "lab-03",
+   "kind": "lab",
+   "title": "Lab 03 — Survive filing season",
+   "path": "labs/lab03-openshift-ai/run.sh",
+   "site_url": "/docs/index.html#lab-03",
+   "audience": "Platform engineers and capacity planners responsible for taxpayer-facing services at April peak",
+   "minutes": "About 6 minutes (6 steps)",
+   "rung": "information at scale",
+   "prerequisites": "LAB_MODE=simulate: nothing. LAB_MODE=live: an OpenShift cluster with Red Hat OpenShift AI installed, GPU nodes with the NVIDIA GPU Operator, oc authenticated, and hey for the load test. WARNING: step 6 consumes every GPU the namespace can schedule for 90 seconds — non-production cluster only.",
+   "what_you_learn": "Deploy the Lab 02 model as a KServe InferenceService on the vllm-runtime, watch it become Ready in ~96 seconds, then run a 400-concurrent-user rehearsal and watch replicas climb 2 → 20 and back with no application change.",
+   "highlights": [
+    "hey -z 90s -c 400: 1,183 req/s, p95 0.612s, zero errors, replicas 2 → 20 → 2",
+    "manifests/inferenceservice-tax-classifier.yaml is the capacity plan: minReplicas 2, scaleMetric concurrency, scaleTarget 24",
+    "storageUri pinned to sha256:4b91c0e2f7a3 — the digest the authorizing official approved, not a tag",
+    "Scale-to-two, not zero: cold-starting an 8B model costs ~90 seconds"
+   ],
+   "next": [
+    "lab-04",
+    "lab-05"
+   ],
+   "anchors": [
+    "ladder",
+    "lab-02",
+    "lab-06"
+   ]
+  },
+  {
+   "id": "lab-04",
+   "kind": "lab",
+   "title": "Lab 04 — Ground answers in your own guidance",
+   "path": "labs/lab04-rag/run.sh",
+   "site_url": "/docs/index.html#lab-04",
+   "audience": "Governance boards, correspondence reviewers and anyone deciding whether an AI answer may reach a taxpayer",
+   "minutes": "About 5 minutes (5 steps)",
+   "rung": "knowledge",
+   "prerequisites": "LAB_MODE=simulate: nothing. LAB_MODE=live: an OpenShift cluster, psycopg installed, an embeddings endpoint (Lab 01 or Lab 03; default http://127.0.0.1:8000/v1/embeddings), and your own guidance in labs/lab04-rag/corpus/ as .txt/.md/.adoc/.html. ingest.py --dry-run chunks a corpus with no database.",
+   "what_you_learn": "Stand up pgvector on the same cluster as the model, ingest Publications 17/501/594 plus internal notice guidance (3,135 chunks), get a cited CP14 answer, then watch the system refuse a 2031 question and show exactly why.",
+   "highlights": [
+    "The refusal: 'sources: none above threshold (0.75)' — refer to a specialist, exit code 3",
+    "--explain prints every rejected candidate with its score against the 0.750 threshold",
+    "Every good answer carries a sources block: Publication 594 p.4, score 0.891",
+    "The corpus is queried, never learned — sensitive text stays out of training",
+    "The run.sh has a fifth step, the --explain trace; the deck version stops at four"
+   ],
+   "next": [
+    "lab-07",
+    "lab-05"
+   ],
+   "anchors": [
+    "ladder",
+    "lab-01",
+    "lab-03",
+    "lab-07"
+   ]
+  },
+  {
+   "id": "lab-05",
+   "kind": "lab",
+   "title": "Lab 05 — Automate the toil around the model",
+   "path": "labs/lab05-ansible/run.sh",
+   "site_url": "/docs/index.html#lab-05",
+   "audience": "Operations and automation teams; whoever gets paged when inference saturates",
+   "minutes": "About 5 minutes (4 steps)",
+   "rung": "executes judgement",
+   "prerequisites": "LAB_MODE=simulate: nothing. LAB_MODE=live: Red Hat Ansible Automation Platform 2.4+, ansible-navigator and ansible-rulebook on the path (the rules engine needs a JDK), the ansible.eda collection, an Automation Controller with the named job templates, and Alertmanager posting to the rulebook source on port 5000.",
+   "what_you_learn": "Run a health playbook that tests the endpoint the way a taxpayer would (including the served-digest check against CR-8841), then start an Event-Driven Ansible rulebook and watch a queue-depth alert remediated in 62 seconds with an audit row.",
+   "highlights": [
+    "Alert 14:38:02 → job 40213 scales maxReplicas 20 → 32 → resolved 14:39:04. No ticket, no pager",
+    "rulebooks/inference_saturation.yml: ModelProvenanceMismatch deliberately escalates instead of self-remediating",
+    "awx job list shows launched_by eda-rulebook — the evidence Lab 06 asks for writes itself",
+    "The digest check is the task people forget; drift from the approved artefact is an accreditation finding"
+   ],
+   "next": [
+    "lab-06",
+    "lab-07"
+   ],
+   "anchors": [
+    "ladder",
+    "lab-06"
+   ]
+  },
+  {
+   "id": "lab-06",
+   "kind": "lab",
+   "title": "Lab 06 — Prove it to your ISSO",
+   "path": "labs/lab06-trust/run.sh",
+   "site_url": "/docs/index.html#lab-06",
+   "audience": "ISSOs, authorizing officials, assessors and security architects accrediting an AI workload",
+   "minutes": "About 6 minutes (5 steps)",
+   "rung": "evidence → judgement",
+   "prerequisites": "LAB_MODE=simulate: nothing. LAB_MODE=live: oc authenticated to a cluster with the Compliance Operator and TrustyAI installed, cosign on the path, the agency model-signing public key (agency-model-signing.pub), and SSH access to a GPU node (default ocp-gpu-04). Step 2 reads node configuration over SSH.",
+   "what_you_learn": "Run the four checks an authorizing official actually runs: cosign-verify the model against change record CR-8841, confirm FIPS and SELinux enforcing, read a real Compliance Operator result, and interpret TrustyAI drift and fairness metrics correctly.",
+   "highlights": [
+    "oc get compliancescan: ocp4-moderate DONE NON-COMPLIANT — the honest result, and it is deliberate",
+    "1 of 217 checks failed (audit-log-forwarding); remediation available, or let the Lab 05 rulebook apply it",
+    "channel_mix drift 0.212 exceeds 0.150 — nothing is wrong with the model; more taxpayers moved to the portal",
+    "cosign verify names signer, timestamp and 'CR-8841 (approved by AO 2026-08-20)' before admission"
+   ],
+   "next": [
+    "lab-07"
+   ],
+   "anchors": [
+    "ladder",
+    "lab-05"
+   ]
+  },
+  {
+   "id": "lab-07",
+   "kind": "lab",
+   "title": "Lab 07 — Ask your own logs",
+   "path": "labs/lab07-ops-notebook/run.sh",
+   "site_url": "/docs/index.html#lab-07",
+   "audience": "SREs, on-call engineers and platform leads who own mean time to restore",
+   "minutes": "About 5 minutes (5 steps)",
+   "rung": "information → knowledge",
+   "prerequisites": "LAB_MODE=simulate: nothing. LAB_MODE=live: an OpenShift cluster with OpenShift Logging (Loki), the Lab 04 vector store and model serving in place, logcli and python3 on the path. Note: ingest_ops.py and mttr_report.py are not shipped in the lab directory — only run.sh is.",
+   "what_you_learn": "Point the Lab 04 retrieval pattern at operations: ingest 90 days of Loki logs, 48 runbooks, 312 postmortems and 1,240 change records (12,135 chunks), get a cited diagnosis of an OOM incident, remediate via Lab 05, and read the MTTR case.",
+   "highlights": [
+    "Cited diagnosis in seconds: CR-9012 raised max_model_len 8192 → 16384; precedent INC-2209; runbook RB-114 steps 3-5",
+    "MTTR decomposition: diagnose 2h 41m → 24m; total 3h 16m → 59m (-70%)",
+    "Same stack as Lab 04 — only the corpus changed; nothing left the cluster",
+    "Logs carry hostnames and case identifiers: keeping this notebook on-cluster is not optional"
+   ],
+   "next": [],
+   "anchors": [
+    "ladder",
+    "lab-04",
+    "lab-05"
+   ]
+  },
+  {
+   "id": "deck-labs",
+   "kind": "page",
+   "title": "Interactive deck — Labs view",
+   "path": "slides/deck.html",
+   "site_url": "/#labs",
+   "audience": "Self-guided readers and workshop attendees who want to type the commands themselves in a browser",
+   "minutes": "Seven labs, roughly five minutes each",
+   "rung": "Data · Information · Knowledge · Judgement (each lab card carries its own chip)",
+   "prerequisites": "A browser. Open the deck with #labs on the URL, or #lab-3 to land on a specific lab; the sidebar Labs button does the same.",
+   "what_you_learn": "All seven labs as virtual terminals: press Show to reveal the next command and type it, Run to execute it, or Demo to play one lab hands-free. Commands are real and copyable; output matches the run.sh scripts.",
+   "highlights": [
+    "Seven terminal cards; the sidebar rail lists lab titles and scrolls to each card",
+    "Tab completes the next command like a shell; Show / Run / Demo buttons per lab",
+    "Deck's Lab 04 has 4 steps (no --explain trace) — the run.sh has 5",
+    "Closing card: nothing in seven labs required a public model endpoint or internet at inference time"
+   ],
+   "next": [
+    "lab-01",
+    "deck-demo"
+   ],
+   "anchors": [
+    "ladder"
+   ]
+  },
+  {
+   "id": "deck-demo",
+   "kind": "page",
+   "title": "Interactive deck — Demo view",
+   "path": "slides/deck.html",
+   "site_url": "/#demo",
+   "audience": "Kiosk screens, booth loops and anyone who wants to watch all seven labs play themselves",
+   "minutes": "Loops through all seven labs continuously; speed 1×, 1.6×, 2.4× or 4×",
+   "rung": "All four rungs (each lab's chip shown in the header as it plays)",
+   "prerequisites": "A browser. Open the deck with #demo on the URL to start in Demo view already playing; otherwise press the sidebar Demo button.",
+   "what_you_learn": "An automated walkthrough that types each lab's commands and prints the representative output, then shows the takeaway and moves to the next lab — the whole hands-on track without touching the keyboard.",
+   "highlights": [
+    "Space plays/pauses; ← → switch labs; Restart lab and a Speed selector up to 4×",
+    "Header shows lab badge, product chip, time chip and rung chip; progress reads 'lab 3/7 · step 2 / 6'",
+    "Playback is clock-driven, so a throttled hidden tab drops smoothness but never pace",
+    "Ends each lab with '✓ Lab NN complete' and its Takeaway line, then loops"
+   ],
+   "next": [
+    "deck-labs",
+    "lab-01"
+   ],
+   "anchors": []
+  },
+  {
+   "id": "readme",
+   "kind": "guide",
+   "title": "README — the kit in one page",
+   "path": "README.adoc",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/README.adoc",
+   "what_you_learn": "What the repository holds (seven labs, docs, deck, exports, bin/), the three-command quick start, the seven-lab table with product and rung, the two lab modes, and the honesty note about sample content.",
+   "highlights": [
+    "Quick start: ./bin/preflight.sh, then LAB_PACE=step ./labs/lab01-rhel-ai/run.sh, then ./bin/run-all-labs.sh — no cluster, GPU or credentials.",
+    "Lab table: 01 AI Inference Server, 02 SDG Hub + Training Hub, 03 OpenShift AI, 04 pgvector, 05 Ansible, 06 Compliance/TrustyAI/Sigstore, 07 Logging.",
+    "Warning: LAB_MODE=live in Lab 03 consumes every GPU its namespace can schedule; Lab 06 reads node config over SSH.",
+    "Licence is MIT; the material is event enablement, not an official Red Hat product or publication."
+   ],
+   "audience": "Anyone opening the repo cold — the first thing to read.",
+   "prerequisites": "None.",
+   "minutes": "5",
+   "rung": "data → information → knowledge → judgement (whole kit)",
+   "anchors": [
+    "quick-start",
+    "what-is-in-here",
+    "the-labs",
+    "lab-modes",
+    "building-the-documentation-and-slides"
+   ],
+   "next": [
+    "docs-index",
+    "preflight",
+    "lib-sh"
+   ]
+  },
+  {
+   "id": "docs-index",
+   "kind": "guide",
+   "title": "Docs master document — About this guide, who it is for, five outcomes, how to run",
+   "path": "docs/index.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/docs/index.html",
+   "what_you_learn": "The book that stitches every module into one page: reader-to-lab routing, the five event outcomes mapped to labs, the env-variable table, and the Demo-view tip for hands-free playback.",
+   "highlights": [
+    "Who this is for: 5 reader rows — platform (01,03,05), data/app (02,04), ops/SRE (07), security (06), programme leads (brief only).",
+    "Five outcomes table maps each abstract promise to the lab that proves it: 05, 01+02, 04, 06, 03.",
+    "Env table: LAB_MODE simulate, LAB_PACE auto, LAB_SPEED 0.04, NO_COLOR unset.",
+    "Includes 00-event-brief, labs 01–07 and 90-facilitator-guide at :leveloffset: +1, so each becomes a chapter."
+   ],
+   "audience": "Self-guided readers choosing where to start.",
+   "prerequisites": "None.",
+   "minutes": "8",
+   "rung": "data → information → knowledge → judgement",
+   "anchors": [
+    "about-this-guide (auto id)",
+    "ladder",
+    "who-this-is-for (auto id)",
+    "the-five-outcomes-and-where-each-is-proven (auto id)",
+    "how-to-run-the-labs (auto id)",
+    "event-brief",
+    "lab-01",
+    "lab-02",
+    "lab-03",
+    "lab-04",
+    "lab-05",
+    "lab-06",
+    "lab-07",
+    "facilitator-guide"
+   ],
+   "next": [
+    "ladder",
+    "event-brief",
+    "facilitator-guide"
+   ]
+  },
+  {
+   "id": "ladder",
+   "kind": "guide",
+   "title": "The ladder: data → information → knowledge → judgement",
+   "path": "docs/index.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/docs/index.html#ladder",
+   "what_you_learn": "The four-rung definitions that every slide, lab and product in the kit is tagged with, plus the 23-row table mapping each technology to the rung it serves.",
+   "highlights": [
+    "Data = what happened; Information = data in context for one case; Knowledge = guidance, precedent, runbooks; Judgement = a determination someone signs.",
+    "Arrow form (data → information) marks a converter; 'executes judgement' marks automation carrying out a decision already made.",
+    "Table has 23 rows: RHEL data; AI Inference Server data → information; OpenShift AI information + knowledge; Model registry, Sigstore, Human reviewer judgement.",
+    "Ansible / Event-Driven Ansible = executes judgement; Compliance Operator and TrustyAI = information (evidence); llm-d and Models-as-a-Service = information."
+   ],
+   "audience": "Everyone — it is the vocabulary the rest of the kit assumes.",
+   "prerequisites": "None.",
+   "minutes": "4",
+   "rung": "data → information → knowledge → judgement",
+   "anchors": [
+    "ladder"
+   ],
+   "next": [
+    "ladder-map",
+    "event-brief",
+    "lab-05 (executes judgement)",
+    "lab-06 (evidence → judgement)"
+   ]
+  },
+  {
+   "id": "event-brief",
+   "kind": "brief",
+   "title": "Event brief — operating reality, lifecycle map, architecture, AO questions, adoption path",
+   "path": "docs/00-event-brief.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/docs/index.html#event-brief",
+   "what_you_learn": "Why tax administration suits language models yet punishes normal deployment, where AI lands in the filing lifecycle, the four-layer reference architecture with two vertical concerns, and a 0–90–180-day adoption path.",
+   "highlights": [
+    "Four realities: demand is seasonal, rules are locked in legacy code, answers are in the text, the data cannot leave (FTI).",
+    "Six-stage lifecycle table; only Exam selection is marked No — governance first, automation much later.",
+    "Seven questions an authorizing official asks, each mapped to a control and a lab (01, 04 or 06).",
+    "Prove days 0–90, Ground 90–180, Scale 180+; most programmes stall on the capacity plan and written data-class agreement."
+   ],
+   "audience": "Programme and acquisition leads, ISSOs, anyone briefing leadership.",
+   "prerequisites": "The ladder definitions.",
+   "minutes": "10",
+   "rung": "data → judgement (architecture layers each tagged)",
+   "anchors": [
+    "event-brief",
+    "the-operating-reality (auto id)",
+    "where-ai-lands-in-the-filing-lifecycle (auto id)",
+    "reference-architecture (auto id)",
+    "the-questions-an-authorizing-official-will-ask (auto id)",
+    "adoption-path (auto id)"
+   ],
+   "next": [
+    "lab-01",
+    "lab-06",
+    "lab-04",
+    "facilitator-guide"
+   ]
+  },
+  {
+   "id": "facilitator-guide",
+   "kind": "facilitator",
+   "title": "Facilitator guide — running the 60-minute session",
+   "path": "docs/90-facilitator-guide.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/docs/index.html#facilitator-guide",
+   "what_you_learn": "Minute-by-minute timing for a 60-minute virtual event, which labs to run live and why, projector settings, the five planted questions, six stock answers, and a four-item honesty checklist.",
+   "highlights": [
+    "Timing: slides 0–34 min, Lab 01 live 34–42 (stop on ss -ltnp), Lab 05 live 42–50 (the 62-second remediation), Q&A 56–60.",
+    "30-minute cut: slides 1, 2, 8, Lab 01, and the drift section of Lab 06; keep slide 17 loaded for ISSOs.",
+    "Projector: LAB_SPEED=0.08 LAB_PACE=step, or NO_COLOR=1 if screen share mangles ANSI; 80 columns is enough.",
+    "Say out loud: sample notices are illustrative, numbers are representative, exam selection is deliberately excluded, a human signs everything."
+   ],
+   "audience": "Whoever presents or re-runs the session; attendees do not need it.",
+   "prerequisites": "Have run ./bin/run-all-labs.sh once and opened slides/deck.html.",
+   "minutes": "8",
+   "rung": "judgement (keeps the human on the signature)",
+   "anchors": [
+    "facilitator-guide",
+    "timing-a-60-minute-virtual-event (auto id)",
+    "which-labs-to-run-live (auto id)",
+    "running-the-labs-on-a-projector (auto id)",
+    "questions-you-will-get-and-short-answers (auto id)",
+    "after-the-session (auto id)"
+   ],
+   "next": [
+    "presenter-notes.html (talk track)",
+    "lab-01",
+    "lab-05",
+    "reveal-slides"
+   ]
+  },
+  {
+   "id": "attributes",
+   "kind": "spec",
+   "title": "Shared AsciiDoc attributes — product names and lab defaults",
+   "path": "docs/attributes.adoc",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/docs/attributes.adoc",
+   "what_you_learn": "The single place product names and environment defaults are defined, so a rename is one edit; explains the {rhaiis}-style tokens seen throughout docs/.",
+   "highlights": [
+    "Product tokens: rhel, rhaiis (Red Hat AI Inference Server), ocp, rhoai, aap, eda (Event-Driven Ansible).",
+    "Lab defaults: ns tax-inference, base-model granite-3.3-8b-instruct, tuned-model granite-8b-tax-v1, change-record CR-8841.",
+    "Rendering: :toc: left, :sectnums:, :sectanchors:, rouge highlighter, :idprefix: empty, :idseparator: - (so auto ids are plain kebab-case).",
+    "repo-url attribute points at https://github.com/nommsweyMX/redhat-ai-tax-labs."
+   ],
+   "audience": "Contributors editing docs or adapting the kit to their own estate.",
+   "prerequisites": "None.",
+   "minutes": "2",
+   "anchors": [],
+   "next": [
+    "docs-index",
+    "makefile"
+   ]
+  },
+  {
+   "id": "makefile",
+   "kind": "tool",
+   "title": "Makefile — build docs, slides, PPTX, PDF and run the smoke test",
+   "path": "Makefile",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/Makefile",
+   "what_you_learn": "Ten targets that turn the AsciiDoc sources into the published site, using the docker.io/asciidoctor/docker-asciidoctor:latest container so Ruby is never installed locally.",
+   "highlights": [
+    "docs → build/index.html; slides → build/slides.html (reveal.js 4.6.1 from jsdelivr); pdf → build/redhat-ai-tax-administration.pdf from docs/index.adoc.",
+    "pptx → python3 bin/build-pptx.py --out slides/exports/redhat-ai-tax-administration.pptx (needs only python-pptx).",
+    "lint = bash -n on bin/*.sh and labs/*/run.sh plus py_compile; test = lint then LAB_SPEED=0 NO_COLOR=1 ./bin/run-all-labs.sh.",
+    "RUNTIME picks podman or docker; check-runtime prints the local fallback asciidoctor -D build docs/index.adoc."
+   ],
+   "audience": "Contributors and anyone rebuilding the site locally.",
+   "prerequisites": "podman or docker for docs/slides/pdf; python3 + python-pptx for pptx; nothing for test.",
+   "minutes": "3",
+   "anchors": [],
+   "next": [
+    "docs-workflow",
+    "build-pptx",
+    "run-all-labs"
+   ]
+  },
+  {
+   "id": "lib-sh",
+   "kind": "tool",
+   "title": "bin/lib.sh — the shared lab runtime (simulate vs live)",
+   "path": "bin/lib.sh",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/bin/lib.sh",
+   "what_you_learn": "How every lab is a sequence of step calls — a real command plus its expected output — and how four environment variables switch mode, pacing, speed and colour.",
+   "highlights": [
+    "Defaults from the file: LAB_MODE=simulate, LAB_PACE=auto, LAB_SPEED=0.04; NO_COLOR unset (any value, or a non-tty stdout, disables colour).",
+    "step \"cmd\" <<'OUT' ... OUT: simulate prints expected lines; live evals the command and on non-zero exit shows the expected output as the finding.",
+    "LAB_PACE=step prompts '[Enter] to run, s to skip, q to quit'; LAB_STEPS_TOTAL and LAB_PROMPT are per-lab knobs.",
+    "require_cmd exits 2 in live mode when a tool is missing; lab_footer returns 1 if any live step failed."
+   ],
+   "audience": "Facilitators tuning a demo, and anyone writing a new lab.",
+   "prerequisites": "bash.",
+   "minutes": "5",
+   "anchors": [],
+   "next": [
+    "preflight",
+    "run-all-labs",
+    "lab-01"
+   ]
+  },
+  {
+   "id": "preflight",
+   "kind": "tool",
+   "title": "bin/preflight.sh — which labs can run live here",
+   "path": "bin/preflight.sh",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/bin/preflight.sh",
+   "what_you_learn": "A never-failing readiness report: for each of the seven labs it lists the CLI tools LAB_MODE=live needs and prints 'live ready' or 'simulate only (missing: ...)'.",
+   "highlights": [
+    "lab01 needs podman huggingface-cli curl jq; lab03 needs oc curl jq hey; lab05 needs ansible-navigator ansible-rulebook.",
+    "lab06 needs oc cosign ssh; lab07 needs logcli python3; lab02 and lab04 need python3 (lab04 also oc).",
+    "Ends by reminding that every lab runs today in simulate mode via ./bin/run-all-labs.sh.",
+    "It is the first command in the README quick start."
+   ],
+   "audience": "Anyone about to run a lab, especially before a live session.",
+   "prerequisites": "bash.",
+   "minutes": "1",
+   "anchors": [],
+   "next": [
+    "run-all-labs",
+    "lib-sh"
+   ]
+  },
+  {
+   "id": "run-all-labs",
+   "kind": "tool",
+   "title": "bin/run-all-labs.sh — walk all seven labs end to end",
+   "path": "bin/run-all-labs.sh",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/bin/run-all-labs.sh",
+   "what_you_learn": "The rehearsal and CI smoke test: cds into each labs/lab*/ directory, runs run.sh, counts failures and exits 1 if any lab failed.",
+   "highlights": [
+    "Exports LAB_MODE (default simulate) so it can also drive a full live run.",
+    "Step totals per lab from run.sh: 01=5, 02=5, 03=6, 04=5, 05=4, 06=5, 07=5 (35 steps).",
+    "CI and make test call it with LAB_SPEED=0 NO_COLOR=1 for a fast, plain-text run.",
+    "Prints '>>> labNN' before each lab and 'All labs completed.' at the end."
+   ],
+   "audience": "Facilitators rehearsing; contributors before a pull request.",
+   "prerequisites": "bash; nothing else in simulate mode.",
+   "minutes": "3 (with LAB_SPEED=0, seconds)",
+   "anchors": [],
+   "next": [
+    "makefile",
+    "docs-workflow"
+   ]
+  },
+  {
+   "id": "build-pptx",
+   "kind": "tool",
+   "title": "bin/build-pptx.py — generate the PowerPoint export with native shapes",
+   "path": "bin/build-pptx.py",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/bin/build-pptx.py",
+   "what_you_learn": "A 652-line python-pptx script that builds a 10-slide 16:9 deck with speaker notes and editable graphics rather than screenshots, using the same palette as the HTML deck.",
+   "highlights": [
+    "Native drawings: a cosine-interpolated filing-season demand curve, a six-chevron lifecycle flow, a layered architecture, a three-phase roadmap.",
+    "Palette matches deck.html: Red Hat red #CC0000 plus the rainbow rung scale (red, orange, green, violet); fonts Red Hat Display/Text/Mono.",
+    "Slide 2 draws the ladder as a rising staircase of four rung cards with technology captions.",
+    "Usage: python3 bin/build-pptx.py [--out slides/exports/redhat-ai-tax-administration.pptx]; requires pip install python-pptx."
+   ],
+   "audience": "Contributors regenerating the export after changing the narrative.",
+   "prerequisites": "python3 and python-pptx (1.0.2 is installed here).",
+   "minutes": "2 to run",
+   "anchors": [],
+   "next": [
+    "pptx-export",
+    "reveal-slides"
+   ]
+  },
+  {
+   "id": "pptx-export",
+   "kind": "export",
+   "title": "PowerPoint export — redhat-ai-tax-administration.pptx",
+   "path": "slides/exports/redhat-ai-tax-administration.pptx",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/exports/redhat-ai-tax-administration.pptx",
+   "what_you_learn": "The upload-friendly deck for platforms and review processes that insist on .pptx: 10 slides with speaker notes covering the ladder, operating reality, lifecycle, outcomes, architecture, adoption, next steps, labs and AO questions.",
+   "highlights": [
+    "Verified with python-pptx: 10 slides, 67,282 bytes; the reveal/HTML decks carry 17 slides, so this is a condensed cut.",
+    "Slide titles include 'From data to judgement — and who climbs each step' and 'The questions an authorizing official will ask'.",
+    "Speaker notes carry the same talk beats: stop Lab 01 on step 4 (127.0.0.1), the demand-curve argument, exam selection is gray.",
+    "Regenerate with make pptx; CI copies slides/exports/ to /exports/ on the site."
+   ],
+   "audience": "Event platforms, agency reviewers, anyone who needs a file not a URL.",
+   "prerequisites": "PowerPoint or LibreOffice.",
+   "minutes": "10",
+   "anchors": [],
+   "next": [
+    "reveal-slides",
+    "build-pptx"
+   ]
+  },
+  {
+   "id": "pdf-export",
+   "kind": "export",
+   "title": "Printable PDF — the whole documentation book",
+   "path": "docs/index.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/redhat-ai-tax-administration.pdf",
+   "what_you_learn": "The same content as /docs/index.html — brief, seven lab modules, facilitator guide — rendered by asciidoctor-pdf for offline or air-gapped reading.",
+   "highlights": [
+    "Built by make pdf and by the CI build job: asciidoctor-pdf -D build -o redhat-ai-tax-administration.pdf docs/index.adoc.",
+    "Source is the documentation, not the slides; the slide deck's PDF-equivalent is the .pptx export.",
+    "Not committed to the repo; it exists only in build/ and on the published site."
+   ],
+   "audience": "Readers in disconnected enclaves or who print.",
+   "prerequisites": "None.",
+   "minutes": "45",
+   "anchors": [],
+   "next": [
+    "docs-index",
+    "pptx-export"
+   ]
+  },
+  {
+   "id": "reveal-slides",
+   "kind": "export",
+   "title": "slides/slides.adoc — the reveal.js deck with speaker notes",
+   "path": "slides/slides.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/slides.html",
+   "what_you_learn": "The 17-slide event narrative as asciidoctor-revealjs source: AI in plain English, why now, inside an LLM, the ladder, where AI lands, five outcomes, architecture, why Red Hat AI, one platform, ops loop, logs-to-MTTR, adoption, next steps, labs, security appendix.",
+   "highlights": [
+    "Every slide opens with a monospace 'Rung: ...' line and closes with a [.notes] block — 17 of each; press S in the browser for notes.",
+    "Header: Red Hat · Four Inc. · Carahsoft virtual event, September 17, 2026, presented by Jon Keam and Brad Scalio.",
+    "Slide 13 'Point the same pattern at your logs — MTTR is the proof' is the ops-notebook argument that Lab 07 demonstrates.",
+    "Built with asciidoctor-revealjs at 1280×720, white theme, fade transition, slide numbers c/t."
+   ],
+   "audience": "Presenters and readers who want the narrative in order.",
+   "prerequisites": "A browser.",
+   "minutes": "35",
+   "rung": "data → information → knowledge → judgement",
+   "anchors": [],
+   "next": [
+    "facilitator-guide",
+    "ladder-map",
+    "pptx-export"
+   ]
+  },
+  {
+   "id": "ladder-map",
+   "kind": "spec",
+   "title": "slides/ladder-map.json — the rung tagging source of truth",
+   "path": "slides/ladder-map.json",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/slides/ladder-map.json",
+   "what_you_learn": "The machine-readable theme: four rungs with colours and CSS classes, per-slide rung lists and item tags for all 17 slides, the seven lab chips, and 23 technology mappings the docs table mirrors.",
+   "highlights": [
+    "Rungs in rainbow order: data #CC0000 r-data, information #C2410C r-info, knowledge #1E7A55 r-know, judgement #5B2E91 r-judge — yellow and blue are only the in-between segments of the ladder track.",
+    "Chip conventions: plain ('Knowledge'), arrow ('data → information'), automation ('executes judgement'); CSS for the pill is included.",
+    "Slide 14 note records the mapping prove/ground/scale = data/information/knowledge, verbatim from the Sept 3 planning call.",
+    "deck.html, presenter-notes.html, slides.adoc, docs/ and README must agree with it; bin/build-adventure.py reads it to build this page."
+   ],
+   "audience": "Contributors changing the theme or adding a slide, lab or product.",
+   "prerequisites": "None.",
+   "minutes": "3",
+   "rung": "data → information → knowledge → judgement",
+   "anchors": [],
+   "next": [
+    "ladder",
+    "reveal-slides"
+   ]
+  },
+  {
+   "id": "docs-workflow",
+   "kind": "tool",
+   "title": ".github/workflows/docs.yml — test, build and publish to GitHub Pages",
+   "path": ".github/workflows/docs.yml",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/.github/workflows/docs.yml",
+   "what_you_learn": "Three chained jobs: lint and run every lab in simulate mode, build docs/slides/PDF in the asciidoctor container, then deploy build/ to Pages — only on a push to main.",
+   "highlights": [
+    "test: bash -n over bin/*.sh and labs/*/run.sh, py_compile, then ./bin/run-all-labs.sh with LAB_SPEED=0 NO_COLOR=1 — labs gate the docs.",
+    "build: docs/index.html, slides.html, redhat-ai-tax-administration.pdf, then stages deck.html as index.html (and /deck.html), presenter-notes.html, adventure.html and slides/exports/ into build/.",
+    "publish: actions/configure-pages@v5, upload-pages-artifact@v3, deploy-pages@v4; concurrency group docs-${{ github.ref }}.",
+    "Only a push to main publishes; pull requests run the test and build jobs without deploying."
+   ],
+   "audience": "Maintainers; anyone wondering why a push did or did not publish.",
+   "prerequisites": "Repo write access to trigger.",
+   "minutes": "3",
+   "anchors": [],
+   "next": [
+    "makefile",
+    "run-all-labs"
+   ]
+  },
+  {
+   "id": "rag-ingest",
+   "kind": "tool",
+   "title": "labs/lab04-rag/ingest.py — chunk, embed and index guidance into pgvector",
+   "path": "labs/lab04-rag/ingest.py",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/labs/lab04-rag/ingest.py",
+   "what_you_learn": "A deliberately boring ingestion pipeline: fixed-window chunks with overlap that prefer paragraph breaks, embedded via an OpenAI-compatible endpoint and upserted into a pgvector table with an HNSW cosine index.",
+   "highlights": [
+    "Defaults: --source ./corpus, --chunk 800, --overlap 120, --embed-model granite-embedding-125m, --batch 32; reads .txt .md .adoc .html .htm.",
+    "--dry-run (used in the lab) walks the corpus and reports chunk counts with no psycopg, endpoint or database.",
+    "Creates table tax_guidance(uid, source, ordinal, body, embedding vector(768)) and index tax_guidance_hnsw with vector_cosine_ops.",
+    "Env: EMBED_ENDPOINT default http://127.0.0.1:8000/v1/embeddings; PGHOST PGPORT PGDATABASE(tax_guidance) PGUSER PGPASSWORD."
+   ],
+   "audience": "Data and application teams building retrieval over published guidance.",
+   "prerequisites": "python3; for live, psycopg[binary], pgvector (manifests/pgvector.yaml) and the Lab 01 or 03 endpoint.",
+   "minutes": "5",
+   "rung": "knowledge",
+   "anchors": [],
+   "next": [
+    "rag-query",
+    "rag-corpus",
+    "lab-04"
+   ]
+  },
+  {
+   "id": "rag-query",
+   "kind": "tool",
+   "title": "labs/lab04-rag/query.py — cited answers, and the refusal that is the point",
+   "path": "labs/lab04-rag/query.py",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/labs/lab04-rag/query.py",
+   "what_you_learn": "Retrieval-augmented answering where the important behaviour is refusing: below a relevance threshold it says it has no guidance, recommends referral, and exits 3 so a workflow can route to a human.",
+   "highlights": [
+    "RELEVANCE_THRESHOLD = 0.75, TOP_K = 6; score is 1 - cosine distance from pgvector's <=> operator.",
+    "--explain prints the retrieval trace — every candidate, its score, accepted/REJECTED, the threshold and the decision — for a governance board.",
+    "System prompt has four rules: only the passages, cite every claim, say so and refer if unanswered, never state a taxpayer determination as final.",
+    "Defaults: --model granite-8b-tax-v1, temperature 0.1, max_tokens 600, INFERENCE_ENDPOINT http://127.0.0.1:8000/v1/chat/completions."
+   ],
+   "audience": "Data teams and governance staff asking how hallucination is stopped.",
+   "prerequisites": "Indexed corpus from ingest.py; psycopg; a chat-completions endpoint (live only).",
+   "minutes": "5",
+   "rung": "knowledge (the human reviewer keeps judgement)",
+   "anchors": [],
+   "next": [
+    "lab-04 step 4 and 5",
+    "rag-ingest",
+    "event-brief (Who is accountable?)"
+   ]
+  },
+  {
+   "id": "rag-corpus",
+   "kind": "data",
+   "title": "labs/lab04-rag/corpus/ — the empty guidance drop zone",
+   "path": "labs/lab04-rag/corpus/README.txt",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/labs/lab04-rag/corpus/README.txt",
+   "what_you_learn": "Where your own published guidance goes before a live ingest, and why the repo ships it empty: agency material must never be committed to a public repository.",
+   "highlights": [
+    "README.txt is a one-line placeholder: drop published guidance here (PDF, HTML or text).",
+    "gitignore excludes labs/lab04-rag/corpus/* except README.txt; sdg/, checkpoints/ and .venv/ under labs are also ignored.",
+    "ingest.py only reads .txt .md .adoc .html .htm — PDFs must be converted first."
+   ],
+   "audience": "Anyone preparing a live run of Lab 04.",
+   "prerequisites": "Your agency's published guidance.",
+   "minutes": "1",
+   "rung": "knowledge",
+   "anchors": [],
+   "next": [
+    "rag-ingest"
+   ]
+  },
+  {
+   "id": "taxonomy-qna",
+   "kind": "data",
+   "title": "Notice taxonomy seed — qna.yaml for SDG Hub",
+   "path": "labs/lab02-customization/taxonomy/knowledge/gov/tax/notices/qna.yaml",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/labs/lab02-customization/taxonomy/knowledge/gov/tax/notices/qna.yaml",
+   "what_you_learn": "What a subject-matter expert actually writes to teach a model agency vocabulary: short contexts plus question/answer pairs in the qna.yaml taxonomy format, reviewed like code.",
+   "highlights": [
+    "version 3, domain tax_administration, created_by revenue-modernization-team; 4 seed contexts and 9 question/answer pairs (docs say '12 seed examples').",
+    "Contexts: CP2000 is a proposal not a bill (30 days, Automated Underreporter); CP14 first balance notice with four payment options.",
+    "Third context: refund inquiry after a move — Form 8822 first, then the refund trace; fourth: house style, one action per paragraph.",
+    "Memorable line: 'The model drafts; it never sends' — a named reviewer edits and signs every reply."
+   ],
+   "audience": "Data teams and the SMEs who will write the real taxonomy.",
+   "prerequisites": "None to read; SDG Hub and Training Hub plus GPU hours to use.",
+   "minutes": "3",
+   "rung": "knowledge",
+   "anchors": [],
+   "next": [
+    "lab-02",
+    "rag-query"
+   ]
+  },
+  {
+   "id": "repo-hygiene",
+   "kind": "spec",
+   "title": ".gitattributes and .gitignore — LF enforcement and what never gets committed",
+   "path": ".gitattributes",
+   "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/.gitattributes",
+   "what_you_learn": "Why the lab scripts run identically on every machine: every textual file is forced to LF, and lab working directories and the guidance corpus are excluded from git.",
+   "highlights": [
+    "* text=auto eol=lf, with explicit LF for .sh .py .yml .yaml .adoc .json .ini and Makefile; .pptx .png .pdf binary.",
+    "Ignored: build/, __pycache__, labs/*/sdg/, labs/*/checkpoints/, labs/*/.venv/, labs/lab04-rag/corpus/* (except README.txt).",
+    "Rationale in the file: CRLF in a shell script is a runtime error that only shows up on someone else's machine."
+   ],
+   "audience": "Contributors.",
+   "prerequisites": "None.",
+   "minutes": "1",
+   "anchors": [],
+   "next": [
+    "makefile"
+   ]
+  },
+  {
+   "id": "slide-01",
+   "kind": "slide",
+   "title": "AI foundations for intelligent tax administration",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Title\"",
+    "console step: Slide 01 / 17"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "0–3 (run of show)",
+   "audience": "Anyone starting the kit",
+   "what_you_learn": "The framing of the hour and the four-rung ladder legend (data, information, knowledge, judgement) that every later slide and lab is tagged with.",
+   "highlights": [
+    "The promise: every claim made today gets run in a shell before you leave.",
+    "Legend: judgement is 'a determination someone signs' — deliberately human; automation executes it.",
+    "Presented by Jon Keam and Brad Scalio; hosts Red Hat, Four Inc., Carahsoft; September 17, 2026."
+   ],
+   "next": [
+    "slide-02"
+   ]
+  },
+  {
+   "id": "slide-02",
+   "kind": "slide",
+   "title": "Four different jobs get called “AI”",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"AI in plain English\"",
+    "console step: Slide 02 / 17"
+   ],
+   "rung": "information · knowledge · judgement",
+   "minutes": "3–11 block (slides 2–6)",
+   "what_you_learn": "Predictive, generative/LLM, agentic and automation defined as four separate jobs, each with a plain analogy, its ladder rung, and a 'what it is not' box.",
+   "highlights": [
+    "Analogies: weather forecast, well-read drafting assistant, junior analyst with a restricted tool belt, checklist that performs itself.",
+    "Not-box: an LLM is not a database, policy authority or source of truth; an agent is not permission to bypass controls.",
+    "Notes: automation is the prerequisite — 'if you are not automated' you will not have good AI inside your boundary."
+   ],
+   "next": [
+    "slide-03"
+   ]
+  },
+  {
+   "id": "slide-03",
+   "kind": "slide",
+   "title": "The work is seasonal, textual and unforgiving",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Why now\"",
+    "console step: Slide 03 / 17"
+   ],
+   "rung": "data",
+   "minutes": "3–11 block",
+   "what_you_learn": "Why tax agencies are the case: April demand at 6× the August low against fixed staff, rules locked in legacy code, unstructured text, and FTI rules that forbid public endpoints.",
+   "highlights": [
+    "Chart title: a year of demand arrives in six weeks — the shaded gap is what automation absorbs.",
+    "The constraint that decides everything: the data cannot leave — the model comes to the data.",
+    "Console pivot line: choosing a model is a six-month decision; where it runs is a ten-year one."
+   ],
+   "next": [
+    "slide-04"
+   ]
+  },
+  {
+   "id": "slide-04",
+   "kind": "slide",
+   "title": "An LLM is the engine — not the whole vehicle",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Inside an LLM\"",
+    "console step: Slide 04 / 17"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "3–11 block",
+   "what_you_learn": "The six-layer stack around a model (mission app → context/RAG → model → inference → platform → compute + data) and the three knobs: prompting, RAG, fine-tuning.",
+   "highlights": [
+    "Fine-tuning is studying for the test. Retrieval is bringing the notebook. You want both.",
+    "The model is learned language patterns — not your live system of record.",
+    "Inference is vLLM, the Red Hat AI Inference Server; platform is RHEL and OpenShift AI."
+   ],
+   "next": [
+    "slide-05"
+   ]
+  },
+  {
+   "id": "slide-05",
+   "kind": "slide",
+   "title": "From data to judgement — and who climbs each step",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Data to judgement\"",
+    "console step: Slide 05 / 17",
+    "docs anchor: /docs/index.html#ladder"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "3–11 block",
+   "what_you_learn": "The ladder as a staircase: predictive AI climbs data→information, generative AI with RAG climbs to knowledge, and only people climb to judgement.",
+   "highlights": [
+    "The top step is marked 'stays human' — a design rule, not a technical limit.",
+    "The backlog lives at the bottom of the ladder; every hour absorbed there is an examiner hour.",
+    "Console calls this the masterpiece slide: if the room remembers one picture, make it this one."
+   ],
+   "next": [
+    "slide-06"
+   ]
+  },
+  {
+   "id": "slide-06",
+   "kind": "slide",
+   "title": "Predictive and generative AI answer different questions",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Two kinds of AI\"",
+    "console step: Slide 06 / 17"
+   ],
+   "rung": "information · knowledge",
+   "minutes": "3–11 block (optional; first to cut if running long)",
+   "what_you_learn": "A five-row table (learns from / produces / in tax terms / fails as / governed by) plus a Venn showing how the two compose on one platform.",
+   "highlights": [
+    "Predictive fails as a bad number; generative fails as a plausible sentence — so grounding and review are non-negotiable.",
+    "Governed by: back-testing and fairness metrics vs retrieval with citations, sign-off and drift — Labs 04 · 06.",
+    "The score picks the case, the language model prepares the brief, a person decides."
+   ],
+   "next": [
+    "slide-07"
+   ]
+  },
+  {
+   "id": "slide-07",
+   "kind": "slide",
+   "title": "Where AI actually lands in the filing lifecycle",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Where AI lands\"",
+    "console step: Slide 07 / 17"
+   ],
+   "rung": "judgement",
+   "minutes": "11–17 block (slides 7–9)",
+   "what_you_learn": "Six lifecycle stages; intake, validation, correspondence, collections support and taxpayer service are AI-assisted with a human in the loop, while exam selection is held back.",
+   "highlights": [
+    "Exam selection is deliberately NOT highlighted — 'governance first'; saying so unprompted buys credibility.",
+    "Rule of thumb: start where a human already reviews the output.",
+    "Rule of thumb: automate the toil around the model, not just the model."
+   ],
+   "next": [
+    "slide-08"
+   ]
+  },
+  {
+   "id": "slide-08",
+   "kind": "slide",
+   "title": "Five outcomes, and where each one is proven",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Five outcomes\"",
+    "console step: Slide 08 / 17",
+    "/docs/index.html#lab-01 … #lab-07"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "11–17 block",
+   "what_you_learn": "The five event-abstract outcomes, each mapped to the Red Hat product that delivers it and the lab that proves it — the map of the rest of the hour.",
+   "highlights": [
+    "Modernize operations → Ansible Automation Platform · Event-Driven Ansible · OpenShift → Labs 05 · 07.",
+    "Efficiency → AI Inference Server, SDG Hub + Training Hub → Labs 01–02; insights → OpenShift AI, vector store, Llama Stack → Lab 04.",
+    "Security → RHEL · Compliance Operator · TrustyAI · Sigstore → Lab 06; foundation → OpenShift AI · KServe · vLLM → Lab 03."
+   ],
+   "next": [
+    "slide-09"
+   ]
+  },
+  {
+   "id": "slide-09",
+   "kind": "slide",
+   "title": "One foundation, from bare metal to the taxpayer",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Architecture\"",
+    "console step: Slide 09 / 17"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "11–17 block",
+   "what_you_learn": "The reference architecture: RHEL + AI Inference Server on GPU nodes, OpenShift, OpenShift AI (serving, training, pipelines, registry, retrieval), mission apps — with trust and automation pillars spanning every layer.",
+   "highlights": [
+    "Most failures happen at the seams between systems, not inside them — the platform makes seams boring.",
+    "Trust pillar (Lab 06) and automation pillar (Lab 05) are not a layer you add at the end.",
+    "Systems of record stay where they are — reached through APIs and automation, not replaced."
+   ],
+   "next": [
+    "slide-10"
+   ]
+  },
+  {
+   "id": "slide-10",
+   "kind": "slide",
+   "title": "The federal problem is not “get a model.” It is operate AI without giving up control.",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Why Red Hat AI\"",
+    "console step: Slide 10 / 17"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "17–23 block (slides 10–11)",
+   "what_you_learn": "The Red Hat proposition and six take-home proof points: model freedom, data locality, Models-as-a-Service, accelerator efficiency, predictive + generative lifecycle, Ansible closes the loop.",
+   "highlights": [
+    "Bring the model to the mission — not the mission data to somebody else's model.",
+    "A glass box you can open and inspect, not a black box.",
+    "Models-as-a-Service: a central platform team publishes governed endpoints other projects consume."
+   ],
+   "next": [
+    "slide-11"
+   ]
+  },
+  {
+   "id": "slide-11",
+   "kind": "slide",
+   "title": "Define the service once — run it wherever the mission needs it",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Why one platform\"",
+    "console step: Slide 11 / 17",
+    "/docs/index.html#lab-03"
+   ],
+   "rung": "data · information · judgement",
+   "minutes": "17–23 block",
+   "what_you_learn": "One InferenceService manifest with a signed model, delivered by GitOps, deploys unchanged (oc apply) to a datacenter, an accredited cloud region, or an air-gapped enclave.",
+   "highlights": [
+    "Placement is policy, not re-architecture — moving a workload is a redeploy of the same manifest.",
+    "Accredit once, inherit everywhere; April becomes a scheduling event on pooled GPUs (Lab 03).",
+    "Notes: modern lock-in limits FUTURE decisions — the phone plan that can only call Domino's."
+   ],
+   "next": [
+    "slide-12"
+   ]
+  },
+  {
+   "id": "slide-12",
+   "kind": "slide",
+   "title": "The useful pattern is a loop, not a chatbot",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"AI for operations\"",
+    "console step: Slide 12 / 17"
+   ],
+   "rung": "information · knowledge · judgement",
+   "minutes": "23–28 block (slides 12–13)",
+   "what_you_learn": "The operations flywheel — predict, explain, ground + act, learn — with predictive ML, the LLM, RAG and Ansible each doing the one job it is good at.",
+   "highlights": [
+    "Do not let fluency become authority — telemetry and retrieved sources decide whether the explanation holds.",
+    "Generated content is a draft until it passes the same curation as any other knowledge record.",
+    "Example: GPU queue depth abnormal → LLM explains → RAG cites the runbook → Event-Driven Ansible scales after approval."
+   ],
+   "next": [
+    "slide-13"
+   ]
+  },
+  {
+   "id": "slide-13",
+   "kind": "slide",
+   "title": "Point the same pattern at your logs — MTTR is the proof",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Logs to MTTR\"",
+    "console step: Slide 13 / 17",
+    "/docs/index.html#lab-07"
+   ],
+   "rung": "data · information · knowledge",
+   "minutes": "23–28 block",
+   "what_you_learn": "The Lab 04 retrieval stack aimed at logs, runbooks, incidents and change records; mean time to resolution decomposed before and after an on-cluster ops notebook.",
+   "highlights": [
+    "Before 3h 16m (diagnose 2h 41m); with the notebook 59m (diagnose 24m) — diagnosis -84%.",
+    "Detect, fix and verify are unchanged — the hours lived in diagnosis.",
+    "Logs are FTI-adjacent, so the notebook runs on the same OpenShift it observes; Lab 07 runs it end to end."
+   ],
+   "next": [
+    "slide-14"
+   ]
+  },
+  {
+   "id": "slide-14",
+   "kind": "slide",
+   "title": "Ninety days, then ninety more",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Adoption path\"",
+    "console step: Slide 14 / 17"
+   ],
+   "rung": "data · information · knowledge",
+   "minutes": "28–32 block (slides 14–15)",
+   "what_you_learn": "A crawl/walk/run adoption path — Prove (days 0–90), Ground (90–180), Scale (180+) — with five concrete checklist items per phase.",
+   "highlights": [
+    "Prove = data, Ground = information, Scale = knowledge.",
+    "Agencies stall on Crawl's second and third bullets: no accelerator capacity plan, no written data-class agreement.",
+    "Measure the baseline before you change anything; report outcomes in mission terms, not token counts."
+   ],
+   "next": [
+    "slide-15"
+   ]
+  },
+  {
+   "id": "slide-15",
+   "kind": "slide",
+   "title": "What happens after this hour",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Next steps\"",
+    "console step: Slide 15 / 17"
+   ],
+   "rung": "judgement",
+   "minutes": "28–32 block",
+   "what_you_learn": "Three concrete asks — a half-day architecture workshop, a guided pilot with a measured baseline, and acquisition through Four Inc. and Carahsoft — plus the repo and contact strip.",
+   "highlights": [
+    "If you did not see it here, that does not mean it does not exist — ask.",
+    "Foundational questions are free to ask and expensive to skip.",
+    "Whole kit lives at github.com/nommsweyMX/redhat-ai-tax-labs."
+   ],
+   "next": [
+    "slide-16"
+   ]
+  },
+  {
+   "id": "slide-16",
+   "kind": "slide",
+   "title": "Seven labs — real commands, run them yourself",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Labs preview\"",
+    "console step: Slide 16 / 17",
+    "/docs/index.html#lab-01 … #lab-07"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "32–34, then labs 34–56",
+   "what_you_learn": "The seven lab cards with their rung chips and one-line goals — the deck's concluding takeaway before the presenter switches to the Labs view.",
+   "highlights": [
+    "Run this on a personal laptop — never production, never a work laptop.",
+    "One thing to remember: nothing needed a public endpoint, internet at inference time, or a system-of-record rewrite.",
+    "Console plan: run Lab 01 live (stop hard on ss -ltnp) and Lab 05 live (the 62-second remediation)."
+   ],
+   "next": [
+    "slide-17",
+    "page-presenter-console"
+   ]
+  },
+  {
+   "id": "slide-17",
+   "kind": "slide",
+   "title": "The questions an authorizing official will ask",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Security posture\"",
+    "console step: Slide 17 / 17",
+    "/docs/index.html#lab-06"
+   ],
+   "rung": "information · judgement",
+   "minutes": "on standby; natural home 56–60 (questions)",
+   "audience": "ISSOs, security leads, authorizing officials",
+   "what_you_learn": "The security appendix: eight questions an authorizing official actually asks, each mapped to a platform control and where it lives.",
+   "highlights": [
+    "Parked in the appendix on purpose — but this is the slide that unblocks the deal.",
+    "Evidence is information; the authorizing official's decision is judgement.",
+    "Pull it up together with Lab 06 the moment an ISSO engages."
+   ],
+   "next": [
+    "table-ao-questions"
+   ]
+  },
+  {
+   "id": "page-presenter-console",
+   "kind": "page",
+   "title": "Presenter console",
+   "path": "slides/presenter-notes.html",
+   "site_url": "/presenter-notes.html",
+   "anchors": [
+    "24 <section class=\"step\"> steps: Slide 01–17 / 17, then Lab 01–07 · hands-on",
+    "run of show <details> at top",
+    "localStorage key ptc-pos remembers your step"
+   ],
+   "rung": "all four (each step carries its rung chips and an 'On the ladder' beat)",
+   "minutes": "60 (Sept 17, 1:00–2:00 PM)",
+   "audience": "Presenters; self-guided readers who want the full talk track",
+   "what_you_learn": "The talk track behind every slide and lab: what is on screen, what to say, the five planted questions, per-command 'say' lines for all seven labs, and the ladder mapping per step.",
+   "highlights": [
+    "Run of show: slides 0–34 min, Lab 01 live 34–42, Lab 05 live 42–50, skim the rest 50–56, questions 56–60.",
+    "Only 30 minutes? Slides 1, 2, 8 plus Lab 01 and the drift section of Lab 06.",
+    "Delivery rule: goal number one is to entertain — a tuned-out audience learns nothing.",
+    "Keys: ← → or Space to move, J jump, M read-all; Home/End; 'Read all' shows every step on one page."
+   ],
+   "next": [
+    "slide-01"
+   ]
+  },
+  {
+   "id": "talk-track-jobs",
+   "kind": "talk-track",
+   "title": "PLANTED: “So is AI taking our jobs?”",
+   "path": "slides/presenter-notes.html",
+   "site_url": "/presenter-notes.html",
+   "anchors": [
+    "console step: Slide 05 / 17 (line 341)",
+    "lands on slide-05 'From data to judgement'"
+   ],
+   "rung": "judgement",
+   "what_you_learn": "Jon asks; Brad answers that AI is not coming for your job because right now it does not have judgement — the ladder's top step stays human.",
+   "highlights": [
+    "The make-the-tests-pass story: told to make tests pass, the AI edits the code until they do — information, not judgement.",
+    "Optional garnish, attributed to Karpathy: you can outsource intelligence but not understanding."
+   ]
+  },
+  {
+   "id": "talk-track-seam",
+   "kind": "talk-track",
+   "title": "PLANTED: “What’s a seam?”",
+   "path": "slides/presenter-notes.html",
+   "site_url": "/presenter-notes.html",
+   "anchors": [
+    "console step: Slide 09 / 17 (line 444)",
+    "lands on slide-09 'One foundation, from bare metal to the taxpayer'"
+   ],
+   "rung": "judgement (trust and automation pillars)",
+   "what_you_learn": "Jon plays the foil; Brad answers with the pants analogy — failures happen at integration seams between systems, never in the middle where the fabric is strongest.",
+   "highlights": [
+    "RHEL and OpenShift interoperating layer to layer is what makes the seams boring.",
+    "'We are not the only ones who do it — but we are uniquely positioned.'"
+   ]
+  },
+  {
+   "id": "talk-track-fine-tuning",
+   "kind": "talk-track",
+   "title": "PLANTED: “What is fine-tuning to you, Jon?”",
+   "path": "slides/presenter-notes.html",
+   "site_url": "/presenter-notes.html",
+   "anchors": [
+    "console step: Slide 09 / 17 (line 445)",
+    "lands on slide-09; answer draws on slide-04's test/notebook line"
+   ],
+   "rung": "knowledge",
+   "what_you_learn": "Brad cold-asks Jon on the architecture slide; the answer reprises 'fine-tuning is studying for the test, retrieval is bringing the notebook' and turns information into actionable knowledge.",
+   "highlights": [
+    "Jon calls 'how do you turn information into actionable knowledge' the core of the whole talk.",
+    "Fine-tuning is durable behavior — never facts that change each filing season."
+   ]
+  },
+  {
+   "id": "talk-track-lock-in",
+   "kind": "talk-track",
+   "title": "PLANTED: “What do you actually mean by lock-in?”",
+   "path": "slides/presenter-notes.html",
+   "site_url": "/presenter-notes.html",
+   "anchors": [
+    "console step: Slide 11 / 17 (line 506)",
+    "lands on slide-11 'Define the service once'"
+   ],
+   "rung": "data (where it lives)",
+   "what_you_learn": "Jon plays the foil ('I thought we already bought the software'); Brad answers with the phone-plan analogy: modern lock-in limits future decisions without you knowing.",
+   "highlights": [
+    "A plan where you cannot call Pizza Hut, only Domino's — real lock-in is bespoke hyperscaler-unique services.",
+    "Honest caveat said out loud: sometimes you legitimately need a native service; the ask is only infrastructure as code."
+   ]
+  },
+  {
+   "id": "talk-track-predicament",
+   "kind": "talk-track",
+   "title": "PLANTED: “What is a predicament versus a problem?”",
+   "path": "slides/presenter-notes.html",
+   "site_url": "/presenter-notes.html",
+   "anchors": [
+    "console step: Slide 14 / 17 (line 587)",
+    "lands on slide-14 'Ninety days, then ninety more'"
+   ],
+   "rung": "data → information → knowledge",
+   "what_you_learn": "Jon asks; Brad answers that a problem you solve today while a predicament you can only plan around — so a hypothetical GPU shortage must not stall the pilot.",
+   "highlights": [
+    "Plan for problems, not predicaments: the problem now is grounding the proof so you can scale.",
+    "Success test: no decision made today may limit your options tomorrow."
+   ]
+  },
+  {
+   "id": "table-ao-questions",
+   "kind": "table",
+   "title": "AO questions table (security appendix)",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "slide-17 <table class=\"grid\"> — columns: Their question · The platform control · Where it lives",
+    "/docs/index.html#lab-06"
+   ],
+   "rung": "information → judgement",
+   "audience": "ISSOs, authorizing officials, security leads",
+   "what_you_learn": "Eight AO questions with the control that answers each: data locality, signed models, FIPS, FISMA moderate/high, continuous compliance, drift, disconnected operation, and human accountability.",
+   "highlights": [
+    "Where does data go? Nowhere — AI Inference Server · OpenShift AI. Approved model? Signed and verified — Sigstore / cosign.",
+    "Crypto validated? RHEL FIPS mode. FISMA moderate/high? Controls map to NIST 800-53 baselines; FIPS 199 picks the venue.",
+    "Stays compliant? Compliance Operator scans. Drifting? TrustyAI metrics on live traffic.",
+    "No internet? oc-mirror · registry. Who is accountable? A named reviewer — the model drafts, it never sends."
+   ],
+   "next": [
+    "slide-17"
+   ]
+  },
+  {
+   "id": "nav-deck-controls",
+   "kind": "nav",
+   "title": "Deck keyboard shortcuts and views",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "deckbar hint: '← → to move · N presenter notes · F present full-screen'",
+    "demo foot: 'Space plays and pauses · ← → switch labs · loops through all seven continuously. Open the page with #demo on the URL to start here, playing.'",
+    "rail buttons: Deck / Labs / Demo; Notes toggle (deck view only); Present button"
+   ],
+   "what_you_learn": "How to drive the deck: three views (Deck, Labs, Demo), slide keys, the Notes panel that shows each slide's data-notes, and the virtual-terminal controls in the Labs view.",
+   "highlights": [
+    "Deck view: ← → (also PageUp/PageDown) move, Home/End jump, N toggles presenter notes, F toggles full-screen stage.",
+    "Demo view: Space plays/pauses, ← → switch labs, speed 1× / 1.6× / 2.4× / 4×, loops all seven.",
+    "Labs view terminals: Show reveals the next command, Run executes it, Demo plays the lab; Enter submits, Tab completes, Copy all / Reset.",
+    "Off-script commands are refused — the terminal only accepts the lab's real, copyable commands."
+   ],
+   "prerequisites": "Deep links: #slide-9 (or #9) opens a slide, #labs the Labs view, #lab-3 a specific lab, #demo the Demo view playing."
+  }
+ ]
+}
