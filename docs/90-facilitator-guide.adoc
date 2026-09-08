@@ -144,7 +144,8 @@ Say these out loud during the session. They buy more credibility than any demo.
 . Share the site link — https://nommsweymx.github.io/redhat-ai-tax-labs/ — and
   the repository. The labs are the same commands attendees will run on day one.
 . Tell current Red Hat customers to ask for their Solution Architect; anyone who
-  does not know who that is can email Brad (bscalio@redhat.com), open a ticket in
+  does not know who that is can email Brad (bscalio@redhat.com) or Jon
+  (jkeam@redhat.com), open a ticket in
   the Customer Portal and ask support, or ask through their management line.
 . Offer to help seed a community of practice across platform, security and
   mission teams, built around one workflow.

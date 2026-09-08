@@ -65,6 +65,30 @@ def chip(text: str, cls: str | None = None) -> str:
     return f'<span class="rung {cls or rung_class(text)}">{esc(text)}</span>'
 
 
+HAT = ("M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 "
+       "C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z")
+
+
+def photo_src(name: str, base: str) -> str:
+    """Inline the photo when it is in slides/assets/, else point at the site copy."""
+    p = ROOT / "slides" / "assets" / name
+    if p.exists():
+        import base64
+        return "data:image/jpeg;base64," + base64.b64encode(p.read_bytes()).decode("ascii")
+    return f"{base}assets/{name}"
+
+
+def hat(uid: str, initials: str, photo: str, base: str) -> str:
+    """A portrait inside a Red Hat fedora outline; initials show until the photo exists."""
+    return (f'<svg class="hatpic" viewBox="0 0 200 160" role="img" aria-label="{initials}">'
+            f'<defs><clipPath id="hat-{uid}"><path d="{HAT}"/></clipPath></defs>'
+            f'<g clip-path="url(#hat-{uid})"><rect x="0" y="0" width="200" height="160" fill="var(--accent-wash)"/>'
+            f'<text x="100" y="82" text-anchor="middle" font-family="Red Hat Display, sans-serif" font-weight="800" font-size="42" fill="var(--accent-ink)">{initials}</text>'
+            f'<image href="{photo_src(photo, base)}" x="8" y="12" width="184" height="148" preserveAspectRatio="xMidYMin slice" onerror="this.remove()"/></g>'
+            f'<path d="{HAT}" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linejoin="round"/>'
+            f'<path d="M46,114 L154,114" fill="none" stroke="var(--accent)" stroke-width="3"/></svg>')
+
+
 # ----------------------------------------------------------------- data
 def build(out: Path, base: str = "./") -> None:
     ladder = load_json(ROOT / "slides" / "ladder-map.json")
@@ -384,7 +408,7 @@ td.rem{{font-size:.8rem;color:var(--ink-2);max-width:34ch}}
 .talk .tag{{color:var(--accent)}}
 .moves{{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:22px}}
 .reach{{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px}}
-.person{{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center}}
+.person{{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center}} .hatpic{{display:block;width:64px;height:auto}}
 .avatar{{width:44px;height:44px;border-radius:50%;background:var(--accent-wash);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:"Red Hat Display",sans-serif;font-weight:800;color:var(--accent-ink);font-size:.86rem;overflow:hidden;position:relative}}
 .avatar::before{{content:attr(data-initials)}} .avatar img{{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}}
 .person > div{{display:flex;flex-direction:column;line-height:1.3}} .person b{{font-family:"Red Hat Display",sans-serif}} .person span{{font-size:.8rem;color:var(--ink-2)}} .person a{{font-family:"Red Hat Mono",monospace;font-size:.82rem;font-weight:600;text-decoration:none}}
@@ -472,8 +496,8 @@ footer a{{color:var(--ink-2)}}
   <div class="moves">
     <div class="reach">
       <span class="tag">Reach us — Brad is your connector</span>
-      <div class="person"><span class="avatar" data-initials="BS"><img src="assets/brad-scalio.jpg" alt="" onerror="this.remove()"></span><div><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div></div>
-      <div class="person"><span class="avatar" data-initials="JK"><img src="assets/jon-keam.jpg" alt="" onerror="this.remove()"></span><div><b>Jon Keam</b><span>Red Hat</span></div></div>
+      <div class="person">{hat("bs", "BS", "brad-scalio.jpg", base)}<div><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div></div>
+      <div class="person">{hat("jk", "JK", "jon-keam.jpg", base)}<div><b>Jon Keam</b><span>Red Hat</span><a href="mailto:jkeam@redhat.com">jkeam@redhat.com</a></div></div>
       <p style="font-size:.84rem;color:var(--ink-2)">Four Inc. and Carahsoft carry the contract vehicles — bring them into the conversation early, not at the end.</p>
       <span class="rung r-judge">the next decision is yours</span>
     </div>
@@ -506,7 +530,7 @@ footer a{{color:var(--ink-2)}}
 </script>
 '''
     if base != "./":
-        page = page.replace('href="./', 'href="' + base).replace('src="assets/', 'src="' + base + 'assets/')
+        page = page.replace('href="./', 'href="' + base)
     out.write_text(page, encoding="utf-8")
     print(f"Wrote {out} ({len(page):,} bytes, {len(inv)} inventory items)")
 

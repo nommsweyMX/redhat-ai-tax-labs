@@ -441,12 +441,19 @@ kbd{
 .slide[data-title="Labs preview"] .lede,.slide[data-title="Logs to MTTR"] .lede,.slide[data-title="AI for operations"] .lede{max-width:76ch}
 .slide[data-title="Labs preview"] .cols{gap:clamp(10px,1.1vw,16px)}
 .slide[data-title="Labs preview"] .card{padding:clamp(10px,1vw,14px);gap:5px}
+.hatpic{display:block;width:100%;height:auto}
+.presenters{position:absolute;right:clamp(28px,3.4vw,54px);top:35%;display:flex;gap:18px}
+.hat-figure{margin:0;width:clamp(104px,11.5vw,148px);display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+.hat-figure figcaption{display:flex;flex-direction:column;align-items:center}
+.hat-figure b{font-family:"Red Hat Display",sans-serif;font-size:.88rem;margin-top:2px;white-space:nowrap}
+.hat-figure a{font-family:"Red Hat Mono",monospace;font-size:.62rem;color:var(--accent-ink);text-decoration:none;font-weight:600}
+.person .hatpic{width:58px}
 .takeaway-card{background:var(--accent-wash);border-color:var(--accent)}
 .contact{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;margin-top:14px}
 .reach,.moves{border:1px solid var(--border);border-radius:8px;padding:12px 14px;background:var(--surface)}
 .reach{border-left:3px solid var(--accent);display:flex;flex-direction:column;gap:9px}
 .reach .tag,.moves .tag{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.person{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}
+.person{display:grid;grid-template-columns:58px 1fr;gap:10px;align-items:center}
 .person > div{display:flex;flex-direction:column;line-height:1.3;min-width:0}
 .person b{font-family:"Red Hat Display",sans-serif;font-size:.95rem}
 .person span{font-size:.74rem;color:var(--ink-2)}
@@ -544,8 +551,11 @@ kbd{
           <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026</span>
           <h2>AI foundations for intelligent tax administration</h2>
           <p class="kicker">What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in seven labs you run yourself.</p>
-          <p style="margin-top:16px;font-size:.95rem;color:var(--ink-2)">Presented by <b>Jon Keam</b> and <b>Brad Scalio</b></p>
           <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
+          <div class="presenters" aria-label="Presenters">
+            <figure class="hat-figure"><svg class="hatpic" viewBox="0 0 200 160" role="img" aria-label="BS"><defs><clipPath id="hat-cover-bs"><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z"/></clipPath></defs><g clip-path="url(#hat-cover-bs)"><rect x="0" y="0" width="200" height="160" fill="var(--accent-wash)"/><text x="100" y="82" text-anchor="middle" font-family="Red Hat Display, sans-serif" font-weight="800" font-size="42" fill="var(--accent-ink)">BS</text><image href="assets/brad-scalio.jpg" x="8" y="12" width="184" height="148" preserveAspectRatio="xMidYMin slice" onerror="this.remove()"/></g><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linejoin="round"/><path d="M46,114 L154,114" fill="none" stroke="var(--accent)" stroke-width="3"/></svg><figcaption><b>Brad Scalio</b><a href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></figcaption></figure>
+            <figure class="hat-figure"><svg class="hatpic" viewBox="0 0 200 160" role="img" aria-label="JK"><defs><clipPath id="hat-cover-jk"><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z"/></clipPath></defs><g clip-path="url(#hat-cover-jk)"><rect x="0" y="0" width="200" height="160" fill="var(--accent-wash)"/><text x="100" y="82" text-anchor="middle" font-family="Red Hat Display, sans-serif" font-weight="800" font-size="42" fill="var(--accent-ink)">JK</text><image href="assets/jon-keam.jpg" x="8" y="12" width="184" height="148" preserveAspectRatio="xMidYMin slice" onerror="this.remove()"/></g><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linejoin="round"/><path d="M46,114 L154,114" fill="none" stroke="var(--accent)" stroke-width="3"/></svg><figcaption><b>Jon Keam</b><a href="mailto:jkeam@redhat.com">jkeam@redhat.com</a></figcaption></figure>
+          </div>
           <div class="ladder-legend">
             <span class="eyebrow">The spine of this hour — every technology is tagged with the rung it serves</span>
             <div class="ll-row">
@@ -1295,8 +1305,8 @@ kbd{
             <div class="contact">
               <div class="reach">
                 <span class="tag">Reach us — Brad is your connector</span>
-                <div class="person"><span class="avatar" data-initials="BS"><img src="assets/brad-scalio.jpg" alt="" onerror="this.remove()"></span><div><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a class="mono" href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div></div>
-                <div class="person"><span class="avatar" data-initials="JK"><img src="assets/jon-keam.jpg" alt="" onerror="this.remove()"></span><div><b>Jon Keam</b><span>Red Hat</span></div></div>
+                <div class="person"><svg class="hatpic" viewBox="0 0 200 160" role="img" aria-label="BS"><defs><clipPath id="hat-contact-bs"><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z"/></clipPath></defs><g clip-path="url(#hat-contact-bs)"><rect x="0" y="0" width="200" height="160" fill="var(--accent-wash)"/><text x="100" y="82" text-anchor="middle" font-family="Red Hat Display, sans-serif" font-weight="800" font-size="42" fill="var(--accent-ink)">BS</text><image href="assets/brad-scalio.jpg" x="8" y="12" width="184" height="148" preserveAspectRatio="xMidYMin slice" onerror="this.remove()"/></g><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linejoin="round"/><path d="M46,114 L154,114" fill="none" stroke="var(--accent)" stroke-width="3"/></svg><div><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a class="mono" href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div></div>
+                <div class="person"><svg class="hatpic" viewBox="0 0 200 160" role="img" aria-label="JK"><defs><clipPath id="hat-contact-jk"><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z"/></clipPath></defs><g clip-path="url(#hat-contact-jk)"><rect x="0" y="0" width="200" height="160" fill="var(--accent-wash)"/><text x="100" y="82" text-anchor="middle" font-family="Red Hat Display, sans-serif" font-weight="800" font-size="42" fill="var(--accent-ink)">JK</text><image href="assets/jon-keam.jpg" x="8" y="12" width="184" height="148" preserveAspectRatio="xMidYMin slice" onerror="this.remove()"/></g><path d="M46,114 C40,58 58,16 100,14 C142,16 160,58 154,114 C184,112 196,124 194,132 C190,148 142,156 100,156 C58,156 10,148 6,132 C4,124 16,112 46,114 Z" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linejoin="round"/><path d="M46,114 L154,114" fill="none" stroke="var(--accent)" stroke-width="3"/></svg><div><b>Jon Keam</b><span>Red Hat</span><a class="mono" href="mailto:jkeam@redhat.com">jkeam@redhat.com</a></div></div>
                 <p class="fine">Everything from today — deck, labs, guides — at <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. The seven labs are the commands your engineers will run on day one. Follow it on your own: <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html"><b>…/adventure.html</b></a>.</p>
                 <span class="rung r-judge">the next decision is yours</span>
               </div>
