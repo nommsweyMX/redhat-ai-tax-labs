@@ -1,7 +1,8 @@
 name: docs
 
 # Build the documentation and slides on every push, and publish them to
-# GitHub Pages from the default branch. The lab smoke test runs first: if the
+# GitHub Pages from the default branch — the interactive deck is the landing
+# page and the documentation lives under /docs/. The lab smoke test runs first: if the
 # labs do not execute cleanly, the docs describing them are not worth building.
 
 on:
@@ -49,7 +50,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build documentation
-        run: asciidoctor -D build -o index.html docs/index.adoc
+        run: asciidoctor -D build/docs -o index.html docs/index.adoc
 
       - name: Build reveal.js slides
         run: |
@@ -60,9 +61,12 @@ jobs:
       - name: Build PDF
         run: asciidoctor-pdf -D build -o redhat-ai-tax-administration.pdf docs/index.adoc
 
-      - name: Stage the interactive deck and exports alongside the build
+      - name: Stage the interactive deck, presenter console and exports
         run: |
+          cp slides/deck.html build/index.html
           cp slides/deck.html build/deck.html
+          cp slides/presenter-notes.html build/presenter-notes.html
+          [ -d slides/assets ] && cp -r slides/assets build/assets || true
           mkdir -p build/exports
           cp -r slides/exports/. build/exports/ 2>/dev/null || true
 

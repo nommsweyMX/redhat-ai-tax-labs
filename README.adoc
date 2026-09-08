@@ -25,6 +25,13 @@ decides.
 Every command is real and copyable. Every lab runs in two modes — one that
 needs nothing but a shell, and one that executes against your own environment.
 
+The kit is published at https://nommsweymx.github.io/redhat-ai-tax-labs/ — the
+interactive deck, with its Labs and Demo views, is the landing page. The
+presenter console is at `/presenter-notes.html`, the documentation at
+`/docs/`, the reveal.js deck at `/slides.html` and the PowerPoint export under
+`/exports/`. Drop presenter photos at `slides/assets/brad-scalio.jpg` and
+`slides/assets/jon-keam.jpg` and the contact slide picks them up.
+
 toc::[]
 
 == Quick start
@@ -150,7 +157,7 @@ image so you do not have to install Ruby.
 
 [source,bash]
 ----
-make docs      # docs/index.adoc  -> build/index.html
+make docs      # docs/index.adoc  -> build/docs/index.html
 make slides    # slides/slides.adoc -> build/slides.html (reveal.js)
 make pptx      # slides/exports/redhat-ai-tax-administration.pptx
 make pdf       # build/redhat-ai-tax-administration.pdf
@@ -160,7 +167,8 @@ make all       # everything above
 
 `make pptx` needs only Python and `python-pptx`. The GitHub Actions workflow in
 `.github/workflows/docs.yml` builds the documentation and slides on every push
-and publishes them to GitHub Pages.
+and publishes them to GitHub Pages, with the interactive deck as the landing
+page: https://nommsweymx.github.io/redhat-ai-tax-labs/
 
 == A note on the sample content
 
