@@ -16,7 +16,7 @@ RUN       := $(RUNTIME) run --rm -v "$(CURDIR):/documents:z" -w /documents $(IMA
 
 help:
 	@echo "Targets:"
-	@echo "  make docs    build/index.html         documentation"
+	@echo "  make docs    build/docs/index.html    documentation"
 	@echo "  make slides  build/slides.html        reveal.js deck"
 	@echo "  make pptx    $(PPTX)"
 	@echo "  make pdf     build/*.pdf              printable documentation"
@@ -38,8 +38,8 @@ check-runtime:
 
 docs: | $(BUILD)
 	@$(MAKE) --no-print-directory check-runtime
-	$(RUN) asciidoctor -D $(BUILD) -o index.html $(DOCS)
-	@echo "-> $(BUILD)/index.html"
+	$(RUN) asciidoctor -D $(BUILD)/docs -o index.html $(DOCS)
+	@echo "-> $(BUILD)/docs/index.html"
 
 slides: | $(BUILD)
 	@$(MAKE) --no-print-directory check-runtime

@@ -204,9 +204,9 @@ table.grid td.mono{font-family:"Red Hat Mono",monospace;font-size:.8rem;color:va
 .phase header span{font-family:"Red Hat Mono",monospace;font-size:.66rem;color:var(--ink-3)}
 .phase ul{margin:0;padding:12px 16px 14px 28px;display:flex;flex-direction:column;gap:6px}
 .phase li{font-size:clamp(.76rem,.85vw,.9rem);color:var(--ink-2)}
-.phase[data-p="1"] header{background:var(--steel-wash)}
-.phase[data-p="2"] header{background:var(--amber-wash)}
-.phase[data-p="3"] header{background:var(--accent-wash)}
+.phase[data-p="1"] header{background:var(--r-data-wash)}
+.phase[data-p="2"] header{background:var(--r-info-wash)}
+.phase[data-p="3"] header{background:var(--r-know-wash)}
 
 .archi{width:100%;height:100%;display:block;min-height:0}
 .archi text{font-family:"Red Hat Text",system-ui,sans-serif}
@@ -367,10 +367,10 @@ kbd{
 .ai-spectrum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;height:100%;align-items:stretch}
 .ai-kind{border:1px solid var(--border);border-radius:9px;padding:15px;background:var(--surface);display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
 .ai-kind:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border-strong)}
-.ai-kind.predict:before{background:var(--steel)}
-.ai-kind.generate:before{background:var(--accent)}
-.ai-kind.agent:before{background:var(--amber)}
-.ai-kind.auto:before{background:var(--good)}
+.ai-kind.predict:before{background:var(--r-info)}
+.ai-kind.generate:before{background:var(--r-know)}
+.ai-kind.agent:before{background:var(--r-know)}
+.ai-kind.auto:before{background:var(--r-judge)}
 .ai-kind .big{font-family:"Red Hat Display",sans-serif;font-size:1.12rem;font-weight:800}
 .ai-kind .plain{font-size:.84rem;color:var(--ink-2);line-height:1.42}
 .ai-kind .analogy{margin-top:auto;min-height:5.4em;border-top:1px solid var(--border);padding-top:8px;font-size:.76rem;color:var(--ink-3)}
@@ -414,7 +414,7 @@ kbd{
 .portfolio-strip div{border-top:3px solid var(--accent);background:var(--surface-2);padding:8px 9px;border-radius:4px;font-size:.7rem;color:var(--ink-2)}
 .portfolio-strip b{display:block;color:var(--ink);font-family:"Red Hat Display",sans-serif;font-size:.82rem;margin-bottom:2px}
 /* ladder rungs — the project spine */
-:root{--r-data:#286C88;--r-data-wash:#E7F1F5;--r-info:#96620A;--r-info-wash:#F8EFDC;--r-know:#CC0000;--r-know-wash:#FBEAE8;--r-judge:#1E7A55;--r-judge-wash:#E4F3EC}
+:root{--r-data:#CC0000;--r-data-wash:#FBEAE8;--r-info:#C2410C;--r-info-wash:#FFEDD5;--r-know:#1E7A55;--r-know-wash:#E4F3EC;--r-judge:#5B2E91;--r-judge-wash:#EFE6F7;--rb-yellow:#D99A00;--rb-blue:#1D4ED8}
 .rung{display:inline-flex;align-items:center;align-self:flex-start;gap:5px;font-family:"Red Hat Mono",monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:2px 8px 2px 6px;border:1px solid;vertical-align:middle;white-space:nowrap;line-height:1.5}
 .rung::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
 .rung.r-data{color:var(--r-data);border-color:var(--r-data);background:var(--r-data-wash)}
@@ -422,10 +422,11 @@ kbd{
 .rung.r-know{color:var(--r-know);border-color:var(--r-know);background:var(--r-know-wash)}
 .rung.r-judge{color:var(--r-judge);border-color:var(--r-judge);background:var(--r-judge-wash)}
 .rung+.rung{margin-left:4px}
-.spine{position:absolute;right:calc(clamp(28px,3.4vw,54px) + 60px);top:calc(clamp(28px,3.4vw,54px) + 1px);display:flex;align-items:center;gap:4px;font-family:"Red Hat Mono",monospace;font-size:.6rem;color:var(--ink-3)}
+.spine{position:absolute;right:calc(clamp(28px,3.4vw,54px) + 60px);top:calc(clamp(28px,3.4vw,54px) + 1px);display:flex;align-items:center;gap:3px;font-family:"Red Hat Mono",monospace;font-size:.6rem;color:var(--ink-3)}
 .spine .sl{text-transform:uppercase;letter-spacing:.14em;font-size:.56rem;margin-right:6px}
-.spine i{display:block;width:22px;height:6px;border-radius:2px;background:var(--border)}
-.spine i.on.r-data{background:var(--r-data)}.spine i.on.r-info{background:var(--r-info)}.spine i.on.r-know{background:var(--r-know)}.spine i.on.r-judge{background:var(--r-judge)}
+.spine i{display:block;width:15px;height:6px;border-radius:2px;opacity:.22}
+.spine i.on{opacity:1}
+.spine i.r-data{background:var(--r-data)}.spine i.r-info{background:var(--r-info)}.spine i.rb-yellow{background:var(--rb-yellow)}.spine i.r-know{background:var(--r-know)}.spine i.rb-blue{background:var(--rb-blue)}.spine i.r-judge{background:var(--r-judge)}
 .spine em{font-style:normal;margin-left:8px;color:var(--ink-2);font-weight:600;text-transform:uppercase;font-size:.56rem;letter-spacing:.12em}
 .navitem{grid-template-columns:26px 1fr auto}
 .rdots{display:flex;gap:3px;align-self:center}
@@ -441,6 +442,24 @@ kbd{
 .slide[data-title="Labs preview"] .cols{gap:clamp(10px,1.1vw,16px)}
 .slide[data-title="Labs preview"] .card{padding:clamp(10px,1vw,14px);gap:5px}
 .takeaway-card{background:var(--accent-wash);border-color:var(--accent)}
+.contact{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;margin-top:14px}
+.reach,.moves{border:1px solid var(--border);border-radius:8px;padding:12px 14px;background:var(--surface)}
+.reach{border-left:3px solid var(--accent);display:flex;flex-direction:column;gap:9px}
+.reach .tag,.moves .tag{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.person{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}
+.person > div{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.person b{font-family:"Red Hat Display",sans-serif;font-size:.95rem}
+.person span{font-size:.74rem;color:var(--ink-2)}
+.person a.mono{font-size:.8rem;color:var(--accent-ink);text-decoration:none;font-weight:600}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--accent-wash);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:"Red Hat Display",sans-serif;font-weight:800;color:var(--accent-ink);font-size:.86rem;overflow:hidden;position:relative}
+.avatar::before{content:attr(data-initials)}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.reach .fine{font-size:.74rem;color:var(--ink-2);line-height:1.4;margin-top:auto}
+.moves{display:flex;flex-direction:column;gap:6px}
+.move{display:flex;flex-direction:column;gap:2px;padding:6px 0;border-top:1px solid var(--border)}
+.move:first-of-type{border-top:0;padding-top:2px}
+.move b{font-family:"Red Hat Display",sans-serif;font-size:.86rem}
+.move span{font-size:.75rem;color:var(--ink-2);line-height:1.4}
 .takeaway-card .tag{color:var(--accent-ink)}
 .slide[data-title="Labs preview"] .card p{font-size:clamp(.74rem,.8vw,.86rem);line-height:1.4}
 .slide[data-title="AI for operations"] .card{padding:clamp(10px,1vw,14px);gap:5px}
@@ -589,7 +608,7 @@ kbd{
                 <path d="M60,232 C93,225 125,222 158,214 C191,206 223,190 256,152 C289,114 322,84 355,84 C388,84 420,160 453,204 C486,232 518,224 551,228 C584,232 616,233 649,236 C682,239 714,241 747,242 C780,243 813,238 846,232 C879,226 911,190 944,186 C977,182 1009,222 1042,230 C1075,238 1107,228 1140,222" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
                 <line x1="60" y1="174" x2="1140" y2="174" stroke="var(--ink-2)" stroke-width="1.8" stroke-dasharray="7 5"/>
                 <text x="1136" y="166" text-anchor="end" font-family="Red Hat Mono" font-size="11" font-weight="600" fill="var(--ink-2)">staffed capacity</text>
-                <circle cx="355" cy="84" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+                <circle cx="355" cy="84" r="5" fill="var(--r-info)" stroke="var(--surface)" stroke-width="2"/>
                 <text x="375" y="82" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">April — 6× the August low</text>
                 <line x1="414" y1="136" x2="352" y2="120" stroke="var(--ink-3)" stroke-width="1.2"/>
                 <text x="420" y="140" font-family="Red Hat Text" font-size="12" fill="var(--ink-2)">the surge automation absorbs</text>
@@ -717,14 +736,14 @@ kbd{
             </div>
             <svg viewBox="0 0 1180 160" role="img" style="width:100%;height:auto;margin-top:10px" aria-label="Venn diagram: a predictive circle producing numbers — score, forecast, flag — overlaps a generative circle producing language — read, draft, cite. The overlap is labeled compose: the score picks the case, the draft prepares it, a person decides, and one platform serves both models side by side.">
               <circle cx="300" cy="80" r="66" fill="var(--r-info-wash)" stroke="var(--r-info)" stroke-width="2"/>
-              <circle cx="400" cy="80" r="66" fill="var(--accent-wash)" fill-opacity=".72" stroke="var(--accent)" stroke-width="2"/>
+              <circle cx="400" cy="80" r="66" fill="var(--r-know-wash)" fill-opacity=".72" stroke="var(--r-know)" stroke-width="2"/>
               <text x="272" y="70" text-anchor="middle" font-family="Red Hat Display" font-size="13" font-weight="800" fill="var(--ink)">Predictive</text>
               <text x="272" y="87" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">a number</text>
               <text x="272" y="102" text-anchor="middle" font-family="Red Hat Mono" font-size="8.5" fill="var(--ink-3)">score · flag</text>
               <text x="428" y="70" text-anchor="middle" font-family="Red Hat Display" font-size="13" font-weight="800" fill="var(--ink)">Generative</text>
               <text x="428" y="87" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">language</text>
               <text x="428" y="102" text-anchor="middle" font-family="Red Hat Mono" font-size="8.5" fill="var(--ink-3)">draft · cite</text>
-              <text x="350" y="86" text-anchor="middle" font-family="Red Hat Mono" font-size="7.5" font-weight="600" fill="var(--accent-ink)">compose</text>
+              <text x="350" y="86" text-anchor="middle" font-family="Red Hat Mono" font-size="7.5" font-weight="600" fill="var(--ink-2)">compose</text>
               <text x="510" y="52" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">They compose — and one platform serves both</text>
               <text x="510" y="76" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">The score picks the case. The language model prepares the brief, the draft</text>
               <text x="510" y="94" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">and the citations. A person decides.</text>
@@ -753,8 +772,8 @@ kbd{
                 <g filter="url(#s3sh)">
                   <rect x="8" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
                 </g>
-                <rect x="8" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
-                <circle cx="34" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="8" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
+                <circle cx="34" cy="44" r="13" fill="var(--r-info)"/>
                 <rect x="27" y="39" width="14" height="10" rx="1.5" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="27,40 34,45 41,40" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
                 <text x="136" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">01</text>
                 <text x="20" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Intake &amp;</text>
@@ -766,8 +785,8 @@ kbd{
                 <g filter="url(#s3sh)">
                   <rect x="168" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
                 </g>
-                <rect x="168" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
-                <circle cx="194" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="168" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
+                <circle cx="194" cy="44" r="13" fill="var(--r-info)"/>
                 <rect x="188" y="37" width="12" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="191,44 193.5,46.5 198,41" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
                 <text x="296" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">02</text>
                 <text x="180" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Validation</text>
@@ -778,8 +797,8 @@ kbd{
                 <g filter="url(#s3sh)">
                   <rect x="328" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
                 </g>
-                <rect x="328" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
-                <circle cx="354" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="328" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
+                <circle cx="354" cy="44" r="13" fill="var(--r-info)"/>
                 <path d="M349,37 h7 l3,3 v11 h-10 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><line x1="351.5" y1="44" x2="356.5" y2="44" stroke="#fff" stroke-width="1.6"/><line x1="351.5" y1="47.5" x2="356.5" y2="47.5" stroke="#fff" stroke-width="1.6"/>
                 <text x="456" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">03</text>
                 <text x="340" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Correspondence</text>
@@ -803,8 +822,8 @@ kbd{
                 <g filter="url(#s3sh)">
                   <rect x="648" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
                 </g>
-                <rect x="648" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
-                <circle cx="674" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="648" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
+                <circle cx="674" cy="44" r="13" fill="var(--r-info)"/>
                 <path d="M667,49 v-8 h5 l2,2 h7 v6 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
                 <text x="776" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">05</text>
                 <text x="660" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Collections</text>
@@ -816,8 +835,8 @@ kbd{
                 <g filter="url(#s3sh)">
                   <rect x="808" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
                 </g>
-                <rect x="808" y="12" width="138" height="4" rx="2" fill="var(--accent)"/>
-                <circle cx="834" cy="44" r="13" fill="var(--accent)"/>
+                <rect x="808" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
+                <circle cx="834" cy="44" r="13" fill="var(--r-info)"/>
                 <rect x="827" y="38" width="14" height="10" rx="3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M831,48 L829,52 L835,48" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
                 <text x="936" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">06</text>
                 <text x="820" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Taxpayer</text>
@@ -882,15 +901,15 @@ kbd{
                 <filter id="a5sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2.5" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".16"/></filter>
                 <linearGradient id="a5layer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
                 <linearGradient id="a5ai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEAE8"/><stop offset="1" stop-color="#F5D3CE"/></linearGradient>
-                <linearGradient id="a5trust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEAE8"/><stop offset="1" stop-color="#F2CBC5"/></linearGradient>
+                <linearGradient id="a5trust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3ECFA"/><stop offset="1" stop-color="#E4D6F1"/></linearGradient>
                 <linearGradient id="a5auto" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7F1F5"/><stop offset="1" stop-color="#D2E4EC"/></linearGradient>
               </defs>
 
               <!-- trust pillar -->
-              <rect x="10" y="10" width="106" height="400" rx="10" fill="url(#a5trust)" stroke="#CC0000" stroke-width="1.2" filter="url(#a5sh)"/>
-              <path d="M63 26 L77 31 V41 C77 51 71 58 63 62 C55 58 49 51 49 41 V31 Z" fill="#CC0000"/>
+              <rect x="10" y="10" width="106" height="400" rx="10" fill="url(#a5trust)" stroke="var(--r-judge)" stroke-width="1.2" filter="url(#a5sh)"/>
+              <path d="M63 26 L77 31 V41 C77 51 71 58 63 62 C55 58 49 51 49 41 V31 Z" fill="var(--r-judge)"/>
               <polyline points="56,42 61,47 71,36" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              <text x="63" y="80" font-size="10.5" font-weight="700" fill="#A30000" text-anchor="middle" letter-spacing="1.6">TRUST</text>
+              <text x="63" y="80" font-size="10.5" font-weight="700" fill="var(--r-judge)" text-anchor="middle" letter-spacing="1.6">TRUST</text>
               <g font-size="10.5" fill="var(--ink-2)" text-anchor="middle">
                 <text x="63" y="102">Signed models</text>
                 <text x="63" y="120">FIPS crypto</text>
@@ -903,7 +922,7 @@ kbd{
                 <text x="63" y="250">Air-gap</text>
                 <text x="63" y="264">mirroring</text>
               </g>
-              <circle cx="30" cy="378" r="4" fill="#1E7A55"/><text x="38" y="381.5" font-size="9" fill="#1E7A55">judgement</text>
+              <circle cx="30" cy="378" r="4" fill="var(--r-judge)"/><text x="38" y="381.5" font-size="9" fill="var(--r-judge)">judgement</text>
               <text x="63" y="396" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 06</text>
 
               <!-- automation pillar -->
@@ -929,7 +948,7 @@ kbd{
                 <text x="857" y="238">Evidence</text>
                 <text x="857" y="252">collection</text>
               </g>
-              <circle cx="826" cy="378" r="4" fill="#1E7A55"/><text x="834" y="381.5" font-size="9" fill="#1E7A55">executes it</text>
+              <circle cx="826" cy="378" r="4" fill="var(--r-judge)"/><text x="834" y="381.5" font-size="9" fill="var(--r-judge)">executes it</text>
               <text x="857" y="396" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 05</text>
 
               <!-- base: RHEL / AI Inference Server -->
@@ -957,24 +976,24 @@ kbd{
               <g filter="url(#a5sh)"><rect x="128" y="142" width="664" height="86" rx="8" fill="url(#a5ai)" stroke="#CC0000"/></g>
               <text x="146" y="164" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
               <text x="778" y="164" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04 · 07</text>
-              <rect x="146" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="253" cy="183" r="6" fill="#96620A" stroke="var(--surface)" stroke-width="1.6"/><title>information</title></circle>
-              <path d="M156,189 l9,6 -9,6 z" fill="#CC0000"/>
+              <rect x="146" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="253" cy="183" r="6" fill="var(--r-info)" stroke="var(--surface)" stroke-width="1.6"/><title>information</title></circle>
+              <path d="M156,189 l9,6 -9,6 z" fill="var(--ink-2)"/>
               <text x="172" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model serving</text>
               <text x="172" y="205" font-size="9" fill="var(--ink-3)">KServe + vLLM</text>
-              <rect x="274" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="381" cy="183" r="6" fill="#CC0000" stroke="var(--surface)" stroke-width="1.6"/><title>knowledge</title></circle>
-              <polyline points="284,201 289,195 294,198 300,189" fill="none" stroke="#1E7A55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="274" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="381" cy="183" r="6" fill="var(--r-know)" stroke="var(--surface)" stroke-width="1.6"/><title>knowledge</title></circle>
+              <polyline points="284,201 289,195 294,198 300,189" fill="none" stroke="var(--ink-2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <text x="306" y="192" font-size="10" font-weight="700" fill="var(--ink)">Training</text>
               <text x="306" y="205" font-size="8.5" fill="var(--ink-3)" textLength="80" lengthAdjust="spacingAndGlyphs">SDG Hub · Training Hub</text>
-              <rect x="402" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="509" cy="183" r="6" fill="#CC0000" stroke="var(--surface)" stroke-width="1.6"/><title>knowledge</title></circle>
-              <g fill="#286C88"><circle cx="414" cy="196" r="3.2"/><circle cx="424" cy="196" r="3.2"/><circle cx="434" cy="196" r="3.2"/></g>
+              <rect x="402" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="509" cy="183" r="6" fill="var(--r-know)" stroke="var(--surface)" stroke-width="1.6"/><title>knowledge</title></circle>
+              <g fill="var(--ink-2)"><circle cx="414" cy="196" r="3.2"/><circle cx="424" cy="196" r="3.2"/><circle cx="434" cy="196" r="3.2"/></g>
               <text x="444" y="192" font-size="10" font-weight="700" fill="var(--ink)">Pipelines</text>
               <text x="444" y="205" font-size="9" fill="var(--ink-3)">tune · eval · ship</text>
-              <rect x="530" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="637" cy="183" r="6" fill="#1E7A55" stroke="var(--surface)" stroke-width="1.6"/><title>judgement</title></circle>
-              <path d="M540,188 l8,-4.5 8,4.5 v9 l-8,4.5 -8,-4.5 z" fill="none" stroke="#96620A" stroke-width="1.7"/><line x1="540" y1="188" x2="548" y2="192.5" stroke="#96620A" stroke-width="1.3"/><line x1="556" y1="188" x2="548" y2="192.5" stroke="#96620A" stroke-width="1.3"/><line x1="548" y1="192.5" x2="548" y2="201.5" stroke="#96620A" stroke-width="1.3"/>
+              <rect x="530" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="637" cy="183" r="6" fill="var(--r-judge)" stroke="var(--surface)" stroke-width="1.6"/><title>judgement</title></circle>
+              <path d="M540,188 l8,-4.5 8,4.5 v9 l-8,4.5 -8,-4.5 z" fill="none" stroke="var(--ink-2)" stroke-width="1.7"/><line x1="540" y1="188" x2="548" y2="192.5" stroke="var(--ink-2)" stroke-width="1.3"/><line x1="556" y1="188" x2="548" y2="192.5" stroke="var(--ink-2)" stroke-width="1.3"/><line x1="548" y1="192.5" x2="548" y2="201.5" stroke="var(--ink-2)" stroke-width="1.3"/>
               <text x="564" y="192" font-size="10" font-weight="700" fill="var(--ink)">Model registry</text>
               <text x="564" y="205" font-size="9" fill="var(--ink-3)">signed versions</text>
-              <rect x="658" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="765" cy="183" r="6" fill="#CC0000" stroke="var(--surface)" stroke-width="1.6"/><title>knowledge</title></circle>
-              <circle cx="671" cy="193" r="5.5" fill="none" stroke="#CC0000" stroke-width="1.9"/><line x1="675" y1="197" x2="680" y2="202" stroke="#CC0000" stroke-width="1.9" stroke-linecap="round"/>
+              <rect x="658" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="765" cy="183" r="6" fill="var(--r-know)" stroke="var(--surface)" stroke-width="1.6"/><title>knowledge</title></circle>
+              <circle cx="671" cy="193" r="5.5" fill="none" stroke="var(--ink-2)" stroke-width="1.9"/><line x1="675" y1="197" x2="680" y2="202" stroke="var(--ink-2)" stroke-width="1.9" stroke-linecap="round"/>
               <text x="688" y="192" font-size="10" font-weight="700" fill="var(--ink)">Retrieval</text>
               <text x="688" y="205" font-size="9" fill="var(--ink-3)">vector store</text>
 
@@ -1001,10 +1020,10 @@ kbd{
               <text x="130" y="28" font-size="9.5" fill="var(--ink-3)">Systems of record stay where they are — reached through APIs and automation, not replaced</text>
               <line x1="128" y1="34" x2="462" y2="34" stroke="var(--border-strong)" stroke-dasharray="3 3"/>
               <g font-size="9" font-weight="700">
-                <circle cx="520" cy="25" r="3.5" fill="#286C88"/><text x="528" y="28.5" fill="#286C88">Data</text>
-                <circle cx="566" cy="25" r="3.5" fill="#96620A"/><text x="574" y="28.5" fill="#96620A">Information</text>
-                <circle cx="646" cy="25" r="3.5" fill="#CC0000"/><text x="654" y="28.5" fill="#CC0000">Knowledge</text>
-                <circle cx="722" cy="25" r="3.5" fill="#1E7A55"/><text x="730" y="28.5" fill="#1E7A55">Judgement</text>
+                <circle cx="520" cy="25" r="3.5" fill="var(--r-data)"/><text x="528" y="28.5" fill="var(--r-data)">Data</text>
+                <circle cx="566" cy="25" r="3.5" fill="var(--r-info)"/><text x="574" y="28.5" fill="var(--r-info)">Information</text>
+                <circle cx="646" cy="25" r="3.5" fill="var(--r-know)"/><text x="654" y="28.5" fill="var(--r-know)">Knowledge</text>
+                <circle cx="722" cy="25" r="3.5" fill="var(--r-judge)"/><text x="730" y="28.5" fill="var(--r-judge)">Judgement</text>
               </g>
             </svg>
           </div>
@@ -1125,7 +1144,7 @@ kbd{
         </article>
 
         <!-- 13 -->
-        <article class="slide" data-title="Logs to MTTR" data-rungs="data,information,knowledge" data-notes="The NotebookLM analogy lands instantly: a private notebook that has read everything yours — except this one has read your logs, runbooks, incident history and change records, and it runs on the same cluster it observes. Say resolution, not restoration — mean time to RESOLUTION. Pair the chart with an outside number, then the personal story (industry numbers for authority, then the must-gather anecdote: the notebook diagnosed in 2 minutes what took the team 46 hours — people love stories). Then Jon's requested narration: the big red bar is diagnosis — that is all information; the blue does not change; what changed is the time to create the information. It ties this chart straight back to the ladder. Walk the two bars: detection was already fast, the hours lived in diagnosis, and a cited answer to what-changed-and-which-runbook is what removes them. Lab 07 runs this live — offer to jump straight there if the room is operational.">
+        <article class="slide" data-title="Logs to MTTR" data-rungs="data,information,knowledge" data-notes="The NotebookLM analogy lands instantly: a private notebook that has read everything yours — except this one has read your logs, runbooks, incident history and change records, and it runs on the same cluster it observes. Say resolution, not restoration — mean time to RESOLUTION. Pair the chart with an outside number, then the personal story (industry numbers for authority, then the must-gather anecdote: the notebook diagnosed in 2 minutes what took the team 46 hours — people love stories). Then Jon's requested narration: the big orange bar is diagnosis — that is all information; the blue does not change; what changed is the time to create the information. It ties this chart straight back to the ladder. Walk the two bars: detection was already fast, the hours lived in diagnosis, and a cited answer to what-changed-and-which-runbook is what removes them. Lab 07 runs this live — offer to jump straight there if the room is operational.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">The platform on its own data</span>
@@ -1143,17 +1162,17 @@ kbd{
                 <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">Mean time to resolution, decomposed — representative incident pattern, before and after the notebook</text>
                 <g font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-2)">
                   <rect x="210" y="66" width="10" height="10" fill="var(--steel)"/><text x="226" y="75">detect</text>
-                  <rect x="300" y="66" width="10" height="10" fill="var(--accent)"/><text x="316" y="75">diagnose</text>
-                  <rect x="410" y="66" width="10" height="10" fill="var(--amber)"/><text x="426" y="75">fix</text>
-                  <rect x="470" y="66" width="10" height="10" fill="var(--good)"/><text x="486" y="75">verify</text>
+                  <rect x="300" y="66" width="10" height="10" fill="var(--r-info)"/><text x="316" y="75">diagnose</text>
+                  <rect x="410" y="66" width="10" height="10" fill="var(--ink-3)"/><text x="426" y="75">fix</text>
+                  <rect x="470" y="66" width="10" height="10" fill="#5E8FA8"/><text x="486" y="75">verify</text>
                 </g>
                 <!-- before -->
                 <text x="28" y="104" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">before</text>
                 <text x="28" y="119" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">grep · page · guess</text>
                 <rect x="210" y="88" width="18.4" height="32" fill="var(--steel)"/>
-                <rect x="228.4" y="88" width="739.3" height="32" fill="var(--accent)"/>
-                <rect x="967.7" y="88" width="101" height="32" fill="var(--amber)"/>
-                <rect x="1068.7" y="88" width="41.3" height="32" fill="var(--good)"/>
+                <rect x="228.4" y="88" width="739.3" height="32" fill="var(--r-info)"/>
+                <rect x="967.7" y="88" width="101" height="32" fill="var(--ink-3)"/>
+                <rect x="1068.7" y="88" width="41.3" height="32" fill="#5E8FA8"/>
                 <text x="598" y="108" text-anchor="middle" font-family="Red Hat Display" font-size="11.5" font-weight="700" fill="#FFFFFF">diagnose — 2h 41m</text>
                 <text x="1018" y="108" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="#FFFFFF">fix 22m</text>
                 <text x="1120" y="108" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">3h 16m</text>
@@ -1161,9 +1180,9 @@ kbd{
                 <text x="28" y="168" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">with the notebook</text>
                 <text x="28" y="183" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">ask · verify · act</text>
                 <rect x="210" y="152" width="18.4" height="32" fill="var(--steel)"/>
-                <rect x="228.4" y="152" width="110.2" height="32" fill="var(--accent)"/>
-                <rect x="338.6" y="152" width="101" height="32" fill="var(--amber)"/>
-                <rect x="439.6" y="152" width="41.3" height="32" fill="var(--good)"/>
+                <rect x="228.4" y="152" width="110.2" height="32" fill="var(--r-info)"/>
+                <rect x="338.6" y="152" width="101" height="32" fill="var(--ink-3)"/>
+                <rect x="439.6" y="152" width="41.3" height="32" fill="#5E8FA8"/>
                 <text x="283" y="172" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="#FFFFFF">24m</text>
                 <text x="389" y="172" text-anchor="middle" font-family="Red Hat Text" font-size="10" fill="#FFFFFF">fix 22m</text>
                 <text x="491" y="172" font-family="Red Hat Display" font-size="12" font-weight="700" fill="var(--ink)">59m</text>
@@ -1261,7 +1280,7 @@ kbd{
         </article>
 
         <!-- 15 -->
-        <article class="slide" data-title="Next steps" data-rungs="judgement" data-notes="Close with a specific ask, not a thank-you. Architecture workshop, guided pilot, acquisition path — and engage the solution architects early, because unanswered foundational questions build a shaky foundation that gets reworked later. There is no stupid question. Say the line: if you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product. Models-as-a-Service is a good example to name here for the platform people. Point at the contact strip — Brad's email is there deliberately: reach out to me and I will get you in touch with the right person, I am not going to stick you on somebody else. Brad's closer if it fits the room: that is why we get paid as solution architects — I would rather talk to you than my manager. Never end a talk with nothing happening afterwards. Then the labs, as the takeaway.">
+        <article class="slide" data-title="Next steps" data-rungs="judgement" data-notes="Close with a specific ask, not a thank-you. Architecture workshop, guided pilot, acquisition path — and engage the solution architects early, because unanswered foundational questions build a shaky foundation that gets reworked later. There is no stupid question. Say the line: if you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product. Models-as-a-Service is a good example to name here for the platform people. Point at the contact panel — Brad's Red Hat email is there deliberately: reach out to me and, if nothing else, I will act as your connector to the right person, I am not going to stick you on somebody else. Brad's closer if it fits the room: that is why we get paid as solution architects — I would rather talk to you than my manager. Never end a talk with nothing happening afterwards. Then the labs, as the takeaway. Then the three moves, said out loud: if you are already a Red Hat customer, ask for your Solution Architect — and if you do not know who that is, email Brad, open a ticket in the Customer Portal and ask support, or ask through your management line; start a community of practice across platform, security and mission teams; and bring your hardest question.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Next steps</span>
@@ -1273,11 +1292,21 @@ kbd{
               <div class="card"><span class="tag">Step two</span><h4>Guided pilot</h4><p>One workflow, on your infrastructure, with a measured baseline and an agreed definition of success before we start.</p></div>
               <div class="card"><span class="tag">Step three</span><h4>Acquisition path</h4><p>Four Inc. and Carahsoft carry the vehicles and pricing — bring them into the conversation early, not at the end.</p></div>
             </div>
-            <div class="cols c2" style="margin-top:20px">
-              <div class="card gain"><h4>Take the labs with you</h4><p>This page runs standalone, and the whole kit — deck, labs, docs — lives at <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>. The seven labs are the same commands your engineers will run on day one.</p></div>
-              <div class="card gain"><h4>Bring your hardest question</h4><p>Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. And if you did not see it here today, that does not mean it does not exist — ask.</p></div>
+            <div class="contact">
+              <div class="reach">
+                <span class="tag">Reach us — Brad is your connector</span>
+                <div class="person"><span class="avatar" data-initials="BS"><img src="assets/brad-scalio.jpg" alt="" onerror="this.remove()"></span><div><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a class="mono" href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div></div>
+                <div class="person"><span class="avatar" data-initials="JK"><img src="assets/jon-keam.jpg" alt="" onerror="this.remove()"></span><div><b>Jon Keam</b><span>Red Hat</span></div></div>
+                <p class="fine">Everything from today — deck, labs, guides — at <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. The seven labs are the commands your engineers will run on day one.</p>
+                <span class="rung r-judge">the next decision is yours</span>
+              </div>
+              <div class="moves">
+                <span class="tag">Your move</span>
+                <div class="move"><b>Already a Red Hat customer? Ask for your Solution Architect.</b><span>Not sure who that is? Email Brad, open a ticket in the Customer Portal and ask support, or ask through your management line. The foundational questions are free to ask and expensive to skip.</span></div>
+                <div class="move"><b>Start a community of practice.</b><span>A standing group across platform, security and mission teams, built around one workflow. We will help seed it and we will show up.</span></div>
+                <div class="move"><b>Bring your hardest question.</b><span>Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. If you did not see it here today, that does not mean it does not exist — ask.</span></div>
+              </div>
             </div>
-            <div class="card" style="margin-top:16px;border-left:3px solid var(--accent)"><span class="tag">Stay in touch</span><h4>Reach out — we’ll connect you to the right expert</h4><p><b>Brad Scalio</b> — <span class="mono">scalio@gmail.com</span> &nbsp;·&nbsp; <b>Jon Keam</b> — Red Hat &nbsp;·&nbsp; Engage the solution architects early: the foundational questions are free to ask and expensive to skip.</p><span class="rung r-judge">the next decision is yours</span></div>
           </div>
           <span class="slidenum"></span>
         </article>
@@ -1288,7 +1317,7 @@ kbd{
           <div class="slide-head">
             <span class="eyebrow">Hands on · the takeaway</span>
             <h2>Seven labs — real commands, run them yourself</h2>
-            <p class="lede">An opinionated path, on a personal laptop — never production. Prove it to <em>yourself</em>: watch the model serve on 127.0.0.1. Repo: <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>.</p>
+            <p class="lede">An opinionated path, on a personal laptop — never production. Prove it to <em>yourself</em>: watch the model serve on 127.0.0.1. Site: <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>.</p>
           </div>
           <div class="slide-body">
             <div class="cols c4">
@@ -1430,8 +1459,9 @@ kbd{
   }
   slides.forEach(function(s){
     var on = rungsOf(s), html = '<span class="sl">ladder</span>';
-    Object.keys(RUNG).forEach(function(k){
-      html += '<i class="' + RUNG[k][0] + (on.indexOf(k) >= 0 ? ' on' : '') + '" title="' + RUNG[k][1] + '"></i>';
+    /* the track is the rainbow everyone remembers; the four rungs sit on it at red, orange, green and violet */
+    [['data','r-data','Data'],['information','r-info','Information'],[null,'rb-yellow',''],['knowledge','r-know','Knowledge'],[null,'rb-blue',''],['judgement','r-judge','Judgement']].forEach(function(seg){
+      html += '<i class="' + seg[1] + (seg[0] && on.indexOf(seg[0]) >= 0 ? ' on' : '') + '"' + (seg[2] ? ' title="' + seg[2] + '"' : '') + '></i>';
     });
     html += '<em>' + on.map(function(k){ return RUNG[k][1]; }).join(' · ') + '</em>';
     var sp = document.createElement('div');
@@ -2513,10 +2543,22 @@ kbd{
   buildRail();
   go(0);
 
-  if(location.hash === '#demo'){
-    setMode('demo');
-    demoSetPlaying(true);
-    demoGo();
+  function applyHash(){
+    var h = location.hash || '', m;
+    if(h === '#demo'){ setMode('demo'); demoSetPlaying(true); demoGo(); return; }
+    if(h === '#labs'){ setMode('labs'); window.scrollTo(0,0); return; }
+    if((m = /^#lab-?0?([1-7])$/.exec(h))){
+      setMode('labs');
+      var el = document.querySelectorAll('#labs .lab')[parseInt(m[1],10)-1];
+      if(el) setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+      return;
+    }
+    if((m = /^#(?:slide-?)?(\d{1,2})$/.exec(h))){
+      var k = parseInt(m[1],10);
+      if(k >= 1 && k <= slides.length){ setMode('deck'); go(k-1); }
+    }
   }
+  applyHash();
+  window.addEventListener('hashchange', applyHash);
 })();
 </script>

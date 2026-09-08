@@ -627,9 +627,16 @@ your engineers will run on day one.
 accelerator scarcity, model provenance. If you did not see it here today, that
 does not mean it does not exist — ask.
 
-*Stay in touch.* Brad Scalio — scalio@gmail.com · Jon Keam — Red Hat. Engage the
+*Stay in touch.* Brad Scalio — bscalio@redhat.com (if nothing else, your connector to the right person) · Jon Keam — Red Hat. Engage the
 solution architects early: the foundational questions are free to ask and
 expensive to skip. (the next decision is yours)
+
+*Your move.* Already a Red Hat customer? Ask for your Solution Architect — if you
+do not know who that is, email Brad, open a ticket in the Customer Portal and ask
+support, or ask through your management line. Start a community of practice
+across platform, security and mission teams. Bring your hardest question.
+
+Everything from today: https://nommsweymx.github.io/redhat-ai-tax-labs/
 
 [.notes]
 --

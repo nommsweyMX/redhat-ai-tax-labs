@@ -4,32 +4,32 @@
     "data": {
       "label": "Data",
       "short": "D",
-      "color": "#286C88",
-      "wash": "#E7F1F5",
+      "color": "#CC0000",
+      "wash": "#FBEAE8",
       "css": "r-data",
       "definition": "What happened, uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture."
     },
     "information": {
       "label": "Information",
       "short": "I",
-      "color": "#96620A",
-      "wash": "#F8EFDC",
+      "color": "#C2410C",
+      "wash": "#FFEDD5",
       "css": "r-info",
       "definition": "Data in context for one case: a classification, a score, a diagnosis, a metric. What predictive AI and inference produce."
     },
     "knowledge": {
       "label": "Knowledge",
       "short": "K",
-      "color": "#CC0000",
-      "wash": "#FBEAE8",
+      "color": "#1E7A55",
+      "wash": "#E4F3EC",
       "css": "r-know",
       "definition": "Information that informs an outcome: guidance, precedent, runbooks, taxonomies. The institution's memory, retrievable and cited."
     },
     "judgement": {
       "label": "Judgement",
       "short": "J",
-      "color": "#1E7A55",
-      "wash": "#E4F3EC",
+      "color": "#5B2E91",
+      "wash": "#EFE6F7",
       "css": "r-judge",
       "definition": "A determination someone signs. Deliberately human; automation executes what was decided, it never decides."
     }
@@ -38,7 +38,7 @@
     "html": "<span class=\"rung r-know\">Knowledge</span>",
     "arrow_form_when_a_technology_converts_one_rung_to_the_next": "<span class=\"rung r-info\">data → information</span>",
     "automation_form": "<span class=\"rung r-judge\">executes judgement</span>",
-    "css": ".rung{display:inline-flex;align-items:center;gap:5px;font-family:\"Red Hat Mono\",monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:2px 8px 2px 6px;border:1px solid;vertical-align:middle;white-space:nowrap}\n.rung::before{content:\"\";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}\n.rung.r-data{color:#286C88;border-color:#286C88;background:#E7F1F5}\n.rung.r-info{color:#96620A;border-color:#96620A;background:#F8EFDC}\n.rung.r-know{color:#CC0000;border-color:#CC0000;background:#FBEAE8}\n.rung.r-judge{color:#1E7A55;border-color:#1E7A55;background:#E4F3EC}"
+    "css": ".rung{display:inline-flex;align-items:center;gap:5px;font-family:\"Red Hat Mono\",monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:2px 8px 2px 6px;border:1px solid;vertical-align:middle;white-space:nowrap}\n.rung::before{content:\"\";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}\n.rung.r-data{color:#CC0000;border-color:#CC0000;background:#FBEAE8}\n.rung.r-info{color:#C2410C;border-color:#C2410C;background:#FFEDD5}\n.rung.r-know{color:#1E7A55;border-color:#1E7A55;background:#E4F3EC}\n.rung.r-judge{color:#5B2E91;border-color:#5B2E91;background:#EFE6F7}"
   },
   "slides": [
     {
@@ -122,7 +122,7 @@
       "rungs": [
         "judgement"
       ],
-      "note": "Human in the loop at every highlighted stage; the pills are judgement-green."
+      "note": "Human in the loop at every highlighted stage; the pills are judgement-violet."
     },
     {
       "n": 8,
@@ -360,5 +360,6 @@
     "Human reviewer": "judgement",
     "Models-as-a-Service": "information",
     "llm-d": "information"
-  }
+  },
+  "scale": "Rainbow order, so nobody has to learn a palette: data = red, information = orange, knowledge = green, judgement = violet. Yellow (#D99A00) and blue (#1D4ED8) appear only as the in-between segments of the ladder track."
 }

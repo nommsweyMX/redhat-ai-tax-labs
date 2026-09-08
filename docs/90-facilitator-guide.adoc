@@ -141,8 +141,13 @@ Say these out loud during the session. They buy more credibility than any demo.
 
 == After the session
 
-. Share the repository link. The labs are the same commands attendees will run
-  on day one.
+. Share the site link — https://nommsweymx.github.io/redhat-ai-tax-labs/ — and
+  the repository. The labs are the same commands attendees will run on day one.
+. Tell current Red Hat customers to ask for their Solution Architect; anyone who
+  does not know who that is can email Brad (bscalio@redhat.com), open a ticket in
+  the Customer Portal and ask support, or ask through their management line.
+. Offer to help seed a community of practice across platform, security and
+  mission teams, built around one workflow.
 . Offer the architecture workshop — half a day with platform and security staff
   to size accelerators, place the first workload and name the data classes in
   scope.

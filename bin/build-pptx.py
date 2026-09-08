@@ -53,6 +53,12 @@ BORDER = RGBColor(0xE6, 0xDD, 0xDA)
 BORDER_STRONG = RGBColor(0xCF, 0xC2, 0xBE)
 CHIP = RGBColor(0x54, 0x42, 0x3E)
 
+# The ladder rungs follow the rainbow: red, orange, (yellow), green, (blue), violet.
+R_DATA = RED
+R_INFO = RGBColor(0xC2, 0x41, 0x0C)
+R_KNOW = GREEN
+R_JUDGE = RGBColor(0x5B, 0x2E, 0x91)
+
 HEAD_FONT = "Red Hat Display"
 BODY_FONT = "Red Hat Text"
 MONO_FONT = "Red Hat Mono"
@@ -316,13 +322,13 @@ def build(out_path: Path) -> None:
     eyebrow_and_title(s, "Why it matters", "From data to judgement — and who climbs each step",
                       "Every technology in this hour is tagged with the rung it serves. AI moves work up the ladder; it never takes the top step.")
     rungs = [
-        ("Data", STEEL, "What happened, uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture.",
+        ("Data", R_DATA, "What happened, uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture.",
          "RHEL · OpenShift · OpenShift Logging · accelerators"),
-        ("Information", AMBER, "Data in context for one case: a classification, a score, a diagnosis, a metric. What predictive AI and inference produce.",
+        ("Information", R_INFO, "Data in context for one case: a classification, a score, a diagnosis, a metric. What predictive AI and inference produce.",
          "AI Inference Server · KServe + vLLM · Granite · TrustyAI · Models-as-a-Service"),
-        ("Knowledge", RED, "Information that informs an outcome: guidance, precedent, runbooks, taxonomies. The institution's memory, retrievable and cited.",
+        ("Knowledge", R_KNOW, "Information that informs an outcome: guidance, precedent, runbooks, taxonomies. The institution's memory, retrievable and cited.",
          "SDG Hub · Training Hub · pipelines · retrieval / vector store"),
-        ("Judgement", GREEN, "A determination someone signs. Deliberately human; automation executes what was decided, it never decides.",
+        ("Judgement", R_JUDGE, "A determination someone signs. Deliberately human; automation executes what was decided, it never decides.",
          "Human reviewer · model registry · Sigstore · Ansible executes it"),
     ]
     gap, step = Inches(0.28), Inches(0.42)
