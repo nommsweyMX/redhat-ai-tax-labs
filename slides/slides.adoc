@@ -627,7 +627,7 @@ your engineers will run on day one.
 accelerator scarcity, model provenance. If you did not see it here today, that
 does not mean it does not exist — ask.
 
-*Stay in touch.* Brad Scalio — bscalio@redhat.com (if nothing else, your connector to the right person) · Jon Keam — Red Hat. Engage the
+*Stay in touch.* Brad Scalio — bscalio@redhat.com (if nothing else, your connector to the right person) · Jon Keam — jkeam@redhat.com. Engage the
 solution architects early: the foundational questions are free to ask and
 expensive to skip. (the next decision is yours)
 

@@ -310,7 +310,7 @@ def build(out_path: Path) -> None:
                "models, agency knowledge and automation into an operable mission capability, "
                "proven in seven labs you run yourself.", 17, False, INK_2, BODY_FONT, 0)])
     add_text(s, MARGIN, Inches(5.85), Inches(9.4), Inches(0.4),
-             [("Presented by Jon Keam and Brad Scalio", 14, True, INK_2, BODY_FONT, 0)])
+             [("Presented by Jon Keam (jkeam@redhat.com) and Brad Scalio (bscalio@redhat.com)", 14, True, INK_2, BODY_FONT, 0)])
 
     # ---- 2 the ladder: data to judgement --------------------------------------
     s = add_base(prs, "The spine of the hour. Read it left to right: the platform holds the data, "
