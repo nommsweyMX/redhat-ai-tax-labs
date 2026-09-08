@@ -4,6 +4,7 @@
 [cols="1,3"]
 |===
 | Product   | {rhoai}, OpenShift Logging (Loki), Granite
+| Rung      | information → knowledge
 | Time      | About 5 minutes
 | Script    | `labs/lab07-ops-notebook/run.sh`
 | Outcome   | An on-cluster notebook over your own operational data, and the MTTR case for it
@@ -16,6 +17,11 @@ runbooks, incident history and change records become a private notebook you
 can question during a live incident — a NotebookLM for the platform, running
 on the platform. Then read the numbers: the payoff is measured in mean time to
 restore, because diagnosis is where the hours live.
+
+On the ladder this lab climbs from information to knowledge: the log line is
+data, the cited diagnosis is information about one incident, and the runbooks,
+postmortems and change records it draws on are the institution's memory — a
+generated summary joins that memory only after a person reviews it.
 
 == Why this matters more than it looks
 

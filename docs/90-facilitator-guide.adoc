@@ -33,14 +33,27 @@ misspeaks live, and take over if the driver flounders. The number one goal is to
 entertain: a tuned-out audience learns nothing. Keep it light, and if humour
 lands on anyone, self-deprecate first.
 
-Two planted questions are rehearsed. On the data-to-judgement slide Jon asks
-"so is AI taking our jobs?" — the answer is that it is not, because it has no
-judgement. On the architecture slide Brad asks Jon "what is fine-tuning to you?"
-— the studying-for-the-test answer. Plan deliberate pauses to engage the room.
+Five planted questions are rehearsed; the console marks each one PLANTED. On
+the data-to-judgement slide (5) Jon asks "so is AI taking our jobs?" — the
+answer is that it is not, because it has no judgement. On the architecture
+slide (9) Jon plays the foil with "what's a seam?" (the pants analogy) and Brad
+asks Jon "what is fine-tuning to you?" — the studying-for-the-test answer. On
+the why-one-platform slide (11) Jon challenges lock-in ("I thought we already
+bought the software" — the phone-plan analogy), and on the adoption-path slide
+(14) Jon asks what a predicament is versus a problem. Plan deliberate pauses to
+engage the room.
+
+The theme that holds the hour together is the ladder: data → information →
+knowledge → judgement. Every slide shows the rungs it serves in the top-right
+spine, and every technology, outcome and lab carries a rung chip in the same
+four colours (blue, amber, red, green). Use it as the connective tissue: when a
+product name lands on screen, say which rung it climbs and who climbs the
+next one. Judgement is always a person; automation executes it.
 
 The full talk track, including the seams, lock-in and MTTR riffs, lives in
 `slides/presenter-notes.html` — open it beside the deck and advance both
-together.
+together. Each console step lists the slide's rungs and an "On the ladder"
+beat mapping every item on the slide to its rung.
 
 == Which labs to run live
 

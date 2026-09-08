@@ -4,8 +4,9 @@
 [cols="1,3"]
 |===
 | Product   | SDG Hub + Training Hub on Red Hat AI
+| Rung      | knowledge
 | Time      | About 6 minutes to walk; hours of GPU time to run for real
-| Script    | `labs/lab02-instructlab/run.sh`
+| Script    | `labs/lab02-customization/run.sh`
 | Outcome   | A tuned model that knows your notice families, queues and house style
 |===
 
@@ -16,6 +17,11 @@ routing queues or how your correspondence is meant to read. Add that knowledge
 as seed YAML a subject matter expert can write and a reviewer can approve,
 generate synthetic training data from it with the SDG Hub library, fine-tune
 with Training Hub, and prove the result is better than what you started with.
+
+On the ladder this lab produces knowledge: the seed YAML is guidance the
+institution owns — notice families, routing rules and house style, written by
+the people who apply them and reviewed like code — and tuning carries that
+institutional memory into the model so it informs every outcome.
 
 == Why this matters more than it looks
 
@@ -28,7 +34,7 @@ InstructLab; the retired `ilab` CLI is gone, and its ideas carry forward as
 the composable `sdg_hub` and `training_hub` Python libraries.)
 
 The file at
-`labs/lab02-instructlab/taxonomy/knowledge/gov/tax/notices/qna.yaml` is worth
+`labs/lab02-customization/taxonomy/knowledge/gov/tax/notices/qna.yaml` is worth
 reading in full. It is deliberately written the way a real contribution would
 be — plain language, one notice family per context block, and a house-style
 section that captures the rules a correspondence reviewer applies by instinct.
@@ -42,7 +48,7 @@ hours of GPU time for the training step.
 
 [source,bash]
 ----
-cd labs/lab02-instructlab
+cd labs/lab02-customization
 LAB_PACE=step ./run.sh
 ----
 

@@ -14,6 +14,14 @@ grounding its answers in your published guidance, automating the operational
 toil around it, proving the result to an authorizing official, and pointing
 the same retrieval pattern at your own logs to drive MTTR down.
 
+One theme runs through all of it: the ladder from data → information →
+knowledge → judgement. Data is what happened; information is data in context
+for one case; knowledge is the guidance, precedent and runbooks the institution
+owns; judgement is a determination someone signs. Every lab and every
+technology in the deck and the docs is tagged with the rung it serves, and
+judgement stays human — automation executes what was decided, it never
+decides.
+
 Every command is real and copyable. Every lab runs in two modes — one that
 needs nothing but a shell, and one that executes against your own environment.
 
@@ -69,37 +77,44 @@ Nothing above needs a cluster, a GPU, or credentials.
 
 == The labs
 
-[cols="1,3,2", options="header"]
+[cols="1,3,2,2", options="header"]
 |===
-| Lab | What you do | Product
+| Lab | What you do | Product | Rung
 
 | link:labs/lab01-rhel-ai/run.sh[01]
 | Serve a model inside your boundary and classify a taxpayer contact
 | Red Hat AI Inference Server
+| data → information
 
-| link:labs/lab02-instructlab/run.sh[02]
+| link:labs/lab02-customization/run.sh[02]
 | Teach it your notice taxonomy, then prove the tuned model is better
 | SDG Hub + Training Hub
+| knowledge
 
 | link:labs/lab03-openshift-ai/run.sh[03]
 | Survive filing season — autoscale from 2 to 20 replicas under load
 | Red Hat OpenShift AI
+| information at scale
 
 | link:labs/lab04-rag/run.sh[04]
 | Ground answers in your own guidance, with citations — and refusals
 | OpenShift AI + pgvector
+| knowledge
 
 | link:labs/lab05-ansible/run.sh[05]
 | Detect and remediate inference saturation in about a minute
 | Ansible Automation Platform
+| executes judgement
 
 | link:labs/lab06-trust/run.sh[06]
 | Run the four checks an authorizing official actually runs
 | Compliance Operator, TrustyAI, Sigstore
+| evidence → judgement
 
 | link:labs/lab07-ops-notebook/run.sh[07]
 | Ask your own logs — a cited diagnosis during a live incident, then the MTTR numbers
 | OpenShift AI + OpenShift Logging
+| information → knowledge
 |===
 
 Full write-ups, prerequisites, troubleshooting and discussion questions are in

@@ -15,256 +15,723 @@ Red Hat · Four Inc. · Carahsoft
 
 == AI foundations for intelligent tax administration
 
+`Rung: data · information · knowledge · judgement`
+
+Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026
+
 What predictive AI, generative AI and LLMs actually do — then how Red Hat
 turns models, agency knowledge and automation into an operable mission
-capability.
-
-Then seven labs where you run it yourself.
+capability, proven in seven labs you run yourself.
 
 Presented by *Jon Keam* and *Brad Scalio*.
 
+.The spine of this hour — every technology is tagged with the rung it serves
+* *Data* (data) — what happened, uninterpreted: returns, transcripts, logs.
+* *Information* (information) — data in context for one case: a score, a classification, a diagnosis.
+* *Knowledge* (knowledge) — information that informs an outcome: guidance, precedent, runbooks.
+* *Judgement* (judgement) — a determination someone signs. Deliberately human; automation executes it.
+
 [.notes]
 --
-Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four Inc.
-and Carahsoft. Frame the hour — foundations, then the platform story, then
-live terminal, 5 for questions.
+Brad drives, Jon adds color commentary — objective one is to keep the room
+engaged; entertainment precedes learning. Open by naming the room: Red Hat,
+Four Inc. and Carahsoft.
+
+Frame the hour — terminology first so everyone shares a vocabulary, then the
+platform story, then the labs as the takeaway.
 
 The promise: every claim we make today, we run in a shell before you leave.
+Security lives in the appendix — pull it up the moment an ISSO engages.
 --
 
-== Four different jobs get called "AI"
+== Four different jobs get called “AI”
 
-[cols="1,2", options="header"]
+`Rung: information · knowledge · judgement`
+
+Treat AI as a toolbox, not a magic employee. Pick the tool by the job you need done.
+
+[cols="1,3,2", options="header"]
 |===
-| Term | What it actually does
+| Term | What it actually does | Analogy
 
-| *Predictive AI* | Estimates — scores, classifies, forecasts from history
-| *Generative AI / LLM* | Creates — produces language from learned patterns plus context
-| *Agentic AI* | Reasons and acts — a model with approved tools, state and rules
-| *Automation* | Executes — deterministic, tested steps. This is where Ansible belongs
+| *Predictive AI* — estimate (data → information)
+| Finds patterns in historical data to score, classify or forecast an outcome.
+| A weather forecast: “there is a 70% chance,” not a guarantee.
+
+| *Generative AI / LLM* — create (information → knowledge)
+| Produces new language by predicting useful next tokens from patterns learned during training and context supplied now.
+| A very well-read drafting assistant — fast, fluent, and still capable of being wrong.
+
+| *Agentic AI* — reason + act (knowledge → action)
+| Pairs a model with approved tools, state and rules so it can plan steps and call systems.
+| A junior analyst with a badge and a restricted tool belt — permissions still matter.
+
+| *Automation* — execute (executes judgement)
+| Runs deterministic, tested steps when a condition or human decision says to act.
+| A checklist that actually performs the checklist. This is where Ansible belongs.
 |===
 
-*Not* a crystal ball. *Not* a database or a policy authority. *Not* permission
-to bypass controls.
+Predictive AI is *not* a crystal ball. An LLM is *not* a database, policy
+authority or source of truth. An agent is *not* permission to bypass controls.
 
 [.notes]
 --
-Terminology first, so the room shares a vocabulary. When people say "AI" they
-usually mean the consumer chatbots — Claude, ChatGPT, Gemini, Copilot. That is
-the mental model to break.
+Start with the umbrella. Federal audiences hear AI used as if every technique
+is the same. It is not. Predictive AI estimates or classifies. Generative AI
+creates. An LLM is a generative model specialized in language. Agentic systems
+add tools and workflow. Automation executes known steps.
 
-Analogies: a weather forecast; a very well-read drafting assistant; a junior
-analyst with a badge and a restricted tool belt; a checklist that performs
-itself.
+The strongest mission pattern combines them rather than asking one model to do
+everything.
 
-And the on-ramp line: if you are not automated, you are not going to have a good
-generative or predictive AI inside your boundary.
+Land the on-ramp line: if you are not automated, you are not going to have a
+good generative or predictive AI inside your boundary — automation is the
+prerequisite.
 --
 
 == The work is seasonal, textual and unforgiving
 
-[cols="1,1"]
+`Rung: data`
+
+[cols="1,2,3"]
 |===
-| *Demand* | Filing season concentrates a year of volume into weeks
-| *Systems* | Notice and offset logic locked in decades-old code
-| *Data* | The answers live in correspondence, not in tables
-| *Constraint* | Federal tax information cannot go to a public endpoint
+| *Demand* | Peak load, fixed staff | Idle capacity in August is unjustifiable; exhausted capacity in April is a headline. A year of demand arrives in six weeks — April is 6× the August low.
+| *Systems* | Rules locked in legacy code | Rewriting the systems of record is a decade. Wrapping them in intelligent workflows is a quarter.
+| *Data* | The answers are in the text | Correspondence, transcripts and case notes are unstructured — exactly what language models are built for.
+| *The constraint that decides everything* | The data cannot leave (data — it stays) | FTI handling rules rule out public endpoints. The model comes to the data — on premises, accredited cloud, or air-gapped enclave.
 |===
 
 [.notes]
 --
-Do not lead with the technology. Lead with the shape of the problem.
+Do not lead with the technology. Lead with the shape of the problem: seasonal
+demand spikes against a fixed workforce, decades of correspondence logic locked
+in code nobody wants to touch, and data spread across systems that were never
+designed to talk.
 
 AI is interesting here precisely because it works on unstructured language —
 which is most of what a tax agency actually handles.
 
-The last row is the one that decides the architecture. The model has to come to
-the data.
+Context to use with tact: large federal accounts are losing institutional
+knowledge as people age out or are RIF'd — capturing what the workforce knows
+is part of why this matters now.
+
+The chart: a year of demand arrives in six weeks. And the constraint that
+decides the architecture — federal tax information cannot go to a public
+endpoint; the model comes to the data.
 --
 
-== So the platform is the decision
+== An LLM is the engine — not the whole vehicle
 
-Choosing a model is a six-month decision.
+`Rung: data · information · knowledge · judgement`
 
-Choosing *where models run, how they are governed and how they scale* is a
-ten-year one.
+[cols="1,3", options="header"]
+|===
+| Layer | What it is
+
+| *Mission app* (judgement) | The taxpayer-service UI, case workflow or console that asks for help.
+| *Context / RAG* (knowledge) | The approved guidance for this exact question — the open book.
+| *Model / LLM* (information) | Learned language patterns — not your live system of record.
+| *Inference* (data → information) | The engine — vLLM, the Red Hat AI Inference Server.
+| *Platform* (executes judgement) | Identity, scaling, isolation, lifecycle, policy — RHEL and OpenShift AI.
+| *Compute + data* (data) | Accelerators and agency data — wherever authorization requires.
+|===
+
+Fine-tuning is studying for the test. Retrieval is bringing the notebook. You
+want both — and neither makes the model a source of truth.
 
 [.notes]
 --
-This is the pivot of the whole deck. If they accept this sentence, everything
-after it follows.
+One central visual, minimal text. This slide has ONE job: show that there is a
+lot around the LLM, not just the model — the inference runtime, the platform
+controls and the system around it are what is critical. Do not try to teach
+every concept here.
+
+Use the car analogy: the LLM is the engine, and an engine alone does not drive
+you to the store and pick up groceries — you need the vehicle. Running an LLM
+on a laptop is easy; that is not an enterprise-worthy AI solution.
+
+Then the three knobs, spoken not shown: prompting is better instructions for
+THIS request; RAG is the right references for THIS request; fine-tuning changes
+learned behavior for FUTURE requests — durable behavior, never facts that
+change each filing season.
+
+Land Jon's analogy on screen: fine-tuning is studying for the test, retrieval
+is bringing the notebook — an AND, not an either/or, and Red Hat's own metrics
+show doing both gives the best results. Brad's rejoinder if it lands well: some
+people are bad test takers — that does not mean they did not study.
+
+Tell the room the text stands alone as a takeaway so they stop reading and
+listen.
 --
 
-== Where AI lands in the filing lifecycle
+== From data to judgement — and who climbs each step
 
-[cols="2,1", options="header"]
+`Rung: data · information · knowledge · judgement`
+
+Every step up is worth more to the mission. AI moves the work up the ladder —
+it never takes the top step.
+
+[cols="1,2,2,2", options="header"]
 |===
-| Stage | Start here?
+| Rung | What it is | Looks like | Who climbs to it
 
-| Intake and classification | Yes
-| Validation | Yes
-| Correspondence drafting | Yes
-| *Exam selection* | *No — governance first*
-| Collections support | Yes
-| Taxpayer service | Yes
+| *Data* (data) | What happened, uninterpreted | returns · transcripts · calls · scans | —
+| *Information* (information) | Data in context for one case | matched · flagged · routed by intent | Predictive AI — score · match · flag
+| *Knowledge* (knowledge) | Information that informs an outcome | guidance · precedent · taxonomies | Generative AI + RAG — read · ground · draft
+| *Judgement* (judgement) | A determination someone signs | the decision — and the accountability | People — decide and sign. Stays human.
+|===
+
+*The backlog lives at the bottom of the ladder.* Transcribing, matching, routing
+and summarizing consume the workforce. Every hour a machine absorbs down there is
+an hour an examiner spends deciding — the only work that resolves a case.
+
+*Judgement is deliberately never automated.* The model classifies, grounds and
+drafts; a named person decides and signs. That is a design rule, not a technical
+limit — and it is what makes the deployment defensible to counsel and oversight.
+
+[.notes]
+--
+The masterpiece slide — Jon's word. Walk the stairs left to right: data,
+information, knowledge, judgement.
+
+Brad's line, said out loud: we are really good at creating data and information
+and pretending it is knowledge — if it is not informing anything we need, it is
+not knowledge. Knowledge has to drive action, not check a box.
+
+Each rung is worth more to the mission. Predictive climbs the first riser,
+generative with retrieval the second, and judgement is deliberately never
+automated — that is where people come in and always will.
+
+PLANTED QUESTION: Jon asks 'so is AI taking jobs?' — Brad answers: it is not
+coming for your job, because right now it does not have judgement. The
+make-the-tests-pass example: ask an AI to make all the tests pass and it edits
+the code so they pass — it did exactly what you asked. That is information, not
+knowledge and judgement.
+
+Optional garnish, correctly attributed: Karpathy's 'you can outsource
+intelligence but you cannot outsource understanding.'
+--
+
+== Predictive and generative AI answer different questions
+
+`Rung: information · knowledge`
+
+They fail differently — so they are governed differently.
+
+[cols="1,2,2", options="header"]
+|===
+| | Predictive AI (data → information) | Generative AI (information → knowledge)
+
+| *learns from* | Patterns in structured history — filings, payments, outcomes | Language itself — how guidance, notices and case notes are written
+| *produces* | A number: a score, a forecast, a flag | Text: a classification, a draft, a summary, a cited answer
+| *in tax terms* | Refund-risk scoring · workload forecasting · anomaly flags | Read correspondence · draft notices · summarize case files · answer from guidance
+| *fails as* | A bad number — visible in precision and recall | A plausible sentence — which is why grounding and review are non-negotiable
+| *governed by* | Back-testing, thresholds, fairness metrics | Retrieval with citations, human sign-off, drift monitoring — Labs 04 · 06
 |===
 
 [.notes]
 --
-Walk the table top to bottom. The "yes" rows already have a human reviewer in
-the loop, which makes them honest places to start.
+Most rooms use one word — AI — for two different tools, and most failed
+projects picked the wrong one. Predictive models produce a number from
+structured history; generative models produce language. They fail differently,
+so they are governed differently.
 
-Exam selection is deliberately excluded: that is a determination affecting a
-taxpayer, and it needs a much heavier governance conversation than a drafting
-assistant does. Saying this unprompted buys enormous credibility.
+Close on the compose line: the strongest workflows chain them, and the platform
+runs both side by side.
+
+OPTIONAL IF TIME IS SHORT — this is a deep dive on the predictive and
+generative cards from the terminology slide; drop it first and let the table
+stand as the leave-behind, unless the room asks how the two are governed
+differently.
 --
 
-== Two rules of thumb
+== Where AI actually lands in the filing lifecycle
 
-. *Start where a human already reviews the output.* If a person signs the letter
-  today, a model that drafts it changes throughput without changing
-  accountability.
+`Rung: judgement`
 
-. *Automate the toil around the model, not just the model.* Provisioning,
-  patching, scaling and evidence collection are most of the work — and that
-  problem is already solved.
+Highlighted stages already have a human reviewer in the loop — which makes them
+the honest places to start.
 
-== Five outcomes, and where each is proven
-
-[cols="3,1", options="header"]
+[cols="2,3,2", options="header"]
 |===
-| Outcome | Lab
+| Stage | What the model does | Start here?
 
-| Modernize mission-critical operations | 05
-| Improve efficiency and accuracy | 01, 02
-| Unlock data-driven insights | 04
-| Strengthen security and compliance | 06
-| Build an AI-ready foundation | 03
+| 01 Intake and classification | Route by intent, not by keyword | Yes — human in the loop
+| 02 Validation | Catch gaps before a case is opened | Yes — human in the loop
+| 03 Correspondence | Draft; a reviewer edits and signs | Yes — human in the loop
+| 04 *Exam selection* | Taxpayer determinations | *No — governance first*
+| 05 Collections support | Brief the officer before the case | Yes — human in the loop
+| 06 Taxpayer service | Answers carry their citation | Yes — human in the loop
+|===
+
+. *Start where a human already reviews the output* (judgement stays human). If a
+  person signs the letter today, a model that drafts it changes throughput
+  without changing accountability. That is a defensible first deployment.
+. *Automate the toil around the model, not just the model* (executes judgement).
+  Most of the effort in production AI is provisioning, patching, scaling and
+  evidence collection. That is an automation problem, and it is solved.
+
+[.notes]
+--
+Walk left to right. The highlighted stages are where language models earn their
+keep first — high-volume, text-heavy, and a human reviewer is already in the
+loop, which makes them the honest places to start.
+
+Exam selection is deliberately NOT highlighted: that is a determination
+affecting a taxpayer and needs a much heavier governance conversation — saying
+so unprompted buys enormous credibility.
+
+Two rules of thumb: start where a human already reviews the output; and
+automate the toil around the model, not just the model. Worth naming: most of
+the effort in production AI is provisioning, patching, scaling and data
+collection — an automation problem, already solved.
+--
+
+== Five outcomes, and where each one is proven
+
+`Rung: data · information · knowledge · judgement`
+
+[cols="3,3,1", options="header"]
+|===
+| Outcome | Delivered by | Lab
+
+| *Modernize mission-critical operations* (executes judgement) — wrap legacy systems in intelligent workflows instead of rewriting them; the system of record stays untouched.
+| Ansible Automation Platform · Event-Driven Ansible · OpenShift
+| 05 · 07
+
+| *Improve efficiency and accuracy* (information, knowledge) — classification, extraction and drafting move first-pass work off people.
+| Red Hat AI Inference Server · SDG Hub + Training Hub
+| 01–02
+
+| *Unlock data-driven insights* (knowledge) — retrieval grounds every answer in your own published guidance, with the citation returned alongside.
+| Red Hat OpenShift AI · vector store · Llama Stack
+| 04
+
+| *Strengthen security and compliance* (evidence → judgement) — signed models, FIPS-validated cryptography, continuous compliance scanning and bias/drift monitoring as platform features.
+| RHEL · Compliance Operator · TrustyAI · Sigstore
+| 06
+
+| *Build an AI-ready foundation* (data → information) — one platform, one operating model, from a datacenter GPU node to an accredited cloud region.
+| OpenShift AI · KServe · Red Hat AI Inference (vLLM)
+| 03
 |===
 
 [.notes]
 --
-This slide is the event abstract made concrete. Do not linger — it exists so
-people can map the rest of the hour.
+These five come straight from the Carahsoft event description, and each one
+names the product that delivers it and the lab where the audience runs it.
+
+The point to make: this is how buzzword bingo ties to specific, actual outcomes
+— things you can start on a laptop today, so you can convince yourself before
+you try to convince an authorizing official and a CIO.
+
+The lab tags here match the tags Brad already uses in the IRS bi-weekly, so
+people can find things later. Do not linger — this slide exists so people can
+map the rest of the hour.
 --
 
 == One foundation, from bare metal to the taxpayer
 
-[cols="1,3", options="header"]
-|===
-| Layer | What it provides
+`Rung: data · information · knowledge · judgement`
 
-| Mission applications | Intake, drafting, summarization, guidance assistant
-| OpenShift AI | KServe + vLLM serving, pipelines, model registry, retrieval
-| OpenShift | Scheduling, GPU partitioning, network policy, GitOps
-| RHEL / AI Inference Server | Bare metal, virtualized, accredited cloud, classified enclave
+Most failures happen at the seams between systems, not inside them. The
+platform’s job is to make those seams boring.
+
+[cols="2,4,1", options="header"]
+|===
+| Layer | What it provides | Lab
+
+| *Mission applications* (judgement) | Correspondence intake · notice drafting · case summarization · guidance assistant. Systems of record stay where they are — reached through APIs and automation, not replaced. | —
+| *Red Hat OpenShift AI* | Model serving — KServe + vLLM (information) · Training — SDG Hub · Training Hub (knowledge) · Pipelines — tune · eval · ship (knowledge) · Model registry — signed versions (judgement) · Retrieval — vector store (knowledge) | 02 · 03 · 04 · 07
+| *Red Hat OpenShift* (data) | Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery. The same cluster runs the modernized case-management apps beside the models they call. | —
+| *Red Hat Enterprise Linux · AI Inference Server* (data) | Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave. Granite models, accelerator drivers and the vLLM-based AI Inference Server in one supported stack. | 01
 |===
 
-*Automation* and *trust* run vertically through every layer.
+Two vertical bands run through every layer: *Trust* (judgement) — signed
+models, FIPS crypto, SELinux, Compliance Operator, TrustyAI drift + bias, audit
+trail, air-gap mirroring (Lab 06); and *Automation* (executes judgement) —
+Ansible Automation Platform and Event-Driven Ansible: provision, patch,
+remediate, evidence collection (Lab 05).
 
 [.notes]
 --
-Read bottom to top. The point of the picture is the two vertical bands:
-automation and trust are not a layer you add at the end.
+Open with the seams riff — Jon asked for this one specifically. Most failures
+do not happen inside a system; they happen at the seams, the integration points
+between systems. The pants analogy: gain weight and your pants split at the
+seams, never in the middle where the fabric is strongest. RHEL and OpenShift
+interoperating layer to layer is what makes integration less cumbersome — we
+are not the only ones who do it, but we are uniquely positioned.
 
-A project that treats compliance as a phase after deployment discovers, at the
-worst possible moment, that it cannot produce evidence for anything that
-already happened.
+Read the picture bottom to top; the point is the two vertical bands —
+automation and trust are not a layer you add at the end. New Training box gives
+SDG Hub and Training Hub a home next to serving, pipelines, registry and
+retrieval.
+
+Watch the naming rabbit hole: OpenShift versus OpenShift AI invites a
+product-versus-value tangent — for a value-seeking audience, serving and
+retrieval are one thing ('I want my data out of it'); split them only for a
+platform-technical room.
+
+The framing Jon called the core of it: one foundation from bare metal to the
+taxpayer — but how do you turn your information into actionable knowledge you
+can act on? PLANTED QUESTION: Brad cold-asks Jon 'what is fine-tuning to you?'
+— Jon is comfortable with that.
+--
+
+== The federal problem is not “get a model.” It is operate AI without giving up control.
+
+`Rung: data · information · knowledge · judgement`
+
+*Bring the model to the mission — not the mission data to somebody else’s
+model.* Use the model, accelerator and deployment location that fit the
+workload. One operating model across datacenter, accredited cloud, edge and
+disconnected — and a glass box you can open and inspect, not a black box.
+
+Inference — serve efficiently with vLLM / llm-d · Data — connect private agency
+knowledge · Agents — govern tool-using workflows · Platform — scale and operate
+consistently.
+
+[cols="1,2,4", options="header"]
+|===
+| | Take-home reference | Why it matters
+
+| Choice | *Model freedom* (knowledge) | Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.
+| Control | *Data locality* (data) | Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.
+| Operations | *Models-as-a-Service* (information) | Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.
+| Economics | *Use accelerators efficiently* (data) | vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.
+| Lifecycle | *Predictive + generative* (information, knowledge) | OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.
+| Execution | *Ansible closes the loop* (executes judgement) | Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.
+|===
+
+[.notes]
+--
+One focal point: the red box in the middle — bring the model to the mission,
+not the mission data to somebody else's model. Say the supporting lines rather
+than pointing at them: cloud AI is ultimately someone else's computer; on your
+computer, next to your data, you can go check and verify.
+
+Agencies buy ten thousand chatbot seats and start plugging things in — the
+alternative they are not shown is running their own instances beside their own
+data, feeding self-healing closed-loop systems. Colocation cuts attack surface
+AND transit time.
+
+Automation alone is a differentiator; the estate — one OS, the interconnect,
+the ecosystem, the execution layer tying them together — is the discriminator
+nobody else has.
+
+The six cards below are explicitly the take-home reference; tell the room that
+so they stop reading. The next slide shows the mechanics.
+--
+
+== Define the service once — run it wherever the mission needs it
+
+`Rung: data · information · judgement`
+
+*One service definition* (executes judgement) — `inferenceservice.yaml`, a signed
+model (`granite-8b-tax-v1`), GitOps delivery from the main branch. Infrastructure
+as code — the manifest is the capacity plan (Lab 03). `oc apply` — unchanged:
+same image · same controls · same skills.
+
+[cols="1,2,1", options="header"]
+|===
+| Runs unchanged in | | What differs
+
+| Datacenter — bare-metal GPU nodes (data) | Your floor, your hardware, shortest path to the systems of record | the iron
+| Accredited cloud region (data) | FedRAMP boundary; surge capacity rented for the season, released after | the boundary
+| Air-gapped enclave (data) | Mirrored registry and models; no internet at inference or update time | no internet
+|===
+
+* *Accredit once, inherit everywhere* (accredit once — judgement). Signing, FIPS
+  mode, compliance scanning and drift monitoring attach to the platform — so
+  workflow two starts with workflow one’s evidence, and the skills and pipelines
+  carry over the same way.
+* *April becomes a scheduling event* (information at scale). The 6× filing surge
+  is absorbed by autoscaling on pooled GPUs (Lab 03) — capacity follows the
+  season instead of sitting siloed inside one project’s budget.
+* *Placement is policy, not re-architecture* (data — where it lives). Moving a
+  workload is a redeploy of the same manifest. Residency and cost decide where
+  it runs, and the exit door stays open.
+
+[.notes]
+--
+The left box is the definition of the service — infrastructure as code: a
+manifest, a signed model, a GitOps repo. The three on the right are where it
+runs, unchanged: cloud burst, air-gapped enclave, dev and research.
+Infrastructure as code decouples the placement so it becomes a policy, not a
+re-architecture — this is the hybrid multicloud value prop.
+
+The lock-in riff: modern lock-in is far more dangerous than the old kind,
+because it limits your FUTURE decisions without you even knowing. The Mexico
+phone-plan analogy — a plan where you cannot call Pizza Hut, only Domino's.
+Real lock-in is tying into bespoke hyperscaler-unique services.
+
+Honesty caveat, say it out loud: this is not easy and not right for every
+situation — sometimes you legitimately need a native service. The ask is only
+that you define infrastructure and services as code, so placement is policy
+rather than a rewrite. Fine to spin up fast — then ground it after you prove
+it.
+
+PLANTED QUESTION: Jon plays the foil — 'what do you actually mean by lock-in? I
+thought we already bought the software' — and Brad answers with the phone-plan
+analogy.
+--
+
+== The useful pattern is a loop, not a chatbot
+
+`Rung: information · knowledge · judgement`
+
+A closed loop — predict, explain, ground, act, learn — each technology doing the
+job it is good at. Automation closes the loop; the connected estate underneath
+is the discriminator nobody else has.
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Technology | What happens
+
+| *01 · Predict* — spot the pattern | Predictive ML (information) | Telemetry and historical incidents estimate risk: saturation, failure probability, anomaly or likely incident class.
+| *02 · Explain* — turn signals into language | GenAI / LLM (information) | The LLM summarizes logs, changes and symptoms into a human-readable hypothesis and next questions.
+| *03 · Ground + act* — use what the agency approved | RAG (knowledge) · Ansible (executes judgement) | RAG retrieves runbooks and prior fixes; policy decides whether Ansible recommends, requests approval or remediates.
+| *The knowledge flywheel* | (knowledge) | After review, the incident summary, root cause, evidence and successful remediation become searchable operations knowledge for the next event. Generated content is a draft until it passes the same curation and authority rules as any other knowledge record.
+|===
+
+*Example — “Why is this service slow?”* Predictive AI says GPU queue depth is
+abnormal. The LLM explains the evidence. RAG cites the approved saturation
+runbook. Event-Driven Ansible scales or reroutes after the required approval.
+
+*Boundary — do not let fluency become authority.* The LLM can propose a root
+cause. Telemetry, system state, retrieved source material and deterministic
+checks establish whether that explanation is actually supported.
+
+[.notes]
+--
+Segue Brad rehearsed: I talk to my chatbot at night and it tells me how great I
+am — but you do not want reassurance during a tax audit, a criminal
+investigation, or a hunt for a pattern. It is not a chatbot. You want something
+that predicts and explains, then grounds, acts and learns.
+
+Predictive AI flags the risk from telemetry; the LLM explains the evidence; RAG
+grounds it in approved runbooks; Ansible does only what policy permits, with a
+human in the loop supplying knowledge and judgement. Key emphasis: the fluency
+that becomes authority must be grounded in YOUR language and YOUR processes —
+not OpenAI's.
+
+Most of the effort here is provisioning, patching, scaling, data collection and
+inputs — that is an automation problem, not an AI problem. Automation alone is
+a differentiator; the estate — one OS, the interconnect, the whole ecosystem
+with an execution layer tying it together — is the discriminator.
+
+And generated text is a draft until it passes the same curation any knowledge
+record gets.
+--
+
+== Point the same pattern at your logs — MTTR is the proof
+
+`Rung: data · information · knowledge`
+
+The Lab 04 retrieval stack, aimed at operations: logs, runbooks, incident
+history and change records become a private notebook the on-call engineer can
+question — on the cluster, inside the boundary.
+
+.Where the hours actually live — mean time to resolution, decomposed (representative incident)
+[cols="2,1,1,1,1", options="header"]
+|===
+| | detect | diagnose | fix | total
+
+| *Before* — grep · page · guess | unchanged | 2h 41m | 22m | 3h 16m
+| *With the notebook* — ask · verify · act | unchanged | 24m | 22m | 59m
+|===
+
+Diagnosis −84%: the notebook answers “what changed, has this happened before,
+which runbook applies” in seconds, with citations. Detect, fix and verify are
+unchanged — the hours lived in diagnosis. Lab 07 walks it end to end.
+
+* *Dashboards answer anticipated questions* (information). A notebook over your own data answers the one you did not anticipate — in language, with citations you check before acting.
+* *Logs are FTI-adjacent* (data). They carry hostnames, account fragments and case identifiers. The notebook runs on the same OpenShift install it observes — nothing is exported to anyone’s hosted service.
+* *Same stack as the taxpayer system* (knowledge). The team that grounds answers for operations (Lab 07) has already built the taxpayer-facing version (Lab 04) — one retrieval pattern, two corpora, one governance story.
+
+[.notes]
+--
+The NotebookLM analogy lands instantly: a private notebook that has read
+everything yours — except this one has read your logs, runbooks, incident
+history and change records, and it runs on the same cluster it observes. Say
+resolution, not restoration — mean time to RESOLUTION.
+
+Pair the chart with an outside number, then the personal story (industry
+numbers for authority, then the must-gather anecdote: the notebook diagnosed in
+2 minutes what took the team 46 hours — people love stories).
+
+Then Jon's requested narration: the big red bar is diagnosis — that is all
+information; the blue does not change; what changed is the time to create the
+information. It ties this chart straight back to the ladder.
+
+Walk the two bars: detection was already fast, the hours lived in diagnosis,
+and a cited answer to what-changed-and-which-runbook is what removes them. Lab
+07 runs this live — offer to jump straight there if the room is operational.
 --
 
 == Ninety days, then ninety more
 
+`Rung: data · information · knowledge`
+
+Crawl, walk, run. Nothing here requires a rewrite of a system of record — ground
+the current phase before you scale, and each phase produces something you can
+show.
+
 [cols="1,1,1", options="header"]
 |===
-| Prove (0–90) | Ground (90–180) | Scale (180+)
+| Prove (data) — crawl · days 0–90 | Ground (information) — walk · days 90–180 | Scale (knowledge) — run · days 180+
 
-| One endpoint on AI Inference Server | Serving on OpenShift AI | Registry with real approvals
-| Accelerator capacity plan | Retrieval over your guidance | Workflows two to five
-| Data classes agreed in writing | Tune on agency vocabulary | Filing-season rehearsal
-| One workflow with a reviewer | Drift and compliance wired | Extend to the enclave
-| Baseline measured first | Provisioning automated | Report in mission terms
+| Stand up one supported endpoint with the AI Inference Server | Move serving onto OpenShift AI with autoscaling | Promote through a model registry with real approvals
+| Agree the accelerator capacity plan and where it physically sits | Add retrieval over your own published guidance | Add workflows two through five on the same platform
+| Settle which data classes may be used, in writing | Tune on agency vocabulary with SDG Hub + Training Hub | Prove the filing-season surge with a load rehearsal
+| Pick one text-heavy workflow with a human already reviewing | Wire drift, fairness and compliance monitoring | Extend to the disconnected or classified enclave
+| Measure the baseline before you change anything | Automate provisioning and patching end to end | Report outcomes in mission terms, not token counts
+| _one workflow live, measured_ | _grounded · monitored · automated_ | _surge-proven at scale_
 |===
 
 [.notes]
 --
-Be honest about sequencing. Most agencies stall on rows 2 and 3 of the Prove
-phase — no accelerator capacity plan, and no written agreement on which data
-may be used. Neither is technical.
+Be honest about sequencing. Most agencies fail at AI not on the model but on
+the second and third bullets of Phase 1 — no GPU capacity plan, and no
+agreement on which data may be used.
 
-Ask the room directly which phase they are in.
+Two riffs to land: plan for problems, not predicaments — the problem right now
+is grounding the proof so you CAN scale, not the scale itself; no decision
+today may limit tomorrow's options. And success means changing your processes,
+not just moving workloads onto new technology.
+
+Prove, ground, scale maps to data, information, knowledge. Ask directly which
+phase they are in.
+
+PLANTED QUESTION: Jon asks 'what is a predicament versus a problem?' — a
+problem you solve today, a predicament you only plan around.
 --
 
 == What happens after this hour
 
-*Architecture workshop* — half a day with your platform and security teams.
-Size accelerators, place the first workload, name the data classes in scope.
+`Rung: judgement`
 
-*Guided pilot* — one workflow, your infrastructure, a measured baseline and an
-agreed definition of success before we start.
+. *Architecture workshop* — a half-day session with your platform and security
+  teams to size accelerators, place the first workload and name the data classes
+  in scope.
+. *Guided pilot* — one workflow, on your infrastructure, with a measured baseline
+  and an agreed definition of success before we start.
+. *Acquisition path* — Four Inc. and Carahsoft carry the vehicles and pricing;
+  bring them into the conversation early, not at the end.
 
-*Acquisition path* — Four Inc. and Carahsoft carry the vehicles. Bring them in
-early, not at the end.
+*Take the labs with you.* The whole kit — deck, labs, docs — lives at
+github.com/nommsweyMX/redhat-ai-tax-labs. The seven labs are the same commands
+your engineers will run on day one.
+
+*Bring your hardest question.* Air-gapped operation, FedRAMP boundaries,
+accelerator scarcity, model provenance. If you did not see it here today, that
+does not mean it does not exist — ask.
+
+*Stay in touch.* Brad Scalio — scalio@gmail.com · Jon Keam — Red Hat. Engage the
+solution architects early: the foundational questions are free to ask and
+expensive to skip. (the next decision is yours)
 
 [.notes]
 --
-Close with a specific ask, not a thank-you. The architecture workshop is the
-natural next step.
+Close with a specific ask, not a thank-you. Architecture workshop, guided
+pilot, acquisition path — and engage the solution architects early, because
+unanswered foundational questions build a shaky foundation that gets reworked
+later. There is no stupid question.
 
-Then hand off for the contract vehicle conversation.
+Say the line: if you did not see it here, that does not mean it does not exist
+— it does not mean it is not a feature or a product. Models-as-a-Service is a
+good example to name here for the platform people.
+
+Point at the contact strip — Brad's email is there deliberately: reach out to
+me and I will get you in touch with the right person, I am not going to stick
+you on somebody else. Brad's closer if it fits the room: that is why we get
+paid as solution architects — I would rather talk to you than my manager.
+
+Never end a talk with nothing happening afterwards. Then the labs, as the
+takeaway.
 --
 
 == Seven labs — real commands, run them yourself
 
-[cols="1,3", options="header"]
+`Rung: data · information · knowledge · judgement`
+
+An opinionated path, on a personal laptop — never production. Prove it to
+yourself: watch the model serve on 127.0.0.1. Repo:
+github.com/nommsweyMX/redhat-ai-tax-labs.
+
+[cols="1,2,3", options="header"]
 |===
-| Lab | What you do
+| Lab | Title | What you do
 
-| 01 | Serve a model inside your boundary — Red Hat AI Inference Server
-| 02 | Teach it your notice taxonomy — SDG Hub + Training Hub
-| 03 | Survive filing season — OpenShift AI, KServe, vLLM
-| 04 | Ground answers in your guidance — retrieval with citations
-| 05 | Automate the toil — Ansible and Event-Driven Ansible
-| 06 | Prove it to your ISSO — signing, FIPS, compliance, drift
-| 07 | Ask your own logs — a cited diagnosis, then the MTTR numbers
-|===
-
-[.notes]
---
-Transition slide. Switch to a terminal now.
-
-Tell them the labs run in simulate mode on a laptop with no cluster, and in
-live mode against their own environment. Same script, same commands.
-
-Run Lab 01 and stop hard on step 4 — the endpoint bound to 127.0.0.1.
---
-
-== One thing to remember
-
-Nothing in these seven labs required a public model endpoint, an internet
-connection at inference time, or a rewrite of a system of record.
-
-That is the whole argument.
-
-== Appendix — the questions an AO will ask
-
-[cols="2,2", options="header"]
-|===
-| Question | Control
-
-| Where does our data go? | Inference runs on your cluster. Nowhere.
-| Is this the approved model? | Signed artifacts, verified before admission
-| Is the crypto validated? | FIPS mode, a supported operating state
-| Still compliant next quarter? | Scheduled Compliance Operator scans
-| Is it drifting? | TrustyAI drift and fairness on live traffic
-| What if we are air-gapped? | Mirror images and models into the enclave
-| Who is accountable? | A named reviewer. The model drafts; it never sends.
+| 01 · Inference Server | *Serve a model inside your boundary* (data → information) | Pull the vLLM-based inference server, serve a validated Granite model, and classify a taxpayer inquiry — without a single byte leaving the host.
+| 02 · Customization | *Teach it your notice taxonomy* (knowledge) | Add agency knowledge as seed YAML, generate synthetic data with SDG Hub, tune with Training Hub, and evaluate against the base model.
+| 03 · OpenShift AI | *Survive filing season* (information at scale) | Deploy with KServe and vLLM, then watch it autoscale from two replicas to twenty under an April load rehearsal.
+| 04 · Retrieval | *Ground answers in your own guidance* (knowledge) | Ingest a publication corpus into a vector store and return answers that carry their citation.
+| 05 · Ansible | *Automate the toil around the model* (executes judgement) | An Event-Driven Ansible rulebook detects inference saturation and remediates it before anyone opens a ticket.
+| 06 · Trust | *Prove it to your ISSO* (evidence → judgement) | Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.
+| 07 · Ops notebook | *Ask your own logs* (information → knowledge) | Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.
 |===
 
 [.notes]
 --
-This is the slide that unblocks the deal. Expect interruptions — let them
-happen, this is the conversation you want.
+The concluding takeaway — the deck ends hands-on. Frame it as an opinionated
+approach: we lead with one path so you do not drown in options.
 
-Offer to take the whole table offline with their ISSO.
+Disclaimer, say it: run this on a personal laptop, not in production and not on
+a work laptop. The point is to prove it to YOURSELF — you will watch the model
+serve on 127.0.0.1 with no egress — because if you do not believe it, an
+authorizing official will hear that in your voice.
+
+The simulated terminal is the selling point: type each command step by step
+without installing anything, and off-script commands are refused, which is what
+makes it a prescriptive, defensible path for a pilot. And the punchline for the
+AO: your installation and scripting become the artifact you hand them.
+
+The full labs live in the repo — that is where people actually run them, not
+inside this page.
 --
 
+== The questions an authorizing official will ask
+
+`Rung: information · judgement`
+
+Evidence is *information* (information) — the authorizing official’s decision is
+*judgement* (judgement). The platform produces the first so a person can make the
+second.
+
+[cols="2,3,1", options="header"]
+|===
+| Their question | The platform control | Where it lives
+
+| Where does our data go when someone prompts the model? | Nowhere. Inference runs on your cluster, in your enclave, on your accelerators. | AI Inference Server · OpenShift AI
+| Can you prove this model is the one we approved? | Model artifacts are signed and verified before they are admitted to the cluster. | Sigstore / cosign
+| Is the cryptography validated? | FIPS mode is a supported operating state of the OS and the platform on top of it. | RHEL FIPS mode
+| Can this land in our FISMA moderate or high boundary? | Platform controls map to the NIST 800-53 moderate and high baselines; your FIPS 199 categorization picks the venue — the platform is the same in all of them. | RHEL · OpenShift
+| How do we know it stays compliant next quarter? | Scheduled scans against a hardening profile, with machine-readable results. | Compliance Operator
+| How do we detect the model drifting or skewing? | Continuous drift and fairness metrics on live inference traffic. | TrustyAI
+| What if we have no internet at all? | Mirror images and models into the enclave; the platform is built for disconnected operation. | oc-mirror · registry
+| Who is accountable when it is wrong? | A named reviewer — the deployment patterns we recommend keep a person on the signature. | Workflow design
+|===
+
+[.notes]
+--
+Parked in the appendix deliberately to keep momentum — but this is the slide
+that unblocks the deal. Pull it up when an ISSO or security lead engages, and
+if you speak to it live, pick only a few rows and drill in rather than reading
+the table.
+
+The security talk track is crucial — 'is AI safe, can we put guardrails on it'
+comes up over and over. Cover: FIPS 199 categorization and FISMA moderate or
+high; the tailored templating and reporting for federal agencies that ship WITH
+the platform as a value-add; disconnected and air-gapped operation with
+registry mirroring and the Compliance Operator baked in; federal civilian and
+DoD carry the same requirements.
+
+Then the paperwork reality — the one real difference from commercial: security
+attestation, POA&Ms, FITARA scorecards. And say it plainly: do not roll your
+own validations — reach out and we will connect you with a specialist.
+
+Recent anecdote if it fits: the Hugging Face breach — attackers went after the
+SaaS model in the cloud to pivot in. On-prem and SaaS answer different
+questions.
+--

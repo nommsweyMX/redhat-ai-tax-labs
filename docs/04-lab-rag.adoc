@@ -4,6 +4,7 @@
 [cols="1,3"]
 |===
 | Product   | {rhoai} with a pgvector store
+| Rung      | knowledge
 | Time      | About 5 minutes
 | Script    | `labs/lab04-rag/run.sh`
 | Outcome   | Answers that carry their citation — and a refusal when they cannot
@@ -15,6 +16,11 @@ A model that sounds confident and cites nothing is a liability in a tax agency.
 Put your published guidance behind the model with retrieval, so every answer
 returns the passage it came from — and so a question the corpus cannot answer
 produces a referral rather than a guess.
+
+On the ladder this lab is knowledge: published guidance is the institution's
+memory, and retrieval makes it retrievable and cited, so every answer informs
+an outcome with the passage it came from — or refuses and refers to a person
+when the memory does not cover the question.
 
 == The refusal is the point
 

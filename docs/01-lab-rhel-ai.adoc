@@ -4,6 +4,7 @@
 [cols="1,3"]
 |===
 | Product   | {rhaiis}
+| Rung      | data → information
 | Time      | About 5 minutes
 | Script    | `labs/lab01-rhel-ai/run.sh`
 | Outcome   | A supported LLM classifying taxpayer contacts on hardware you control
@@ -22,6 +23,11 @@ The serving engine is the {rhaiis}: the vLLM engine, packaged and supported as
 a signed container that runs anywhere {rhel} runs. (Earlier versions of this
 lab used the retired InstructLab `ilab` CLI; the endpoint it exposes — an
 OpenAI-compatible API on localhost — is unchanged.)
+
+On the ladder this lab is the data → information step: an uninterpreted
+taxpayer contact goes in, and inference on hardware you control turns it into
+a classification, a routing queue and a draft for one case — the data never
+moves, which is exactly why where it lives decides the architecture.
 
 == Prerequisites
 

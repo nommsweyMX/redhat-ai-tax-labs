@@ -4,6 +4,7 @@
 [cols="1,3"]
 |===
 | Product   | {aap} with {eda}
+| Rung      | executes judgement
 | Time      | About 5 minutes
 | Script    | `labs/lab05-ansible/run.sh`
 | Outcome   | Saturation detected and remediated in about a minute, with an audit trail
@@ -15,6 +16,11 @@ Most of the effort in production AI is not the model. It is provisioning,
 patching, scaling and evidence collection. Wire a health check that tests the
 endpoint the way a taxpayer would, then an {eda} rulebook that remediates
 saturation before anyone opens a ticket.
+
+On the ladder this lab executes judgement: the rulebook carries out decisions
+the platform team already made — which conditions to remediate and which to
+escalate — and it never makes a new one, which is exactly why the provenance
+rule pages a person instead of redeploying.
 
 == The rulebook is the runbook
 

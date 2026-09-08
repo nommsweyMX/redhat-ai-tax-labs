@@ -1,0 +1,364 @@
+{
+  "purpose": "Single source of truth for the project theme: every technology, feature, slide and lab is tagged with the rung of the data -> information -> knowledge -> judgement ladder it serves. slides/deck.html, slides/presenter-notes.html, slides/slides.adoc, docs/ and README.adoc must agree with this file.",
+  "rungs": {
+    "data": {
+      "label": "Data",
+      "short": "D",
+      "color": "#286C88",
+      "wash": "#E7F1F5",
+      "css": "r-data",
+      "definition": "What happened, uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture."
+    },
+    "information": {
+      "label": "Information",
+      "short": "I",
+      "color": "#96620A",
+      "wash": "#F8EFDC",
+      "css": "r-info",
+      "definition": "Data in context for one case: a classification, a score, a diagnosis, a metric. What predictive AI and inference produce."
+    },
+    "knowledge": {
+      "label": "Knowledge",
+      "short": "K",
+      "color": "#CC0000",
+      "wash": "#FBEAE8",
+      "css": "r-know",
+      "definition": "Information that informs an outcome: guidance, precedent, runbooks, taxonomies. The institution's memory, retrievable and cited."
+    },
+    "judgement": {
+      "label": "Judgement",
+      "short": "J",
+      "color": "#1E7A55",
+      "wash": "#E4F3EC",
+      "css": "r-judge",
+      "definition": "A determination someone signs. Deliberately human; automation executes what was decided, it never decides."
+    }
+  },
+  "chip_conventions": {
+    "html": "<span class=\"rung r-know\">Knowledge</span>",
+    "arrow_form_when_a_technology_converts_one_rung_to_the_next": "<span class=\"rung r-info\">data → information</span>",
+    "automation_form": "<span class=\"rung r-judge\">executes judgement</span>",
+    "css": ".rung{display:inline-flex;align-items:center;gap:5px;font-family:\"Red Hat Mono\",monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:2px 8px 2px 6px;border:1px solid;vertical-align:middle;white-space:nowrap}\n.rung::before{content:\"\";width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}\n.rung.r-data{color:#286C88;border-color:#286C88;background:#E7F1F5}\n.rung.r-info{color:#96620A;border-color:#96620A;background:#F8EFDC}\n.rung.r-know{color:#CC0000;border-color:#CC0000;background:#FBEAE8}\n.rung.r-judge{color:#1E7A55;border-color:#1E7A55;background:#E4F3EC}"
+  },
+  "slides": [
+    {
+      "n": 1,
+      "title": "Title",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "note": "Carries the four-rung legend: every technology in this hour is tagged with the rung it serves."
+    },
+    {
+      "n": 2,
+      "title": "AI in plain English",
+      "rungs": [
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Predictive AI": "data → information",
+        "Generative AI / LLM": "information → knowledge",
+        "Agentic AI": "knowledge → action (coloured knowledge: action is not a rung and the agent never delivers judgement)",
+        "Automation": "executes judgement"
+      }
+    },
+    {
+      "n": 3,
+      "title": "Why now",
+      "rungs": [
+        "data"
+      ],
+      "note": "The data cannot leave; the answers are in the text."
+    },
+    {
+      "n": 4,
+      "title": "Inside an LLM",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Mission app": "judgement",
+        "Context / RAG": "knowledge",
+        "Model / LLM": "information",
+        "Inference": "data → information",
+        "Platform": "executes judgement",
+        "Compute + data": "data"
+      }
+    },
+    {
+      "n": 5,
+      "title": "Data to judgement",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "note": "The spine itself. Steps coloured by rung; risers coloured by the rung they deliver: predictive → information, generative + RAG → knowledge, people → judgement."
+    },
+    {
+      "n": 6,
+      "title": "Two kinds of AI",
+      "rungs": [
+        "information",
+        "knowledge"
+      ],
+      "items": {
+        "Predictive AI": "data → information",
+        "Generative AI": "information → knowledge"
+      }
+    },
+    {
+      "n": 7,
+      "title": "Where AI lands",
+      "rungs": [
+        "judgement"
+      ],
+      "note": "Human in the loop at every highlighted stage; the pills are judgement-green."
+    },
+    {
+      "n": 8,
+      "title": "Five outcomes",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Modernize mission-critical operations": "executes judgement",
+        "Improve efficiency and accuracy": "information + knowledge",
+        "Unlock data-driven insights": "knowledge",
+        "Strengthen security and compliance": "evidence → judgement",
+        "Build an AI-ready foundation": "data → information"
+      }
+    },
+    {
+      "n": 9,
+      "title": "Architecture",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Mission applications": "judgement",
+        "Model serving": "information",
+        "Training": "knowledge",
+        "Pipelines": "knowledge",
+        "Model registry": "judgement",
+        "Retrieval": "knowledge",
+        "Red Hat OpenShift": "data",
+        "RHEL + AI Inference Server": "data",
+        "TRUST pillar": "judgement",
+        "AUTOMATION pillar": "judgement"
+      }
+    },
+    {
+      "n": 10,
+      "title": "Why Red Hat AI",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Inference": "information",
+        "Data": "knowledge",
+        "Agents": "judgement",
+        "Platform": "data",
+        "Model freedom": "knowledge",
+        "Data locality": "data",
+        "Models-as-a-Service": "information",
+        "Use accelerators efficiently": "data",
+        "Predictive + generative": "information + knowledge",
+        "Ansible closes the loop": "executes judgement"
+      }
+    },
+    {
+      "n": 11,
+      "title": "Why one platform",
+      "rungs": [
+        "data",
+        "information",
+        "judgement"
+      ],
+      "items": {
+        "One service definition": "executes judgement",
+        "Datacenter / cloud / enclave": "data",
+        "Accredit once": "judgement",
+        "April becomes a scheduling event": "information",
+        "Placement is policy": "data"
+      }
+    },
+    {
+      "n": 12,
+      "title": "AI for operations",
+      "rungs": [
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Predict": "information",
+        "Explain": "information",
+        "Ground + act": "knowledge (RAG) + executes judgement (Ansible)",
+        "Knowledge flywheel": "knowledge"
+      }
+    },
+    {
+      "n": 13,
+      "title": "Logs to MTTR",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge"
+      ],
+      "items": {
+        "Dashboards answer anticipated questions": "information",
+        "Logs are FTI-adjacent": "data",
+        "Same stack as the taxpayer system": "knowledge"
+      },
+      "note": "Diagnosis is information; the data (blue) does not change, the time to create information did."
+    },
+    {
+      "n": 14,
+      "title": "Adoption path",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge"
+      ],
+      "items": {
+        "Prove (crawl)": "data",
+        "Ground (walk)": "information",
+        "Scale (run)": "knowledge"
+      },
+      "note": "Brad's mapping, verbatim from the Sept 3 call: prove, ground, scale = data, information, knowledge."
+    },
+    {
+      "n": 15,
+      "title": "Next steps",
+      "rungs": [
+        "judgement"
+      ],
+      "note": "The next decision is the room's."
+    },
+    {
+      "n": 16,
+      "title": "Labs preview",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "note": "Each lab card carries its rung chip (see labs below)."
+    },
+    {
+      "n": 17,
+      "title": "Security posture",
+      "rungs": [
+        "information",
+        "judgement"
+      ],
+      "note": "Evidence is information; the authorizing official's decision is judgement."
+    }
+  ],
+  "labs": [
+    {
+      "n": 1,
+      "title": "Serve a model inside your boundary",
+      "rungs": [
+        "data",
+        "information"
+      ],
+      "chip": "data → information"
+    },
+    {
+      "n": 2,
+      "title": "Teach it your notice taxonomy",
+      "rungs": [
+        "knowledge"
+      ],
+      "chip": "knowledge"
+    },
+    {
+      "n": 3,
+      "title": "Survive filing season",
+      "rungs": [
+        "information"
+      ],
+      "chip": "information at scale"
+    },
+    {
+      "n": 4,
+      "title": "Ground answers in your own guidance",
+      "rungs": [
+        "knowledge"
+      ],
+      "chip": "knowledge"
+    },
+    {
+      "n": 5,
+      "title": "Automate the toil around the model",
+      "rungs": [
+        "judgement"
+      ],
+      "chip": "executes judgement"
+    },
+    {
+      "n": 6,
+      "title": "Prove it to your ISSO",
+      "rungs": [
+        "information",
+        "judgement"
+      ],
+      "chip": "evidence → judgement"
+    },
+    {
+      "n": 7,
+      "title": "Ask your own logs",
+      "rungs": [
+        "information",
+        "knowledge"
+      ],
+      "chip": "information → knowledge"
+    }
+  ],
+  "technologies": {
+    "Red Hat Enterprise Linux": "data",
+    "Red Hat AI Inference Server (vLLM)": "data → information",
+    "Red Hat OpenShift": "data",
+    "Red Hat OpenShift AI": "information + knowledge",
+    "KServe / model serving": "information",
+    "Granite models": "information",
+    "SDG Hub": "knowledge",
+    "Training Hub": "knowledge",
+    "Pipelines": "knowledge",
+    "Model registry": "judgement",
+    "Retrieval / vector store / pgvector / Llama Stack": "knowledge",
+    "Ansible Automation Platform / Event-Driven Ansible": "executes judgement",
+    "Sigstore / cosign": "judgement",
+    "FIPS mode": "data",
+    "Compliance Operator": "information",
+    "TrustyAI": "information",
+    "OpenShift Logging / Loki": "data",
+    "GPUs / accelerators": "data",
+    "Predictive models": "information",
+    "Generative models (with retrieval)": "knowledge",
+    "Human reviewer": "judgement",
+    "Models-as-a-Service": "information",
+    "llm-d": "information"
+  }
+}

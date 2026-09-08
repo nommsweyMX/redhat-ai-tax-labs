@@ -69,7 +69,8 @@ Two rules of thumb come out of that table.
 == Reference architecture
 
 The platform is four horizontal layers with two concerns running vertically
-through all of them.
+through all of them. Each layer is noted with the rung of the ladder — data,
+information, knowledge, judgement — that it serves.
 
 .Layers, bottom to top
 [cols="1,3", options="header"]
@@ -79,29 +80,32 @@ through all of them.
 | {rhel} and the {rhaiis}
 | Bare metal GPU nodes, virtualized datacenter, accredited public cloud or a
   classified enclave. Granite models, accelerator drivers and the vLLM-based
-  inference server ship as one supported stack.
+  inference server ship as one supported stack. (rung: data)
 
 | {ocp}
 | Scheduling, GPU partitioning, network policy, multi-site placement and GitOps
   delivery. The same cluster runs the modernized case-management applications
-  beside the models they call.
+  beside the models they call. (rung: data)
 
 | {rhoai}
 | Model serving on KServe and vLLM, tuning and evaluation pipelines, a model
   registry with versions and lineage, and retrieval against a vector store.
+  (rung: information + knowledge)
 
 | Mission applications
 | Correspondence intake, notice drafting, case summarization, guidance
   assistant. Systems of record stay where they are, reached through APIs.
+  (rung: judgement)
 |===
 
 .Concerns, running through every layer
 Automation:: {aap} and {eda} provision, patch, remediate and collect evidence.
-Covered in <<lab-05>>.
+Covered in <<lab-05>>. On the ladder, Automation executes judgement: it carries
+out what a person decided, and it never decides.
 
 Trust:: Signed models, FIPS-validated cryptography, SELinux, the Compliance
 Operator, TrustyAI drift and fairness monitoring, and disconnected mirroring.
-Covered in <<lab-06>>.
+Covered in <<lab-06>>. On the ladder, Trust produces the evidence (information) an authorizing official signs against: signatures, scan results and drift figures are what make the judgement defensible.
 
 The point of drawing the two concerns vertically is that neither is a layer you
 add at the end. A project that treats compliance as a phase after deployment
