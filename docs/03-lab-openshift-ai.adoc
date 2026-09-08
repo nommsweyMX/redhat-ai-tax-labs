@@ -4,6 +4,7 @@
 [cols="1,3"]
 |===
 | Product   | {rhoai} with KServe and vLLM
+| Rung      | information at scale
 | Time      | About 6 minutes
 | Script    | `labs/lab03-openshift-ai/run.sh`
 | Outcome   | An autoscaling inference service that absorbs an April load rehearsal
@@ -15,6 +16,11 @@ One GPU host is a pilot. Filing season is a capacity event. Deploy the tuned
 model from <<lab-02>> with KServe and vLLM, then run a load rehearsal and watch
 the platform scale from two replicas to twenty and back down again — with no
 application change.
+
+On the ladder this lab serves information at scale: every request is one
+classification for one case, and the platform's job is to keep producing that
+information at filing-season volume without changing what the data is, where
+it lives or who signs the result.
 
 == The manifest is the capacity plan
 

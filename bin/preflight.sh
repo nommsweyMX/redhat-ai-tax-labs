@@ -18,7 +18,7 @@ check() {
 
 echo "Lab readiness for LAB_MODE=live:"
 check "lab01-rhel-ai"      podman huggingface-cli curl jq
-check "lab02-instructlab"  python3
+check "lab02-customization"  python3
 check "lab03-openshift-ai" oc curl jq hey
 check "lab04-rag"          oc python3
 check "lab05-ansible"      ansible-navigator ansible-rulebook

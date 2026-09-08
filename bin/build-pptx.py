@@ -292,7 +292,7 @@ def build(out_path: Path) -> None:
 
     # ---- 1 title ---------------------------------------------------------------
     s = add_base(prs, "Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four "
-                      "Inc. and Carahsoft. Frame the hour - foundations, then the platform story, "
+                      "Inc. and Carahsoft. Frame the hour — foundations, then the platform story, "
                       "then live terminal, 5 for questions. "
                       "The promise: every claim we make today, we run in a shell before you leave.")
     add_text(s, MARGIN, Inches(2.05), Inches(11.2), Inches(0.34),
@@ -306,7 +306,43 @@ def build(out_path: Path) -> None:
     add_text(s, MARGIN, Inches(5.85), Inches(9.4), Inches(0.4),
              [("Presented by Jon Keam and Brad Scalio", 14, True, INK_2, BODY_FONT, 0)])
 
-    # ---- 2 operating reality: demand curve -------------------------------------
+    # ---- 2 the ladder: data to judgement --------------------------------------
+    s = add_base(prs, "The spine of the hour. Read it left to right: the platform holds the data, "
+                      "predictive AI and inference turn it into information, generative AI with "
+                      "retrieval turns that into knowledge, and a person turns knowledge into a "
+                      "determination they sign. Judgement is deliberately never automated — "
+                      "Ansible, the registry and Sigstore execute and record what a person decided. "
+                      "Every later slide tags its technologies with one of these four rungs.")
+    eyebrow_and_title(s, "Why it matters", "From data to judgement — and who climbs each step",
+                      "Every technology in this hour is tagged with the rung it serves. AI moves work up the ladder; it never takes the top step.")
+    rungs = [
+        ("Data", STEEL, "What happened, uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture.",
+         "RHEL · OpenShift · OpenShift Logging · accelerators"),
+        ("Information", AMBER, "Data in context for one case: a classification, a score, a diagnosis, a metric. What predictive AI and inference produce.",
+         "AI Inference Server · KServe + vLLM · Granite · TrustyAI · Models-as-a-Service"),
+        ("Knowledge", RED, "Information that informs an outcome: guidance, precedent, runbooks, taxonomies. The institution's memory, retrievable and cited.",
+         "SDG Hub · Training Hub · pipelines · retrieval / vector store"),
+        ("Judgement", GREEN, "A determination someone signs. Deliberately human; automation executes what was decided, it never decides.",
+         "Human reviewer · model registry · Sigstore · Ansible executes it"),
+    ]
+    gap, step = Inches(0.28), Inches(0.42)
+    width = int((SLIDE_W - 2 * MARGIN - gap * 3) / 4)
+    for i, (name, colour, definition, tech) in enumerate(rungs):
+        left = MARGIN + i * (width + gap)
+        top = Inches(2.5) + step * (3 - i)           # a staircase rising to the right
+        h = Inches(4.1) - step * (3 - i)
+        rrect(s, left, top, width, h, SURFACE, BORDER_STRONG, 1.0, radius=0.05)
+        solid(s.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, Inches(0.07)), colour)
+        add_text(s, left + Inches(0.2), top + Inches(0.2), width - Inches(0.4), h - Inches(0.35),
+                 [(name.upper(), 11, True, colour, MONO_FONT, 6),
+                  (definition, 12, False, INK_2, BODY_FONT, 10),
+                  (tech, 9, False, INK_3, MONO_FONT, 0)])
+        if i < 3:
+            arrow = s.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, left + width + Inches(0.03), top - Inches(0.05),
+                                       Inches(0.22), Inches(0.2))
+            solid(arrow, colour)
+
+    # ---- 3 operating reality: demand curve -------------------------------------
     s = add_base(prs, "Do not lead with the technology. Lead with the shape of the problem. The "
                       "chart is the argument: a year of demand arrives in six weeks, far above any "
                       "capacity you can justify staffing year-round. The shaded gap is what "
@@ -326,7 +362,7 @@ def build(out_path: Path) -> None:
               "FTI rules rule out public endpoints. The model comes to the data — on premises, "
               "accredited cloud, or air-gapped enclave.", bar=GREEN)
 
-    # ---- 3 where AI lands: chevron lifecycle -----------------------------------
+    # ---- 4 where AI lands: chevron lifecycle -----------------------------------
     s = add_base(prs, "Walk the flow left to right. The red stages already have a human reviewer "
                       "in the loop, which makes them honest places to start. Exam selection is "
                       "deliberately gray: that is a determination affecting a taxpayer, and it "
@@ -386,21 +422,21 @@ def build(out_path: Path) -> None:
          "and that problem is already solved."),
     ], height=Inches(1.5))
 
-    # ---- 4 five outcomes -------------------------------------------------------
+    # ---- 5 five outcomes -------------------------------------------------------
     s = add_base(prs, "These five are the event abstract made concrete. Each names the product "
-                      "that delivers it and the lab where the audience runs it. Do not linger - "
+                      "that delivers it and the lab where the audience runs it. Do not linger — "
                       "this slide exists so people can map the rest of the hour.")
     eyebrow_and_title(s, "What teams get", "Five outcomes, and where each one is proven")
     add_table(s, [
-        ["Outcome", "Platform capability", "Lab"],
-        ["Modernize mission-critical operations", "Ansible Automation Platform, Event-Driven Ansible", "05"],
-        ["Improve efficiency and accuracy", "Red Hat AI Inference Server, SDG Hub + Training Hub", "01, 02"],
-        ["Unlock data-driven insights", "OpenShift AI, vector retrieval", "04"],
-        ["Strengthen security and compliance", "FIPS, Compliance Operator, TrustyAI, Sigstore", "06"],
-        ["Build an AI-ready foundation", "OpenShift AI, KServe, vLLM", "03"],
-    ], Inches(2.4), [Inches(4.6), Inches(5.9), Inches(1.1)], mono_cols=(2,))
+        ["Outcome", "Platform capability", "Lab", "Rung"],
+        ["Modernize mission-critical operations", "Ansible Automation Platform, Event-Driven Ansible", "05", "executes judgement"],
+        ["Improve efficiency and accuracy", "Red Hat AI Inference Server, SDG Hub + Training Hub", "01, 02", "information + knowledge"],
+        ["Unlock data-driven insights", "OpenShift AI, vector retrieval", "04", "knowledge"],
+        ["Strengthen security and compliance", "FIPS, Compliance Operator, TrustyAI, Sigstore", "06", "evidence → judgement"],
+        ["Build an AI-ready foundation", "OpenShift AI, KServe, vLLM", "03", "data → information"],
+    ], Inches(2.4), [Inches(3.9), Inches(4.7), Inches(0.9), Inches(2.1)], mono_cols=(2, 3))
 
-    # ---- 5 architecture: layered diagram ---------------------------------------
+    # ---- 6 architecture: layered diagram ---------------------------------------
     s = add_base(prs, "Read bottom to top. The point is the two vertical pillars: automation and "
                       "trust are not a layer you add at the end. A project that treats compliance "
                       "as a phase after deployment discovers, at the worst possible moment, that "
@@ -495,9 +531,9 @@ def build(out_path: Path) -> None:
                                 Inches(0.18), Inches(0.14))
         solid(ar, BORDER_STRONG)
 
-    # ---- 6 adoption path: roadmap timeline -------------------------------------
+    # ---- 7 adoption path: roadmap timeline -------------------------------------
     s = add_base(prs, "Be honest about sequencing. Most agencies stall on rows 2 and 3 of the "
-                      "Prove phase - no accelerator capacity plan, and no written agreement on "
+                      "Prove phase — no accelerator capacity plan, and no written agreement on "
                       "which data may be used. Neither is technical. Ask the room directly which "
                       "phase they are in.")
     eyebrow_and_title(s, "Adoption path", "Ninety days, then ninety more",
@@ -543,7 +579,7 @@ def build(out_path: Path) -> None:
             runs.append(("•  " + it, 11, False, INK_2, BODY_FONT, 5))
         add_text(s, px + Inches(0.16), py + Inches(0.52), pw - Inches(0.3), Inches(2.6), runs)
 
-    # ---- 7 next steps ----------------------------------------------------------
+    # ---- 8 next steps ----------------------------------------------------------
     s = add_base(prs, "Close with a specific ask, not a thank-you. The architecture workshop is "
                       "the natural next step. Then hand off to Four Inc. and Carahsoft for the "
                       "contract vehicle conversation.")
@@ -562,29 +598,29 @@ def build(out_path: Path) -> None:
                "connection at inference time, or a rewrite of a system of record. That is the "
                "whole argument.", 14, False, INK_2, BODY_FONT, 0)])
 
-    # ---- 8 labs ----------------------------------------------------------------
+    # ---- 9 labs ----------------------------------------------------------------
     s = add_base(prs, "Transition slide. Switch to a terminal now. Tell them the labs run in "
                       "simulate mode on a laptop with no cluster, and in live mode against their "
-                      "own environment - same script, same commands. Run Lab 01 and stop hard on "
+                      "own environment — same script, same commands. Run Lab 01 and stop hard on "
                       "step 4, the endpoint bound to 127.0.0.1. The deck's Demo view plays every "
                       "lab hands-free if you would rather narrate than type.")
     eyebrow_and_title(s, "Hands on", "Seven labs — real commands, run them yourself",
                       "Simulate mode needs no cluster, no GPU and no credentials. The Demo view plays them hands-free.")
     add_table(s, [
-        ["Lab", "What you do", "Product"],
-        ["01", "Serve a model inside your boundary", "AI Inference Server"],
-        ["02", "Teach it your notice taxonomy", "SDG + Training Hub"],
-        ["03", "Survive filing season", "OpenShift AI"],
-        ["04", "Ground answers in your guidance", "Retrieval"],
-        ["05", "Automate the toil around the model", "Ansible"],
-        ["06", "Prove it to your ISSO", "Compliance, TrustyAI"],
-        ["07", "Ask your own logs", "Ops notebook"],
-    ], Inches(2.4), [Inches(1.0), Inches(6.6), Inches(4.0)], mono_cols=(0, 2))
+        ["Lab", "What you do", "Product", "Rung"],
+        ["01", "Serve a model inside your boundary", "AI Inference Server", "data → information"],
+        ["02", "Teach it your notice taxonomy", "SDG Hub + Training Hub", "knowledge"],
+        ["03", "Survive filing season", "OpenShift AI", "information at scale"],
+        ["04", "Ground answers in your own guidance", "Retrieval", "knowledge"],
+        ["05", "Automate the toil around the model", "Ansible", "executes judgement"],
+        ["06", "Prove it to your ISSO", "Compliance, TrustyAI", "evidence → judgement"],
+        ["07", "Ask your own logs", "Ops notebook", "information → knowledge"],
+    ], Inches(2.4), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
 
-    # ---- 9 appendix: AO questions ----------------------------------------------
+    # ---- 10 appendix: AO questions ----------------------------------------------
     s = add_base(prs, "This is the slide that unblocks the deal. Every row is a control the "
                       "platform provides, mapped to the question an authorizing official actually "
-                      "asks. Expect interruptions here - let them happen, this is the conversation "
+                      "asks. Expect interruptions here — let them happen, this is the conversation "
                       "you want. Offer to take the table offline with their ISSO.")
     eyebrow_and_title(s, "Appendix · Trusted, enterprise-ready AI", "The questions an authorizing official will ask")
     add_table(s, [

@@ -22,6 +22,63 @@ Every command in these labs is real and copyable. Every lab runs in two modes:
 one that needs nothing but a shell, and one that executes against your own
 environment.
 
+[#ladder]
+== The ladder: data, information, knowledge, judgement
+
+One theme runs through the deck, the labs and this guide: a four-rung ladder
+from data to judgement. Each rung means the same thing everywhere it appears.
+
+Data:: What happened, uninterpreted: returns, transcripts, calls, logs,
+telemetry. Where it lives decides the architecture.
+
+Information:: Data in context for one case: a classification, a score, a
+diagnosis, a metric. What predictive AI and inference produce.
+
+Knowledge:: Information that informs an outcome: guidance, precedent,
+runbooks, taxonomies. The institution's memory, retrievable and cited.
+
+Judgement:: A determination someone signs. Deliberately human; automation
+executes what was decided, it never decides.
+
+Every technology in this guide is tagged with the rung it serves — each lab's
+header table carries a Rung row, and the table below maps every product and
+component the labs touch. An arrow (data → information) marks a technology
+that converts one rung into the next; _executes judgement_ marks automation,
+which carries out a decision a person already made. Judgement is deliberately
+never automated: the top rung stays with a named reviewer, an authorizing
+official or a governance board, and every pattern in these labs is arranged to
+keep it there.
+
+.Technologies and the rung each serves
+[cols="3,2", options="header"]
+|===
+| Technology | Rung
+
+| Red Hat Enterprise Linux | data
+| Red Hat AI Inference Server (vLLM) | data → information
+| Red Hat OpenShift | data
+| Red Hat OpenShift AI | information + knowledge
+| KServe / model serving | information
+| Granite models | information
+| SDG Hub | knowledge
+| Training Hub | knowledge
+| Pipelines | knowledge
+| Model registry | judgement
+| Retrieval / vector store / pgvector / Llama Stack | knowledge
+| Ansible Automation Platform / Event-Driven Ansible | executes judgement
+| Sigstore / cosign | judgement
+| FIPS mode | data
+| Compliance Operator | information
+| TrustyAI | information
+| OpenShift Logging / Loki | data
+| GPUs / accelerators | data
+| Predictive models | information
+| Generative models (with retrieval) | knowledge
+| Human reviewer | judgement
+| Models-as-a-Service | information
+| llm-d | information
+|===
+
 == Who this is for
 
 [cols="1,3", options="header"]
@@ -137,7 +194,7 @@ include::00-event-brief.adoc[]
 
 include::01-lab-rhel-ai.adoc[]
 
-include::02-lab-instructlab.adoc[]
+include::02-lab-customization.adoc[]
 
 include::03-lab-openshift-ai.adoc[]
 

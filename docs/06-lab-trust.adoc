@@ -4,6 +4,7 @@
 [cols="1,3"]
 |===
 | Product   | {rhel}, Compliance Operator, TrustyAI, Sigstore
+| Rung      | evidence → judgement
 | Time      | About 6 minutes
 | Script    | `labs/lab06-trust/run.sh`
 | Outcome   | The four checks an authorizing official actually runs, with real results
@@ -18,6 +19,12 @@ accreditation.
 
 Every one of these is a platform feature you switch on. None of them is a
 project you fund.
+
+On the ladder this lab runs evidence → judgement: every check produces
+information — a signature result, a FIPS state, a scan finding, a drift figure
+for this workload — and the authorizing official's decision to accept that
+evidence is judgement, a determination a person signs and no platform feature
+makes for them.
 
 == Prerequisites
 
