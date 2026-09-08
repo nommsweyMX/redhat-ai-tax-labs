@@ -12,18 +12,19 @@ IMAGE     := docker.io/asciidoctor/docker-asciidoctor:latest
 RUNTIME   := $(shell command -v podman 2>/dev/null || command -v docker 2>/dev/null)
 RUN       := $(RUNTIME) run --rm -v "$(CURDIR):/documents:z" -w /documents $(IMAGE)
 
-.PHONY: all docs slides pptx pdf test lint labs clean help
+.PHONY: all docs slides pptx adventure pdf test lint labs clean help
 
 help:
 	@echo "Targets:"
 	@echo "  make docs    build/docs/index.html    documentation"
 	@echo "  make slides  build/slides.html        reveal.js deck"
 	@echo "  make pptx    $(PPTX)"
+	@echo "  make adventure slides/adventure.html   the self-guided catalogue"
 	@echo "  make pdf     build/*.pdf              printable documentation"
 	@echo "  make test    lint + run all labs in simulate mode"
 	@echo "  make all     everything"
 
-all: docs slides pptx pdf
+all: docs slides pptx adventure pdf
 
 $(BUILD):
 	@mkdir -p $(BUILD)
@@ -56,6 +57,9 @@ pdf: | $(BUILD)
 
 pptx:
 	python3 bin/build-pptx.py --out $(PPTX)
+
+adventure:
+	python3 bin/build-adventure.py --out slides/adventure.html
 
 lint:
 	@echo "Checking shell syntax..."
