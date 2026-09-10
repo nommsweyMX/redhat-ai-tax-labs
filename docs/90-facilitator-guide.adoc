@@ -98,6 +98,16 @@ URL starts the Demo view playing on a continuous loop, which doubles as a
 holding screen before the session begins. For screen sharing, the *Present*
 button (or kbd:[F]) fullscreens the 16:9 slide stage.
 
+== The deck's switches
+
+The interactive deck carries an *EN/ES* language tab in the sidebar footer —
+Spanish audiences get the slides, lab briefings, theory panels and glossary
+translated, while terminal commands and output stay English, as real tools
+do. Next to it sit a light/dark *theme* toggle and the *Notes* button. Every
+lab carries a theory panel ("what just happened"), and a glossary closes the
+Labs view — when someone asks where an answer came from, the foundations
+slides plus the Lab 01 theory panel are the prepared response.
+
 == Questions you will get, and short answers
 
 "Can this run air-gapped?"::

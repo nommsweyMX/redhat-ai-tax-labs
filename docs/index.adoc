@@ -192,6 +192,8 @@ measure your own.
 
 include::00-event-brief.adoc[]
 
+include::00a-ai-fundamentals.adoc[]
+
 include::01-lab-rhel-ai.adoc[]
 
 include::02-lab-customization.adoc[]

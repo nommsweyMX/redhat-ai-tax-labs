@@ -73,9 +73,10 @@ Nothing above needs a cluster, a GPU, or credentials.
 
 | `slides/deck.html`
 | A self-contained interactive deck: seventeen slides plus seven virtual
-  terminals you type into, and a Demo view that plays all seven labs
-  hands-free. Open it in a browser — no build step, no server. Opening it
-  with `#demo` on the URL starts the Demo view playing on a continuous loop.
+  terminals you type into, a theory panel in every lab, a glossary, and a
+  Demo view that plays all seven labs hands-free. English/Spanish tab and
+  light/dark themes built in. Open it in a browser — no build step, no
+  server. `#demo` on the URL starts the Demo view on a continuous loop.
 
 | `slides/exports/`
 | Generated `.pptx` for platforms that require a slide upload.

@@ -29,6 +29,14 @@
   --shadow-lift:0 2px 4px rgba(27,18,17,.08), 0 22px 48px -22px rgba(27,18,17,.42);
 
   /* terminal is a fixed dark world in both themes */
+  --chip:#54423E;
+  --layer-top:#FFFFFF;
+  --layer-deep:#F1EAE7;
+  --ai-deep:#F5D3CE;
+  --judge-a:#F3ECFA;
+  --judge-b:#E4D6F1;
+  --steel-deep:#D2E4EC;
+
   --term-bg:#120D0C;
   --term-bg-2:#1C1513;
   --term-border:#3A2B27;
@@ -43,8 +51,50 @@
   --rail:238px;
   --step:clamp(.72rem,.62rem + .5vw,.95rem);
 }
-/* This deck deliberately commits to the light palette in every viewer
-   theme; the terminals remain their own fixed dark world by design. */
+/* Light is the default; dark is an explicit choice — the page's own toggle
+   or the viewer's theme stamp. The terminals keep their fixed dark world in
+   both, and the ladder palette gets its own dark steps. */
+:root[data-theme="dark"]{
+  --ground:#141010;
+  --surface:#1E1817;
+  --surface-2:#271F1D;
+  --border:#382B28;
+  --border-strong:#4E3C38;
+  --ink:#F1E9E7;
+  --ink-2:#C4B1AC;
+  --ink-3:#A08E88;
+  --accent:#FF5747;
+  --accent-ink:#FF7A6B;
+  --accent-wash:#3A1613;
+  --steel:#6FBCD8;
+  --steel-wash:#132A34;
+  --amber:#E5AB4B;
+  --amber-wash:#33260F;
+  --good:#4FC1A0;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 8px 28px -14px rgba(0,0,0,.8);
+  --shadow-lift:0 2px 4px rgba(0,0,0,.55), 0 22px 48px -22px rgba(0,0,0,.95);
+  --chip:#6E5850;
+  --layer-top:#241C1A;
+  --layer-deep:#2B211F;
+  --ai-deep:#451A15;
+  --judge-a:#251438;
+  --judge-b:#2F1A47;
+  --steel-deep:#16323E;
+  --r-data:#FF5747;--r-data-wash:#3A1613;
+  --r-info:#FB8B5B;--r-info-wash:#3B2313;
+  --r-know:#4FC1A0;--r-know-wash:#12352A;
+  --r-judge:#A78BDA;--r-judge-wash:#251438;
+  --rb-yellow:#E5B84B;--rb-blue:#6FA2F0;
+}
+/* svg gradient stops follow the theme through these classes */
+.g-layer-a{stop-color:var(--layer-top)}
+.g-layer-b{stop-color:var(--layer-deep)}
+.g-ai-a{stop-color:var(--accent-wash)}
+.g-ai-b{stop-color:var(--ai-deep)}
+.g-tr-a{stop-color:var(--judge-a)}
+.g-tr-b{stop-color:var(--judge-b)}
+.g-au-a{stop-color:var(--steel-wash)}
+.g-au-b{stop-color:var(--steel-deep)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 body{
@@ -109,6 +159,14 @@ a{color:var(--accent-ink)}
 .navitem[aria-current="true"] span:last-child{font-weight:700}
 
 .railfoot{border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.foottools{display:flex;gap:6px;align-items:center}
+.langseg{display:flex;gap:2px;margin-left:2px}
+.langseg button{
+  appearance:none;border:1px solid var(--border);background:transparent;color:var(--ink-2);
+  border-radius:5px;padding:5px 8px;font-family:"Red Hat Mono",monospace;font-size:.68rem;
+  font-weight:600;cursor:pointer;
+}
+.langseg button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
 .ghost{
   appearance:none;background:transparent;border:1px solid var(--border);color:var(--ink-2);
   border-radius:5px;padding:5px 9px;font-family:"Red Hat Mono",monospace;font-size:.68rem;cursor:pointer;
@@ -326,6 +384,14 @@ kbd{
 .entry button.primary:hover{background:rgba(79,193,160,.12)}
 .entry[data-done="true"] input{display:none}
 
+.box.theory{border-left:3px solid var(--steel);grid-column:1 / -1}
+.box.theory p{font-size:.88rem;color:var(--ink-2);margin:0;line-height:1.55}
+.glossary{padding:36px 0 6px;border-bottom:1px solid var(--border)}
+.glossgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px 30px;margin-top:16px}
+.gterm b{font-family:"Red Hat Display",sans-serif;font-size:.95rem;color:var(--ink)}
+.gterm p{font-size:.85rem;color:var(--ink-2);margin-top:3px;line-height:1.5}
+@media (max-width:900px){.glossgrid{grid-template-columns:1fr}}
+
 .takeaway{
   margin-top:16px;border-left:3px solid var(--accent);padding:2px 0 2px 14px;
   font-size:.9rem;color:var(--ink-2);
@@ -336,10 +402,36 @@ kbd{
 .closing h3{font-size:1.3rem}
 .contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
 
+/* Spanish runs ~15-20% longer; compress type only when lang=es so the
+   English layout is untouched. */
+html[lang="es"] .slide .lede{font-size:clamp(.84rem,.95vw,1rem)}
+html[lang="es"] .title-slide .kicker{font-size:clamp(.9rem,1.2vw,1.15rem)}
+html[lang="es"] .ladder-legend p{font-size:.76rem}
+html[lang="es"] .card h4{font-size:clamp(.8rem,.92vw,.96rem)}
+html[lang="es"] .card p{font-size:clamp(.71rem,.78vw,.85rem);line-height:1.4}
+html[lang="es"] .pillar p{font-size:clamp(.73rem,.8vw,.87rem)}
+html[lang="es"] .pillar{padding:clamp(6px,.7vw,10px) 0}
+html[lang="es"] table.grid th{font-size:.62rem}
+html[lang="es"] table.grid td{font-size:clamp(.71rem,.8vw,.86rem)}
+html[lang="es"] .ai-kind .plain{font-size:.79rem}
+html[lang="es"] .ai-kind .analogy{font-size:.72rem;min-height:4.6em}
+html[lang="es"] .notbox{font-size:.75rem}
+html[lang="es"] .stacklayer span{font-size:.74rem}
+html[lang="es"] .rhpoint p{font-size:.72rem}
+html[lang="es"] .fwstep p{font-size:.73rem}
+html[lang="es"] .move span{font-size:.71rem}
+html[lang="es"] .knowledgebar p{font-size:.76rem}
+html[lang="es"] .ladder-legend{margin-top:16px;padding-top:12px}
+html[lang="es"] table.grid th,html[lang="es"] table.grid td{padding:7px 10px}
+html[lang="es"] .slide[data-title="Two kinds of AI"] svg{width:90%;margin:4px auto 0;display:block}
+html[lang="es"] .slide[data-title="Logs to MTTR"] .lede{font-size:.8rem}
+html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;display:block}
+
 /* fullscreen presenting — fill the shared screen with the 16:9 stage */
 #stage:fullscreen{max-width:none;border:0;border-radius:0}
 #stage:focus{outline:none}
 #stage::backdrop{background:#FBF9F8}
+:root[data-theme="dark"] #stage::backdrop{background:#141010}
 
 /* demo mode — the labs playing themselves */
 .demo{padding:26px clamp(20px,3vw,46px) 60px;max-width:1180px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px}
@@ -526,7 +618,14 @@ kbd{
     </div>
 
     <div class="railfoot">
-      <button class="ghost" id="notesToggle" aria-pressed="false">Notes</button>
+      <div class="foottools">
+        <button class="ghost" id="notesToggle" aria-pressed="false">Notes</button>
+        <button class="ghost" id="themeToggle">Dark</button>
+        <div class="langseg" role="group" aria-label="Language">
+          <button id="lang-en" aria-pressed="true">EN</button>
+          <button id="lang-es" aria-pressed="false">ES</button>
+        </div>
+      </div>
       <span class="eyebrow" id="clock">16:9</span>
     </div>
   </nav>
@@ -909,10 +1008,10 @@ kbd{
               <defs>
                 <marker id="a5ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
                 <filter id="a5sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2.5" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".16"/></filter>
-                <linearGradient id="a5layer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
-                <linearGradient id="a5ai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBEAE8"/><stop offset="1" stop-color="#F5D3CE"/></linearGradient>
-                <linearGradient id="a5trust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3ECFA"/><stop offset="1" stop-color="#E4D6F1"/></linearGradient>
-                <linearGradient id="a5auto" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7F1F5"/><stop offset="1" stop-color="#D2E4EC"/></linearGradient>
+                <linearGradient id="a5layer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="g-layer-a"/><stop offset="1" class="g-layer-b"/></linearGradient>
+                <linearGradient id="a5ai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="g-ai-a"/><stop offset="1" class="g-ai-b"/></linearGradient>
+                <linearGradient id="a5trust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="g-tr-a"/><stop offset="1" class="g-tr-b"/></linearGradient>
+                <linearGradient id="a5auto" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="g-au-a"/><stop offset="1" class="g-au-b"/></linearGradient>
               </defs>
 
               <!-- trust pillar -->
@@ -936,16 +1035,16 @@ kbd{
               <text x="63" y="396" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 06</text>
 
               <!-- automation pillar -->
-              <rect x="804" y="10" width="106" height="400" rx="10" fill="url(#a5auto)" stroke="#286C88" stroke-width="1.2" filter="url(#a5sh)"/>
-              <g stroke="#286C88" stroke-width="2.6" stroke-linecap="round">
+              <rect x="804" y="10" width="106" height="400" rx="10" fill="url(#a5auto)" stroke="var(--steel)" stroke-width="1.2" filter="url(#a5sh)"/>
+              <g stroke="var(--steel)" stroke-width="2.6" stroke-linecap="round">
                 <circle cx="857" cy="44" r="8.5" fill="none"/>
                 <line x1="857" y1="30" x2="857" y2="34"/><line x1="857" y1="54" x2="857" y2="58"/>
                 <line x1="843" y1="44" x2="847" y2="44"/><line x1="867" y1="44" x2="871" y2="44"/>
                 <line x1="847" y1="34" x2="850" y2="37"/><line x1="864" y1="51" x2="867" y2="54"/>
                 <line x1="867" y1="34" x2="864" y2="37"/><line x1="850" y1="51" x2="847" y2="54"/>
               </g>
-              <circle cx="857" cy="44" r="3" fill="#286C88"/>
-              <text x="857" y="80" font-size="10.5" font-weight="700" fill="#286C88" text-anchor="middle" letter-spacing="1.2">AUTOMATION</text>
+              <circle cx="857" cy="44" r="3" fill="var(--steel)"/>
+              <text x="857" y="80" font-size="10.5" font-weight="700" fill="var(--steel)" text-anchor="middle" letter-spacing="1.2">AUTOMATION</text>
               <g font-size="10.5" fill="var(--ink-2)" text-anchor="middle">
                 <text x="857" y="102">Ansible</text>
                 <text x="857" y="116">Automation</text>
@@ -962,28 +1061,28 @@ kbd{
               <text x="857" y="396" font-size="9.5" fill="var(--ink-3)" text-anchor="middle">Lab 05</text>
 
               <!-- base: RHEL / AI Inference Server -->
-              <g filter="url(#a5sh)"><rect x="128" y="330" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="341" r="4" fill="#286C88"><title>data</title></circle>
+              <g filter="url(#a5sh)"><rect x="128" y="330" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="341" r="4" fill="var(--steel)"><title>data</title></circle>
               <text x="146" y="354" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat Enterprise Linux · AI Inference Server</text>
               <text x="146" y="372" font-size="10.5" fill="var(--ink-2)">Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave</text>
               <text x="146" y="390" font-size="10.5" fill="var(--ink-3)">Granite models, accelerator drivers and the vLLM-based AI Inference Server in one supported stack</text>
               <g>
-                <rect x="694" y="346" width="38" height="26" rx="3" fill="#54423E"/>
+                <rect x="694" y="346" width="38" height="26" rx="3" fill="var(--chip)"/>
                 <text x="713" y="363" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" font-family="Red Hat Mono">GPU</text>
-                <g stroke="#54423E" stroke-width="1.6"><line x1="699" y1="342" x2="699" y2="346"/><line x1="708" y1="342" x2="708" y2="346"/><line x1="717" y1="342" x2="717" y2="346"/><line x1="726" y1="342" x2="726" y2="346"/><line x1="699" y1="372" x2="699" y2="376"/><line x1="708" y1="372" x2="708" y2="376"/><line x1="717" y1="372" x2="717" y2="376"/><line x1="726" y1="372" x2="726" y2="376"/></g>
-                <rect x="742" y="346" width="38" height="26" rx="3" fill="#54423E"/>
+                <g stroke="var(--chip)" stroke-width="1.6"><line x1="699" y1="342" x2="699" y2="346"/><line x1="708" y1="342" x2="708" y2="346"/><line x1="717" y1="342" x2="717" y2="346"/><line x1="726" y1="342" x2="726" y2="346"/><line x1="699" y1="372" x2="699" y2="376"/><line x1="708" y1="372" x2="708" y2="376"/><line x1="717" y1="372" x2="717" y2="376"/><line x1="726" y1="372" x2="726" y2="376"/></g>
+                <rect x="742" y="346" width="38" height="26" rx="3" fill="var(--chip)"/>
                 <text x="761" y="363" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" font-family="Red Hat Mono">GPU</text>
-                <g stroke="#54423E" stroke-width="1.6"><line x1="747" y1="342" x2="747" y2="346"/><line x1="756" y1="342" x2="756" y2="346"/><line x1="765" y1="342" x2="765" y2="346"/><line x1="774" y1="342" x2="774" y2="346"/><line x1="747" y1="372" x2="747" y2="376"/><line x1="756" y1="372" x2="756" y2="376"/><line x1="765" y1="372" x2="765" y2="376"/><line x1="774" y1="372" x2="774" y2="376"/></g>
+                <g stroke="var(--chip)" stroke-width="1.6"><line x1="747" y1="342" x2="747" y2="346"/><line x1="756" y1="342" x2="756" y2="346"/><line x1="765" y1="342" x2="765" y2="346"/><line x1="774" y1="342" x2="774" y2="346"/><line x1="747" y1="372" x2="747" y2="376"/><line x1="756" y1="372" x2="756" y2="376"/><line x1="765" y1="372" x2="765" y2="376"/><line x1="774" y1="372" x2="774" y2="376"/></g>
               </g>
               <text x="778" y="404" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Lab 01</text>
 
               <!-- OpenShift -->
-              <g filter="url(#a5sh)"><rect x="128" y="244" width="664" height="70" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="255" r="4" fill="#286C88"><title>data</title></circle>
+              <g filter="url(#a5sh)"><rect x="128" y="244" width="664" height="70" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="255" r="4" fill="var(--steel)"><title>data</title></circle>
               <text x="146" y="268" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift</text>
               <text x="146" y="286" font-size="10.5" fill="var(--ink-2)">Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery</text>
               <text x="146" y="304" font-size="10.5" fill="var(--ink-3)">The same cluster runs the modernized case-management apps beside the models they call</text>
 
               <!-- OpenShift AI -->
-              <g filter="url(#a5sh)"><rect x="128" y="142" width="664" height="86" rx="8" fill="url(#a5ai)" stroke="#CC0000"/></g>
+              <g filter="url(#a5sh)"><rect x="128" y="142" width="664" height="86" rx="8" fill="url(#a5ai)" stroke="var(--accent)"/></g>
               <text x="146" y="164" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat OpenShift AI</text>
               <text x="778" y="164" font-size="9.5" fill="var(--ink-3)" text-anchor="end">Labs 02 · 03 · 04 · 07</text>
               <rect x="146" y="176" width="116" height="40" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><circle cx="253" cy="183" r="6" fill="var(--r-info)" stroke="var(--surface)" stroke-width="1.6"/><title>information</title></circle>
@@ -1008,7 +1107,7 @@ kbd{
               <text x="688" y="205" font-size="9" fill="var(--ink-3)">vector store</text>
 
               <!-- apps -->
-              <g filter="url(#a5sh)"><rect x="128" y="46" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="57" r="4" fill="#1E7A55"><title>judgement</title></circle>
+              <g filter="url(#a5sh)"><rect x="128" y="46" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="57" r="4" fill="var(--good)"><title>judgement</title></circle>
               <text x="146" y="70" font-size="11.5" font-weight="700" fill="var(--ink)">Mission applications</text>
               <rect x="146" y="80" width="152" height="34" rx="6" fill="var(--surface)" stroke="var(--border)"/>
               <circle cx="160" cy="97" r="3.5" fill="var(--border-strong)"/>
@@ -1382,10 +1481,29 @@ kbd{
       <div class="labs-intro">
         <span class="eyebrow">Hands-on track</span>
         <h2>Virtual terminal labs</h2>
-        <p>Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html">choose-your-own-adventure page</a> lays out a reading order for every job in the room.</p>
+        <p>Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html">choose-your-own-adventure page</a> lays out a reading order for every job in the room. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.</p>
         <div class="labs-legend"><span>Each lab is tagged with the rung of the ladder it serves:</span><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
       </div>
       <div id="labholder"></div>
+
+      <div class="glossary" id="glossary">
+        <span class="eyebrow">Glossary — the jargon, demystified</span>
+        <div class="glossgrid">
+          <div class="gterm"><b>Token</b><p>The small piece of text a model actually reads and writes — roughly four characters. “Form 8822” is three tokens; a page of a notice is about 700.</p></div>
+          <div class="gterm"><b>Tokenization</b><p>Splitting text into tokens and turning each one into a number — the only translation step between your words and the mathematics.</p></div>
+          <div class="gterm"><b>Weights (parameters)</b><p>The billions of numbers learned during training. They encode patterns of language, not a database of facts, and they are frozen once deployed.</p></div>
+          <div class="gterm"><b>Inference</b><p>Running the model: tokens in, one predicted token out, repeated until the answer is complete. Lab 02 is the only lab that changes weights — every model call in the others is inference.</p></div>
+          <div class="gterm"><b>Prompt</b><p>Everything you send — the instructions plus the text to work on. Sending it is the whole request; no other step exists.</p></div>
+          <div class="gterm"><b>Context window</b><p>How much the model can consider at once: your prompt plus its own answer so far. Short-term memory, cleared after every request.</p></div>
+          <div class="gterm"><b>Temperature</b><p>How adventurous the next-token choice is. Near zero the model repeats its best guess reliably — the right setting for tax work.</p></div>
+          <div class="gterm"><b>Embedding</b><p>Text converted into a vector — a point in space where similar meanings sit close together. What makes searching by meaning possible.</p></div>
+          <div class="gterm"><b>Vector store</b><p>A database of embeddings. Labs 04 and 07 run one in pgvector so guidance and logs can be found by meaning rather than by keyword.</p></div>
+          <div class="gterm"><b>RAG — retrieval-augmented generation</b><p>Fetch the relevant passages from your documents, place them into the prompt, and require the answer to cite them.</p></div>
+          <div class="gterm"><b>Fine-tuning (LoRA)</b><p>Deliberately adjusting weights with your own examples. LoRA trains a small add-on instead of all the weights — cheaper, faster, reversible.</p></div>
+          <div class="gterm"><b>Hallucination</b><p>A confident answer assembled from plausible tokens with nothing behind it. Countered with retrieval, thresholds, refusal — and a human signature.</p></div>
+          <div class="gterm"><b>Drift</b><p>The input mix changing compared to the baseline you accredited. It means the world changed — not that the model decayed. Weights cannot rot.</p></div>
+        </div>
+      </div>
 
       <div class="closing">
         <h3>After the labs</h3>
@@ -1484,24 +1602,24 @@ kbd{
   function buildRail(){
     railnav.innerHTML = '';
     if(mode === 'deck'){
-      railLabel.textContent = 'Slides';
+      railLabel.textContent = C('slidesLbl');
       slides.forEach(function(s,i){
         var b = document.createElement('button');
         b.className = 'navitem';
         b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span><span class="rdots">' +
           rungsOf(s).map(function(k){ return '<i class="' + RUNG[k][0] + '"></i>'; }).join('') + '</span>';
-        b.children[1].textContent = s.dataset.title;
+        b.children[1].textContent = slideTitleLocal(s.dataset.title);
         b.setAttribute('aria-current', i === cur ? 'true' : 'false');
         b.addEventListener('click', function(){ go(i); });
         railnav.appendChild(b);
       });
     } else if(mode === 'labs'){
-      railLabel.textContent = 'Labs';
+      railLabel.textContent = C('labsLbl');
       LABS.forEach(function(l,i){
         var b = document.createElement('button');
         b.className = 'navitem';
         b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
-        b.lastChild.textContent = l.title;
+        b.lastChild.textContent = LT(l, 'title');
         b.addEventListener('click', function(){
           var el = document.getElementById('lab-' + i);
           if(el) el.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'start'});
@@ -1509,12 +1627,12 @@ kbd{
         railnav.appendChild(b);
       });
     } else {
-      railLabel.textContent = 'Demo';
+      railLabel.textContent = C('demoLbl');
       LABS.forEach(function(l,i){
         var b = document.createElement('button');
         b.className = 'navitem';
         b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
-        b.lastChild.textContent = l.title;
+        b.lastChild.textContent = LT(l, 'title');
         b.setAttribute('aria-current', i === D.lab ? 'true' : 'false');
         b.addEventListener('click', function(){
           demoLoad(i);
@@ -1603,6 +1721,584 @@ kbd{
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------------- LANGUAGE (EN/ES) — data ---------------- */
+  var lang = 'en';
+  var CHROME = {
+    en: {
+      deck:'Deck', labsBtn:'Labs', demoBtnMode:'Demo',
+      slidesLbl:'Slides', labsLbl:'Labs', demoLbl:'Demo',
+      notes:'Notes', dark:'Dark', light:'Light', ladder:'ladder',
+      play:'Play', pause:'Pause',
+      whatYouUse:'What you use', whatToNotice:'What to notice',
+      theoryHead:'The theory — what just happened',
+      takeaway:'Takeaway.', takeawayColon:'Takeaway: ',
+      commands:'commands', show:'Show', run:'Run', demoBtn:'Demo', stop:'Stop',
+      copyAll:'Copy all', copied:'Copied', copyFailed:'Copy failed', reset:'Reset',
+      typeCmd:'type the command, or press Run', labDone:'lab complete',
+      wrongCmd:'Not the command this step expects.',
+      wrongHint:'Press Show to fill it in, or Run to execute it for you.',
+      demoBanner1:'Red Hat Enterprise Linux 9.6 — automated walkthrough, no input needed',
+      demoBanner2:'Commands are real and copyable; output is representative of a working environment.',
+      step:'step', ready:'ready'
+    },
+    es: {
+      deck:'Diapos', labsBtn:'Labs', demoBtnMode:'Demo',
+      slidesLbl:'Diapositivas', labsLbl:'Laboratorios', demoLbl:'Demo',
+      notes:'Notas', dark:'Oscuro', light:'Claro', ladder:'escalera',
+      play:'Reproducir', pause:'Pausa',
+      whatYouUse:'Qué usas', whatToNotice:'Qué observar',
+      theoryHead:'La teoría — qué acaba de pasar',
+      takeaway:'Conclusión.', takeawayColon:'Conclusión: ',
+      commands:'comandos', show:'Ver', run:'Ejecutar', demoBtn:'Demo', stop:'Detener',
+      copyAll:'Copiar todo', copied:'Copiado', copyFailed:'No se copió', reset:'Reiniciar',
+      typeCmd:'escribe el comando, o pulsa Ejecutar', labDone:'laboratorio completo',
+      wrongCmd:'No es el comando que espera este paso.',
+      wrongHint:'Pulsa Ver para completarlo, o Ejecutar para correrlo por ti.',
+      demoBanner1:'Red Hat Enterprise Linux 9.6 — recorrido automático, sin intervención',
+      demoBanner2:'Los comandos son reales y copiables; la salida es representativa de un entorno real.',
+      step:'paso', ready:'listo'
+    }
+  };
+  function C(k){ return (CHROME[lang] && CHROME[lang][k]) || CHROME.en[k] || k; }
+  function LT(lab, field){
+    if(lang === 'es' && lab.es && lab.es[field] !== undefined) return lab.es[field];
+    return lab[field];
+  }
+  function completeLine(nn, lab){
+    return lang === 'es'
+      ? '✓ Laboratorio ' + nn + ' completo — ' + LT(lab, 'title').toLowerCase() + '.'
+      : '✓ Lab ' + nn + ' complete — ' + lab.title.toLowerCase() + '.';
+  }
+  var TITLES_ES = {
+    'Title':'Portada', 'AI in plain English':'La IA en claro', 'Why now':'Por qué ahora',
+    'Inside an LLM':'Dentro de un LLM', 'Data to judgement':'De datos a juicio',
+    'Two kinds of AI':'Dos clases de IA', 'Where AI lands':'Dónde entra la IA',
+    'Five outcomes':'Cinco resultados', 'Architecture':'Arquitectura',
+    'Why Red Hat AI':'Por qué Red Hat AI', 'Why one platform':'Por qué una plataforma',
+    'AI for operations':'IA para operaciones', 'Logs to MTTR':'De logs a MTTR',
+    'Adoption path':'Ruta de adopción', 'Next steps':'Próximos pasos',
+    'Labs preview':'Vista de labs', 'Security posture':'Postura de seguridad'
+  };
+  function slideTitleLocal(t){
+    return (lang === 'es' && TITLES_ES[t]) ? TITLES_ES[t] : t;
+  }
+  var RUNGN = {
+    data:['Data','Datos'], information:['Information','Información'],
+    knowledge:['Knowledge','Conocimiento'], judgement:['Judgement','Juicio']
+  };
+
+
+  var ES_TEXT = {
+    /* ---- chrome ---- */
+    "Notes":"Notas",
+    "← Prev":"← Ant.",
+    "Next →":"Sig. →",
+    "Present":"Presentar",
+    "← Lab":"← Lab",
+    "Lab →":"Lab →",
+    "Restart lab":"Reiniciar lab",
+    "Speed":"Velocidad",
+    "Presenter notes":"Notas del presentador",
+    "Red Hat AI · virtual event deck &amp; hands-on labs":"Red Hat AI · presentación del evento y labs prácticos",
+    "<kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes &nbsp;·&nbsp; <kbd>F</kbd> present full-screen":"<kbd>←</kbd> <kbd>→</kbd> para moverte &nbsp;·&nbsp; <kbd>N</kbd> notas &nbsp;·&nbsp; <kbd>F</kbd> pantalla completa",
+    "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all six continuously. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre todos en bucle continuo. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
+    "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre los siete en bucle continuo. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
+
+    /* ---- rung labels (standalone chips) ---- */
+    "Data":"Datos",
+    "Information":"Información",
+    "Knowledge":"Conocimiento",
+    "Judgement":"Juicio",
+    "data":"datos",
+    "information":"información",
+    "knowledge":"conocimiento",
+    "judgement":"juicio",
+    "data → information":"datos → información",
+    "information → knowledge":"información → conocimiento",
+    "knowledge → action":"conocimiento → acción",
+    "executes judgement":"ejecuta el juicio",
+    "executes it":"lo ejecuta",
+    "data — it stays":"datos — se quedan",
+    "judgement stays human":"el juicio sigue humano",
+    "information at scale":"información a escala",
+    "evidence → judgement":"evidencia → juicio",
+    "accredit once — judgement":"acredita una vez — juicio",
+    "data — where it lives":"datos — dónde viven",
+    "RAG — knowledge":"RAG — conocimiento",
+    "Ansible executes judgement":"Ansible ejecuta el juicio",
+    "the next decision is yours":"la próxima decisión es tuya",
+    "stays human":"sigue humano",
+    "Predictive ML":"ML predictivo",
+    "GenAI / LLM":"GenAI / LLM",
+
+    /* ---- slide 1: title ---- */
+    "Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026":"Red Hat · Four Inc. · Carahsoft — Evento virtual · 17 de septiembre de 2026",
+    "AI foundations for intelligent tax administration":"Fundamentos de IA para una administración tributaria inteligente",
+    "What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in seven labs you run yourself.":"Qué hacen realmente la IA predictiva, la IA generativa y los LLM — y cómo Red Hat convierte modelos, conocimiento de la agencia y automatización en una capacidad de misión operable, demostrada en siete labs que tú mismo ejecutas.",
+    "The spine of this hour — every technology is tagged with the rung it serves":"La columna de esta hora — cada tecnología lleva el peldaño que sirve",
+    "What happened, uninterpreted — returns, transcripts, logs.":"Lo que ocurrió, sin interpretar — declaraciones, transcripciones, logs.",
+    "Data in context for one case — a score, a classification, a diagnosis.":"Datos en contexto para un caso — un puntaje, una clasificación, un diagnóstico.",
+    "Information that informs an outcome — guidance, precedent, runbooks.":"Información que informa un resultado — normativa, precedente, runbooks.",
+    "A determination someone signs. Deliberately human; automation executes it.":"Una determinación que alguien firma. Deliberadamente humana; la automatización la ejecuta.",
+
+    /* ---- slide 2: AI in plain English ---- */
+    "AI foundations · no alphabet soup":"Fundamentos de IA · sin sopa de letras",
+    "Four different jobs get called “AI”":"Cuatro trabajos distintos reciben el nombre de “IA”",
+    "Treat AI as a toolbox, not a magic employee. Pick the tool by the job you need done.":"Trata la IA como una caja de herramientas, no como un empleado mágico. Elige la herramienta según el trabajo que necesitas.",
+    "Estimate":"Estimar",
+    "Create":"Crear",
+    "Reason + act":"Razonar + actuar",
+    "Execute":"Ejecutar",
+    "Predictive AI":"IA predictiva",
+    "Generative AI / LLM":"IA generativa / LLM",
+    "Agentic AI":"IA agéntica",
+    "Automation":"Automatización",
+    "Finds patterns in historical data to score, classify or forecast an outcome.":"Encuentra patrones en datos históricos para puntuar, clasificar o pronosticar un resultado.",
+    "Produces new language by predicting useful next tokens from patterns learned during training and context supplied now.":"Produce lenguaje nuevo prediciendo los siguientes tokens útiles a partir de patrones aprendidos en entrenamiento y del contexto que le das ahora.",
+    "Pairs a model with approved tools, state and rules so it can plan steps and call systems.":"Empareja un modelo con herramientas aprobadas, estado y reglas para que planee pasos y llame sistemas.",
+    "Runs deterministic, tested steps when a condition or human decision says to act.":"Corre pasos deterministas y probados cuando una condición o una decisión humana ordena actuar.",
+    "<b>Analogy</b><br>A weather forecast: “there is a 70% chance,” not a guarantee.":"<b>Analogía</b><br>Un pronóstico del tiempo: “hay 70% de probabilidad”, no una garantía.",
+    "<b>Analogy</b><br>A very well-read drafting assistant — fast, fluent, and still capable of being wrong.":"<b>Analogía</b><br>Un asistente de redacción muy leído — rápido, fluido, y aún capaz de equivocarse.",
+    "<b>Analogy</b><br>A junior analyst with a badge and a restricted tool belt — permissions still matter.":"<b>Analogía</b><br>Un analista junior con gafete y un cinturón de herramientas restringido — los permisos siguen importando.",
+    "<b>Analogy</b><br>A checklist that actually performs the checklist. This is where Ansible belongs.":"<b>Analogía</b><br>Una lista de verificación que ejecuta la lista de verificación. Aquí es donde vive Ansible.",
+    "<b>What predictive AI is not:</b> a crystal ball. &nbsp; <b>What an LLM is not:</b> a database, policy authority or source of truth. &nbsp; <b>What an agent is not:</b> permission to bypass controls.":"<b>Lo que la IA predictiva no es:</b> una bola de cristal. &nbsp; <b>Lo que un LLM no es:</b> una base de datos, una autoridad de política ni una fuente de verdad. &nbsp; <b>Lo que un agente no es:</b> permiso para saltarse los controles.",
+
+    /* ---- slide 3: why now ---- */
+    "The operating reality":"La realidad operativa",
+    "The work is seasonal, textual and unforgiving":"El trabajo es estacional, textual e implacable",
+    "A year of demand arrives in six weeks":"Un año de demanda llega en seis semanas",
+    "Taxpayer contacts per week — illustrative shape of a filing year":"Contactos de contribuyentes por semana — forma ilustrativa de un año fiscal",
+    "staffed capacity":"capacidad de personal",
+    "April — 6× the August low":"Abril — 6× el mínimo de agosto",
+    "the surge automation absorbs":"el pico que absorbe la automatización",
+    "extension deadline":"plazo de prórroga",
+    "Demand":"Demanda",
+    "Systems":"Sistemas",
+    "Peak load, fixed staff":"Carga pico, personal fijo",
+    "Rules locked in legacy code":"Reglas atrapadas en código legado",
+    "The answers are in the text":"Las respuestas están en el texto",
+    "The constraint that decides everything":"La restricción que lo decide todo",
+    "The data cannot leave":"Los datos no pueden salir",
+    "Idle capacity in August is unjustifiable; exhausted capacity in April is a headline.":"Capacidad ociosa en agosto es injustificable; capacidad agotada en abril es un titular.",
+    "Rewriting the systems of record is a decade. Wrapping them in intelligent workflows is a quarter.":"Reescribir los sistemas de registro toma una década. Envolverlos en flujos inteligentes, un trimestre.",
+    "Correspondence, transcripts and case notes are unstructured — exactly what language models are built for.":"Correspondencia, transcripciones y notas de caso no están estructuradas — exactamente para lo que se construyen los modelos de lenguaje.",
+    "FTI handling rules rule out public endpoints. The model comes to the data — on premises, accredited cloud, or air-gapped enclave.":"Las reglas de manejo de FTI descartan endpoints públicos. El modelo viene a los datos — en sitio, nube acreditada o enclave aislado.",
+
+    /* ---- slide 4: inside an LLM ---- */
+    "Large language model · what is actually happening":"Modelo grande de lenguaje · qué está pasando realmente",
+    "An LLM is the engine — not the whole vehicle":"Un LLM es el motor — no el vehículo completo",
+    "Mission app":"App de misión",
+    "Context / RAG":"Contexto / RAG",
+    "Model / LLM":"Modelo / LLM",
+    "Inference":"Inferencia",
+    "Platform":"Plataforma",
+    "Compute + data":"Cómputo + datos",
+    "The taxpayer-service UI, case workflow or console that asks for help. <span class=\"rung r-judge\">judgement</span>":"La interfaz de servicio al contribuyente, el flujo de casos o la consola que pide ayuda. <span class=\"rung r-judge\">juicio</span>",
+    "The approved guidance for this exact question — the <b>open book</b>. <span class=\"rung r-know\">knowledge</span>":"La normativa aprobada para esta pregunta exacta — el <b>libro abierto</b>. <span class=\"rung r-know\">conocimiento</span>",
+    "Learned language patterns — not your live system of record. <span class=\"rung r-info\">information</span>":"Patrones de lenguaje aprendidos — no tu sistema de registro en vivo. <span class=\"rung r-info\">información</span>",
+    "The engine — vLLM, the Red Hat AI Inference Server. <span class=\"rung r-info\">data → information</span>":"El motor — vLLM, el Red Hat AI Inference Server. <span class=\"rung r-info\">datos → información</span>",
+    "Identity, scaling, isolation, lifecycle, policy — RHEL and OpenShift AI. <span class=\"rung r-judge\">executes judgement</span>":"Identidad, escalado, aislamiento, ciclo de vida, política — RHEL y OpenShift AI. <span class=\"rung r-judge\">ejecuta el juicio</span>",
+    "Accelerators and agency data — wherever authorization requires. <span class=\"rung r-data\">data</span>":"Aceleradores y datos de la agencia — donde la autorización lo exija. <span class=\"rung r-data\">datos</span>",
+    "<b>Fine-tuning is studying for the test. Retrieval is bringing the notebook.</b> You want both — and neither makes the model a source of truth.":"<b>El ajuste fino es estudiar para el examen. La recuperación es llevar el cuaderno.</b> Quieres ambos — y ninguno convierte al modelo en fuente de verdad.",
+
+    /* ---- slide 5: data to judgement ---- */
+    "Why it matters":"Por qué importa",
+    "From data to judgement — and who climbs each step":"De los datos al juicio — y quién sube cada escalón",
+    "Every step up is worth more to the mission":"Cada escalón hacia arriba vale más para la misión",
+    "AI moves the work up the ladder — it never takes the top step":"La IA sube el trabajo por la escalera — nunca toma el último escalón",
+    "What happened, uninterpreted":"Lo que ocurrió, sin interpretar",
+    "returns · transcripts · calls · scans":"declaraciones · transcripciones · llamadas · escaneos",
+    "Data in context for one case":"Datos en contexto para un caso",
+    "matched · flagged · routed by intent":"cruzados · marcados · enrutados por intención",
+    "Information that informs an outcome":"Información que informa un resultado",
+    "guidance · precedent · taxonomies":"normativa · precedente · taxonomías",
+    "A determination someone signs":"Una determinación que alguien firma",
+    "the decision — and the accountability":"la decisión — y la responsabilidad",
+    "PREDICTIVE AI — score · match · flag":"IA PREDICTIVA — puntúa · cruza · marca",
+    "GENERATIVE AI + RAG — read · ground · draft":"IA GENERATIVA + RAG — lee · ancla · redacta",
+    "PEOPLE — decide &amp; sign":"PERSONAS — deciden y firman",
+    "The backlog lives at the bottom of the ladder":"El rezago vive al pie de la escalera",
+    "Transcribing, matching, routing and summarizing consume the workforce. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.":"Transcribir, cruzar, enrutar y resumir consumen a la plantilla. Cada hora que una máquina absorbe allá abajo es una hora que un examinador dedica a decidir — el único trabajo que resuelve un caso.",
+    "Judgement is deliberately never automated":"El juicio, deliberadamente, nunca se automatiza",
+    "The model classifies, grounds and drafts; a named person decides and signs. That is a design rule, not a technical limit — and it is what makes the deployment defensible to counsel and oversight.":"El modelo clasifica, ancla y redacta; una persona con nombre decide y firma. Es una regla de diseño, no un límite técnico — y es lo que hace el despliegue defendible ante asesoría legal y los órganos de control.",
+
+    /* ---- slide 6: two kinds ---- */
+    "table reads standalone — take it home":"la tabla se lee sola — llévatela",
+    "Predictive and generative AI answer different questions":"La IA predictiva y la generativa responden preguntas distintas",
+    "They fail differently — so they are governed differently.":"Fallan distinto — por eso se gobiernan distinto.",
+    "Predictive AI &nbsp;<span class=\"rung r-info\">data → information</span>":"IA predictiva &nbsp;<span class=\"rung r-info\">datos → información</span>",
+    "Generative AI &nbsp;<span class=\"rung r-know\">information → knowledge</span>":"IA generativa &nbsp;<span class=\"rung r-know\">información → conocimiento</span>",
+    "learns from":"aprende de",
+    "produces":"produce",
+    "in tax terms":"en términos fiscales",
+    "fails as":"falla como",
+    "governed by":"se gobierna con",
+    "Patterns in structured history — filings, payments, outcomes":"Patrones en historia estructurada — declaraciones, pagos, resultados",
+    "Language itself — how guidance, notices and case notes are written":"El lenguaje mismo — cómo se escriben normativa, avisos y notas de caso",
+    "A number: a score, a forecast, a flag":"Un número: un puntaje, un pronóstico, una bandera",
+    "Text: a classification, a draft, a summary, a cited answer":"Texto: una clasificación, un borrador, un resumen, una respuesta con citas",
+    "Refund-risk scoring · workload forecasting · anomaly flags":"Riesgo de reembolso · pronóstico de carga · banderas de anomalía",
+    "Read correspondence · draft notices · summarize case files · answer from guidance":"Leer correspondencia · redactar avisos · resumir expedientes · responder desde la normativa",
+    "A bad number — visible in precision and recall":"Un mal número — visible en precisión y exhaustividad",
+    "A plausible sentence — which is why grounding and review are non-negotiable":"Una oración plausible — por eso el anclaje y la revisión no son negociables",
+    "Back-testing, thresholds, fairness metrics":"Back-testing, umbrales, métricas de equidad",
+    "Retrieval with citations, human sign-off, drift monitoring — Labs 04 · 06":"Recuperación con citas, firma humana, monitoreo de deriva — Labs 04 · 06",
+    "Predictive":"Predictiva",
+    "Generative":"Generativa",
+    "a number":"un número",
+    "language":"lenguaje",
+    "score · flag":"puntúa · marca",
+    "draft · cite":"redacta · cita",
+    "compose":"componen",
+    "They compose — and one platform serves both":"Se componen — y una sola plataforma sirve a ambas",
+    "The score picks the case. The language model prepares the brief, the draft":"El puntaje elige el caso. El modelo de lenguaje prepara el resumen, el borrador",
+    "and the citations. A person decides.":"y las citas. Una persona decide.",
+    "Both share the same GPUs, registry, monitoring and audit trail.":"Ambas comparten las mismas GPU, registro, monitoreo y rastro de auditoría.",
+    "→ Lab 03 serves both side by side":"→ El Lab 03 sirve a ambas lado a lado",
+
+    /* ---- slide 7: where AI lands ---- */
+    "Workflow map":"Mapa del flujo",
+    "Where AI actually lands in the filing lifecycle":"Dónde entra realmente la IA en el ciclo de declaraciones",
+    "Highlighted stages already have a human reviewer in the loop — which makes them the honest places to start.":"Las etapas resaltadas ya tienen a un revisor humano en el circuito — por eso son los puntos honestos para empezar.",
+    "Intake &amp;":"Recepción y",
+    "classification":"clasificación",
+    "Validation":"Validación",
+    "Correspondence":"Correspondencia",
+    "Exam":"Selección",
+    "selection":"de auditoría",
+    "Collections":"Apoyo a",
+    "support":"cobranza",
+    "Taxpayer":"Servicio al",
+    "service":"contribuyente",
+    "Route by intent,":"Enruta por intención,",
+    "not by keyword":"no por palabra clave",
+    "Catch gaps before":"Detecta faltantes",
+    "a case is opened":"antes de abrir caso",
+    "Draft; a reviewer":"Borrador; un revisor",
+    "edits and signs":"edita y firma",
+    "determinations":"determinaciones",
+    "Brief the officer":"Informa al oficial",
+    "before the case":"antes del caso",
+    "Answers carry":"Respuestas con",
+    "their citation":"su cita",
+    "human in the loop":"humano en el circuito",
+    "governance first":"gobernanza primero",
+    "Rule of thumb":"Regla práctica",
+    "Start where a human already reviews the output":"Empieza donde un humano ya revisa el resultado",
+    "If a person signs the letter today, a model that drafts it changes throughput without changing accountability. That is a defensible first deployment.":"Si hoy una persona firma la carta, un modelo que la redacta cambia el rendimiento sin cambiar la responsabilidad. Ese es un primer despliegue defendible.",
+    "Automate the toil around the model, not just the model":"Automatiza el trabajo alrededor del modelo, no solo el modelo",
+    "Most of the effort in production AI is provisioning, patching, scaling and evidence collection. That is an automation problem, and it is solved.":"La mayor parte del esfuerzo en IA productiva es aprovisionar, parchar, escalar y recolectar evidencia. Ese es un problema de automatización, y ya está resuelto.",
+
+    /* ---- slide 8: five outcomes ---- */
+    "What teams get":"Qué obtienen los equipos",
+    "Five outcomes, and where each one is proven":"Cinco resultados, y dónde se demuestra cada uno",
+    "Modernize mission-critical operations":"Moderniza operaciones críticas para la misión",
+    "Wrap legacy systems in intelligent workflows instead of rewriting them. Events trigger automation; automation calls the model; the system of record stays untouched.":"Envuelve los sistemas legados en flujos inteligentes en lugar de reescribirlos. Los eventos disparan automatización; la automatización llama al modelo; el sistema de registro queda intacto.",
+    "Improve efficiency and accuracy":"Mejora eficiencia y precisión",
+    "Classification, extraction and drafting move first-pass work off people. Reviewers spend their time on judgement, not transcription.":"Clasificación, extracción y redacción quitan el primer pase de encima de las personas. Los revisores dedican su tiempo al juicio, no a la transcripción.",
+    "Unlock data-driven insights":"Desbloquea hallazgos basados en datos",
+    "Retrieval grounds every answer in your own published guidance and case data, with the source citation returned alongside the answer.":"La recuperación ancla cada respuesta en tu propia normativa publicada y datos de caso, con la cita de la fuente devuelta junto a la respuesta.",
+    "Strengthen security and compliance":"Refuerza seguridad y cumplimiento",
+    "Signed models, FIPS-validated cryptography, continuous compliance scanning and bias/drift monitoring — as platform features, not project work.":"Modelos firmados, criptografía validada FIPS, escaneo continuo de cumplimiento y monitoreo de sesgo/deriva — como funciones de plataforma, no trabajo de proyecto.",
+    "Build an AI-ready foundation":"Construye una base lista para IA",
+    "One platform, one operating model, from a datacenter GPU node to an accredited cloud region — so scaling innovation is a capacity decision, not a re-architecture.":"Una plataforma, un modelo operativo, desde un nodo GPU en tu centro de datos hasta una región de nube acreditada — escalar la innovación es una decisión de capacidad, no una re-arquitectura.",
+
+    /* ---- slide 9: architecture ---- */
+    "Reference architecture":"Arquitectura de referencia",
+    "One foundation, from bare metal to the taxpayer":"Una base, del metal desnudo al contribuyente",
+    "Most failures happen at the seams between systems, not inside them. The platform’s job is to make those seams boring.":"La mayoría de las fallas ocurren en las costuras entre sistemas, no dentro de ellos. El trabajo de la plataforma es volver aburridas esas costuras.",
+    "TRUST":"CONFIANZA",
+    "Signed models":"Modelos firmados",
+    "FIPS crypto":"Cripto FIPS",
+    "Compliance":"Operador de",
+    "Operator":"cumplimiento",
+    "drift + bias":"deriva y sesgo",
+    "Audit trail":"Rastro de auditoría",
+    "Air-gap":"Réplica sin",
+    "mirroring":"conexión",
+    "AUTOMATION":"AUTOMATIZA",
+    "Provision":"Aprovisionar",
+    "Patch":"Parchar",
+    "Remediate":"Remediar",
+    "Evidence":"Recolección de",
+    "collection":"evidencia",
+    "Red Hat Enterprise Linux · AI Inference Server":"Red Hat Enterprise Linux · AI Inference Server",
+    "Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave":"Nodos GPU físicos · centro de datos virtualizado · nube pública acreditada · enclave clasificado",
+    "Granite models, accelerator drivers and the vLLM-based AI Inference Server in one supported stack":"Modelos Granite, drivers de aceleradores y el AI Inference Server basado en vLLM en un stack soportado",
+    "Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery":"Programación · partición de GPU · política de red · multi-sitio · entrega GitOps",
+    "The same cluster runs the modernized case-management apps beside the models they call":"El mismo clúster corre las apps modernizadas junto a los modelos que llaman",
+    "Model serving":"Servicio de modelos",
+    "KServe + vLLM":"KServe + vLLM",
+    "Training":"Entrenamiento",
+    "Pipelines":"Pipelines",
+    "tune · eval · ship":"afinar · evaluar",
+    "Model registry":"Registro de modelos",
+    "signed versions":"versiones firmadas",
+    "Retrieval":"Recuperación",
+    "vector store":"almacén vectorial",
+    "Mission applications":"Aplicaciones de misión",
+    "Correspondence intake":"Recepción de correspondencia",
+    "Notice drafting":"Redacción de avisos",
+    "Case summarization":"Resumen de casos",
+    "Guidance assistant":"Asistente de normativa",
+    "Systems of record stay where they are — reached through APIs and automation, not replaced":"Los sistemas de registro se quedan donde están — se alcanzan por API y automatización, no se reemplazan",
+
+    /* ---- slide 10: why Red Hat AI ---- */
+    "Why Red Hat AI":"Por qué Red Hat AI",
+    "the grid below is your take-home reference":"la cuadrícula de abajo es tu referencia para llevar",
+    "The federal problem is not “get a model.” It is operate AI without giving up control.":"El problema federal no es “conseguir un modelo”. Es operar la IA sin ceder el control.",
+    "The Red Hat proposition":"La propuesta de Red Hat",
+    "Bring the model to the mission — not the mission data to somebody else’s model.":"Lleva el modelo a la misión — no los datos de la misión al modelo de alguien más.",
+    "Use the model, accelerator and deployment location that fit the workload. One operating model across datacenter, accredited cloud, edge and disconnected — and a <b>glass box</b> you can open and inspect, not a black box.":"Usa el modelo, el acelerador y la ubicación que le queden a la carga. Un solo modelo operativo entre centro de datos, nube acreditada, borde y desconectado — y una <b>caja de cristal</b> que puedes abrir e inspeccionar, no una caja negra.",
+    "<b>Inference</b>Serve efficiently with vLLM / llm-d.":"<b>Inferencia</b>Sirve eficientemente con vLLM / llm-d.",
+    "<b>Data</b>Connect private agency knowledge.":"<b>Datos</b>Conecta el conocimiento privado de la agencia.",
+    "<b>Agents</b>Govern tool-using workflows.":"<b>Agentes</b>Gobierna flujos que usan herramientas.",
+    "<b>Platform</b>Scale and operate consistently.":"<b>Plataforma</b>Escala y opera con consistencia.",
+    "Choice":"Elección",
+    "Control":"Control",
+    "Operations":"Operaciones",
+    "Economics":"Economía",
+    "Lifecycle":"Ciclo de vida",
+    "Execution":"Ejecución",
+    "Model freedom":"Libertad de modelo",
+    "Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.":"Modelos abiertos y API estándar mantienen la salida abierta. El lock-in moderno limita lo que puedes construir después — una trampa peor que la vieja de hardware.",
+    "Data locality":"Localidad de datos",
+    "Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.":"Corre la inferencia dentro de la frontera que dictan FTI, datos de misión, soberanía y acreditación.",
+    "Models-as-a-Service":"Modelos como servicio",
+    "Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.":"Equipos centrales de plataforma publican endpoints de modelos gobernados que otros proyectos consumen — en lugar de que cada proyecto construya su propio stack frágil de IA.",
+    "Use accelerators efficiently":"Usa los aceleradores con eficiencia",
+    "vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.":"vLLM y la inferencia distribuida se enfocan en rendimiento, latencia y costo por token, no en poseer GPU como trofeo.",
+    "Predictive + generative":"Predictiva + generativa",
+    "OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.":"OpenShift AI gestiona el ciclo de vida del ML tradicional y de las cargas generativas para que convivan en un solo modelo operativo.",
+    "Ansible closes the loop":"Ansible cierra el circuito",
+    "Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.":"Aprovisiona, configura, remedia y recolecta evidencia con automatización determinista alrededor de la IA probabilística.",
+
+    /* ---- slide 11: why one platform ---- */
+    "Why Red Hat":"Por qué Red Hat",
+    "Define the service once — run it wherever the mission needs it":"Define el servicio una vez — córrelo donde la misión lo necesite",
+    "One service definition":"Una definición del servicio",
+    "Infrastructure as code — the manifest is the capacity plan (Lab 03)":"Infraestructura como código — el manifiesto es el plan de capacidad (Lab 03)",
+    "oc apply — unchanged":"oc apply — sin cambios",
+    "same image · same controls · same skills":"misma imagen · mismos controles · mismas habilidades",
+    "Datacenter — bare-metal GPU nodes":"Centro de datos — nodos GPU físicos",
+    "Your floor, your hardware, shortest path to the systems of record":"Tu piso, tu hardware, la ruta más corta a los sistemas de registro",
+    "differs: the iron":"difiere: el fierro",
+    "Accredited cloud region":"Región de nube acreditada",
+    "FedRAMP boundary; surge capacity rented for the season, released after":"Frontera FedRAMP; capacidad extra rentada para la temporada y liberada después",
+    "differs: the boundary":"difiere: la frontera",
+    "Air-gapped enclave":"Enclave aislado",
+    "Mirrored registry and models; no internet at inference or update time":"Registro y modelos replicados; sin internet al inferir ni al actualizar",
+    "differs: no internet":"difiere: sin internet",
+    "Same platform":"Misma plataforma",
+    "Accredit once, inherit everywhere":"Acredita una vez, hereda en todas partes",
+    "Signing, FIPS mode, compliance scanning and drift monitoring attach to the platform — so workflow two starts with workflow one’s evidence, and the skills and pipelines carry over the same way.":"Firmas, modo FIPS, escaneo de cumplimiento y monitoreo de deriva se adhieren a la plataforma — así el flujo dos arranca con la evidencia del flujo uno, y las habilidades y pipelines se trasladan igual.",
+    "At scale":"A escala",
+    "April becomes a scheduling event":"Abril se vuelve un evento de calendario",
+    "The 6× filing surge is absorbed by autoscaling on pooled GPUs (Lab 03) — capacity follows the season instead of sitting siloed inside one project’s budget.":"El pico de 6× se absorbe con autoescalado sobre GPU compartidas (Lab 03) — la capacidad sigue a la temporada en lugar de quedar aislada en el presupuesto de un proyecto.",
+    "Across clouds":"Entre nubes",
+    "Placement is policy, not re-architecture":"La ubicación es política, no re-arquitectura",
+    "Datacenter, accredited region or enclave — moving a workload is a redeploy of the same manifest. Residency and cost decide where it runs, and the exit door stays open.":"Centro de datos, región acreditada o enclave — mover una carga es redesplegar el mismo manifiesto. Residencia y costo deciden dónde corre, y la puerta de salida queda abierta.",
+
+    /* ---- slide 12: AI for operations ---- */
+    "Troubleshooting · operations · knowledge":"Diagnóstico · operaciones · conocimiento",
+    "The useful pattern is a loop, not a chatbot":"El patrón útil es un circuito, no un chatbot",
+    "A closed loop — predict, explain, ground, act, learn — each technology doing the job it is good at. Automation closes the loop; the connected estate underneath is the discriminator nobody else has.":"Un circuito cerrado — predecir, explicar, anclar, actuar, aprender — cada tecnología haciendo el trabajo que sabe hacer. La automatización cierra el circuito; el parque conectado debajo es el discriminador que nadie más tiene.",
+    "01 · PREDICT":"01 · PREDECIR",
+    "02 · EXPLAIN":"02 · EXPLICAR",
+    "03 · GROUND + ACT":"03 · ANCLAR + ACTUAR",
+    "Spot the pattern":"Detecta el patrón",
+    "Telemetry and historical incidents estimate risk: saturation, failure probability, anomaly or likely incident class.":"Telemetría e incidentes históricos estiman riesgo: saturación, probabilidad de falla, anomalía o clase probable de incidente.",
+    "Turn signals into language":"Convierte señales en lenguaje",
+    "The LLM summarizes logs, changes and symptoms into a human-readable hypothesis and next questions.":"El LLM resume logs, cambios y síntomas en una hipótesis legible y las siguientes preguntas.",
+    "Use what the agency approved":"Usa lo que la agencia aprobó",
+    "RAG retrieves runbooks and prior fixes; policy decides whether Ansible recommends, requests approval or remediates.":"RAG recupera runbooks y arreglos previos; la política decide si Ansible recomienda, pide aprobación o remedia.",
+    "The knowledge flywheel <span class=\"rung r-know\">knowledge</span>":"El volante de conocimiento <span class=\"rung r-know\">conocimiento</span>",
+    "After review, the incident summary, root cause, evidence and successful remediation can become searchable operations knowledge for the next event. <b>Generated content is a draft artifact until it passes the same curation and authority rules as any other knowledge record.</b>":"Tras la revisión, el resumen del incidente, la causa raíz, la evidencia y la remediación exitosa pueden volverse conocimiento operativo buscable para el próximo evento. <b>El contenido generado es un borrador hasta que pasa las mismas reglas de curaduría y autoridad que cualquier otro registro de conocimiento.</b>",
+    "Example":"Ejemplo",
+    "“Why is this service slow?”":"“¿Por qué está lento este servicio?”",
+    "Predictive AI says GPU queue depth is abnormal. The LLM explains the evidence. RAG cites the approved saturation runbook. Event-Driven Ansible scales or reroutes after the required approval.":"La IA predictiva dice que la cola de GPU es anormal. El LLM explica la evidencia. RAG cita el runbook aprobado de saturación. Event-Driven Ansible escala o redirige tras la aprobación requerida.",
+    "Boundary":"Límite",
+    "Do not let fluency become authority":"No dejes que la fluidez se vuelva autoridad",
+    "The LLM can propose a root cause. Telemetry, system state, retrieved source material and deterministic checks establish whether that explanation is actually supported.":"El LLM puede proponer una causa raíz. La telemetría, el estado del sistema, las fuentes recuperadas y las verificaciones deterministas establecen si esa explicación de verdad se sostiene.",
+
+    /* ---- slide 13: logs to MTTR ---- */
+    "The platform on its own data":"La plataforma sobre sus propios datos",
+    "Point the same pattern at your logs — MTTR is the proof":"Apunta el mismo patrón a tus logs — el MTTR es la prueba",
+    "The Lab 04 retrieval stack, aimed at operations: logs, runbooks, incident history and change records become a private notebook the on-call engineer can question — on the cluster, inside the boundary.":"El stack de recuperación del Lab 04, apuntado a operaciones: logs, runbooks, historial de incidentes y registros de cambio se vuelven un cuaderno privado que el ingeniero de guardia puede interrogar — en el clúster, dentro de la frontera.",
+    "Where the hours actually live":"Dónde viven realmente las horas",
+    "Mean time to resolution, decomposed — representative incident pattern, before and after the notebook":"Tiempo medio de resolución, descompuesto — patrón representativo de incidentes, antes y después del cuaderno",
+    "detect":"detectar",
+    "diagnose":"diagnosticar",
+    "fix":"arreglar",
+    "verify":"verificar",
+    "before":"antes",
+    "grep · page · guess":"grep · buscapersonas · adivinar",
+    "diagnose — 2h 41m":"diagnóstico — 2h 41m",
+    "fix 22m":"arreglo 22m",
+    "with the notebook":"con el cuaderno",
+    "ask · verify · act":"pregunta · verifica · actúa",
+    "diagnosis -84% — the notebook answers “what changed, has this":"diagnóstico -84% — el cuaderno responde “qué cambió, ya",
+    "happened before, which runbook applies” in seconds, with citations":"pasó antes, qué runbook aplica” en segundos, con citas",
+    "Detect, fix and verify are unchanged — the hours lived in diagnosis, where industry incident studies consistently put most of resolution time. Lab 07 walks it end to end.":"Detectar, arreglar y verificar no cambian — las horas vivían en el diagnóstico, donde los estudios de incidentes de la industria ubican la mayor parte del tiempo. El Lab 07 lo recorre de punta a punta.",
+    "→ Lab 07":"→ Lab 07",
+    "Why a notebook, not a dashboard":"Por qué un cuaderno y no un tablero",
+    "Dashboards answer anticipated questions":"Los tableros responden preguntas anticipadas",
+    "A notebook over your own data answers the one you did not anticipate — “what changed, has this happened before, which runbook applies” — in language, with citations you check before acting.":"Un cuaderno sobre tus propios datos responde la que no anticipaste — “qué cambió, ya pasó antes, qué runbook aplica” — en lenguaje, con citas que verificas antes de actuar.",
+    "Why it must be local":"Por qué debe ser local",
+    "Logs are FTI-adjacent":"Los logs son adyacentes a FTI",
+    "They carry hostnames, account fragments and case identifiers. The notebook runs on the same OpenShift install it observes — nothing is exported to anyone’s hosted service.":"Llevan hostnames, fragmentos de cuentas e identificadores de caso. El cuaderno corre en la misma instalación de OpenShift que observa — nada se exporta al servicio hospedado de nadie.",
+    "Why it transfers":"Por qué se transfiere",
+    "Same stack as the taxpayer system":"El mismo stack que el sistema del contribuyente",
+    "The team that grounds answers for operations (Lab 07) has already built the taxpayer-facing version (Lab 04) — one retrieval pattern, two corpora, one governance story.":"El equipo que ancla respuestas para operaciones (Lab 07) ya construyó la versión de cara al contribuyente (Lab 04) — un patrón de recuperación, dos corpus, una sola historia de gobernanza.",
+
+    /* ---- slide 14: adoption ---- */
+    "Adoption path":"Ruta de adopción",
+    "Ninety days, then ninety more":"Noventa días, y luego noventa más",
+    "Crawl, walk, run. Nothing here requires a rewrite of a system of record — ground the current phase before you scale, and each phase produces something you can show.":"Gatear, caminar, correr. Nada aquí requiere reescribir un sistema de registro — ancla la fase actual antes de escalar, y cada fase produce algo que puedes mostrar.",
+    "PROVE":"PROBAR",
+    "GROUND":"ANCLAR",
+    "SCALE":"ESCALAR",
+    "day 0":"día 0",
+    "day 90":"día 90",
+    "day 180":"día 180",
+    "day 270+":"día 270+",
+    "one workflow live, measured":"un flujo en vivo, medido",
+    "grounded · monitored · automated":"anclado · monitoreado · automatizado",
+    "surge-proven at scale":"pico probado a escala",
+    "Prove <span class=\"rung r-data\">data</span>":"Probar <span class=\"rung r-data\">datos</span>",
+    "Ground <span class=\"rung r-info\">information</span>":"Anclar <span class=\"rung r-info\">información</span>",
+    "Scale <span class=\"rung r-know\">knowledge</span>":"Escalar <span class=\"rung r-know\">conocimiento</span>",
+    "Crawl · days 0–90":"Gatear · días 0–90",
+    "Walk · days 90–180":"Caminar · días 90–180",
+    "Run · days 180+":"Correr · días 180+",
+    "Stand up one supported endpoint with the AI Inference Server":"Levanta un endpoint soportado con el AI Inference Server",
+    "Agree the accelerator capacity plan and where it physically sits":"Acuerda el plan de capacidad de aceleradores y dónde vive físicamente",
+    "Settle which data classes may be used, in writing":"Define por escrito qué clases de datos pueden usarse",
+    "Pick one text-heavy workflow with a human already reviewing":"Elige un flujo con mucho texto donde un humano ya revisa",
+    "Measure the baseline before you change anything":"Mide la línea base antes de cambiar nada",
+    "Move serving onto OpenShift AI with autoscaling":"Mueve el servicio a OpenShift AI con autoescalado",
+    "Add retrieval over your own published guidance":"Agrega recuperación sobre tu normativa publicada",
+    "Tune on agency vocabulary with SDG Hub + Training Hub":"Afina con el vocabulario de la agencia usando SDG Hub + Training Hub",
+    "Wire drift, fairness and compliance monitoring":"Conecta monitoreo de deriva, equidad y cumplimiento",
+    "Automate provisioning and patching end to end":"Automatiza aprovisionamiento y parchado de punta a punta",
+    "Promote through a model registry with real approvals":"Promueve por un registro de modelos con aprobaciones reales",
+    "Add workflows two through five on the same platform":"Suma los flujos dos a cinco en la misma plataforma",
+    "Prove the filing-season surge with a load rehearsal":"Prueba el pico de temporada con un ensayo de carga",
+    "Extend to the disconnected or classified enclave":"Extiende al enclave desconectado o clasificado",
+    "Report outcomes in mission terms, not token counts":"Reporta resultados en términos de misión, no en tokens",
+
+    /* ---- slide 15: next steps ---- */
+    "Next steps":"Próximos pasos",
+    "What happens after this hour":"Qué pasa después de esta hora",
+    "Step one":"Paso uno",
+    "Step two":"Paso dos",
+    "Step three":"Paso tres",
+    "Architecture workshop":"Taller de arquitectura",
+    "A half-day session with your platform and security teams to size accelerators, place the first workload and name the data classes in scope.":"Media jornada con tus equipos de plataforma y seguridad para dimensionar aceleradores, ubicar la primera carga y nombrar las clases de datos en alcance.",
+    "Guided pilot":"Piloto guiado",
+    "One workflow, on your infrastructure, with a measured baseline and an agreed definition of success before we start.":"Un flujo, en tu infraestructura, con línea base medida y una definición de éxito acordada antes de empezar.",
+    "Acquisition path":"Ruta de adquisición",
+    "Four Inc. and Carahsoft carry the vehicles and pricing — bring them into the conversation early, not at the end.":"Four Inc. y Carahsoft llevan los vehículos y precios — intégralos a la conversación temprano, no al final.",
+    "Reach us — Brad is your connector":"Contáctanos — Brad es tu conector",
+    "Red Hat · if nothing else, he will get you to the right person":"Red Hat · si no es otra cosa, te llevará con la persona correcta",
+    "Red Hat":"Red Hat",
+    "Your move":"Tu jugada",
+    "Already a Red Hat customer? Ask for your Solution Architect.":"¿Ya eres cliente de Red Hat? Pide a tu Solution Architect.",
+    "Not sure who that is? Email Brad, open a ticket in the Customer Portal and ask support, or ask through your management line. The foundational questions are free to ask and expensive to skip.":"¿No sabes quién es? Escríbele a Brad, abre un ticket en el Customer Portal y pregunta a soporte, o pregunta por tu línea de gestión. Las preguntas fundacionales son gratis de hacer y caras de saltar.",
+    "Start a community of practice.":"Arranca una comunidad de práctica.",
+    "A standing group across platform, security and mission teams, built around one workflow. We will help seed it and we will show up.":"Un grupo permanente entre equipos de plataforma, seguridad y misión, construido alrededor de un flujo. Ayudaremos a sembrarlo y ahí estaremos.",
+    "Bring your hardest question.":"Trae tu pregunta más difícil.",
+    "Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. If you did not see it here today, that does not mean it does not exist — ask.":"Operación aislada, fronteras FedRAMP, escasez de aceleradores, procedencia de modelos. Si hoy no lo viste aquí, no significa que no exista — pregunta.",
+    "Everything from today — deck, labs, guides — at <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/\"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. The seven labs are the commands your engineers will run on day one. Follow it on your own: <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\"><b>…/adventure.html</b></a>.":"Todo lo de hoy — presentación, labs, guías — en <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/\"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. Los siete labs son los comandos que tus ingenieros correrán el primer día. Síguelo por tu cuenta: <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\"><b>…/adventure.html</b></a>.",
+
+    /* ---- slide 16: labs preview ---- */
+    "Hands on · the takeaway":"Manos a la obra · el cierre",
+    "Seven labs — real commands, run them yourself":"Siete labs — comandos reales, córrelos tú mismo",
+    "An opinionated path, on a personal laptop — never production. Prove it to <em>yourself</em>: watch the model serve on 127.0.0.1. Site: <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/\"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>.":"Una ruta con opinión, en una laptop personal — nunca producción. Demuéstratelo a <em>ti mismo</em>: mira el modelo servir en 127.0.0.1. Sitio: <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/\"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>.",
+    "Serve a model inside your boundary":"Sirve un modelo dentro de tu perímetro",
+    "Pull the vLLM-based inference server, serve a validated Granite model, and classify a taxpayer inquiry — without a single byte leaving the host.":"Descarga el servidor de inferencia basado en vLLM, sirve un modelo Granite validado y clasifica una consulta — sin que un solo byte salga del host.",
+    "Teach it your notice taxonomy":"Enséñale tu taxonomía de avisos",
+    "Add agency knowledge as seed YAML, generate synthetic data with SDG Hub, tune with Training Hub, and evaluate against the base model.":"Agrega conocimiento como seed YAML, genera datos sintéticos con SDG Hub, afina con Training Hub y evalúa contra el modelo base.",
+    "Survive filing season":"Sobrevive la temporada de declaraciones",
+    "Deploy with KServe and vLLM, then watch it autoscale from two replicas to twenty under an April load rehearsal.":"Despliega con KServe y vLLM, y mira el autoescalado de dos réplicas a veinte bajo un ensayo de carga de abril.",
+    "Ground answers in your own guidance":"Ancla las respuestas en tu propia normativa",
+    "Ingest a publication corpus into a vector store and return answers that carry their citation.":"Ingesta un corpus de publicaciones a un almacén vectorial y devuelve respuestas que llevan su cita.",
+    "Automate the toil around the model":"Automatiza el trabajo alrededor del modelo",
+    "An Event-Driven Ansible rulebook detects inference saturation and remediates it before anyone opens a ticket.":"Un rulebook de Event-Driven Ansible detecta saturación de inferencia y la remedia antes de que alguien abra un ticket.",
+    "Prove it to your ISSO":"Demuéstralo ante tu ISSO",
+    "Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.":"Verifica la firma del modelo, confirma FIPS, corre un escaneo de cumplimiento y lee métricas de deriva del tráfico vivo.",
+    "Ask your own logs":"Pregunta a tus propios logs",
+    "Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.":"Ingesta logs, runbooks e historial de incidentes a un cuaderno en el clúster, diagnostica un incidente en vivo con citas — y luego lee los números de MTTR.",
+    "One thing to remember":"Una sola cosa para recordar",
+    "Nothing here needed a public endpoint":"Nada aquí necesitó un endpoint público",
+    "No public model endpoint, no internet connection at inference time, no rewrite of a system of record. That is the whole argument.":"Ningún endpoint público de modelo, sin internet al momento de inferir, sin reescribir un sistema de registro. Ese es todo el argumento.",
+
+    /* ---- slide 17: security ---- */
+    "Appendix · Trusted, enterprise-ready AI":"Apéndice · IA confiable, lista para la empresa",
+    "The questions an authorizing official will ask":"Las preguntas que hará un oficial autorizador",
+    "Evidence is <span class=\"rung r-info\">information</span> — the authorizing official's decision is <span class=\"rung r-judge\">judgement</span>. The platform produces the first so a person can make the second.":"La evidencia es <span class=\"rung r-info\">información</span> — la decisión del oficial autorizador es <span class=\"rung r-judge\">juicio</span>. La plataforma produce la primera para que una persona tome la segunda.",
+    "Their question":"Su pregunta",
+    "The platform control":"El control de plataforma",
+    "Where it lives":"Dónde vive",
+    "Where does our data go when someone prompts the model?":"¿A dónde van nuestros datos cuando alguien consulta el modelo?",
+    "Nowhere. Inference runs on your cluster, in your enclave, on your accelerators.":"A ningún lado. La inferencia corre en tu clúster, en tu enclave, en tus aceleradores.",
+    "Can you prove this model is the one we approved?":"¿Pueden probar que este modelo es el que aprobamos?",
+    "Model artifacts are signed and verified before they are admitted to the cluster.":"Los artefactos del modelo se firman y verifican antes de admitirse al clúster.",
+    "Is the cryptography validated?":"¿La criptografía está validada?",
+    "FIPS mode is a supported operating state of the OS and the platform on top of it.":"El modo FIPS es un estado operativo soportado del SO y de la plataforma encima.",
+    "Can this land in our FISMA moderate or high boundary?":"¿Esto puede aterrizar en nuestra frontera FISMA moderada o alta?",
+    "Platform controls map to the NIST 800-53 moderate and high baselines; your FIPS 199 categorization picks the venue — the platform is the same in all of them.":"Los controles de la plataforma se mapean a las líneas base moderada y alta de NIST 800-53; tu categorización FIPS 199 elige el lugar — la plataforma es la misma en todos.",
+    "How do we know it stays compliant next quarter?":"¿Cómo sabemos que sigue en cumplimiento el próximo trimestre?",
+    "Scheduled scans against a hardening profile, with machine-readable results.":"Escaneos programados contra un perfil de endurecimiento, con resultados legibles por máquina.",
+    "How do we detect the model drifting or skewing?":"¿Cómo detectamos deriva o sesgo del modelo?",
+    "Continuous drift and fairness metrics on live inference traffic.":"Métricas continuas de deriva y equidad sobre el tráfico vivo de inferencia.",
+    "What if we have no internet at all?":"¿Y si no tenemos internet en absoluto?",
+    "Mirror images and models into the enclave; the platform is built for disconnected operation.":"Replica imágenes y modelos al enclave; la plataforma está hecha para operar desconectada.",
+    "Who is accountable when it is wrong?":"¿Quién responde cuando se equivoca?",
+    "A named reviewer — the deployment patterns we recommend keep a person on the signature.":"Un revisor con nombre — los patrones que recomendamos mantienen a una persona en la firma.",
+    "Workflow design":"Diseño del flujo",
+
+    /* ---- labs intro / legend / glossary / closing ---- */
+    "Hands-on track":"Ruta práctica",
+    "Virtual terminal labs":"Laboratorios de terminal virtual",
+    "Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">choose-your-own-adventure page</a> lays out a reading order for every job in the room. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.":"Siete labs, de unos cinco minutos cada uno. Pulsa <b>Ver</b> para revelar el siguiente comando y escribirlo tú, o <b>Ejecutar</b> para que corra solo. Los comandos son reales y copiables; la salida es representativa de un entorno real para que el lab corra igual para todos. <b>Demo</b> reproduce un lab completo sin intervención — y la vista <b>Demo</b> de la barra lateral recorre los siete en bucle. ¿No sabes por dónde empezar? La <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">página elige-tu-propia-aventura</a> propone un orden de lectura para cada rol en la sala. Cada lab lleva además un <b>panel de teoría</b> que explica qué pasó realmente, y el <b>glosario</b> del final desmitifica la jerga.",
+    "Each lab is tagged with the rung of the ladder it serves:":"Cada lab lleva el peldaño de la escalera que sirve:",
+    "Glossary — the jargon, demystified":"Glosario — la jerga, desmitificada",
+    "Token":"Token",
+    "The small piece of text a model actually reads and writes — roughly four characters. “Form 8822” is three tokens; a page of a notice is about 700.":"La pieza pequeña de texto que el modelo realmente lee y escribe — unos cuatro caracteres. “Form 8822” son tres tokens; una página de un aviso, unos 700.",
+    "Tokenization":"Tokenización",
+    "Splitting text into tokens and turning each one into a number — the only translation step between your words and the mathematics.":"Dividir el texto en tokens y convertir cada uno en un número — el único paso de traducción entre tus palabras y las matemáticas.",
+    "Weights (parameters)":"Pesos (parámetros)",
+    "The billions of numbers learned during training. They encode patterns of language, not a database of facts, and they are frozen once deployed.":"Los miles de millones de números aprendidos en el entrenamiento. Codifican patrones de lenguaje, no una base de datos de hechos, y quedan congelados al desplegarse.",
+    "Running the model: tokens in, one predicted token out, repeated until the answer is complete. Lab 02 is the only lab that changes weights — every model call in the others is inference.":"Correr el modelo: entran tokens, sale un token predicho, y se repite hasta completar la respuesta. El Lab 02 es el único que cambia pesos — toda llamada al modelo en los demás es inferencia.",
+    "Prompt":"Prompt",
+    "Everything you send — the instructions plus the text to work on. Sending it is the whole request; no other step exists.":"Todo lo que envías — las instrucciones más el texto a trabajar. Enviarlo es la solicitud completa; no existe otro paso.",
+    "Context window":"Ventana de contexto",
+    "How much the model can consider at once: your prompt plus its own answer so far. Short-term memory, cleared after every request.":"Cuánto puede considerar el modelo a la vez: tu prompt más su propia respuesta hasta el momento. Memoria de corto plazo, borrada tras cada solicitud.",
+    "Temperature":"Temperatura",
+    "How adventurous the next-token choice is. Near zero the model repeats its best guess reliably — the right setting for tax work.":"Qué tan arriesgada es la elección del siguiente token. Cerca de cero el modelo repite su mejor opción de forma confiable — lo correcto para trabajo tributario.",
+    "Embedding":"Embedding",
+    "Text converted into a vector — a point in space where similar meanings sit close together. What makes searching by meaning possible.":"Texto convertido en un vector — un punto en un espacio donde los significados parecidos quedan cerca. Lo que hace posible buscar por significado.",
+    "Vector store":"Almacén vectorial",
+    "A database of embeddings. Labs 04 and 07 run one in pgvector so guidance and logs can be found by meaning rather than by keyword.":"Una base de datos de embeddings. Los Labs 04 y 07 corren una en pgvector para hallar normativa y logs por significado y no por palabra clave.",
+    "RAG — retrieval-augmented generation":"RAG — generación aumentada por recuperación",
+    "Fetch the relevant passages from your documents, place them into the prompt, and require the answer to cite them.":"Trae los pasajes relevantes de tus documentos, colócalos en el prompt y exige que la respuesta los cite.",
+    "Fine-tuning (LoRA)":"Ajuste fino (LoRA)",
+    "Deliberately adjusting weights with your own examples. LoRA trains a small add-on instead of all the weights — cheaper, faster, reversible.":"Ajustar deliberadamente los pesos con tus propios ejemplos. LoRA entrena un módulo pequeño en lugar de todos los pesos — más barato, rápido y reversible.",
+    "Hallucination":"Alucinación",
+    "A confident answer assembled from plausible tokens with nothing behind it. Countered with retrieval, thresholds, refusal — and a human signature.":"Una respuesta segura armada con tokens plausibles y nada detrás. Se combate con recuperación, umbrales, rechazo — y una firma humana.",
+    "After the labs":"Después de los labs",
+    "Architecture and delivery":"Arquitectura y entrega",
+    "Bring the reference architecture from slide 9 to your own platform and security teams in a half-day workshop.":"Lleva la arquitectura de referencia de la diapositiva 9 a tus equipos de plataforma y seguridad en un taller de media jornada.",
+    "Public sector distribution":"Distribución para sector público",
+    "Contract vehicles, pricing and the paperwork path for a pilot that has to start this fiscal year.":"Vehículos de contrato, precios y la ruta de trámites para un piloto que debe arrancar este año fiscal.",
+    "Government aggregation":"Agregación gubernamental",
+    "Procurement support across the agencies and integrators already running Red Hat platforms.":"Apoyo de adquisiciones entre las agencias e integradores que ya corren plataformas Red Hat.",
+    "<b>One thing to remember.</b> Nothing in these seven labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.":"<b>Una sola cosa para recordar.</b> Nada en estos siete labs requirió un endpoint público de modelo, conexión a internet al momento de inferir, ni reescribir un sistema de registro. Ese es todo el argumento.",
+    "Drift":"Deriva",
+    "The input mix changing compared to the baseline you accredited. It means the world changed — not that the model decayed. Weights cannot rot.":"La mezcla de entradas cambiando frente a la línea base que acreditaste. Significa que el mundo cambió — no que el modelo se degradó. Los pesos no se pudren."
+  };
+
   /* ---------------- LAB CONTENT ---------------- */
   /* out lines: [cssClass, text] — class '' is plain terminal text */
   var LABS = [
@@ -1624,6 +2320,16 @@ kbd{
       'One host is a pilot; Lab 03 is what you run for filing season'
     ],
     take:'A defensible AI pilot can start on one machine you already own, with a supported product rather than a pile of Python.',
+    theory:'The classification was not looked up anywhere. Your inquiry was split into tokens, run through billions of frozen weights, and the answer emerged one token at a time as the most probable continuation — steered by the system prompt in inquiry.json, which names the fields to fill. "tokens: 214 in / 96 out" means exactly that: 214 pieces of your text in, 96 predicted pieces out. Nothing else happened, and nothing else needed to.',
+    es:{
+      title:'Sirve un modelo dentro de tu perímetro',
+      goal:'Levanta un modelo de lenguaje soportado en un solo host con GPU y úsalo para clasificar una consulta real de un contribuyente. Nada sale de la máquina — esta es la respuesta completa a "a dónde van nuestros datos".',
+      rungs:[['r-info','datos → información']],
+      youll:['<b>podman</b> y la imagen del <b>servidor de inferencia basado en vLLM</b> del registro de Red Hat','Un modelo <b>Granite</b> validado del repositorio de modelos de Red Hat AI','Un endpoint compatible con OpenAI en <b>localhost:8000</b>'],
+      watch:['El puerto del host está publicado en 127.0.0.1 — no hay llamada remota de inferencia','En producción el contenedor corre bajo <b>systemd (Quadlet)</b>, no en una shell en primer plano','Un host es un piloto; el Lab 03 es lo que corres en temporada de declaraciones'],
+      take:'Un piloto de IA defendible puede empezar en una máquina que ya posees, con un producto soportado en lugar de una pila de Python.',
+      theory:'La clasificación no se buscó en ninguna parte. Tu consulta se dividió en tokens, pasó por miles de millones de pesos congelados, y la respuesta emergió token por token como la continuación más probable — guiada por el system prompt de inquiry.json, que nombra los campos a llenar. "tokens: 214 in / 96 out" significa exactamente eso: 214 piezas de tu texto entran, 96 piezas predichas salen. No ocurrió nada más, y nada más hacía falta.'
+    },
     steps:[
       { cmd:'podman pull registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2',
         out:[
@@ -1691,6 +2397,16 @@ kbd{
       'The evaluation step is the one you show your governance board'
     ],
     take:'Domain adaptation stops being a data science project and becomes a pull request a subject matter expert can review.',
+    theory:'Tuning is the only step in these labs that changes the weights. SDG Hub turns a handful of reviewed seed examples into thousands of synthetic ones — generated against the same endpoint you stood up in Lab 01 — and Training Hub nudges a small LoRA adapter so the model\'s probabilities favor your notice families and house style. That is why the base model scored 0.61 on notice accuracy — CP2000 routing was never in its training data — and the tuned one scores 0.94.',
+    es:{
+      title:'Enséñale tu taxonomía de avisos',
+      goal:'El modelo base no conoce tus códigos de aviso, tus colas de enrutamiento ni tu estilo institucional. Agrega ese conocimiento como seed YAML revisable, genera datos sintéticos con SDG Hub, afina con Training Hub, y demuestra que el modelo ajustado supera al original.',
+      rungs:[['r-know','conocimiento']],
+      youll:['Conocimiento aportado como <b>seed YAML que un experto puede leer</b>','<b>SDG Hub</b> — pocos ejemplos semilla se vuelven miles, generados contra el endpoint del Lab 01','Un ajuste LoRA con <b>Training Hub</b> y una <b>evaluación</b> con números'],
+      watch:['Las semillas son un árbol git — el conocimiento se revisa como código','Nadie tuvo que etiquetar diez mil ejemplos a mano','La evaluación es lo que muestras a tu junta de gobernanza'],
+      take:'La adaptación de dominio deja de ser un proyecto de ciencia de datos y se convierte en un pull request que un experto puede revisar.',
+      theory:'El ajuste es el único paso de estos labs que cambia los pesos. SDG Hub convierte un puñado de ejemplos semilla revisados en miles de sintéticos — generados contra el mismo endpoint que levantaste en el Lab 01 — y Training Hub ajusta un adaptador LoRA pequeño para que las probabilidades del modelo favorezcan tus familias de avisos y tu estilo. Por eso el modelo base sacó 0.61 en precisión de avisos — el enrutamiento del CP2000 nunca estuvo en sus datos de entrenamiento — y el ajustado saca 0.94.'
+    },
     steps:[
       { cmd:'mkdir -p seeds && $EDITOR seeds/notices.yaml',
         out:[
@@ -1767,6 +2483,16 @@ kbd{
       'Scale-to-two, not scale-to-zero — cold starts on an 8B model are not free'
     ],
     take:'Capacity for the April peak that costs nothing in August is the difference between a demo and a production service.',
+    theory:'Serving is pure inference: the same forward pass as Lab 01, repeated for every request. GPUs matter because that pass is billions of multiplications, and vLLM batches many taxpayers\' requests through each one. The 90-second cold start is the cost of giving a fresh replica the model: pulling it, then loading 8 GB of weights into GPU memory — which is why the floor is two replicas, never zero.',
+    es:{
+      title:'Sobrevive la temporada de declaraciones',
+      goal:'Un host con GPU es un piloto. La temporada de declaraciones es un evento de capacidad. Despliega el modelo ajustado con KServe y vLLM, corre un ensayo de carga de abril y mira a la plataforma escalar de dos réplicas a veinte y de regreso.',
+      rungs:[['r-info','información a escala']],
+      youll:['Un <b>InferenceService</b> declarativo — el despliegue es un YAML revisable','Runtime de servicio <b>vLLM</b> con procesamiento por lotes continuo','Autoescalado guiado por concurrencia real, no por una suposición'],
+      watch:['Escalar es un comportamiento de la plataforma, no un cambio en la aplicación','El mismo manifiesto se despliega en tu centro de datos o en una nube acreditada','Escala-a-dos, no escala-a-cero — el arranque en frío de un modelo 8B no es gratis'],
+      take:'Capacidad para el pico de abril que no cuesta nada en agosto: esa es la diferencia entre un demo y un servicio de producción.',
+      theory:'Servir es inferencia pura: el mismo pase hacia adelante del Lab 01, repetido por cada solicitud. Las GPU importan porque ese pase son miles de millones de multiplicaciones, y vLLM agrupa las solicitudes de muchos contribuyentes en cada uno. El arranque en frío de 90 segundos es el costo de darle el modelo a una réplica nueva: bajar la imagen y cargar 8 GB de pesos a la GPU — por eso el piso es dos réplicas, nunca cero.'
+    },
     steps:[
       { cmd:'oc new-project tax-inference',
         out:[
@@ -1852,6 +2578,16 @@ kbd{
       'Retrieval keeps sensitive text out of training entirely'
     ],
     take:'Retrieval is what turns a general model into an agency system of reference — and it is far cheaper than retraining.',
+    theory:'Embeddings turn text into vectors — points in a space where similar meaning sits close together. Your question is embedded, the nearest guidance passages are found by distance, and those passages are placed into the prompt\'s context window. The model still only predicts tokens; retrieval changes what it predicts from. Below the 0.75 similarity threshold no passage qualifies, so the honest output is a refusal.',
+    es:{
+      title:'Ancla las respuestas en tu propia normativa',
+      goal:'Un modelo que suena seguro y no cita nada es un riesgo en una agencia tributaria. Pon tu normativa publicada detrás del modelo con recuperación, para que cada respuesta regrese con el pasaje del que salió.',
+      rungs:[['r-know','conocimiento']],
+      youll:['Un <b>almacén vectorial</b> en el mismo clúster que el modelo','Una pasada de ingesta sobre un corpus real de publicaciones','Respuestas que <b>regresan con su cita</b> — lo que tus revisores necesitan'],
+      watch:['Cuando el corpus no tiene la respuesta, lo correcto es decirlo','Reingesta cuando la normativa cambie — los pesos no deberían tener que cambiar','La recuperación mantiene el texto sensible fuera del entrenamiento por completo'],
+      take:'La recuperación convierte un modelo general en un sistema de referencia de la agencia — y es mucho más barata que reentrenar.',
+      theory:'Los embeddings convierten texto en vectores — puntos en un espacio donde los significados parecidos quedan cerca. Tu pregunta se convierte en vector, los pasajes más cercanos se encuentran por distancia, y esos pasajes se colocan en la ventana de contexto del prompt. El modelo sigue prediciendo solo tokens; la recuperación cambia desde qué predice. Bajo el umbral de similitud de 0.75 ningún pasaje califica, y la salida honesta es un rechazo.'
+    },
     steps:[
       { cmd:'oc apply -k ./vectorstore/ && oc get pods -l app=pgvector',
         out:[
@@ -1918,6 +2654,16 @@ kbd{
       'Every action lands in the controller job history: that is your evidence'
     ],
     take:'Automation is what makes AI operable at agency scale. Without it, every model becomes a pet someone has to feed.',
+    theory:'The automation in this lab contains no machine learning at all — and that is the point. Event-Driven Ansible is deterministic: the same alert always triggers the same playbook, every time. The intelligence stays in the model; the reliability lives in the automation around it. Treating a model\'s signal as just another event routes AI through auditable, repeatable actions.',
+    es:{
+      title:'Automatiza el trabajo alrededor del modelo',
+      goal:'La mayor parte del esfuerzo en IA productiva no es el modelo: es aprovisionar, parchar, escalar y recolectar evidencia. Conecta un rulebook que detecta saturación de inferencia y la remedia antes de que alguien abra un ticket.',
+      rungs:[['r-judge','ejecuta el juicio']],
+      youll:['Un playbook que <b>prueba el endpoint como lo haría un contribuyente</b>','Un rulebook de <b>Event-Driven Ansible</b> escuchando alertas de la plataforma','Remediación automática, con el registro de auditoría escrito en el momento'],
+      watch:['El rulebook es el runbook — no hay documento aparte que se vuelva obsoleto','La misma automatización alcanza sistemas legados que el modelo nunca toca','Cada acción queda en el historial del controlador: esa es tu evidencia'],
+      take:'La automatización hace operable la IA a escala de agencia. Sin ella, cada modelo se vuelve una mascota que alguien tiene que alimentar.',
+      theory:'La automatización de este lab no contiene aprendizaje automático — y ese es el punto. Event-Driven Ansible es determinista: la misma alerta dispara siempre el mismo playbook. La inteligencia queda en el modelo; la confiabilidad vive en la automatización que lo rodea. Tratar la señal del modelo como un evento más enruta la IA por acciones auditables y repetibles.'
+    },
     steps:[
       { cmd:'ansible-navigator run playbooks/model_endpoint_health.yml -i inventory/prod --mode stdout',
         out:[
@@ -1997,6 +2743,16 @@ kbd{
       'Drift monitoring is what tells you the world changed, not the model'
     ],
     take:'Every one of these is a platform feature you turn on, not a project you fund. That is what "enterprise-ready" has to mean.',
+    theory:'Drift metrics compare today\'s input distribution against the accreditation baseline — they detect the world changing, not the model wearing out. Weights are frozen; a deployed model cannot decay. Fairness metrics compare outcomes across groups on live traffic. And the signature check works because a model is ultimately a file: hash it, sign it, verify it before it serves a single taxpayer.',
+    es:{
+      title:'Demuéstralo ante tu ISSO',
+      goal:'Recorre exactamente las verificaciones que corre un oficial autorizador: si el modelo es el aprobado, si la criptografía está validada, si la plataforma sigue endurecida este trimestre, y si el modelo se comporta como en la acreditación.',
+      rungs:[['r-judge','evidencia → juicio']],
+      youll:['<b>Verificación de firma</b> sobre el propio artefacto del modelo','<b>Modo FIPS</b> confirmado en el nodo que sirve la inferencia','Un <b>escaneo de cumplimiento</b> con resultados leíbles por máquina, y <b>métricas de deriva</b> en tráfico vivo'],
+      watch:['La procedencia se verifica antes de admitir, no se audita después','La regla de cumplimiento que falla es deliberada — así se ve un resultado real','La deriva te dice que el mundo cambió, no que el modelo se descompuso'],
+      take:'Cada una de estas es una función de plataforma que enciendes, no un proyecto que financias. Eso tiene que significar "listo para la empresa".',
+      theory:'Las métricas de deriva comparan la distribución de entradas de hoy contra la línea base de la acreditación — detectan que el mundo cambió, no que el modelo se desgastó. Los pesos están congelados; un modelo desplegado no puede decaer. Las métricas de equidad comparan resultados entre grupos en tráfico vivo. Y la verificación de firma funciona porque un modelo es, al final, un archivo: calcúlale el hash, fírmalo, verifícalo antes de que atienda a un solo contribuyente.'
+    },
     steps:[
       { cmd:'cosign verify --key agency-model-signing.pub registry.agency.gov/models/granite-8b-tax-v1',
         out:[
@@ -2067,6 +2823,16 @@ kbd{
       'Logs carry hostnames and case identifiers: keeping this notebook on-cluster is not optional'
     ],
     take:'Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.',
+    theory:'Nothing here is new machine learning — it is Lab 04\'s retrieval pattern with a different corpus. Logs, runbooks and postmortems become vectors; your question finds the nearest evidence by meaning; the model assembles a cited diagnosis in its context window. The MTTR table is the point: detection was already fast — the hours lived in diagnosis, and grounded retrieval is what removes them.',
+    es:{
+      title:'Pregunta a tus propios logs',
+      goal:'Apunta el patrón de recuperación del Lab 04 a las operaciones mismas. Logs del clúster, runbooks, historial de incidentes y registros de cambio se vuelven un cuaderno privado al que puedes preguntar durante un incidente en vivo — un NotebookLM de la plataforma, corriendo en la plataforma. El beneficio se mide en MTTR, porque las horas viven en el diagnóstico.',
+      rungs:[['r-know','información → conocimiento']],
+      youll:['El <b>mismo stack RAG del Lab 04</b> — almacén vectorial, Granite, Llama Stack — apuntado a datos de operaciones','Una ingesta de <b>logs de Loki, runbooks, incidentes y registros de cambio</b>','Un <b>diagnóstico con citas</b> durante un incidente en vivo, y los números de MTTR un trimestre después'],
+      watch:['No se instala nada nuevo — el Lab 04 enseñó el patrón; solo cambió el corpus','La respuesta cita la línea de log, el registro de cambio y el runbook — verifica, luego actúa','Los logs llevan hostnames e identificadores de caso: mantener este cuaderno en el clúster no es opcional'],
+      take:'Los tableros muestran que algo se rompió. Un cuaderno anclado en tus propios logs, runbooks e incidentes te dice por qué — y el diagnóstico es donde vive el MTTR.',
+      theory:'Aquí no hay aprendizaje automático nuevo — es el patrón de recuperación del Lab 04 con otro corpus. Logs, runbooks y postmortems se vuelven vectores; tu pregunta encuentra la evidencia más cercana por significado; el modelo ensambla un diagnóstico con citas en su ventana de contexto. La tabla de MTTR es el punto: la detección ya era rápida — las horas vivían en el diagnóstico, y la recuperación anclada es lo que las elimina.'
+    },
     steps:[
       { cmd:'logcli query \'{namespace="tax-inference"} |= "ERROR"\' --since 24h --limit 4',
         note:'14:20 on a Tuesday. p99 latency has tripled and predictor pods are restarting.',
@@ -2152,23 +2918,32 @@ kbd{
     head.innerHTML =
       '<span class="badge">' + String(idx+1).padStart(2,'0') + '</span>' +
       '<div>' +
-        '<h3>' + esc(lab.title) + '</h3>' +
+        '<h3>' + esc(LT(lab, 'title')) + '</h3>' +
         '<div class="meta">' +
           '<span class="chip" data-k="product">' + esc(lab.product) + '</span>' +
           '<span class="chip" data-k="time">' + esc(lab.time) + '</span>' +
-          '<span class="chip">' + lab.steps.length + ' commands</span>' +
-          lab.rungs.map(function(r){ return '<span class="rung ' + r[0] + '">' + esc(r[1]) + '</span>'; }).join('') +
+          '<span class="chip">' + lab.steps.length + ' ' + C('commands') + '</span>' +
+          LT(lab, 'rungs').map(function(r){ return '<span class="rung ' + r[0] + '">' + esc(r[1]) + '</span>'; }).join('') +
         '</div>' +
-        '<p class="goal">' + esc(lab.goal) + '</p>' +
+        '<p class="goal">' + esc(LT(lab, 'goal')) + '</p>' +
       '</div>';
     wrap.appendChild(head);
 
     var grid = document.createElement('div');
     grid.className = 'lab-grid';
     grid.innerHTML =
-      '<div class="box"><h5>What you use</h5><ul>' + lab.youll.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
-      '<div class="box"><h5>What to notice</h5><ul>' + lab.watch.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+      '<div class="box"><h5>' + C('whatYouUse') + '</h5><ul>' + LT(lab, 'youll').map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="box"><h5>' + C('whatToNotice') + '</h5><ul>' + LT(lab, 'watch').map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
     wrap.appendChild(grid);
+
+    if(lab.theory){
+      var th = document.createElement('div');
+      th.className = 'box theory';
+      th.innerHTML = '<h5></h5><p></p>';
+      th.querySelector('h5').textContent = C('theoryHead');
+      th.querySelector('p').textContent = LT(lab, 'theory');
+      grid.appendChild(th);
+    }
 
     /* terminal */
     var term = document.createElement('div');
@@ -2178,22 +2953,22 @@ kbd{
         '<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
         '<span class="who">' + esc(lab.host) + '</span>' +
         '<span class="prog">0 / ' + lab.steps.length + '</span>' +
-        '<button type="button" data-act="copyall">Copy all</button>' +
-        '<button type="button" data-act="reset">Reset</button>' +
+        '<button type="button" data-act="copyall">' + C('copyAll') + '</button>' +
+        '<button type="button" data-act="reset">' + C('reset') + '</button>' +
       '</div>' +
       '<div class="screen" tabindex="0" role="log" aria-label="Lab ' + (idx+1) + ' terminal output"></div>' +
       '<div class="entry">' +
         '<span class="ps1">$</span>' +
         '<input type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Type the next command">' +
-        '<button type="button" data-act="autoplay">Demo</button>' +
-        '<button type="button" data-act="show">Show</button>' +
-        '<button type="button" data-act="run" class="primary">Run</button>' +
+        '<button type="button" data-act="autoplay">' + C('demoBtn') + '</button>' +
+        '<button type="button" data-act="show">' + C('show') + '</button>' +
+        '<button type="button" data-act="run" class="primary">' + C('run') + '</button>' +
       '</div>';
     wrap.appendChild(term);
 
     var take = document.createElement('p');
     take.className = 'takeaway';
-    take.innerHTML = '<b>Takeaway.</b> ' + esc(lab.take);
+    take.innerHTML = '<b>' + C('takeaway') + '</b> ' + esc(LT(lab, 'take'));
     wrap.appendChild(take);
 
     var screen = term.querySelector('.screen');
@@ -2238,9 +3013,7 @@ kbd{
       } else {
         entry.removeAttribute('data-done');
       }
-      input.placeholder = (i < lab.steps.length)
-        ? 'type the command, or press Run'
-        : 'lab complete';
+      input.placeholder = (i < lab.steps.length) ? C('typeCmd') : C('labDone');
     }
 
     var gen = 0, autoOn = false, autoTok = 0;
@@ -2299,7 +3072,7 @@ kbd{
           busy = false;
           updateProg();
           if(i >= lab.steps.length){
-            print('ok', '✓ Lab ' + String(idx+1).padStart(2,'0') + ' complete — ' + lab.title.toLowerCase() + '.');
+            print('ok', completeLine(String(idx+1).padStart(2,'0'), lab));
           }
           if(opts.done) opts.done();
         });
@@ -2312,7 +3085,7 @@ kbd{
       autoOn = false;
       autoTok++;
       var b = term.querySelector('[data-act="autoplay"]');
-      if(b) b.textContent = 'Demo';
+      if(b) b.textContent = C('demoBtn');
     }
     autoStops.push(stopAuto);
 
@@ -2321,7 +3094,7 @@ kbd{
       if(i >= lab.steps.length) return;
       autoOn = true;
       var b = term.querySelector('[data-act="autoplay"]');
-      if(b) b.textContent = 'Stop';
+      if(b) b.textContent = C('stop');
       var tok = ++autoTok;
       (function next(){
         if(!autoOn || tok !== autoTok) return;
@@ -2341,8 +3114,8 @@ kbd{
         runStep();
       } else {
         printCmd({cmd: typed, prompt: lab.steps[i].prompt});
-        print('err', 'Not the command this step expects.');
-        print('dim', 'Press Show to fill it in, or Run to execute it for you.');
+        print('err', C('wrongCmd'));
+        print('dim', C('wrongHint'));
         print('', '');
         input.value = '';
       }
@@ -2365,12 +3138,12 @@ kbd{
         var text = lab.steps.map(function(s){ return s.cmd; }).join('\n');
         try {
           navigator.clipboard.writeText(text).then(function(){
-            b.textContent = 'Copied';
-            setTimeout(function(){ b.textContent = 'Copy all'; }, 1400);
-          }, function(){ b.textContent = 'Copy failed'; setTimeout(function(){ b.textContent='Copy all'; },1400); });
+            b.textContent = C('copied');
+            setTimeout(function(){ b.textContent = C('copyAll'); }, 1400);
+          }, function(){ b.textContent = C('copyFailed'); setTimeout(function(){ b.textContent = C('copyAll'); },1400); });
         } catch(err){
-          b.textContent = 'Copy failed';
-          setTimeout(function(){ b.textContent = 'Copy all'; }, 1400);
+          b.textContent = C('copyFailed');
+          setTimeout(function(){ b.textContent = C('copyAll'); }, 1400);
         }
       }
     });
@@ -2397,7 +3170,11 @@ kbd{
   }
 
   var holder = document.getElementById('labholder');
-  LABS.forEach(function(lab, i){ holder.appendChild(buildLab(lab, i)); });
+  function rebuildLabs(){
+    autoStops.length = 0;
+    holder.innerHTML = '';
+    LABS.forEach(function(lab, i){ holder.appendChild(buildLab(lab, i)); });
+  }
 
   /* ---------------- DEMO MODE — the labs playing themselves ---------------- */
   var demoScreen = document.getElementById('demo-screen');
@@ -2416,24 +3193,24 @@ kbd{
   function demoHead(){
     var lab = LABS[D.lab];
     document.getElementById('demo-badge').textContent = String(D.lab+1).padStart(2,'0');
-    document.getElementById('demo-title').textContent = lab.title;
+    document.getElementById('demo-title').textContent = LT(lab, 'title');
     document.getElementById('demo-product').textContent = lab.product;
     document.getElementById('demo-time').textContent = lab.time;
     document.getElementById('demo-host').textContent = lab.host;
-    document.getElementById('demo-rungs').innerHTML = lab.rungs.map(function(r){ return '<span class="rung ' + r[0] + '">' + esc(r[1]) + '</span>'; }).join('');
+    document.getElementById('demo-rungs').innerHTML = LT(lab, 'rungs').map(function(r){ return '<span class="rung ' + r[0] + '">' + esc(r[1]) + '</span>'; }).join('');
   }
 
   function demoProg(stepIdx){
     var total = LABS[D.lab].steps.length;
     demoProgEl.textContent = stepIdx > 0
-      ? 'lab ' + (D.lab+1) + '/' + LABS.length + ' · step ' + stepIdx + ' / ' + total
-      : 'lab ' + (D.lab+1) + '/' + LABS.length + ' · ready';
+      ? 'lab ' + (D.lab+1) + '/' + LABS.length + ' · ' + C('step') + ' ' + stepIdx + ' / ' + total
+      : 'lab ' + (D.lab+1) + '/' + LABS.length + ' · ' + C('ready');
   }
 
   function demoBuild(lab){
     var a = [{t:'gap', ms:250}];
-    a.push({t:'line', cls:'dim', text:'Red Hat Enterprise Linux 9.6 — automated walkthrough, no input needed'});
-    a.push({t:'line', cls:'dim', text:'Commands are real and copyable; output is representative of a working environment.'});
+    a.push({t:'line', cls:'dim', text:C('demoBanner1')});
+    a.push({t:'line', cls:'dim', text:C('demoBanner2')});
     a.push({t:'line', text:''});
     lab.steps.forEach(function(st, si){
       if(st.note) a.push({t:'line', cls:'note', text:'# ' + st.note, step:si+1});
@@ -2442,8 +3219,8 @@ kbd{
       a.push({t:'line', text:'', step:si+1});
       a.push({t:'gap', ms:1100, step:si+1});
     });
-    a.push({t:'line', cls:'ok', text:'✓ Lab ' + String(D.lab+1).padStart(2,'0') + ' complete — ' + lab.title.toLowerCase() + '.'});
-    a.push({t:'line', cls:'note', text:'Takeaway: ' + lab.take});
+    a.push({t:'line', cls:'ok', text:completeLine(String(D.lab+1).padStart(2,'0'), lab)});
+    a.push({t:'line', cls:'note', text:C('takeawayColon') + LT(lab, 'take')});
     a.push({t:'gap', ms:3400});
     a.push({t:'next'});
     return a;
@@ -2531,7 +3308,7 @@ kbd{
 
   function demoSetPlaying(p){
     D.playing = p;
-    demoPlayBtn.textContent = p ? 'Pause' : 'Play';
+    demoPlayBtn.textContent = p ? C('pause') : C('play');
     if(!p) D.token++;
   }
 
@@ -2549,6 +3326,84 @@ kbd{
   document.getElementById('demo-speed').addEventListener('change', function(e){
     D.speed = parseFloat(e.target.value) || 1;
   });
+
+  /* ---------------- THEME ---------------- */
+  var themeBtn = document.getElementById('themeToggle');
+  function themeNow(){
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+  function applyTheme(t){
+    if(t === 'dark'){ document.documentElement.setAttribute('data-theme', 'dark'); }
+    else { document.documentElement.setAttribute('data-theme', 'light'); }
+    themeBtn.textContent = (t === 'dark') ? C('light') : C('dark');
+    try { localStorage.setItem('deck-theme', t); } catch(err) {}
+  }
+  themeBtn.addEventListener('click', function(){
+    applyTheme(themeNow() === 'dark' ? 'light' : 'dark');
+  });
+  (function(){
+    var stored = null;
+    try { stored = localStorage.getItem('deck-theme'); } catch(err) {}
+    if(stored === 'dark' || stored === 'light'){ applyTheme(stored); }
+    else { themeBtn.textContent = themeNow() === 'dark' ? C('light') : C('dark'); }
+  })();
+
+  /* ---------------- LANGUAGE (EN/ES) — engine ---------------- */
+  var I18N_SEL = ['.slide .eyebrow', '.slide h2', '.slide h3', '.slide h4', '.slide .lede',
+    '.slide p', '.slide li', '.slide .tag', '.slide .rung', '.slide .quote', '.slide .subq',
+    '.ai-kind .big', '.ai-kind .plain', '.ai-kind .analogy', '.notbox', '.leavebehind',
+    '.stacklayer strong', '.stacklayer span', '.knowledgebar strong',
+    '.portfolio-strip div', '.move b', '.move span', '.reach .tag', '.reach .fine',
+    '.moves .tag', '.person span', 'table.grid th', 'table.grid td', 'svg text',
+    '.labs-intro .eyebrow', '.labs-intro h2', '.labs-intro p', '.labs-legend span',
+    '.labs-legend .rung', '.glossary .eyebrow', '.gterm b', '.gterm p',
+    '.closing h3', '.closing .takeaway', '.closing .card .tag', '.closing .card h4', '.closing .card p', '.brandmark .sub', '.deckbar .hint',
+    '.deckbar .ghost', '.demo-controls .ghost', '.demo-controls .eyebrow', '.demo .foot',
+    '#notesToggle', '.notes b'
+  ].join(', ');
+
+  function setLang(l){
+    lang = (l === 'es') ? 'es' : 'en';
+    document.documentElement.setAttribute('lang', lang);
+    document.getElementById('lang-en').setAttribute('aria-pressed', String(lang === 'en'));
+    document.getElementById('lang-es').setAttribute('aria-pressed', String(lang === 'es'));
+    document.getElementById('mode-deck').textContent = C('deck');
+    document.getElementById('mode-labs').textContent = C('labsBtn');
+    document.getElementById('mode-demo').textContent = C('demoBtnMode');
+    Array.prototype.forEach.call(document.querySelectorAll(I18N_SEL), function(el){
+      if(!el.getAttribute('data-i18n-en')) el.setAttribute('data-i18n-en', el.innerHTML);
+      var en = el.getAttribute('data-i18n-en');
+      if(lang === 'es'){
+        var key = en.replace(/\s+/g, ' ').trim();
+        if(typeof ES_TEXT !== 'undefined' && ES_TEXT[key] !== undefined) el.innerHTML = ES_TEXT[key];
+      } else {
+        el.innerHTML = en;
+      }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.slide .spine'), function(sp){
+      var on = rungsOf(sp.parentNode);
+      var sl = sp.querySelector('.sl');
+      var em = sp.querySelector('em');
+      if(sl) sl.textContent = C('ladder');
+      if(em) em.textContent = on.map(function(k){ return RUNGN[k][lang === 'es' ? 1 : 0]; }).join(' · ');
+    });
+    themeBtn.textContent = themeNow() === 'dark' ? C('light') : C('dark');
+    demoPlayBtn.textContent = D.playing ? C('pause') : C('play');
+    rebuildLabs();
+    buildRail();
+    if(mode === 'deck'){ go(cur); }
+    if(D.inited){ demoLoad(D.lab); }
+    try { localStorage.setItem('deck-lang', lang); } catch(err) {}
+  }
+  document.getElementById('lang-en').addEventListener('click', function(){ setLang('en'); });
+  document.getElementById('lang-es').addEventListener('click', function(){ setLang('es'); });
+  (function(){
+    var stored = null;
+    try { stored = localStorage.getItem('deck-lang'); } catch(err) {}
+    if(stored === 'es') setLang('es');
+  })();
+
+  rebuildLabs();
 
   buildRail();
   go(0);

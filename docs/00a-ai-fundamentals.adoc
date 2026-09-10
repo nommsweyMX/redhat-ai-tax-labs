@@ -1,0 +1,141 @@
+[#ai-fundamentals]
+= AI fundamentals — the theory, demystified
+
+Everything in the labs works better when the room shares a mental model of
+what a language model actually does. This chapter is that mental model, in
+plain language. Nothing in it requires mathematics beyond multiplication.
+
+== What actually happens when you ask
+
+Take the question a facilitator asks in Lab 01: _"Find the missing document
+for this contact."_ Four things happen, and only four.
+
+. *Your words become tokens.* The model never sees words. Text is split into
+  small pieces called tokens — roughly four characters each — and every token
+  becomes a number. "Form 8822" is three tokens; a page of a notice is about
+  700.
+. *The model scores what could come next.* One pass through billions of
+  learned numbers — the _weights_ — turns your tokens into a probability for
+  every possible next token.
+. *It writes one token at a time.* The winning token is appended to the input
+  and the whole pass runs again, until the answer is complete. That is all
+  "generation" is.
+. *Temperature is the dial.* At 0.1 the model almost always takes the top
+  candidate: predictable and repeatable, which is what tax administration
+  wants.
+
+The demystifying sentence, worth saying out loud in the session: when Lab 01
+returns `missing_doc: Form 8822`, that answer was not fetched from any system.
+It is the most probable continuation of the contact text under those weights —
+nothing else happened, and nothing else needed to.
+
+== Where the answer comes from
+
+The question underneath most audience confusion is: _"do I need to do
+anything to get that response?"_ The answer is no — sending the prompt *is*
+the request. There are exactly three places an answer can draw from:
+
+[cols="1,3", options="header"]
+|===
+| Source | What it contributes
+
+| The weights
+| Patterns learned in training, then frozen. Not a database — nothing is
+  looked up, nothing is fetched from anywhere. Lab 02 is the only lab that
+  changes them.
+
+| The prompt
+| Everything you send: the taxpayer's message plus your instructions. The
+  system prompt in Lab 01's `inquiry.json` is what names the fields to fill —
+  read it and the output format stops being mysterious.
+
+| Retrieval (optional)
+| Your own documents, found by meaning and placed into the prompt. This is
+  how answers arrive with citations — or refuse honestly. Lab 04 builds it.
+|===
+
+The prompt and any retrieved passages share the _context window_ — the
+model's short-term memory, cleared after every request.
+
+Three reassurances follow directly from this mechanism, and they are worth
+stating explicitly to any audience handling taxpayer data:
+
+* *Nothing leaves.* No internet call happens at answer time. On this platform
+  the model runs on your hardware — Lab 01 proves it with one line of `ss`
+  output.
+* *Nothing is learned from you.* A prompt does not train the model. Weights
+  change only in deliberate tuning, with data you choose and review.
+* *Confident nonsense is possible.* Plausible tokens can assemble a wrong
+  answer. That is why retrieval cites, thresholds refuse, and a human signs.
+
+== How this maps onto the labs
+
+[cols="1,4", options="header"]
+|===
+| Lab | The theory it demonstrates
+
+| 01 | Pure inference: tokens in, predicted tokens out, steered by a system
+      prompt. The `tokens: 214 in / 96 out` line is the whole mechanism made
+      visible.
+| 02 | The only weight change in the series: a LoRA adapter tuned with
+      Training Hub on synthetic data SDG Hub expanded from reviewed seed
+      examples. Explains why the base model scored 0.61 on notice accuracy
+      and the tuned one 0.94 — CP2000 routing was never in the base training
+      data.
+| 03 | Inference at scale: GPUs matter because each pass is billions of
+      multiplications; vLLM batches many requests through each pass; the
+      90-second cold start is loading 8 GB of weights into GPU memory.
+| 04 | Embeddings place similar meanings near each other in a vector space;
+      retrieval finds the nearest guidance passages and puts them in the
+      context window. Below the similarity threshold, the honest output is a
+      refusal.
+| 05 | No machine learning at all — deterministic automation around the model.
+      The intelligence stays in the model; the reliability lives in the
+      automation.
+| 06 | Weights are frozen, so a deployed model cannot decay — drift metrics
+      detect the *world* changing, not the model. And a model is ultimately a
+      file: hash it, sign it, verify it.
+| 07 | No new machine learning at all: Lab 04's retrieval pattern pointed at
+      a different corpus. Logs, runbooks and postmortems become vectors; the
+      question finds the nearest evidence; the model assembles a cited
+      diagnosis. The hours lived in diagnosis — grounded retrieval removes
+      them.
+|===
+
+== Glossary
+
+[cols="1,3", options="header"]
+|===
+| Term | Plain-language meaning
+
+| Token | The small piece of text a model actually reads and writes — roughly
+  four characters. "Form 8822" is three tokens.
+| Tokenization | Splitting text into tokens and turning each into a number —
+  the only translation step between words and mathematics.
+| Weights (parameters) | The billions of numbers learned during training.
+  Patterns of language, not a database of facts; frozen once deployed.
+| Inference | Running the model: tokens in, one predicted token out, repeated.
+| Prompt | Everything you send — instructions plus the text to work on.
+  Sending it is the whole request.
+| Context window | How much the model can consider at once. Short-term
+  memory, cleared after every request.
+| Temperature | How adventurous the next-token choice is. Near zero:
+  repeatable — the right setting for tax work.
+| Embedding | Text converted into a vector, where similar meanings sit close
+  together. What makes searching by meaning possible.
+| Vector store | A database of embeddings — Labs 04 and 07 run one in pgvector.
+| RAG | Retrieval-augmented generation: fetch relevant passages, place them
+  into the prompt, require the answer to cite them.
+| Fine-tuning (LoRA) | Deliberately adjusting weights with your examples.
+  LoRA trains a small add-on instead of all weights — cheaper, reversible.
+| Hallucination | A confident answer assembled from plausible tokens with
+  nothing behind it. Countered by retrieval, thresholds, refusal, and a human
+  signature.
+| Drift | The input mix changing versus the accredited baseline. The world
+  changed — not the model. Weights cannot rot.
+|===
+
+TIP: The interactive deck carries this material as its four foundations
+slides ("AI in plain English", "Inside an LLM", "Data to judgement", "Two
+kinds of AI"), a theory panel inside every lab, and this glossary at the end
+of the Labs view — in English and Spanish, with a light and a dark theme.
