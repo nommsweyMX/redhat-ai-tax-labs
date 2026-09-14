@@ -78,6 +78,16 @@ def photo_src(name: str, base: str) -> str:
     return f"{base}assets/{name}"
 
 
+def logo(file: str, name: str, base: str, fallback: str) -> str:
+    """A partner logo tile: the real file when it is in slides/assets/, else a wordmark."""
+    p = ROOT / "slides" / "assets" / file
+    if p.exists():
+        import base64
+        src = "data:image/svg+xml;base64," + base64.b64encode(p.read_bytes()).decode("ascii")
+        return f'<span class="logo img"><img src="{src}" alt="{esc(name)}"></span>'
+    return f'<span class="logo">{fallback}</span>'
+
+
 def hat(uid: str, initials: str, photo: str, base: str) -> str:
     """A portrait inside a Red Hat fedora outline; initials show until the photo exists."""
     return (f'<svg class="hatpic" viewBox="0 0 200 160" role="img" aria-label="{initials}">'
@@ -408,7 +418,8 @@ td.rem{{font-size:.8rem;color:var(--ink-2);max-width:34ch}}
 .talk .tag{{color:var(--accent)}}
 .moves{{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:22px}}
 .reach{{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px}}
-.person{{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center}} .hatpic{{display:block;width:64px;height:auto}}
+.poc{{display:flex;flex-direction:column;line-height:1.3;gap:2px}} .poc b{{font-family:"Red Hat Display",sans-serif;font-size:1.1rem}} .poc span{{font-size:.84rem;color:var(--ink-2)}} .poc a{{font-family:"Red Hat Mono",monospace;font-size:.84rem;font-weight:600;text-decoration:none}}
+.logos{{display:flex;gap:8px;flex-wrap:wrap;align-items:center}} .logo{{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}} .logo img{{height:22px;width:auto;display:block}} .logo svg{{height:20px;width:auto;display:block}} .logo b{{font-family:"Red Hat Display",sans-serif;font-weight:800;font-size:.9rem;color:var(--ink)}} .logo b.four{{font-weight:900;letter-spacing:.1em;font-size:.84rem}} .logo b.four i{{font-style:normal;font-weight:700;font-size:.6rem;letter-spacing:.16em;margin-left:4px;color:var(--ink-3)}} .logo b.cara{{font-weight:700;letter-spacing:-.02em;font-size:.98rem}}
 .avatar{{width:44px;height:44px;border-radius:50%;background:var(--accent-wash);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:"Red Hat Display",sans-serif;font-weight:800;color:var(--accent-ink);font-size:.86rem;overflow:hidden;position:relative}}
 .avatar::before{{content:attr(data-initials)}} .avatar img{{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}}
 .person > div{{display:flex;flex-direction:column;line-height:1.3}} .person b{{font-family:"Red Hat Display",sans-serif}} .person span{{font-size:.8rem;color:var(--ink-2)}} .person a{{font-family:"Red Hat Mono",monospace;font-size:.82rem;font-weight:600;text-decoration:none}}
@@ -496,8 +507,8 @@ footer a{{color:var(--ink-2)}}
   <div class="moves">
     <div class="reach">
       <span class="tag">Reach us — Brad is your connector</span>
-      <div class="person">{hat("bs", "BS", "brad-scalio.jpg", base)}<div><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div></div>
-      <div class="person">{hat("jk", "JK", "jon-keam.jpg", base)}<div><b>Jon Keam</b><span>Red Hat</span><a href="mailto:jkeam@redhat.com">jkeam@redhat.com</a></div></div>
+      <div class="poc"><b>Brad Scalio</b><span>Red Hat · if nothing else, he will get you to the right person</span><a href="mailto:bscalio@redhat.com">bscalio@redhat.com</a></div>
+      <div class="logos" aria-label="Red Hat · Four Inc. · Carahsoft">{logo("logo-redhat.svg", "Red Hat", base, '<svg viewBox="0 0 200 160" aria-hidden="true"><path d="' + HAT + '" fill="var(--accent)"/></svg><b>Red Hat</b>')}{logo("logo-four-inc.svg", "Four Inc.", base, '<b class="four">FOUR<i>inc.</i></b>')}{logo("logo-carahsoft.svg", "Carahsoft", base, '<b class="cara">carahsoft</b>')}</div>
       <p style="font-size:.84rem;color:var(--ink-2)">Four Inc. and Carahsoft carry the contract vehicles — bring them into the conversation early, not at the end.</p>
       <span class="rung r-judge">the next decision is yours</span>
     </div>

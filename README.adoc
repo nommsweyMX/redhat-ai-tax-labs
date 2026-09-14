@@ -31,8 +31,8 @@ presenter console is at `/presenter-notes.html`, the documentation at
 `/docs/`, the reveal.js deck at `/slides.html` and the PowerPoint export under
 `/exports/`. Not sure where to start? `/adventure.html` is the
 choose-your-own-adventure catalogue: six reading orders by job, every lab,
-slide, guide and tool, and what a live run needs. Drop presenter photos at `slides/assets/brad-scalio.jpg` and
-`slides/assets/jon-keam.jpg` and the contact slide picks them up.
+slide, guide and tool, and what a live run needs. Drop the partner logos into `slides/assets/` (see its README) and the
+contact slide picks them up.
 
 toc::[]
 

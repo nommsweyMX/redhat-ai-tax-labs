@@ -1,13 +1,14 @@
-# Presenter photos
+# Assets
 
-Drop two headshots here and every page picks them up automatically —
-the cover slide, the contact slide, the presenter console beat and the
-choose-your-own-adventure page:
+Files dropped here are picked up automatically by the contact slide, the
+adventure page and the site build (`slides/assets/` is published at
+`/assets/`).
 
-    slides/assets/brad-scalio.jpg
-    slides/assets/jon-keam.jpg
+Partner logos — shown as wordmarks until the files exist:
 
-Any size works; a square-ish crop with the face in the upper half looks
-best inside the fedora frame. Until the files exist the frames show
-initials. Run `make adventure` after adding them so the catalogue page
-embeds them too.
+    slides/assets/logo-redhat.svg
+    slides/assets/logo-four-inc.svg
+    slides/assets/logo-carahsoft.svg
+
+SVG is preferred; keep the filenames exactly as above. Run
+`make adventure` after adding them so the catalogue page embeds them too.
