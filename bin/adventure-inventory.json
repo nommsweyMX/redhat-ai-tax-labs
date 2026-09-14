@@ -193,7 +193,7 @@
    "minutes": "Seven labs, roughly five minutes each",
    "rung": "Data · Information · Knowledge · Judgement (each lab card carries its own chip)",
    "prerequisites": "A browser. Open the deck with #labs on the URL, or #lab-3 to land on a specific lab; the sidebar Labs button does the same.",
-   "what_you_learn": "All seven labs as virtual terminals: press Show to reveal the next command and type it, Run to execute it, or Demo to play one lab hands-free. Commands are real and copyable; output matches the run.sh scripts.",
+   "what_you_learn": "All seven labs as virtual terminals: press Show to reveal the next command and type it, Run to execute it, or Demo to play one lab hands-free. A card pops up on every step with what is happening, why it matters to the talk, and the seam one platform removes; a wrap card closes each lab. Commands are real and copyable; output matches the run.sh scripts.",
    "highlights": [
     "Seven terminal cards; the sidebar rail lists lab titles and scrolls to each card",
     "Tab completes the next command like a shell; Show / Run / Demo buttons per lab",

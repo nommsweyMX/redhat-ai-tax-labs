@@ -108,6 +108,15 @@ lab carries a theory panel ("what just happened"), and a glossary closes the
 Labs view — when someone asks where an answer came from, the foundations
 slides plus the Lab 01 theory panel are the prepared response.
 
+As each command runs, a *step card* pops up under the terminal (beside it in
+the Demo view) with three facets: what is happening, why it matters to this
+talk, and the engineering seam a single Red Hat platform removes — the
+hand-built box nobody documented, the glue script between alert and fix, the
+scanner report nobody can diff. A wrap card closes each lab with what was
+just proved. The cards are the talk track: read the middle facet aloud when
+the room is mission-minded, the right-hand one when it is procurement-minded.
+They follow the EN/ES tab like everything else.
+
 == Questions you will get, and short answers
 
 "Can this run air-gapped?"::

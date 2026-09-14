@@ -398,6 +398,44 @@ kbd{
 }
 .takeaway b{color:var(--ink);font-family:"Red Hat Display",sans-serif}
 
+/* step cards — pop up beside the terminal: what is happening, why it
+   matters to the talk, and the seam one platform removes */
+.stepcard{margin-top:12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+.stepcard[hidden]{display:none}
+.stepcard.pop{animation:cardpop .42s cubic-bezier(.2,.7,.3,1)}
+@keyframes cardpop{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.stepcard.pop{animation:none}}
+.sc-head{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.sc-step{font-family:"Red Hat Mono",monospace;font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.sc-cmd{font-family:"Red Hat Mono",monospace;font-size:.72rem;color:var(--ink-2);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-state{font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.sc-state::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--amber);flex:none}
+.stepcard[data-state="running"] .sc-state::before{animation:scpulse 1s ease-in-out infinite}
+.stepcard[data-state="done"] .sc-state::before{background:var(--good)}
+@keyframes scpulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.stepcard[data-state="running"] .sc-state::before{animation:none}}
+.sc-body{display:grid;grid-template-columns:repeat(3,1fr)}
+.facet{padding:12px 14px 14px;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:6px;min-width:0}
+.facet:first-child{border-left:0}
+.facet h6{margin:0;font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600;display:flex;align-items:center;gap:7px}
+.facet h6::before{content:"";width:8px;height:8px;border-radius:2px;flex:none;background:var(--steel)}
+.f-why h6::before{background:var(--amber)}
+.f-value h6::before{background:var(--accent)}
+.f-value{background:var(--accent-wash)}
+.facet p{font-size:.84rem;color:var(--ink-2);line-height:1.5;margin:0}
+.stepcard.wrap{border-color:var(--good)}
+.stepcard.wrap .sc-head{background:var(--r-know-wash)}
+.stepcard.wrap .sc-step{color:var(--good)}
+.stepcard.wrap .f-what h6::before{background:var(--good)}
+.demo-stage{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start}
+.demo-stage .stepcard{margin-top:0}
+.demo-stage .sc-body{grid-template-columns:1fr}
+.demo-stage .facet{border-left:0;border-top:1px solid var(--border)}
+.demo-stage .facet:first-child{border-top:0}
+.demo-stage .sc-cmd{display:none}
+@media (max-width:1000px){.demo-stage{grid-template-columns:1fr}.demo-stage .sc-cmd{display:block}}
+@media (max-width:900px){.sc-body{grid-template-columns:1fr}.facet{border-left:0;border-top:1px solid var(--border)}.facet:first-child{border-top:0}}
+
 .closing{padding:34px 0 0}
 .closing h3{font-size:1.3rem}
 .contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
@@ -1487,7 +1525,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
       <div class="labs-intro">
         <span class="eyebrow">Hands-on track</span>
         <h2>Virtual terminal labs</h2>
-        <p>Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html">choose-your-own-adventure page</a> lays out a reading order for every job in the room. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.</p>
+        <p>Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html">choose-your-own-adventure page</a> lays out a reading order for every job in the room. As each command runs, a <b>card</b> pops up under the terminal: what is happening, why it matters to this talk, and the seam a single platform removes. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.</p>
         <div class="labs-legend"><span>Each lab is tagged with the rung of the ladder it serves:</span><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
       </div>
       <div id="labholder"></div>
@@ -1550,15 +1588,18 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
           </select>
         </div>
       </div>
-      <div class="term">
-        <div class="term-bar">
-          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="who" id="demo-host"></span>
-          <span class="prog" id="demo-prog">ready</span>
+      <div class="demo-stage">
+        <div class="term">
+          <div class="term-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="who" id="demo-host"></span>
+            <span class="prog" id="demo-prog">ready</span>
+          </div>
+          <div class="screen" id="demo-screen" tabindex="0" role="log" aria-live="off" aria-label="Automated lab walkthrough"></div>
         </div>
-        <div class="screen" id="demo-screen" tabindex="0" role="log" aria-live="off" aria-label="Automated lab walkthrough"></div>
+        <div id="demo-card"></div>
       </div>
-      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
+      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
     </section>
   </main>
 </div>
@@ -1745,7 +1786,11 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
       wrongHint:'Press Show to fill it in, or Run to execute it for you.',
       demoBanner1:'Red Hat Enterprise Linux 9.6 — automated walkthrough, no input needed',
       demoBanner2:'Commands are real and copyable; output is representative of a working environment.',
-      step:'step', ready:'ready'
+      step:'step', ready:'ready',
+      cardStep:'Step', cardRunning:'running', cardDone:'done', cardComplete:'complete',
+      cardWrap:'Lab complete — what you just proved',
+      cardWhat:'What is happening', cardWhatDid:'What you did',
+      cardWhy:'Why it matters to this talk', cardValue:'Red Hat — one platform, no seams'
     },
     es: {
       deck:'Diapos', labsBtn:'Labs', demoBtnMode:'Demo',
@@ -1762,7 +1807,11 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
       wrongHint:'Pulsa Ver para completarlo, o Ejecutar para correrlo por ti.',
       demoBanner1:'Red Hat Enterprise Linux 9.6 — recorrido automático, sin intervención',
       demoBanner2:'Los comandos son reales y copiables; la salida es representativa de un entorno real.',
-      step:'paso', ready:'listo'
+      step:'paso', ready:'listo',
+      cardStep:'Paso', cardRunning:'en curso', cardDone:'hecho', cardComplete:'completo',
+      cardWrap:'Laboratorio completo — lo que acabas de probar',
+      cardWhat:'Qué está pasando', cardWhatDid:'Qué hiciste',
+      cardWhy:'Por qué importa en esta charla', cardValue:'Red Hat — una plataforma, sin costuras'
     }
   };
   function C(k){ return (CHROME[lang] && CHROME[lang][k]) || CHROME.en[k] || k; }
@@ -1808,7 +1857,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
     "Red Hat AI · virtual event deck &amp; hands-on labs":"Red Hat AI · presentación del evento y labs prácticos",
     "<kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes &nbsp;·&nbsp; <kbd>F</kbd> present full-screen":"<kbd>←</kbd> <kbd>→</kbd> para moverte &nbsp;·&nbsp; <kbd>N</kbd> notas &nbsp;·&nbsp; <kbd>F</kbd> pantalla completa",
     "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all six continuously. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre todos en bucle continuo. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
-    "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre los siete en bucle continuo. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
+    "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre los siete en bucle continuo. Una tarjeta junto a la terminal explica cada paso mientras corre. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
 
     /* ---- rung labels (standalone chips) ---- */
     "Data":"Datos",
@@ -2268,7 +2317,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
     /* ---- labs intro / legend / glossary / closing ---- */
     "Hands-on track":"Ruta práctica",
     "Virtual terminal labs":"Laboratorios de terminal virtual",
-    "Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">choose-your-own-adventure page</a> lays out a reading order for every job in the room. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.":"Siete labs, de unos cinco minutos cada uno. Pulsa <b>Ver</b> para revelar el siguiente comando y escribirlo tú, o <b>Ejecutar</b> para que corra solo. Los comandos son reales y copiables; la salida es representativa de un entorno real para que el lab corra igual para todos. <b>Demo</b> reproduce un lab completo sin intervención — y la vista <b>Demo</b> de la barra lateral recorre los siete en bucle. ¿No sabes por dónde empezar? La <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">página elige-tu-propia-aventura</a> propone un orden de lectura para cada rol en la sala. Cada lab lleva además un <b>panel de teoría</b> que explica qué pasó realmente, y el <b>glosario</b> del final desmitifica la jerga.",
+    "Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">choose-your-own-adventure page</a> lays out a reading order for every job in the room. As each command runs, a <b>card</b> pops up under the terminal: what is happening, why it matters to this talk, and the seam a single platform removes. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.":"Siete labs, de unos cinco minutos cada uno. Pulsa <b>Ver</b> para revelar el siguiente comando y escribirlo tú, o <b>Ejecutar</b> para que corra solo. Los comandos son reales y copiables; la salida es representativa de un entorno real para que el lab corra igual para todos. <b>Demo</b> reproduce un lab completo sin intervención — y la vista <b>Demo</b> de la barra lateral recorre los siete en bucle. ¿No sabes por dónde empezar? La <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">página elige-tu-propia-aventura</a> propone un orden de lectura para cada rol en la sala. Mientras corre cada comando, aparece una <b>tarjeta</b> bajo la terminal: qué está pasando, por qué importa en esta charla y la costura que una sola plataforma elimina. Cada lab lleva además un <b>panel de teoría</b> que explica qué pasó realmente, y el <b>glosario</b> del final desmitifica la jerga.",
     "Each lab is tagged with the rung of the ladder it serves:":"Cada lab lleva el peldaño de la escalera que sirve:",
     "Glossary — the jargon, demystified":"Glosario — la jerga, desmitificada",
     "Token":"Token",
@@ -2913,6 +2962,323 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
   }
   function norm(s){ return String(s).trim().replace(/\s+/g,' ').toLowerCase(); }
 
+  /* Step cards: one per terminal step plus a wrap card per lab, EN with an
+     ES override — what is happening, why it matters to the talk, and the
+     seam a single platform removes. Indexed like LABS. */
+  var LAB_CARDS = [
+    /* Lab 01 — Serve a model inside your boundary */
+    {steps:[
+      {what:"Pulls the Red Hat AI Inference Server image from registry.redhat.io. Before any layer is written, podman checks the signature against the release key; the manifest lands as sha256:51b7ec39, a digest you can quote in a system security plan.",
+       why:"Data is the bottom rung, and the first thing an ISSO asks about taxpayer data is who is allowed to read it. Before this engine touches a single return, its origin is verified and its patch stream is known.",
+       value:"The vLLM engine arrives as a signed Red Hat container on RHEL 9, patched through the same errata stream as the host. There is no hand-built vLLM on an unpatched base image with nobody to call when a CVE lands.",
+       es:{what:"Descarga la imagen de Red Hat AI Inference Server desde registry.redhat.io. Antes de escribir una capa, podman verifica la firma contra la llave de release; el manifiesto queda como sha256:51b7ec39, un digest que puedes citar en tu plan de seguridad.",
+           why:"Datos es el peldaño de abajo, y lo primero que un ISSO pregunta sobre datos del contribuyente es quién puede leerlos. Antes de que este motor toque una declaración, su origen está verificado y su flujo de parches es conocido.",
+           value:"El motor es un contenedor firmado de Red Hat sobre RHEL 9, con el mismo canal de erratas que el host. Ningún vLLM armado a mano sobre una imagen sin parchar, sin nadie a quién llamar cuando cae un CVE."}},
+      {what:"Fetches the 14 files of Granite 3.3 8B Instruct from the RedHatAI repository into /var/models on local disk, 16.3 GB in four safetensors shards. The weights are data on your filesystem now, not a URL your application calls.",
+       why:"The model comes to the data: the weights move once, onto a host you own, and every taxpayer inquiry after that stays put. In an enclave you mirror the files into your own registry and Lab 06 checks the signature.",
+       value:"The model is a validated Granite from the Red Hat AI repository, built for this serving engine, quantized variants included. No weights of unknown provenance from a public hub, matched to a runtime by trial and error.",
+       es:{what:"Trae los 14 archivos de Granite 3.3 8B Instruct del repositorio RedHatAI a /var/models en disco local, 16.3 GB en cuatro shards safetensors. Los pesos ahora son datos en tu sistema de archivos, no una URL que llama tu aplicación.",
+           why:"El modelo viene a los datos: los pesos se mueven una vez, a un host tuyo, y cada consulta del contribuyente se queda ahí. En un enclave los espejas a tu registro y el Lab 06 verifica la firma.",
+           value:"El modelo es un Granite validado del repositorio de Red Hat AI, hecho para este motor, con variantes cuantizadas incluidas. Nada de pesos de origen desconocido bajados de un hub público y emparejados con un runtime a prueba y error."}},
+      {what:"Starts the engine on the GPU, mounts /var/models with the :Z SELinux relabel, and publishes port 8000 on 127.0.0.1 only. 16.3 GB of weights load in 14.2 seconds and an OpenAI-compatible API comes up, so client code needs no rewrite.",
+       why:"The adoption path calls this Prove: one supported endpoint on one machine you already own, running today. gpu_memory_utilization=0.90 is the first number in your capacity plan, the one filing season will multiply by six in Lab 03.",
+       value:"The container carries CUDA, vLLM and the RHEL 9 userspace as one tested unit, and Quadlet hands it to systemd with no glue script. No driver-and-Python matrix reconciled by hand, no serving process only one engineer knows how to restart.",
+       es:{what:"Arranca el motor en la GPU, monta /var/models con etiqueta SELinux :Z y publica el puerto 8000 solo en 127.0.0.1. 16.3 GB de pesos cargan en 14.2 segundos y sube una API compatible con OpenAI: el cliente no se reescribe.",
+           why:"La ruta de adopción llama a esto Probar: un endpoint soportado en una máquina que ya posees. gpu_memory_utilization=0.90 es el primer número de tu plan de capacidad, el que la temporada de declaraciones multiplicará por seis en el Lab 03.",
+           value:"El contenedor trae CUDA, vLLM y userspace de RHEL 9 como una unidad probada, y Quadlet lo entrega a systemd sin script pegamento. Sin matriz de drivers y Python cuadrada a mano, sin proceso que solo un ingeniero sabe reiniciar."}},
+      {what:"Lists listening TCP sockets and filters for port 8000. The only match is 127.0.0.1:8000, owned by conmon, podman's container monitor: no external interface, no route in from the network, no route out to a public model API.",
+       why:"Where does taxpayer text go when someone prompts the model? To 127.0.0.1 and no further. FTI stays inside your boundary, so the accreditation conversation starts from a fact you can screenshot rather than a vendor's promise.",
+       value:"The binding, the SELinux label on the model volume and the patch stream all come from one RHEL lifecycle. There is no notebook-launched Python server that defaulted to 0.0.0.0, and no network diagram nobody updated after the demo.",
+       es:{what:"Lista los sockets TCP en escucha y filtra el puerto 8000. La única coincidencia es 127.0.0.1:8000, en manos de conmon, el monitor de podman: sin interfaz externa, sin entrada desde la red, sin salida a una API pública de modelos.",
+           why:"¿A dónde va el texto del contribuyente al consultar el modelo? A 127.0.0.1 y nada más. La FTI se queda dentro de tu perímetro, así que la acreditación parte de un hecho en pantalla, no de promesas de un proveedor.",
+           value:"El binding, la etiqueta SELinux del volumen y el flujo de parches salen del mismo ciclo de vida RHEL. Ningún servidor Python lanzado desde un notebook que quedó en 0.0.0.0, ni diagrama de red sin actualizar tras el demo."}},
+      {what:"Posts inquiry.json, a taxpayer contact plus a system prompt naming the fields to fill, to the local endpoint. Back come a category, a routing queue, the missing Form 8822 and a draft reply: 214 tokens in, 96 out, 1.31 seconds.",
+       why:"This is the climb from Data to Information: an uninterpreted contact becomes a routed case with a draft ready to edit. The model classifies; a person in Accounts Management decides and signs, the rule that makes this defensible.",
+       value:"The endpoint speaks the OpenAI API, so intake code written today points at OpenShift AI in Lab 03 with a URL change, not a rewrite. No bespoke inference wrapper to maintain, no vendor-specific SDK that quietly closes the exit door.",
+       es:{what:"Envía inquiry.json, un contacto de contribuyente más un system prompt que nombra los campos a llenar, al endpoint local. Regresan categoría, cola de enrutamiento, el Form 8822 faltante y un borrador: 214 tokens de entrada, 96 de salida, 1.31 segundos.",
+           why:"Este es el ascenso de Datos a Información: un contacto sin interpretar se vuelve un caso enrutado con un borrador listo para editar. El modelo clasifica; una persona en Accounts Management decide y firma, la regla que hace esto defendible.",
+           value:"El endpoint habla la API de OpenAI: el código de intake escrito hoy apunta a OpenShift AI en el Lab 03 cambiando solo la URL. Sin wrapper de inferencia casero, ni SDK propietario que cierre la puerta de salida."}},
+    ], wrap:{what:"In five commands a signed inference server and a validated Granite model came up on one host, bound to 127.0.0.1, and turned a taxpayer's refund inquiry into a category, a queue, Form 8822 and a draft reply in 1.31 seconds.",
+       why:"A defensible pilot starts on a machine you already own, and 'where does our data go' is answered by a socket, not a memo. The model does not know your notice codes yet; that climb to Knowledge is Lab 02.",
+       value:"Engine, model, OS and systemd unit come from one supported lifecycle, and the same signed image is what OpenShift AI serves in Lab 03. Accredit once, inherit everywhere begins on this host, not in a pile of Python nobody supports.",
+       es:{what:"En cinco comandos, un servidor de inferencia firmado y un modelo Granite validado subieron en un host, atados a 127.0.0.1, y convirtieron la consulta de reembolso de un contribuyente en categoría, cola, Form 8822 y borrador en 1.31 segundos.",
+           why:"Un piloto defendible empieza en una máquina que ya posees, y 'a dónde van nuestros datos' lo responde un socket, no un memo. El modelo todavía no conoce tus códigos de aviso; ese ascenso a Conocimiento es el Lab 02.",
+           value:"Motor, modelo, OS y unidad systemd comparten un ciclo de vida soportado, y la misma imagen firmada la sirve OpenShift AI en el Lab 03. Acreditar una vez, heredar en todas partes empieza aquí, no en una pila de Python."}}},
+    /* Lab 02 — Teach it your notice taxonomy */
+    {steps:[
+      {what:"Makes a seeds directory and opens seeds/notices.yaml, schema version 3. Each block is a paragraph of plain-language context about one notice family (CP2000 is a proposal, not a bill) followed by the questions taxpayers ask; twelve examples, six families.",
+       why:"The Knowledge rung: guidance the institution owns, written by the people who apply it. A tax specialist can read and correct this file, with no feature vectors and no six-month labelling budget before the model learns one notice code.",
+       value:"SDG Hub and Training Hub on Red Hat AI read this one seed format, and the file lives in git beside the manifests. No separate labelling tool with its own login and export format, no converter script feeding the trainer.",
+       es:{what:"Abre seeds/notices.yaml, esquema versión 3. Cada bloque es un párrafo de contexto en lenguaje llano sobre una familia de avisos (el CP2000 es una propuesta, no una factura) seguido de las preguntas del contribuyente; doce ejemplos, seis familias.",
+           why:"El peldaño de conocimiento: guía que la institución posee, escrita por quienes la aplican. Un especialista tributario puede leer y corregir este archivo, sin vectores numéricos ni seis meses de etiquetado para que el modelo aprenda un código de aviso.",
+           value:"SDG Hub y Training Hub en Red Hat AI leen este formato de semillas, y el archivo vive en git junto a los manifiestos. Sin herramienta de etiquetado aparte, con login y formato propios, ni script conversor hacia el entrenador."}},
+      {what:"Validates every file under ./seeds against schema version 3: the version key, the indentation under questions_and_answers, a context paragraph for each example. Twelve examples, one topic, no errors, in seconds and before any GPU is touched.",
+       why:"A bad contribution fails here, not after four hours of GPU time. The check runs on the pull request, so the tax specialist reviewing it argues about what a CP2000 means, never about YAML indentation.",
+       value:"The validator, the generator and the trainer ship together on Red Hat AI, so a schema change arrives in all three at once. No home-grown lint script written against last year's format, silently passing files the trainer will reject.",
+       es:{what:"Valida cada archivo bajo ./seeds contra el esquema versión 3: la clave version, la indentación bajo questions_and_answers, un párrafo de contexto por ejemplo. Doce ejemplos, un tema, sin errores, en segundos y antes de tocar cualquier GPU.",
+           why:"Una contribución mala falla aquí, no después de cuatro horas de GPU. La verificación corre en el pull request, así que el especialista tributario que lo revisa discute qué significa un CP2000, nunca la indentación del YAML.",
+           value:"Validador, generador y entrenador se distribuyen juntos en Red Hat AI: un cambio de esquema llega a los tres a la vez. Sin script de lint casero contra el formato del año pasado, aprobando archivos que el entrenador rechazará."}},
+      {what:"SDG Hub runs its knowledge_generation flow with the Lab 01 endpoint at 127.0.0.1:8000 as the teacher model. Twelve seeds become 1,842 knowledge and 714 skills candidates; the quality filter keeps 2,203 of 2,556 and writes one JSONL file under ./sdg.",
+       why:"Nobody labelled ten thousand rows by hand, and the teacher sat inside your boundary the whole time: notice language never left this host to be expanded. Every kept sample traces back to a seed a human wrote and reviewed.",
+       value:"The teacher is the signed Red Hat AI Inference Server from Lab 01, the same endpoint, identity and audit trail. No call out to a commercial API on somebody's personal key, carrying agency notice text through a proxy nobody accredited.",
+       es:{what:"SDG Hub ejecuta el flujo knowledge_generation con el endpoint del Lab 01 en 127.0.0.1:8000 como maestro. Doce semillas se vuelven 1,842 candidatos de conocimiento y 714 de habilidades; el filtro de calidad conserva 2,203 de 2,556 y escribe un JSONL.",
+           why:"Nadie etiquetó diez mil filas a mano, y el maestro estuvo dentro de tu perímetro: el lenguaje de los avisos nunca salió de este host para expandirse. Cada muestra conservada viene de una semilla que un humano escribió y revisó.",
+           value:"El maestro es el Red Hat AI Inference Server firmado del Lab 01: mismo endpoint, misma identidad, mismo rastro de auditoría. Sin llamadas a una API comercial con clave personal, sacando texto de avisos por un proxy que nadie acreditó."}},
+      {what:"Training Hub runs supervised fine-tuning with a rank-32 LoRA adapter in bf16 on one H100. Loss falls from 1.884 to 0.471 across three epochs of about four minutes each, and the checkpoint lands at ./checkpoints/granite-8b-tax-v1/samples_2203.",
+       why:"The only step in these labs that changes the weights. The base model never saw CP2000 routing in its training data; three epochs on reviewed agency knowledge is how institutional memory becomes something the model carries into every draft.",
+       value:"The base at /var/models is the same signed Granite the inference server loads, and Training Hub runs on the same accelerator stack. No hand-built PyTorch environment whose library versions drift from the box that will serve the result.",
+       es:{what:"Training Hub ejecuta un ajuste supervisado con un adaptador LoRA de rango 32 en bf16 sobre una H100. La pérdida baja de 1.884 a 0.471 en tres épocas de unos cuatro minutos cada una, y el checkpoint queda en ./checkpoints/granite-8b-tax-v1/samples_2203.",
+           why:"El único paso de estos labs que cambia los pesos. El modelo base nunca vio el enrutamiento del CP2000 en su entrenamiento; tres épocas sobre conocimiento revisado convierten la memoria institucional en algo que el modelo lleva a cada borrador.",
+           value:"La base en /var/models es el mismo Granite firmado que carga el servidor de inferencia, y Training Hub corre sobre la misma pila de aceleradores. Sin entorno PyTorch armado a mano cuyas librerías difieren de la máquina que lo servirá."}},
+      {what:"Scores base and tuned on held-out agency questions with an LLM judge. Notice family accuracy rises from 0.61 to 0.94, routing queue 0.58 to 0.91, citing the right form 0.44 to 0.89; readability moves a modest 0.72 to 0.86.",
+       why:"The governance board asks for this table before a tuned model drafts anything a reviewer signs. Big gains on agency tasks, small on readability, is the healthy pattern, valid only if the held-out set stayed out of the seeds.",
+       value:"On OpenShift AI this evaluation is a pipeline stage whose scores attach to the checkpoint entering the model registry, so promotion is gated on evidence. No notebook screenshot pasted into a ticket; Lab 03 serves the version this table describes.",
+       es:{what:"Puntúa base y ajustado sobre preguntas reservadas de la agencia con un juez LLM. Precisión por familia de aviso: 0.61 a 0.94; cola de enrutamiento: 0.58 a 0.91; formulario correcto: 0.44 a 0.89; legibilidad, apenas 0.72 a 0.86.",
+           why:"La junta de gobernanza pide esta tabla antes de que un modelo ajustado redacte algo que un revisor firme. Mucho en lo tributario, poco en legibilidad: el patrón sano, válido solo si el conjunto reservado quedó fuera de las semillas.",
+           value:"En OpenShift AI la evaluación es una etapa del pipeline cuyos puntajes viajan con el checkpoint al registro de modelos: la promoción depende de evidencia. Sin captura de notebook pegada en un ticket; el Lab 03 sirve esta misma versión."}},
+    ], wrap:{what:"Twelve seed examples a tax specialist wrote were validated, expanded to 2,203 samples by the Lab 01 endpoint, tuned into a rank-32 LoRA adapter over three epochs on one H100, and scored: notice family accuracy 0.61 to 0.94.",
+       why:"The Knowledge rung: guidance the institution owns, written by the people who apply it and reviewed like code, now informs every draft, and a person still decides. Domain adaptation stops being a data science project and becomes a pull request.",
+       value:"Generator, trainer and evaluator are one product on Red Hat AI: one schema, one signed base model, one accelerator stack, one support contract. The seam avoided is a notebook nobody can rerun when the board asks how it learned CP2000.",
+       es:{what:"Doce ejemplos semilla de un especialista tributario fueron validados, expandidos a 2,203 muestras por el endpoint del Lab 01, ajustados en un adaptador LoRA de rango 32 en tres épocas, y evaluados: precisión por familia de aviso, 0.61 a 0.94.",
+           why:"El peldaño de conocimiento: guía que la institución posee, escrita por quienes la aplican y revisada como código, informa cada borrador, y una persona sigue decidiendo. La adaptación de dominio pasa de proyecto de ciencia de datos a pull request.",
+           value:"Generador, entrenador y evaluador son un producto en Red Hat AI: un esquema, un modelo base firmado, una pila de aceleradores, un contrato de soporte. La costura evitada: un notebook que nadie reproduce cuando la junta pregunta cómo aprendió CP2000."}}},
+    /* Lab 03 — Survive filing season */
+    {steps:[
+      {what:"Creates a dedicated OpenShift project called tax-inference on the agency cluster at api.ocp.agency.gov:6443. Everything that follows, GPU quota, network policy and the audit trail, attaches to this namespace and nothing else.",
+       why:"Filing season is a capacity event, and capacity needs an owner. This project is the line inside your boundary where taxpayer inference lives: who may deploy here, how many GPUs it can claim, what reaches it.",
+       value:"On OpenShift the namespace already carries quota, network policy, SELinux labels and RBAC from the same cluster identity. There is no standalone GPU server with its own user list that somebody reconciles against the directory by hand.",
+       es:{what:"Crea un proyecto de OpenShift dedicado, tax-inference, en el clúster de la agencia en api.ocp.agency.gov:6443. Todo lo que sigue, cuota de GPU, política de red y rastro de auditoría, se ancla a este namespace y a ningún otro.",
+           why:"La temporada de declaraciones es un evento de capacidad y la capacidad necesita dueño. Este proyecto es la línea dentro de tu perímetro donde vive la inferencia del contribuyente: quién despliega aquí, cuántas GPU puede reclamar, qué llega hasta él.",
+           value:"En OpenShift el namespace ya trae cuota, política de red, etiquetas SELinux y RBAC de la misma identidad del clúster. No hay un servidor GPU aparte con su propia lista de usuarios que alguien concilie a mano contra el directorio."}},
+      {what:"Lists the serving runtimes OpenShift AI already ships in the redhat-ods-applications namespace. vllm-runtime is present, enabled and 31 days old, the age of the platform install itself, so nobody built a serving stack for this lab.",
+       why:"vLLM's continuous batching pushes many taxpayers' requests through each forward pass, and that is most of the throughput difference between a demo and a service. Information at scale starts with a runtime that already exists.",
+       value:"The runtime is a supported part of OpenShift AI, patched and versioned with the platform. There is no hand-built vLLM image, pinned to whatever CUDA a contractor had that week, that nobody can rebuild or call support about.",
+       es:{what:"Lista los runtimes de servicio que OpenShift AI ya incluye en el namespace redhat-ods-applications. vllm-runtime está presente, habilitado y con 31 días, la edad de la plataforma misma, así que nadie construyó una pila de servicio para este laboratorio.",
+           why:"El procesamiento por lotes continuo de vLLM empuja solicitudes de muchos contribuyentes por cada pase hacia adelante, y ahí está casi toda la diferencia entre un demo y un servicio. Información a escala empieza con un runtime que ya existe.",
+           value:"El runtime es una pieza soportada de OpenShift AI, parchada y versionada con la plataforma. No hay imagen de vLLM hecha a mano, fijada al CUDA que un contratista tenía esa semana, que nadie pueda reconstruir ni llevar a soporte."}},
+      {what:"Applies one InferenceService manifest. It names the runtime, vllm-runtime, the model, granite-8b-tax-v1 pulled from the agency registry, one GPU per replica, a floor of 2, a ceiling of 20, and a scale trigger of 24 concurrent requests.",
+       why:"The manifest is the capacity plan. Every decision an authorizing official would argue about, which model, how many GPUs, how far it may grow in April, is a diffable line in git rather than a console click.",
+       value:"KServe, the vLLM runtime and the OCI model pull are all OpenShift AI, so one apply is the whole deployment. No separate serving team to ticket, no glue script copying weights onto a GPU host over scp.",
+       es:{what:"Aplica un solo manifiesto InferenceService. Nombra el runtime, vllm-runtime, el modelo, granite-8b-tax-v1 bajado del registro de la agencia, una GPU por réplica, un piso de 2, un techo de 20 y un disparador de escalado de 24 solicitudes concurrentes.",
+           why:"El manifiesto es el plan de capacidad. Cada decisión que un oficial autorizador discutiría, qué modelo, cuántas GPU, hasta dónde puede crecer en abril, es una línea en git con historial y diff, no un clic en una consola.",
+           value:"KServe, el runtime vLLM y la descarga OCI del modelo vienen juntos en OpenShift AI: un apply es el despliegue completo. Sin equipo de servicio aparte al que abrir ticket, sin script pegamento copiando pesos a un host GPU."}},
+      {what:"Watches the InferenceService until READY turns True, which takes 96 seconds: pull the image, load 8 GB of weights into GPU memory, pass the health check. The URL is an in-cluster .svc address, nothing public.",
+       why:"That 96 seconds is the cold-start cost, and it is why the floor is two replicas, never zero. A taxpayer on the phone cannot wait a minute and a half for a model to wake up.",
+       value:"Readiness here is the platform's own health check on a supported runtime, wired into routing before a single request lands. There is no cron job curling a hand-built vLLM box and paging someone when the port stops answering.",
+       es:{what:"Observa el InferenceService hasta que READY pasa a True a los 96 segundos: bajar la imagen, cargar 8 GB de pesos a la GPU, pasar el chequeo de salud. La URL es una dirección .svc interna del clúster, nada público.",
+           why:"Esos 96 segundos son el costo del arranque en frío, y por eso el piso es dos réplicas, nunca cero. Un contribuyente al teléfono no puede esperar minuto y medio a que un modelo despierte.",
+           value:"El READY es el chequeo de salud de la plataforma sobre un runtime soportado, enlazado al enrutamiento antes de la primera solicitud. No hay cron haciendo curl a una caja vLLM artesanal y despertando a alguien cuando el puerto calla."}},
+      {what:"Sends one taxpayer inquiry to the OpenAI-compatible /v1/completions endpoint, the way a caseworker's intake tool would. The tuned model answers in 0.412 seconds: refund_status_inquiry, routed to the AM-refund-trace queue, Form 8822.",
+       why:"This is one rung climbed: Data, a taxpayer's free text, becomes Information, a routed case. Nothing has been decided yet; the model reads and routes, and the person working the AM-refund-trace queue decides.",
+       value:"The same OpenAI-style API served the model on RHEL in Lab 01 and serves it on OpenShift AI now, so the intake application did not change a line. There is no bespoke adapter to rewrite each time serving moves.",
+       es:{what:"Envía una consulta de contribuyente al endpoint /v1/completions compatible con OpenAI, como lo haría la herramienta de intake de un gestor de casos. El modelo ajustado responde en 0.412 segundos: refund_status_inquiry, enrutado a la cola AM-refund-trace, formulario 8822.",
+           why:"Es un peldaño subido: Datos, el texto libre de un contribuyente, se vuelve Información, un caso enrutado. Nadie ha decidido nada todavía; el modelo lee y enruta, y la persona que atiende la cola AM-refund-trace decide.",
+           value:"La misma API estilo OpenAI sirvió el modelo en RHEL en el Lab 01 y lo sirve hoy en OpenShift AI: la aplicación de intake no cambió una línea. Sin adaptador a medida que reescribir cuando el servicio se mueve."}},
+      {what:"Holds 400 concurrent requests for 90 seconds, an April afternoon in miniature. Replicas climb 2, 6, 13, 20 by t+40s, p95 stays at 0.612s with zero errors, and by t+180s the service is back on its floor of two.",
+       why:"The 6× filing surge becomes a scheduling event, not a budget line. No application change, no ticket: the manifest is the capacity plan, and the GPUs that absorbed April are released by t+180s to cost nothing in August.",
+       value:"Scaler and runtime ship together in OpenShift AI, so the scaler knows what a replica costs: one GPU, 8 GB of weights, a 96-second start. There is no bolted-on CPU scaler that fires late and cannot see the model's footprint.",
+       es:{what:"Sostiene 400 solicitudes concurrentes por 90 segundos, una tarde de abril en miniatura. Las réplicas suben 2, 6, 13, 20 a t+40s, el p95 se mantiene en 0.612s sin errores, y a t+180s el servicio vuelve a su piso.",
+           why:"El pico 6× de abril se vuelve un evento de programación, no de presupuesto: sin cambio de aplicación, sin ticket, el manifiesto es el plan de capacidad. Las GPU del pico se liberan a t+180s: nada que pagar en agosto.",
+           value:"Escalador y runtime son una pieza de OpenShift AI: el escalador sabe qué cuesta una réplica, una GPU, 8 GB de pesos, 96 segundos. Sin escalador por CPU pegado encima, que dispara tarde y no ve la huella del modelo."}},
+    ], wrap:{what:"In six commands a tuned 8B model went from a manifest to a service that held 400 concurrent taxpayers at p95 0.612s with zero errors, scaled from two replicas to twenty and back, and never left the cluster.",
+       why:"Filing season is the 6× surge a tax system pays for all year. Here April became a scheduling event: capacity followed the season, the intake application never changed, and the Information rung kept producing routed cases inside your boundary.",
+       value:"The manifest is the capacity plan, and it deploys unchanged to a datacenter cluster, an accredited cloud region or an air-gapped enclave. Placement is policy, not re-architecture, and because none of it is hyperscaler-only the exit door stays open.",
+       es:{what:"En seis comandos, un modelo 8B ajustado pasó de un manifiesto a un servicio que sostuvo 400 contribuyentes concurrentes con p95 de 0.612s y cero errores, escaló de dos réplicas a veinte y de regreso, y nunca salió del clúster.",
+           why:"La temporada es el pico 6× que se paga todo el año. Abril fue un evento de programación: la capacidad siguió a la temporada, sin tocar la aplicación, y el peldaño Información siguió entregando casos enrutados dentro de tu perímetro.",
+           value:"El manifiesto es el plan de capacidad y corre sin cambios en tu centro de datos, nube acreditada o enclave aislado. La ubicación es política, no rearquitectura; nada es exclusivo de un hyperscaler y la puerta de salida sigue abierta."}}},
+    /* Lab 04 — Ground answers in your own guidance */
+    {steps:[
+      {what:"Applies the vector store manifests and confirms the pgvector pod is Running on the same OpenShift cluster as the model. The published guidance gets indexed here, inside your boundary, on a service nothing outside the cluster can reach.",
+       why:"This is the Knowledge rung taking shape: published guidance is the institution's memory, and this store makes it retrievable and cited. Memory and model share one cluster, so a taxpayer's question and its answering passages stay inside your boundary.",
+       value:"The store is an OpenShift StatefulSet, so the network policy, SELinux labels and Compliance Operator scans already covering the model cover it. There is no managed vector database in someone else's cloud on a path the ISSO has to explain.",
+       es:{what:"Aplica los manifiestos del almacén vectorial y confirma que el pod pgvector está en Running en el mismo clúster de OpenShift que el modelo. La normativa publicada se indexa aquí, dentro de tu perímetro, inalcanzable desde fuera del clúster.",
+           why:"Este es el peldaño de Conocimiento: la normativa publicada es la memoria institucional, y este almacén la vuelve recuperable y citable. Memoria y modelo comparten clúster: la pregunta del contribuyente y sus pasajes se quedan dentro de tu perímetro.",
+           value:"El almacén es un StatefulSet de OpenShift: hereda la política de red, etiquetas SELinux y escaneos del Compliance Operator que ya cubren al modelo. No hay base vectorial gestionada en nube ajena, por una ruta que el ISSO deba explicar."}},
+      {what:"Walks the publication corpus, cuts it into 800-character chunks with a 120-character overlap, embeds each with granite-embedding-125m and indexes 3,135 chunks into pgvector.tax_guidance. Publication 17 alone is 412 pages and 1,904 chunks; the HNSW index keeps lookups fast.",
+       why:"The corpus is queried, never learned: retrieval keeps sensitive text out of training, which is the sentence a data governance review wants in writing. When Publication 594 is republished, you re-run this pass in minutes instead of touching the weights.",
+       value:"Embeddings come from the same Red Hat AI Inference Server endpoint that serves the model, for ingest and queries. There is no third-party embedding API that guidance text leaves the boundary to reach, and no ingest-versus-query mismatch scoring everything low.",
+       es:{what:"Recorre el corpus, lo corta en fragmentos de 800 caracteres con 120 de solapamiento, genera embeddings con granite-embedding-125m e indexa 3,135 fragmentos en pgvector.tax_guidance. Solo la Publicación 17 son 412 páginas y 1,904 fragmentos; el índice HNSW acelera la búsqueda.",
+           why:"El corpus se consulta, nunca se aprende: la recuperación mantiene el texto sensible fuera del entrenamiento, la frase que gobernanza de datos quiere por escrito. Si republican la Publicación 594, repites esta pasada en minutos sin tocar los pesos.",
+           value:"Los embeddings salen del mismo endpoint de Red Hat AI Inference Server que sirve al modelo, en ingesta y consulta. La normativa no sale del perímetro hacia una API de embeddings ajena, ni hay desajuste ingesta-consulta que puntúe todo bajo."}},
+      {what:"Asks a CP14 question through Llama Stack: the question is embedded, the nearest passages come back from pgvector, and the model drafts from those only. Four payment options return with a sources block, led by Publication 594 p.4 at 0.891.",
+       why:"The citation block is the part your reviewers need. A collections specialist can open Publication 594 page 4 and check the draft against the source: the model reads, grounds and drafts on the Knowledge rung, and a person decides.",
+       value:"On OpenShift AI, Llama Stack puts retrieval and inference behind one API: one call returns answer and sources. No home-grown script glues a vector client, a prompt template and a model SDK, each with its own auth and upgrade calendar.",
+       es:{what:"Consulta un CP14 vía Llama Stack: la pregunta se vectoriza, los pasajes más cercanos vuelven de pgvector y el modelo redacta solo con ellos. Regresan cuatro opciones de pago con su bloque de fuentes: Publicación 594 p.4, 0.891.",
+           why:"El bloque de citas es lo que tus revisores necesitan. Un especialista abre la Publicación 594, página 4, y coteja el borrador con la fuente: el modelo lee, ancla y redacta en el peldaño de Conocimiento, y una persona decide.",
+           value:"En OpenShift AI, Llama Stack pone recuperación e inferencia tras una sola API: una llamada devuelve respuesta y fuentes. Ningún script casero pega cliente vectorial, plantilla de prompt y SDK de modelo, cada uno con autenticación y parches propios."}},
+      {what:"Asks about a tax year the corpus does not cover. Every candidate scores below the 0.75 threshold, so no passage reaches the model: the output is a refusal, the most recent citable year, 2025, and a referral to a specialist.",
+       why:"This is the thirty-second answer to the hallucination question: when the corpus has no answer, say so. A system that always answers launders a guess into something that looks sourced; refusal is a feature, and a person decides.",
+       value:"A refusal exits with code 3, a signal Ansible Automation Platform can route to a specialist queue, and the 0.75 threshold is one line in a versioned file. There is no home-grown webhook script between the refusal and the human.",
+       es:{what:"Pregunta por un año fiscal que el corpus no cubre. Ningún candidato supera el umbral de 0.75 y ningún pasaje llega al modelo: la salida es un rechazo, el año citable más reciente, 2025, y una derivación a un especialista.",
+           why:"Esta es la respuesta de treinta segundos a la pregunta sobre alucinaciones: cuando el corpus no tiene la respuesta, dilo. Un sistema que siempre responde disfraza una suposición de respuesta citada; el rechazo es una característica, y una persona decide.",
+           value:"Un rechazo sale con código 3, señal que Ansible Automation Platform puede enrutar a especialistas, y el umbral de 0.75 es una línea en un archivo versionado. No hay script webhook casero entre el rechazo y la persona."}},
+    ], wrap:{what:"In four commands you stood up a vector store beside the model, indexed 3,135 chunks of published guidance, got a CP14 answer back with its Publication 594 citations, and watched the system refuse a 2031 question it could not source.",
+       why:"Retrieval turns a general model into an agency system of reference on the Knowledge rung, far cheaper than retraining, and keeps sensitive text out of training. Every answer carries its passage, every gap becomes a referral, and a person decides.",
+       value:"Model, embeddings, vector store and the Llama Stack API run on one OpenShift AI cluster under one identity and one evidence trail. Guidance never leaves the boundary for embedding or answering, and nobody stitches three vendors' SDKs together in April.",
+       es:{what:"En cuatro comandos levantaste un almacén vectorial junto al modelo, indexaste 3,135 fragmentos de normativa publicada, recibiste una respuesta sobre un CP14 con sus citas de la Publicación 594 y viste al sistema rechazar una pregunta de 2031 sin sustento.",
+           why:"La recuperación convierte un modelo general en el sistema de referencia institucional, peldaño de Conocimiento, más barato que reentrenar y sin texto sensible en el entrenamiento. Cada respuesta trae su pasaje, cada vacío se deriva, y una persona decide.",
+           value:"Modelo, embeddings, almacén y Llama Stack corren en un clúster de OpenShift AI, con una identidad y un rastro de evidencia. La normativa nunca sale del perímetro para vectorizarse ni responder, y nadie cose SDKs de tres proveedores en abril."}}},
+    /* Lab 05 — Automate the toil around the model */
+    {steps:[
+      {what:"Runs the hourly health playbook against the production inference host. Four tasks: list the models, send one canary inquiry, assert it came back under the 2.00 second threshold, and check the served digest sha256:4b91c0e2 against change record CR-8841.",
+       why:"The canary is a real refund inquiry, so this tests the endpoint the way a taxpayer would. The digest step makes provenance operational, not paperwork: a model that drifted from the approved artifact is an accreditation finding, not an incident.",
+       value:"The digest is the one the signed model registry recorded at promotion, and the AI Inference Server serves that same artifact, so this check reads one identity end to end. No hand-kept hash spreadsheet drifting from what the host loaded.",
+       es:{what:"Ejecuta el playbook de salud sobre el host de inferencia. Cuatro tareas: listar los modelos, enviar una consulta canario, verificar que respondió bajo el umbral de 2.00 segundos y comparar el digest servido sha256:4b91c0e2 con el registro de cambio CR-8841.",
+           why:"El canario es una consulta real de reembolso, así que prueba el endpoint como lo haría un contribuyente. El digest vuelve operativa la procedencia, no papeleo: un modelo desviado del artefacto aprobado es un hallazgo de acreditación, no un incidente.",
+           value:"El digest viene del registro de modelos firmado y el AI Inference Server sirve ese mismo artefacto: una sola identidad de punta a punta. No hay hoja de cálculo de hashes que se desvíe de lo que el host cargó."}},
+      {what:"Prints the Event-Driven Ansible rulebook. It listens for Alertmanager webhooks on port 5000 and maps each alert name to one Automation Controller job template: InferenceQueueDepth expands capacity, CanaryFailed rolls back to the last approved model.",
+       why:"Judgement executed, not made: the team decided which conditions to fix and which to escalate to a person, and the rulebook carries that out the same way every time. The rulebook is the runbook, so no separate document goes stale.",
+       value:"The Alertmanager source ships in the supported ansible.eda collection and run_job_template is a platform call into Controller, so the alert lands in the same job history as every other action. No home-grown webhook script between the alert and the fix.",
+       es:{what:"Muestra el rulebook de Event-Driven Ansible. Escucha webhooks de Alertmanager en el puerto 5000 y asigna cada nombre de alerta a una plantilla de trabajo del Automation Controller: InferenceQueueDepth amplía capacidad, CanaryFailed regresa al último modelo aprobado.",
+           why:"El rulebook ejecuta el juicio, no lo toma: el equipo decidió qué se corrige y qué se escala a una persona, y el rulebook lo cumple igual cada vez. Es también el runbook, sin documento aparte que se vuelva obsoleto.",
+           value:"La fuente de Alertmanager viene en la colección soportada ansible.eda y run_job_template llama directo al Controller, así que la alerta queda en el mismo historial que cualquier otra acción. Sin script de webhook casero entre la alerta y la corrección."}},
+      {what:"Starts the rules engine against the production controller. At 14:38:02 Alertmanager reports InferenceQueueDepth at 612, the rule matches, job 40213 raises maxReplicas from 20 to 32, 11 new replicas come Ready, and at 14:39:04 the alert resolves at depth 38.",
+       why:"Alert to resolved in 62 seconds, no ticket, no pager, no war room. This is the self-healing closed loop the deck promised: the seasonal surge shows up as queue depth and the platform absorbs it before a taxpayer notices.",
+       value:"The job template raises maxReplicas on the same OpenShift AI manifest Lab 03 called the capacity plan, under the eda-rulebook identity, so the fix is a recorded change, not a kubeconfig on someone's laptop running oc scale at 2 a.m.",
+       es:{what:"Arranca el motor de reglas contra producción. A las 14:38:02 Alertmanager reporta InferenceQueueDepth en 612, la regla coincide, el trabajo 40213 sube maxReplicas de 20 a 32, 11 réplicas quedan Ready y a las 14:39:04 se resuelve con profundidad 38.",
+           why:"De alerta a resuelto en 62 segundos, sin ticket ni pager. Es el ciclo cerrado autorreparable de la charla: el pico de temporada aparece como profundidad de cola y la plataforma lo absorbe antes de que un contribuyente lo note.",
+           value:"La plantilla sube maxReplicas en el mismo manifiesto de OpenShift AI que el Lab 03 llamó plan de capacidad, bajo la identidad eda-rulebook: un cambio registrado, no un kubeconfig en una laptop corriendo oc scale a las 2 a.m."}},
+      {what:"Lists successful Controller jobs since 26 August. Every row records what ran, how long it took and who launched it: job 40213 by eda-rulebook, the GPU patch and compliance evidence runs by schedule, the enclave model mirror by j.rivera.",
+       why:"This is the audit trail your assessor asks for, written as the work happened rather than reconstructed at quarter end. Lab 06 inherits it directly, because accredit once, inherit everywhere starts with evidence nobody had to assemble by hand.",
+       value:"Scale-out, GPU patch and enclave mirror share one job history and one identity model, and the same Ansible reaches legacy systems the model never touches. No autoscaler log, patch log and ticket export stitched into a spreadsheet for the assessor.",
+       es:{what:"Lista los trabajos exitosos desde el 26 de agosto. Cada fila registra qué corrió, cuánto tardó y quién lo lanzó: el 40213 por eda-rulebook, el parche de GPU y la evidencia de cumplimiento programados, el espejo al enclave por j.rivera.",
+           why:"Es el registro de auditoría que pide tu evaluador, escrito mientras ocurría el trabajo, no reconstruido al cierre del trimestre. El Lab 06 lo hereda: acreditar una vez, heredar en todas partes empieza con evidencia que nadie armó a mano.",
+           value:"Escalado, parche de GPU y espejo al enclave comparten historial e identidad, y el mismo Ansible alcanza sistemas legados que el modelo nunca toca. Sin logs de autoescalador, parches y tickets pegados en una hoja de cálculo para el evaluador."}},
+    ], wrap:{what:"In four commands the lab verified the served model is the approved artifact, read the rulebook that is also the runbook, watched a saturation alert resolve itself in 62 seconds, and listed the job history that is the audit trail.",
+       why:"Automation is what makes AI operable at agency scale; without it every model becomes a pet someone has to feed. None of this contained machine learning: the intelligence stays in the model, the reliability lives in the automation around it.",
+       value:"Without automation you will not have good generative or predictive AI inside your boundary. The alert, the fix and the evidence never left one estate, so there is no monitoring vendor, ticketing webhook and scaling script to keep in step.",
+       es:{what:"En cuatro comandos verificaste que el modelo servido es el aprobado, leíste el rulebook que también es el runbook, viste una alerta de saturación resolverse sola en 62 segundos y listaste el historial que es tu registro de auditoría.",
+           why:"La automatización vuelve operable la IA a escala de agencia; sin ella cada modelo es una mascota que alimentar. Nada aquí usó aprendizaje automático: la inteligencia queda en el modelo y la confiabilidad, en la automatización que lo rodea.",
+           value:"Sin automatización no vas a tener buena IA generativa ni predictiva dentro de tu perímetro. Alerta, corrección y evidencia nunca salieron de la misma plataforma: no hay proveedor de monitoreo, webhook de tickets ni script de escalado que sincronizar."}}},
+    /* Lab 06 — Prove it to your ISSO */
+    {steps:[
+      {what:"Checks the Sigstore signature on the model artifact in the agency registry against the agency's own public key. The answer names the digest, the signer revenue-modernization-release, the timestamp and change record CR-8841, approved by the AO.",
+       why:"Is this the model we approved? A model is ultimately a file: hash it, sign it and verify it before it serves a single taxpayer, so provenance is checked before admission, not audited after the fact.",
+       value:"Because the registry, the signing key and the admission gate live on one platform, the digest the AO approved is the digest the cluster checks. No model pulled from a public hub by tag, no approved version in somebody's spreadsheet.",
+       es:{what:"Verifica la firma Sigstore del artefacto del modelo en el registro de la agencia contra la clave pública de la propia agencia. La respuesta nombra el digest, el firmante revenue-modernization-release, la fecha y el cambio CR-8841, aprobado por el AO.",
+           why:"¿Es este el modelo que aprobamos? Un modelo es, al final, un archivo: calcúlale el hash, fírmalo y verifícalo antes de que atienda a un solo contribuyente, así la procedencia se verifica antes de admitir, no se audita después.",
+           value:"Con registro, clave de firma y admisión en una sola plataforma, el digest que aprobó el AO es el que verifica el clúster. Ningún modelo bajado por tag de un hub público, ninguna versión aprobada en el Excel de alguien."}},
+      {what:"Two checks on ocp-gpu-04, the node that actually runs inference: fips-mode-setup confirms FIPS mode is enabled, and sestatus confirms SELinux is enforcing, not permissive. The host serving taxpayer text is the one being asked.",
+       why:"Is the cryptography validated? FIPS mode means the modules encrypting taxpayer text are validated, not just configured, and SELinux enforcing keeps the model process inside its label, so 'inside your boundary' is enforced by the operating system, not promised.",
+       value:"FIPS mode is set at install, not toggled later. On RHEL, validated modules, SELinux policy and accelerator drivers ship from one lifecycle, so no GPU box arrives on a vendor image nobody can put into FIPS mode without a rebuild.",
+       es:{what:"Dos verificaciones en ocp-gpu-04, el nodo que realmente sirve la inferencia: fips-mode-setup confirma que el modo FIPS está habilitado y sestatus confirma que SELinux está en enforcing, no en permissive. Se le pregunta al host que sirve texto de contribuyentes.",
+           why:"¿Criptografía validada? En modo FIPS los módulos de cifrado son validados, no solo configurados, y con SELinux en enforcing el proceso del modelo vive dentro de su etiqueta: 'dentro de tu perímetro' lo impone el sistema operativo, no una promesa.",
+           value:"El modo FIPS se fija al instalar. En RHEL, módulos validados, política SELinux y drivers del acelerador salen del mismo ciclo de vida: ningún nodo GPU llega en una imagen de proveedor que nadie puede poner en FIPS sin reconstruirlo."}},
+      {what:"Lists the Compliance Operator scans against the NIST 800-53 moderate profile: the platform scan ocp4-moderate reports NON-COMPLIANT while the node and RHCOS worker scans pass. Each result is a Kubernetes object with a phase and a verdict, not a report.",
+       why:"Is the platform still hardened this quarter? NON-COMPLIANT is the honest result and the useful one: a scan that always passes is a scan nobody reads, and this is what FISMA moderate evidence collection looks like in practice.",
+       value:"Because the Compliance Operator runs on the same cluster as the model, the result is an object you query with the same oc command, re-scanned on a schedule. No once-a-year contractor scan that lands as a PDF nobody can diff.",
+       es:{what:"Lista los escaneos del Compliance Operator contra el perfil NIST moderate: el escaneo de plataforma ocp4-moderate reporta NON-COMPLIANT mientras los de nodo y worker RHCOS pasan. Cada resultado es un objeto de Kubernetes con fase y veredicto, no un reporte.",
+           why:"¿Sigue endurecida la plataforma este trimestre? NON-COMPLIANT es el resultado honesto y el útil: un escaneo que siempre pasa es un escaneo que nadie lee, y así se ve en la práctica la recolección de evidencia FISMA moderate.",
+           value:"Como el Compliance Operator corre en el mismo clúster que el modelo, el resultado es un objeto que consultas con el mismo oc, reescaneado según calendario. Ningún escaneo anual de un contratista que llega como PDF que nadie puede comparar."}},
+      {what:"Filters the check results down to the failures. Exactly one of 217 checks failed, ocp4-moderate-audit-log-forwarding-enabled at medium severity, and a ComplianceRemediation object already exists that one oc apply installs.",
+       why:"Real clusters have findings, and the skill an assessor wants is reading one and deciding what to do. Here the audit trail never leaves the node, and a person decides how that is fixed, which is judgement on evidence.",
+       value:"The finding, remediation and Ansible rulebook share one platform, so Lab 05's rulebook can apply the fix and record the job under a launching identity. Same fix, with evidence, not a ticket, a hand-edit and a screenshot an assessor reassembles.",
+       es:{what:"Filtra los resultados de verificación a solo las fallas. Falló exactamente una de 217 verificaciones, ocp4-moderate-audit-log-forwarding-enabled con severidad media, y ya existe un objeto ComplianceRemediation que un solo oc apply instala.",
+           why:"Los clústeres reales tienen hallazgos, y la habilidad que busca un evaluador es leer uno y decidir qué hacer. Aquí la pista de auditoría nunca sale del nodo, y una persona decide cómo se corrige, que es juicio sobre evidencia.",
+           value:"Hallazgo, remediación y rulebook de Ansible comparten una plataforma, así el Lab 05 aplica la corrección y registra el job con identidad de lanzamiento. Misma corrección, con evidencia, no un ticket, edición a mano y captura que el evaluador reconstruye."}},
+      {what:"Creates the TrustyAIService tax-trustyai and reads its metrics: mean-shift drift per input feature against the accreditation baseline, and fairness across filing_status. channel_mix drift is 0.212 against a 0.150 threshold, and disparate impact is 0.968, inside the band.",
+       why:"Nothing is wrong with the model: weights are frozen, so a deployed model cannot decay. More taxpayers moved to the portal, drift is telling you the world changed, and a person decides whether the accreditation baseline still holds.",
+       value:"TrustyAI sits on OpenShift AI beside the model, so drift, fairness and provenance alerts are Prometheus rules on the same cluster, routed to the Lab 05 rulebook. No notebook run by hand against a baseline of whatever ran last month.",
+       es:{what:"Crea el TrustyAIService tax-trustyai y lee sus métricas: deriva mean-shift por característica contra la línea base de acreditación, y equidad por filing_status. channel_mix deriva 0.212 contra un umbral de 0.150, y el impacto dispar, 0.968, queda dentro de la banda.",
+           why:"Nada le pasa al modelo: los pesos están congelados y un modelo desplegado no puede decaer. Más contribuyentes se movieron al portal, la deriva te dice que el mundo cambió, y una persona decide si la línea base sigue vigente.",
+           value:"TrustyAI vive en OpenShift AI junto al modelo: deriva, equidad y procedencia son reglas de Prometheus en el mismo clúster, enrutadas al rulebook del Lab 05. Ningún notebook corrido a mano contra la línea base de lo del mes pasado."}},
+    ], wrap:{what:"Five commands answered the four questions an AO asks: the model is the one CR-8841 approved, the node is FIPS and enforcing, the scan has one honest finding with remediation, and drift and fairness are measured against the accreditation baseline.",
+       why:"Every check produced evidence, and the AO's decision to accept it is judgement, a determination a person signs that no platform feature makes for them. That is what enterprise-ready has to mean before an AI workload touches taxpayer data.",
+       value:"Signing, FIPS mode, scanning and drift monitoring attach to the platform, not to the project, so workflow two starts with workflow one's evidence. Accredit once, inherit everywhere: every check is a feature you turn on, not a project you fund.",
+       es:{what:"Cinco comandos respondieron las cuatro preguntas del AO: el modelo es el que aprobó CR-8841, el nodo en FIPS y enforcing, el escaneo con un hallazgo honesto y remediación, y deriva y equidad medidas contra la línea base de acreditación.",
+           why:"Cada verificación produjo evidencia, y aceptarla es juicio del AO, una determinación que firma una persona y ninguna función de plataforma toma por ella. Eso debe significar 'listo para la empresa' antes de que la IA toque datos de contribuyentes.",
+           value:"Firma, FIPS, escaneo y deriva se adhieren a la plataforma, no al proyecto: el flujo dos arranca con la evidencia del flujo uno. Acredita una vez, hereda en todas partes: cada verificación es función que enciendes, no proyecto que financias."}}},
+    /* Lab 07 — Ask your own logs */
+    {steps:[
+      {what:"Queries Loki through the OpenShift Logging gateway for ERROR lines in tax-inference over the last 24 hours. Two predictor pods report CUDA out of memory at 1.42 GiB, and readiness is flapping on 2 of 6 replicas.",
+       why:"This is the Data rung: 14:20 on a Tuesday, p99 has tripled on the classifier that routes taxpayer inquiries, and the log says what broke, not why. Detection is already fast; the hours start here.",
+       value:"Because OpenShift Logging ships with the cluster, the same tenant model and identity that guard the model endpoint guard its logs. There is no separate log-shipping stack forwarding hostnames and case identifiers to a hosted SaaS nobody accredited.",
+       es:{what:"Consulta Loki a través del gateway de OpenShift Logging buscando líneas ERROR en tax-inference de las últimas 24 horas. Dos pods predictor reportan CUDA out of memory al pedir 1.42 GiB, y el readiness oscila en 2 de 6 réplicas.",
+           why:"Peldaño de Datos: 14:20 de un martes, el p99 se triplicó en el clasificador que enruta consultas del contribuyente, y el log dice qué se rompió, no por qué. La detección ya era rápida; las horas empiezan aquí.",
+           value:"Como OpenShift Logging viene con el clúster, el mismo tenant y la misma identidad que protegen el endpoint del modelo protegen sus logs. No hay un stack aparte mandando hostnames e identificadores de caso a un SaaS que nadie acreditó."}},
+      {what:"Builds the operations corpus: 90 days of Loki logs, 48 runbooks, 312 postmortems and 1,240 change records, embedded into 12,135 chunks in pgvector.ops_notebook. The index is the Lab 04 vector store with a new table; nothing new is installed.",
+       why:"The answer to most 2 a.m. questions already exists, but it lives in four systems and three people's heads. Putting the institution's memory in one searchable index is the Information-to-Knowledge climb, and it stays inside your boundary.",
+       value:"Embedding, vector store and Loki export sit on OpenShift AI and OpenShift Logging, so the corpus never leaves the cluster. There is no export job copying FTI-adjacent logs to an outside vector database with its own credentials and patch cadence.",
+       es:{what:"Construye el corpus de operaciones: 90 días de logs de Loki, 48 runbooks, 312 postmortems y 1,240 registros de cambio, embebidos en 12,135 chunks en pgvector.ops_notebook. Es el almacén vectorial del Lab 04 con otra tabla; no se instala nada.",
+           why:"La respuesta de las 2 a.m. casi siempre ya existe, pero vive en cuatro sistemas y tres cabezas. Poner la memoria de la institución en un solo índice es subir de Información a Conocimiento, dentro de tu perímetro.",
+           value:"Embedding, almacén vectorial y exportación de Loki viven en OpenShift AI y OpenShift Logging, y el corpus nunca sale del clúster. No hay un job copiando logs cercanos a FTI a una base vectorial externa con credenciales y parches propios."}},
+      {what:"Asks the on-call question through Llama Stack. Granite returns a cause, a precedent and a runbook: CR-9012 raised max_model_len to 16384 at 13:47, INC-2209 showed the same signature, RB-114 steps 3 to 5 apply, each scored.",
+       why:"Forty minutes of grepping and paging, answered in eleven seconds, with citations scored 0.93 to 0.86 that the engineer opens before acting. This is Knowledge, not a guess, and a person still decides whether to revert.",
+       value:"Llama Stack, Granite and the vector store are Lab 04's supported pieces: one API, one lifecycle for retrieval, model and citations. There is no home-grown RAG script gluing a hosted model to a log search that cannot cite.",
+       es:{what:"Hace la pregunta de guardia a través de Llama Stack. Granite devuelve causa, precedente y runbook: CR-9012 subió max_model_len a 16384 a las 13:47, INC-2209 mostró la misma firma, aplica RB-114 pasos 3 a 5, cada uno con puntaje.",
+           why:"Cuarenta minutos de grep y llamadas, respondidos en once segundos, con citas de 0.93 a 0.86 que el ingeniero abre antes de actuar. Esto es Conocimiento, no una corazonada, y una persona sigue decidiendo si revertir.",
+           value:"Llama Stack, Granite y el almacén vectorial son las piezas soportadas del Lab 04: una API, un ciclo de vida. No hay un script RAG casero pegando un modelo hospedado a una búsqueda de logs que no sabe citar."}},
+      {what:"Launches the Ansible Automation Platform job template for RB-114 with CR-9012 as input. Job 40417 reverts max_model_len to 8192, waits for 6 of 6 replicas Ready, classifies a canary inquiry in 0.29 s and lands in controller history.",
+       why:"The notebook recommended; a person decided; deterministic automation executed. That is Judgement staying human while the fix is repeatable, and the job record is the evidence an auditor asks for after a taxpayer-facing outage.",
+       value:"The runbook is already an Ansible job template with the credentials and history Lab 05 built. There is no home-grown webhook glue between diagnosis and fix, and no engineer pasting oc commands from a chat window at 14:30.",
+       es:{what:"Lanza la plantilla de Ansible Automation Platform para RB-114 con CR-9012 como entrada. El job 40417 revierte max_model_len a 8192, espera 6 de 6 réplicas Ready, clasifica una consulta canario en 0.29 s y queda en el historial del controlador.",
+           why:"El cuaderno recomendó; una persona decidió; la automatización determinista ejecutó. Así el Juicio sigue siendo humano mientras la corrección es repetible, y el registro del job es la evidencia que un auditor pide tras una caída que afecta al contribuyente.",
+           value:"El runbook es una plantilla de Ansible con las credenciales y el historial que armó el Lab 05. No hay un webhook casero entre diagnóstico y corrección, ni un ingeniero pegando comandos oc desde un chat a las 14:30."}},
+      {what:"Decomposes last quarter's 17 production incidents into detect, diagnose, fix and verify. Detect, fix and verify are unchanged; diagnosis fell from 2h 41m to 24m, and total MTTR from 3h 16m to 59m.",
+       why:"Detection was already fast; the hours lived in diagnosis, and that is the column the notebook emptied: diagnosis down 84 percent, total down 70 percent. During the 6x filing surge, an hour of outage is a queue of taxpayers.",
+       value:"The MTTR table reads cleanly because logs, retrieval, model and remediation all left records on one platform with one clock and one identity. Stitch four vendors together and the first meeting after an incident is about whose timestamps to believe.",
+       es:{what:"Descompone los 17 incidentes de producción del último trimestre en detectar, diagnosticar, corregir y verificar. Detectar, corregir y verificar no cambian; el diagnóstico cayó de 2h 41m a 24m, y el MTTR total de 3h 16m a 59m.",
+           why:"La detección ya era rápida; las horas vivían en el diagnóstico, y esa es la columna que el cuaderno vació: diagnóstico -84%, total -70%. Con la temporada de declaraciones a 6x, una hora de caída es una fila de contribuyentes.",
+           value:"La tabla de MTTR se lee limpia porque logs, recuperación, modelo y remediación dejaron registros en una sola plataforma, con un reloj y una identidad. Junta cuatro proveedores y la primera reunión tras un incidente es sobre qué timestamps creer."}},
+    ], wrap:{what:"Five commands aimed Lab 04's retrieval pattern at operations: Loki logs, runbooks, postmortems and change records became a notebook that diagnosed a live OOM incident with citations, handed the fix to Ansible and cut diagnosis from hours to minutes.",
+       why:"Dashboards show that something broke; a notebook over your own logs tells you why, and diagnosis is where MTTR actually lives. A person still decides, and the platform that serves taxpayers now also explains itself.",
+       value:"Nothing new was installed: OpenShift Logging, OpenShift AI, Granite, Llama Stack and Ansible were already there, so the ops notebook inherited the taxpayer system's accreditation. Accredit once, inherit everywhere; nobody stands up a second AI stack for operations.",
+       es:{what:"Cinco comandos apuntaron el patrón del Lab 04 a operaciones: logs, runbooks, postmortems y registros de cambio se volvieron un cuaderno que diagnosticó un OOM con citas, pasó la corrección a Ansible y bajó el diagnóstico de horas a minutos.",
+           why:"Los tableros muestran que algo se rompió; un cuaderno sobre tus propios logs te dice por qué, y el diagnóstico es donde vive el MTTR. Una persona sigue decidiendo, y la plataforma que atiende al contribuyente también se explica sola.",
+           value:"No se instaló nada: OpenShift Logging, OpenShift AI, Granite, Llama Stack y Ansible ya estaban ahí, y el cuaderno heredó la acreditación del sistema del contribuyente. Acredita una vez, hereda en todas partes; nadie levanta un segundo stack de AI."}}},
+  ];
+
+  function cardText(c, f){
+    return (lang === 'es' && c.es && c.es[f]) ? c.es[f] : (c[f] || '');
+  }
+  function cardEl(){
+    var el = document.createElement('div');
+    el.className = 'stepcard';
+    el.hidden = true;
+    el.setAttribute('aria-live', 'polite');
+    el.innerHTML =
+      '<div class="sc-head"><span class="sc-step"></span><span class="sc-cmd"></span><span class="sc-state"></span></div>' +
+      '<div class="sc-body">' +
+        '<div class="facet f-what"><h6></h6><p></p></div>' +
+        '<div class="facet f-why"><h6></h6><p></p></div>' +
+        '<div class="facet f-value"><h6></h6><p></p></div>' +
+      '</div>';
+    return el;
+  }
+  // stepIdx is 0-based; -1 shows the lab's wrap card. state: 'running' | 'done'.
+  function cardShow(el, lab, labIdx, stepIdx, state){
+    var cards = LAB_CARDS[labIdx];
+    if(!el || !cards) return;
+    var isWrap = stepIdx < 0;
+    var c = isWrap ? cards.wrap : cards.steps[stepIdx];
+    if(!c) return;
+    var key = labIdx + ':' + stepIdx;
+    el.classList.toggle('wrap', isWrap);
+    el.setAttribute('data-state', isWrap ? 'done' : (state || 'running'));
+    el.querySelector('.sc-step').textContent = isWrap ? C('cardWrap') : (C('cardStep') + ' ' + (stepIdx+1) + ' / ' + lab.steps.length);
+    el.querySelector('.sc-cmd').textContent = isWrap ? LT(lab, 'title') : lab.steps[stepIdx].cmd;
+    el.querySelector('.sc-state').textContent = isWrap ? C('cardComplete') : (state === 'done' ? C('cardDone') : C('cardRunning'));
+    el.querySelector('.f-what h6').textContent = isWrap ? C('cardWhatDid') : C('cardWhat');
+    el.querySelector('.f-why h6').textContent = C('cardWhy');
+    el.querySelector('.f-value h6').textContent = C('cardValue');
+    el.querySelector('.f-what p').textContent = cardText(c, 'what');
+    el.querySelector('.f-why p').textContent = cardText(c, 'why');
+    el.querySelector('.f-value p').textContent = cardText(c, 'value');
+    if(el.hidden || el.getAttribute('data-key') !== key){
+      el.setAttribute('data-key', key);
+      el.classList.remove('pop');
+      void el.offsetWidth;
+      el.classList.add('pop');
+    }
+    el.hidden = false;
+  }
+  function cardHide(el){
+    if(!el) return;
+    el.hidden = true;
+    el.classList.remove('pop', 'wrap');
+    el.removeAttribute('data-key');
+  }
+
   var autoStops = [];
 
   function buildLab(lab, idx){
@@ -2972,6 +3338,9 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
         '<button type="button" data-act="run" class="primary">' + C('run') + '</button>' +
       '</div>';
     wrap.appendChild(term);
+
+    var card = cardEl();
+    wrap.appendChild(card);
 
     var take = document.createElement('p');
     take.className = 'takeaway';
@@ -3071,6 +3440,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
       var step = lab.steps[i];
       if(step.note) print('note', '# ' + step.note);
       input.value = '';
+      cardShow(card, lab, idx, i, 'running');
       function proceed(){
         if(g !== gen){ return; }
         emit(step, g, function(){
@@ -3078,8 +3448,10 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
           i++;
           busy = false;
           updateProg();
+          cardShow(card, lab, idx, i-1, 'done');
           if(i >= lab.steps.length){
             print('ok', completeLine(String(idx+1).padStart(2,'0'), lab));
+            setTimeout(function(){ if(g === gen) cardShow(card, lab, idx, -1); }, reduced ? 0 : 900);
           }
           if(opts.done) opts.done();
         });
@@ -3108,7 +3480,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
         if(busy){ setTimeout(next, 150); return; }
         if(i >= lab.steps.length){ stopAuto(); return; }
         runStep({typed:true, done:function(){
-          if(autoOn && tok === autoTok) setTimeout(next, reduced ? 250 : 850);
+          if(autoOn && tok === autoTok) setTimeout(next, reduced ? 250 : 1600);
         }});
       })();
     }
@@ -3139,7 +3511,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
       }
       else if(act === 'reset'){
         gen++; stopAuto();
-        screen.innerHTML = ''; i = 0; busy = false; input.value = ''; updateProg(); banner();
+        screen.innerHTML = ''; i = 0; busy = false; input.value = ''; updateProg(); banner(); cardHide(card);
       }
       else if(act === 'copyall'){
         var text = lab.steps.map(function(s){ return s.cmd; }).join('\n');
@@ -3185,6 +3557,8 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
 
   /* ---------------- DEMO MODE — the labs playing themselves ---------------- */
   var demoScreen = document.getElementById('demo-screen');
+  var demoCard = cardEl();
+  document.getElementById('demo-card').appendChild(demoCard);
   var demoProgEl = document.getElementById('demo-prog');
   var demoPlayBtn = document.getElementById('demo-play');
   var D = {lab:0, actions:[], ai:0, ci:0, playing:false, token:0, speed:1, inited:false, clock:0};
@@ -3221,14 +3595,18 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
     a.push({t:'line', text:''});
     lab.steps.forEach(function(st, si){
       if(st.note) a.push({t:'line', cls:'note', text:'# ' + st.note, step:si+1});
+      a.push({t:'card', si:si, state:'running', step:si+1});
       a.push({t:'cmd', prompt:(st.prompt ? st.prompt : '$ '), text:st.cmd, step:si+1});
       st.out.forEach(function(o){ a.push({t:'line', cls:o[0], text:o[1], step:si+1}); });
       a.push({t:'line', text:'', step:si+1});
-      a.push({t:'gap', ms:1100, step:si+1});
+      a.push({t:'card', si:si, state:'done', step:si+1});
+      a.push({t:'gap', ms:2600, step:si+1});
     });
     a.push({t:'line', cls:'ok', text:completeLine(String(D.lab+1).padStart(2,'0'), lab)});
     a.push({t:'line', cls:'note', text:C('takeawayColon') + LT(lab, 'take')});
-    a.push({t:'gap', ms:3400});
+    a.push({t:'gap', ms:900});
+    a.push({t:'card', si:-1});
+    a.push({t:'gap', ms:6500});
     a.push({t:'next'});
     return a;
   }
@@ -3238,6 +3616,7 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
     D.ai = 0; D.ci = 0;
     D.actions = demoBuild(LABS[D.lab]);
     demoScreen.innerHTML = '';
+    cardHide(demoCard);
     demoHead();
     demoProg(0);
     demoRail();
@@ -3265,6 +3644,10 @@ html[lang="es"] .slide[data-title="Logs to MTTR"] svg{width:97%;margin:0 auto;di
     } else if(act.t === 'gap'){
       D.ai++;
       D.clock += act.ms / D.speed;
+    } else if(act.t === 'card'){
+      cardShow(demoCard, LABS[D.lab], D.lab, act.si, act.state);
+      D.ai++;
+      D.clock += 140 / D.speed;
     } else if(act.t === 'next'){
       demoLoad(D.lab + 1);
       D.clock += 420 / D.speed;
