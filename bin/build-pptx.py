@@ -5,8 +5,9 @@ The reveal.js slides in slides/slides.adoc are the source of truth for the
 narrative. This script produces the .pptx that event platforms and agency
 review processes tend to insist on, carrying the same content, the same
 speaker notes, and native (editable) PowerPoint graphics: a filing-season
-demand curve, a chevron lifecycle flow, a layered architecture diagram and a
-roadmap timeline — real shapes, not screenshots.
+demand curve, a chevron lifecycle flow, a layered architecture diagram, a
+roadmap timeline and the ladder pyramid in the corner of every slide — real
+shapes, not screenshots.
 
   python3 bin/build-pptx.py [--out slides/exports/redhat-ai-tax-administration.pptx]
 
@@ -23,6 +24,7 @@ from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.oxml.ns import qn
 from pptx.util import Emu, Inches, Pt
 
 try:  # dash styles moved names across python-pptx versions
@@ -58,6 +60,8 @@ R_DATA = RED
 R_INFO = RGBColor(0xC2, 0x41, 0x0C)
 R_KNOW = GREEN
 R_JUDGE = RGBColor(0x5B, 0x2E, 0x91)
+RB_YELLOW = RGBColor(0xD9, 0x9A, 0x00)   # the thin bands between the rungs
+RB_BLUE = RGBColor(0x1D, 0x4E, 0xD8)
 
 HEAD_FONT = "Red Hat Display"
 BODY_FONT = "Red Hat Text"
@@ -126,17 +130,134 @@ def rrect(slide, x, y, w, h, fill, line=None, line_w=None, radius=None):
     return solid(sp, fill, line, line_w)
 
 
-def eyebrow_and_title(slide, eyebrow, title, lede=""):
+# ---------------------------------------------------------------- the ladder icon
+# The deck's stacked pyramid (deck.html: PYR_TIERS / pyramidSVG). viewBox 150x38:
+# judgement at the apex, data at the base, the rainbow's blue and yellow kept as
+# thin bands between the rungs. A slide lights the rungs it serves; the rest are
+# dimmed (the deck drops them to 20% opacity — here, a pale tint of the colour).
+PYR_VIEW_W = 150.0
+PYR_APEX = (24.0, 1.0)
+PYR_BASE = (1.0, 47.0, 37.0)            # x-left, x-right, y
+PYR_TIERS = [                           # colour, y-top, y-bottom, rungs that must all be lit
+    (R_JUDGE, 1.0, 10.0, ("judgement",)),
+    (RB_BLUE, 10.0, 11.6, ("judgement", "knowledge")),
+    (R_KNOW, 11.6, 20.5, ("knowledge",)),
+    (RB_YELLOW, 20.5, 22.0, ("knowledge", "information")),
+    (R_INFO, 22.0, 30.0, ("information",)),
+    (R_DATA, 30.0, 37.0, ("data",)),
+]
+PYR_LABELS = [("judgement", 8.0), ("knowledge", 17.5), ("information", 26.5), ("data", 35.0)]
+PYR_LABEL_X = 54.0
+PYR_W = Inches(1.6)                     # sits in the top margin band, right-aligned
+PYR_TOP = Inches(0.12)
+
+# Which rungs each slide serves: the deck's data-rungs, keyed by deck.html's
+# data-title. Every pptx slide names the deck slide it corresponds to.
+DECK_RUNGS = {
+    "Title": ("data", "information", "knowledge", "judgement"),
+    "AI in plain English": ("information", "knowledge", "judgement"),
+    "Why now": ("data",),
+    "Inside an LLM": ("data", "information", "knowledge", "judgement"),
+    "Data to judgement": ("data", "information", "knowledge", "judgement"),
+    "Two kinds of AI": ("information", "knowledge"),
+    "Where AI lands": ("judgement",),
+    "Five outcomes": ("data", "information", "knowledge", "judgement"),
+    "Architecture": ("data", "information", "knowledge", "judgement"),
+    "Why Red Hat AI": ("data", "information", "knowledge", "judgement"),
+    "Why one platform": ("data", "information", "judgement"),
+    "AI for operations": ("information", "knowledge", "judgement"),
+    "Logs to MTTR": ("data", "information", "knowledge"),
+    "Adoption path": ("data", "information", "knowledge"),
+    "Next steps": ("judgement",),
+    "Labs preview": ("data", "information", "knowledge", "judgement"),
+    "Security posture": ("information", "judgement"),
+}
+
+
+def tint(colour, toward=SURFACE, amount=0.8):
+    """Blend a colour `amount` of the way toward `toward` (stands in for opacity)."""
+    return RGBColor(*(round(c + (t - c) * amount) for c, t in zip(colour, toward)))
+
+
+def add_pyramid(slide, rungs, left, top, width):
+    """Draw the ladder pyramid at (left, top): six stacked tiers cut to the triangle,
+    lit for the rungs this slide serves, a thin outline and the four rung labels."""
+    on = set(rungs)
+    k = width / PYR_VIEW_W                # EMU per viewBox unit
+    ax, ay = PYR_APEX
+    bx0, bx1, by = PYR_BASE
+
+    def X(v):
+        return int(left + v * k)
+
+    def Y(v):
+        return int(top + v * k)
+
+    def edges(y):                         # the triangle's left and right x at height y
+        f = (y - ay) / (by - ay)
+        return ax + (bx0 - ax) * f, ax + (bx1 - ax) * f
+
+    def polygon(pts):
+        ff = slide.shapes.build_freeform(*pts[0], scale=1)
+        ff.add_line_segments(pts[1:], close=True)
+        sp = ff.convert_to_shape()
+        # drop the theme style reference: fill and line are set explicitly, and
+        # its effect style would otherwise give the tiers a shadow in some viewers
+        sp._element.remove(sp._element.find(qn("p:style")))
+        return sp
+
+    for colour, y0, y1, needs in PYR_TIERS:
+        lit = all(r in on for r in needs)
+        l0, r0 = edges(y0)
+        l1, r1 = edges(y1)
+        pts = [(X(l0), Y(y0)), (X(r0), Y(y0)), (X(r1), Y(y1)), (X(l1), Y(y1))]
+        pts = [p for i, p in enumerate(pts) if i == 0 or p != pts[i - 1]]   # apex tier is a triangle
+        solid(polygon(pts), colour if lit else tint(colour))
+
+    outline = polygon([(X(ax), Y(ay)), (X(bx1), Y(by)), (X(bx0), Y(by))])
+    outline.fill.background()
+    outline.line.color.rgb = BORDER_STRONG
+    outline.line.width = Pt(0.5)
+    outline.shadow.inherit = False
+
+    # labels: one text box, a paragraph per rung on a fixed pitch so each line sits
+    # beside its tier (baseline ~80% down a fixed-height line)
+    pitch = 9.0 * k
+    box = slide.shapes.add_textbox(X(PYR_LABEL_X), int(Y(PYR_LABELS[0][1]) - 0.8 * pitch),
+                                   int(width - PYR_LABEL_X * k), int(pitch * len(PYR_LABELS)))
+    tf = box.text_frame
+    tf.word_wrap = False
+    tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
+    for index, (rung, _) in enumerate(PYR_LABELS):
+        lit = rung in on
+        para = tf.paragraphs[0] if index == 0 else tf.add_paragraph()
+        para.line_spacing = Emu(int(pitch))
+        para.space_before = para.space_after = Pt(0)
+        run = para.add_run()
+        run.text = rung.upper()
+        run.font.size = Pt(7)
+        run.font.bold = lit
+        run.font.color.rgb = INK if lit else INK_3
+        run.font.name = MONO_FONT
+    return box
+
+
+def add_spine(slide, deck_title):
+    """The ladder icon every slide carries, top-right beside the title band."""
+    add_pyramid(slide, DECK_RUNGS[deck_title], SLIDE_W - MARGIN - PYR_W, PYR_TOP, PYR_W)
+
+
+def eyebrow_and_title(slide, eyebrow, title, lede="", lede_top=Inches(1.68)):
     add_text(slide, MARGIN, Inches(0.55), SLIDE_W - 2 * MARGIN, Inches(0.34),
              [(eyebrow.upper(), 11, True, INK_3, MONO_FONT, 0)])
     add_text(slide, MARGIN, Inches(0.95), SLIDE_W - 2 * MARGIN, Inches(0.9),
              [(title, 34, True, INK, HEAD_FONT, 0)])
     if lede:
-        add_text(slide, MARGIN, Inches(1.68), Inches(10.6), Inches(0.5),
+        add_text(slide, MARGIN, lede_top, Inches(10.6), Inches(0.5),
                  [(lede, 14, False, INK_2, BODY_FONT, 0)])
 
 
-def add_table(slide, rows, top, col_widths, header=True, mono_cols=()):
+def add_table(slide, rows, top, col_widths, header=True, mono_cols=(), size=12, pad_y=Inches(0.05)):
     n_rows, n_cols = len(rows), len(rows[0])
     width = sum(col_widths)
     shape = slide.shapes.add_table(n_rows, n_cols, MARGIN, top, width, Inches(0.4))
@@ -150,8 +271,8 @@ def add_table(slide, rows, top, col_widths, header=True, mono_cols=()):
             cell.text = ""
             cell.margin_left = Inches(0.12)
             cell.margin_right = Inches(0.12)
-            cell.margin_top = Inches(0.05)
-            cell.margin_bottom = Inches(0.05)
+            cell.margin_top = pad_y
+            cell.margin_bottom = pad_y
             cell.fill.solid()
             cell.fill.fore_color.rgb = SURFACE_2 if (header and r == 0) else GROUND
             para = cell.text_frame.paragraphs[0]
@@ -159,7 +280,7 @@ def add_table(slide, rows, top, col_widths, header=True, mono_cols=()):
             run = para.add_run()
             run.text = text
             is_head = header and r == 0
-            run.font.size = Pt(10.5 if is_head else 12)
+            run.font.size = Pt(10.5 if is_head else size)
             run.font.bold = is_head
             run.font.color.rgb = INK_3 if is_head else INK
             run.font.name = MONO_FONT if (is_head or c in mono_cols) else BODY_FONT
@@ -301,6 +422,7 @@ def build(out_path: Path) -> None:
                       "Inc. and Carahsoft. Frame the hour — foundations, then the platform story, "
                       "then live terminal, 5 for questions. "
                       "The promise: every claim we make today, we run in a shell before you leave.")
+    add_spine(s, "Title")
     add_text(s, MARGIN, Inches(2.05), Inches(11.2), Inches(0.34),
              [("RED HAT  ·  FOUR INC.  ·  CARAHSOFT — VIRTUAL EVENT", 12, True, RED, MONO_FONT, 0)])
     add_text(s, MARGIN, Inches(2.55), Inches(10.6), Inches(2.0),
@@ -319,6 +441,7 @@ def build(out_path: Path) -> None:
                       "determination they sign. Judgement is deliberately never automated — "
                       "Ansible, the registry and Sigstore execute and record what a person decided. "
                       "Every later slide tags its technologies with one of these four rungs.")
+    add_spine(s, "Data to judgement")
     eyebrow_and_title(s, "Why it matters", "From data to judgement — and who climbs each step",
                       "Every technology in this hour is tagged with the rung it serves. AI moves work up the ladder; it never takes the top step.")
     rungs = [
@@ -354,6 +477,7 @@ def build(out_path: Path) -> None:
                       "capacity you can justify staffing year-round. The shaded gap is what "
                       "automation absorbs. The card on the right that matters most is the last one: "
                       "the data cannot leave, so the platform is the decision.")
+    add_spine(s, "Why now")
     eyebrow_and_title(s, "The operating reality", "The work is seasonal, textual and unforgiving")
     demand_chart(s, MARGIN, Inches(1.95), Inches(7.55), Inches(4.9))
     cx = Inches(8.75)
@@ -374,6 +498,7 @@ def build(out_path: Path) -> None:
                       "deliberately gray: that is a determination affecting a taxpayer, and it "
                       "needs a much heavier governance conversation. Saying this unprompted buys "
                       "enormous credibility.")
+    add_spine(s, "Where AI lands")
     eyebrow_and_title(s, "Workflow map", "Where AI actually lands in the filing lifecycle",
                       "Red stages ship with a human on the signature. The gray one waits for governance.")
     stages = [
@@ -432,21 +557,30 @@ def build(out_path: Path) -> None:
     s = add_base(prs, "These five are the event abstract made concrete. Each names the product "
                       "that delivers it and the lab where the audience runs it. Do not linger — "
                       "this slide exists so people can map the rest of the hour.")
+    add_spine(s, "Five outcomes")
     eyebrow_and_title(s, "What teams get", "Five outcomes, and where each one is proven")
     add_table(s, [
         ["Outcome", "Platform capability", "Lab", "Rung"],
-        ["Modernize mission-critical operations", "Ansible Automation Platform, Event-Driven Ansible", "05", "executes judgement"],
+        ["Modernize mission-critical operations", "Ansible Automation Platform, Event-Driven Ansible, OpenShift", "05, 07", "executes judgement"],
         ["Improve efficiency and accuracy", "Red Hat AI Inference Server, SDG Hub + Training Hub", "01, 02", "information + knowledge"],
         ["Unlock data-driven insights", "OpenShift AI, vector retrieval", "04", "knowledge"],
         ["Strengthen security and compliance", "FIPS, Compliance Operator, TrustyAI, Sigstore", "06", "evidence → judgement"],
         ["Build an AI-ready foundation", "OpenShift AI, KServe, vLLM", "03", "data → information"],
     ], Inches(2.4), [Inches(3.9), Inches(4.7), Inches(0.9), Inches(2.1)], mono_cols=(2, 3))
+    # outcome 01 spelled out: the closed loop the deck puts under the first pillar
+    add_text(s, MARGIN, Inches(5.35), Inches(11.5), Inches(1.2),
+             [("Outcome 01 in practice: the closed loop", 15, True, INK, HEAD_FONT, 6),
+              ("Wrap legacy systems in intelligent workflows instead of rewriting them. An error "
+               "string in a log fires an Event-Driven Ansible rule, a playbook runs on the right "
+               "hosts, the on-call gets an email, and a ticket opens and closes in ServiceNow or "
+               "Remedy. The system of record stays untouched.", 12.5, False, INK_2, BODY_FONT, 0)])
 
     # ---- 6 architecture: layered diagram ---------------------------------------
     s = add_base(prs, "Read bottom to top. The point is the two vertical pillars: automation and "
                       "trust are not a layer you add at the end. A project that treats compliance "
                       "as a phase after deployment discovers, at the worst possible moment, that "
                       "it cannot produce evidence for anything that already happened.")
+    add_spine(s, "Architecture")
     eyebrow_and_title(s, "Reference architecture", "One foundation, from bare metal to the taxpayer")
 
     top = Inches(2.0)
@@ -480,11 +614,13 @@ def build(out_path: Path) -> None:
     lx = MARGIN + pill_w + Inches(0.25)
     lw = ax - lx - Inches(0.25)
 
-    def layer(y, h, title, caption, fill=SURFACE, line=BORDER_STRONG, line_w=1.0, tag=""):
+    def layer(y, h, title, caption, fill=SURFACE, line=BORDER_STRONG, line_w=1.0, tag="", note=""):
         rrect(s, lx, y, lw, h, fill, line, line_w, radius=0.10)
-        add_text(s, lx + Inches(0.22), y + Inches(0.05), lw - Inches(1.2), h,
-                 [(title, 12.5, True, INK, HEAD_FONT, 2),
-                  (caption, 9.5, False, INK_2, BODY_FONT, 0)])
+        runs = [(title, 12.5, True, INK, HEAD_FONT, 2),
+                (caption, 9.5, False, INK_2, BODY_FONT, 3 if note else 0)]
+        if note:                         # small third line, e.g. the hardware the base is tested on
+            runs.append((note, 8.5, True, STEEL, BODY_FONT, 0))
+        add_text(s, lx + Inches(0.22), y + Inches(0.05), lw - Inches(1.2), h, runs)
         if tag:
             add_text(s, lx + lw - Inches(1.35), y + Inches(0.06), Inches(1.25), Inches(0.25),
                      [(tag, 8.5, False, INK_3, MONO_FONT, 0)], align=PP_ALIGN.RIGHT)
@@ -517,7 +653,7 @@ def build(out_path: Path) -> None:
     ry = osy + Inches(1.03)
     layer(ry, Inches(1.0), "Red Hat Enterprise Linux · AI Inference Server",
           "Bare metal GPU nodes · virtualized datacenter · accredited cloud · classified enclave",
-          tag="Lab 01")
+          tag="Lab 01", note="Tested with the hardware: mainframes · TPM · PIV/CAC cryptography")
     for i in range(2):
         chip = rrect(s, lx + lw - Inches(1.55) + i * Inches(0.72), ry + Inches(0.5),
                      Inches(0.6), Inches(0.36), CHIP, radius=0.15)
@@ -542,6 +678,7 @@ def build(out_path: Path) -> None:
                       "Prove phase — no accelerator capacity plan, and no written agreement on "
                       "which data may be used. Neither is technical. Ask the room directly which "
                       "phase they are in.")
+    add_spine(s, "Adoption path")
     eyebrow_and_title(s, "Adoption path", "Ninety days, then ninety more",
                       "Nothing here requires a rewrite of a system of record.")
     ty = Inches(2.65)
@@ -586,23 +723,73 @@ def build(out_path: Path) -> None:
         add_text(s, px + Inches(0.16), py + Inches(0.52), pw - Inches(0.3), Inches(2.6), runs)
 
     # ---- 8 next steps ----------------------------------------------------------
-    s = add_base(prs, "Close with a specific ask, not a thank-you. The architecture workshop is "
-                      "the natural next step. Then hand off to Four Inc. and Carahsoft for the "
-                      "contract vehicle conversation.")
+    s = add_base(prs, "Close with a specific ask, not a thank-you. Step zero is the lab "
+                      "walk-through: an hour running the seven labs together to find the point in "
+                      "the stack where they want to prove value, which scopes the pilot. The "
+                      "architecture workshop follows, then hand off to Four Inc. and Carahsoft for "
+                      "the contract vehicle conversation. Point at the contact panel: Brad's email "
+                      "is there deliberately, and if nothing else he is the connector to the right "
+                      "person. Ask for the cyber team by name: if nobody from IRS cyber is on, get "
+                      "a referral to the ISSO and run the appendix for them in depth.")
+    add_spine(s, "Next steps")
     eyebrow_and_title(s, "Next steps", "What happens after this hour")
-    bullet_cards(s, Inches(2.45), [
-        ("Architecture workshop", "Half a day with your platform and security teams to size "
-         "accelerators, place the first workload and name the data classes in scope."),
-        ("Guided pilot", "One workflow, on your infrastructure, with a measured baseline and an "
-         "agreed definition of success before we start."),
-        ("Acquisition path", "Four Inc. and Carahsoft carry the vehicles and pricing. Bring them "
-         "into the conversation early, not at the end."),
-    ])
-    add_text(s, MARGIN, Inches(5.1), Inches(11.5), Inches(1.3),
-             [("One thing to remember", 17, True, INK, HEAD_FONT, 8),
-              ("Nothing in these seven labs required a public model endpoint, an internet "
-               "connection at inference time, or a rewrite of a system of record. That is the "
-               "whole argument.", 14, False, INK_2, BODY_FONT, 0)])
+    steps = [
+        ("Step zero", "Lab walk-through",
+         "An hour where we run the seven labs together, show and tell, and find the point in "
+         "the stack where you want to prove value. That scopes the pilot."),
+        ("Step one", "Architecture workshop",
+         "A half-day with your platform and security teams to size accelerators, place the "
+         "first workload and name the data classes in scope."),
+        ("Step two", "Guided pilot",
+         "One workflow, on your infrastructure, with a measured baseline and an agreed "
+         "definition of success before we start."),
+        ("Step three", "Acquisition path",
+         "Four Inc. and Carahsoft carry the vehicles and pricing — bring them in early, not at "
+         "the end."),
+    ]
+    gap = Inches(0.3)
+    cw = int((SLIDE_W - 2 * MARGIN - gap * 3) / 4)
+    for i, (tag, heading, body) in enumerate(steps):
+        side_card(s, MARGIN + i * (cw + gap), Inches(2.0), cw, Inches(1.45), tag, heading, body)
+
+    # the contact panel on the left and the moves on the right, as the deck lays them out
+    cy = Inches(3.6)
+    ch = Inches(2.8)
+    pw = Inches(5.5)
+    rrect(s, MARGIN, cy, pw, ch, SURFACE, BORDER, 1.0, radius=0.05)
+    add_text(s, MARGIN + Inches(0.2), cy + Inches(0.12), pw - Inches(0.4), ch - Inches(0.2),
+             [("Point of contact — Brad will follow up".upper(), 8.5, True, INK_3, MONO_FONT, 6),
+              ("Brad Scalio", 16, True, INK, HEAD_FONT, 1),
+              ("Red Hat · if nothing else, he will get you to the right person", 10, False, INK_2, BODY_FONT, 2),
+              ("bscalio@redhat.com", 11, True, RED_DARK, MONO_FONT, 5),
+              ("IRS account executive: Ted Craig, Red Hat. Everyone else, email Brad and he "
+               "connects you to yours.", 10, False, INK_2, BODY_FONT, 8),
+              ("RED HAT  ·  FOUR INC.  ·  CARAHSOFT", 8.5, True, INK_3, MONO_FONT, 6),
+              ("Everything from today — deck, labs, guides — at nommsweymx.github.io/redhat-ai-tax-labs. "
+               "The seven labs are the commands your engineers will run on day one. Follow it on "
+               "your own: …/adventure.html.", 9, False, INK_3, BODY_FONT, 0)])
+    mx = MARGIN + pw + Inches(0.35)
+    mw = SLIDE_W - MARGIN - mx
+    moves = [
+        ("Already a Red Hat customer? Ask for your Solution Architect.",
+         "Not sure who that is? Email Brad, open a ticket in the Customer Portal and ask "
+         "support, or ask through your management line. The foundational questions are free "
+         "to ask and expensive to skip."),
+        ("Start a community of practice.",
+         "A standing group across platform, security and mission teams, built around one "
+         "workflow. We will help seed it and we will show up."),
+        ("Bring your hardest question.",
+         "Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. If "
+         "you did not see it here today, that does not mean it does not exist — ask."),
+        ("Bring your cyber team.",
+         "If nobody from IRS cyber is on today, refer us to your ISSO or security lead. We will "
+         "run a dedicated security session for them: the appendix, in depth."),
+    ]
+    runs = [("YOUR MOVE", 8.5, True, INK_3, MONO_FONT, 6)]
+    for lead, detail in moves:
+        runs.append((lead, 11, True, INK, BODY_FONT, 1))
+        runs.append((detail, 9.5, False, INK_2, BODY_FONT, 7))
+    add_text(s, mx, cy - Inches(0.05), mw, ch, runs)
 
     # ---- 9 labs ----------------------------------------------------------------
     s = add_base(prs, "Transition slide. Switch to a terminal now. Tell them the labs run in "
@@ -610,8 +797,13 @@ def build(out_path: Path) -> None:
                       "own environment — same script, same commands. Run Lab 01 and stop hard on "
                       "step 4, the endpoint bound to 127.0.0.1. The deck's Demo view plays every "
                       "lab hands-free if you would rather narrate than type.")
-    eyebrow_and_title(s, "Hands on", "Seven labs — real commands, run them yourself",
-                      "Simulate mode needs no cluster, no GPU and no credentials. The Demo view plays them hands-free.")
+    add_spine(s, "Labs preview")
+    eyebrow_and_title(s, "Hands on · the takeaway", "Seven labs — real commands, run them yourself",
+                      "An opinionated path on a personal laptop — not an MVP, never production, never on "
+                      "a government computer. Free of charge and open to anyone: one self-contained HTML "
+                      "on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs. "
+                      "Prove it to yourself: watch the model serve on 127.0.0.1.",
+                      lede_top=Inches(2.05))
     add_table(s, [
         ["Lab", "What you do", "Product", "Rung"],
         ["01", "Serve a model inside your boundary", "AI Inference Server", "data → information"],
@@ -621,24 +813,65 @@ def build(out_path: Path) -> None:
         ["05", "Automate the toil around the model", "Ansible", "executes judgement"],
         ["06", "Prove it to your ISSO", "Compliance, TrustyAI", "evidence → judgement"],
         ["07", "Ask your own logs", "Ops notebook", "information → knowledge"],
-    ], Inches(2.4), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
+    ], Inches(3.1), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
+    add_text(s, MARGIN, Inches(6.1), Inches(11.5), Inches(1.1),
+             [("One thing to remember: nothing here needed a public endpoint", 15, True, INK, HEAD_FONT, 5),
+              ("No public model endpoint, no internet connection at inference time, no rewrite of a "
+               "system of record. The labs run the upstream bits on a laptop; what an agency "
+               "accredits is the supported Red Hat product built from them.", 12, False, INK_2, BODY_FONT, 0)])
 
     # ---- 10 appendix: AO questions ----------------------------------------------
     s = add_base(prs, "This is the slide that unblocks the deal. Every row is a control the "
                       "platform provides, mapped to the question an authorizing official actually "
                       "asks. Expect interruptions here — let them happen, this is the conversation "
-                      "you want. Offer to take the table offline with their ISSO.")
+                      "you want. Pick a few rows and drill in rather than reading the table. Say "
+                      "it plainly: do not roll your own validations, reach out and we connect "
+                      "you with a specialist. Offer to take the table offline with their ISSO.")
+    add_spine(s, "Security posture")
     eyebrow_and_title(s, "Appendix · Trusted, enterprise-ready AI", "The questions an authorizing official will ask")
+    # the deck's full table: ten rows by four columns, so 9 pt with tight cell padding
     add_table(s, [
-        ["Their question", "The platform control", "Where"],
-        ["Where does our data go?", "Nowhere. Inference runs on your cluster, your accelerators.", "AI Inference"],
-        ["Is this the model we approved?", "Artifacts signed and verified before admission", "Sigstore"],
-        ["Is the cryptography validated?", "FIPS mode is a supported operating state", "RHEL"],
-        ["Still compliant next quarter?", "Scheduled scans, machine-readable results", "Compliance Op."],
-        ["How do we detect drift?", "Drift and fairness metrics on live traffic", "TrustyAI"],
-        ["What if we are air-gapped?", "Mirror images and models into the enclave", "oc-mirror"],
-        ["Who is accountable?", "A named reviewer. The model drafts; it never sends.", "Workflow"],
-    ], Inches(2.3), [Inches(3.6), Inches(5.9), Inches(2.1)], mono_cols=(2,))
+        ["Their question", "The platform control", "Where it lives", "Proven in"],
+        ["Where does our data go when someone prompts the model?",
+         "Nowhere. Inference runs on your cluster, in your enclave, on your accelerators.",
+         "AI Inference Server · OpenShift AI", "Lab 01 · 127.0.0.1, no egress"],
+        ["Can you prove this model is the one we approved?",
+         "Model artifacts are signed and verified before they are admitted to the cluster.",
+         "Sigstore / cosign", "Lab 06 · cosign verify"],
+        ["Is the cryptography validated?",
+         "FIPS mode is set once in RHEL CoreOS and inherited up the chain by OpenShift and "
+         "OpenShift AI; where a component is not inherited, the exception is documented and "
+         "covered by compensating controls.",
+         "RHEL FIPS mode", "Lab 06 · fips-mode-setup, sestatus"],
+        ["Does it work with our smart cards and hardware crypto?",
+         "Tested with the hardware vendors: TPM, PIV/CAC smart-card authentication and "
+         "hardware cryptography supported from the operating system up, on mainframes included.",
+         "RHEL · hardware certification", "Slide 09 · base band"],
+        ["Can this land in our FISMA moderate or high boundary?",
+         "Platform controls map to the NIST 800-53 moderate and high baselines; your FIPS 199 "
+         "categorization picks the venue — the platform is the same in all of them.",
+         "RHEL · OpenShift", "Slide 11 · one manifest"],
+        ["How do we know it stays compliant next quarter?",
+         "Scheduled scans against a hardening profile, with machine-readable results.",
+         "Compliance Operator", "Lab 06 · compliancescan"],
+        ["What about the applications and containers we build on it?",
+         "The same tooling spans your own application lifecycle on the platform: signing, "
+         "scanning and admission policy at build, at deploy and at run time.",
+         "OpenShift build · registry · admission", "Lab 06 · signature gate"],
+        ["How do we detect the model drifting or skewing?",
+         "Continuous drift and fairness metrics on live inference traffic.",
+         "TrustyAI", "Lab 06 · drift, fairness"],
+        ["What if we have no internet at all?",
+         "Mirror images and models into the enclave; the platform is built for disconnected "
+         "operation.",
+         "oc-mirror · registry", "Slide 11 · enclave"],
+        ["Who is accountable when it is wrong?",
+         "A named reviewer on the signature, and every automated action launched from one "
+         "governed console under enterprise RBAC, so each action carries the identity that "
+         "ran it.",
+         "Workflow design · Ansible Automation Platform", "Lab 05 · job history"],
+    ], Inches(2.3), [Inches(2.9), Inches(4.9), Inches(1.95), Inches(1.85)], mono_cols=(2, 3),
+       size=9, pad_y=Inches(0.03))
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     prs.save(out_path)

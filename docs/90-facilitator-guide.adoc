@@ -3,6 +3,39 @@
 
 For whoever is running the session. Attendees do not need this section.
 
+== Scope
+
+This session is for the IRS audience. Do not forward the invite to other
+accounts. Ted Craig (Red Hat account executive for the IRS) asked that the focus stay on IRS for this one;
+other AEs replicate it for their own accounts with Brad and their partners, and
+it should be duplicated. If someone from outside the IRS turns up anyway, the
+answer is the same one Brad gives at the close: reach out, and a similar session
+can be given for their mission.
+
+== Before Thursday
+
+Owners and deadlines from the September 15 review.
+
+* Send the webinar join link to the internal team, Nathan Holland, Madhu Kuriti
+  and Michael Massaro, before Thursday. Owner: Brad. This is the internal team,
+  not registrants.
+* Confirm whether the public GitHub short URL may be shown live or needs a
+  blessing first. Owner: Brad. The question was asked at the review and nobody
+  knew. Fallback if it is still open on the day: show the Carahsoft-hosted HTML
+  on screen and say the repo link goes out in the follow-up.
+* Day of, Brad and Jon Keam review the alternate single-focus graphics and swap
+  one in wherever Jon flagged that one picture beats several. Slide 6 already
+  carries the single predictive/generative overlap graphic (the six-row table
+  survives in the reveal export as the take-home); slide 4 (the engine) is the
+  next candidate. The five illustrated renders pop out with `G` on the slides
+  that have one; drop the full-resolution files into `slides/assets/graphics/`
+  and the pop-outs show them instead of the vector renditions.
+* Confirm whether anyone from IRS cyber is registered. We do not know who the
+  52 are, so plan the ask at the close either way: is anyone on from cyber? If
+  yes, say security is covered at the very end and offer to meet separately to
+  go deeper. If no, ask whether anyone can refer us to someone in cyber who
+  would want that conversation.
+
 == Timing a 60-minute virtual event
 
 [cols="1,3,1", options="header"]
@@ -25,6 +58,13 @@ For whoever is running the session. Attendees do not need this section.
 TIP: If you only have 30 minutes, cut to slides 1, 2, 8 and run Lab 01 plus the
 drift section of Lab 06. Keep the appendix (slide 17) loaded for security
 questions.
+
+Security posture (slide 17) stays the appendix. Brad offered at the September
+15 review to move it ahead of the labs and next steps; Ted Craig (Red Hat account executive for the IRS)
+decided it stays where it is, because cyber will be one or two of the 52 or so
+at most, not the majority of the room by any stretch. Pull it up only when a
+cyber person engages, and offer the cyber team a separate, deeper session
+rather than reshaping this one.
 
 == Delivery
 
@@ -117,6 +157,20 @@ just proved. The cards are the talk track: read the middle facet aloud when
 the room is mission-minded, the right-hand one when it is procurement-minded.
 They follow the EN/ES tab like everything else.
 
+Two more switches arrived after the September 15 review. The ladder now
+sits in the corner of every slide as a small *stacked pyramid* (judgement at
+the apex, data at the base, the rainbow's yellow and blue as thin bands
+between); the rungs a slide serves are lit, the rest dimmed, so the room can
+track where each slide lives on the climb without a legend. And the slides
+that have an illustrated graphic (title, data to judgement, where AI lands,
+five outcomes, architecture, why one platform, labs preview, next steps)
+carry a small *graphic* pill; press `G`, the pill, or the Graphic button
+under the stage to pop the picture out over the deck with three or four
+discussion points beside it, then `Esc` or `G` again to close. The Labs view
+opens the "Choose your path" map the same way. The pop-out shows the
+illustrated render when the file is present in `slides/assets/graphics/`
+and a vector rendition of the same content otherwise.
+
 == Questions you will get, and short answers
 
 "Can this run air-gapped?"::
@@ -145,6 +199,12 @@ Ask which boundary they are operating in before answering. The honest response
 is that the platform runs inside accredited environments and the accreditation
 belongs to the environment, not to the software.
 
+"Is there an in-person version of this?"::
+Tease it, do not date it. A larger on-site follow-on at New Carrollton in late
+October or early November is being planned on Ted Craig's side, and nothing
+about it goes on a slide yet. Say "watch for an in-person session this fall"
+and leave it there.
+
 == Facilitator's honesty checklist
 
 Say these out loud during the session. They buy more credibility than any demo.
@@ -157,6 +217,19 @@ Say these out loud during the session. They buy more credibility than any demo.
   Determinations affecting a taxpayer need governance long before automation.
 * Every workflow in the deck keeps a named human on the signature. The model
   drafts; it never sends.
+
+== Pilot requests
+
+The first response to any proof-of-concept interest is a scheduled
+show-and-tell: Brad and Jon Keam (or whoever Brad picks) walk the seven labs
+with the interested team to find where in the stack they want to prove value
+right now, and to start the community of practice around it. Only if the POC
+gets serious or ratchets up do we bring in more resources (Dan and company).
+
+Route the request through the account executive. For the IRS that is Ted Craig
+(Carahsoft), who is on the call. Anyone from outside the IRS, or anyone who does
+not know who their AE is, emails Brad and gets connected to their equivalent of
+Ted, and the session is replicated with their own account team.
 
 == After the session
 
@@ -173,3 +246,12 @@ Say these out loud during the session. They buy more credibility than any demo.
   scope.
 . Bring Four Inc. and Carahsoft into the acquisition conversation early rather
   than at the end.
+
+== Follow-up ownership
+
+56 registered: 52 via Ted Craig and Caleb's Carahsoft outreach, 4 via Four Inc.
+Most are contacts we have not been talking to before, which is the point.
+Carahsoft sends the full contact list to Ted Craig (Red Hat account executive for the IRS) at the end;
+Caleb (Red Hat inside sales) runs the follow-up campaign with the recording,
+the deck and the labs link, plus any document links worth attaching. Brad's
+action: hand Caleb the deck and the links before the campaign goes out.

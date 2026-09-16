@@ -33,6 +33,7 @@ presenter console is at `/presenter-notes.html`, the documentation at
 choose-your-own-adventure catalogue: six reading orders by job, every lab,
 slide, guide and tool, and what a live run needs. Drop the partner logos into `slides/assets/` (see its README) and the
 contact slide picks them up.
+Drop the illustrated renders into `slides/assets/graphics/` (see its README) and the pop-outs show them instead of the vector renditions.
 
 toc::[]
 
@@ -75,7 +76,10 @@ Nothing above needs a cluster, a GPU, or credentials.
 | A self-contained interactive deck: seventeen slides plus seven virtual
   terminals you type into, a pop-up card on every step (what is happening,
   why it matters, the seam one platform removes), a theory panel in every
-  lab, a glossary, and a Demo view that plays all seven labs hands-free. English/Spanish tab and
+  lab, a glossary, and a Demo view that plays all seven labs hands-free.
+  Every slide carries the data → judgement ladder as a small stacked
+  pyramid in its corner, and the slides that have an illustrated graphic
+  pop it out (press `G`) with discussion points beside it. English/Spanish tab and
   light/dark themes built in. Open it in a browser — no build step, no
   server. `#demo` on the URL starts the Demo view on a continuous loop.
 
