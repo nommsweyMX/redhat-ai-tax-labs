@@ -17,6 +17,9 @@
   --steel:#286C88; --steel-wash:#E7F1F5;
   --amber:#96620A; --amber-wash:#F8EFDC;
   --good:#1E7A55;
+  /* ladder palette — same values as deck.html's light :root */
+  --r-data:#CC0000; --r-info:#C2410C; --r-know:#1E7A55; --r-judge:#5B2E91;
+  --rb-yellow:#D99A00; --rb-blue:#1D4ED8;
   --term-bg:#120D0C; --term-bg-2:#1C1513; --term-border:#3A2B27;
   --term-ink:#E8DFDC; --term-dim:#93807B; --term-green:#4FC1A0;
   --term-amber:#E9B45C; --term-red:#FF6B58; --term-blue:#77B9E0; --term-violet:#B49BE0;
@@ -83,7 +86,7 @@ body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:3
 .step-head .kind.lab{background:var(--term-bg);color:var(--term-green)}
 .step-head h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800}
 .step-head .time{font-family:"Red Hat Mono",monospace;font-size:.74rem;color:var(--amber);margin-top:8px}
-.step-head .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.step-head .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
 .chip{font-family:"Red Hat Mono",monospace;font-size:.68rem;font-weight:600;border:1px solid var(--border-strong);border-radius:100px;padding:3px 11px;color:var(--ink-2)}
 .chip.prod{border-color:var(--steel);color:var(--steel);background:var(--steel-wash)}
 
@@ -95,9 +98,22 @@ body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:3
 .rung.r-know{color:#1E7A55;border-color:#1E7A55;background:#E4F3EC}
 .rung.r-judge{color:#5B2E91;border-color:#5B2E91;background:#EFE6F7}
 .rung{align-self:flex-start}
-.step-head .rungs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.step-head .rungs{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .step-head .rungs .why{flex-basis:100%;font-size:.8rem;color:var(--ink-3);margin-top:2px}
-.step-head .meta .rung{align-self:center}
+.step-head .meta .rung,.step-head .rungs .rung{align-self:center}
+/* the ladder, stacked — the deck's small pyramid icon at the right end of every
+   step's rung row: judgement at the apex, data at the base, the rainbow's yellow
+   and blue kept as thin bands between the rungs (geometry mirrors deck.html) */
+.pyr-inline{display:inline-block;flex:none;width:126px;height:32px;vertical-align:middle;margin-left:auto;align-self:center}
+.pyr-inline svg{display:block;width:100%;height:100%;overflow:visible}
+.pyr-inline .tier{opacity:.2}.pyr-inline .tier.on{opacity:1}
+.pyr-inline .t-data{fill:var(--r-data)}.pyr-inline .t-info{fill:var(--r-info)}.pyr-inline .t-know{fill:var(--r-know)}.pyr-inline .t-judge{fill:var(--r-judge)}
+.pyr-inline .b-yellow{fill:var(--rb-yellow)}.pyr-inline .b-blue{fill:var(--rb-blue)}
+.pyr-inline .edge{fill:none;stroke:var(--border-strong);stroke-width:.6}
+.pyr-inline text{font-family:"Red Hat Mono",ui-monospace,monospace;font-size:6.6px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3);font-weight:600}
+.pyr-inline text.on{fill:var(--ink);font-weight:800}
+.ros .ladder .head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ros .ladder .pyr-legend{width:180px;height:46px;margin-left:0}
 .ros .ladder{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
 .ros .ladder .row{display:grid;grid-template-columns:max-content 1fr;gap:12px;align-items:start;margin-top:8px;font-size:.84rem;color:var(--ink-2)}
 .beat .ros .ladder .row .rung{justify-self:start}
@@ -122,6 +138,14 @@ body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:3
 }
 .beat > b:first-child{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-ink);display:block;margin-bottom:4px}
 .beat b{font-weight:700}
+/* graphic pop-out cue: mirrors the deck's G lightbox (caption, then the points to talk to) */
+.beat.gfx{border-left-color:var(--steel)}
+.beat.gfx > b:first-child{color:var(--steel)}
+.beat.gfx .cap{display:block;color:var(--ink-2)}
+.beat.gfx .eyebrow{display:block;margin-top:8px;color:var(--steel)}
+.beat.gfx ol{margin:4px 0 0;padding-left:22px}
+.beat.gfx li{margin:3px 0}
+.beat.gfx li::marker{font-family:"Red Hat Mono",monospace;font-size:.72rem;font-weight:700;color:var(--steel)}
 
 .cue{
   margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;
@@ -193,6 +217,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="pyr-clip"><polygon points="24,1 47,37 1,37"/></clipPath></defs></svg>
 
 <header class="bar">
   <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -213,7 +238,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <tr><td class="mono">11–17</td><td>Where AI lands, the five outcomes, the reference architecture (open with the seams line).</td><td class="mono">Slides 7–9</td></tr>
       <tr><td class="mono">17–23</td><td>Why Red Hat AI (glass box, Models-as-a-Service) and define-once-run-anywhere.</td><td class="mono">Slides 10–11</td></tr>
       <tr><td class="mono">23–28</td><td>The operations loop and logs-to-MTTR (industry stat + Brad’s case study).</td><td class="mono">Slides 12–13</td></tr>
-      <tr><td class="mono">28–32</td><td>Adoption path (crawl, walk, run) and next steps — point at the contact strip.</td><td class="mono">Slides 14–15</td></tr>
+      <tr><td class="mono">28–32</td><td>Adoption path (crawl, walk, run) and next steps: step zero is the lab walk-through, point at the contact panel (Ted Craig is the IRS AE), then the closing question, always: is anybody on from cyber? Yes, pull up the appendix; no, ask for a referral to IRS cyber.</td><td class="mono">Slides 14–15</td></tr>
       <tr><td class="mono">32–34</td><td>Labs preview — the concluding takeaway. Switch to the Labs view.</td><td class="mono">Slide 16</td></tr>
       <tr><td class="mono">34–42</td><td><b>Run Lab 01 live.</b> Stop hard on <code>ss -ltnp</code>.</td><td class="mono">Lab 01</td></tr>
       <tr><td class="mono">42–50</td><td><b>Run Lab 05 live.</b> The 62-second remediation is the moment people remember.</td><td class="mono">Lab 05</td></tr>
@@ -221,7 +246,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <tr><td class="mono">56–60</td><td>Questions. Security appendix (slide 17) stays on standby — pull it up when an ISSO engages.</td><td class="mono">Slide 17</td></tr>
     </table>
     <div class="ladder">
-      <div class="eyebrow">The ladder</div>
+      <div class="head"><div class="eyebrow">The ladder</div></div>
       <div class="row"><span class="rung r-data">Data</span><span>What happened, uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture.</span></div>
       <div class="row"><span class="rung r-info">Information</span><span>Data in context for one case: a classification, a score, a diagnosis, a metric. What predictive AI and inference produce.</span></div>
       <div class="row"><span class="rung r-know">Knowledge</span><span>Information that informs an outcome: guidance, precedent, runbooks, taxonomies. The institution’s memory, retrievable and cited.</span></div>
@@ -232,6 +257,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p class="tip"><b>Running long?</b> Slide 6 (predictive vs generative) is a deep dive on two of slide 2’s four cards — drop it first and let its table stand as the leave-behind, pulling it up only if the room asks how the two are governed differently. That buys back the slack the planted questions and pauses need.</p>
     <p class="tip"><b>On a projector:</b> <code>LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh</code> — and <code>NO_COLOR=1</code> if the room washes out color.</p>
     <p class="tip"><b>Main screen:</b> open <code>slides/deck.html</code>. This console mirrors it one-for-one: when the deck goes next, press <kbd>→</kbd> here.</p>
+    <p class="tip"><b>Graphics:</b> on eight slides (Title, Data to judgement, Where AI lands, Five outcomes, Architecture, Why one platform, Labs preview, Next steps) press <kbd>G</kbd> on the deck to pop out the illustrated graphic. The matching <b>Graphic (G)</b> block in that step carries its caption and the points to talk to; <kbd>G</kbd> or <kbd>Esc</kbd> closes it.</p>
     <p class="tip"><b>Delivery:</b> Brad drives, Jon color-commentates — interrupt, add commentary, be a little annoying, call out misspeaks live (“wait a minute, Brad… have another cup of coffee”), and take over if the driver flounders. <b>Goal number one is to entertain</b> — learning is second, because a tuned-out audience learns nothing. Keep it light; they know it is work, but there is no need to be boring. If humor lands on anyone, self-deprecate first — never accuse first. Plan deliberate pauses to engage the room (open question for the organizers: can attendees unmute?). Planted questions are marked <b>PLANTED</b> in the steps below.</p>
   </details>
 </div>
@@ -251,7 +277,17 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Brad drives; Jon adds color commentary. Objective one is to keep the room engaged — <b>entertainment precedes learning</b>. Name the room: Red Hat, Four Inc. and Carahsoft, and frame the hour: terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway.</p>
     <p><b>The promise, stated out loud:</b> every claim we make today, we run in a shell before you leave.</p>
   </div>
-  <div class="beat"><b>Logistics</b>Security lives in the appendix (slide 17) — pull it up the moment an ISSO or security lead engages, not before.</div>
+  <div class="beat"><b>Say the color code once</b>It is the rainbow: red on the far left is data, the least structured thing we have; purple on the far right is judgement, the most structured. Every slide carries its colors in the corner, so you always know which rung we are on.</div>
+  <div class="beat"><b>Cold-room intro</b>Assume a cold room: about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each: Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host. Say why the three of us are here together.</div>
+  <div class="beat"><b>Logistics</b>Security lives in the appendix (slide 17) — pull it up the moment an ISSO or security lead engages, not before. Tell the room: security is at the very end, and it is a broad conversation; anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on.</div>
+  <div class="beat gfx"><b>Graphic (G) · AI foundations for intelligent tax administration</b><span class="cap">An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs.</li>
+      <li>The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge.</li>
+      <li>The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding.</li>
+      <li>Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.</li>
+    </ol>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>the terminology</b> (four jobs called AI)</span></div>
 </section>
 
@@ -277,6 +313,8 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     </div>
   </div>
   <div class="beat"><b>Land the not-box</b>Predictive AI is not a crystal ball. An LLM is not a database, a policy authority, or a source of truth. An agent is not permission to bypass controls.</div>
+  <div class="beat"><b>Land the on-ramp line</b>If you are not automated, you are not going to have a good generative or predictive AI inside your boundary. Automation is the prerequisite.</div>
+  <div class="beat"><b>HAND-OFF (optional): Brad turns to Jon</b>On the Estimate and Create cards: “Jon, what do you know about predictive and generative? Give the room an analogy.” Jon lands the weather-forecast and well-read-drafting-assistant lines already on the cards; Brad takes back Reason + act and Automate.</div>
   <div class="cue"><span class="next">NEXT → <b>why now</b> (the demand chart)</span></div>
 </section>
 
@@ -293,6 +331,9 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>The chart is the argument: <b>a year of demand arrives in six weeks.</b> The shaded gap is what automation absorbs. And the last card decides the architecture: <b>federal tax information cannot go to a public endpoint. The model has to come to the data.</b></p>
   </div>
   <div class="beat"><b>Pivot line</b>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one.</div>
+  <div class="beat"><b>Macy’s at Black Friday</b>The analogy: Macy’s at Thanksgiving, Black Friday and Christmas, a very seasonal workload against a fixed store. The off-season is not waste; it is when you rewrite and integrate the knowledge you gathered during the surge, so there is more headroom when the next surge comes. Idle capacity in August is only unjustifiable if you do nothing with it.</div>
+  <div class="beat"><b>The snake eating its own tail</b>The closed loop has one rule: it feeds on data from YOUR systems of record, added to your knowledge base to automate it. Never information generated from information; that is the snake eating its own tail.</div>
+  <div class="beat"><b>Use with tact</b>AI is interesting here precisely because it works on unstructured language, which is most of what a tax agency actually handles. Large federal accounts are losing institutional knowledge as people age out or are RIF’d; capturing what the workforce knows is part of why this matters now.</div>
   <div class="cue"><span class="next">NEXT → <b>inside an LLM</b> (one central visual)</span></div>
 </section>
 
@@ -305,7 +346,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   </div>
   <div class="onscreen"><b>On screen</b>One central visual: the six-layer stack (mission app → context/RAG → model → inference → platform → compute), minimal text, and the test/notebook line beneath. The detail lives here, not on the slide.</div>
   <div class="talk">
-    <p>Narrate the layers <b>from the bottom up</b>. The GPU is compute. Inference is the running engine — vLLM, the Red Hat AI Inference Server. The model contains learned statistical patterns — <b>not a live copy of IRS policy</b>. Context is the open book we hand it for this request; RAG retrieves approved material into it. The mission app sits on top.</p>
+    <p>Narrate the layers <b>from the bottom up</b>. The GPU is compute, and the unstructured logs and core dumps at that compute-and-data layer are what feed the platform. Inference is the running engine — vLLM, the Red Hat AI Inference Server. The model contains learned statistical patterns — <b>not a live copy of IRS policy</b>. Context is the open book we hand it for this request; RAG retrieves approved material into it. The mission app sits on top, at the judgement layer, where a person decides.</p>
     <p>The three knobs, spoken rather than shown: <b>prompting</b> is better instructions for this request. <b>RAG</b> is the right reference material for this request. <b>Fine-tuning</b> changes learned behavior for future requests — use it for durable behavior, never for facts that change every filing season.</p>
   </div>
   <div class="beat ladder"><b>On the ladder</b>
@@ -318,7 +359,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div><span class="what">Compute + data</span><span class="to"><span class="rung r-data">Data</span></span></div>
     </div>
   </div>
-  <div class="beat"><b>This slide has one job</b>Show that there is a lot around the LLM — not just the model. The inference runtime, the platform controls and the surrounding system are what is critical. Do not try to teach every concept here. <b>The car analogy:</b> the LLM is the engine — an engine alone does not drive you to the store and pick up the groceries. You need the vehicle. Running an LLM on a laptop is easy; that is not an enterprise-worthy AI solution.</div>
+  <div class="beat"><b>This slide has one job</b>Show that there is a lot around the LLM — not just the model. The inference runtime, the platform controls and the surrounding system are what is critical. Do not try to teach every concept here. <b>The car analogy:</b> the LLM is the engine — an engine alone does not drive you to the store and pick up the groceries. You need the vehicle. You want to get from point A to point B; you do not care whether the tires are Goodyear or Kumho, you care that the vehicle does the job and the mission. Running an LLM on a laptop is easy; that is not an enterprise-worthy AI solution.</div>
   <div class="beat"><b>Jon’s analogy — land it</b>Fine-tuning is studying for the test. Retrieval is bringing the notebook into the test. An AND, not an either/or — Red Hat’s own metrics show doing both gives the best results. Brad’s rejoinder if it lands: some people are bad test takers — that does not mean they did not study.</div>
   <div class="beat"><b>Why the prompt itself matters</b>The model never reads your sentence the way you wrote it — it breaks it into tokens and reassembles intent, so an ask that bundles everything into one line comes back flattened and literal. <span style="color:var(--ink-3)">Optional, if the room is enjoying the analogies: the tattoo story — ask for “towers on hills” all in one breath and towers on hills is literally what you get. The punchline: it is really in your prompting — the way you construct the action — because people like to say everything at once.</span></div>
   <div class="beat"><b>Tell them to stop reading</b>On any dense slide, say it out loud: this is a leave-behind that stands alone when you review it later — this is not death by slideshow. People read on instinct; releasing them from it buys you their attention.</div>
@@ -334,14 +375,24 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   </div>
   <div class="onscreen"><b>On screen</b>Four-step staircase: Data → Information → Knowledge ("information that informs an outcome") → Judgement. Pills on the risers: predictive AI, generative AI + RAG, people. Top step marked "stays human."</div>
   <div class="talk">
-    <p>Walk the stairs left to right. <b>Brad’s line, said out loud: information is only knowledge when it informs a specific outcome.</b> Knowledge has to drive action, not check a box — and most organizations stall exactly there.</p>
+    <p>Walk the stairs left to right. <b>Brad’s line, said out loud: we are really good at creating data and information and pretending it is knowledge. If it is not informing anything we need, it is not knowledge.</b> Knowledge has to drive action, not check a box — and most organizations stall exactly there. Each rung is worth more to the mission.</p>
     <p>Predictive models climb the first riser — score, match, flag. Generative models with retrieval climb the second — read, ground, draft. <b>The top step is deliberately human</b> — a determination someone signs. That is a design rule, not a technical limit, and it is what makes the deployment defensible.</p>
     <p>The backlog lives at the bottom of the ladder. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p>
   </div>
+  <div class="beat"><b>The masterpiece slide (Jon’s word): say the DIKW line</b>Anyone with ten or twenty years in tech will recognize the classic data-information-knowledge-insight progression. We replaced insight with judgement for the AI age, and judgement is the rung that matters most: it is the one a person signs.</div>
+  <div class="beat"><b>Make it concrete: reboot every Friday</b>Knowledge can be automated: reboot the mail server every Friday, patch the Windows devices every Tuesday; a directive, a mandate or an AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS GovCloud region is down is not the time to run it. AI is not replacing that person; their call feeds back into the loop as the next piece of knowledge.</div>
   <div class="beat"><b>PLANTED — Jon asks it</b>“So is AI taking our jobs?” — Brad answers: it is not coming for your job, because right now it does not have judgement. Jon’s read: everyone quietly feels this, which is why it is the masterpiece slide.</div>
   <div class="beat"><b>The make-the-tests-pass story</b>Ask an AI to “make all these tests pass” and it edits the code until they pass. It did exactly what you asked. That is information — not knowledge, and not judgement. <span style="color:var(--ink-3)">Optional garnish, attributed: Karpathy — “you can outsource intelligence but you cannot outsource understanding.”</span></div>
   <div class="beat"><b>If the room remembers one picture</b>Make it this one.</div>
-  <div class="cue"><span class="next">NEXT → <b>predictive vs generative</b> (the governance table)</span></div>
+  <div class="beat gfx"><b>Graphic (G) · AI foundations for intelligent tax administration</b><span class="cap">An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs.</li>
+      <li>The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge.</li>
+      <li>The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding.</li>
+      <li>Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.</li>
+    </ol>
+  </div>
+  <div class="cue"><span class="next">NEXT → <b>predictive vs generative</b> (one graphic, the overlap)</span></div>
 </section>
 
 <!-- ============ SLIDE 6 ============ -->
@@ -351,7 +402,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <h2>Predictive and generative AI answer different questions</h2>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Five-row comparison table (learns from / produces / in tax terms / fails as / governed by) plus "they compose" and "one platform runs both."</div>
+  <div class="onscreen"><b>On screen</b>One graphic, per Jon: two overlapping circles. Left crescent, a number from structured history; right crescent, language from text; the lens is where the strongest workflows chain both (score, then explain) and one platform serves both models (Lab 03). Kicker: "one graphic — take it home." Lede: "They fail differently — so they are governed differently." The old six-row table survives in the reveal export and the facilitator guide as the take-home.</div>
   <div class="talk">
     <p>One produces <b>a number</b> from structured history; the other produces <b>language</b>. The row that matters is <b>how they fail</b>: a bad number is visible in precision and recall; a generative failure is <b>a plausible sentence</b> — which is why grounding and human review are non-negotiable.</p>
     <p>Close on composition — this is the closed loop the agency actually wants: a risk score picks the case, a language model prepares the brief, a person decides, automation executes. One cluster serves both models side by side.</p>
@@ -362,6 +413,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div><span class="what">Generative AI</span><span class="to"><span class="rung r-know">information → knowledge</span></span></div>
     </div>
   </div>
+  <div class="beat"><b>Walk it left to right, then the strip</b>A score is not a determination, a fluent sentence is not evidence, a person decides. Optional if time is short: this is a deep dive on two of slide 2’s cards; drop it first unless the room asks how the two are governed differently.</div>
   <div class="cue"><span class="next">NEXT → <b>where AI lands</b> in the filing lifecycle</span></div>
 </section>
 
@@ -386,6 +438,14 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div><span class="what">Exam selection</span><span class="to"><span class="rung r-judge">governance first — a determination</span></span></div>
     </div>
   </div>
+  <div class="beat gfx"><b>Graphic (G) · Where AI actually lands in the filing lifecycle</b><span class="cap">An eight-station rail, Intake, Classification, Guidance, Drafting, Review, Decision, Notice and Operations, with five red call-outs over the first five stations; notice that the fifth call-out is a human reviewer and Decision has no call-out at all.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Read the rail against the ladder: Intake through Drafting turn data into information and knowledge; Review and Decision are where a person supplies the judgement that stays human.</li>
+      <li>The four AI cards sit where a reviewer already checks the output; neither this graphic nor the slide puts AI on exam selection, because a taxpayer determination needs governance first.</li>
+      <li>Operations closes the loop: what Review corrects and Notice sends goes back into the knowledge base between seasons, and pooled GPUs absorb the 6× April surge on a fixed workforce.</li>
+      <li>One platform under all eight stations: the model comes to the data, the seams stay boring, and controls accredited once for Intake are inherited all the way to Operations.</li>
+    </ol>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>the five outcomes</b></span></div>
 </section>
 
@@ -396,7 +456,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <h2>Five outcomes, and where each one is proven</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Five numbered pillars, each naming the product stack and the lab that proves it (01–07).</div>
+  <div class="onscreen"><b>On screen</b>Five numbered pillars, each naming the product stack and the lab that proves it (01–07). Outcome 01 now spells out the closed loop: an error string in a log fires an Event-Driven Ansible rule, a playbook runs on the right hosts, the on-call gets an email, and a ticket opens and closes in ServiceNow or Remedy; the system of record stays untouched.</div>
   <div class="talk">
     <p>These five are the event abstract made concrete. Each one names the product that delivers it and the lab where the audience runs it: modernize operations (Labs 05 · 07), efficiency and accuracy (Labs 01–02), data-driven insights (Lab 04), security and compliance (Lab 06), an AI-ready foundation (Lab 03).</p>
     <p><b>Do not linger</b> — this slide exists so people can map the rest of the hour.</p>
@@ -410,6 +470,16 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div><span class="what">Build an AI-ready foundation</span><span class="to"><span class="rung r-info">data → information</span></span></div>
     </div>
   </div>
+  <div class="beat"><b>Outcome 01 is the easy first outcome</b>It needs no AI strategy, only the IT operations automation you already run today: an error string in a log fires an Event-Driven Ansible rule, a playbook runs on the right hosts, an email goes out, a ticket opens and closes in ServiceNow or Remedy. This is how buzzword bingo ties to specific, actual outcomes: things you can start on a laptop today, so you convince yourself before you try to convince an authorizing official and a CIO.</div>
+  <div class="beat"><b>Tags people can find later</b>These five come straight from the Carahsoft event description, and the lab tags match the tags Brad already uses in the IRS bi-weekly.</div>
+  <div class="beat gfx"><b>Graphic (G) · Where AI actually lands in the filing lifecycle</b><span class="cap">An eight-station rail, Intake, Classification, Guidance, Drafting, Review, Decision, Notice and Operations, with five red call-outs over the first five stations; notice that the fifth call-out is a human reviewer and Decision has no call-out at all.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Read the rail against the ladder: Intake through Drafting turn data into information and knowledge; Review and Decision are where a person supplies the judgement that stays human.</li>
+      <li>The four AI cards sit where a reviewer already checks the output; neither this graphic nor the slide puts AI on exam selection, because a taxpayer determination needs governance first.</li>
+      <li>Operations closes the loop: what Review corrects and Notice sends goes back into the knowledge base between seasons, and pooled GPUs absorb the 6× April surge on a fixed workforce.</li>
+      <li>One platform under all eight stations: the model comes to the data, the seams stay boring, and controls accredited once for Intake are inherited all the way to Operations.</li>
+    </ol>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>the reference architecture</b> (open with the seams line)</span></div>
 </section>
 
@@ -420,7 +490,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <h2>One foundation, from bare metal to the taxpayer</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Layered diagram with the new seams lede: "Most failures happen at the seams — the integration points between systems." TRUST pillar left, AUTOMATION pillar right, spanning every layer.</div>
+  <div class="onscreen"><b>On screen</b>Layered diagram with the seams lede: "Most failures happen at the seams between systems, not inside them. The platform’s job is to make those seams boring." TRUST pillar left, AUTOMATION pillar right, spanning every layer. The base band now reads: "Tested with the hardware: mainframes · TPM · PIV/CAC cryptography."</div>
   <div class="talk">
     <p><b>Open with the seams line:</b> most failures do not happen inside a system — they happen at the seams, the integration points between systems. Everything on this picture exists to make those seams boring.</p>
     <p>Read it <b>bottom to top</b>, and the point is the two vertical bands: automation and trust are not a layer you add at the end — they run through every layer. A project that treats compliance as a phase after deployment discovers, at the worst moment, that it cannot produce evidence for anything that already happened.</p>
@@ -440,10 +510,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div><span class="what">AUTOMATION pillar</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
     </div>
   </div>
-  <div class="beat"><b>The seams riff — Jon asked for this on paper</b>Problems happen at the seams, not inside the systems. <b>The pants analogy:</b> gain a little weight and your pants split at the seams — never in the middle, where the fabric and the stitching are strongest. RHEL and OpenShift interoperating layer to layer is what makes integration less cumbersome and more seamless. We are not the only ones who do it — but we are uniquely positioned.</div>
+  <div class="beat"><b>The seams riff — Jon asked for this on paper</b>Problems happen at the seams, not inside the systems. <b>The pants analogy:</b> gain a little weight and your pants split at the seams — never in the middle, where the fabric and the stitching are strongest. RHEL and OpenShift interoperating layer to layer is what makes integration less cumbersome and more seamless. We are not the only ones who do it — but we are uniquely positioned. Boring seams is more than fewer seams: know where each one is, operationalize them, have people ready to repair them, and do each one right, which is where cyber comes in. That is the AO’s question and the bridge to the appendix.</div>
+  <div class="beat"><b>Pizza tonight, spaghetti tomorrow</b>Any decision is a lock-in: pizza tonight eliminates spaghetti. Red Hat keeps tomorrow’s spaghetti open.</div>
+  <div class="beat"><b>No snowflakes</b>Ansible and OpenShift: heterogeneous platforms, homogeneous interface. Estates are diverse; nobody chose that to spite you. The old system is not legacy to modernize; it joins the same back plane, so nobody maintains a snowflake, operationally or in the authorization package.</div>
+  <div class="beat"><b>The hardware line (base band)</b>Mainframes, TPMs, PIV/CAC crypto: the hardware layer extracts the data and creates the information that everything above turns into knowledge or judgement. Red Hat tests with the vendors so their hardware does what our software expects.</div>
   <div class="beat"><b>PLANTED — Jon plays the foil</b>“I don’t know what you’re talking about there — what’s a seam?” Brad answers with the pants analogy.</div>
   <div class="beat"><b>PLANTED — Brad asks Jon</b>“What is fine-tuning to you, Jon?” Jon is comfortable being put on the spot here. Also worth saying: one foundation from bare metal to the taxpayer — but how do you turn your <em>information</em> into <em>actionable knowledge</em> you can act on? Jon calls that the core of it.</div>
   <div class="beat"><b>Naming caution</b>“OpenShift” next to “OpenShift AI” invites a product-versus-value rabbit hole. For a value-seeking audience, serving and retrieval are one thing — “you serve a model, I want my data out of it.” Split them only for a platform-technical room.</div>
+  <div class="beat"><b>HAND-OFF: Brad to Jon</b>After seams and hardware, Brad throws to Jon for the platform boxes: serving, retrieval, registry and the Training box (SDG Hub and Training Hub beside serving, pipelines, registry, retrieval). Jon closes on why one foundation matters; Brad takes it back: bring the model to the mission, not the data to someone else’s model.</div>
+  <div class="beat gfx"><b>Graphic (G) · One foundation, from bare metal to the taxpayer</b><span class="cap">One Red Hat platform inside one security enclosure, with a case moving left to right through six stations, from agency case files through model inference, retrieval, automation and compliance checks to a reviewer at a screen; notice that the model cube sits inside the same enclosure as the data.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Read the colors as the ladder: red case files are data, the orange cube makes information, green retrieval adds knowledge, and a person at the purple desk signs the judgement.</li>
+      <li>The model comes to the data, and FIPS, signing and compliance scanning attach to the platform, not the project: accredit once, inherit everywhere; workflow two starts with workflow one's evidence.</li>
+      <li>Six stations, one plinth: the seven words below are capabilities, not seven labs; one foundation keeps the seams boring, and like pizza tonight it never rules out spaghetti tomorrow.</li>
+      <li>The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.</li>
+    </ol>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>Why Red Hat AI</b> (the proposition)</span></div>
 </section>
 
@@ -478,6 +560,8 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>The 10,000 seats story</b>Agencies buy ten thousand chatbot seats and start plugging things into them. What they are never shown is the alternative: running their own instances <em>next to their own data</em> — feeding self-healing, closed-loop systems of record, tied into operations, extended toward fraud, waste and abuse. The knowledge that matters lives in workflows, policies and procedures you cannot paste into a public chatbot.</div>
   <div class="beat"><b>Someone else’s computer</b>Cloud AI is ultimately just someone else’s computer. If it is your computer and your data, you can go check and verify — and if you are not convinced by the answers coming back, that is a waste of CPUs, GPUs and cooling. <b>Colocation</b> cuts the attack surface and the pivot points, and it makes the experience better: no chain of egresses, ingresses, F5s, LTMs and NAT hops adding transit time. If the first experience is not enjoyable, nobody comes back.</div>
   <div class="beat"><b>Differentiator vs discriminator</b>Automation alone is a <em>differentiator</em>. The estate — the underlying OS, the interconnectability, the whole ecosystem, with an execution layer tying them together — is the <em>discriminator</em> nobody else has.</div>
+  <div class="beat"><b>Say the two lines</b>One focal point, the red box in the middle: bring the model to the mission, not the mission data to somebody else’s model. Then: don’t move what’s hard; bring what’s easy to the data. And: what is unique is your data; you have it, you keep visibility into it, and you should never have to give it up. Keep the data on-prem and scale horizontally, or serve the model as a service locally; either way the data does not travel.</div>
+  <div class="beat"><b>Reprise the pizza line once</b>Pizza tonight, spaghetti tomorrow: decisions made today do not limit tomorrow’s alignment to new requirements or technology. The six cards below are explicitly the take-home reference; tell the room that so they stop reading.</div>
   <div class="cue"><span class="next">NEXT → <b>the mechanics</b> — define once, run anywhere</span></div>
 </section>
 
@@ -506,6 +590,14 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>PLANTED — Jon plays the foil</b>“Hang on, Brad — what do you actually mean by lock-in? I thought we already bought the software.” Brad answers with the phone-plan analogy. Jon flagged this riff as one that lands in a small room but misses a large virtual audience — the set-up question is what carries it.</div>
   <div class="beat"><b>Say the honest caveat</b>This is not easy, and not right for every situation — sometimes you legitimately need a native service. The ask is narrower: define your infrastructure and services as code, so placement becomes a policy instead of a complete re-architecture.</div>
   <div class="beat"><b>The counter-pitch</b>If the competing pitch is one cloud’s AI stack, this is the counter: the mission does not have to marry the venue.</div>
+  <div class="beat gfx"><b>Graphic (G) · One foundation, from bare metal to the taxpayer</b><span class="cap">One Red Hat platform inside one security enclosure, with a case moving left to right through six stations, from agency case files through model inference, retrieval, automation and compliance checks to a reviewer at a screen; notice that the model cube sits inside the same enclosure as the data.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Read the colors as the ladder: red case files are data, the orange cube makes information, green retrieval adds knowledge, and a person at the purple desk signs the judgement.</li>
+      <li>The model comes to the data, and FIPS, signing and compliance scanning attach to the platform, not the project: accredit once, inherit everywhere; workflow two starts with workflow one's evidence.</li>
+      <li>Six stations, one plinth: the seven words below are capabilities, not seven labs; one foundation keeps the seams boring, and like pizza tonight it never rules out spaghetti tomorrow.</li>
+      <li>The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.</li>
+    </ol>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>the operations loop</b></span></div>
 </section>
 
@@ -517,7 +609,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <div class="time">23–28 min block begins</div>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Predict → explain → ground + act flywheel, the knowledge-flywheel bar, and the lede naming automation as the discriminator of a self-healing, closed-loop system.</div>
+  <div class="onscreen"><b>On screen</b>Predict → explain → ground + act flywheel and the knowledge-flywheel bar. The lede now leads with the triad: "Predict, explain, act: spot the pattern, turn the signals into language, use only what the agency has approved," then names the connected estate as the discriminator. Step 03 now carries the ticket trail: "Every action opens and closes an ITSM ticket (ServiceNow, Remedy), so the incident record is the trail."</div>
   <div class="talk">
     <p>The concrete story: <b>predictive AI</b> flags the risk from telemetry, the <b>LLM</b> explains the evidence in language, <b>RAG</b> grounds it in approved runbooks, and <b>Ansible</b> performs only what policy permits. <b>Automation is the discriminator</b> — it is what closes the loop and makes the system self-healing across heterogeneous environments.</p>
     <p>The flywheel: after review, the incident summary becomes searchable knowledge for the next event. The boundary: <b>generated text does not become truth automatically</b> — a human or workflow gate curates it first. Do not let fluency become authority.</p>
@@ -531,6 +623,10 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     </div>
   </div>
   <div class="beat"><b>The segue Brad rehearsed</b>“I talk to my chatbot every night and it tells me how great I am” — but you do not want reassurance during a tax audit, a criminal investigation, or a hunt for a pattern. <b>It is not a chatbot.</b> You want something that predicts and explains, then grounds, acts and learns.</div>
+  <div class="beat"><b>Lead with the triad</b>Predict, explain, act. You cannot act unless you have explained, and you cannot explain unless you have predicted. The patterns already exist in your ITSM: P1 through P5 severity and mean-time-to-restore records are what you organize into signals.</div>
+  <div class="beat"><b>At ACT: the ITSM ticket trail</b>Every action opens and closes a ticket in the ITSM (ServiceNow, Remedy, whatever you run) so you keep track for incident management purposes. That ticket trail is the closed-loop system of record.</div>
+  <div class="beat"><b>Caution in front of cyber</b>Do not say agentless or serviceless as an absolute. Say: no persistent agent, transport is SSH. Ansible is technically not serviceless automation; we speak in general terms, and one SSH-is-a-service objection can derail the loop.</div>
+  <div class="beat"><b>At LEARN</b>What the loop learns from is data from your own systems, never information generated from information. Generated text is a draft until it passes the same curation any knowledge record gets.</div>
   <div class="beat"><b>Authority comes from your language</b>The fluency that becomes authority has to be grounded in <em>your</em> language and <em>your</em> approved processes — not OpenAI’s. And most of the effort here is provisioning, patching, scaling, data collection and inputs: an automation problem, not an AI problem.</div>
   <div class="cue"><span class="next">NEXT → <b>the MTTR proof</b> (this loop, quantified)</span></div>
 </section>
@@ -556,7 +652,8 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     </div>
   </div>
   <div class="beat"><b>Say resolution, not restoration</b>MTTR here is <b>mean time to resolution</b>. Jon corrected this live — and the direction is <em>reducing</em> it, never “increasing the mean time to…”.</div>
-  <div class="beat"><b>Industry number first, then the story</b>Lead with the independent industry metrics so the claim has outside authority — then tell the personal one: the notebook read a must-gather and diagnosed in two minutes what had taken the team forty-six hours. People love stories, but the number is what makes it credible. <span style="color:var(--ink-3)">(If the must-gather visual is ever shown, use a sanitized version — the original came from a real customer instance.)</span></div>
+  <div class="beat"><b>Industry number first, then Brad’s OOM story</b>Lead with the independent industry metrics so the claim has outside authority. Then the personal one: an out-of-memory error took us about two hours to diagnose, and it recurred every month because different people were on shift and nothing crossed shifts; so the pattern became: every Friday, look for this error message in the log file. AI integration with an LLM on that signal cut diagnosis to 24 minutes and took mean time to resolution from over three hours to under an hour. <b>Say it precisely: 24 minutes is diagnosis, not MTTR.</b></div>
+  <div class="beat"><b>Second story, if there is time</b>Otherwise pick one and say which. The must-gather: the notebook diagnosed in two minutes what had taken the team forty-six hours. People love stories, but the number is what makes it credible. <span style="color:var(--ink-3)">(If the must-gather visual is ever shown, use a sanitized version — the original came from a real customer instance.)</span></div>
   <div class="beat"><b>Jon asked for this narration verbatim</b>The big orange bar is diagnosis — <em>that is all information</em>. The blue is data; the data does not change. What changed is the time to create the information. That ties this chart straight back to the ladder.</div>
   <div class="beat"><b>If the room is operational</b>Offer to jump straight to Lab 07 — it runs this incident end to end.</div>
   <div class="cue"><span class="next">NEXT → <b>the adoption path</b> (crawl, walk, run)</span></div>
@@ -586,7 +683,8 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Plan for problems, not predicaments</b>Do not let a hypothetical chip shortage derail the project. The problem right now is grounding the proof so you <em>can</em> scale — not the scale itself. The success test: none of the decisions you make today may limit your options tomorrow.</div>
   <div class="beat"><b>PLANTED — Jon plays the foil</b>“Wait — what is a predicament versus a problem?” Brad answers: a problem you can solve today; a predicament you can only plan around — so a hypothetical GPU shortage must not stall the pilot. Same reason as the lock-in riff: too nuanced to survive a big virtual room without the question in front of it.</div>
   <div class="beat"><b>Processes, not just workloads</b>Success depends on changing how you deploy — your processes — not merely moving workloads onto new technology. <span style="color:var(--ink-3)">Optional: containers took off because we did not have to teach people containers; developers just needed it to fit their workflow. That is still what is missing in a lot of places.</span> And use the ground truth you already have: your experience with the agency’s applications, software and data layers is what proves it.</div>
-  <div class="cue"><span class="next">NEXT → <b>next steps</b> (the ask + the contact strip)</span></div>
+  <div class="beat"><b>Under Prove: don’t boil the ocean</b>Small pilot; crawl, walk, run. Start with one signal and one use case: the flashback moment when everybody got called in and ruined their Labor Day weekend over something that had happened a hundred times before, but the pattern just wasn’t connected. And you do not start with a ChatGPT-style box; you start with something valuable and integrated with your data and your mission.</div>
+  <div class="cue"><span class="next">NEXT → <b>next steps</b> (step zero, the contact panel, the closing cyber question)</span></div>
 </section>
 
 <!-- ============ SLIDE 15 ============ -->
@@ -596,14 +694,25 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <h2>What happens after this hour</h2>
     <div class="rungs"><span class="rung r-judge">Judgement</span><span class="why">The next decision is the room’s.</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Architecture workshop / guided pilot / acquisition path, the GitHub repo callout, and the new contact strip: Brad Scalio — scalio@gmail.com · Jon Keam — Red Hat.</div>
+  <div class="onscreen"><b>On screen</b>Four steps, starting with "Step zero · Lab walk-through" (an hour running the seven labs together, show and tell, to find the point in the stack where you want to prove value; that scopes the pilot), then architecture workshop, guided pilot, acquisition path. Contact panel: Brad Scalio, bscalio@redhat.com, "if nothing else, he will get you to the right person", and the line "IRS account executive: Ted Craig, Red Hat. Everyone else, email Brad and he connects you to yours." Site callout: nommsweymx.github.io/redhat-ai-tax-labs and …/adventure.html. Under "Your move", four moves; the fourth is "Bring your cyber team."</div>
   <div class="talk">
-    <p><b>Close with a specific ask, not a thank-you.</b> Step one is the free half-day architecture workshop. Step two is a guided pilot with a measured baseline. Step three: Four Inc. and Carahsoft carry the vehicles — bring them in early.</p>
+    <p><b>Close with a specific ask, not a thank-you.</b> Step zero, said first: for a PoC we set a time and run the seven labs together, show and tell, to find where in the stack you want to prove value. That scopes the pilot; if it gets serious, Brad brings in more people. Then step one, the half-day architecture workshop; step two, a guided pilot with a measured baseline; step three, Four Inc. and Carahsoft carry the vehicles; bring them in early, not at the end.</p>
     <p><b>Engage the solution architects early</b> — the foundational questions are free to ask and expensive to skip. Point at the contact strip: reach out and we will connect you with the right subject-matter expert. The whole kit lives at <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>.</p>
   </div>
   <div class="beat"><b>Say this line</b>“If you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product.” Then: reach out to me and I will get you in touch with the right person. Models-as-a-Service is the example worth naming for platform architects. There is no stupid question — unanswered foundational questions are what build a shaky foundation that gets reworked later. Brad’s closer if the room is warm: that is why we get paid as solution architects — I would rather talk to you than my manager.</div>
   <div class="beat"><b>One thing to remember</b>Nothing in these seven labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</div>
-  <div class="beat"><b>Three moves, said out loud</b>Already a Red Hat customer? Ask for your Solution Architect — and if you do not know who that is, email Brad (bscalio@redhat.com) or Jon (jkeam@redhat.com), open a ticket in the Customer Portal and ask support, or ask through your management line. Start a community of practice across platform, security and mission teams around one workflow. Bring your hardest question. Brad’s line: if nothing else, I will act as your connector.</div>
+  <div class="beat"><b>Four moves, said out loud</b>Already a Red Hat customer? Ask for your Solution Architect — and if you do not know who that is, email Brad (bscalio@redhat.com) or Jon (jkeam@redhat.com), open a ticket in the Customer Portal and ask support, or ask through your management line. Start a community of practice across platform, security and mission teams around one workflow. Bring your hardest question. <b>Bring your cyber team:</b> nobody from IRS cyber today? Refer us to your ISSO or security lead; we run the appendix in depth for them. Brad’s line: if nothing else, I will act as your connector.</div>
+  <div class="beat"><b>Point at Ted</b>Say hi, Ted: Red Hat’s account executive for the IRS. Do not know your AE, or not a customer yet? Email Brad; he connects you with your equivalent of Ted, and pilots route through the AE. Never end with nothing happening after.</div>
+  <div class="beat"><b>Spoken, not on the slide</b>Not IRS or financial services? Reach out anyway; we rebuild this around your mission with your account team.</div>
+  <div class="beat"><b>CLOSING QUESTION, always</b>Anybody on from cyber? Yes: pull up the appendix. No: cyber has had opinions before and deserves a fighting chance to hear it early. Can anyone refer us to IRS cyber? We run it for them separately.</div>
+  <div class="beat gfx"><b>Graphic (G) · AI for Federal Financial Services</b><span class="cap">Eight cards on a dark grid under the title AI for Federal Financial Services, one for each thing published for this event: the deck, its reveal.js slides, the role-based adventure guide, the hands-free demo view, the docs, the GitHub repository, the seven labs and the exports; the thing to notice is that every red arrow lands on the same public site or repository, free, with nothing to buy.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>This is the leave-behind for the Next steps slide: everything from today lives at nommsweymx.github.io/redhat-ai-tax-labs, free, public and open source, and Carahsoft's follow-up to every registrant carries the same links.</li>
+      <li>Only one card is the seven labs. Adventure is the choose-your-path guide by role, not the labs one-to-one; Slides is this deck in reveal.js; Demo View runs the labs hands-free.</li>
+      <li>The labs are the opinionated path, personal laptop only, never production: the model comes to the data on 127.0.0.1, the 6× April surge is rehearsed, the ISSO gets evidence.</li>
+      <li>Then crawl, walk, run: one workflow where a person already decides, proven here before any pilot; pilot requests go through your account executive, and Brad connects anyone without one.</li>
+    </ol>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>the labs</b> — the concluding takeaway</span></div>
 </section>
 
@@ -615,14 +724,25 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <div class="time">32–34 min · then labs 34–56</div>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">Each lab card carries its rung chip (see labs below).</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Seven lab cards. The deck ends hands-on — you are about to switch the main screen to the Labs view.</div>
+  <div class="onscreen"><b>On screen</b>Seven lab cards under the new lede: an opinionated path on a personal laptop, not an MVP, never production, never on a government computer; free of charge and open to anyone, one self-contained HTML on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs; prove it to yourself, watch the model serve on 127.0.0.1. The takeaway card now ends: "The labs run the upstream bits on a laptop; what an agency accredits is the supported Red Hat product built from them." The deck ends hands-on; you are about to switch the main screen to the Labs view.</div>
   <div class="talk">
     <p>This is the concluding takeaway — the deck ends hands-on, not with a thank-you slide. <b>Switch the deck to the Labs view now.</b> The terminals are typed by them; commands are real and copyable; output is representative. The Demo view plays all seven hands-free.</p>
     <p>The plan: run <b>Lab 01</b> live and stop hard on the <code>ss -ltnp</code> step. Run <b>Lab 05</b> live — the 62-second remediation. Skim the rest; the repo goes home with them.</p>
   </div>
-  <div class="beat"><b>The disclaimer, said out loud</b>Run this on a personal laptop — not in production, not on a work laptop. This is an opinionated approach: we lead with one path so nobody drowns in options.</div>
+  <div class="beat"><b>The pot and the plant</b>The line Brad credits, with a hedge, to Danny Mack from the OpenStack days: people hand you the bits and tell you to build something; sometimes you just want the pot to put the plant in. These labs are the pot: the Red Hat opinionated way to get going on a personal laptop, using the upstream community tool chain that is used and secured inside a Red Hat solution.</div>
+  <div class="beat"><b>The disclaimer, said out loud</b>An opinionated path on a personal laptop: not an MVP, never production, and never on a government computer. We lead with one path so nobody drowns in options. Say the distinction so no ISSO leaves thinking the laptop stack goes in an authorization package: the labs run the community bits on a laptop; the supported Red Hat product built from the same tool chain is what an agency accredits.</div>
   <div class="beat"><b>Why they should care</b>The point is to prove it to <em>yourself</em>: you will watch the model serve on 127.0.0.1 with no egress — and if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal lets people type each command without installing anything, and it refuses off-script commands, which is exactly what makes it a prescriptive, defensible path for a pilot. The punchline: your installation and scripting become the artifact you hand your AO.</div>
+  <div class="beat"><b>Answer the two questions before they are asked</b>Who can take it: anyone. What does it cost: nothing. It is a single self-contained HTML on the Carahsoft event page, with the source in the public repo. The full labs live in the repo; that is where people actually run them, not inside this page.</div>
+  <div class="beat"><b>Close the labs with the offer</b>If you want us to go deeper on any of these, or run them live for a larger audience, reach out; we will do it.</div>
   <div class="beat"><b>Console handoff</b>Step through the lab pages from here (they follow the appendix). Slide 17 is the security appendix — on standby for questions, not part of the run.</div>
+  <div class="beat gfx"><b>Graphic (G) · Choose your path.</b><span class="cap">A map of the labs site: red roads run from the RED HAT AI TAX LABS hub to seven role paths (Leadership, Platform Operations, AI / Data Team, Security &amp; Compliance, Mission Workflow, Live Demo, Explore More); notice they are entry points by role, not the seven labs one to one.</span><span class="eyebrow">Talk to this</span>
+    <ol>
+      <li>Seven roads into the same seven labs, Leadership through Explore More: pick yours by role, and notice every lab is tagged with the ladder rung it serves, data to judgement.</li>
+      <li>Take the Live Demo road to prove it yourself: Lab 01 serves the model on 127.0.0.1 with no egress. Tax data stays inside; the model comes to the data.</li>
+      <li>Platform Operations and Security &amp; Compliance share one platform with no seams: FIPS and OS controls inherit up the stack, so you accredit once and inherit everywhere.</li>
+      <li>Mission Workflow wraps the system of record instead of rewriting it: automation absorbs the 6× April surge and closes the loop, while a person signs the determination. Crawl, walk, run.</li>
+    </ol>
+  </div>
   <button class="jumpbtn" data-goto="17">Go to Lab 01 notes →</button>
   <div class="cue"><span class="next">NEXT → <b>appendix (standby)</b> · then Lab 01 notes</span></div>
 </section>
@@ -635,15 +755,21 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <div class="time">pull up on demand · natural home: 56–60 questions</div>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-judge">Judgement</span><span class="why">Evidence is information; the authorizing official’s decision is judgement.</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Eight-row table: each AO question, the platform control, where it lives — now including the FISMA moderate/high + FIPS 199 row.</div>
+  <div class="onscreen"><b>On screen</b>Ten-row table with a new "Proven in" column: each AO question, the platform control, where it lives, and the lab or slide that proves it (Lab 01 · 127.0.0.1, no egress; Lab 06 · cosign verify, fips-mode-setup, compliancescan, signature gate, drift; Slide 09 · base band; Slide 11 · one manifest, enclave; Lab 05 · job history). Two new rows: "Does it work with our smart cards and hardware crypto?" and "What about the applications and containers we build on it?" The accountability row now names one governed console under enterprise RBAC.</div>
   <div class="talk">
-    <p>Deliberately parked in the appendix to keep the main narrative moving — <b>but this is the slide that unblocks the deal</b>. Pull it up the moment an ISSO or security lead engages.</p>
-    <p>Every row maps a platform control to a question an authorizing official actually asks: where does the data go (nowhere), is this the approved model (signed, verified before admission), is the crypto validated (FIPS mode), <b>can this land in a FISMA moderate or high boundary</b> (controls map to the NIST 800-53 baselines; the FIPS 199 categorization picks the venue), does it stay compliant, is it drifting, what about air-gap, and who is accountable — a named reviewer; the model drafts, it never sends.</p>
+    <p><b>Open with the labs line:</b> it never leaves your network. True? Prove it to yourself first, because if you do not believe it you cannot prove it to an AO. Then walk the table as the evidence the room generated with its own hands: each row’s Proven-in tag names the lab that proves it.</p>
+    <p>Deliberately parked in the appendix to keep the main narrative moving — <b>but this is the slide that unblocks the deal</b>. Pull it up the moment an ISSO or security lead engages, pick a few rows and drill in; do not read the table.</p>
+    <p>Ten rows, each a question an authorizing official actually asks: where does the data go (nowhere; it runs in your enclave), is this the approved model (signed, verified before admission), is the crypto validated (FIPS mode), does it work with our smart cards and hardware crypto, <b>can this land in a FISMA moderate or high boundary</b> (controls map to the NIST 800-53 baselines; the FIPS 199 categorization picks the venue), does it stay compliant, what about the apps we build on it, is it drifting, what about air-gap, and who is accountable (a named reviewer, and every action from one governed console; the model drafts, it never sends).</p>
     <p>Offer to take the whole table offline with their ISSO.</p>
   </div>
+  <div class="beat"><b>WHEN CYBER IS IN THE ROOM</b>Seams done right is where cyber comes in. Each layer inherits controls from below: FIPS mode and crypto from RHEL CoreOS carry up through OpenShift and OpenShift AI. For a cyber replay, add depth here and on the slide 9 seams riff; do not re-pitch the deck. “Is AI safe, can we put guardrails on it” always comes up: cover FIPS 199 and FISMA moderate or high, federal templating and reporting shipped with the platform, air-gap, registry mirroring, the Compliance Operator; civilian and DoD share the requirements.</div>
+  <div class="beat"><b>No absolutes</b>What is not FIPS-inherited, say so: the exception is documented and addressed elsewhere in the system. Never claim absolutes to a cyber audience.</div>
+  <div class="beat"><b>FIPS row: say the credential once</b>Former ITO / ISSO on a FISMA High system: having this in your authorization package is perfectly acceptable. That turns the row from a vendor claim into practitioner evidence.</div>
+  <div class="beat"><b>The two new AO rows, plus accountability</b>Hardware crypto: Red Hat tests with the vendors (mainframes, TPMs, PIV/CAC) so the hardware does what our software expects; proven on the slide 9 base band. Your apps: our security tool chains span their life cycle, not just our products; the Lab 06 signature gate. Accountability: every action runs from one governed Ansible Automation Platform console, enterprise RBAC, show-back, no islands of automation; Lab 05 job history.</div>
   <div class="beat"><b>The federal paperwork reality</b>The one real difference from commercial: attestation is not the end of it. Name the artifacts — security attestation, POA&amp;Ms, FITARA scorecards — and note that the tailored templating and reporting for FIPS 199 / FISMA moderate and high ship <em>with</em> the platform as a value-add. Federal civilian and DoD carry the same requirements.</div>
   <div class="beat"><b>Do not roll your own validations</b>Say it plainly, then offer the introduction: reach out and we will connect you with a solution architect or specialist. Disconnected operation, registry mirroring and the Compliance Operator come baked in for zero-internet environments.</div>
   <div class="beat"><b>Glass box, not black box</b>You do not want to be handed a box and told “this is AI” when you cannot see inside it. You want a glass box you can break open and inspect — vital when the work is a tax audit or a criminal investigation. Recent anecdote if it fits: the Hugging Face breach — attackers went after the SaaS model in the cloud to pivot in. On-prem and SaaS answer different questions.</div>
+  <div class="beat"><b>Brief cyber early</b>At the IRS, ideas die when cyber hears about them late. That is the point of the community of practice on slide 15: platform, security and mission teams in one room from the start.</div>
   <div class="cue"><span class="next">NEXT → <b>Lab 01 notes</b> · deck stays in Labs view</span></div>
 </section>
 
@@ -972,6 +1098,53 @@ after:  detect 4m · <span class="ok">diagnose 24m</span>    · fix 22m · verif
     else if (e.key === 'j' || e.key === 'J'){ jump.hidden = !jump.hidden; }
     else if (e.key === 'm' || e.key === 'M'){ modeBtn.click(); }
   });
+
+  /* the ladder as a stacked pyramid — the deck's icon (see pyramidSVG in deck.html):
+     judgement at the apex, data at the base, the rainbow's yellow and blue kept as
+     thin bands that light only when both neighbouring rungs do. `on` is read from
+     the rung chips of each step's header row; the legend lights all four. */
+  var RUNG = {data:'r-data', information:'r-info', knowledge:'r-know', judgement:'r-judge'};
+  var RUNG_ORDER = Object.keys(RUNG);
+  function rungsOf(el){
+    var set = (el.dataset.rungs || '').split(',').filter(Boolean);
+    el.querySelectorAll('.rung').forEach(function(c){
+      RUNG_ORDER.forEach(function(k){ if (c.classList.contains(RUNG[k]) && set.indexOf(k) < 0) set.push(k); });
+    });
+    return RUNG_ORDER.filter(function(k){ return set.indexOf(k) >= 0; });
+  }
+  var PYR_TIERS = [
+    ['judgement', 't-judge', 1, 10],
+    [null, 'b-blue', 10, 11.6],
+    ['knowledge', 't-know', 11.6, 20.5],
+    [null, 'b-yellow', 20.5, 22],
+    ['information', 't-info', 22, 30],
+    ['data', 't-data', 30, 37]
+  ];
+  function pyramidSVG(on){
+    var h = '<svg viewBox="0 0 150 38" role="img" aria-label="On the ladder: ' + (on.join(', ') || 'none') + '">';
+    h += '<g clip-path="url(#pyr-clip)">';
+    PYR_TIERS.forEach(function(t){
+      var lit = t[0] ? on.indexOf(t[0]) >= 0
+        : (t[1] === 'b-blue' ? (on.indexOf('judgement') >= 0 && on.indexOf('knowledge') >= 0)
+                              : (on.indexOf('knowledge') >= 0 && on.indexOf('information') >= 0));
+      h += '<rect class="tier ' + t[1] + (lit ? ' on' : '') + '" x="0" y="' + t[2] + '" width="48" height="' + (t[3] - t[2]) + '"/>';
+    });
+    h += '</g><polygon class="edge" points="24,1 47,37 1,37"/>';
+    [['judgement', 8], ['knowledge', 17.5], ['information', 26.5], ['data', 35]].forEach(function(l){
+      h += '<text class="' + (on.indexOf(l[0]) >= 0 ? 'on' : '') + '" x="54" y="' + l[1] + '">' + l[0].toUpperCase() + '</text>';
+    });
+    return h + '</svg>';
+  }
+  function pyramidInto(host, on, extraClass){
+    var el = document.createElement('span');
+    el.className = 'pyr-inline' + (extraClass ? ' ' + extraClass : '');
+    el.setAttribute('aria-hidden', 'true');           /* the chips beside it already name the rungs */
+    el.innerHTML = pyramidSVG(on);
+    host.insertBefore(el, host.querySelector('.why')); /* ahead of the full-width note, else at the end */
+  }
+  document.querySelectorAll('.step-head .rungs, .step-head .meta').forEach(function(row){ pyramidInto(row, rungsOf(row)); });
+  var ladder = document.querySelector('.ros .ladder');
+  if (ladder) pyramidInto(ladder.querySelector('.head') || ladder, rungsOf(ladder), 'pyr-legend');
 
   go(cur);
 })();

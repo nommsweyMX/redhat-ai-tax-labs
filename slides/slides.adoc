@@ -37,11 +37,26 @@ Brad drives, Jon adds color commentary — objective one is to keep the room
 engaged; entertainment precedes learning. Open by naming the room: Red Hat,
 Four Inc. and Carahsoft.
 
+Say the color code once. It is the rainbow: red on the far left is data — the
+least structured thing we have; purple on the far right is judgement — the
+most structured. Every slide carries its colors in the corner, so you always
+know which rung we are on.
+
+Assume a cold room — about 56 registrants, and most are people we have not
+worked with. Introduce the three names on the slide in one line each — Red Hat
+builds the platform, Four Inc. is the federal distributor, Carahsoft is the
+reseller partner and today’s host — and say why the three of us are here
+together.
+
 Frame the hour — terminology first so everyone shares a vocabulary, then the
 platform story, then the labs as the takeaway.
 
 The promise: every claim we make today, we run in a shell before you leave.
 Security lives in the appendix — pull it up the moment an ISSO engages.
+
+Tell the room: security is at the very end, and it is a broad conversation —
+anyone who wants to go deeper gets a separate session, and any security
+question we cannot answer live, we get back to you on.
 --
 
 == Four different jobs get called “AI”
@@ -87,6 +102,11 @@ everything.
 Land the on-ramp line: if you are not automated, you are not going to have a
 good generative or predictive AI inside your boundary — automation is the
 prerequisite.
+
+HAND-OFF (optional): on the Estimate and Create cards Brad turns to Jon — Jon,
+what do you know about predictive and generative? Give the room an analogy.
+Jon lands the weather-forecast and well-read-drafting-assistant lines already
+on the cards; Brad takes back Reason + act and Automate.
 --
 
 == The work is seasonal, textual and unforgiving
@@ -104,20 +124,30 @@ prerequisite.
 [.notes]
 --
 Do not lead with the technology. Lead with the shape of the problem: seasonal
-demand spikes against a fixed workforce, decades of correspondence logic locked
-in code nobody wants to touch, and data spread across systems that were never
-designed to talk.
+demand spikes against a fixed workforce, decades of correspondence logic
+locked in code nobody wants to touch, and data spread across systems that were
+never designed to talk.
 
 AI is interesting here precisely because it works on unstructured language —
 which is most of what a tax agency actually handles.
 
 Context to use with tact: large federal accounts are losing institutional
-knowledge as people age out or are RIF'd — capturing what the workforce knows
+knowledge as people age out or are RIF’d — capturing what the workforce knows
 is part of why this matters now.
 
-The chart: a year of demand arrives in six weeks. And the constraint that
-decides the architecture — federal tax information cannot go to a public
-endpoint; the model comes to the data.
+The chart: a year of demand arrives in six weeks. The analogy: Macy’s at
+Thanksgiving, Black Friday and Christmas — a very seasonal workload against a
+fixed store. The off-season is not waste; it is when you rewrite and integrate
+the knowledge you gathered during the surge, so there is more headroom when
+the next surge comes. Idle capacity in August is only unjustifiable if you do
+nothing with it.
+
+The closed loop has one rule: it feeds on data from YOUR systems of record,
+added to your knowledge base to automate it — never information generated from
+information. That is the snake eating its own tail.
+
+And the constraint that decides the architecture — federal tax information
+cannot go to a public endpoint; the model comes to the data.
 --
 
 == An LLM is the engine — not the whole vehicle
@@ -147,18 +177,24 @@ controls and the system around it are what is critical. Do not try to teach
 every concept here.
 
 Use the car analogy: the LLM is the engine, and an engine alone does not drive
-you to the store and pick up groceries — you need the vehicle. Running an LLM
-on a laptop is easy; that is not an enterprise-worthy AI solution.
+you to the store and pick up groceries — you need the vehicle. You want to get
+from point A to point B — you do not care whether the tires are Goodyear or
+Kumho; you care that the vehicle does the job and the mission.
+
+Then walk the picture bottom-up: unstructured logs and core dumps at the
+compute and data layer feed the platform, and the mission app sits at the
+judgement layer, where a person decides. Running an LLM on a laptop is easy;
+that is not an enterprise-worthy AI solution.
 
 Then the three knobs, spoken not shown: prompting is better instructions for
-THIS request; RAG is the right references for THIS request; fine-tuning changes
-learned behavior for FUTURE requests — durable behavior, never facts that
-change each filing season.
+THIS request; RAG is the right references for THIS request; fine-tuning
+changes learned behavior for FUTURE requests — durable behavior, never facts
+that change each filing season.
 
-Land Jon's analogy on screen: fine-tuning is studying for the test, retrieval
-is bringing the notebook — an AND, not an either/or, and Red Hat's own metrics
-show doing both gives the best results. Brad's rejoinder if it lands well: some
-people are bad test takers — that does not mean they did not study.
+Land Jon’s analogy on screen: fine-tuning is studying for the test, retrieval
+is bringing the notebook — an AND, not an either/or, and Red Hat’s own metrics
+show doing both gives the best results. Brad’s rejoinder if it lands well:
+some people are bad test takers — that does not mean they did not study.
 
 Tell the room the text stands alone as a takeaway so they stop reading and
 listen.
@@ -191,25 +227,35 @@ limit — and it is what makes the deployment defensible to counsel and oversigh
 
 [.notes]
 --
-The masterpiece slide — Jon's word. Walk the stairs left to right: data,
-information, knowledge, judgement.
+The masterpiece slide — Jon’s word. Say it out loud — anyone with ten or
+twenty years in tech will recognize the classic
+data-information-knowledge-insight progression. We replaced insight with
+judgement for the AI age, and judgement is the rung that matters most: it is
+the one a person signs. Walk the stairs left to right: data, information,
+knowledge, judgement.
 
-Brad's line, said out loud: we are really good at creating data and information
-and pretending it is knowledge — if it is not informing anything we need, it is
-not knowledge. Knowledge has to drive action, not check a box.
+Brad’s line, said out loud: we are really good at creating data and
+information and pretending it is knowledge — if it is not informing anything
+we need, it is not knowledge. Knowledge has to drive action, not check a box.
 
 Each rung is worth more to the mission. Predictive climbs the first riser,
 generative with retrieval the second, and judgement is deliberately never
 automated — that is where people come in and always will.
 
-PLANTED QUESTION: Jon asks 'so is AI taking jobs?' — Brad answers: it is not
+Make it concrete. Knowledge can be automated: reboot the mail server every
+Friday, patch the Windows devices every Tuesday — a directive, a mandate or an
+AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS
+GovCloud region is down is not the time to run it. AI is not replacing that
+person; their call feeds back into the loop as the next piece of knowledge.
+
+PLANTED QUESTION: Jon asks ‘so is AI taking jobs?’ — Brad answers: it is not
 coming for your job, because right now it does not have judgement. The
 make-the-tests-pass example: ask an AI to make all the tests pass and it edits
-the code so they pass — it did exactly what you asked. That is information, not
-knowledge and judgement.
+the code so they pass — it did exactly what you asked. That is information,
+not knowledge and judgement.
 
-Optional garnish, correctly attributed: Karpathy's 'you can outsource
-intelligence but you cannot outsource understanding.'
+Optional garnish, correctly attributed: Karpathy’s ‘you can outsource
+intelligence but you cannot outsource understanding.’
 --
 
 == Predictive and generative AI answer different questions
@@ -229,15 +275,28 @@ They fail differently — so they are governed differently.
 | *governed by* | Back-testing, thresholds, fairness metrics | Retrieval with citations, human sign-off, drift monitoring — Labs 04 · 06
 |===
 
+In the interactive deck this slide is a single graphic: predictive and generative
+overlap where a score picks the case and a draft explains it, and a person
+decides.
+
 [.notes]
 --
+One graphic, per Jon: predictive and generative overlap. Left crescent, a
+number from structured history; right crescent, language from text; the lens
+is where the strongest workflows chain both — score, then explain — and one
+platform serves both models (Lab 03).
+
+Walk it left to right, then the strip: a score is not a determination, a
+fluent sentence is not evidence, a person decides. The old six-row table
+survives in the reveal export and the facilitator guide as the take-home.
+
 Most rooms use one word — AI — for two different tools, and most failed
 projects picked the wrong one. Predictive models produce a number from
 structured history; generative models produce language. They fail differently,
 so they are governed differently.
 
-Close on the compose line: the strongest workflows chain them, and the platform
-runs both side by side.
+Close on the compose line: the strongest workflows chain them, and the
+platform runs both side by side.
 
 OPTIONAL IF TIME IS SHORT — this is a deep dive on the predictive and
 generative cards from the terminology slide; drop it first and let the table
@@ -273,9 +332,9 @@ the honest places to start.
 
 [.notes]
 --
-Walk left to right. The highlighted stages are where language models earn their
-keep first — high-volume, text-heavy, and a human reviewer is already in the
-loop, which makes them the honest places to start.
+Walk left to right. The highlighted stages are where language models earn
+their keep first — high-volume, text-heavy, and a human reviewer is already in
+the loop, which makes them the honest places to start.
 
 Exam selection is deliberately NOT highlighted: that is a determination
 affecting a taxpayer and needs a much heavier governance conversation — saying
@@ -295,7 +354,7 @@ collection — an automation problem, already solved.
 |===
 | Outcome | Delivered by | Lab
 
-| *Modernize mission-critical operations* (executes judgement) — wrap legacy systems in intelligent workflows instead of rewriting them; the system of record stays untouched.
+| *Modernize mission-critical operations* (executes judgement) — wrap legacy systems in intelligent workflows instead of rewriting them. An error string in a log fires an Event-Driven Ansible rule, a playbook runs on the right hosts, the on-call gets an email, and a ticket opens and closes in ServiceNow or Remedy. The system of record stays untouched.
 | Ansible Automation Platform · Event-Driven Ansible · OpenShift
 | 05 · 07
 
@@ -321,9 +380,14 @@ collection — an automation problem, already solved.
 These five come straight from the Carahsoft event description, and each one
 names the product that delivers it and the lab where the audience runs it.
 
-The point to make: this is how buzzword bingo ties to specific, actual outcomes
-— things you can start on a laptop today, so you can convince yourself before
-you try to convince an authorizing official and a CIO.
+Call outcome 01 the easy first outcome — it needs no AI strategy, only the IT
+operations automation you already run today: an error string in a log fires an
+Event-Driven Ansible rule, a playbook runs on the right hosts, an email goes
+out, a ticket opens and closes in ServiceNow or Remedy.
+
+The point to make: this is how buzzword bingo ties to specific, actual
+outcomes — things you can start on a laptop today, so you can convince
+yourself before you try to convince an authorizing official and a CIO.
 
 The lab tags here match the tags Brad already uses in the IRS bi-weekly, so
 people can find things later. Do not linger — this slide exists so people can
@@ -344,7 +408,7 @@ platform’s job is to make those seams boring.
 | *Mission applications* (judgement) | Correspondence intake · notice drafting · case summarization · guidance assistant. Systems of record stay where they are — reached through APIs and automation, not replaced. | —
 | *Red Hat OpenShift AI* | Model serving — KServe + vLLM (information) · Training — SDG Hub · Training Hub (knowledge) · Pipelines — tune · eval · ship (knowledge) · Model registry — signed versions (judgement) · Retrieval — vector store (knowledge) | 02 · 03 · 04 · 07
 | *Red Hat OpenShift* (data) | Scheduling · GPU partitioning · network policy · multi-site placement · GitOps delivery. The same cluster runs the modernized case-management apps beside the models they call. | —
-| *Red Hat Enterprise Linux · AI Inference Server* (data) | Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave. Granite models, accelerator drivers and the vLLM-based AI Inference Server in one supported stack. | 01
+| *Red Hat Enterprise Linux · AI Inference Server* (data) | Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave. Granite models, accelerator drivers and the vLLM-based AI Inference Server in one supported stack. Tested with the hardware: mainframes · TPM · PIV/CAC cryptography. | 01
 |===
 
 Two vertical bands run through every layer: *Trust* (judgement) — signed
@@ -355,27 +419,42 @@ remediate, evidence collection (Lab 05).
 
 [.notes]
 --
-Open with the seams riff — Jon asked for this one specifically. Most failures
-do not happen inside a system; they happen at the seams, the integration points
-between systems. The pants analogy: gain weight and your pants split at the
-seams, never in the middle where the fabric is strongest. RHEL and OpenShift
-interoperating layer to layer is what makes integration less cumbersome — we
-are not the only ones who do it, but we are uniquely positioned.
+Seams riff first (Jon’s request). Failures happen at the seams between
+systems, not inside. Pants: gain weight and they split at the seams, never
+where the fabric is strongest. Boring seams is more than fewer: know where
+each is, operationalize them, have people ready to repair — and do each right,
+where cyber comes in; the AO’s question, the bridge to the appendix.
 
-Read the picture bottom to top; the point is the two vertical bands —
-automation and trust are not a layer you add at the end. New Training box gives
-SDG Hub and Training Hub a home next to serving, pipelines, registry and
-retrieval.
+Any decision is a lock-in — pizza tonight eliminates spaghetti; Red Hat keeps
+tomorrow’s spaghetti open. RHEL and OpenShift interoperating layer to layer
+eases integration — not the only ones, but uniquely placed.
 
-Watch the naming rabbit hole: OpenShift versus OpenShift AI invites a
-product-versus-value tangent — for a value-seeking audience, serving and
-retrieval are one thing ('I want my data out of it'); split them only for a
-platform-technical room.
+Ansible and OpenShift: heterogeneous platforms, homogeneous interface. Estates
+are diverse; nobody chose that to spite you. The old system is not legacy to
+modernize — it joins the same back plane, no snowflakes.
 
-The framing Jon called the core of it: one foundation from bare metal to the
-taxpayer — but how do you turn your information into actionable knowledge you
-can act on? PLANTED QUESTION: Brad cold-asks Jon 'what is fine-tuning to you?'
-— Jon is comfortable with that.
+Hardware: mainframes, TPMs, PIV/CAC crypto — it extracts data and creates the
+information everything above turns into knowledge or judgement; Red Hat tests
+with vendors so it does what our software expects.
+
+Read bottom to top; the point is the two vertical bands — automation and trust
+are not a layer added last. Training box: SDG Hub and Training Hub beside
+serving, pipelines, registry, retrieval.
+
+Naming trap: OpenShift versus OpenShift AI is a product-vs-value tangent — a
+value room sees serving and retrieval as one (‘I want my data out of it’);
+split only for a technical room.
+
+Jon’s core: one foundation from bare metal to the taxpayer — but how do you
+turn information into actionable knowledge?
+
+PLANTED: Jon plays the foil — ‘what’s a seam?’ — Brad answers with the pants;
+then Brad cold-asks Jon ‘what is fine-tuning to you?’ — Jon is fine with it.
+
+HAND-OFF: after seams and hardware, Brad throws to Jon for the platform boxes
+— serving, retrieval, registry; Jon closes on why one foundation matters; Brad
+takes it back: bring the model to the mission, not the data to someone else’s
+model.
 --
 
 == The federal problem is not “get a model.” It is operate AI without giving up control.
@@ -406,9 +485,21 @@ consistently.
 [.notes]
 --
 One focal point: the red box in the middle — bring the model to the mission,
-not the mission data to somebody else's model. Say the supporting lines rather
-than pointing at them: cloud AI is ultimately someone else's computer; on your
-computer, next to your data, you can go check and verify.
+not the mission data to somebody else’s model.
+
+Say the two lines: don’t move what’s hard — bring what’s easy to the data.
+And: what is unique is your data; you have it, you keep visibility into it,
+and you should never have to give it up. Keep the data on-prem and scale
+horizontally, or serve the model as a service locally — either way the data
+does not travel.
+
+Reprise the pizza line once: pizza tonight, spaghetti tomorrow — decisions
+made today do not limit tomorrow’s alignment to new requirements or
+technology.
+
+Say the supporting lines rather than pointing at them: cloud AI is ultimately
+someone else’s computer; on your computer, next to your data, you can go check
+and verify.
 
 Agencies buy ten thousand chatbot seats and start plugging things in — the
 alternative they are not shown is running their own instances beside their own
@@ -471,18 +562,19 @@ that you define infrastructure and services as code, so placement is policy
 rather than a rewrite. Fine to spin up fast — then ground it after you prove
 it.
 
-PLANTED QUESTION: Jon plays the foil — 'what do you actually mean by lock-in? I
-thought we already bought the software' — and Brad answers with the phone-plan
-analogy.
+PLANTED QUESTION: Jon plays the foil — 'what do you actually mean by lock-in?
+I thought we already bought the software' — and Brad answers with the
+phone-plan analogy.
 --
 
 == The useful pattern is a loop, not a chatbot
 
 `Rung: information · knowledge · judgement`
 
-A closed loop — predict, explain, ground, act, learn — each technology doing the
-job it is good at. Automation closes the loop; the connected estate underneath
-is the discriminator nobody else has.
+Predict, explain, act: spot the pattern, turn the signals into language, use
+only what the agency has approved. Grounding and learning are how the loop earns
+the right to act; the connected estate underneath is the discriminator nobody
+else has.
 
 [cols="1,2,3", options="header"]
 |===
@@ -490,7 +582,7 @@ is the discriminator nobody else has.
 
 | *01 · Predict* — spot the pattern | Predictive ML (information) | Telemetry and historical incidents estimate risk: saturation, failure probability, anomaly or likely incident class.
 | *02 · Explain* — turn signals into language | GenAI / LLM (information) | The LLM summarizes logs, changes and symptoms into a human-readable hypothesis and next questions.
-| *03 · Ground + act* — use what the agency approved | RAG (knowledge) · Ansible (executes judgement) | RAG retrieves runbooks and prior fixes; policy decides whether Ansible recommends, requests approval or remediates.
+| *03 · Ground + act* — use what the agency approved | RAG (knowledge) · Ansible (executes judgement) | RAG retrieves runbooks and prior fixes; policy decides whether Ansible recommends, requests approval or remediates. Every action opens and closes an ITSM ticket (ServiceNow, Remedy), so the incident record is the trail. Lab 05.
 | *The knowledge flywheel* | (knowledge) | After review, the incident summary, root cause, evidence and successful remediation become searchable operations knowledge for the next event. Generated content is a draft until it passes the same curation and authority rules as any other knowledge record.
 |===
 
@@ -504,21 +596,39 @@ checks establish whether that explanation is actually supported.
 
 [.notes]
 --
-Segue Brad rehearsed: I talk to my chatbot at night and it tells me how great I
-am — but you do not want reassurance during a tax audit, a criminal
-investigation, or a hunt for a pattern. It is not a chatbot. You want something
-that predicts and explains, then grounds, acts and learns.
+Segue Brad rehearsed: I talk to my chatbot at night and it tells me how great
+I am — but you do not want reassurance during a tax audit, a criminal
+investigation, or a hunt for a pattern. It is not a chatbot. You want
+something that predicts and explains, then grounds, acts and learns.
 
-Predictive AI flags the risk from telemetry; the LLM explains the evidence; RAG
-grounds it in approved runbooks; Ansible does only what policy permits, with a
-human in the loop supplying knowledge and judgement. Key emphasis: the fluency
-that becomes authority must be grounded in YOUR language and YOUR processes —
-not OpenAI's.
+Lead with the triad: predict, explain, act. You cannot act unless you have
+explained, and you cannot explain unless you have predicted. The patterns
+already exist in your ITSM — P1 through P5 severity and mean-time-to-restore
+records are what you organize into signals.
 
-Most of the effort here is provisioning, patching, scaling, data collection and
-inputs — that is an automation problem, not an AI problem. Automation alone is
-a differentiator; the estate — one OS, the interconnect, the whole ecosystem
-with an execution layer tying it together — is the discriminator.
+Predictive AI flags the risk from telemetry; the LLM explains the evidence;
+RAG grounds it in approved runbooks; Ansible does only what policy permits,
+with a human in the loop supplying knowledge and judgement.
+
+At ACT: every action opens and closes a ticket in the ITSM — ServiceNow,
+Remedy, whatever you run — so you keep track for incident management purposes;
+that ticket trail is the closed loop system of record.
+
+Caution: do not say agentless or serviceless as an absolute in front of cyber
+— say no persistent agent, transport is SSH. Ansible is technically not
+serviceless automation; we speak in general terms, and one SSH-is-a-service
+objection can derail the loop.
+
+At LEARN: what the loop learns from is data from your own systems — never
+information generated from information.
+
+Key emphasis: the fluency that becomes authority must be grounded in YOUR
+language and YOUR processes — not OpenAI’s.
+
+Most of the effort here is provisioning, patching, scaling, data collection
+and inputs — that is an automation problem, not an AI problem. Automation
+alone is a differentiator; the estate — one OS, the interconnect, the whole
+ecosystem with an execution layer tying it together — is the discriminator.
 
 And generated text is a draft until it passes the same curation any knowledge
 record gets.
@@ -556,11 +666,20 @@ everything yours — except this one has read your logs, runbooks, incident
 history and change records, and it runs on the same cluster it observes. Say
 resolution, not restoration — mean time to RESOLUTION.
 
-Pair the chart with an outside number, then the personal story (industry
-numbers for authority, then the must-gather anecdote: the notebook diagnosed in
-2 minutes what took the team 46 hours — people love stories).
+Pair the chart with an outside number, then the personal story — industry
+numbers for authority, then Brad’s own: an out-of-memory error took us about
+two hours to diagnose, and it recurred every month because different people
+were on shift and nothing crossed shifts — so the pattern became every Friday,
+look for this error message in the log file. AI integration with an LLM on
+that signal cut diagnosis to 24 minutes and took mean time to resolution from
+over three hours to under an hour. Say it precisely: 24 minutes is diagnosis,
+not MTTR.
 
-Then Jon's requested narration: the big red bar is diagnosis — that is all
+Second story if there is time, otherwise pick one and say which: the
+must-gather — the notebook diagnosed in 2 minutes what took the team 46 hours.
+People love stories.
+
+Then Jon’s requested narration: the big orange bar is diagnosis — that is all
 information; the blue does not change; what changed is the time to create the
 information. It ties this chart straight back to the ladder.
 
@@ -597,13 +716,19 @@ agreement on which data may be used.
 
 Two riffs to land: plan for problems, not predicaments — the problem right now
 is grounding the proof so you CAN scale, not the scale itself; no decision
-today may limit tomorrow's options. And success means changing your processes,
+today may limit tomorrow’s options. And success means changing your processes,
 not just moving workloads onto new technology.
 
-Prove, ground, scale maps to data, information, knowledge. Ask directly which
-phase they are in.
+Prove, ground, scale maps to data, information, knowledge.
 
-PLANTED QUESTION: Jon asks 'what is a predicament versus a problem?' — a
+Under Prove: don’t boil the ocean — small pilot, crawl, walk, run. Start with
+one signal and one use case: the flashback moment when everybody got called in
+and ruined their Labor Day weekend over something that had happened a hundred
+times before, but the pattern just wasn’t connected. And you do not start with
+a ChatGPT-style box; you start with something valuable and integrated with
+your data and your mission. Ask directly which phase they are in.
+
+PLANTED QUESTION: Jon asks ‘what is a predicament versus a problem?’ — a
 problem you solve today, a predicament you only plan around.
 --
 
@@ -611,60 +736,95 @@ problem you solve today, a predicament you only plan around.
 
 `Rung: judgement`
 
-. *Architecture workshop* — a half-day session with your platform and security
+* *Step zero · Lab walk-through.* An hour where we run the seven labs together,
+  show and tell, and find the point in the stack where you want to prove value.
+  That scopes the pilot.
+* *Step one · Architecture workshop.* A half-day with your platform and security
   teams to size accelerators, place the first workload and name the data classes
   in scope.
-. *Guided pilot* — one workflow, on your infrastructure, with a measured baseline
-  and an agreed definition of success before we start.
-. *Acquisition path* — Four Inc. and Carahsoft carry the vehicles and pricing;
-  bring them into the conversation early, not at the end.
+* *Step two · Guided pilot.* One workflow, on your infrastructure, with a measured
+  baseline and an agreed definition of success before we start.
+* *Step three · Acquisition path.* Four Inc. and Carahsoft carry the vehicles and
+  pricing — bring them in early, not at the end.
 
-*Take the labs with you.* The whole kit — deck, labs, docs — lives at
-github.com/nommsweyMX/redhat-ai-tax-labs. The seven labs are the same commands
-your engineers will run on day one.
+*Point of contact — Brad will follow up.* Brad Scalio, Red Hat,
+bscalio@redhat.com: if nothing else, he will get you to the right person. IRS
+account executive: Ted Craig, Red Hat. Everyone else, email Brad and he connects
+you to yours.
 
-*Bring your hardest question.* Air-gapped operation, FedRAMP boundaries,
-accelerator scarcity, model provenance. If you did not see it here today, that
-does not mean it does not exist — ask.
+*Take the labs with you.* Everything from today — deck, labs, guides — at
+https://nommsweymx.github.io/redhat-ai-tax-labs/ (source:
+github.com/nommsweyMX/redhat-ai-tax-labs). The seven labs are the commands your
+engineers will run on day one. Follow it on your own:
+https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html.
 
-*Stay in touch.* Brad Scalio — bscalio@redhat.com (if nothing else, your connector to the right person) · Jon Keam — jkeam@redhat.com. Engage the
-solution architects early: the foundational questions are free to ask and
-expensive to skip. (the next decision is yours)
+*Your move* (the next decision is yours).
 
-*Your move.* Already a Red Hat customer? Ask for your Solution Architect — if you
-do not know who that is, email Brad, open a ticket in the Customer Portal and ask
-support, or ask through your management line. Start a community of practice
-across platform, security and mission teams. Bring your hardest question.
-
-Everything from today: https://nommsweymx.github.io/redhat-ai-tax-labs/
+* *Already a Red Hat customer? Ask for your Solution Architect.* Not sure who
+  that is? Email Brad, open a ticket in the Customer Portal and ask support, or
+  ask through your management line. The foundational questions are free to ask
+  and expensive to skip.
+* *Start a community of practice.* A standing group across platform, security
+  and mission teams, built around one workflow. We will help seed it and we will
+  show up.
+* *Bring your hardest question.* Air-gapped operation, FedRAMP boundaries,
+  accelerator scarcity, model provenance. If you did not see it here today, that
+  does not mean it does not exist — ask.
+* *Bring your cyber team.* If nobody from IRS cyber is on today, refer us to
+  your ISSO or security lead. We will run a dedicated security session for them:
+  the appendix, in depth.
 
 [.notes]
 --
-Close with a specific ask, not a thank-you. Architecture workshop, guided
-pilot, acquisition path — and engage the solution architects early, because
-unanswered foundational questions build a shaky foundation that gets reworked
-later. There is no stupid question.
+Close with a specific ask, not a thank-you. Step zero, said first: for a PoC
+we set a time and run the seven labs together — show and tell — to find where
+in the stack you want to prove value; that scopes the pilot; if it gets
+serious Brad brings in more people.
 
-Say the line: if you did not see it here, that does not mean it does not exist
-— it does not mean it is not a feature or a product. Models-as-a-Service is a
-good example to name here for the platform people.
+Then workshop, guided pilot, acquisition path — engage solution architects
+early; unanswered foundational questions get reworked later. No stupid
+questions.
 
-Point at the contact strip — Brad's email is there deliberately: reach out to
-me and I will get you in touch with the right person, I am not going to stick
-you on somebody else. Brad's closer if it fits the room: that is why we get
-paid as solution architects — I would rather talk to you than my manager.
+Say the line: not seeing it here does not mean it does not exist or is not a
+feature or product — name Models-as-a-Service for the platform people.
 
-Never end a talk with nothing happening afterwards. Then the labs, as the
-takeaway.
+Point at the contact panel — Brad’s Red Hat email is there deliberately: reach
+out and, if nothing else, I connect you to the right person, not stick you on
+somebody else.
+
+Point at Ted — say hi, Ted — Red Hat’s AE for the IRS. Do not know your AE, or
+not a customer yet? Email me; I connect you with your equivalent of Ted, and
+pilots route through the AE.
+
+Closer if it fits: that is why we get paid as solution architects — I would
+rather talk to you than my manager.
+
+Never end with nothing happening after. Then the labs, as the takeaway.
+
+Then the four moves, out loud: already a customer, ask for your Solution
+Architect — if you do not know who that is, email Brad, open a Customer Portal
+ticket, or ask up the management line; start a community of practice across
+platform, security and mission teams; bring your hardest question; bring your
+cyber team — nobody from IRS cyber today? Refer us to your ISSO or security
+lead; we run the appendix in depth for them.
+
+Spoken, not on the slide: not IRS or financial services? Reach out anyway — we
+rebuild this around your mission with your account team.
+
+CLOSING QUESTION, always: anybody on from cyber? Yes — pull up the appendix.
+No — cyber has had opinions before and deserves a fighting chance to hear it
+early: can anyone refer us to IRS cyber? We run it for them separately.
 --
 
 == Seven labs — real commands, run them yourself
 
 `Rung: data · information · knowledge · judgement`
 
-An opinionated path, on a personal laptop — never production. Prove it to
-yourself: watch the model serve on 127.0.0.1. Repo:
-github.com/nommsweyMX/redhat-ai-tax-labs.
+An opinionated path on a personal laptop — not an MVP, never production, never
+on a government computer. Free of charge and open to anyone: one self-contained
+HTML on the Carahsoft event page, source at
+https://nommsweymx.github.io/redhat-ai-tax-labs/. Prove it to _yourself_: watch
+the model serve on 127.0.0.1.
 
 [cols="1,2,3", options="header"]
 |===
@@ -679,23 +839,48 @@ github.com/nommsweyMX/redhat-ai-tax-labs.
 | 07 · Ops notebook | *Ask your own logs* (information → knowledge) | Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.
 |===
 
+*One thing to remember: nothing here needed a public endpoint.* No public model
+endpoint, no internet connection at inference time, no rewrite of a system of
+record. The labs run the upstream bits on a laptop; what an agency accredits is
+the supported Red Hat product built from them.
+
 [.notes]
 --
 The concluding takeaway — the deck ends hands-on. Frame it as an opinionated
 approach: we lead with one path so you do not drown in options.
 
-Disclaimer, say it: run this on a personal laptop, not in production and not on
-a work laptop. The point is to prove it to YOURSELF — you will watch the model
-serve on 127.0.0.1 with no egress — because if you do not believe it, an
-authorizing official will hear that in your voice.
+The line Brad credits, with a hedge, to Danny Mack from the OpenStack days:
+people hand you the bits and tell you to build something; sometimes you just
+want the pot to put the plant in. These labs are the pot — the Red Hat
+opinionated way to get going on a personal laptop, using the upstream
+community tool chain that is used and secured inside a Red Hat solution.
+
+Say that distinction so nobody leaves thinking the laptop stack is the one
+that goes in an authorization package: the labs run the community bits on a
+laptop; the supported Red Hat product built from the same tool chain is what
+an agency accredits.
+
+Disclaimer, say it: an opinionated path on a personal laptop — not an MVP,
+never production, and never on a government computer.
+
+Answer the two questions before they are asked: who can take it — anyone; what
+does it cost — nothing. It is a single self-contained HTML on the Carahsoft
+event page, with the source in the public repo.
+
+The point is to prove it to YOURSELF — you will watch the model serve on
+127.0.0.1 with no egress — because if you do not believe it, an authorizing
+official will hear that in your voice.
 
 The simulated terminal is the selling point: type each command step by step
-without installing anything, and off-script commands are refused, which is what
-makes it a prescriptive, defensible path for a pilot. And the punchline for the
-AO: your installation and scripting become the artifact you hand them.
+without installing anything, and off-script commands are refused, which is
+what makes it a prescriptive, defensible path for a pilot. And the punchline
+for the AO: your installation and scripting become the artifact you hand them.
 
 The full labs live in the repo — that is where people actually run them, not
 inside this page.
+
+Close the labs with the offer: if you want us to go deeper on any of these, or
+run them for a larger audience, reach out — we will do it.
 --
 
 == The questions an authorizing official will ask
@@ -706,39 +891,60 @@ Evidence is *information* (information) — the authorizing official’s decisio
 *judgement* (judgement). The platform produces the first so a person can make the
 second.
 
-[cols="2,3,1", options="header"]
+[cols="3,4,2,2", options="header"]
 |===
-| Their question | The platform control | Where it lives
+| Their question | The platform control | Where it lives | Proven in
 
-| Where does our data go when someone prompts the model? | Nowhere. Inference runs on your cluster, in your enclave, on your accelerators. | AI Inference Server · OpenShift AI
-| Can you prove this model is the one we approved? | Model artifacts are signed and verified before they are admitted to the cluster. | Sigstore / cosign
-| Is the cryptography validated? | FIPS mode is a supported operating state of the OS and the platform on top of it. | RHEL FIPS mode
-| Can this land in our FISMA moderate or high boundary? | Platform controls map to the NIST 800-53 moderate and high baselines; your FIPS 199 categorization picks the venue — the platform is the same in all of them. | RHEL · OpenShift
-| How do we know it stays compliant next quarter? | Scheduled scans against a hardening profile, with machine-readable results. | Compliance Operator
-| How do we detect the model drifting or skewing? | Continuous drift and fairness metrics on live inference traffic. | TrustyAI
-| What if we have no internet at all? | Mirror images and models into the enclave; the platform is built for disconnected operation. | oc-mirror · registry
-| Who is accountable when it is wrong? | A named reviewer — the deployment patterns we recommend keep a person on the signature. | Workflow design
+| Where does our data go when someone prompts the model? | Nowhere. Inference runs on your cluster, in your enclave, on your accelerators. | AI Inference Server · OpenShift AI | Lab 01 · 127.0.0.1, no egress
+| Can you prove this model is the one we approved? | Model artifacts are signed and verified before they are admitted to the cluster. | Sigstore / cosign | Lab 06 · cosign verify
+| Is the cryptography validated? | FIPS mode is set once in RHEL CoreOS and inherited up the chain by OpenShift and OpenShift AI; where a component is not inherited, the exception is documented and covered by compensating controls. | RHEL FIPS mode | Lab 06 · fips-mode-setup, sestatus
+| Does it work with our smart cards and hardware crypto? | Tested with the hardware vendors: TPM, PIV/CAC smart-card authentication and hardware cryptography supported from the operating system up, on mainframes included. | RHEL · hardware certification | Slide 09 · base band
+| Can this land in our FISMA moderate or high boundary? | Platform controls map to the NIST 800-53 moderate and high baselines; your FIPS 199 categorization picks the venue — the platform is the same in all of them. | RHEL · OpenShift | Slide 11 · one manifest
+| How do we know it stays compliant next quarter? | Scheduled scans against a hardening profile, with machine-readable results. | Compliance Operator | Lab 06 · compliancescan
+| What about the applications and containers we build on it? | The same tooling spans your own application lifecycle on the platform: signing, scanning and admission policy at build, at deploy and at run time. | OpenShift build · registry · admission | Lab 06 · signature gate
+| How do we detect the model drifting or skewing? | Continuous drift and fairness metrics on live inference traffic. | TrustyAI | Lab 06 · drift, fairness
+| What if we have no internet at all? | Mirror images and models into the enclave; the platform is built for disconnected operation. | oc-mirror · registry | Slide 11 · enclave
+| Who is accountable when it is wrong? | A named reviewer on the signature, and every automated action launched from one governed console under enterprise RBAC, so each action carries the identity that ran it. | Workflow design · Ansible Automation Platform | Lab 05 · job history
 |===
 
 [.notes]
 --
-Parked in the appendix deliberately to keep momentum — but this is the slide
-that unblocks the deal. Pull it up when an ISSO or security lead engages, and
-if you speak to it live, pick only a few rows and drill in rather than reading
-the table.
+Open with the labs line: it never leaves your network — true? Prove it to
+yourself first; if you do not believe it you cannot prove it to an AO. Each
+row’s Proven-in tag names the lab that proves it: where does our data go?
+Nowhere; it runs in your enclave.
 
-The security talk track is crucial — 'is AI safe, can we put guardrails on it'
-comes up over and over. Cover: FIPS 199 categorization and FISMA moderate or
-high; the tailored templating and reporting for federal agencies that ship WITH
-the platform as a value-add; disconnected and air-gapped operation with
-registry mirroring and the Compliance Operator baked in; federal civilian and
-DoD carry the same requirements.
+Appendix by design, for momentum — but this slide unblocks the deal; when an
+ISSO or security lead engages, pull it up, pick a few rows and drill in, do
+not read the table.
 
-Then the paperwork reality — the one real difference from commercial: security
-attestation, POA&Ms, FITARA scorecards. And say it plainly: do not roll your
-own validations — reach out and we will connect you with a specialist.
+WHEN CYBER IS IN THE ROOM: seams done right is where cyber comes in. Each
+layer inherits controls from below — FIPS mode and crypto from RHEL CoreOS
+carry up through OpenShift and OpenShift AI. No absolutes: what is not
+FIPS-inherited, say so — documented and addressed elsewhere in the system.
+Cyber replay: depth here and on seams, no re-pitch.
 
-Recent anecdote if it fits: the Hugging Face breach — attackers went after the
-SaaS model in the cloud to pivot in. On-prem and SaaS answer different
-questions.
+‘Is AI safe, can we put guardrails on it’ always comes up. Cover: FIPS 199,
+FISMA moderate or high; federal templating and reporting shipped WITH the
+platform; air-gap, registry mirroring, Compliance Operator; civilian and DoD
+share requirements.
+
+FIPS row, credential once: former ITO / ISSO on a FISMA High system — this in
+your authorization package is perfectly acceptable; practitioner evidence, not
+a vendor claim.
+
+New rows: hardware crypto — Red Hat tests with vendors (mainframes, TPMs,
+PIV/CAC) so it does what our software expects; your apps — our security tool
+chains span their life cycle, not just our products; accountability — every
+action runs from one governed AAP console, enterprise RBAC, show-back, no
+islands of automation.
+
+The real difference from commercial is paperwork: attestation, POAMs, FITARA
+scorecards. Do not roll your own validations — we connect you to a specialist.
+
+If it fits: Hugging Face breach — attackers hit the SaaS model to pivot in;
+on-prem and SaaS answer different questions.
+
+Brief cyber early: at the IRS ideas die when cyber hears late — hence the
+community of practice.
 --
