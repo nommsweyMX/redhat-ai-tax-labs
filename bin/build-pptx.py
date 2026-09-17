@@ -248,11 +248,11 @@ def add_spine(slide, deck_title):
     add_pyramid(slide, DECK_RUNGS[deck_title], SLIDE_W - MARGIN - PYR_W, PYR_TOP, PYR_W)
 
 
-def eyebrow_and_title(slide, eyebrow, title, lede="", lede_top=Inches(1.68)):
+def eyebrow_and_title(slide, eyebrow, title, lede="", lede_top=Inches(1.68), title_size=34):
     add_text(slide, MARGIN, Inches(0.55), SLIDE_W - 2 * MARGIN, Inches(0.34),
              [(eyebrow.upper(), 11, True, INK_3, MONO_FONT, 0)])
     add_text(slide, MARGIN, Inches(0.95), SLIDE_W - 2 * MARGIN, Inches(0.9),
-             [(title, 34, True, INK, HEAD_FONT, 0)])
+             [(title, title_size, True, INK, HEAD_FONT, 0)])
     if lede:
         add_text(slide, MARGIN, lede_top, Inches(10.6), Inches(0.5),
                  [(lede, 14, False, INK_2, BODY_FONT, 0)])
@@ -493,66 +493,110 @@ def build(out_path: Path) -> None:
               "FTI rules rule out public endpoints. The model comes to the data — on premises, "
               "accredited cloud, or air-gapped enclave.", bar=GREEN)
 
-    # ---- 4 where AI lands: chevron lifecycle -----------------------------------
-    s = add_base(prs, "Walk the flow left to right. The red stages already have a human reviewer "
-                      "in the loop, which makes them honest places to start. Exam selection is "
-                      "deliberately gray: that is a determination affecting a taxpayer, and it "
-                      "needs a much heavier governance conversation. Saying this unprompted buys "
-                      "enormous credibility.")
+    # ---- 4 where AI lands: the eight-station rail ------------------------------
+    s = add_base(prs, "Walk the eight stations left to right, the same eight as the graphic (G): AI "
+                      "reads, classifies, grounds and drafts on the first four; a person reviews "
+                      "and signs on five and six; automation sends the notice; operations close the "
+                      "loop. The first four are where language models earn their keep first — "
+                      "high-volume, text-heavy, and a human reviewer is already in the loop, which "
+                      "makes them the honest places to start. Exam selection is deliberately NOT on "
+                      "this rail (an earlier version of the slide showed it held back): that is a "
+                      "determination affecting a taxpayer and needs a much heavier governance "
+                      "conversation — saying so unprompted buys enormous credibility. Two rules of "
+                      "thumb: start where a human already reviews the output; and automate the toil "
+                      "around the model, not just the model. Worth naming: most of the effort in "
+                      "production AI is provisioning, patching, scaling and data collection — an "
+                      "automation problem, already solved. GRAPHIC (G) — Where AI actually lands in "
+                      "the filing lifecycle: An eight-station rail, Intake, Classification, "
+                      "Guidance, Drafting, Review, Decision, Notice and Operations, with five red "
+                      "call-outs over the first five stations; notice that the fifth call-out is a "
+                      "human reviewer and Decision has no call-out at all. Talk to it: (1) Read the "
+                      "rail against the ladder: Intake through Drafting turn data into information "
+                      "and knowledge; Review and Decision are where a person supplies the judgement "
+                      "that stays human. (2) The four AI cards sit where a reviewer already checks "
+                      "the output; neither this graphic nor the slide puts AI on exam selection, "
+                      "because a taxpayer determination needs governance first. (3) Operations "
+                      "closes the loop: what Review corrects and Notice sends goes back into the "
+                      "knowledge base between seasons, and pooled GPUs absorb the 6× April surge on "
+                      "a fixed workforce. (4) One platform under all eight stations: the model "
+                      "comes to the data, the seams stay boring, and controls accredited once for "
+                      "Intake are inherited all the way to Operations.")
     add_spine(s, "Where AI lands")
+    # 30 pt keeps this long title on one line above the lede; at 34 pt it wraps into it.
     eyebrow_and_title(s, "Workflow map", "Where AI actually lands in the filing lifecycle",
-                      "Red stages ship with a human on the signature. The gray one waits for governance.")
-    stages = [
-        ("Intake &\nclassification", "Route by intent,\nnot keyword", True),
-        ("Validation", "Catch gaps before\na case is opened", True),
-        ("Correspondence", "Draft; a reviewer\nedits and signs", True),
-        ("Exam\nselection", "Taxpayer\ndeterminations", False),
-        ("Collections\nsupport", "Brief the officer\nbefore the case", True),
-        ("Taxpayer\nservice", "Answers carry\ntheir citation", True),
+                      "AI lands on the first four stages, where a reviewer already checks the "
+                      "output; the decision stays with a person; operations close the loop.",
+                      title_size=30)
+    # (number, station, what happens, pill, rung colour). Top bars follow the ladder:
+    # information for 01-02, knowledge for 03-04 and 08, judgement for 05-07.
+    stations = [
+        ("01", "Intake", "Capture correspondence from any channel", "AI reads it", R_INFO),
+        ("02", "Classification", "Understand intent, route to the case type", "AI classifies", R_INFO),
+        ("03", "Guidance", "Rules, policy and precedent", "AI grounds and cites", R_KNOW),
+        ("04", "Drafting", "Letters, responses, memos, with citations", "AI drafts", R_KNOW),
+        ("05", "Review", "Check accuracy, add judgment, approve", "human in the loop", R_JUDGE),
+        ("06", "Decision", "Finalize and issue the outcome", "a person signs", R_JUDGE),
+        ("07", "Notice", "Send letters and update records", "automation executes", R_JUDGE),
+        ("08", "Operations", "Track performance, learn and improve", "the loop closes", R_KNOW),
     ]
-    cw = Inches(1.98)
-    gap = Inches(0.02)
-    x = MARGIN
-    y = Inches(2.35)
-    for title, caption, ai in stages:
-        chev = s.shapes.add_shape(MSO_SHAPE.CHEVRON, x, y, cw, Inches(0.85))
-        solid(chev, RED if ai else BORDER_STRONG)
-        tf = chev.text_frame
-        tf.word_wrap = True
-        tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-        for li, lt in enumerate(title.split("\n")):
-            para = tf.paragraphs[0] if li == 0 else tf.add_paragraph()
-            para.alignment = PP_ALIGN.CENTER
-            run = para.add_run()
-            run.text = lt
-            run.font.size = Pt(12)
-            run.font.bold = True
-            run.font.name = HEAD_FONT
-            run.font.color.rgb = SURFACE if ai else INK
-        add_text(s, x + Inches(0.12), y + Inches(1.0), cw - Inches(0.1), Inches(0.62),
-                 [(caption.replace("\n", " "), 10, False, INK_2, BODY_FONT, 0)], align=PP_ALIGN.CENTER)
-        pill = rrect(s, x + Inches(0.22), y + Inches(1.68), cw - Inches(0.46), Inches(0.3),
-                     RED_WASH if ai else SURFACE_2, radius=0.5)
+    # Two rows of four: the pill text does not fit eight cards across at 9 pt.
+    per_row = 4
+    gap = Inches(0.3)
+    cw = int((SLIDE_W - 2 * MARGIN - gap * (per_row - 1)) / per_row)
+    ch = Inches(1.32)
+    row_gap = Inches(0.22)
+    top = Inches(2.38)
+    for i, (num, name, desc, pill_text, colour) in enumerate(stations):
+        r, c = divmod(i, per_row)
+        x = MARGIN + c * (cw + gap)
+        y = top + r * (ch + row_gap)
+        rrect(s, x, y, cw, ch, SURFACE, line=BORDER_STRONG, line_w=0.75, radius=0.08)
+        bar = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, x + Inches(0.1), y, cw - Inches(0.2), Inches(0.05))
+        solid(bar, colour)
+        badge = s.shapes.add_shape(MSO_SHAPE.OVAL, x + Inches(0.16), y + Inches(0.2),
+                                   Inches(0.36), Inches(0.36))
+        solid(badge, colour)
+        btf = badge.text_frame
+        btf.margin_left = btf.margin_right = btf.margin_top = btf.margin_bottom = 0
+        btf.vertical_anchor = MSO_ANCHOR.MIDDLE
+        para = btf.paragraphs[0]
+        para.alignment = PP_ALIGN.CENTER
+        run = para.add_run()
+        run.text = num
+        run.font.size = Pt(9)
+        run.font.bold = True
+        run.font.name = MONO_FONT
+        run.font.color.rgb = SURFACE
+        add_text(s, x + Inches(0.6), y + Inches(0.12), cw - Inches(0.72), Inches(0.75),
+                 [(name, 13, True, INK, HEAD_FONT, 2),
+                  (desc, 9.5, False, INK_2, BODY_FONT, 0)])
+        pill = rrect(s, x + Inches(0.6), y + ch - Inches(0.42), Inches(1.75), Inches(0.27),
+                     tint(colour, amount=0.86), radius=0.5)
         ptf = pill.text_frame
+        ptf.margin_left = ptf.margin_right = Inches(0.05)
+        ptf.margin_top = ptf.margin_bottom = 0
         ptf.word_wrap = False
         ptf.vertical_anchor = MSO_ANCHOR.MIDDLE
         para = ptf.paragraphs[0]
         para.alignment = PP_ALIGN.CENTER
         run = para.add_run()
-        run.text = "human in the loop" if ai else "governance first"
-        run.font.size = Pt(8.5)
+        run.text = pill_text
+        run.font.size = Pt(9)
         run.font.bold = True
         run.font.name = MONO_FONT
-        run.font.color.rgb = RED_DARK if ai else INK_3
-        x += cw + gap
-    bullet_cards(s, Inches(5.05), [
+        run.font.color.rgb = colour
+        if c < per_row - 1:
+            arrow = s.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, x + cw + Inches(0.06),
+                                       y + ch // 2 - Inches(0.09), Inches(0.18), Inches(0.18))
+            solid(arrow, INK_3)
+    bullet_cards(s, Inches(5.5), [
         ("Start where a human already reviews the output",
          "If a person signs the letter today, a model that drafts it changes throughput "
          "without changing accountability."),
         ("Automate the toil around the model, not just the model",
          "Provisioning, patching, scaling and evidence collection are most of the work — "
          "and that problem is already solved."),
-    ], height=Inches(1.5))
+    ], height=Inches(1.4))
 
     # ---- 5 five outcomes -------------------------------------------------------
     s = add_base(prs, "These five are the event abstract made concrete. Each names the product "
