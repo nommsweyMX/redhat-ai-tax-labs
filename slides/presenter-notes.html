@@ -64,9 +64,9 @@ a{color:var(--accent-ink)}
 .ros{max-width:980px;margin:14px auto 0;padding:0 20px}
 .ros details{border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:7px;background:var(--surface);padding:10px 16px}
 .ros summary{cursor:pointer;font-family:"Red Hat Mono",monospace;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:600}
-.ros table{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:10px}
-.ros th,.ros td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
-.ros th{font-family:"Red Hat Mono",monospace;font-size:.64rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);font-weight:600}
+.ros table,.discussion table{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:10px}
+.ros th,.ros td,.discussion th,.discussion td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.ros th,.discussion th{font-family:"Red Hat Mono",monospace;font-size:.64rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);font-weight:600}
 .ros td.mono{font-family:"Red Hat Mono",monospace;font-size:.76rem;color:var(--steel);white-space:nowrap}
 .ros .tip{margin-top:10px;font-size:.84rem;color:var(--ink-2)}
 .ros code{font-size:.76rem;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 6px}
@@ -132,6 +132,56 @@ body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:3
 .talk{display:flex;flex-direction:column;gap:14px;max-width:70ch}
 .talk p{font-size:1.02rem;color:var(--ink)}
 .talk p b{font-weight:700}
+.callout-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.callout-card{border:1px solid var(--border);border-top:4px solid var(--steel);border-radius:8px;background:var(--surface);padding:14px 16px;box-shadow:var(--shadow)}
+.callout-card.predict{border-top-color:var(--r-info)}
+.callout-card.generate{border-top-color:var(--r-know)}
+.callout-card.agent{border-top-color:var(--r-judge)}
+.callout-card.automate{border-top-color:var(--accent)}
+.callout-card h3{font-size:1rem;margin-bottom:5px}
+.callout-card p{font-size:.88rem;color:var(--ink-2)}
+.callout-card ul{margin:7px 0 0;padding-left:19px;font-size:.84rem;color:var(--ink-2)}
+.callout-card li{margin:3px 0}
+.usecase{margin:16px 0;border:1px solid var(--border-strong);border-radius:9px;overflow:hidden;background:var(--surface)}
+.usecase > h3{padding:11px 15px;background:var(--surface-2);font-size:1rem;border-bottom:1px solid var(--border)}
+.usecase .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.usecase .stage{padding:12px 13px;border-right:1px solid var(--border);font-size:.82rem;color:var(--ink-2)}
+.usecase .stage:last-child{border-right:0}
+.usecase .stage b{display:block;font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
+.strategy-callout{margin:18px 0;border:2px solid var(--accent);border-radius:9px;background:var(--accent-wash);padding:15px 17px}
+.strategy-callout h3{font-size:1.08rem;color:var(--accent-ink);margin-bottom:6px}
+.strategy-callout p{font-size:.92rem;color:var(--ink-2)}
+.strategy-callout ul{margin:8px 0 0;padding-left:20px;font-size:.87rem;color:var(--ink-2)}
+.read-script{margin:18px 0;border:1px solid var(--border-strong);border-left:5px solid var(--r-judge);border-radius:8px;background:#FAF7FC;padding:15px 17px;max-width:78ch}
+.read-script > b:first-child{font-family:"Red Hat Mono",monospace;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--r-judge);display:block;margin-bottom:7px}
+.read-script p{font-size:.96rem;color:var(--ink);margin-top:9px}
+.jon-cue{margin:12px 0;border:1px dashed var(--r-judge);border-radius:8px;background:#FAF7FC;padding:12px 15px;font-size:.88rem;color:var(--ink-2)}
+.jon-cue > b:first-child{font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--r-judge);display:block;margin-bottom:5px}
+/* the presenter script: discussion notes (steel edge), the take-home guide, the reference drawer */
+.discussion{margin:18px 0;border:1px solid var(--border-strong);border-left:5px solid var(--steel);border-radius:8px;background:var(--surface);padding:15px 17px;max-width:78ch}
+.discussion > b:first-child{font-family:"Red Hat Mono",monospace;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:7px}
+.discussion p{font-size:.94rem;color:var(--ink-2);margin-top:9px}
+.discussion h4,.ros details.ref h4{font-family:"Red Hat Mono",monospace;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--steel);margin-top:16px}
+.discussion ol{margin:9px 0 0;padding-left:22px;font-size:.94rem;color:var(--ink-2)}
+.discussion li{margin:4px 0}
+.discussion code{font-size:.82rem;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 6px}
+.discussion.takehome{max-width:none}
+.ros.preface{margin-top:14px}
+.ros.preface .read-script{margin:0 0 10px}
+.ros details.ref{border-left-color:var(--steel);margin-top:10px}
+.ros details.ref summary{color:var(--steel)}
+.ros details.ref .tip{max-width:80ch}
+/* following the deck: the badge lights once the deck has posted a slide */
+.follow{position:fixed;top:60px;right:16px;z-index:6;display:inline-flex;align-items:center;gap:7px;font-family:"Red Hat Mono",monospace;font-size:.68rem;font-weight:600;letter-spacing:.08em;color:var(--good);background:var(--surface);border:1px solid var(--good);border-radius:100px;padding:4px 12px;box-shadow:var(--shadow);white-space:nowrap}
+.follow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--good);flex:none}
+/* lab card lines: the deck's step cards (what, why, Red Hat) beside each command */
+.cardline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 16px;padding:9px 14px 10px;background:var(--surface);border-top:1px solid var(--term-border);font-size:.8rem;line-height:1.45;color:var(--ink-2)}
+.cardline span{min-width:0}
+.cardline b{display:block;font-family:"Red Hat Mono",monospace;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);margin-bottom:2px}
+.cardline span:nth-child(2) b{color:var(--amber)}
+.cardline span:nth-child(3) b{color:var(--accent-ink)}
+.cardline.wrap{margin-top:14px;border:1px solid var(--border);border-top:3px solid var(--good);border-radius:8px;box-shadow:var(--shadow)}
+.cardline.wrap span:first-child b{color:var(--good)}
 .beat{
   border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:7px;
   background:var(--surface);padding:10px 16px;font-size:.9rem;color:var(--ink-2);
@@ -206,13 +256,18 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 .jump button.item .n{font-family:"Red Hat Mono",monospace;font-size:.7rem;color:var(--ink-3)}
 
 @media print{
-  .bar,.nav,.jump,.jumpbtn{display:none!important}
+  .bar,.nav,.jump,.jumpbtn,.follow{display:none!important}
   .step{display:block!important;page-break-after:always}
   body{background:#fff}
 }
 @media (max-width:700px){
   .bar .who{display:none}
   .nav .hint{display:none}
+  .callout-grid,.usecase .flow{grid-template-columns:1fr}
+  .usecase .stage{border-right:0;border-bottom:1px solid var(--border)}
+  .usecase .stage:last-child{border-bottom:0}
+  .cardline{grid-template-columns:1fr;gap:8px}
+  .follow{top:auto;bottom:64px;right:12px}
 }
 </style>
 </head>
@@ -227,6 +282,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <button id="modeBtn" aria-pressed="false" title="Toggle step / read-all">Read all</button>
   <button id="jumpOpen" title="Jump to a step (J)">Jump</button>
 </header>
+<div class="follow" id="follow" hidden aria-live="polite">Following the deck</div>
 
 <div class="ros">
   <details>
@@ -258,8 +314,60 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p class="tip"><b>Running long?</b> Slide 6 (predictive vs generative) is a deep dive on two of slide 2’s four cards — drop it first and let its table stand as the leave-behind, pulling it up only if the room asks how the two are governed differently. That buys back the slack the planted questions and pauses need.</p>
     <p class="tip"><b>On a projector:</b> <code>LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh</code> — and <code>NO_COLOR=1</code> if the room washes out color.</p>
     <p class="tip"><b>Main screen:</b> open <code>slides/deck.html</code>. This console mirrors it one-for-one: when the deck goes next, press <kbd>→</kbd> here.</p>
+    <p class="tip"><b>Presenter view:</b> the deck's <kbd>N</kbd> key shows the speaker notes on the shared screen, so do not use it while sharing. <kbd>P</kbd> opens this console in its own window, and from then on it follows the deck (the badge at the top right says which slide or lab it is on). Keep this window on the presenter's display only.</p>
     <p class="tip"><b>Graphics:</b> on eight slides (Title, Data to judgement, Where AI lands, Five outcomes, Architecture, Why one platform, Labs preview, Next steps) press <kbd>G</kbd> on the deck to pop out the illustrated graphic. The pop-out is picture-only: click it or press <kbd>Z</kbd> to zoom to 1:1, and <kbd>G</kbd> or <kbd>Esc</kbd> closes it. The words live here and in the deck's notes: the matching <b>Graphic (G)</b> block in that step carries the caption and the points to talk to, and the same text sits at the end of that slide's speaker notes as "GRAPHIC (G)".</p>
     <p class="tip"><b>Delivery:</b> Brad drives, Jon color-commentates — interrupt, add commentary, be a little annoying, call out misspeaks live (“wait a minute, Brad… have another cup of coffee”), and take over if the driver flounders. <b>Goal number one is to entertain</b> — learning is second, because a tuned-out audience learns nothing. Keep it light; they know it is work, but there is no need to be boring. If humor lands on anyone, self-deprecate first — never accuse first. Plan deliberate pauses to engage the room (open question for the organizers: can attendees unmute?). Planted questions are marked <b>PLANTED</b> in the steps below.</p>
+    <div class="strategy-callout">
+      <h3>The through-line for the entire hour</h3>
+      <p><b>AI increases the volume and velocity of information. Automation turns governed decisions into repeatable action.</b> If the enterprise cannot deploy, test, approve, observe, audit and roll back ordinary change consistently, adding AI creates a faster queue of recommendations—not an operating capability.</p>
+      <ul>
+        <li><b>Toolchain:</b> shared inventory, source control, reusable content, testing, credentials, RBAC, approvals, observability, evidence and rollback.</li>
+        <li><b>Islands:</b> scattered scripts and team-specific bots. Useful locally, but not institutional automation.</li>
+        <li><b>Institutional automation:</b> reflexive rather than merely reactive—the estate senses a known condition, applies policy, executes a pre-approved response, validates it and records the result.</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<div class="ros preface">
+  <div class="read-script">
+    <b>The purpose of the hour · say this early</b>
+    <p>“We are not going to dig into every term on these slides. You do not need to become a data scientist or memorize a product catalog to get value from this session. The slides and this companion are self-contained: the definitions, examples and deeper discussion are here when you need them afterward.</p>
+    <p>“The higher-value understanding is knowing what each technology actually does, where its answer comes from, what authority it has, and where it belongs in your work. That lets us choose the right technology for the right job at the right time—and avoid choices today that unnecessarily close off our options tomorrow.</p>
+    <p>“If the task is arithmetic, use a calculator. If the task is following a known procedure, use automation. If it is estimating an uncertain outcome, a predictive model may help. If it is reading and drafting across messy documents, a language model may help. If the next step depends on what the system finds, an agent may help coordinate permitted tools. You do not need every one of those for every problem.”</p>
+  </div>
+  <p class="tip"><b>Delivery:</b> Read each slide’s spoken passage, then use its discussion notes when a question needs depth. The discussion is a reference, not an instruction to read every paragraph during the hour. Choose the Jon prompts that help the room; the suggested answers are cues for rehearsal, not statements Jon has already made. Timings refer to narration alone; discussion and demonstrations add time.</p>
+  <p class="tip"><b>The question to keep returning to:</b> What is the work, which part is uncertain, which part is a known rule, who owns the decision, and what must remain replaceable?</p>
+  <details class="ref">
+    <summary>Plain-English terminology reference · Slides 2, 4 and 6</summary>
+    <table>
+      <tr><th>Term</th><th>What it does in ordinary language</th><th>What to remember</th></tr>
+      <tr><td>Artificial intelligence / AI</td><td>A broad label for software that performs tasks such as recognizing patterns, interpreting language or selecting actions.</td><td>It is a family of techniques, not a single product or a source of authority.</td></tr>
+      <tr><td>Machine learning</td><td>Builds a pattern from examples instead of requiring a person to write every possible case as a rule.</td><td>What it learns depends on the examples and the task it was trained to do.</td></tr>
+      <tr><td>Model</td><td>The learned mathematical pattern used to turn new input into an output.</td><td>It is one component of the service; it is not the whole application or an official policy repository.</td></tr>
+      <tr><td>Predictive AI</td><td>Estimates a value, category or likelihood: “This pattern resembles failures we have seen before.”</td><td>A score is an estimate. An unusual case is not necessarily an incorrect case.</td></tr>
+      <tr><td>Generative AI</td><td>Produces content, such as text, images or code, from learned patterns and supplied input.</td><td>Producing a convincing answer and proving that answer are different jobs.</td></tr>
+      <tr><td>Large language model / LLM</td><td>The language-focused model behind the text-generation examples in this presentation. It interprets requests and constructs responses.</td><td>The shorthand here is a generative language model; not every kind of language model serves exactly the same role.</td></tr>
+      <tr><td>Token</td><td>A small unit of text a model processes, often a word or part of a word.</td><td>You do not need token math for this talk. It helps explain how the model builds an answer and why long inputs consume capacity.</td></tr>
+      <tr><td>Training</td><td>The learning phase, when examples change the model’s internal numerical settings.</td><td>Training can teach facts and behaviors; it does not appoint the model as the authority for those facts.</td></tr>
+      <tr><td>Inference</td><td>Using a trained model on new input to get an output.</td><td>In plain English: running the model. It does not mean a finding has been proved.</td></tr>
+      <tr><td>Prompt and context</td><td>The request and the material available to the model for this response.</td><td>Better instructions and relevant evidence help; neither guarantees correctness.</td></tr>
+      <tr><td>Retrieval / RAG</td><td>Searches approved material and supplies relevant passages to the model before it drafts an answer. RAG means retrieval-augmented generation.</td><td>The source can be authoritative; the generated interpretation still needs checking.</td></tr>
+      <tr><td>Fine-tuning</td><td>Additional training that adapts a model using selected examples.</td><td>It can improve a task or preferred response format. It is not an automatic feed of current policy.</td></tr>
+      <tr><td>Agentic system</td><td>Uses a model to choose next steps toward a goal, call tools, inspect results and adjust within permitted limits.</td><td>Tools make actions possible. Permissions and workflow controls determine which actions are allowed.</td></tr>
+      <tr><td>Tool / API</td><td>A specific function the system can call, such as searching logs, calculating a result or starting a job. An API is a defined software interface to that function.</td><td>“Can call a tool” is more concrete than “the AI handles it.”</td></tr>
+      <tr><td>Rules engine / calculator</td><td>Applies explicitly coded conditions or formulas to the supplied inputs.</td><td>Repeatable math can still use the wrong inputs, wrong rule version or wrong eligibility assumptions.</td></tr>
+      <tr><td>Automation</td><td>Performs a defined procedure, including its programmed branches and checks.</td><td>It can work without AI and can respond to events. Repeatable instructions do not guarantee a successful outcome.</td></tr>
+      <tr><td>Enterprise automation toolchain</td><td>Connects approved procedures with ownership, testing, identity, execution, monitoring and records across teams.</td><td>Several products can form one toolchain. Several unrelated scripts do not form one merely because all run automatically.</td></tr>
+    </table>
+    <p class="tip">For the text-generating LLMs discussed here, training learns relationships in language; generation commonly builds a response one token at a time using the context available. That mechanism supports useful capabilities but does not guarantee factual truth. <a href="https://www.ibm.com/think/topics/large-language-models">IBM’s LLM explanation</a>.</p>
+    <p class="tip">Retrieval adds external passages to the material used for a response without having to retrain the model for each document change. It improves access to relevant evidence; it does not eliminate incorrect interpretation. <a href="https://www.ibm.com/think/topics/retrieval-augmented-generation">IBM’s RAG explanation</a>.</p>
+    <p class="tip">Agentic systems combine models with external tools and orchestration so they can select and carry out steps toward a goal. The limited permissions used in our examples are design choices that the surrounding system must enforce. <a href="https://www.redhat.com/en/topics/ai/what-is-agentic-ai">Red Hat’s agentic AI explanation</a>.</p>
+    <h4>The distinction behind “it is a guess”</h4>
+    <p class="tip"><b>A model output is an estimate or generated response, not an authoritative ruling.</b> “An educated guess” is a useful introduction, provided we explain what is being estimated. A predictive model estimates an outcome or category from learned relationships. A generative language model estimates suitable continuations of the response and constructs text. Neither automatically verifies the truth or legal applicability of every statement it produces.</p>
+    <p class="tip">This does not mean every answer is random or false. Models can learn useful facts and relationships and can answer correctly. It means their output needs evidence appropriate to the job. A retrieved document is a source record. A calculator result is the result of particular inputs and implemented rules. A prediction is an estimate. A generated explanation is a draft. Those are different things even when the same chat window displays them.</p>
+    <p class="tip"><b>For the IRS example:</b> training on IRS documents does not turn model weights into a controlled, current policy repository. A model can reproduce an old rule, combine two rules incorrectly, overlook an exception or apply the right guidance to the wrong facts. The relevant authority comes from the applicable law and approved guidance or procedures, with the right version and case context. This presentation illustrates system design; it supplies no deduction thresholds or actual eligibility ruling.</p>
+    <p class="tip"><b>Useful spoken line:</b> “The model can help us find and explain the rule. It does not get to invent the rule. Confidence in the wording is not proof that the rule applies.”</p>
   </details>
 </div>
 
@@ -278,6 +386,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Brad drives; Jon adds color commentary. Objective one is to keep the room engaged — <b>entertainment precedes learning</b>. Name the room: Red Hat, Four Inc. and Carahsoft, and frame the hour: terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway.</p>
     <p><b>The promise, stated out loud:</b> every claim we make today, we run in a shell before you leave.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“Good afternoon. Jon Keam and I are going to talk about AI foundations for intelligent tax administration, but we are not starting with a model name. Models change too quickly, and the mission is too important, for that to be the foundation.”</p>
+    <p>“We are going to use one ladder throughout the hour. At the bottom is data: returns, transcripts, correspondence, logs and telemetry. Predictive systems turn some of that into information—a score, a match, a classification or a diagnosis. Generative systems, grounded in approved sources, help turn information into usable knowledge. At the top is judgement: a determination a named person signs. That top step stays human.”</p>
+    <p>“We will not dig into every term today. This companion carries the detail so the session can focus on making better technology decisions now and preserving options for later.”</p>
+    <p>“The colors will follow that ladder on every slide. Red is data; orange is information; green is knowledge; purple is judgement. If something we show does not help the agency climb a rung, it is technology looking for a mission.”</p>
+    <p>“Red Hat provides the operating foundation, Four Inc. supports the federal distribution path, and Carahsoft is hosting us today. Our promise is simple: before you leave, the major claims will connect to something we can run in a shell. We will define the terms, show where AI belongs, show the platform around it, and finish with hands-on labs rather than a thank-you slide.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · what we want people to understand</b>
+    <p>The aim is technical judgment: enough understanding to ask good questions about a proposed solution. Do not turn this into an acronym test. Explain the term when it changes a decision; leave implementation depth in the reference material.</p>
+    <p>The ladder is a teaching aid. It does not mean the output automatically gets more truthful as it moves upward. A faulty classification can become a polished but faulty summary. “Knowledge” here means information checked against relevant evidence and made usable for an outcome. “Judgement” means the authority and responsibility assigned to a person or organization in this workflow.</p>
+    <p><b>Ask the room:</b> “Where do you spend time now—finding the information, understanding it, deciding what to do, or getting the approved action done?” Each answer suggests a different technology choice. Return to that question on <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-8">Slide 8</a>.</p>
+    <p><b>Jon extension:</b> “What should people remember after they forget the vocabulary?” Suggested answer: what is estimated, what is generated, what is verified, and who can act.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · establish the partnership</b><b>Brad:</b> “Jon, before we start—what do you want people to remember if every product name disappears tomorrow?” <b>Jon lands:</b> the mission still owns the data, the controls and the final judgement; technology must remain replaceable. <b>Brad takes back:</b> “Exactly. That is why we are starting with the ladder, not a logo parade.”</div>
   <div class="beat"><b>Say the color code once</b>It is the rainbow: red on the far left is data, the least structured thing we have; purple on the far right is judgement, the most structured. Every slide carries its colors in the corner, so you always know which rung we are on.</div>
   <div class="beat"><b>Cold-room intro</b>Assume a cold room: about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each: Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host. Say why the three of us are here together.</div>
   <div class="beat"><b>Logistics</b>Security lives in the appendix (slide 18) — pull it up the moment an ISSO or security lead engages, not before. Tell the room: security is at the very end, and it is a broad conversation; anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on.</div>
@@ -303,8 +427,89 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="onscreen"><b>On screen</b>Four cards — Predictive (estimate), Generative/LLM (create), Agentic (reason + act), Automation (execute) — with analogies, and a dashed "what it is not" box.</div>
   <div class="talk">
     <p>Terminology comes first, by design — foundational context before any argument. Federal audiences hear "AI" used as if every technique is the same, and as if AI means the consumer tools — Claude, ChatGPT, Gemini, Copilot. It is neither. <b>Predictive AI estimates. Generative AI creates. An LLM is a generative model specialized in language. Agentic systems add tools and rules. Automation executes known steps.</b></p>
-    <p>Walk the analogies — the weather forecast, the well-read drafting assistant, the junior analyst with a restricted tool belt, the checklist that performs the checklist (that is where Ansible belongs). The strongest mission pattern combines them.</p>
+    <p>Walk the analogies — the weather forecast, the well-read drafting assistant, the junior analyst with a restricted tool belt, the checklist that performs the checklist (that is where Ansible belongs). The strongest mission pattern combines them; the categories are layers in a governed workflow, not four competing products.</p>
   </div>
+  <div class="callout-grid" aria-label="Four AI and automation concepts">
+    <article class="callout-card predict"><h3>Predictive AI · estimates</h3><p>Finds a pattern in historical or streaming data and returns a score, class, probability or forecast. It answers: <b>what is likely?</b></p></article>
+    <article class="callout-card generate"><h3>Generative AI / LLM · creates</h3><p>Produces new text, code or summaries. An LLM is simply a generative model specialized in language. It answers: <b>how can we express or synthesize this?</b></p></article>
+    <article class="callout-card agent"><h3>Agentic system · uses tools under rules</h3><p>Adds a controlled tool belt and a policy envelope: allowed data, permitted actions, approval gates, stop conditions and evidence requirements. It answers: <b>what should I inspect or invoke next?</b></p></article>
+    <article class="callout-card automate"><h3>Automation · executes known steps</h3><p>Runs a tested, versioned procedure consistently and records the result. It does not invent policy or make the accountable determination. It answers: <b>how do we perform what was already decided?</b></p></article>
+  </div>
+
+  <div class="usecase">
+    <h3>Example 1 · System administrator troubleshooting an out-of-memory event</h3>
+    <div class="flow">
+      <div class="stage"><b>Predict</b>Telemetry estimates that memory exhaustion is imminent or classifies the current failure as the recurring OOM pattern.</div>
+      <div class="stage"><b>Generate</b>The LLM turns logs, metrics, changes and cited runbooks into a concise diagnosis and recommended next checks.</div>
+      <div class="stage"><b>Agent + tools/rules</b><b>Tools:</b> log search, metrics, CMDB, ITSM and an Ansible dry run. <b>Rules:</b> read-only first; allowlisted systems and playbooks; threshold and maintenance-window checks; approval for disruptive change; retain evidence; stop on ambiguity.</div>
+      <div class="stage"><b>Automate</b>A tested playbook opens the ticket, captures state, performs the approved remediation, validates service health, rolls back on failure and closes the record.</div>
+    </div>
+  </div>
+
+  <div class="usecase">
+    <h3>Example 2 · Auditor checking whether claimed deductions reconcile</h3>
+    <div class="flow">
+      <div class="stage"><b>Predict</b>A model flags an unusual deduction pattern or estimates mismatch risk. That score prioritizes review; it is not a tax determination.</div>
+      <div class="stage"><b>Generate</b>The LLM summarizes the return, substantiation and cited guidance, and drafts the questions a reviewer should resolve.</div>
+      <div class="stage"><b>Agent + tools/rules</b><b>Tools:</b> the filing entity’s approved online calculator, authoritative rules lookup, transcript/document retrieval and the case system. <b>Rules:</b> use only the approved calculator and current tax-year rules; never alter source values; keep data inside the boundary; capture every input, result and citation; route mismatches to a person.</div>
+      <div class="stage"><b>Automate</b>The workflow extracts approved fields, validates them, submits the calculation, attaches the result and evidence, and routes exceptions. The auditor still decides whether the deduction is appropriate.</div>
+    </div>
+  </div>
+
+  <div class="strategy-callout">
+    <h3>Mistake #1 · Starting AI before enterprise automation is mature</h3>
+    <p>AI creates more observations, summaries, recommendations and potential actions, faster than people can absorb them. Without a program-wide automation toolchain, that output becomes ticket growth, manual queues and inconsistent changes. A few scripts, RPA bots or team-specific playbooks are <b>islands of automation</b>; they are not a toolchain and they are not institutional capability.</p>
+    <ul>
+      <li><b>Reactive:</b> a person notices, interprets, approves, starts and later documents every response.</li>
+      <li><b>Reflexive:</b> the institution detects a known condition, applies encoded policy, executes a pre-approved response, validates it and preserves the audit trail—while escalating anything outside the envelope.</li>
+    </ul>
+  </div>
+
+  <div class="read-script">
+    <b>Read-aloud script · about 2½ minutes</b>
+    <p>“Before we go any further, we need to separate four things that get collapsed into the word AI. Predictive AI estimates. It gives you a score, a class or a probability. Generative AI creates. An LLM is simply a generative model specialized in language. Agentic systems add tools and rules. Automation executes known steps.”</p>
+    <p>“Take an out-of-memory event. Predictive AI can flag that the host is trending toward exhaustion. The LLM can read the logs and approved runbooks and explain the likely cause. An agent can query the metrics, look at the CMDB, open the incident and invoke an Ansible dry run—but only with an allowlisted tool belt and rules: read-only first, approved systems only, stop if the evidence conflicts, require approval for disruptive change, and record everything. Then automation runs the tested remediation, validates it and rolls it back if health gets worse.”</p>
+    <p>“The audit example is the same architecture. A model flags a deduction pattern. The LLM summarizes the evidence and current guidance. The agent may use the filing entity’s approved calculator and retrieve the relevant records, but it cannot change source values, use an unapproved calculator or turn a mismatch into a determination. Automation moves the approved fields, captures the calculation and routes the exception. The auditor signs the judgement.”</p>
+    <p>“And here is the hard part: starting AI without a mature automation strategy is mistake number one. AI increases the volume and velocity of information. If every recommendation still becomes a manual ticket, you have built a faster backlog. Islands of scripts are not an enterprise toolchain. Institutional automation is reflexive: detect a known condition, apply policy, execute an approved response, validate it and preserve the evidence. AI can make that loop smarter, but it cannot substitute for the loop.”</p>
+  </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 3–4 minutes</b>
+    <p>“AI is an umbrella word. Under it are different ways to do work. We will explain the useful distinctions, then move on. The deeper definitions stay in this companion so you do not have to memorize them.”</p>
+    <p>“Predictive AI learns patterns from examples and uses them to estimate something about a new case. A weather forecast estimates the chance of rain. An operations model might estimate which server is at risk of running out of memory. An audit-support model might flag a deduction pattern for review. None of those estimates proves what happened or what is allowed.”</p>
+    <p>“Generative AI produces content. For our examples, an LLM—a large language model—constructs text using learned patterns and the material we give it. It can summarize a return, explain a log or draft a response. It is generating an answer; it is not automatically looking up and applying the current IRS rule correctly.”</p>
+    <p>“Calling that an educated guess is fair as an introduction. But a forecast estimates an outcome, while a language model generates a response. Neither is IRS policy. A model can say something true, but sounding sure does not make it authoritative.”</p>
+    <p>“Retrieval helps by putting the relevant approved document in front of the model. A calculator helps by doing the arithmetic using explicit rules. Those tools give us stronger evidence, but we still need the right tax year, inputs, exceptions and reviewer.”</p>
+    <p>“Agentic means the system can choose what to do next: query the logs, inspect a recent change, retrieve a document or call a calculator, then look at the result and decide whether another permitted step is needed. Tools are its available functions. Rules are its limits. The software must enforce those limits; asking the model to behave is not access control.”</p>
+    <p>“Automation executes the procedure we have already defined. It can collect records, run a calculation, route an exception or perform an approved repair. It does not need a language model to follow a known checklist.”</p>
+    <p>“These are capabilities you can combine, not mandatory stages. The decision is what the work needs. Getting that distinction right helps us solve today’s problem without committing every future workflow to one model or one vendor’s way of working.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · one OOM incident, five different jobs</b>
+    <p>OOM means <b>out of memory</b>. A process or container can hit its own memory limit even when the physical host still has free memory. First identify what ran out, where the limit applies and what the operating system actually recorded.</p>
+    <table>
+      <tr><th>Job</th><th>Concrete sysadmin example</th><th>What the output establishes</th></tr>
+      <tr><td>Observe or apply a fixed rule</td><td>Read an <code>OOMKilled</code> event and collect the container limit, memory history and recent changes.</td><td>A recorded event and measurements. Collecting them does not require predictive AI.</td></tr>
+      <tr><td>Predict</td><td>Use historical incidents and current telemetry to estimate which workload is at risk of exhausting memory.</td><td>A warning to investigate. A high score does not prove a leak or identify the right repair.</td></tr>
+      <tr><td>Generate and retrieve</td><td>Supply the relevant log lines, deployment change and approved runbook; ask the LLM to draft a possible cause and supporting evidence.</td><td>A hypothesis with references. “The last change may have increased memory demand” still needs checking.</td></tr>
+      <tr><td>Add an agent</td><td>Let the system decide whether the next useful check is the limit, change record, host capacity or application metrics, based on prior results.</td><td>A sequence of permitted investigations. An allowlist, read permissions, query limit and approval gate constrain it.</td></tr>
+      <tr><td>Automate</td><td>Run a tested collection job; if separately authorized, apply the selected repair and verify service health.</td><td>A recorded procedure and measured result. Revert when safe and supported; otherwise stop and escalate.</td></tr>
+    </table>
+    <p><b>What tools add:</b> actual access to logs, metrics, configuration records, incident tickets and approved job templates. <b>What rules add:</b> which target is allowed, which credentials are used, which changes require approval, how many attempts may run and when the workflow stops. A sentence in a prompt is not sufficient enforcement.</p>
+    <h4>Discussion · the auditor and the filing entity’s calculator</h4>
+    <p>Keep three questions separate: <b>Does the arithmetic reconcile? Did the calculator implement the applicable rule? Is the deduction actually supported by the facts?</b> Agreement on one does not settle the others.</p>
+    <table>
+      <tr><th>Job</th><th>Concrete audit-support example</th><th>What remains to be checked</th></tr>
+      <tr><td>Observe</td><td>Preserve the filer’s claimed amount, supporting records, calculator inputs, result and version or date.</td><td>Were the records complete, and were the fields entered correctly?</td></tr>
+      <tr><td>Predict, if useful</td><td>Flag a pattern that differs from comparable records in an already authorized review workflow.</td><td>Atypical does not mean improper. The score does not prove ineligibility.</td></tr>
+      <tr><td>Generate and retrieve</td><td>Draft a comparison between the record, applicable guidance and missing substantiation, with source references.</td><td>The model may misread a condition or use the wrong year. Verify the supporting passage.</td></tr>
+      <tr><td>Add an agent, if useful</td><td>Let it select an approved retrieval tool, inspect the calculator’s documented assumptions and request an independent check.</td><td>Permit only the necessary tools and data. Preserve original inputs; stop when facts or permissions are missing.</td></tr>
+      <tr><td>Calculate and automate</td><td>Reproduce the filing entity’s calculation where access is authorized, compare with an independently maintained reference method, save the evidence and route differences.</td><td>A matching number proves agreement under those inputs and implementations, not legal eligibility.</td></tr>
+      <tr><td>Decide</td><td>The auditor evaluates the substantiation and applicability of the rule under the authorized process.</td><td>The system has prepared the evidence; it has not acquired authority from the model’s tone.</td></tr>
+    </table>
+    <p>The calculator used by the filing entity is <b>not automatically an approved or authoritative calculator</b>. It is part of the evidence being examined. Do not assume permission to send sensitive data to a public site. Use an authorized integration or controlled reproduction appropriate to the workflow. If the steps are fixed, ordinary automation can perform them; agentic orchestration is optional.</p>
+    <p><b>Jon prompt:</b> “If the filer’s calculator and our check return the same number, are we finished?” Suggested answer: the math reconciles; the inputs, rule version, eligibility and substantiation still need review.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · three clean openings</b><b>1.</b> “Jon, where do you draw the line between an agent and automation?” Desired answer: the agent selects among permitted tools under rules; automation performs the tested procedure. <b>2.</b> “Which of those rules would cyber insist on first?” Desired answer: identity, least privilege, approval gates, evidence and stop conditions. <b>3.</b> “What happens if we add AI before we have the automation layer?” Desired answer: faster recommendations, same manual bottleneck—an information fire hose feeding a ticket queue.</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Predictive AI</span><span class="to"><span class="rung r-info">data → information</span></span></div>
@@ -314,7 +519,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     </div>
   </div>
   <div class="beat"><b>Land the not-box</b>Predictive AI is not a crystal ball. An LLM is not a database, a policy authority, or a source of truth. An agent is not permission to bypass controls.</div>
-  <div class="beat"><b>Land the on-ramp line</b>If you are not automated, you are not going to have a good generative or predictive AI inside your boundary. Automation is the prerequisite.</div>
+  <div class="beat"><b>Land the on-ramp line</b>If you are not automated, you are not going to have a good generative or predictive AI inside your boundary. Automation is the prerequisite—not because AI cannot run, but because the enterprise cannot safely absorb, act on and audit the volume and velocity of what it produces.</div>
   <div class="beat"><b>HAND-OFF (optional): Brad turns to Jon</b>On the Estimate and Create cards: “Jon, what do you know about predictive and generative? Give the room an analogy.” Jon lands the weather-forecast and well-read-drafting-assistant lines already on the cards; Brad takes back Reason + act and Automate.</div>
   <div class="cue"><span class="next">NEXT → <b>why now</b> (the demand chart)</span></div>
 </section>
@@ -331,9 +536,26 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk.</p>
     <p>The chart is the argument: <b>a year of demand arrives in six weeks.</b> The shaded gap is what automation absorbs. And the last card decides the architecture: <b>federal tax information cannot go to a public endpoint. The model has to come to the data.</b></p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“Why now? Because the work is seasonal, textual and unforgiving. The workforce is comparatively flat, but demand is not. A disproportionate share of demand arrives during the filing-season peak, and the shaded space between the demand curve and staffed capacity is where backlogs, overtime and inconsistent handling appear.”</p>
+    <p>“AI can help because much of the work is language: correspondence, guidance, notes, notices and the institutional memory carried by experienced employees. But AI also produces information at machine speed. If every classification, explanation or recommendation lands in a manual queue, we have not removed the bottleneck—we have amplified it.”</p>
+    <p>“That is why automation strategy comes before AI scale. A governed toolchain has to route, validate, execute, record and escalate that output. Otherwise the agency gets a faster backlog.”</p>
+    <p>“Mistake number one is starting an AI program without understanding the automation strategy that will carry it. A few isolated scripts are not an enterprise toolchain. You can learn in a bounded pilot while you build the foundation, but the path into institutional operation needs to be part of the plan from the beginning.”</p>
+    <p>“The final constraint determines the architecture: the data boundary and approved uses determine where sensitive information may be processed. The model comes to the data. Choosing a particular model may be a six-month decision. Choosing where models run, how they are governed, and how work moves around them is a ten-year decision.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · volume, velocity and the review queue</b>
+    <p>Use the demand curve to explain a capacity problem. AI can produce classifications, summaries and recommendations much faster than a team can review or act on them. That output creates work unless the workflow also handles duplicate results, quality checks, routing and exceptions.</p>
+    <p><b>Illustrative arithmetic, not an IRS measurement:</b> 1,000 AI summaries requiring two minutes of review each create roughly 33 staff-hours of review. Faster generation alone does not resolve that queue. Measure how much work reaches a verified outcome, not how many paragraphs the model emits.</p>
+    <p>This is the practical reason for automation maturity first. A small experiment can begin while the broader program improves its toolchain. Scaling AI into operations without ownership, testing, access control, execution records and exception handling is the mistake. For the chosen workflow, build the minimum reliable path first and extend it deliberately.</p>
+    <p>Bridge to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-14">Slide 14</a>: “Before we increase the rate of output, show me where an output goes and how it becomes a completed, checked result.”</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · make the surge operational</b><b>Brad:</b> “Jon, what happens if we improve classification tenfold but leave every downstream hand-off manual?” <b>Jon lands:</b> the backlog relocates; more information reaches the same constrained queue faster. <b>Brad:</b> “Right. That is why the shaded gap is an automation problem, not only a model problem.”</div>
   <div class="beat"><b>Pivot line</b>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one.</div>
   <div class="beat"><b>Macy’s at Black Friday</b>The analogy: Macy’s at Thanksgiving, Black Friday and Christmas, a very seasonal workload against a fixed store. The off-season is not waste; it is when you rewrite and integrate the knowledge you gathered during the surge, so there is more headroom when the next surge comes. Idle capacity in August is only unjustifiable if you do nothing with it.</div>
   <div class="beat"><b>The snake eating its own tail</b>The closed loop has one rule: it feeds on data from YOUR systems of record, added to your knowledge base to automate it. Never information generated from information; that is the snake eating its own tail.</div>
+  <div class="beat"><b>Connect volume to automation</b>The April surge is not only more transactions; AI also creates more classifications, explanations and recommended actions per transaction. If those outputs land in human queues, the technology amplifies the bottleneck. A governed automation toolchain is how the agency absorbs the velocity without losing control.</div>
   <div class="beat"><b>Use with tact</b>AI is interesting here precisely because it works on unstructured language, which is most of what a tax agency actually handles. Large federal accounts are losing institutional knowledge as people age out or are RIF’d; capturing what the workforce knows is part of why this matters now.</div>
   <div class="cue"><span class="next">NEXT → <b>inside an LLM</b> (one central visual)</span></div>
 </section>
@@ -350,6 +572,31 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Narrate the layers <b>from the bottom up</b>. The GPU is compute, and the unstructured logs and core dumps at that compute-and-data layer are what feed the platform. Inference is the running engine — vLLM, the Red Hat AI Inference Server. The model contains learned statistical patterns — <b>not a live copy of IRS policy</b>. Context is the open book we hand it for this request; RAG retrieves approved material into it. The mission app sits on top, at the judgement layer, where a person decides.</p>
     <p>The three knobs, spoken rather than shown: <b>prompting</b> is better instructions for this request. <b>RAG</b> is the right reference material for this request. <b>Fine-tuning</b> changes learned behavior for future requests — use it for durable behavior, never for facts that change every filing season.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2½ minutes</b>
+    <p>“The model is one component. Think of a car: the engine matters, but transportation also needs steering, brakes, controls and somewhere to go. An impressive engine does not give you the whole vehicle.”</p>
+    <p>“Training is the learning phase. Examples change the model’s internal numerical settings so it becomes better at a task. Inference simply means running that trained model on a new request. A token is a small piece of text, often a word or part of a word. Those are the only mechanics we need today.”</p>
+    <p>“A typical generative language model builds the answer piece by piece, using patterns learned during training and the context supplied now. It can learn facts. But it is not opening the current IRS policy book every time it answers unless we build a process that retrieves that book. Its learned knowledge may be old, incomplete or applied incorrectly.”</p>
+    <p>“Prompting means giving the task and instructions. Context is the material available for this answer. Retrieval finds relevant passages and puts them into that context. Fine-tuning is additional training to improve a particular behavior or task. Use the right lever for the problem: a missing current document usually calls for better retrieval, not a new training project.”</p>
+    <p>“For an auditor, retrieve the applicable guidance and use a verified calculation tool for arithmetic. For a system administrator, retrieve the relevant logs, change record and runbook. In both cases the model helps interpret evidence; its explanation still needs checking.”</p>
+    <p>“We will not unpack every box here. The point is that a useful service includes the data connections, model runtime, permissions, monitoring and automation around the model. Those are the parts we want to operate consistently even when we replace the model later.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · what “not IRS policy” actually means</b>
+    <p>The model is not empty of facts. Training can encode information about tax rules, notice language and procedures. The problem is that those learned patterns are not a version-controlled copy of the applicable authority, and an answer does not come with an automatic guarantee that the right rule was selected.</p>
+    <p>An LLM can generate a convincing sentence about a deduction because it has seen similar language. That sentence might reflect an older year, omit a condition or blend two different situations. A predictive model can flag an unusual amount because it resembles past anomalies. That resemblance does not establish whether a rule permits the amount. Neither system becomes the policy owner through training.</p>
+    <p><b>Three sources of an answer:</b></p>
+    <ol>
+      <li><b>Learned information:</b> what the model picked up during training. Useful but potentially stale, incomplete or difficult to trace to a source.</li>
+      <li><b>Retrieved information:</b> the actual passages supplied for this response. Their version, access permissions and applicability matter.</li>
+      <li><b>Tool results:</b> an observed system state, calculation or database record returned by a tool. These have their own inputs, timestamps and possible errors.</li>
+    </ol>
+    <p>A good response distinguishes those sources. “I observed this in the log,” “I estimate this from the pattern,” and “the approved runbook says this” are materially different claims.</p>
+    <p><b>Prompting, retrieval and fine-tuning:</b> better instructions help when the task is unclear; better retrieval helps when the needed evidence is missing; additional training may help when the model consistently performs a specialized task poorly. These approaches can be combined, but there is no rule that using all three always gives the best result.</p>
+    <p><b>Jon prompt:</b> “If I train it on every IRS document, have I turned it into IRS policy?” Suggested answer: no; you have changed what it can generate. You still need controlled sources, current applicability checks and an accountable workflow.</p>
+    <p>The technical detail stops here. Refer back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-2">Slide 2</a> for the vocabulary and forward to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-9">Slide 9</a> for the service built around it.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · use his test analogy</b><b>Brad:</b> “Jon, give us your shortest distinction between retrieval and fine-tuning.” <b>Jon:</b> “Fine-tuning is studying for the test; retrieval is bringing the notebook into the test.” <b>Brad:</b> “And strong systems often do both—but the notebook is where changing facts belong.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Mission app</span><span class="to"><span class="rung r-judge">Judgement</span></span></div>
@@ -380,6 +627,21 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Predictive models climb the first riser — score, match, flag. Generative models with retrieval climb the second — read, ground, draft. <b>The top step is deliberately human</b> — a determination someone signs. That is a design rule, not a technical limit, and it is what makes the deployment defensible.</p>
     <p>The backlog lives at the bottom of the ladder. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“This staircase is the spine of the presentation. We are very good at creating data and information and then pretending we created knowledge. The test is simple: if it does not inform an outcome we need, it is not knowledge.”</p>
+    <p>“Predictive AI climbs the first riser. It scores, matches, flags or classifies. Generative AI, grounded through retrieval, helps climb the second. It reads, synthesizes, cites and drafts. But the final riser is different. Judgement is a determination someone is accountable for and signs.”</p>
+    <p>“That does not mean knowledge cannot drive automation. A directive can say patch the devices every Tuesday, and automation can carry out that procedure. If the rules already say to stop when an upstream service is unavailable, ordinary automation can enforce that exception too. People handle the situations and competing priorities that fall outside the defined rules.”</p>
+    <p>“In this design, accountable review remains on the purple step. It is to remove the transcription, matching, routing and repetitive evidence gathering that keeps that person trapped on the red and orange steps. Every hour a machine safely absorbs at the bottom is an hour an examiner can spend on the decision only a person should make.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · verified evidence is what makes the ladder useful</b>
+    <p>For the OOM example, the raw event is data. Correlating it with a changed memory limit produces information. Connecting that finding to an applicable, tested runbook produces useful operational knowledge. Choosing whether the repair is appropriate right now requires the authority assigned by the operating model.</p>
+    <p>For the auditor, source records are data; a reconciled calculation is information; understanding which rule applies and what substantiation is missing produces usable knowledge. The authorized determination belongs to the accountable process. A model can assist reasoning without becoming the official responsible for the result.</p>
+    <p>Do not tell the room AI cannot affect jobs because it lacks judgement. Work can change substantially. Our design choice is to retain named accountability for consequential decisions and use technology to reduce the work required to reach them.</p>
+    <p><b>Useful line:</b> “We are organizing responsibilities, not awarding the model a higher rank every time it writes a paragraph.”</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · ask the question everyone is carrying</b><b>Jon asks:</b> “So—is AI taking our jobs?” <b>Brad:</b> “AI can change jobs and tasks; we should not promise otherwise. In this design, a named person remains accountable for the consequential determination. The technology helps assemble and assess evidence; it does not acquire that authority from its output.” <b>Jon closes:</b> “Then the governance question is not whether a model can produce an answer; it is who owns the decision.”</div>
   <div class="beat"><b>The masterpiece slide (Jon’s word): say the DIKW line</b>Anyone with ten or twenty years in tech will recognize the classic data-information-knowledge-insight progression. We replaced insight with judgement for the AI age, and judgement is the rung that matters most: it is the one a person signs.</div>
   <div class="beat"><b>Make it concrete: reboot every Friday</b>Knowledge can be automated: reboot the mail server every Friday, patch the Windows devices every Tuesday; a directive, a mandate or an AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS GovCloud region is down is not the time to run it. AI is not replacing that person; their call feeds back into the loop as the next piece of knowledge.</div>
   <div class="beat"><b>PLANTED — Jon asks it</b>“So is AI taking our jobs?” — Brad answers: it is not coming for your job, because right now it does not have judgement. Jon’s read: everyone quietly feels this, which is why it is the masterpiece slide.</div>
@@ -408,6 +670,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>One produces <b>a number</b> from structured history; the other produces <b>language</b>. The row that matters is <b>how they fail</b>: a bad number is visible in precision and recall; a generative failure is <b>a plausible sentence</b> — which is why grounding and human review are non-negotiable.</p>
     <p>Close on composition — this is the closed loop the agency actually wants: a risk score picks the case, a language model prepares the brief, a person decides, automation executes. One cluster serves both models side by side.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“Predictive and generative describe the job we ask the technology to do. Prediction estimates a value, category or outcome. Generation produces content. They overlap: a generative language model itself uses prediction to build text. We separate them here because forecasting a failure and drafting an explanation require different evidence and tests.”</p>
+    <p>“A predictive error is not automatically obvious. A score can look reasonable and still be wrong. We need known outcomes to check missed incidents, false alarms and whether the scores mean what people think they mean.”</p>
+    <p>“A generated paragraph can also look reasonable and be wrong. It might cite the wrong year, omit an exception or state a possible cause as a proven cause. We check whether the source supports the claim, whether the answer covers the relevant facts, and whether the model stops when evidence is missing.”</p>
+    <p>“A forecast is not a diagnosis. A diagnosis draft is not an approved repair. An unusual deduction is not an improper deduction. The useful system keeps those distinctions visible.”</p>
+    <p>“Sometimes the best solution combines a score, a grounded draft, a reviewer and automation. Sometimes an exact rule and a calculator are enough. Selecting the smallest reliable combination is more valuable than using every term on this slide.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · a forecast, an explanation and a formula are different</b>
+    <p>“Predictive” does not mean only the future. A model may classify a current document or estimate a missing value. “Generative” does not mean only creative writing. A model may produce a structured extract, a summary or code. The labels describe uses, with overlap between the underlying methods.</p>
+    <p>A memory-risk score is useful if it identifies incidents early enough to help without drowning operators in false alarms. A score of 0.8 is not automatically an 80 percent chance unless the system defines it as a probability and validates that interpretation. A sentence saying “I am highly confident” is also not a measured accuracy guarantee.</p>
+    <p>When someone asks for an exact calculation under known rules, start with the calculation. When someone asks for exact records, start with a query. When someone asks what may happen or what a pile of documents means, a model may add value.</p>
+    <p><b>Jon prompt:</b> “If an LLM predicts the next piece of text, why call it generative?” Suggested answer: prediction is part of its mechanism; producing new content is the job it performs for us. We use the labels to choose work, not to create rigid scientific boxes.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · force the governance distinction</b><b>Brad:</b> “Jon, can a score look as convincing as a well-written paragraph and still be wrong?” <b>Jon lands:</b> yes; both need evaluation. Scores need comparison with known outcomes, while generated claims also need source and applicability checks. <b>Brad:</b> “Good. Confidence in the presentation is not evidence of correctness.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Predictive AI</span><span class="to"><span class="rung r-info">data → information</span></span></div>
@@ -433,6 +711,20 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p><b>Exam selection is not on the rail. Say so unprompted, and say why</b> (beat below).</p>
     <p>Two rules of thumb: start where a human already reviews the output; and automate the toil around the model, not just the model.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“Where does AI belong first? Look for work that is high-volume, text-heavy and already reviewed by a person. Intake, classification, guidance retrieval and drafting fit that pattern. AI prepares; the existing reviewer remains responsible.”</p>
+    <p>“Notice what is not highlighted: exam selection. That is deliberate. Selecting a taxpayer for examination is not just another classification problem. It is a consequential determination with fairness, authority, documentation and appeal implications. It may eventually use analytical support, but it does not inherit permission from a low-risk drafting use case.”</p>
+    <p>“Two rules of thumb keep us honest. First, start where a human already checks the output. Second, automate the toil around the model: provisioning, patching, data collection, routing, scaling, evidence capture and hand-offs. A brilliant model surrounded by manual operations is still a fragile service.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · place the capability at a specific step</b>
+    <p>Avoid the phrase “AI will audit the return” without naming what is actually happening. “Extract proposed fields for review,” “retrieve the relevant guidance,” “reproduce a calculation” and “draft questions about missing evidence” are concrete, testable tasks.</p>
+    <p>Specify each task’s input, output and owner. A generative model can propose an extracted value; a validation check can compare it with the source field; a calculator can use the validated amount; a reviewer can decide whether the supporting facts establish eligibility.</p>
+    <p>Our deduction example supports an authorized review. It is not a proposal to let an anomaly score independently initiate an examination. Likewise, automatic routing of an already reviewed result is different from making the underlying determination.</p>
+    <p>Connect back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-2">Slide 2’s comparison</a>: the same interface may coordinate several kinds of work, but those kinds retain different authority.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · point to the missing highlight</b><b>Brad:</b> “Jon, why did we intentionally leave exam selection grey?” <b>Jon lands:</b> consequence changes the governance burden; assistance to an existing reviewer is not authority to initiate action against a taxpayer. <b>Brad:</b> “That restraint is part of the architecture, not a disclaimer added later.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">01 Intake · 02 Classification</span><span class="to"><span class="rung r-info">Information</span></span></div>
@@ -470,6 +762,20 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>These five are the event abstract made concrete. Each one names the product that delivers it and the lab where the audience runs it: modernize operations (Labs 05 · 07), efficiency and accuracy (Labs 01–02), data-driven insights (Lab 04), security and compliance (Lab 06), an AI-ready foundation (Lab 03).</p>
     <p><b>Do not linger</b> — this slide exists so people can map the rest of the hour.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 75 seconds</b>
+    <p>“These are the five outcomes we are actually selling—not AI for its own sake. Modernize operations. Improve efficiency and accuracy. Unlock data-driven insight. Strengthen security and compliance. Build an AI-ready foundation.”</p>
+    <p>“Each outcome names the product capability and the lab where you can test the mechanism yourself. That matters because a phrase such as intelligent operations is otherwise just buzzword bingo.”</p>
+    <p>“The easiest first outcome is often operations. An error string appears in a log. An Event-Driven Ansible rule recognizes the known condition. A tested playbook runs on approved hosts. The on-call is notified. The ServiceNow or Remedy record opens and closes. The workflow records the job and links the outcome to the incident.”</p>
+    <p>“That first outcome does not require a grand AI strategy. It requires institutional automation—and it creates the toolchain that lets later AI output become governed action rather than another queue.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · measure value beyond the model</b>
+    <p>For each outcome, ask for a before-and-after measure that covers the whole workflow. Operations: recurrence and resolution time. Efficiency: reviewed cases completed and rework. Insight: time to find the relevant supporting evidence. Security: time to produce the required record and resolve exceptions. Foundation: time to add or replace a workload using the common operating process.</p>
+    <p>A known error string triggering a known response is ordinary event-driven automation. It already has value. Do not add a predictive model merely to make that response sound more advanced. Add one when early warning or pattern detection materially improves the outcome. Add generation when explanation or document work is the bottleneck.</p>
+    <p><b>Jon prompt:</b> “Which of the five outcomes requires a language model in every case?” Suggested answer: none. The outcome determines the capabilities; the technology label does not define success.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · make the room choose</b><b>Brad:</b> “Jon, if this organization could prove only one of these in ninety days, which creates the most leverage?” <b>Jon lands:</b> operations and automation produce reusable controls, evidence and confidence for the other four. <b>Brad:</b> “The first win should make the second win cheaper.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Modernize mission-critical operations</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
@@ -505,6 +811,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Read it <b>bottom to top</b>, and the point is the two vertical bands: automation and trust are not a layer you add at the end — they run through every layer. A project that treats compliance as a phase after deployment discovers, at the worst moment, that it cannot produce evidence for anything that already happened.</p>
     <p>Systems of record stay where they are — reached through APIs and automation, not replaced.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2½ minutes</b>
+    <p>“Integration failures often appear at the seams between systems. Gain a little weight and your pants split at the seam, not through the center of the fabric. Architecture has the same problem.”</p>
+    <p>“Read this from the bottom. Hardware and compute provide the physical base. RHEL and OpenShift provide the common operating foundation. Above that sit model serving, training, pipelines, registry and retrieval. Mission applications consume those capabilities. Systems of record remain where they are; APIs and automation connect them rather than forcing a rewrite.”</p>
+    <p>“The important parts are the two vertical bands. Trust is not a compliance phase added after deployment. Automation is not a script added when operations becomes painful. Both span the stack. Identity, signing, FIPS configuration, scanning, inventory, deployment, remediation and evidence need defined owners and reusable controls wherever those controls apply.”</p>
+    <p>“A seam is acceptable when we know where it is, who owns it, what contract crosses it, how it is observed, how it fails and how it is repaired. One foundation does not mean one homogeneous estate. It means heterogeneous systems present a governed, repeatable interface instead of becoming operational snowflakes.”</p>
+    <p>“That is how information becomes actionable knowledge from bare metal to the taxpayer—and how the model comes to the mission instead of mission data being dragged to somebody else’s model.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · translate the architecture without teaching every box</b>
+    <p>Use ordinary nouns: <b>compute</b> is the hardware doing the work; <b>serving</b> runs the model when a request arrives; <b>retrieval</b> finds useful source material; the <b>registry</b> tracks which model version is approved; a <b>pipeline</b> moves an update through checks; the <b>application</b> presents or uses the result. Identity establishes who or what is making the request. Automation performs the agreed work around all of them.</p>
+    <p>The important relationship is that changing the engine should not require rebuilding the whole service. Keep model access, document retrieval, calculation, approval and execution connected through documented interfaces. Keep policy and records under the organization’s control rather than hidden only in model prompts.</p>
+    <p>An integration is not complete because one API call succeeds. The teams need to know how timeouts, partial results, missing permissions and failed jobs are handled. Reusable controls and evidence reduce duplicate work, but a new application or environment still needs its own assessment of the differences.</p>
+    <p><b>Jon prompt:</b> “Which part should remain useful if we replace the model next year?” Suggested answer: the approved data access, workflow, evaluations, action controls and operating records.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · planned foil and hand-off</b><b>Jon:</b> “Wait—what exactly is a seam?” <b>Brad:</b> use the pants analogy, then define owner, contract, telemetry and recovery. <b>Brad hands off:</b> “Jon, take serving, retrieval and registry—why does one foundation matter there?” <b>Jon lands:</b> shared lifecycle and controls prevent every project from rebuilding the platform.</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Mission applications</span><span class="to"><span class="rung r-judge">Judgement</span></span></div>
@@ -552,6 +874,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Two lines to land: <b>glass box, not black box</b> — open source means you can inspect what the system is doing; and <b>modern lock-in limits what you can build next</b> — a worse trap than the old hardware kind, because it constrains future functionality, not just today’s invoice.</p>
     <p>For the platform people in the room: <b>Models-as-a-Service</b> — a central team publishes governed model endpoints the projects consume, instead of every project building its own fragile AI stack.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“The federal problem is not getting a model. Models are abundant. The problem is operating AI without giving up control of the data, location, hardware, lifecycle or future choices.”</p>
+    <p>“Our proposition is: bring the model to the mission, not mission data to somebody else’s model. The unique asset is your data and the procedures around it. Keep visibility into both. Run on-premises, in an accredited cloud or in a disconnected enclave as policy requires.”</p>
+    <p>“Open source gives us a glass box rather than a black box. That does not make every model output explainable by magic. It means the components, interfaces and lifecycle remain inspectable and replaceable.”</p>
+    <p>“For platform teams, Models-as-a-Service is the practical pattern. A central team publishes governed model endpoints. Projects receive identity, quotas, monitoring and an upgrade path instead of rebuilding an entire stack.”</p>
+    <p>“Automation is a differentiator. The durable discriminator is the connected estate: operating system, platform, security controls, model lifecycle and execution layer working as one governed system. That keeps today’s decision from limiting tomorrow’s mission.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · control is the ability to change components deliberately</b>
+    <p>“Model freedom” means being able to evaluate and replace a model without abandoning the surrounding mission workflow. It is not permission for every project to expose its own endpoint with its own rules.</p>
+    <p>“Models-as-a-Service” means a platform team supplies approved model access as a shared service. Project teams can focus on their workflow while the platform team manages capacity, versions, access and monitoring. The service should make it clear which model produced which result and whether that model is approved for that particular use.</p>
+    <p>Open source can make software and interfaces inspectable. It does not automatically explain why a model produced a specific sentence or guarantee easy migration. Contracts, formats, evaluation cases and operational experience still matter.</p>
+    <p>Bring the discussion back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-11">Slide 11</a>: choose today's components with a practical replacement path, and test that path instead of relying on a portability slogan.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · separate freedom from chaos</b><b>Brad:</b> “Jon, does model choice mean every team deploys whatever it wants?” <b>Jon lands:</b> no—freedom belongs inside an approved catalog and lifecycle; replaceability is governed, not anarchic. <b>Brad:</b> “Exactly. Glass box does not mean junk drawer.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Inference</span><span class="to"><span class="rung r-info">Information</span></span></div>
@@ -586,6 +924,29 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>The left box is the definition of the service — <b>infrastructure as code</b>: a manifest, a signed model, a GitOps repo. The three boxes on the right are the places it runs, <b>unchanged</b>. Placement becomes policy, not manual re-architecture.</p>
     <p>Three consequences: <b>accredit once</b> — workflow two starts with workflow one’s evidence. <b>April becomes a scheduling event</b> — the 6× surge is absorbed by autoscaling on pooled GPUs. <b>The exit door stays open.</b></p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“On the left is the definition of the service: infrastructure as code, a signed model and a GitOps repository. On the right are three places the same governed service may run: the datacenter, an accredited cloud or an air-gapped enclave.”</p>
+    <p>“The point is not that every workload moves everywhere without testing. The point is that placement becomes an explicit policy decision rather than a manual re-architecture. Data sensitivity, capacity, latency, cost and accreditation determine the venue.”</p>
+    <p>“This changes three things. Evidence becomes reusable, so workflow two starts with workflow one’s controls. Filing season becomes a scheduling and capacity event rather than a redesign. And the exit door remains visible.”</p>
+    <p>“Modern lock-in is subtle because it limits future functionality, not merely today’s invoice. Think of a phone plan that can call Domino’s but not Pizza Hut. Sometimes a native service is the right choice; we should say that honestly. The discipline is to know which choice creates dependency and to preserve portability where the mission requires it.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · preserve future options with concrete design choices</b>
+    <p>Every choice creates some dependency. The aim is to make the dependency visible, proportionate and reversible where it matters—not to promise an architecture with no tradeoffs.</p>
+    <table>
+      <tr><th>Choice today</th><th>Why it can be useful now</th><th>How to preserve a future option</th></tr>
+      <tr><td>Choose one model</td><td>A focused starting point is easier to evaluate.</td><td>Keep the model behind a documented interface and retain test cases so a replacement can be compared.</td></tr>
+      <tr><td>Build a retrieval index</td><td>Makes approved records easier to find.</td><td>Retain original documents, access rules and version metadata so the index can be rebuilt.</td></tr>
+      <tr><td>Use an online calculator</td><td>Reproduces or checks a known calculation.</td><td>Preserve the inputs and rule version; isolate the integration so a different verified method can replace it.</td></tr>
+      <tr><td>Adopt an agent framework</td><td>Coordinates tools and changing next steps.</td><td>Enforce permissions outside the prompt; define tools independently of one framework and retain action logs.</td></tr>
+      <tr><td>Select an automation platform</td><td>Provides common execution and controls.</td><td>Version procedures, document interfaces and identify where content or credentials require adaptation.</td></tr>
+      <tr><td>Run in one environment</td><td>Meets present cost, capacity and data requirements.</td><td>Separate environmental configuration from the service; rehearse relocation with the actual network, storage and hardware constraints.</td></tr>
+    </table>
+    <p>“Run anywhere” is a design goal with dependencies to test. Moving between environments may change storage, network policy, identity, accelerators and authorization requirements. Reusing a service definition is valuable even when those settings require adaptation.</p>
+    <p><b>Read this line:</b> “Choose the technology that solves the current problem. Keep the data, policy, tests and interfaces in a form that lets us change that choice later without starting again.”</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · carry the lock-in riff</b><b>Jon:</b> “I thought lock-in meant we already bought the software. What are we locked into?” <b>Brad:</b> use the phone-plan analogy, then name data formats, APIs, operational tooling and accreditation evidence. <b>Jon lands:</b> the risk appears later, when a new requirement arrives and the service cannot move.</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">One service definition</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
@@ -623,6 +984,23 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>The concrete story: <b>predictive AI</b> flags the risk from telemetry, the <b>LLM</b> explains the evidence in language, <b>RAG</b> grounds it in approved runbooks, and <b>Ansible</b> performs only what policy permits. <b>Automation is the discriminator</b> — it is what closes the loop and makes the system self-healing across heterogeneous environments.</p>
     <p>The flywheel: after review, the incident summary becomes searchable knowledge for the next event. The boundary: <b>generated text does not become truth automatically</b> — a human or workflow gate curates it first. Do not let fluency become authority.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“The useful pattern is a loop, not a chatbot. I can talk to a chatbot at night and it will tell me how wonderful I am. That is pleasant. It is not what I want during an outage, an audit or an investigation.”</p>
+    <p>“This example combines prediction, explanation, retrieval and action. Other workflows can use fewer of those capabilities. Predictive AI detects a pattern in telemetry. The language model explains the evidence in ordinary language. Retrieval grounds that explanation in approved runbooks, incidents and change records. We configure the automation platform so only approved jobs, targets and permissions are available to this workflow.”</p>
+    <p>“Agentic does not mean unlimited autonomy. The agent gets a restricted tool belt: perhaps logs, metrics, CMDB, ITSM and an Ansible dry run. The rules define identity, targets, maintenance windows, thresholds, approval gates, evidence and stop conditions. The agent may choose which approved tool to use next; it may not invent a production action.”</p>
+    <p>“In this workflow, each change updates the incident-management record and runs through the governed automation console. The workflow checks the outcome and preserves the evidence. Diagnostic reads are logged according to the agreed process. After review, the incident summary may enter the knowledge base. Generated text never declares itself true.”</p>
+    <p>“That is what makes the loop institutional: the model improves interpretation, while the automation toolchain supplies controlled execution and memory.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · reflexive institutional automation in plain language</b>
+    <p>“Reflexive” here describes a deliberately engineered operating pattern: a known condition triggers an approved response and a check of the result. It is not a claim that the infrastructure thinks or learns like a nervous system. Event-driven automation still reacts to an event; the distinction is that each familiar event no longer requires people to reconstruct the response from scratch.</p>
+    <p>The institution predefines who owns the response, which systems it may touch, what needs approval, what evidence is retained and when it must stop. People remain responsible for unknown conditions, exceptions and changes to those rules.</p>
+    <p>AI can help interpret a messy signal or choose a useful diagnostic step, but the basic loop can operate entirely through fixed rules. Prediction, generation and agentic behavior are optional additions. There is no requirement to predict before explaining or to generate an explanation before a known, preapproved check runs.</p>
+    <p><b>Why islands fall short:</b> a team's script can be useful locally while lacking shared identity, testing, inventory, monitoring or an owner for failure. Institutional automation connects those responsibilities. One institution can use several execution tools if they share a coherent operating process.</p>
+    <p><b>Jon prompt:</b> “Could this same loop work without a language model?” Suggested answer: yes, for known conditions and procedures. Add the model only where it improves interpretation or coordination enough to justify the additional complexity.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon</b>Ask: “Jon, what turns this from a clever demo into an institutional capability?” Let him land shared inventory, credentials, RBAC, versioned content, approvals, observability and audit history. Then answer: that is the toolchain; five disconnected scripts are still five islands.</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Predict</span><span class="to"><span class="rung r-info">Information</span></span></div>
@@ -637,6 +1015,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Caution in front of cyber</b>Do not say agentless or serviceless as an absolute. Say: no persistent agent, transport is SSH. Ansible is technically not serviceless automation; we speak in general terms, and one SSH-is-a-service objection can derail the loop.</div>
   <div class="beat"><b>At LEARN</b>What the loop learns from is data from your own systems, never information generated from information. Generated text is a draft until it passes the same curation any knowledge record gets.</div>
   <div class="beat"><b>Authority comes from your language</b>The fluency that becomes authority has to be grounded in <em>your</em> language and <em>your</em> approved processes — not OpenAI’s. And most of the effort here is provisioning, patching, scaling, data collection and inputs: an automation problem, not an AI problem.</div>
+  <div class="beat"><b>Name the agent boundary</b>The agent may choose which approved diagnostic tool to call next; it may not invent a new production action. Its tool belt, scope, identity, approval gates, stop conditions and evidence obligations are policy. Ansible then executes the known, tested step. <b>Tool choice is not unlimited authority.</b></div>
   <div class="cue"><span class="next">NEXT → <b>the MTTR proof</b> (this loop, quantified)</span></div>
 </section>
 
@@ -653,6 +1032,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Pair the chart with the outside number and the personal story: industry incident studies consistently put diagnosis at most of resolution time — <b>and this is where Brad tells the case-study anecdote</b> that makes it concrete. Then the bars: detection was already fast; the hours lived in diagnosis; -84%.</p>
     <p>Why local: logs are FTI-adjacent — hostnames, account fragments, case identifiers. Nothing is exported to anyone’s hosted service.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“Think of this as a private operational notebook. It has read your logs, runbooks, incidents and change records, and it runs beside the systems it observes. Nothing FTI-adjacent has to leave the boundary.”</p>
+    <p>“The blue portion of the chart is detection. That was already fast. The large orange portion is diagnosis—the time humans spend asking what changed, whether it happened before and which runbook applies. That is information work.”</p>
+    <p>“The example in the deck shows diagnosis falling from two hours forty-one minutes to twenty-four minutes, and total resolution time falling from three hours sixteen minutes to fifty-nine minutes. The scenario illustrates the value of connecting logs with changes and runbooks. It is not a performance promise for another environment.”</p>
+    <p>“Say the numbers accurately: twenty-four minutes is diagnosis, not MTTR. We still include detection, remediation and verification. That precision is what makes the story credible.”</p>
+    <p>“The four layers are visible here. Prediction flags the risk. Generation produces the cited diagnosis. An agent chooses among approved diagnostic tools. Automation performs and verifies the approved remediation. The opportunity is to reach a supported diagnosis faster while still checking the repair and its result.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · evidence, hypothesis and a resolved incident</b>
+    <p>Distinguish an observed symptom from a proposed cause. “The container was killed after reaching its limit” can be an observation from the record. “The last configuration change caused the memory pressure” is a hypothesis until comparison or testing supports it. “The service is healthy again” requires a health check after the repair.</p>
+    <p>The source deck's example shows 161 minutes of diagnosis reduced to 24 minutes and total elapsed time reduced from 196 to 59 minutes. Those values imply approximately 85 percent less diagnosis time and 70 percent less total time in that example. Treat them as the supplied illustration unless the underlying incident records substantiate a measured case study; they are not a promised result for another team.</p>
+    <p>For a single incident, say resolution time. MTTR is the average over a defined collection of incidents. Track unsuccessful suggestions, rework and recurrence as well as elapsed time, so “faster” means faster verified resolution rather than a faster wrong answer.</p>
+    <p><b>Jon prompt:</b> “What does the proposed cause need before it becomes the reason in the incident record?” Suggested answer: corroborating evidence and a checked outcome, not just a plausible summary.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · narrate the chart</b><b>Brad:</b> “Jon, what is the orange bar?” <b>Jon:</b> “Diagnosis. The logs and measurements were already there; the example shortens the time spent interpreting them. We still have to verify the proposed cause.” <b>Brad:</b> “And that is why we report the full 59 minutes, not pretend 24 minutes was the whole incident.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Dashboards answer anticipated questions</span><span class="to"><span class="rung r-info">Information</span></span></div>
@@ -665,6 +1060,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Second story, if there is time</b>Otherwise pick one and say which. The must-gather: the notebook diagnosed in two minutes what had taken the team forty-six hours. People love stories, but the number is what makes it credible. <span style="color:var(--ink-3)">(If the must-gather visual is ever shown, use a sanitized version — the original came from a real customer instance.)</span></div>
   <div class="beat"><b>Jon asked for this narration verbatim</b>The big orange bar is diagnosis — <em>that is all information</em>. The blue is data; the data does not change. What changed is the time to create the information. That ties this chart straight back to the ladder.</div>
   <div class="beat"><b>If the room is operational</b>Offer to jump straight to Lab 07 — it runs this incident end to end.</div>
+  <div class="beat"><b>OOM story · preserve the four layers</b>The risk score is predictive. The cited diagnosis is generative. Choosing whether to query logs, metrics, CMDB or the ticket is agentic—but only inside the allowed tool belt. The remediation and verification are automation. Say the four nouns again so the story teaches the architecture, not merely the anecdote.</div>
   <div class="cue"><span class="next">NEXT → <b>the adoption path</b> (crawl, walk, run)</span></div>
 </section>
 
@@ -682,6 +1078,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Be honest about where agencies stall: the second and third bullets of Crawl — <b>no accelerator capacity plan, and no written agreement on which data may be used</b>. Neither is technical, and both take longer than the pilot.</p>
     <p><b>Ask the room directly which phase they are in.</b></p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“Crawl, walk, run sounds obvious, but most programs skip the grounding step. They prove that a model can produce an interesting answer and immediately start planning enterprise scale.”</p>
+    <p>“In the prove phase, choose one recurring, painful workflow with a baseline. How long does it take today? Where does the queue form? What is the error rate? What evidence does the reviewer reconstruct by hand? Change one thing and measure it.”</p>
+    <p>“Before that proof can scale, ground it. Agree in writing on which data may be used. Identify the automation owner. Establish capacity, identity, evaluation, approval, logging, rollback and the security boundary. Inventory the current automation estate so the pilot joins the toolchain instead of creating a new island.”</p>
+    <p>“Only then scale: more users, more models, more workflows and more venues. The success test is that we understand the dependencies we accept today and retain a practical path to the alternatives the mission may need tomorrow.”</p>
+    <p>“Plan for problems, not predicaments. A hypothetical future GPU shortage is a predicament to monitor. A missing data agreement is a problem stopping the pilot today. Solve the problem in front of you.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · readiness is a sequence of practical decisions</b>
+    <p>Before choosing the model, choose the work. Identify the current baseline, missing evidence, repeated manual steps and the person responsible for the result. Determine whether a query, exact rule, calculator or conventional automation already solves the main problem.</p>
+    <p>Then add the smallest AI capability that addresses a remaining gap. Evaluate it with representative examples, including exceptions and incorrect inputs. Keep those examples so a later model can be tested against the same mission expectations.</p>
+    <p>The prerequisite is a mature strategy and an adequate operating path for the chosen scope—not a requirement to finish automating the entire agency before a bounded experiment. A pilot should join a program-wide approach to ownership, content, identity, testing and evidence. It should not quietly become another isolated service.</p>
+    <p><b>Exit question for each phase:</b> “If this model, framework or hosting choice proves wrong, what would it take to replace it?” The answer should become clearer as the pilot advances. This is the practical meaning of keeping future options open.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · problem versus predicament</b><b>Jon:</b> “What is the difference between a problem and a predicament?” <b>Brad:</b> “A problem has an action today; a predicament is a condition we plan around. No data-use agreement is today’s problem. A theoretical future chip shortage is not permission to stall.” <b>Jon closes:</b> “Ground what you proved before you scale what you hope.”</div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
       <div><span class="what">Prove (crawl)</span><span class="to"><span class="rung r-data">Data</span></span></div>
@@ -692,6 +1104,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Plan for problems, not predicaments</b>Do not let a hypothetical chip shortage derail the project. The problem right now is grounding the proof so you <em>can</em> scale — not the scale itself. The success test: none of the decisions you make today may limit your options tomorrow.</div>
   <div class="beat"><b>PLANTED — Jon plays the foil</b>“Wait — what is a predicament versus a problem?” Brad answers: a problem you can solve today; a predicament you can only plan around — so a hypothetical GPU shortage must not stall the pilot. Same reason as the lock-in riff: too nuanced to survive a big virtual room without the question in front of it.</div>
   <div class="beat"><b>Processes, not just workloads</b>Success depends on changing how you deploy — your processes — not merely moving workloads onto new technology. <span style="color:var(--ink-3)">Optional: containers took off because we did not have to teach people containers; developers just needed it to fit their workflow. That is still what is missing in a lot of places.</span> And use the ground truth you already have: your experience with the agency’s applications, software and data layers is what proves it.</div>
+  <div class="strategy-callout"><h3>Automation maturity is the gate before “Crawl”</h3><p>Inventory the existing automation estate before selecting the AI pilot: owners, execution platforms, credentials, reusable content, source control, testing, approvals, logging and rollback. Consolidate the minimum viable toolchain for the chosen workflow. Otherwise the pilot adds another island and calls it transformation.</p></div>
   <div class="beat"><b>Under Prove: don’t boil the ocean</b>Small pilot; crawl, walk, run. Start with one signal and one use case: the flashback moment when everybody got called in and ruined their Labor Day weekend over something that had happened a hundred times before, but the pattern just wasn’t connected. And you do not start with a ChatGPT-style box; you start with something valuable and integrated with your data and your mission.</div>
   <div class="cue"><span class="next">NEXT → <b>next steps</b> (step zero, the contact panel, the closing cyber question)</span></div>
 </section>
@@ -708,8 +1121,24 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p><b>Close with a specific ask, not a thank-you.</b> Step zero, said first: for a PoC we set a time and run the seven labs together, show and tell, to find where in the stack you want to prove value. That scopes the pilot; if it gets serious, Brad brings in more people. Then step one, the half-day architecture workshop; step two, a guided pilot with a measured baseline; step three, Four Inc. and Carahsoft carry the vehicles; bring them in early, not at the end.</p>
     <p><b>Engage the solution architects early</b> — the foundational questions are free to ask and expensive to skip. Point at the contact strip: reach out and we will connect you with the right subject-matter expert. The whole kit lives at <b>github.com/nommsweyMX/redhat-ai-tax-labs</b>.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“Do not leave this hour with a vague instruction to go do AI. Step zero is a lab walk-through. We put the right people together, run the mechanisms and find where in the stack you actually need to prove value.”</p>
+    <p>“Then we hold an architecture workshop around one workflow. We map the data boundary, the existing automation toolchain and its islands, the human decision, the security controls, the baseline and the measurable outcome. That scopes a guided pilot instead of a science fair.”</p>
+    <p>“If you are already a Red Hat customer, ask for your Solution Architect. If you do not know who that is, email Jon or me, open a Customer Portal request, or ask through your management line. Ted Craig is the IRS account executive, and pilots should connect to the account team early. Four Inc. and Carahsoft belong in the acquisition path before the end, not after the technical work is complete.”</p>
+    <p>“Bring your platform team, mission owner, automation owner and cyber team together from the start. Unanswered foundational questions are free to ask now and expensive to rebuild later.”</p>
+    <p>“Everything is public at the site shown here. Bring us your hardest question. If we do not know the answer live, we will find the person who does.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · turn interest into a useful next meeting</b>
+    <p>Ask participants to bring one actual workflow and the evidence that describes it: sample inputs approved for use, a known procedure, the existing tools, the current delay and the owner of the decision. A generic request for an AI demo does not supply enough information to choose a solution.</p>
+    <p>Use five questions: What do we need to know? Which source can establish it? Which part is uncertain? What action is permitted? What must we be able to change later? The answers map directly to retrieval, prediction, generation, calculation, automation and accountability.</p>
+    <p><b>Closing passage to read:</b> “The objective today was not to make you memorize every term. It was to give you enough understanding to recognize the right tool, ask where an answer came from, and know what must be checked before acting. Take the detailed explanations with you. Bring us the workflow. We will work backward from the outcome and preserve the choices you may need tomorrow.”</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · make the next action explicit</b><b>Brad:</b> “Jon, if someone emails us tomorrow, what should they bring?” <b>Jon lands:</b> one painful workflow, the people who own it, the current baseline, and the cyber/automation owners. <b>Brad:</b> “Good. Not a shopping list of models—a real workflow and the people accountable for it.”</div>
   <div class="beat"><b>Say this line</b>“If you did not see it here, that does not mean it does not exist — it does not mean it is not a feature or a product.” Then: reach out to me and I will get you in touch with the right person. Models-as-a-Service is the example worth naming for platform architects. There is no stupid question — unanswered foundational questions are what build a shaky foundation that gets reworked later. Brad’s closer if the room is warm: that is why we get paid as solution architects — I would rather talk to you than my manager.</div>
   <div class="beat"><b>One thing to remember</b>Nothing in these seven labs required a public model endpoint, an internet connection at inference time, or a rewrite of a system of record. That is the whole argument.</div>
+  <div class="beat"><b>Add the automation discovery ask</b>Before the AI architecture workshop, ask the customer to map the current automation toolchain and its islands: what is versioned, governed, reusable, observable and auditable across the program—and what still depends on one person running one script. That map determines whether the pilot can become institutional.</div>
   <div class="beat"><b>Four moves, said out loud</b>Already a Red Hat customer? Ask for your Solution Architect — and if you do not know who that is, email Brad (bscalio@redhat.com) or Jon (jkeam@redhat.com), open a ticket in the Customer Portal and ask support, or ask through your management line. Start a community of practice across platform, security and mission teams around one workflow. Bring your hardest question. <b>Bring your cyber team:</b> nobody from IRS cyber today? Refer us to your ISSO or security lead; we run the appendix in depth for them. Brad’s line: if nothing else, I will act as your connector.</div>
   <div class="beat"><b>Point at Ted</b>Say hi, Ted: Red Hat’s account executive for the IRS. Do not know your AE, or not a customer yet? Email Brad; he connects you with your equivalent of Ted, and pilots route through the AE. Never end with nothing happening after.</div>
   <div class="beat"><b>Spoken, not on the slide</b>Not IRS or financial services? Reach out anyway; we rebuild this around your mission with your account team.</div>
@@ -738,6 +1167,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>This is the concluding takeaway — the deck ends hands-on, not with a thank-you slide. <b>Switch the deck to the Labs view now.</b> The terminals are typed by them; commands are real and copyable; output is representative. The Demo view plays all seven hands-free.</p>
     <p>The plan: run <b>Lab 01</b> live and stop hard on the <code>ss -ltnp</code> step. Run <b>Lab 05</b> live — the 62-second remediation. Skim the rest; the repo goes home with them.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“We are ending the narrative portion with something you can run, not a thank-you slide. These labs are an opinionated path through the stack so you can prove the mechanisms to yourself.”</p>
+    <p>“Sometimes people give you all the bits and tell you to build something. Sometimes you want the pot before you plant the plant. These labs are the pot: one coherent path using the upstream tools that sit inside supported Red Hat solutions.”</p>
+    <p>“The disclaimer matters. Run this on a personal lab machine. It is not an MVP, never production, and never something to install casually on a government computer. The community bits teach the architecture; the supported Red Hat products, integrated into the agency boundary, are what the agency accredits.”</p>
+    <p>“We will run Lab 01 and stop on the line showing the model bound to 127.0.0.1. That shows where the service listens; proving that prompts stay local also requires checking its outgoing connections and network controls. Then we will run Lab 05, whose representative output shows a governed rule and playbook resolving a known condition in sixty-two seconds and recording the job.”</p>
+    <p>“Anyone can take the labs, and they cost nothing. The objective is confidence. If you cannot prove the behavior to yourself, an authorizing official will hear that uncertainty immediately.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · what the labs demonstrate</b>
+    <p>The page offers guided terminal examples and representative output; running the repository's exercises produces evidence from the environment in which they actually run. A simulated terminal is a teaching aid, not a measurement from an agency system.</p>
+    <p>Binding a service to <code>127.0.0.1</code> limits where it listens for incoming connections. That does not, by itself, prove that the process makes no outgoing connections. Data-flow claims require inspecting configured destinations, retrieval services, telemetry and network egress controls. Keep that distinction explicit when narrating Lab 01.</p>
+    <p>Use the labs to answer practical questions: where does the model run, which version is used, where do references come from, who can start a job, and what record survives afterward? The audience does not need to learn every command to understand those questions.</p>
+    <p><b>Jon prompt:</b> “What should a mission owner learn from watching this command?” Suggested answer: which claim the output supports—and which claim it does not support.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · transition from slides to proof</b><b>Brad:</b> “Jon, what is the difference between this lab and a production architecture?” <b>Jon lands:</b> the lab proves mechanisms; production adds supported lifecycle, sizing, integration, controls and authorization. <b>Brad:</b> “Exactly. We are not asking you to accredit a laptop. We are showing you what the supported platform must prove.”</div>
   <div class="beat"><b>The pot and the plant</b>The line Brad credits, with a hedge, to Danny Mack from the OpenStack days: people hand you the bits and tell you to build something; sometimes you just want the pot to put the plant in. These labs are the pot: the Red Hat opinionated way to get going on a personal laptop, using the upstream community tool chain that is used and secured inside a Red Hat solution.</div>
   <div class="beat"><b>The disclaimer, said out loud</b>An opinionated path on a personal laptop: not an MVP, never production, and never on a government computer. We lead with one path so nobody drowns in options. Say the distinction so no ISSO leaves thinking the laptop stack goes in an authorization package: the labs run the community bits on a laptop; the supported Red Hat product built from the same tool chain is what an agency accredits.</div>
   <div class="beat"><b>Why they should care</b>The point is to prove it to <em>yourself</em>: you will watch the model serve on 127.0.0.1 with no egress — and if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal lets people type each command without installing anything, and it refuses off-script commands, which is exactly what makes it a prescriptive, defensible path for a pilot. The punchline: your installation and scripting become the artifact you hand your AO.</div>
@@ -769,6 +1214,24 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p><b>Lab 08 is the whole hour in one loop.</b> Run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved.</p>
     <p>One platform carries every step: the predictive scorer and the generative drafter are pods on the same GPU node, the automation is the same AAP console as Lab 05, and the knowledge base is the same pgvector store as Lab 07. Nothing left the cluster.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2½ minutes</b>
+    <p>“This is the entire hour in one loop. Start with logs from the mainframe and distributed systems. They land in Loki as data. A predictive model uses the approved features to score which service is most likely to fail in the next seventy-two hours. That score is information, not a decision.”</p>
+    <p>“Lightspeed then retrieves the relevant incident history, change records and runbooks. It drafts a playbook and an Event-Driven Ansible rulebook with citations. That is drafting assistance. When the model also chooses the next permitted tool based on what it finds, the system is acting agentically.”</p>
+    <p>“Then the loop deliberately stops. A person reviews the pull request, edits it and decides whether to merge. In this configured workflow, a merge after the required checks triggers promotion. The approved content enters the repository, Ansible Automation Platform and the curated knowledge base.”</p>
+    <p>“When the known event fires, Event-Driven Ansible launches the approved job. The procedure follows the approved steps and programmed branches; the result still has to be checked. It validates the outcome, preserves the job history and escalates if the condition falls outside the policy envelope.”</p>
+    <p>“Now the assistant can answer what happened, what was approved, what ran and whether it worked—using the evidence the loop itself produced. It does not SSH into a host and improvise. It launches job templates a person already approved.”</p>
+    <p>“That is institutional automation: not a person noticing the same problem again, not a model inventing a fix, and not an orphaned script. Review, indexing and ownership turn the promoted changes and their outcomes into a usable knowledge record.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · a complete loop without turning the model into policy</b>
+    <p>The 72-hour risk score estimates a possible future condition. The draft playbook is generated content. A proposed pull request is a request to change the approved procedure. None acquires permission merely by existing.</p>
+    <p>In this example, the system connects drafting assistance, review, tests, a release process and AAP. A merge can be the configured promotion trigger after required checks; it is not a universal product behavior. Use “the workflow is wired to promote this approved change” when describing the connection.</p>
+    <p>The adaptive choice of which tool to call next is agentic. A fixed chain that always retrieves, drafts and runs the same checks is a workflow even if one step uses an LLM. Both can be useful. Do not award the label “agentic” just because a product drafted code.</p>
+    <p>When the assistant is asked “How is server8?”, it should identify whether it retrieved an old incident record or ran a current approved health check. Include the timestamp and job evidence. Repeating yesterday's green status is not a present observation.</p>
+    <p>The record becomes reusable institutional knowledge through review, indexing and ownership. Logging alone does not create a trustworthy knowledge base. This connects the model explanation in <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-4">Slide 4</a> to the operating strategy in <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-12">Slide 12</a>.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · split the loop</b><b>Brad:</b> “Jon, take the assistant side—what is it allowed to do?” <b>Jon lands:</b> retrieve, explain, draft, launch approved templates and report evidence; never self-promote or improvise production changes. <b>Brad:</b> take the mainframe row and ask the room, “What is the last runbook you wrote that the on-call actually found?”</div>
   <div class="beat"><b>Ask the platform: read the three answers</b>"How is server1-taxreturns?" Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088 [job 40518 · journald · RB-214]. "How is server8-audits?" Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed [job 40519]. "Which servers are showing online?" 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00 [job 40520 · estate ping]. Every answer carries a job id and a citation: evidence, not fluency.</div>
   <div class="beat"><b>Say the two takeaways out loud</b>The platform is also the KM system and the documentation, because every promoted change is a cited record. And the assistant does not change anything: it launches approved jobs and reports with evidence.</div>
   <div class="beat"><b>The four cards, if you need the words</b>The loop is the documentation: every promoted change, its review thread and its job outcome are indexed where the assistant searches; the KM system writes itself. Two kinds of AI, one platform: the scorer and the drafter share a GPU node, a registry and an identity; predictive and generative are pods, not projects. Promotion is a merge: repo, AAP and knowledge base update together, and a person decides; nothing runs from a chat window. Ask, then probe: the assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</div>
@@ -794,6 +1257,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Ten rows, each a question an authorizing official actually asks: where does the data go (nowhere; it runs in your enclave), is this the approved model (signed, verified before admission), is the crypto validated (FIPS mode), does it work with our smart cards and hardware crypto, <b>can this land in a FISMA moderate or high boundary</b> (controls map to the NIST 800-53 baselines; the FIPS 199 categorization picks the venue), does it stay compliant, what about the apps we build on it, is it drifting, what about air-gap, and who is accountable (a named reviewer, and every action from one governed console; the model drafts, it never sends).</p>
     <p>Offer to take the whole table offline with their ISSO.</p>
   </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 3 minutes when cyber engages</b>
+    <p>“This appendix is here because security questions deserve evidence, not a drive-by reassurance. We will not read all ten rows. Pick the questions that matter to your boundary and trace each one to the control and the lab that proves it.”</p>
+    <p>“Where does the data go? The model runs inside the enclave, and Lab 01 shows the service bound locally. Is it the approved model? Verify the signature before admission. What cryptography is covered? Check the relevant module validation, product version, approved configuration and FIPS state; document components outside that coverage. Does the system remain compliant? Run the Compliance Operator and retain the result, including failures and remediation.”</p>
+    <p>“What about smart cards, TPMs and hardware cryptography? Test the supported integration with the vendor hardware. What about applications and containers the agency builds? Their lifecycle needs signing, scanning, admission policy and evidence too. Platform security does not erase application responsibility.”</p>
+    <p>“Is the model drifting? Define the measure and threshold before deployment, monitor it and route violations. Can it run disconnected? Mirror images, models and updates through the approved path. Who is accountable? A named reviewer, enterprise RBAC, approved automation content and complete job history. The model drafts; it never sends or promotes itself.”</p>
+    <p>“Avoid absolutes. Controls inherited from RHEL and OpenShift provide a strong base, but anything not inherited must be documented and handled elsewhere. Federal authorization adds artifacts—attestations, POA&amp;Ms, control evidence and reporting. Do not invent those alone; bring the security team and the appropriate specialists in early.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · security and correctness are separate questions</b>
+    <p>A locally hosted model can still generate a wrong answer. A signed model can still be poorly suited to the task. A successful access-control check can authorize a tool call whose input was mistaken. Security controls constrain the system; evaluation and evidence checking address the quality of its work.</p>
+    <p>Translate the appendix into ordinary questions: Where can the data go? Who can use which tools? Which version ran? Who approved the action? What happened? Can we stop or reverse it? Those questions apply regardless of which model or product is chosen.</p>
+    <p>FIPS mode is a configuration state, not a blanket declaration that every component is covered by a cryptographic validation. A compliance scan contributes evidence; it is not the authorization decision. Establish the applicable versions, configurations and control responsibilities with the responsible team.</p>
+    <p><b>Return to the purpose:</b> “The terms change. The need for traceable evidence, bounded authority and replaceable components stays. Understand those relationships and you can ask the right questions about the next technology as well as this one.”</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · let cyber choose the row</b><b>Brad:</b> “Jon, if you were the AO, which claim would you make us prove first?” <b>Jon lands:</b> data location and action accountability—where information travels, who can invoke change and what evidence survives. <b>Brad:</b> “Good. Pick any row; we should be able to show the control and the proof, not merely describe a feature.”</div>
   <div class="beat"><b>WHEN CYBER IS IN THE ROOM</b>Seams done right is where cyber comes in. Each layer inherits controls from below: FIPS mode and crypto from RHEL CoreOS carry up through OpenShift and OpenShift AI. For a cyber replay, add depth here and on the slide 9 seams riff; do not re-pitch the deck. “Is AI safe, can we put guardrails on it” always comes up: cover FIPS 199 and FISMA moderate or high, federal templating and reporting shipped with the platform, air-gap, registry mirroring, the Compliance Operator; civilian and DoD share the requirements.</div>
   <div class="beat"><b>No absolutes</b>What is not FIPS-inherited, say so: the exception is documented and addressed elsewhere in the system. Never claim absolutes to a cyber audience.</div>
   <div class="beat"><b>FIPS row: say the credential once</b>Former ITO / ISSO on a FISMA High system: having this in your authorization package is perfectly acceptable. That turns the row from a vendor claim into practitioner evidence.</div>
@@ -802,6 +1281,22 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Do not roll your own validations</b>Say it plainly, then offer the introduction: reach out and we will connect you with a solution architect or specialist. Disconnected operation, registry mirroring and the Compliance Operator come baked in for zero-internet environments.</div>
   <div class="beat"><b>Glass box, not black box</b>You do not want to be handed a box and told “this is AI” when you cannot see inside it. You want a glass box you can break open and inspect — vital when the work is a tax audit or a criminal investigation. Recent anecdote if it fits: the Hugging Face breach — attackers went after the SaaS model in the cloud to pivot in. On-prem and SaaS answer different questions.</div>
   <div class="beat"><b>Brief cyber early</b>At the IRS, ideas die when cyber hears about them late. That is the point of the community of practice on slide 15: platform, security and mission teams in one room from the start.</div>
+  <div class="discussion takehome">
+    <b>The decision guide to take away</b>
+    <table>
+      <tr><th>What the work requires</th><th>Start with</th><th>Add AI when</th></tr>
+      <tr><td>Exact arithmetic under explicit rules</td><td>A verified calculator or rules implementation</td><td>Language assistance helps obtain or explain the inputs; keep the calculation in the calculator.</td></tr>
+      <tr><td>A known record or exact value</td><td>A query, search or approved API</td><td>The question is expressed in messy language, while the returned record stays distinguishable from the generated explanation.</td></tr>
+      <tr><td>A repeated known procedure</td><td>Tested automation</td><td>Interpretation or selection of a next step cannot be handled adequately by the existing rules.</td></tr>
+      <tr><td>An uncertain outcome or pattern</td><td>A baseline forecast or statistical method</td><td>A trained predictive model measurably improves the estimate on representative data.</td></tr>
+      <tr><td>Reading, summarizing or drafting</td><td>Search, templates or a language model, depending on the task</td><td>The volume or variety warrants generation and its output can be checked against the evidence.</td></tr>
+      <tr><td>An investigation whose next step changes</td><td>A human or governed workflow</td><td>An agent's tool selection improves the result within tested permissions and stop conditions.</td></tr>
+    </table>
+  </div>
+  <div class="read-script">
+    <b>Final read-aloud line</b>
+    <p>“Understand the job before choosing the label. Verify the evidence before acting on the answer. Build the automation that makes the result useful. And make today's choices in a way that leaves tomorrow's options open.”</p>
+  </div>
   <div class="cue"><span class="next">NEXT → <b>Lab 01 notes</b> · deck stays in Labs view</span></div>
 </section>
 
@@ -820,23 +1315,27 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div class="o"><span class="ok">Signature verified — policy: signedBy release key</span>
 Writing manifest to image destination — sha256:51b7ec39</div>
       <div class="say">The serving engine is a signed container, patched and lifecycled like any other RHEL content.</div>
+      <div class="cardline"><span><b>What</b>Pulls the Red Hat AI Inference Server image from registry.redhat.io. Before any layer is written, podman checks the signature against the release key; the manifest lands as sha256:51b7ec39, a digest you can quote in a system security plan.</span><span><b>Why</b>Data is the bottom rung, and the first thing an ISSO asks about taxpayer data is who is allowed to read it. Before this engine touches a single return, its origin is verified and its patch stream is known.</span><span><b>Red Hat</b>The vLLM engine arrives as a signed Red Hat container on RHEL 9, patched through the same errata stream as the host. There is no hand-built vLLM on an unpatched base image with nobody to call when a CVE lands.</span></div>
     </div>
     <div class="cmd">
       <div class="c">huggingface-cli download RedHatAI/granite-3.3-8b-instruct --local-dir /var/models/granite-3.3-8b-instruct</div>
       <div class="o">model-0000x-of-00004.safetensors  [####################]  ~16 GB total
 <span class="ok">Download complete: /var/models/granite-3.3-8b-instruct</span></div>
       <div class="say">A validated model from the Red Hat AI repository. In an enclave you mirror it into your own registry — Lab 06 verifies the signature.</div>
+      <div class="cardline"><span><b>What</b>Fetches the 14 files of Granite 3.3 8B Instruct from the RedHatAI repository into /var/models on local disk, 16.3 GB in four safetensors shards. The weights are data on your filesystem now, not a URL your application calls.</span><span><b>Why</b>The model comes to the data: the weights move once, onto a host you own, and every taxpayer inquiry after that stays put. In an enclave you mirror the files into your own registry and Lab 06 checks the signature.</span><span><b>Red Hat</b>The model is a validated Granite from the Red Hat AI repository, built for this serving engine, quantized variants included. No weights of unknown provenance from a public hub, matched to a runtime by trial and error.</span></div>
     </div>
     <div class="cmd">
       <div class="c">podman run --rm --device nvidia.com/gpu=all --shm-size 4g -p 127.0.0.1:8000:8000 -v /var/models:/models:Z registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.2 --model /models/granite-3.3-8b-instruct</div>
       <div class="o">INFO  vLLM API server  |  gpu_memory_utilization=0.90
 <span class="ok">INFO  Started server — OpenAI-compatible API on port 8000</span></div>
       <div class="say">Published only on 127.0.0.1. In production a Quadlet unit keeps it up — this is not a foreground pet.</div>
+      <div class="cardline"><span><b>What</b>Starts the engine on the GPU, mounts /var/models with the :Z SELinux relabel, and publishes port 8000 on 127.0.0.1 only. 16.3 GB of weights load in 14.2 seconds and an OpenAI-compatible API comes up, so client code needs no rewrite.</span><span><b>Why</b>The adoption path calls this Prove: one supported endpoint on one machine you already own, running today. gpu_memory_utilization=0.90 is the first number in your capacity plan, the one filing season will multiply by six in Lab 03.</span><span><b>Red Hat</b>The container carries CUDA, vLLM and the RHEL 9 userspace as one tested unit, and Quadlet hands it to systemd with no glue script. No driver-and-Python matrix reconciled by hand, no serving process only one engineer knows how to restart.</span></div>
     </div>
     <div class="cmd">
       <div class="c">ss -ltnp | grep ':8000'</div>
       <div class="o">LISTEN 0  2048  <span class="ky">127.0.0.1:8000</span>  0.0.0.0:*  users:(("conmon",...))</div>
       <div class="say">STOP HARD HERE. Bound to localhost. No egress path. This single line answers "where does our data go when someone prompts the model?" — the most persuasive screen of the hour for this audience.</div>
+      <div class="cardline"><span><b>What</b>Lists listening TCP sockets and filters for port 8000. The only match is 127.0.0.1:8000, owned by conmon, podman's container monitor: no external interface, no route in from the network, no route out to a public model API.</span><span><b>Why</b>Where does taxpayer text go when someone prompts the model? To 127.0.0.1 and no further. FTI stays inside your boundary, so the accreditation conversation starts from a fact you can screenshot rather than a vendor's promise.</span><span><b>Red Hat</b>The binding, the SELinux label on the model volume and the patch stream all come from one RHEL lifecycle. There is no notebook-launched Python server that defaulted to 0.0.0.0, and no network diagram nobody updated after the demo.</span></div>
     </div>
     <div class="cmd">
       <div class="c">curl -sS http://127.0.0.1:8000/v1/chat/completions -H 'Content-Type: application/json' -d @inquiry.json | jq -r '.choices[0].message.content'</div>
@@ -844,9 +1343,11 @@ Writing manifest to image destination — sha256:51b7ec39</div>
 routing:   Accounts Management — refund trace queue
 draft_reply: "…Submit Form 8822 to update your address, then request a refund trace."</span></div>
       <div class="say">A category, a queue, the missing form, and a draft reply written for a human to edit and sign. It classifies; a person decides.</div>
+      <div class="cardline"><span><b>What</b>Posts inquiry.json, a taxpayer contact plus a system prompt naming the fields to fill, to the local endpoint. Back come a category, a routing queue, the missing Form 8822 and a draft reply: 214 tokens in, 96 out, 1.31 seconds.</span><span><b>Why</b>This is the climb from Data to Information: an uninterpreted contact becomes a routed case with a draft ready to edit. The model classifies; a person in Accounts Management decides and signs, the rule that makes this defensible.</span><span><b>Red Hat</b>The endpoint speaks the OpenAI API, so intake code written today points at OpenShift AI in Lab 03 with a URL change, not a rewrite. No bespoke inference wrapper to maintain, no vendor-specific SDK that quietly closes the exit door.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> A defensible AI pilot starts on one machine you already own, with a supported product rather than a pile of Python. The base model does not yet know your notice codes — that is Lab 02.</p>
+  <div class="cardline wrap"><span><b>What you did</b>In five commands a signed inference server and a validated Granite model came up on one host, bound to 127.0.0.1, and turned a taxpayer's refund inquiry into a category, a queue, Form 8822 and a draft reply in 1.31 seconds.</span><span><b>Why</b>A defensible pilot starts on a machine you already own, and 'where does our data go' is answered by a socket, not a memo. The model does not know your notice codes yet; that climb to Knowledge is Lab 02.</span><span><b>Red Hat</b>Engine, model, OS and systemd unit come from one supported lifecycle, and the same signed image is what OpenShift AI serves in Lab 03. Accredit once, inherit everywhere begins on this host, not in a pile of Python nobody supports.</span></div>
 </section>
 
 <!-- ============ LAB 02 ============ -->
@@ -863,32 +1364,38 @@ draft_reply: "…Submit Form 8822 to update your address, then request a refund 
       <div class="o">seed_examples:  (CP2000 — a proposal, not a bill; 30-day window …)
 <span class="ok">12 seed examples across 6 notice families.</span></div>
       <div class="say">Knowledge written as prose, not feature vectors. A tax specialist can review this — that is the whole design goal.</div>
+      <div class="cardline"><span><b>What</b>Makes a seeds directory and opens seeds/notices.yaml, schema version 3. Each block is a paragraph of plain-language context about one notice family (CP2000 is a proposal, not a bill) followed by the questions taxpayers ask; twelve examples, six families.</span><span><b>Why</b>The Knowledge rung: guidance the institution owns, written by the people who apply it. A tax specialist can read and correct this file, with no feature vectors and no six-month labelling budget before the model learns one notice code.</span><span><b>Red Hat</b>SDG Hub and Training Hub on Red Hat AI read this one seed format, and the file lives in git beside the manifests. No separate labelling tool with its own login and export format, no converter script feeding the trainer.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python check_seeds.py --seeds ./seeds</div>
       <div class="o"><span class="ok">Seed data is valid.</span> 1 topic · 12 seed examples · schema v3 · no errors</div>
       <div class="say">This gate belongs in CI. A bad contribution fails here, not after four hours of GPU time.</div>
+      <div class="cardline"><span><b>What</b>Validates every file under ./seeds against schema version 3: the version key, the indentation under questions_and_answers, a context paragraph for each example. Twelve examples, one topic, no errors, in seconds and before any GPU is touched.</span><span><b>Why</b>A bad contribution fails here, not after four hours of GPU time. The check runs on the pull request, so the tax specialist reviewing it argues about what a CP2000 means, never about YAML indentation.</span><span><b>Red Hat</b>The validator, the generator and the trainer ship together on Red Hat AI, so a schema change arrives in all three at once. No home-grown lint script written against last year's format, silently passing files the trainer will reject.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python generate.py --seeds ./seeds --endpoint http://127.0.0.1:8000/v1 --scale 30 --output ./sdg</div>
       <div class="o">sdg_hub flow: knowledge_generation · teacher = <span class="ky">the Lab 01 endpoint</span>
 quality filter  2,556 -&gt; <span class="ok">2,203 kept</span></div>
       <div class="say">Twelve examples become two thousand. Every sample traces back to a seed a human wrote and reviewed — nobody labelled ten thousand rows by hand. Precise term: the Lab 01 endpoint acts as the teacher model.</div>
+      <div class="cardline"><span><b>What</b>SDG Hub runs its knowledge_generation flow with the Lab 01 endpoint at 127.0.0.1:8000 as the teacher model. Twelve seeds become 1,842 knowledge and 714 skills candidates; the quality filter keeps 2,203 of 2,556 and writes one JSONL file under ./sdg.</span><span><b>Why</b>Nobody labelled ten thousand rows by hand, and the teacher sat inside your boundary the whole time: notice language never left this host to be expanded. Every kept sample traces back to a seed a human wrote and reviewed.</span><span><b>Red Hat</b>The teacher is the signed Red Hat AI Inference Server from Lab 01, the same endpoint, identity and audit trail. No call out to a commercial API on somebody's personal key, carrying agency notice text through a proxy nobody accredited.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python train.py --base /var/models/granite-3.3-8b-instruct --data ./sdg --method lora</div>
       <div class="o">training_hub sft | LoRA rank 32 · loss 1.884 -&gt; 0.471
 <span class="ok">Checkpoint: ./checkpoints/granite-8b-tax-v1/samples_2203</span></div>
       <div class="say">The checkpoint is what gets promoted — Lab 03 serves it.</div>
+      <div class="cardline"><span><b>What</b>Training Hub runs supervised fine-tuning with a rank-32 LoRA adapter in bf16 on one H100. Loss falls from 1.884 to 0.471 across three epochs of about four minutes each, and the checkpoint lands at ./checkpoints/granite-8b-tax-v1/samples_2203.</span><span><b>Why</b>The only step in these labs that changes the weights. The base model never saw CP2000 routing in its training data; three epochs on reviewed agency knowledge is how institutional memory becomes something the model carries into every draft.</span><span><b>Red Hat</b>The base at /var/models is the same signed Granite the inference server loads, and Training Hub runs on the same accelerator stack. No hand-built PyTorch environment whose library versions drift from the box that will serve the result.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python evaluate.py --base /var/models/granite-3.3-8b-instruct --tuned ./checkpoints/granite-8b-tax-v1</div>
       <div class="o">notice family accuracy  0.61 -&gt; <span class="ok">0.94</span>   routing queue  0.58 -&gt; <span class="ok">0.91</span>
 cites the right form    0.44 -&gt; <span class="ok">0.89</span>   overall judge  6.1 -&gt; <span class="ok">7.8</span></div>
       <div class="say">This table is the artifact the governance board asks for. Keep the held-out set out of the seeds or the numbers mean nothing.</div>
+      <div class="cardline"><span><b>What</b>Scores base and tuned on held-out agency questions with an LLM judge. Notice family accuracy rises from 0.61 to 0.94, routing queue 0.58 to 0.91, citing the right form 0.44 to 0.89; readability moves a modest 0.72 to 0.86.</span><span><b>Why</b>The governance board asks for this table before a tuned model drafts anything a reviewer signs. Big gains on agency tasks, small on readability, is the healthy pattern, valid only if the held-out set stayed out of the seeds.</span><span><b>Red Hat</b>On OpenShift AI this evaluation is a pipeline stage whose scores attach to the checkpoint entering the model registry, so promotion is gated on evidence. No notebook screenshot pasted into a ticket; Lab 03 serves the version this table describes.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Domain adaptation stops being a data science project and becomes a pull request a subject matter expert can review.</p>
+  <div class="cardline wrap"><span><b>What you did</b>Twelve seed examples a tax specialist wrote were validated, expanded to 2,203 samples by the Lab 01 endpoint, tuned into a rank-32 LoRA adapter over three epochs on one H100, and scored: notice family accuracy 0.61 to 0.94.</span><span><b>Why</b>The Knowledge rung: guidance the institution owns, written by the people who apply it and reviewed like code, now informs every draft, and a person still decides. Domain adaptation stops being a data science project and becomes a pull request.</span><span><b>Red Hat</b>Generator, trainer and evaluator are one product on Red Hat AI: one schema, one signed base model, one accelerator stack, one support contract. The seam avoided is a notebook nobody can rerun when the board asks how it learned CP2000.</span></div>
 </section>
 
 <!-- ============ LAB 03 ============ -->
@@ -906,15 +1413,18 @@ cites the right form    0.44 -&gt; <span class="ok">0.89</span>   overall judge 
 storageUri: oci://registry.agency.gov/models/<span class="ky">granite-8b-tax-v1</span>
 <span class="ok">inferenceservice.serving.kserve.io/tax-classifier created</span></div>
       <div class="say">The deployment is a reviewable YAML file. The manifest IS the capacity plan — infrastructure as code, so placement is policy, not re-architecture.</div>
+      <div class="cardline"><span><b>What</b>Applies one InferenceService manifest. It names the runtime, vllm-runtime, the model, granite-8b-tax-v1 pulled from the agency registry, one GPU per replica, a floor of 2, a ceiling of 20, and a scale trigger of 24 concurrent requests.</span><span><b>Why</b>The manifest is the capacity plan. Every decision an authorizing official would argue about, which model, how many GPUs, how far it may grow in April, is a diffable line in git rather than a console click.</span><span><b>Red Hat</b>KServe, the vLLM runtime and the OCI model pull are all OpenShift AI, so one apply is the whole deployment. No separate serving team to ticket, no glue script copying weights onto a GPU host over scp.</span></div>
     </div>
     <div class="cmd">
       <div class="c">hey -z 90s -c 400 -m POST -D inquiry.json https://tax-classifier.tax-inference.svc/v1/completions</div>
       <div class="o">Requests/sec 1183 · p95 0.612s · <span class="ok">Errors: 0</span>
 replicas  t+00s 2 → t+40s <span class="ok">20 (max)</span> → t+180s 2  <span class="wr">scaled back to floor</span></div>
       <div class="say">400 concurrent taxpayers. No application change — scale-up is a platform behavior. Scale-to-two, not scale-to-zero: cold starts on an 8B model are not free.</div>
+      <div class="cardline"><span><b>What</b>Holds 400 concurrent requests for 90 seconds, an April afternoon in miniature. Replicas climb 2, 6, 13, 20 by t+40s, p95 stays at 0.612s with zero errors, and by t+180s the service is back on its floor of two.</span><span><b>Why</b>The 6× filing surge becomes a scheduling event, not a budget line. No application change, no ticket: the manifest is the capacity plan, and the GPUs that absorbed April are released by t+180s to cost nothing in August.</span><span><b>Red Hat</b>Scaler and runtime ship together in OpenShift AI, so the scaler knows what a replica costs: one GPU, 8 GB of weights, a 96-second start. There is no bolted-on CPU scaler that fires late and cannot see the model's footprint.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Capacity for the April peak that costs nothing in August is the difference between a demo and a production service.</p>
+  <div class="cardline wrap"><span><b>What you did</b>In six commands a tuned 8B model went from a manifest to a service that held 400 concurrent taxpayers at p95 0.612s with zero errors, scaled from two replicas to twenty and back, and never left the cluster.</span><span><b>Why</b>Filing season is the 6× surge a tax system pays for all year. Here April became a scheduling event: capacity followed the season, the intake application never changed, and the Information rung kept producing routed cases inside your boundary.</span><span><b>Red Hat</b>The manifest is the capacity plan, and it deploys unchanged to a datacenter cluster, an accredited cloud region or an air-gapped enclave. Placement is policy, not re-architecture, and because none of it is hyperscaler-only the exit door stays open.</span></div>
 </section>
 
 <!-- ============ LAB 04 ============ -->
@@ -931,12 +1441,14 @@ replicas  t+00s 2 → t+40s <span class="ok">20 (max)</span> → t+180s 2  <span
       <div class="o">Pub 17 · Pub 501 · Pub 594 · internal notice guidance
 <span class="ok">Indexed 3,135 chunks into pgvector.tax_guidance</span></div>
       <div class="say">Re-ingest when guidance changes — the weights do not have to.</div>
+      <div class="cardline"><span><b>What</b>Walks the publication corpus, cuts it into 800-character chunks with a 120-character overlap, embeds each with granite-embedding-125m and indexes 3,135 chunks into pgvector.tax_guidance. Publication 17 alone is 412 pages and 1,904 chunks; the HNSW index keeps lookups fast.</span><span><b>Why</b>The corpus is queried, never learned: retrieval keeps sensitive text out of training, which is the sentence a data governance review wants in writing. When Publication 594 is republished, you re-run this pass in minutes instead of touching the weights.</span><span><b>Red Hat</b>Embeddings come from the same Red Hat AI Inference Server endpoint that serves the model, for ingest and queries. There is no third-party embedding API that guidance text leaves the boundary to reach, and no ingest-versus-query mismatch scoring everything low.</span></div>
     </div>
     <div class="cmd">
       <div class="c">llama-stack-client inference chat-completion --message "A taxpayer received a CP14 and cannot pay in full. What are their options and where is that documented?"</div>
       <div class="o"><span class="vi">Four options: short-term plan · installment agreement · offer in compromise · currently-not-collectible</span>
 <span class="ky">sources: [1] Pub 594 p.4 (0.891) · [2] Pub 594 p.7 · [3] internal CP14 §3.2</span></div>
       <div class="say">The citation comes back with the answer — that is what reviewers need.</div>
+      <div class="cardline"><span><b>What</b>Asks a CP14 question through Llama Stack: the question is embedded, the nearest passages come back from pgvector, and the model drafts from those only. Four payment options return with a sources block, led by Publication 594 p.4 at 0.891.</span><span><b>Why</b>The citation block is the part your reviewers need. A collections specialist can open Publication 594 page 4 and check the draft against the source: the model reads, grounds and drafts on the Knowledge rung, and a person decides.</span><span><b>Red Hat</b>On OpenShift AI, Llama Stack puts retrieval and inference behind one API: one call returns answer and sources. No home-grown script glues a vector client, a prompt template and a model SDK, each with its own auth and upgrade calendar.</span></div>
     </div>
     <div class="cmd">
       <div class="c">llama-stack-client inference chat-completion --message "What is the penalty rate for late filing in the 2031 tax year?"</div>
@@ -944,9 +1456,11 @@ replicas  t+00s 2 → t+40s <span class="ok">20 (max)</span> → t+180s 2  <span
 Refer this to a specialist rather than relying on this answer.</span>
 <span class="ky">sources: none above threshold (0.75)</span></div>
       <div class="say">THE 30-SECOND ANSWER to any hallucination question. When the corpus has no answer, the correct behavior is to say so. Refusal is a feature — demo this to the governance board.</div>
+      <div class="cardline"><span><b>What</b>Asks about a tax year the corpus does not cover. Every candidate scores below the 0.75 threshold, so no passage reaches the model: the output is a refusal, the most recent citable year, 2025, and a referral to a specialist.</span><span><b>Why</b>This is the thirty-second answer to the hallucination question: when the corpus has no answer, say so. A system that always answers launders a guess into something that looks sourced; refusal is a feature, and a person decides.</span><span><b>Red Hat</b>A refusal exits with code 3, a signal Ansible Automation Platform can route to a specialist queue, and the 0.75 threshold is one line in a versioned file. There is no home-grown webhook script between the refusal and the human.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Retrieval turns a general model into an agency system of reference — far cheaper than retraining.</p>
+  <div class="cardline wrap"><span><b>What you did</b>In four commands you stood up a vector store beside the model, indexed 3,135 chunks of published guidance, got a CP14 answer back with its Publication 594 citations, and watched the system refuse a 2031 question it could not source.</span><span><b>Why</b>Retrieval turns a general model into an agency system of reference on the Knowledge rung, far cheaper than retraining, and keeps sensitive text out of training. Every answer carries its passage, every gap becomes a referral, and a person decides.</span><span><b>Red Hat</b>Model, embeddings, vector store and the Llama Stack API run on one OpenShift AI cluster under one identity and one evidence trail. Guidance never leaves the boundary for embedding or answering, and nobody stitches three vendors' SDKs together in April.</span></div>
 </section>
 
 <!-- ============ LAB 05 ============ -->
@@ -958,11 +1472,13 @@ Refer this to a specialist rather than relying on this answer.</span>
     <div class="meta"><span class="rung r-judge">executes judgement</span><span class="chip prod">Ansible Automation Platform · Event-Driven Ansible</span><span class="chip">~5 min</span><span class="chip mono">you@aap-controller:~</span></div>
   </div>
   <div class="onscreen"><b>Goal, said out loud</b>Automation is the discriminator — it is what closes the loop. A rulebook detects inference saturation and remediates it before anyone opens a ticket.</div>
+  <div class="jon-cue"><b>Engage Jon during the lab</b>Before running it, ask: “Is this agentic?” Answer together: the event and rule may select an approved response, but the remediation itself is deterministic automation. The authority comes from the rulebook, RBAC, allowlisted job template and audit trail—not from the model’s confidence.</div>
   <div class="cmds">
     <div class="cmd">
       <div class="c">ansible-navigator run playbooks/model_endpoint_health.yml -i inventory/prod --mode stdout</div>
       <div class="o"><span class="ok">canary classified in 0.31s · signature sha256:4b91c0e2 matches change record CR-8841</span></div>
       <div class="say">The health check verifies the model is the approved one — provenance is operational, not paperwork.</div>
+      <div class="cardline"><span><b>What</b>Runs the hourly health playbook against the production inference host. Four tasks: list the models, send one canary inquiry, assert it came back under the 2.00 second threshold, and check the served digest sha256:4b91c0e2 against change record CR-8841.</span><span><b>Why</b>The canary is a real refund inquiry, so this tests the endpoint the way a taxpayer would. The digest step makes provenance operational, not paperwork: a model that drifted from the approved artifact is an accreditation finding, not an incident.</span><span><b>Red Hat</b>The digest is the one the signed model registry recorded at promotion, and the AI Inference Server serves that same artifact, so this check reads one identity end to end. No hand-kept hash spreadsheet drifting from what the host loaded.</span></div>
     </div>
     <div class="cmd">
       <div class="c">ansible-rulebook --rulebook rulebooks/inference_saturation.yml -i inventory/prod</div>
@@ -970,14 +1486,17 @@ Refer this to a specialist rather than relying on this answer.</span>
 [14:38:03] ACTION run_job_template -&gt; "Expand tax-inference capacity"
 <span class="ok">[14:39:04] EVENT  InferenceQueueDepth  resolved  depth=38</span></div>
       <div class="say">THE MOMENT PEOPLE REMEMBER: alert to resolved in 62 seconds. No ticket. No pager. The rulebook is the runbook — there is no separate document to go stale. This is the self-healing, closed-loop system from slide 12.</div>
+      <div class="cardline"><span><b>What</b>Starts the rules engine against the production controller. At 14:38:02 Alertmanager reports InferenceQueueDepth at 612, the rule matches, job 40213 raises maxReplicas from 20 to 32, 11 new replicas come Ready, and at 14:39:04 the alert resolves at depth 38.</span><span><b>Why</b>Alert to resolved in 62 seconds, no ticket, no pager, no war room. This is the self-healing closed loop the deck promised: the seasonal surge shows up as queue depth and the platform absorbs it before a taxpayer notices.</span><span><b>Red Hat</b>The job template raises maxReplicas on the same OpenShift AI manifest Lab 03 called the capacity plan, under the eda-rulebook identity, so the fix is a recorded change, not a kubeconfig on someone's laptop running oc scale at 2 a.m.</span></div>
     </div>
     <div class="cmd">
       <div class="c">awx job list --status successful -f human</div>
       <div class="o">40213 Expand tax-inference capacity · 40209 Patch GPU nodes · 40204 Collect compliance evidence</div>
       <div class="say">This list is the audit trail your assessor asks for. It writes itself.</div>
+      <div class="cardline"><span><b>What</b>Lists successful Controller jobs since 26 August. Every row records what ran, how long it took and who launched it: job 40213 by eda-rulebook, the GPU patch and compliance evidence runs by schedule, the enclave model mirror by j.rivera.</span><span><b>Why</b>This is the audit trail your assessor asks for, written as the work happened rather than reconstructed at quarter end. Lab 06 inherits it directly, because accredit once, inherit everywhere starts with evidence nobody had to assemble by hand.</span><span><b>Red Hat</b>Scale-out, GPU patch and enclave mirror share one job history and one identity model, and the same Ansible reaches legacy systems the model never touches. No autoscaler log, patch log and ticket export stitched into a spreadsheet for the assessor.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Automation is what makes AI operable at agency scale. Without it, every model becomes a pet someone has to feed.</p>
+  <div class="cardline wrap"><span><b>What you did</b>In four commands the lab verified the served model is the approved artifact, read the rulebook that is also the runbook, watched a saturation alert resolve itself in 62 seconds, and listed the job history that is the audit trail.</span><span><b>Why</b>Automation is what makes AI operable at agency scale; without it every model becomes a pet someone has to feed. None of this contained machine learning: the intelligence stays in the model, the reliability lives in the automation around it.</span><span><b>Red Hat</b>Without automation you will not have good generative or predictive AI inside your boundary. The alert, the fix and the evidence never left one estate, so there is no monitoring vendor, ticketing webhook and scaling script to keep in step.</span></div>
 </section>
 
 <!-- ============ LAB 06 ============ -->
@@ -993,20 +1512,24 @@ Refer this to a specialist rather than relying on this answer.</span>
       <div class="c">cosign verify --key agency-model-signing.pub registry.agency.gov/models/granite-8b-tax-v1</div>
       <div class="o"><span class="ok">Signatures verified</span> · signed by revenue-modernization-release · change CR-8841 (approved by AO)</div>
       <div class="say">Provenance is checked before admission, not audited after the fact.</div>
+      <div class="cardline"><span><b>What</b>Checks the Sigstore signature on the model artifact in the agency registry against the agency's own public key. The answer names the digest, the signer revenue-modernization-release, the timestamp and change record CR-8841, approved by the AO.</span><span><b>Why</b>Is this the model we approved? A model is ultimately a file: hash it, sign it and verify it before it serves a single taxpayer, so provenance is checked before admission, not audited after the fact.</span><span><b>Red Hat</b>Because the registry, the signing key and the admission gate live on one platform, the digest the AO approved is the digest the cluster checks. No model pulled from a public hub by tag, no approved version in somebody's spreadsheet.</span></div>
     </div>
     <div class="cmd">
       <div class="c">oc get compliancescan -n openshift-compliance</div>
       <div class="o">ocp4-moderate  DONE  <span class="err">NON-COMPLIANT</span>  ·  node + worker scans <span class="ok">COMPLIANT</span></div>
       <div class="say">NON-COMPLIANT is the honest result — 1 of 217 checks failed, remediation available. Show what a real result looks like; the Lab 05 rulebook can apply it and record the job. These scans are what FISMA moderate/high evidence collection looks like in practice.</div>
+      <div class="cardline"><span><b>What</b>Lists the Compliance Operator scans against the NIST 800-53 moderate profile: the platform scan ocp4-moderate reports NON-COMPLIANT while the node and RHCOS worker scans pass. Each result is a Kubernetes object with a phase and a verdict, not a report.</span><span><b>Why</b>Is the platform still hardened this quarter? NON-COMPLIANT is the honest result and the useful one: a scan that always passes is a scan nobody reads, and this is what FISMA moderate evidence collection looks like in practice.</span><span><b>Red Hat</b>Because the Compliance Operator runs on the same cluster as the model, the result is an object you query with the same oc command, re-scanned on a schedule. No once-a-year contractor scan that lands as a PDF nobody can diff.</span></div>
     </div>
     <div class="cmd">
       <div class="c">curl -sk https://trustyai.tax-inference.svc/metrics | grep -E "drift|fairness"</div>
       <div class="o">meanshift_drift{feature="channel_mix"}  <span class="wr">0.212 — over the 0.150 threshold</span>
 fairness_spd{group="filing_status"}     <span class="ok">-0.014</span></div>
       <div class="say">Nothing is wrong with the model — more taxpayers moved to the portal. The world changed, and this is exactly the signal you want, and exactly why you monitor it.</div>
+      <div class="cardline"><span><b>What</b>Creates the TrustyAIService tax-trustyai and reads its metrics: mean-shift drift per input feature against the accreditation baseline, and fairness across filing_status. channel_mix drift is 0.212 against a 0.150 threshold, and disparate impact is 0.968, inside the band.</span><span><b>Why</b>Nothing is wrong with the model: weights are frozen, so a deployed model cannot decay. More taxpayers moved to the portal, drift is telling you the world changed, and a person decides whether the accreditation baseline still holds.</span><span><b>Red Hat</b>TrustyAI sits on OpenShift AI beside the model, so drift, fairness and provenance alerts are Prometheus rules on the same cluster, routed to the Lab 05 rulebook. No notebook run by hand against a baseline of whatever ran last month.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Every one of these is a platform feature you turn on, not a project you fund. That is what "enterprise-ready" has to mean.</p>
+  <div class="cardline wrap"><span><b>What you did</b>Five commands answered the four questions an AO asks: the model is the one CR-8841 approved, the node is FIPS and enforcing, the scan has one honest finding with remediation, and drift and fairness are measured against the accreditation baseline.</span><span><b>Why</b>Every check produced evidence, and the AO's decision to accept it is judgement, a determination a person signs that no platform feature makes for them. That is what enterprise-ready has to mean before an AI workload touches taxpayer data.</span><span><b>Red Hat</b>Signing, FIPS mode, scanning and drift monitoring attach to the platform, not to the project, so workflow two starts with workflow one's evidence. Accredit once, inherit everywhere: every check is a feature you turn on, not a project you fund.</span></div>
 </section>
 
 <!-- ============ LAB 07 ============ -->
@@ -1022,12 +1545,14 @@ fairness_spd{group="filing_status"}     <span class="ok">-0.014</span></div>
       <div class="c">logcli query '{namespace="tax-inference"} |= "ERROR"' --since 24h --limit 4</div>
       <div class="o"><span class="err">14:02:11Z predictor-7f9cd  CUDA out of memory</span> · restart loops · readiness flapping</div>
       <div class="say">Set the scene: 14:20 on a Tuesday, p99 tripled, pods restarting.</div>
+      <div class="cardline"><span><b>What</b>Queries Loki through the OpenShift Logging gateway for ERROR lines in tax-inference over the last 24 hours. Two predictor pods report CUDA out of memory at 1.42 GiB, and readiness is flapping on 2 of 6 replicas.</span><span><b>Why</b>This is the Data rung: 14:20 on a Tuesday, p99 has tripled on the classifier that routes taxpayer inquiries, and the log says what broke, not why. Detection is already fast; the hours start here.</span><span><b>Red Hat</b>Because OpenShift Logging ships with the cluster, the same tenant model and identity that guard the model endpoint guard its logs. There is no separate log-shipping stack forwarding hostnames and case identifiers to a hosted SaaS nobody accredited.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python ingest_ops.py --loki … --runbooks ./runbooks --incidents ./postmortems --changes ./change-records</div>
       <div class="o">90 days of logs · 48 runbooks · 312 postmortems · 1,240 change records
 <span class="ok">Indexed 12,135 chunks into pgvector.ops_notebook</span></div>
       <div class="say">Same stack as Lab 04 — only the corpus changed. Nothing left the cluster.</div>
+      <div class="cardline"><span><b>What</b>Builds the operations corpus: 90 days of Loki logs, 48 runbooks, 312 postmortems and 1,240 change records, embedded into 12,135 chunks in pgvector.ops_notebook. The index is the Lab 04 vector store with a new table; nothing new is installed.</span><span><b>Why</b>The answer to most 2 a.m. questions already exists, but it lives in four systems and three people's heads. Putting the institution's memory in one searchable index is the Information-to-Knowledge climb, and it stays inside your boundary.</span><span><b>Red Hat</b>Embedding, vector store and Loki export sit on OpenShift AI and OpenShift Logging, so the corpus never leaves the cluster. There is no export job copying FTI-adjacent logs to an outside vector database with its own credentials and patch cadence.</span></div>
     </div>
     <div class="cmd">
       <div class="c">llama-stack-client inference chat-completion --message "tax-classifier p99 tripled since 14:00 … What changed, has this happened before, and which runbook applies?"</div>
@@ -1035,15 +1560,19 @@ fairness_spd{group="filing_status"}     <span class="ok">-0.014</span></div>
 Precedent: INC-2209 · Runbook: RB-114 "vLLM memory pressure", steps 3–5.</span>
 <span class="ky">sources: CR-9012 (0.93) · INC-2209 (0.91) · RB-114 (0.88) · the log line (0.86)</span></div>
       <div class="say">THE SELLING SCREEN: forty minutes of grepping and paging, answered in eleven seconds — with citations to check before acting.</div>
+      <div class="cardline"><span><b>What</b>Asks the on-call question through Llama Stack. Granite returns a cause, a precedent and a runbook: CR-9012 raised max_model_len to 16384 at 13:47, INC-2209 showed the same signature, RB-114 steps 3 to 5 apply, each scored.</span><span><b>Why</b>Forty minutes of grepping and paging, answered in eleven seconds, with citations scored 0.93 to 0.86 that the engineer opens before acting. This is Knowledge, not a guess, and a person still decides whether to revert.</span><span><b>Red Hat</b>Llama Stack, Granite and the vector store are Lab 04's supported pieces: one API, one lifecycle for retrieval, model and citations. There is no home-grown RAG script gluing a hosted model to a log search that cannot cite.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python mttr_report.py --window last-quarter</div>
       <div class="o">before: detect 4m · <span class="err">diagnose 2h 41m</span> · fix 22m · verify 9m = 3h 16m
 after:  detect 4m · <span class="ok">diagnose 24m</span>    · fix 22m · verify 9m = <span class="ok">59m</span></div>
       <div class="say">Detection was already fast. The hours lived in diagnosis — that is what a notebook over your own logs removes. Diagnosis -84%, total -70%.</div>
+      <div class="cardline"><span><b>What</b>Decomposes last quarter's 17 production incidents into detect, diagnose, fix and verify. Detect, fix and verify are unchanged; diagnosis fell from 2h 41m to 24m, and total MTTR from 3h 16m to 59m.</span><span><b>Why</b>Detection was already fast; the hours lived in diagnosis, and that is the column the notebook emptied: diagnosis down 84 percent, total down 70 percent. During the 6x filing surge, an hour of outage is a queue of taxpayers.</span><span><b>Red Hat</b>The MTTR table reads cleanly because logs, retrieval, model and remediation all left records on one platform with one clock and one identity. Stitch four vendors together and the first meeting after an incident is about whose timestamps to believe.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.</p>
+  <div class="cardline wrap"><span><b>What you did</b>Five commands aimed Lab 04's retrieval pattern at operations: Loki logs, runbooks, postmortems and change records became a notebook that diagnosed a live OOM incident with citations, handed the fix to Ansible and cut diagnosis from hours to minutes.</span><span><b>Why</b>Dashboards show that something broke; a notebook over your own logs tells you why, and diagnosis is where MTTR actually lives. A person still decides, and the platform that serves taxpayers now also explains itself.</span><span><b>Red Hat</b>Nothing new was installed: OpenShift Logging, OpenShift AI, Granite, Llama Stack and Ansible were already there, so the ops notebook inherited the taxpayer system's accreditation. Accredit once, inherit everywhere; nobody stands up a second AI stack for operations.</span></div>
+  <div class="beat"><b>Close the loop</b>This lab generates a diagnosis; the operating model decides what happens next. At enterprise scale, the approved result must feed the same governed automation toolchain—not a new script, bot or manual queue for every model.</div>
   <button class="jumpbtn ghosted" data-goto="15">← Back to Slide 16 (labs) to close</button>
 </section>
 
@@ -1064,6 +1593,7 @@ outage-risk-predictor-00003-deployment   Running  ocp-gpu-02
 granite-8b-tax-v1-predictor-00007        Running  ocp-gpu-02
 Predictive (sklearn) and generative (vLLM) models on the same GPU node, same registry, same identity.</div>
       <div class="say">Two kinds of AI in one namespace: the predictive scorer and the generative drafter share ocp-gpu-02, one registry and one identity.</div>
+      <div class="cardline"><span><b>What</b>Lists the pods in tax-loop with their nodes. The tabular outage-risk scorer and the Granite drafter both run on ocp-gpu-02, beside the Lightspeed API, the Vector shipper for z/OS SYSLOG, Loki and the EDA worker.</span><span><b>Why</b>Predictive and generative are two different mathematics, and the deck said they coexist in one operational model. Here it is in one column: the number-maker and the YAML-maker share a node, a registry and an identity.</span><span><b>Red Hat</b>OpenShift AI serves sklearn on KServe and Granite on vLLM from one registry under one identity. There is no data-science cluster for the scorer and a separate chat vendor for the drafter, each with its own patch stream and paperwork.</span></div>
     </div>
     <div class="cmd">
       <div class="c">logcli query '{source=~"zos-syslog|journald|openshift"} |~ "OOM|S878|S80A|OOMKilled"' --since 24h --limit 7</div>
@@ -1072,6 +1602,7 @@ Predictive (sklearn) and generative (vLLM) models on the same GPU node, same reg
 <span class="wr">03:20:02Z tax-inference  predictor-b2d14  container "kserve-container" OOMKilled (exit 137)</span>
 09:14:21Z server1-taxreturns  kernel: java invoked oom-killer: gfp_mask=0x140dca  (survived: cgroup limit held)</div>
       <div class="say">Three estates, one query: z/OS SYSLOG through Vector, RHEL journald and OpenShift container logs, all in Loki.</div>
+      <div class="cardline"><span><b>What</b>Queries Loki once across three estates for memory failures in the last 24 hours. IMFBATCH on MVSA abended S878 at 02:41, server8-audits killed its java process twice, and a KServe container was OOMKilled at 03:20.</span><span><b>Why</b>This is the Data rung, and the point is the mix: mainframe, RHEL and container logs in one query, one clock. The systems of record still run on z/OS, and a model that cannot see them scores half the estate.</span><span><b>Red Hat</b>Vector ships z/OS SYSLOG into the same OpenShift Logging tenant that already holds journald and container logs, under the cluster's identity. There is no SaaS log stack that never saw the mainframe and no second collector nobody accredited.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python ingest_estate.py --sources zos-syslog,journald,openshift --window 30d --out estate.parquet</div>
@@ -1079,6 +1610,7 @@ Predictive (sklearn) and generative (vLLM) models on the same GPU node, same reg
 Features per system per hour: mem_headroom, gc_pause_p95, abend_rate, batch_overlap, restarts
 <span class="ok">Wrote estate.parquet  14 systems x 720 hours = 10,080 rows  (2,209,060 lines in; no line left the cluster)</span></div>
       <div class="say">Data becomes features, from the same Loki the Lab 07 notebook reads; nothing new was installed.</div>
+      <div class="cardline"><span><b>What</b>Reads 30 days from Loki, 2,209,060 lines from 2 LPARs, 12 RHEL hosts and 2 namespaces, and reduces them to five hourly features: memory headroom, GC pause p95, abend rate, batch overlap, restarts. Result: estate.parquet, 14 systems by 720 hours.</span><span><b>Why</b>Data becomes Information: two million lines nobody could read become 10,080 rows a model can. The mainframe's S878 abends and a RHEL host's GC pauses now sit in the same table, and not one line left the cluster.</span><span><b>Red Hat</b>The feature job reads the same Loki the Lab 07 notebook reads, on the same OpenShift AI; nothing new was installed. There is no export pipeline copying mainframe logs to a data lake with its own credentials and no owner.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python score.py --model outage-risk --horizon 72h --top 5</div>
@@ -1087,6 +1619,7 @@ Features per system per hour: mem_headroom, gc_pause_p95, abend_rate, batch_over
 <span class="wr">MVSA / IMFBATCH        0.74    S878 x3 in 7d · region 512M · batch overlap 02:00-03:00   ^ rising</span>
 Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93  (tabular; the Lab 02 pattern)</div>
       <div class="say">Information is a number per system; nothing has been decided, and a person decides what 0.91 means tonight.</div>
+      <div class="cardline"><span><b>What</b>Posts the feature rows to the KServe endpoint and prints a 72-hour outage probability per system. server8-audits scores 0.91 and rising on heap headroom down 38 percent and two OOM kills; MVSA IMFBATCH 0.74; server1-taxreturns 0.22 and falling.</span><span><b>Why</b>Information, not a decision: a number per system from a tabular model with AUC 0.93, the Lab 02 pattern aimed at the estate that serves taxpayers. Nobody has restarted anything; a person decides what 0.91 means tonight.</span><span><b>Red Hat</b>The scorer is a KServe endpoint on OpenShift AI, versioned as outage-risk v14, reading features built from the platform's own logs. There is no scorer bolted to a scheduler that cannot read its features, fed from an emailed CSV.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python lightspeed_draft.py --prompt prompts/memory-pressure.txt --out drafts/</div>
@@ -1095,6 +1628,7 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
     condition: event.alert.labels.alertname == "OutageRiskHigh" and event.alert.labels.score &gt; 0.8
 <span class="vi">citations: RB-207 (JVM sizing) · CR-9120 (audits heap change) · INC-2311 (last OOM on server8-audits)</span></div>
       <div class="say">Generative means a draft with citations that nobody has run, and Lightspeed's model is served by the same OpenShift AI as the scorer.</div>
+      <div class="cardline"><span><b>What</b>Sends the memory-pressure prompt to Ansible Lightspeed, whose Granite code model runs on ocp-gpu-02 beside the scorer. It drafts a 42-line playbook and a 31-line rulebook, risk above 0.8 launching Relieve memory pressure, and cites RB-207, CR-9120 and INC-2311.</span><span><b>Why</b>Generative: Knowledge in draft form. The model read RB-207 and the last OOM on server8-audits and wrote plausible YAML with sources attached, and plausible is the word. Nobody has run it; it goes to review like any change.</span><span><b>Red Hat</b>Lightspeed runs on-prem, its model served by the same OpenShift AI as the scorer, so prompt, retrieved runbooks and draft stay inside your boundary. There is no LLM draft pasted from a chat window with no review trail.</span></div>
     </div>
     <div class="cmd">
       <div class="c">ansible-lint drafts/ &amp;&amp; git checkout -b eda/memory-pressure &amp;&amp; git add drafts/ &amp;&amp; git commit -qm 'EDA: memory pressure (Lightspeed draft)' &amp;&amp; gh pr create -f -r sre-lead</div>
@@ -1103,6 +1637,7 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
 <span class="ok">  merged  main &lt;- eda/memory-pressure   #482   by j.rivera  ·  awx project synced rev 3f1c2a9 · rulebook activation restarted</span>
 <span class="vi">km_publish: PR #482 + review thread indexed as RB-214 in pgvector.ops_notebook  (cites CR-9120, INC-2311)</span></div>
       <div class="say">Judgement is a person editing, approving and merging, and the merge is the promotion into the repo, into AAP and into the knowledge base.</div>
+      <div class="cardline"><span><b>What</b>Commits the drafts as 3f1c2a9 and opens PR #482 for sre-lead, who raises the threshold to 0.85, adds a maintenance_window guard and approves after 2 edits. The merge syncs AAP, restarts the activation and indexes the review as RB-214.</span><span><b>Why</b>Judgement, and it stays human: the model proposed 0.8, a person said 0.85 and demanded a maintenance window, and only then did anything become runnable. The merge is the promotion: repo, AAP and knowledge base in one step.</span><span><b>Red Hat</b>Git, Automation Controller and the pgvector knowledge base all move on one merge, one platform, one event. There is no wiki updated by hand a week later, and no YAML pasted from the PR into a controller by an admin.</span></div>
     </div>
     <div class="cmd">
       <div class="c">ansible-rulebook --rulebook rulebooks/memory_pressure.yml -i inventory/prod --controller-url https://aap.agency.gov</div>
@@ -1111,6 +1646,7 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
 <span class="ok">[03:13:29]         job 40512 | Xmx 6g -&gt; 7g (cgroup 9g) | audits-case.service restarted | probe 200 OK in 0.31s</span>
 <span class="ok">Elapsed from event to verified: 42 seconds. No page. server8-audits re-scored: 0.91 -&gt; 0.34</span></div>
       <div class="say">The loop closes with an event, an approved playbook, ticket INC-2340 and knowledge record RB-214, in the same job history as Lab 05.</div>
+      <div class="cardline"><span><b>What</b>Runs the promoted rulebook. At 03:12:51 OutageRiskHigh arrives for server8-audits at 0.91, the maintenance window is open, and job 40512 raises Xmx from 6g to 7g, restarts audits-case.service and probes 200 OK in 0.31 s. Event to verified: 42 seconds.</span><span><b>Why</b>The loop closes with no machine learning in it: the same event runs the same approved job every time. INC-2340 opened and closed itself, RB-214 logged the outcome, the score fell 0.91 to 0.34, and no one was paged.</span><span><b>Red Hat</b>Rulebook, job, ServiceNow ticket and knowledge record land in one job history under one identity, as in Lab 05. There is no alerting SaaS paging a human to type the runbook at 3 a.m., no ticket left open till Monday.</span></div>
     </div>
     <div class="cmd">
       <div class="c">python ask.py "How is server1-taxreturns? How is server8-audits? Which servers are showing online?"</div>
@@ -1119,9 +1655,11 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
 <span class="vi">online 13/14: server1..server12 ok · MVSA reachable (z/OSMF) · MVSB in planned IPL window until 06:00  [CR-9131]</span>
 <span class="ok">The assistant probes and reports. It changes nothing except through a job template a person approved.</span></div>
       <div class="say">Ask the platform what it knows: the tools are Ansible jobs, the memory is the knowledge base the loop wrote, and every answer carries a job id.</div>
+      <div class="cardline"><span><b>What</b>Asks the ops assistant three questions. It launches approved job templates, Probe host and Estate ping, as jobs 40518 to 40520 and answers with citations: server1-taxreturns at risk 0.22 and falling, server8-audits restored by job 40512, 13 of 14 online.</span><span><b>Why</b>Not a chatbot: the assistant probes the estate through job templates a person approved and reads the knowledge base the loop wrote, citing job 40512, PR #482 and INC-2340 for server8-audits. Evidence, not fluency, and it changes nothing.</span><span><b>Red Hat</b>Granite, the Ansible tools and the pgvector memory share the platform that wrote RB-214, so the answer is current by construction. There is no chatbot that 'knows' what a wiki said last quarter, and no bot holding SSH keys.</span></div>
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> One platform runs the predictive model, the generative model, the automation and the knowledge base, so the loop that keeps systems up is also the documentation, and the assistant answers from what the loop wrote.</p>
+  <div class="cardline wrap"><span><b>What you did</b>Eight commands closed one loop: mainframe, RHEL and OpenShift logs became features, a tabular model scored server8-audits 0.91, Lightspeed drafted the fix, a person merged PR #482, Event-Driven Ansible repaired it in 42 seconds, and the assistant cited every step.</span><span><b>Why</b>Predictive climbed Data to Information, generative drafted Knowledge, a person held Judgement, and every promotion wrote the knowledge base the assistant reads. The loop is the documentation, and the systems behind filing season stay up with judgement still human.</span><span><b>Red Hat</b>Scorer, drafter, rulebook, memory and assistant shared one platform, one identity and one job history, so nothing needed glue. Stitch a log SaaS, a data-science cluster, a chat vendor and a ticket webhook together and it splits at the seams.</span></div>
   <button class="jumpbtn ghosted" data-goto="16">← Back to Slide 17 (the loop map)</button>
   <button class="jumpbtn ghosted" data-goto="15">← Back to Slide 16 (labs) to close</button>
 </section>
@@ -1129,7 +1667,7 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
 </main>
 
 <nav class="nav">
-  <span class="hint"><kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd> to move · <kbd>J</kbd> jump · <kbd>M</kbd> read-all — press <kbd>→</kbd> here each time the deck goes next</span>
+  <span class="hint"><kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd> to move · <kbd>J</kbd> jump · <kbd>M</kbd> read-all — press <kbd>→</kbd> here each time the deck goes next, unless the deck opened this window with <kbd>P</kbd>: then it follows on its own</span>
   <span class="spacer"></span>
   <button id="prev">← Prev</button>
   <button id="next" class="primary">Next →</button>
@@ -1190,6 +1728,43 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
   });
   document.getElementById('jumpOpen').addEventListener('click', function(){ jump.hidden = false; });
   jump.addEventListener('click', function(e){ if (e.target === jump) jump.hidden = true; });
+
+
+  /* Presenter view. The deck opens this console in its own window with #slide-N or
+     #lab-N (1-based) and posts {type:'deck-slide', n, title, mode, lab} on every
+     navigation: n is the 1-based slide, mode is 'deck' | 'labs' | 'demo', lab is the
+     1-based lab in demo mode and null otherwise. The first 18 sections are the
+     slides in order; Lab 01..08 follow. Standalone use (no messages) is unchanged. */
+  var SLIDE_N = 18;
+  var LAB_N = steps.length - SLIDE_N;
+  var follow = document.getElementById('follow');
+  function stepFor(kind, n){
+    n = parseInt(n, 10);
+    if (kind === 'lab') return (n >= 1 && n <= LAB_N) ? SLIDE_N + n - 1 : -1;
+    return (n >= 1 && n <= SLIDE_N) ? n - 1 : -1;
+  }
+  function followHash(){
+    var m = /^#(slide|lab)-(\d+)$/.exec(location.hash || '');
+    if (!m) return false;
+    var i = stepFor(m[1], m[2]);
+    if (i < 0) return false;
+    go(i);
+    return true;
+  }
+  window.addEventListener('hashchange', followHash);
+  window.addEventListener('message', function(e){
+    var d = e.data;
+    if (!d || typeof d !== 'object' || d.type !== 'deck-slide') return;
+    var inLabs = (d.mode === 'labs' || d.mode === 'demo');
+    var i = -1, label;
+    if (inLabs && d.lab != null && stepFor('lab', d.lab) >= 0){ i = stepFor('lab', d.lab); label = 'Lab ' + parseInt(d.lab, 10); }
+    else if (inLabs){ label = 'Labs view'; }
+    else { i = stepFor('slide', d.n); label = 'Slide ' + (i >= 0 ? i + 1 : d.n); }
+    if (i >= 0) go(i);
+    follow.textContent = 'Following the deck · ' + label;
+    follow.title = d.title ? String(d.title) : '';
+    follow.hidden = false;
+  });
 
   document.querySelectorAll('[data-goto]').forEach(function(b){
     b.addEventListener('click', function(){ go(parseInt(b.dataset.goto, 10)); });
@@ -1259,7 +1834,7 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
   var ladder = document.querySelector('.ros .ladder');
   if (ladder) pyramidInto(ladder.querySelector('.head') || ladder, rungsOf(ladder), 'pyr-legend');
 
-  go(cur);
+  if (!followHash()) go(cur);
 })();
 </script>
 </body>

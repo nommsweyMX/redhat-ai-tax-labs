@@ -489,7 +489,69 @@ kbd{
 .slide .stagemap .st text.s{font-size:12px}
 .demo-map{margin:0 0 12px}
 .demo-map .stagemap{margin:0}
+/* SHOW / TELL — every slide has a picture-first variant (show) and the
+   word-heavy variant (tell). The toggle lives in the deckbar and on S. */
+.viewseg{display:flex;gap:2px;margin-right:6px}
+.viewseg button{appearance:none;border:1px solid var(--border);background:transparent;color:var(--ink-2);border-radius:5px;padding:5px 10px;font-family:"Red Hat Mono",monospace;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.viewseg button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+:root[data-view="show"] .slide .tell{display:none!important}
+:root:not([data-view="show"]) .slide .showonly{display:none!important}
+:root[data-view="show"] .slide-body:not(.why-rh2):not(.loopbody){display:flex;flex-direction:column;justify-content:center;gap:12px}
+:root[data-view="show"] .slide[data-title="Why now"] .slide-body > div > svg,:root[data-view="show"] .slide[data-title="Why one platform"] .slide-body > div > svg,:root[data-view="show"] .slide[data-title="Data to judgement"] .slide-body > svg,:root[data-view="show"] .slide[data-title="Logs to MTTR"] .slide-body > svg,:root[data-view="show"] .slide[data-title="Where AI lands"] .slide-body > svg{height:100%!important;width:auto!important;max-width:100%;max-height:100%;margin:0 auto;display:block}
+:root[data-view="show"] .slide[data-title="Why now"] .slide-body > div,:root[data-view="show"] .slide[data-title="Why one platform"] .slide-body > div{height:100%;min-height:0;display:flex;flex-direction:column;justify-content:center}
+:root[data-view="show"] .slide[data-title="Two kinds of AI"] .vennlite{height:100%!important;width:auto!important;max-width:100%;margin:0 auto}
+:root[data-view="show"] .title-slide .kicker{display:none}
+:root[data-view="show"] .title-slide .ladder-legend{display:none}
+.title-slide .hero{display:none}
+:root[data-view="show"] .title-slide .hero{display:block;position:absolute;right:clamp(28px,3.4vw,54px);top:19%;width:47%;margin:0}
+.title-slide .hero img,.title-slide .hero svg{display:block;width:100%;height:auto;max-height:66%;object-fit:contain;border-radius:8px;border:1px solid var(--border);box-shadow:var(--shadow)}
+:root[data-view="show"] .title-slide h2{font-size:clamp(1.5rem,2.9vw,2.5rem);max-width:19ch}
+:root[data-view="show"] .title-slide .eyebrow{max-width:48%}
+:root[data-view="show"] .title-slide .hosts{margin-top:16px}
+:root[data-view="show"] .ai-kind .analogy,:root[data-view="show"] .slide[data-title="AI in plain English"] .notbox{display:none}
+:root[data-view="show"] .slide[data-title="AI in plain English"] .ai-kind .plain{font-size:1rem}
+:root[data-view="show"] .slide[data-title="AI in plain English"] .ai-kind .big{font-size:1.4rem}
+:root[data-view="show"] .slide[data-title="Why now"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="Inside an LLM"] .brainbox{display:none}
+:root[data-view="show"] .slide[data-title="Inside an LLM"] .llm-stack{grid-template-columns:1fr;max-width:900px;margin:0 auto}
+:root[data-view="show"] .slide[data-title="Inside an LLM"] .stacklayer{padding:14px 18px}
+:root[data-view="show"] .slide[data-title="Inside an LLM"] .stacklayer strong{font-size:1.1rem}
+:root[data-view="show"] .slide[data-title="Inside an LLM"] .stacklayer span{font-size:.92rem}
+:root[data-view="show"] .slide[data-title="Data to judgement"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="Two kinds of AI"] .archi:not(.vennlite){display:none}
+:root[data-view="show"] .slide[data-title="Where AI lands"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="Five outcomes"] .slide-body{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-content:center}
+:root[data-view="show"] .slide[data-title="Five outcomes"] .pillar{display:flex;flex-direction:column;gap:10px;border:1px solid var(--border);border-radius:10px;padding:16px 14px;background:var(--surface-2);min-height:230px}
+:root[data-view="show"] .slide[data-title="Five outcomes"] .pillar .idx{width:44px;font-size:1rem;padding:4px 0}
+:root[data-view="show"] .slide[data-title="Five outcomes"] .pillar h4{font-size:1.06rem}
+:root[data-view="show"] .slide[data-title="Five outcomes"] .pillar p{display:none}
+:root[data-view="show"] .slide[data-title="Five outcomes"] .pillar .stack{font-size:.66rem;line-height:1.5;margin-top:auto}
+:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .rhgrid,:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .refnote,:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .leavebehind{display:none}
+:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .why-rh2{justify-content:center}
+:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .promise{padding:22px 26px}
+:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .promise .quote{font-size:1.7rem}
+:root[data-view="show"] .slide[data-title="Why Red Hat AI"] .promise .subq{font-size:.95rem}
+:root[data-view="show"] .slide[data-title="Why one platform"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="Why one platform"] .slide-body > div{justify-content:center;height:100%}
+:root[data-view="show"] .slide[data-title="AI for operations"] .knowledgebar,:root[data-view="show"] .slide[data-title="AI for operations"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="AI for operations"] .fwstep{padding:18px 20px;gap:8px}
+:root[data-view="show"] .slide[data-title="AI for operations"] .fwstep h4{font-size:1.2rem}
+:root[data-view="show"] .slide[data-title="AI for operations"] .fwstep p{font-size:.9rem;line-height:1.45}
+:root[data-view="show"] .slide[data-title="Logs to MTTR"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="Adoption path"] .phase ul{display:none}
+:root[data-view="show"] .slide[data-title="Adoption path"] .phase header{padding:14px 16px}
+:root[data-view="show"] .slide[data-title="Adoption path"] .phase header b{font-size:1.15rem}
+:root[data-view="show"] .slide[data-title="Next steps"] .moves,:root[data-view="show"] .slide[data-title="Next steps"] .reach .fine{display:none}
+:root[data-view="show"] .slide[data-title="Next steps"] .contact{grid-template-columns:1fr;max-width:620px}
+:root[data-view="show"] .slide[data-title="Labs preview"] .card p{display:none}
+:root[data-view="show"] .slide[data-title="Labs preview"] .card{gap:8px;padding:14px}
+:root[data-view="show"] .slide[data-title="Labs preview"] .card h4{font-size:1.02rem}
+:root[data-view="show"] .slide[data-title="One loop"] .loopgrid{display:none}
+:root[data-view="show"] .slide[data-title="Security posture"] table.grid td:nth-child(3),:root[data-view="show"] .slide[data-title="Security posture"] table.grid th:nth-child(3){display:none}
+:root[data-view="show"] .slide[data-title="Security posture"] table.grid td,:root[data-view="show"] .slide[data-title="Security posture"] table.grid th{font-size:clamp(.7rem,.78vw,.84rem);padding:5px 9px}
 .closing{padding:34px 0 0}
+:root[data-view="show"] .vennlite{width:96%;margin:0 auto}
+.vennlite text{font-family:"Red Hat Text",system-ui,sans-serif}
 .loopbody{display:flex;flex-direction:column;gap:8px;padding-top:8px}
 .loopgrid{display:grid;grid-template-columns:1.05fr 1.35fr;gap:10px;min-height:0}
 .askbox{border:1px solid var(--border);border-radius:8px;background:var(--term-bg);padding:7px 11px;display:flex;flex-direction:column;gap:2px}
@@ -802,7 +864,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 
     <div class="railfoot">
       <div class="foottools">
-        <button class="ghost" id="notesToggle" aria-pressed="false">Notes</button>
+        <button class="ghost" id="notesToggle" aria-pressed="false" hidden>Notes</button>
         <button class="ghost" id="themeToggle">Dark</button>
         <div class="langseg" role="group" aria-label="Language">
           <button id="lang-en" aria-pressed="true">EN</button>
@@ -817,8 +879,9 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     <!-- =====================  DECK  ===================== -->
     <section id="deck" class="deckwrap">
       <div class="deckbar">
-        <span class="hint"><kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes &nbsp;·&nbsp; <kbd>G</kbd> graphic &nbsp;·&nbsp; <kbd>F</kbd> present full-screen</span>
+        <span class="hint"><kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>S</kbd> show / tell &nbsp;·&nbsp; <kbd>G</kbd> graphic &nbsp;·&nbsp; <kbd>F</kbd> present full-screen</span>
         <div class="grp">
+          <div class="viewseg" role="group" aria-label="Show or tell"><button id="view-show" aria-pressed="false">Show</button><button id="view-tell" aria-pressed="true">Tell</button></div>
           <button class="ghost" id="gfxbtn" hidden>Graphic ⤢</button>
           <button class="ghost" id="prev">← Prev</button>
           <button class="ghost" id="next">Next →</button>
@@ -835,6 +898,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           <h2>AI foundations for intelligent tax administration</h2>
           <p class="kicker">What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in seven labs you run yourself.</p>
           <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
+          <div class="hero showonly" id="title-hero" aria-hidden="true"></div>
           <div class="ladder-legend">
             <span class="eyebrow">The spine of this hour — every technology is tagged with the rung it serves</span>
             <div class="ll-row">
@@ -1011,6 +1075,29 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
             <p class="lede">They fail differently — so they are governed differently.</p>
           </div>
           <div class="slide-body">
+            <svg class="archi showonly vennlite" viewBox="0 0 1180 470" role="img" aria-label="Predictive AI and generative AI as two overlapping circles; the overlap is where the strongest workflows chain both: score, then explain; a person decides.">
+              <circle cx="477" cy="215" r="188" fill="var(--r-info-wash)" stroke="var(--r-info)" stroke-width="3"/>
+              <circle cx="703" cy="215" r="188" fill="var(--r-know-wash)" fill-opacity=".85" stroke="var(--r-know)" stroke-width="3"/>
+              <text x="372" y="150" text-anchor="middle" font-size="34" font-weight="800" fill="var(--r-info)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">Predictive AI</text>
+              <text x="372" y="190" text-anchor="middle" font-size="19" fill="var(--ink-2)">a number from</text>
+              <text x="372" y="216" text-anchor="middle" font-size="19" fill="var(--ink-2)">structured history</text>
+              <text x="372" y="262" text-anchor="middle" font-size="15" fill="var(--ink-3)" style="font-family:Red Hat Mono,monospace">score · forecast · flag</text>
+              <text x="808" y="150" text-anchor="middle" font-size="34" font-weight="800" fill="var(--r-know)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">Generative AI</text>
+              <text x="808" y="190" text-anchor="middle" font-size="19" fill="var(--ink-2)">language from text</text>
+              <text x="808" y="216" text-anchor="middle" font-size="19" fill="var(--ink-2)">grounded and cited</text>
+              <text x="808" y="262" text-anchor="middle" font-size="15" fill="var(--ink-3)" style="font-family:Red Hat Mono,monospace">read · draft · cite</text>
+              <circle cx="590" cy="150" r="11" fill="var(--accent)"/>
+              <text x="590" y="196" text-anchor="middle" font-size="17" fill="var(--ink-2)">the strongest workflows</text>
+              <text x="590" y="220" text-anchor="middle" font-size="17" fill="var(--ink-2)">chain both:</text>
+              <text x="590" y="256" text-anchor="middle" font-size="24" font-weight="800" fill="var(--accent)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">score,</text>
+              <text x="590" y="286" text-anchor="middle" font-size="24" font-weight="800" fill="var(--accent)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">then explain</text>
+              <rect x="80" y="418" width="330" height="42" rx="8" fill="var(--surface)" stroke="var(--border-strong)"/><rect x="80" y="418" width="5" height="42" rx="2" fill="var(--r-info)"/>
+              <text x="245" y="445" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">a score is not a determination</text>
+              <rect x="430" y="418" width="320" height="42" rx="8" fill="var(--surface)" stroke="var(--border-strong)"/><rect x="430" y="418" width="5" height="42" rx="2" fill="var(--r-judge)"/>
+              <text x="590" y="445" text-anchor="middle" font-size="17" font-weight="700" fill="var(--r-judge)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">a person decides</text>
+              <rect x="770" y="418" width="330" height="42" rx="8" fill="var(--surface)" stroke="var(--border-strong)"/><rect x="770" y="418" width="5" height="42" rx="2" fill="var(--r-know)"/>
+              <text x="935" y="445" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)" style="font-family:Red Hat Display,Red Hat Text,sans-serif">a fluent sentence is not evidence</text>
+            </svg>
             <svg xmlns="http://www.w3.org/2000/svg" class="archi" viewBox="0 0 1180 470" role="img" aria-label="Venn diagram. A predictive AI circle on the Information rung, a number from structured history, overlaps a generative AI circle on the Knowledge rung, language from text. Each circle lists what it learns from, what it produces, what that means in tax terms and how it is governed. The overlap reads: the strongest workflows chain both, score, then explain, both in Lab 03. A strip underneath carries each failure mode, a score is not a determination and a fluent sentence is not evidence, with the human check in the middle: a person decides.">
 <circle cx="477.5" cy="204" r="192" fill="var(--r-info-wash)" stroke="var(--r-info)" stroke-width="2.5"/>
 <circle cx="702.5" cy="204" r="192" fill="var(--r-know-wash)" stroke="var(--r-know)" stroke-width="2.5"/>
@@ -1265,7 +1352,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
               <!-- base: RHEL / AI Inference Server -->
               <g filter="url(#a5sh)"><rect x="128" y="330" width="664" height="80" rx="8" fill="url(#a5layer)" stroke="var(--border-strong)"/></g><circle cx="782" cy="341" r="4" fill="var(--steel)"><title>data</title></circle>
               <text x="146" y="354" font-size="11.5" font-weight="700" fill="var(--ink)">Red Hat Enterprise Linux · AI Inference Server</text>
-              <text x="780" y="354" font-size="9.5" font-weight="600" fill="var(--steel)" text-anchor="end">Tested with the hardware: mainframes · TPM · PIV/CAC cryptography</text>
+              <text x="146" y="405" font-size="9.5" font-weight="600" fill="var(--steel)">Tested with the hardware: mainframes · TPM · PIV/CAC cryptography</text>
               <text x="146" y="372" font-size="10.5" fill="var(--ink-2)">Bare metal GPU nodes · virtualized datacenter · accredited public cloud · classified enclave</text>
               <text x="146" y="390" font-size="10.5" fill="var(--ink-3)">Granite models, accelerator drivers and the vLLM-based AI Inference Server in one supported stack</text>
               <g>
@@ -1818,6 +1905,51 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   var clock = document.getElementById('clock');
   var cur = 0, notesOn = false, mode = 'deck';
 
+  /* SHOW / TELL */
+  var view = 'tell';
+  function setView(v){
+    view = (v === 'show') ? 'show' : 'tell';
+    document.documentElement.setAttribute('data-view', view);
+    document.getElementById('view-show').setAttribute('aria-pressed', String(view === 'show'));
+    document.getElementById('view-tell').setAttribute('aria-pressed', String(view === 'tell'));
+    if(view === 'show') renderTitleHero();
+    try { localStorage.setItem('deck-view', view); } catch(err) {}
+  }
+  function renderTitleHero(){
+    var h = document.getElementById('title-hero');
+    if(!h || h.dataset.ready) return;
+    h.dataset.ready = '1';
+    var g = (typeof GRAPHICS !== 'undefined') && GRAPHICS['data-to-judgement'];
+    if(!g) return;
+    h.innerHTML = g.fallback ? g.fallback() : '';
+    if(g.file){
+      var img = new Image(); img.alt = '';
+      img.onload = function(){ h.innerHTML = ''; h.appendChild(img); };
+      img.src = g.file;
+    }
+  }
+  document.getElementById('view-show').addEventListener('click', function(){ setView('show'); });
+  document.getElementById('view-tell').addEventListener('click', function(){ setView('tell'); });
+
+  /* Presenter view: P opens presenter-notes.html beside the deck and keeps it
+     on the current slide or lab. Nothing on the shared screen changes. */
+  var presenterWin = null;
+  function presenterState(){
+    return {type:'deck-slide', n: cur + 1, title: slides[cur].dataset.title, mode: mode,
+            lab: (mode === 'labs' || mode === 'demo') ? ((typeof D !== 'undefined' && mode === 'demo') ? D.lab + 1 : null) : null};
+  }
+  function presenterSync(){
+    if(presenterWin && !presenterWin.closed){
+      try { presenterWin.postMessage(presenterState(), '*'); } catch(err) {}
+    }
+  }
+  function openPresenter(){
+    var st = presenterState();
+    var hash = st.lab ? '#lab-' + st.lab : '#slide-' + st.n;
+    presenterWin = window.open('presenter-notes.html' + hash, 'presenter');
+    setTimeout(presenterSync, 900);
+  }
+
   /* ---------------- GRAPHIC POP-OUTS ----------------
      Each entry: the illustrated render (assets/graphics/<file>, dropped in
      by hand), a vector rendition drawn here as the fallback, and the
@@ -2042,6 +2174,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     slides.forEach(function(s,n){ s.setAttribute('data-active', n === cur ? 'true' : 'false'); });
     notesText.textContent = ' ' + slides[cur].dataset.notes;
     syncGfxBtn();
+    presenterSync();
     clock.textContent = String(cur+1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
     Array.prototype.forEach.call(railnav.children, function(b,n){
       b.setAttribute('aria-current', n === cur ? 'true' : 'false');
@@ -2082,9 +2215,10 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       : (m === 'labs' ? 'Labs' : 'Demo');
     if(m !== 'demo' && D.playing) demoSetPlaying(false);
     if(m !== 'labs') autoStops.forEach(function(f){ f(); });
-    notesToggle.hidden = (m !== 'deck');
+    notesToggle.hidden = true;
     closeGraphic();
     syncGfxBtn();
+    presenterSync();
     buildRail();
     if(m === 'deck') go(cur);
     if(m === 'demo'){
@@ -2099,6 +2233,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   document.addEventListener('keydown', function(e){
     var t = e.target;
     if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
+    if(e.key === 'p' || e.key === 'P'){ if(popout.hidden){ openPresenter(); return; } }
     if(!popout.hidden){
       if(e.key === 'Escape' || e.key === 'g' || e.key === 'G'){ e.preventDefault(); closeGraphic(); }
       else if(e.key === 'z' || e.key === 'Z' || e.key === '+' || e.key === '='){ e.preventDefault(); toggleZoom(); }
@@ -2116,6 +2251,8 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(cur-1); }
     else if(e.key === 'n' || e.key === 'N'){ notesToggle.click(); }
     else if(e.key === 'f' || e.key === 'F'){ toggleFS(); }
+    else if(e.key === 's' || e.key === 'S'){ setView(view === 'show' ? 'tell' : 'show'); }
+    else if(e.key === 'p' || e.key === 'P'){ openPresenter(); }
     else if(e.key === 'g' || e.key === 'G'){ var gk = gfxKeyFor(slides[cur]); if(gk) openGraphic(gk, gfxBtn); }
     else if(e.key === 'Home'){ go(0); }
     else if(e.key === 'End'){ go(slides.length-1); }
@@ -2147,7 +2284,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       cardWhat:'What is happening', cardWhatDid:'What you did',
       cardWhy:'Why it matters to this talk', cardValue:'Red Hat — one platform, no seams',
       gfxBtn:'Graphic ⤢', gfxPill:'graphic', gfxPoints:'Talk to this', gfxClose:'Close',
-      gfxKicker:'Graphic', gfxHint:'click or Z to zoom · Esc closes · the talking points are in the presenter notes', gfxFit:'Fit', gfxVector:'Vector rendition. The illustrated render loads from',
+      show:'Show', tell:'Tell', gfxKicker:'Graphic', gfxHint:'click or Z to zoom · Esc closes · the talking points are in the presenter notes', gfxFit:'Fit', gfxVector:'Vector rendition. The illustrated render loads from',
       gfxVector2:'when that file is present in the repository.', gfxMap:'See the map',
       allow:'allowlist', allowTitle:'Only this lab\'s commands run here; anything else is refused with a hint.',
       mapCap:'Where each step runs — lit as it runs, checked when done'
@@ -2173,7 +2310,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       cardWhat:'Qué está pasando', cardWhatDid:'Qué hiciste',
       cardWhy:'Por qué importa en esta charla', cardValue:'Red Hat — una plataforma, sin costuras',
       gfxBtn:'Gráfico ⤢', gfxPill:'gráfico', gfxPoints:'Qué comentar', gfxClose:'Cerrar',
-      gfxKicker:'Gráfico', gfxHint:'clic o Z para ampliar · Esc cierra · los puntos de conversación están en las notas', gfxFit:'Ajustar', gfxVector:'Versión vectorial. La ilustración se carga desde',
+      show:'Mostrar', tell:'Contar', gfxKicker:'Gráfico', gfxHint:'clic o Z para ampliar · Esc cierra · los puntos de conversación están en las notas', gfxFit:'Ajustar', gfxVector:'Versión vectorial. La ilustración se carga desde',
       gfxVector2:'cuando ese archivo está en el repositorio.', gfxMap:'Ver el mapa',
       allow:'lista permitida', allowTitle:'Aquí solo corren los comandos de este lab; cualquier otro se rechaza con una pista.',
       mapCap:'Dónde corre cada paso — se enciende al correr, se marca al terminar'
@@ -2211,6 +2348,10 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   var ES_TEXT = {
     /* ---- chrome ---- */
     "Notes":"Notas",
+    "the strongest workflows":"los flujos más fuertes",
+    "read · draft · cite":"leer · redactar · citar",
+    "score · forecast · flag":"puntaje · pronóstico · alerta",
+    "grounded and cited":"anclado y citado",
     "update records":"actualiza registros",
     "Send letters and":"Envía cartas y",
     "Rules, policy":"Reglas, política",
@@ -2338,7 +2479,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     "Speed":"Velocidad",
     "Presenter notes":"Notas del presentador",
     "Red Hat AI · virtual event deck &amp; hands-on labs":"Red Hat AI · presentación del evento y labs prácticos",
-    "<kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes &nbsp;·&nbsp; <kbd>G</kbd> graphic &nbsp;·&nbsp; <kbd>F</kbd> present full-screen":"<kbd>←</kbd> <kbd>→</kbd> para moverte &nbsp;·&nbsp; <kbd>N</kbd> notas &nbsp;·&nbsp; <kbd>G</kbd> gráfico &nbsp;·&nbsp; <kbd>F</kbd> pantalla completa",
+    "<kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>S</kbd> show / tell &nbsp;·&nbsp; <kbd>G</kbd> graphic &nbsp;·&nbsp; <kbd>F</kbd> present full-screen":"<kbd>←</kbd> <kbd>→</kbd> para moverte &nbsp;·&nbsp; <kbd>S</kbd> mostrar / contar &nbsp;·&nbsp; <kbd>G</kbd> gráfico &nbsp;·&nbsp; <kbd>F</kbd> pantalla completa",
     "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all six continuously. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre todos en bucle continuo. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
     "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all eight continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre los ocho en bucle continuo. Una tarjeta junto a la terminal explica cada paso mientras corre. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
 
@@ -4347,6 +4488,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     demoScreen.innerHTML = '';
     cardHide(demoCard);
     demoHead();
+    presenterSync();
     demoProg(0);
     demoRail();
   }
@@ -4504,6 +4646,8 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     renderLoopSlide();
     renderGfxPills();
     syncGfxBtn();
+    document.getElementById('view-show').textContent = C('show');
+    document.getElementById('view-tell').textContent = C('tell');
     themeBtn.textContent = themeNow() === 'dark' ? C('light') : C('dark');
     demoPlayBtn.textContent = D.playing ? C('pause') : C('play');
     rebuildLabs();
@@ -4530,6 +4674,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   renderLoopSlide();
   renderSpines();
   renderGfxPills();
+  (function(){ var v = null; try { v = localStorage.getItem('deck-view'); } catch(err) {} setView(v === 'show' ? 'show' : 'tell'); })();
   rebuildLabs();
 
   buildRail();

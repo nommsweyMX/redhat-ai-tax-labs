@@ -172,6 +172,20 @@ just proved. The cards are the talk track: read the middle facet aloud when
 the room is mission-minded, the right-hand one when it is procurement-minded.
 They follow the EN/ES tab like everything else.
 
+Every slide has two faces. *Tell* is the word-heavy version; *Show* keeps
+the central graphic and drops the paragraphs, so you talk to the picture.
+The toggle sits in the bar under the stage and on `S`; it is remembered per
+browser. Present in Show, switch to Tell when someone asks for the detail,
+and leave the deck in Tell for the take-home copy.
+
+Two keys are deliberately not printed on the deck. `N` shows the speaker
+notes on the shared screen: do not press it while sharing. `P` opens the
+presenter console (`presenter-notes.html`) in its own window and keeps it on
+the current slide or lab as you move; put that window on the presenter's
+display only. The console carries the read-aloud script, the discussion
+notes, the Jon cues, the graphic talking points and the lab step cards side
+by side.
+
 Two more switches arrived after the September 15 review. The ladder now
 sits in the corner of every slide as a small *stacked pyramid* (judgement at
 the apex, data at the base, the rainbow's yellow and blue as thin bands

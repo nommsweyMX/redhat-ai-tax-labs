@@ -79,8 +79,10 @@ Nothing above needs a cluster, a GPU, or credentials.
   why it matters, the seam one platform removes), a theory panel in every
   lab, a glossary, and a Demo view that plays all eight labs hands-free.
   Every slide carries the data → judgement ladder as a small stacked
-  pyramid in its corner, and the slides that have an illustrated graphic
-  pop it out (press `G`) with discussion points beside it. English/Spanish tab and
+  pyramid in its corner, has a picture-first *Show* face and a word-heavy
+  *Tell* face (`S`), and the slides that have an illustrated graphic pop it
+  out full size (`G`, then click or `Z` to zoom). `P` opens the presenter
+  console in a second window that follows the deck. English/Spanish tab and
   light/dark themes built in. Open it in a browser — no build step, no
   server. `#demo` on the URL starts the Demo view on a continuous loop.
 
