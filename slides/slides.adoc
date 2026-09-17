@@ -81,6 +81,47 @@ anyone who wants to go deeper gets a separate session, and any security
 question we cannot answer live, we get back to you on.
 --
 
+== The work is seasonal, textual and unforgiving
+
+`Rung: data`
+
+[cols="1,2,3"]
+|===
+| *Demand* | Peak load, fixed staff | Idle capacity in August is unjustifiable; exhausted capacity in April is a headline. A year of demand arrives in six weeks — April is 6× the August low.
+| *Systems* | Rules locked in legacy code | Rewriting the systems of record is a decade. Wrapping them in intelligent workflows is a quarter.
+| *Data* | The answers are in the text | Correspondence, transcripts and case notes are unstructured — exactly what language models are built for.
+| *The constraint that decides everything* | The data cannot leave (data — it stays) | FTI handling rules rule out public endpoints. The model comes to the data — on premises, accredited cloud, or air-gapped enclave.
+|===
+
+[.notes]
+--
+Do not lead with the technology. Lead with the shape of the problem: seasonal
+demand spikes against a fixed workforce, decades of correspondence logic
+locked in code nobody wants to touch, and data spread across systems that were
+never designed to talk.
+
+AI is interesting here precisely because it works on unstructured language —
+which is most of what a tax agency actually handles.
+
+Context to use with tact: large federal accounts are losing institutional
+knowledge as people age out or are RIF’d — capturing what the workforce knows
+is part of why this matters now.
+
+The chart: a year of demand arrives in six weeks. The analogy: Macy’s at
+Thanksgiving, Black Friday and Christmas — a very seasonal workload against a
+fixed store. The off-season is not waste; it is when you rewrite and integrate
+the knowledge you gathered during the surge, so there is more headroom when
+the next surge comes. Idle capacity in August is only unjustifiable if you do
+nothing with it.
+
+The closed loop has one rule: it feeds on data from YOUR systems of record,
+added to your knowledge base to automate it — never information generated from
+information. That is the snake eating its own tail.
+
+And the constraint that decides the architecture — federal tax information
+cannot go to a public endpoint; the model comes to the data.
+--
+
 == Four different jobs get called “AI”
 
 `Rung: information · knowledge · judgement`
@@ -131,45 +172,50 @@ Jon lands the weather-forecast and well-read-drafting-assistant lines already
 on the cards; Brad takes back Reason + act and Automate.
 --
 
-== The work is seasonal, textual and unforgiving
+== Predictive and generative AI answer different questions
 
-`Rung: data`
+`Rung: information · knowledge`
 
-[cols="1,2,3"]
+They fail differently — so they are governed differently.
+
+[cols="1,2,2", options="header"]
 |===
-| *Demand* | Peak load, fixed staff | Idle capacity in August is unjustifiable; exhausted capacity in April is a headline. A year of demand arrives in six weeks — April is 6× the August low.
-| *Systems* | Rules locked in legacy code | Rewriting the systems of record is a decade. Wrapping them in intelligent workflows is a quarter.
-| *Data* | The answers are in the text | Correspondence, transcripts and case notes are unstructured — exactly what language models are built for.
-| *The constraint that decides everything* | The data cannot leave (data — it stays) | FTI handling rules rule out public endpoints. The model comes to the data — on premises, accredited cloud, or air-gapped enclave.
+| | Predictive AI (data → information) | Generative AI (information → knowledge)
+
+| *learns from* | Patterns in structured history — filings, payments, outcomes | Language itself — how guidance, notices and case notes are written
+| *produces* | A number: a score, a forecast, a flag | Text: a classification, a draft, a summary, a cited answer
+| *in tax terms* | Refund-risk scoring · workload forecasting · anomaly flags | Read correspondence · draft notices · summarize case files · answer from guidance
+| *fails as* | A bad number — visible in precision and recall | A plausible sentence — which is why grounding and review are non-negotiable
+| *governed by* | Back-testing, thresholds, fairness metrics | Retrieval with citations, human sign-off, drift monitoring — Labs 04 · 06
 |===
+
+In the interactive deck this slide is a single graphic: predictive and generative
+overlap where a score picks the case and a draft explains it, and a person
+decides.
 
 [.notes]
 --
-Do not lead with the technology. Lead with the shape of the problem: seasonal
-demand spikes against a fixed workforce, decades of correspondence logic
-locked in code nobody wants to touch, and data spread across systems that were
-never designed to talk.
+One graphic, per Jon: predictive and generative overlap. Left crescent, a
+number from structured history; right crescent, language from text; the lens
+is where the strongest workflows chain both — score, then explain — and one
+platform serves both models (Lab 03).
 
-AI is interesting here precisely because it works on unstructured language —
-which is most of what a tax agency actually handles.
+Walk it left to right, then the strip: a score is not a determination, a
+fluent sentence is not evidence, a person decides. The old six-row table
+survives in the reveal export and the facilitator guide as the take-home.
 
-Context to use with tact: large federal accounts are losing institutional
-knowledge as people age out or are RIF’d — capturing what the workforce knows
-is part of why this matters now.
+Most rooms use one word — AI — for two different tools, and most failed
+projects picked the wrong one. Predictive models produce a number from
+structured history; generative models produce language. They fail differently,
+so they are governed differently.
 
-The chart: a year of demand arrives in six weeks. The analogy: Macy’s at
-Thanksgiving, Black Friday and Christmas — a very seasonal workload against a
-fixed store. The off-season is not waste; it is when you rewrite and integrate
-the knowledge you gathered during the surge, so there is more headroom when
-the next surge comes. Idle capacity in August is only unjustifiable if you do
-nothing with it.
+Close on the compose line: the strongest workflows chain them, and the
+platform runs both side by side.
 
-The closed loop has one rule: it feeds on data from YOUR systems of record,
-added to your knowledge base to automate it — never information generated from
-information. That is the snake eating its own tail.
-
-And the constraint that decides the architecture — federal tax information
-cannot go to a public endpoint; the model comes to the data.
+OPTIONAL IF TIME IS SHORT — this is a deep dive on the predictive and
+generative cards from the terminology slide; drop it first and let the table
+stand as the leave-behind, unless the room asks how the two are governed
+differently.
 --
 
 == An LLM is the engine — not the whole vehicle
@@ -278,52 +324,6 @@ not knowledge and judgement.
 
 Optional garnish, correctly attributed: Karpathy’s ‘you can outsource
 intelligence but you cannot outsource understanding.’
---
-
-== Predictive and generative AI answer different questions
-
-`Rung: information · knowledge`
-
-They fail differently — so they are governed differently.
-
-[cols="1,2,2", options="header"]
-|===
-| | Predictive AI (data → information) | Generative AI (information → knowledge)
-
-| *learns from* | Patterns in structured history — filings, payments, outcomes | Language itself — how guidance, notices and case notes are written
-| *produces* | A number: a score, a forecast, a flag | Text: a classification, a draft, a summary, a cited answer
-| *in tax terms* | Refund-risk scoring · workload forecasting · anomaly flags | Read correspondence · draft notices · summarize case files · answer from guidance
-| *fails as* | A bad number — visible in precision and recall | A plausible sentence — which is why grounding and review are non-negotiable
-| *governed by* | Back-testing, thresholds, fairness metrics | Retrieval with citations, human sign-off, drift monitoring — Labs 04 · 06
-|===
-
-In the interactive deck this slide is a single graphic: predictive and generative
-overlap where a score picks the case and a draft explains it, and a person
-decides.
-
-[.notes]
---
-One graphic, per Jon: predictive and generative overlap. Left crescent, a
-number from structured history; right crescent, language from text; the lens
-is where the strongest workflows chain both — score, then explain — and one
-platform serves both models (Lab 03).
-
-Walk it left to right, then the strip: a score is not a determination, a
-fluent sentence is not evidence, a person decides. The old six-row table
-survives in the reveal export and the facilitator guide as the take-home.
-
-Most rooms use one word — AI — for two different tools, and most failed
-projects picked the wrong one. Predictive models produce a number from
-structured history; generative models produce language. They fail differently,
-so they are governed differently.
-
-Close on the compose line: the strongest workflows chain them, and the
-platform runs both side by side.
-
-OPTIONAL IF TIME IS SHORT — this is a deep dive on the predictive and
-generative cards from the terminology slide; drop it first and let the table
-stand as the leave-behind, unless the room asks how the two are governed
-differently.
 --
 
 == Where AI actually lands in the filing lifecycle
@@ -437,6 +437,63 @@ people can find things later. Do not linger — this slide exists so people can
 map the rest of the hour.
 --
 
+== The federal problem is not “get a model.” It is operate AI without giving up control.
+
+`Rung: data · information · knowledge · judgement`
+
+*Bring the model to the mission — not the mission data to somebody else’s
+model.* Use the model, accelerator and deployment location that fit the
+workload. One operating model across datacenter, accredited cloud, edge and
+disconnected — and a glass box you can open and inspect, not a black box.
+
+Inference — serve efficiently with vLLM / llm-d · Data — connect private agency
+knowledge · Agents — govern tool-using workflows · Platform — scale and operate
+consistently.
+
+[cols="1,2,4", options="header"]
+|===
+| | Take-home reference | Why it matters
+
+| Choice | *Model freedom* (knowledge) | Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.
+| Control | *Data locality* (data) | Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.
+| Operations | *Models-as-a-Service* (information) | Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.
+| Economics | *Use accelerators efficiently* (data) | vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.
+| Lifecycle | *Predictive + generative* (information, knowledge) | OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.
+| Execution | *Ansible closes the loop* (executes judgement) | Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.
+|===
+
+[.notes]
+--
+One focal point: the red box in the middle — bring the model to the mission,
+not the mission data to somebody else’s model.
+
+Say the two lines: don’t move what’s hard — bring what’s easy to the data.
+And: what is unique is your data; you have it, you keep visibility into it,
+and you should never have to give it up. Keep the data on-prem and scale
+horizontally, or serve the model as a service locally — either way the data
+does not travel.
+
+Reprise the pizza line once: pizza tonight, spaghetti tomorrow — decisions
+made today do not limit tomorrow’s alignment to new requirements or
+technology.
+
+Say the supporting lines rather than pointing at them: cloud AI is ultimately
+someone else’s computer; on your computer, next to your data, you can go check
+and verify.
+
+Agencies buy ten thousand chatbot seats and start plugging things in — the
+alternative they are not shown is running their own instances beside their own
+data, feeding self-healing closed-loop systems. Colocation cuts attack surface
+AND transit time.
+
+Automation alone is a differentiator; the estate — one OS, the interconnect,
+the ecosystem, the execution layer tying them together — is the discriminator
+nobody else has.
+
+The six cards below are explicitly the take-home reference; tell the room that
+so they stop reading. The next slide shows the mechanics.
+--
+
 == One foundation, from bare metal to the taxpayer
 
 `Rung: data · information · knowledge · judgement`
@@ -498,63 +555,6 @@ HAND-OFF: after seams and hardware, Brad throws to Jon for the platform boxes
 — serving, retrieval, registry; Jon closes on why one foundation matters; Brad
 takes it back: bring the model to the mission, not the data to someone else’s
 model.
---
-
-== The federal problem is not “get a model.” It is operate AI without giving up control.
-
-`Rung: data · information · knowledge · judgement`
-
-*Bring the model to the mission — not the mission data to somebody else’s
-model.* Use the model, accelerator and deployment location that fit the
-workload. One operating model across datacenter, accredited cloud, edge and
-disconnected — and a glass box you can open and inspect, not a black box.
-
-Inference — serve efficiently with vLLM / llm-d · Data — connect private agency
-knowledge · Agents — govern tool-using workflows · Platform — scale and operate
-consistently.
-
-[cols="1,2,4", options="header"]
-|===
-| | Take-home reference | Why it matters
-
-| Choice | *Model freedom* (knowledge) | Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.
-| Control | *Data locality* (data) | Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.
-| Operations | *Models-as-a-Service* (information) | Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.
-| Economics | *Use accelerators efficiently* (data) | vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.
-| Lifecycle | *Predictive + generative* (information, knowledge) | OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.
-| Execution | *Ansible closes the loop* (executes judgement) | Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.
-|===
-
-[.notes]
---
-One focal point: the red box in the middle — bring the model to the mission,
-not the mission data to somebody else’s model.
-
-Say the two lines: don’t move what’s hard — bring what’s easy to the data.
-And: what is unique is your data; you have it, you keep visibility into it,
-and you should never have to give it up. Keep the data on-prem and scale
-horizontally, or serve the model as a service locally — either way the data
-does not travel.
-
-Reprise the pizza line once: pizza tonight, spaghetti tomorrow — decisions
-made today do not limit tomorrow’s alignment to new requirements or
-technology.
-
-Say the supporting lines rather than pointing at them: cloud AI is ultimately
-someone else’s computer; on your computer, next to your data, you can go check
-and verify.
-
-Agencies buy ten thousand chatbot seats and start plugging things in — the
-alternative they are not shown is running their own instances beside their own
-data, feeding self-healing closed-loop systems. Colocation cuts attack surface
-AND transit time.
-
-Automation alone is a differentiator; the estate — one OS, the interconnect,
-the ecosystem, the execution layer tying them together — is the discriminator
-nobody else has.
-
-The six cards below are explicitly the take-home reference; tell the room that
-so they stop reading. The next slide shows the mechanics.
 --
 
 == Define the service once — run it wherever the mission needs it
@@ -729,6 +729,69 @@ information. It ties this chart straight back to the ladder.
 Walk the two bars: detection was already fast, the hours lived in diagnosis,
 and a cited answer to what-changed-and-which-runbook is what removes them. Lab
 07 runs this live — offer to jump straight there if the room is operational.
+--
+
+== One loop, end to end: from mainframe logs to an assistant that probes
+
+`Rung: data · information · knowledge · judgement`
+
+*Lab 08 · the whole loop.* Logs in, risk scored, fix drafted by Lightspeed,
+merged by a person, run by Event-Driven Ansible, remembered by the platform, so
+you can ask.
+
+.The loop: eight stations, and the eighth feeds the first
+. *Mainframe + servers* (data): MVSA · server1..12
+. *Vector · Loki* (data): OpenShift Logging
+. *outage-risk scorer* (information): KServe · sklearn · OpenShift AI
+. *Granite · Lightspeed* (knowledge): vLLM · OpenShift AI
+. *Pull request* (judgement): a person reviews and merges
+. *Repo → AAP → EDA* (judgement): the merge is the promotion
+. *Event-Driven Ansible* (judgement): approved job templates
+. *Knowledge base + assistant* (knowledge): pgvector · ops notebook; ask, then probe, and the loop starts again
+
+.Ask the platform
+[cols="1,3", options="header"]
+|===
+| Question | Answer, with its evidence
+
+| How is server1-taxreturns? | Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088. _[job 40518 · journald · RB-214]_
+| How is server8-audits? | Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed. _[job 40519]_
+| Which servers are showing online? | 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00. _[job 40520 · estate ping]_
+|===
+
+* *The loop is the documentation.* Every promoted change, its review thread and
+  its job outcome are indexed where the assistant searches. The KM system writes
+  itself.
+* *Two kinds of AI, one platform.* The scorer and the drafter share a GPU node, a
+  registry and an identity. Predictive and generative are pods, not projects.
+* *Promotion is a merge.* Repo, AAP and knowledge base update together, and a
+  person decides. Nothing runs from a chat window.
+* *Ask, then probe.* The assistant's tools are approved job templates, so "how is
+  server8?" becomes a job with evidence, not a guess.
+
+[.notes]
+--
+Lab 08 is the whole hour in one loop; run it if the room is operational, or
+walk the map.
+
+Read the map clockwise: logs from the mainframe and the servers land in Loki
+(data); the outage-risk model scores who fails next in the next 72 hours
+(information); Lightspeed drafts the playbook and the rulebook with citations
+(knowledge); a person reviews, edits and merges the pull request, and that
+merge is the promotion into the repo, AAP and the knowledge base (judgement);
+Event-Driven Ansible runs the approved job when the event fires, 42 seconds,
+no page; and the assistant answers from what the loop wrote, probing hosts
+through job templates a person approved.
+
+Say the two takeaways out loud: the platform is also the KM system and the
+documentation, because every promoted change is a cited record; and the
+assistant does not change anything, it launches approved jobs and reports with
+evidence.
+
+Ask the room: what is the last runbook you wrote that the on-call actually
+found?
+
+HAND-OFF: Jon takes the assistant questions, Brad takes the mainframe row.
 --
 
 == Ninety days, then ninety more
@@ -925,69 +988,6 @@ inside this page.
 
 Close the labs with the offer: if you want us to go deeper on any of these, or
 run them for a larger audience, reach out — we will do it.
---
-
-== One loop, end to end: from mainframe logs to an assistant that probes
-
-`Rung: data · information · knowledge · judgement`
-
-*Lab 08 · the whole loop.* Logs in, risk scored, fix drafted by Lightspeed,
-merged by a person, run by Event-Driven Ansible, remembered by the platform, so
-you can ask.
-
-.The loop: eight stations, and the eighth feeds the first
-. *Mainframe + servers* (data): MVSA · server1..12
-. *Vector · Loki* (data): OpenShift Logging
-. *outage-risk scorer* (information): KServe · sklearn · OpenShift AI
-. *Granite · Lightspeed* (knowledge): vLLM · OpenShift AI
-. *Pull request* (judgement): a person reviews and merges
-. *Repo → AAP → EDA* (judgement): the merge is the promotion
-. *Event-Driven Ansible* (judgement): approved job templates
-. *Knowledge base + assistant* (knowledge): pgvector · ops notebook; ask, then probe, and the loop starts again
-
-.Ask the platform
-[cols="1,3", options="header"]
-|===
-| Question | Answer, with its evidence
-
-| How is server1-taxreturns? | Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088. _[job 40518 · journald · RB-214]_
-| How is server8-audits? | Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed. _[job 40519]_
-| Which servers are showing online? | 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00. _[job 40520 · estate ping]_
-|===
-
-* *The loop is the documentation.* Every promoted change, its review thread and
-  its job outcome are indexed where the assistant searches. The KM system writes
-  itself.
-* *Two kinds of AI, one platform.* The scorer and the drafter share a GPU node, a
-  registry and an identity. Predictive and generative are pods, not projects.
-* *Promotion is a merge.* Repo, AAP and knowledge base update together, and a
-  person decides. Nothing runs from a chat window.
-* *Ask, then probe.* The assistant's tools are approved job templates, so "how is
-  server8?" becomes a job with evidence, not a guess.
-
-[.notes]
---
-Lab 08 is the whole hour in one loop; run it if the room is operational, or
-walk the map.
-
-Read the map clockwise: logs from the mainframe and the servers land in Loki
-(data); the outage-risk model scores who fails next in the next 72 hours
-(information); Lightspeed drafts the playbook and the rulebook with citations
-(knowledge); a person reviews, edits and merges the pull request, and that
-merge is the promotion into the repo, AAP and the knowledge base (judgement);
-Event-Driven Ansible runs the approved job when the event fires, 42 seconds,
-no page; and the assistant answers from what the loop wrote, probing hosts
-through job templates a person approved.
-
-Say the two takeaways out loud: the platform is also the KM system and the
-documentation, because every promoted change is a cited record; and the
-assistant does not change anything, it launches approved jobs and reports with
-evidence.
-
-Ask the room: what is the last runbook you wrote that the on-call actually
-found?
-
-HAND-OFF: Jon takes the assistant questions, Brad takes the mainframe row.
 --
 
 == The questions an authorizing official will ask

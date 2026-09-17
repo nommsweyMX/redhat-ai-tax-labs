@@ -553,7 +553,28 @@ def build(out_path: Path) -> None:
              [("Presented by Jon Keam (jkeam@redhat.com) and Brad Scalio (bscalio@redhat.com)", 11, True, INK_2, BODY_FONT, 0)])
     add_title_pyramid(s, Inches(5.75), Inches(1.45), Inches(3.7))
 
-    # ---- 2 the ladder: data to judgement --------------------------------------
+    # ---- 2 operating reality: demand curve -------------------------------------
+    s = add_base(prs, "Do not lead with the technology. Lead with the shape of the problem. The "
+                      "chart is the argument: a year of demand arrives in six weeks, far above any "
+                      "capacity you can justify staffing year-round. The shaded gap is what "
+                      "automation absorbs. The card on the right that matters most is the last one: "
+                      "the data cannot leave, so the platform is the decision.")
+    add_spine(s, "Why now")
+    eyebrow_and_title(s, "The operating reality", "The work is seasonal, textual and unforgiving")
+    demand_chart(s, MARGIN, Inches(1.95), Inches(7.55), Inches(4.9))
+    cx = Inches(8.75)
+    cw = Inches(3.9)
+    side_card(s, cx, Inches(1.95), cw, Inches(1.05), "Demand", "Peak load, fixed staff",
+              "Idle capacity in August is unjustifiable; exhausted capacity in April is a headline.")
+    side_card(s, cx, Inches(3.13), cw, Inches(1.05), "Systems", "Rules locked in legacy code",
+              "Rewriting the systems of record is a decade. Wrapping them is a quarter.")
+    side_card(s, cx, Inches(4.31), cw, Inches(1.05), "Data", "The answers are in the text",
+              "Correspondence and case notes are unstructured — what language models are built for.")
+    side_card(s, cx, Inches(5.49), cw, Inches(1.3), "The constraint", "The data cannot leave",
+              "FTI rules rule out public endpoints. The model comes to the data — on premises, "
+              "accredited cloud, or air-gapped enclave.", bar=GREEN)
+
+    # ---- 3 the ladder: data to judgement --------------------------------------
     s = add_base(prs, "The spine of the hour. Read it left to right: the platform holds the data, "
                       "predictive AI and inference turn it into information, generative AI with "
                       "retrieval turns that into knowledge, and a person turns knowledge into a "
@@ -589,27 +610,6 @@ def build(out_path: Path) -> None:
             arrow = s.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, left + width + Inches(0.03), top - Inches(0.05),
                                        Inches(0.22), Inches(0.2))
             solid(arrow, colour)
-
-    # ---- 3 operating reality: demand curve -------------------------------------
-    s = add_base(prs, "Do not lead with the technology. Lead with the shape of the problem. The "
-                      "chart is the argument: a year of demand arrives in six weeks, far above any "
-                      "capacity you can justify staffing year-round. The shaded gap is what "
-                      "automation absorbs. The card on the right that matters most is the last one: "
-                      "the data cannot leave, so the platform is the decision.")
-    add_spine(s, "Why now")
-    eyebrow_and_title(s, "The operating reality", "The work is seasonal, textual and unforgiving")
-    demand_chart(s, MARGIN, Inches(1.95), Inches(7.55), Inches(4.9))
-    cx = Inches(8.75)
-    cw = Inches(3.9)
-    side_card(s, cx, Inches(1.95), cw, Inches(1.05), "Demand", "Peak load, fixed staff",
-              "Idle capacity in August is unjustifiable; exhausted capacity in April is a headline.")
-    side_card(s, cx, Inches(3.13), cw, Inches(1.05), "Systems", "Rules locked in legacy code",
-              "Rewriting the systems of record is a decade. Wrapping them is a quarter.")
-    side_card(s, cx, Inches(4.31), cw, Inches(1.05), "Data", "The answers are in the text",
-              "Correspondence and case notes are unstructured — what language models are built for.")
-    side_card(s, cx, Inches(5.49), cw, Inches(1.3), "The constraint", "The data cannot leave",
-              "FTI rules rule out public endpoints. The model comes to the data — on premises, "
-              "accredited cloud, or air-gapped enclave.", bar=GREEN)
 
     # ---- 4 where AI lands: the eight-station rail ------------------------------
     s = add_base(prs, "Walk the eight stations left to right, the same eight as the graphic (G): AI "
@@ -836,156 +836,7 @@ def build(out_path: Path) -> None:
                                 Inches(0.18), Inches(0.14))
         solid(ar, BORDER_STRONG)
 
-    # ---- 7 adoption path: roadmap timeline -------------------------------------
-    s = add_base(prs, "Be honest about sequencing. Most agencies stall on rows 2 and 3 of the "
-                      "Prove phase — no accelerator capacity plan, and no written agreement on "
-                      "which data may be used. Neither is technical. Ask the room directly which "
-                      "phase they are in.")
-    add_spine(s, "Adoption path")
-    eyebrow_and_title(s, "Adoption path", "Ninety days, then ninety more",
-                      "Nothing here requires a rewrite of a system of record.")
-    ty = Inches(2.65)
-    spine = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(1.0), ty, Inches(12.5), ty)
-    spine.line.color.rgb = BORDER_STRONG
-    spine.line.width = Pt(2)
-    spine.shadow.inherit = False
-    seg_w = Inches(3.62)
-    seg_xs = [Inches(1.15), Inches(4.92), Inches(8.69)]
-    for sx, col, label in zip(seg_xs, (STEEL, AMBER, RED), ("PROVE", "GROUND", "SCALE")):
-        rrect(s, sx, ty - Inches(0.07), seg_w, Inches(0.14), col, radius=0.5)
-        add_text(s, sx, ty - Inches(0.5), seg_w, Inches(0.3),
-                 [(label, 12, True, col, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
-    for dx, dl in ((Inches(1.15), "day 0"), (Inches(4.92), "day 90"),
-                   (Inches(8.69), "day 180"), (Inches(12.31), "day 270+")):
-        d = s.shapes.add_shape(MSO_SHAPE.OVAL, dx - Inches(0.07), ty - Inches(0.07),
-                               Inches(0.14), Inches(0.14))
-        solid(d, SURFACE, INK_2, 1.5)
-        add_text(s, dx - Inches(0.55), ty + Inches(0.14), Inches(1.1), Inches(0.24),
-                 [(dl, 9, False, INK_3, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
-    phase_cols = [
-        (STEEL_WASH, STEEL, "Prove — days 0–90",
-         ["One endpoint on AI Inference Server", "Accelerator capacity plan", "Data classes agreed in writing",
-          "One workflow with a reviewer", "Baseline measured first"]),
-        (AMBER_WASH, AMBER, "Ground — days 90–180",
-         ["Serving on OpenShift AI", "Retrieval over your guidance", "Tune on agency vocabulary",
-          "Drift and compliance wired", "Provisioning automated"]),
-        (RED_WASH, RED_DARK, "Scale — days 180+",
-         ["Registry with real approvals", "Workflows two to five", "Filing-season rehearsal",
-          "Extend to the enclave", "Report in mission terms"]),
-    ]
-    py = Inches(3.45)
-    pw = Inches(3.77)
-    for i, (wash, col, head, items) in enumerate(phase_cols):
-        px = MARGIN + i * (pw + Inches(0.16))
-        rrect(s, px, py, pw, Inches(0.42), wash, radius=0.18)
-        add_text(s, px + Inches(0.16), py + Inches(0.04), pw - Inches(0.3), Inches(0.34),
-                 [(head, 12.5, True, col, HEAD_FONT, 0)])
-        runs = []
-        for it in items:
-            runs.append(("•  " + it, 11, False, INK_2, BODY_FONT, 5))
-        add_text(s, px + Inches(0.16), py + Inches(0.52), pw - Inches(0.3), Inches(2.6), runs)
-
-    # ---- 8 next steps ----------------------------------------------------------
-    s = add_base(prs, "Close with a specific ask, not a thank-you. Step zero is the lab "
-                      "walk-through: an hour running the eight labs together to find the point in "
-                      "the stack where they want to prove value, which scopes the pilot. The "
-                      "architecture workshop follows, then hand off to Four Inc. and Carahsoft for "
-                      "the contract vehicle conversation. Point at the contact panel: Brad's email "
-                      "is there deliberately, and if nothing else he is the connector to the right "
-                      "person. Ask for the cyber team by name: if nobody from IRS cyber is on, get "
-                      "a referral to the ISSO and run the appendix for them in depth.")
-    add_spine(s, "Next steps")
-    eyebrow_and_title(s, "Next steps", "What happens after this hour")
-    steps = [
-        ("Step zero", "Lab walk-through",
-         "An hour where we run the eight labs together, show and tell, and find the point in "
-         "the stack where you want to prove value. That scopes the pilot."),
-        ("Step one", "Architecture workshop",
-         "A half-day with your platform and security teams to size accelerators, place the "
-         "first workload and name the data classes in scope."),
-        ("Step two", "Guided pilot",
-         "One workflow, on your infrastructure, with a measured baseline and an agreed "
-         "definition of success before we start."),
-        ("Step three", "Acquisition path",
-         "Four Inc. and Carahsoft carry the vehicles and pricing — bring them in early, not at "
-         "the end."),
-    ]
-    gap = Inches(0.3)
-    cw = int((SLIDE_W - 2 * MARGIN - gap * 3) / 4)
-    for i, (tag, heading, body) in enumerate(steps):
-        side_card(s, MARGIN + i * (cw + gap), Inches(2.0), cw, Inches(1.45), tag, heading, body)
-
-    # the contact panel on the left and the moves on the right, as the deck lays them out
-    cy = Inches(3.6)
-    ch = Inches(2.8)
-    pw = Inches(5.5)
-    rrect(s, MARGIN, cy, pw, ch, SURFACE, BORDER, 1.0, radius=0.05)
-    add_text(s, MARGIN + Inches(0.2), cy + Inches(0.12), pw - Inches(0.4), ch - Inches(0.2),
-             [("Point of contact — Brad will follow up".upper(), 8.5, True, INK_3, MONO_FONT, 6),
-              ("Brad Scalio", 16, True, INK, HEAD_FONT, 1),
-              ("Red Hat · if nothing else, he will get you to the right person", 10, False, INK_2, BODY_FONT, 2),
-              ("bscalio@redhat.com", 11, True, RED_DARK, MONO_FONT, 5),
-              ("IRS account executive: Ted Craig, Red Hat. Everyone else, email Brad and he "
-               "connects you to yours.", 10, False, INK_2, BODY_FONT, 8),
-              ("RED HAT  ·  FOUR INC.  ·  CARAHSOFT", 8.5, True, INK_3, MONO_FONT, 6),
-              ("Everything from today — deck, labs, guides — at nommsweymx.github.io/redhat-ai-tax-labs. "
-               "The eight labs are the commands your engineers will run on day one. Follow it on "
-               "your own: …/adventure.html.", 9, False, INK_3, BODY_FONT, 0)])
-    mx = MARGIN + pw + Inches(0.35)
-    mw = SLIDE_W - MARGIN - mx
-    moves = [
-        ("Already a Red Hat customer? Ask for your Solution Architect.",
-         "Not sure who that is? Email Brad, open a ticket in the Customer Portal and ask "
-         "support, or ask through your management line. The foundational questions are free "
-         "to ask and expensive to skip."),
-        ("Start a community of practice.",
-         "A standing group across platform, security and mission teams, built around one "
-         "workflow. We will help seed it and we will show up."),
-        ("Bring your hardest question.",
-         "Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. If "
-         "you did not see it here today, that does not mean it does not exist — ask."),
-        ("Bring your cyber team.",
-         "If nobody from IRS cyber is on today, refer us to your ISSO or security lead. We will "
-         "run a dedicated security session for them: the appendix, in depth."),
-    ]
-    runs = [("YOUR MOVE", 8.5, True, INK_3, MONO_FONT, 6)]
-    for lead, detail in moves:
-        runs.append((lead, 11, True, INK, BODY_FONT, 1))
-        runs.append((detail, 9.5, False, INK_2, BODY_FONT, 7))
-    add_text(s, mx, cy - Inches(0.05), mw, ch, runs)
-
-    # ---- 9 labs ----------------------------------------------------------------
-    s = add_base(prs, "Transition slide. Switch to a terminal now. Tell them the labs run in "
-                      "simulate mode on a laptop with no cluster, and in live mode against their "
-                      "own environment — same script, same commands. Run Lab 01 and stop hard on "
-                      "step 4, the endpoint bound to 127.0.0.1. The deck's Demo view plays every "
-                      "lab hands-free if you would rather narrate than type.")
-    add_spine(s, "Labs preview")
-    eyebrow_and_title(s, "Hands on · the takeaway", "Eight labs — real commands, run them yourself",
-                      "An opinionated path on a personal laptop — not an MVP, never production, never on "
-                      "a government computer. Free of charge and open to anyone: one self-contained HTML "
-                      "on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs. "
-                      "Prove it to yourself: watch the model serve on 127.0.0.1.",
-                      lede_top=Inches(2.05))
-    add_table(s, [
-        ["Lab", "What you do", "Product", "Rung"],
-        ["01", "Serve a model inside your boundary", "AI Inference Server", "data → information"],
-        ["02", "Teach it your notice taxonomy", "SDG Hub + Training Hub", "knowledge"],
-        ["03", "Survive filing season", "OpenShift AI", "information at scale"],
-        ["04", "Ground answers in your own guidance", "Retrieval", "knowledge"],
-        ["05", "Automate the toil around the model", "Ansible", "executes judgement"],
-        ["06", "Prove it to your ISSO", "Compliance, TrustyAI", "evidence → judgement"],
-        ["07", "Ask your own logs", "Ops notebook", "information → knowledge"],
-        ["08", "One loop, end to end", "OpenShift AI · Lightspeed · EDA", "data → judgement"],
-    ], Inches(3.05), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
-    add_text(s, MARGIN, Inches(6.42), Inches(11.5), Inches(1.0),
-             [("One thing to remember: nothing here needed a public endpoint", 15, True, INK, HEAD_FONT, 4),
-              ("No public model endpoint, no internet connection at inference time, no rewrite of a "
-               "system of record. The labs run the upstream bits on a laptop; what an agency "
-               "accredits is the supported Red Hat product built from them. Lab 08 chains the whole loop.",
-               12, False, INK_2, BODY_FONT, 0)])
-
-    # ---- 10 one loop, end to end (Lab 08) ----------------------------------------
+    # ---- 7 one loop, end to end (Lab 08) ----------------------------------------
     s = add_base(prs, "Lab 08 is the whole hour in one loop; run it if the room is operational, or "
                       "walk the map. Read the map clockwise: logs from the mainframe and the servers "
                       "land in Loki (data); the outage-risk model scores who fails next in the next 72 "
@@ -1080,6 +931,155 @@ def build(out_path: Path) -> None:
          "job with evidence, not a guess."),
     ]):
         side_card(s, MARGIN + i * (cw + gap), cy, cw, ch, "Takeaway", heading, body)
+
+    # ---- 8 adoption path: roadmap timeline -------------------------------------
+    s = add_base(prs, "Be honest about sequencing. Most agencies stall on rows 2 and 3 of the "
+                      "Prove phase — no accelerator capacity plan, and no written agreement on "
+                      "which data may be used. Neither is technical. Ask the room directly which "
+                      "phase they are in.")
+    add_spine(s, "Adoption path")
+    eyebrow_and_title(s, "Adoption path", "Ninety days, then ninety more",
+                      "Nothing here requires a rewrite of a system of record.")
+    ty = Inches(2.65)
+    spine = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(1.0), ty, Inches(12.5), ty)
+    spine.line.color.rgb = BORDER_STRONG
+    spine.line.width = Pt(2)
+    spine.shadow.inherit = False
+    seg_w = Inches(3.62)
+    seg_xs = [Inches(1.15), Inches(4.92), Inches(8.69)]
+    for sx, col, label in zip(seg_xs, (STEEL, AMBER, RED), ("PROVE", "GROUND", "SCALE")):
+        rrect(s, sx, ty - Inches(0.07), seg_w, Inches(0.14), col, radius=0.5)
+        add_text(s, sx, ty - Inches(0.5), seg_w, Inches(0.3),
+                 [(label, 12, True, col, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
+    for dx, dl in ((Inches(1.15), "day 0"), (Inches(4.92), "day 90"),
+                   (Inches(8.69), "day 180"), (Inches(12.31), "day 270+")):
+        d = s.shapes.add_shape(MSO_SHAPE.OVAL, dx - Inches(0.07), ty - Inches(0.07),
+                               Inches(0.14), Inches(0.14))
+        solid(d, SURFACE, INK_2, 1.5)
+        add_text(s, dx - Inches(0.55), ty + Inches(0.14), Inches(1.1), Inches(0.24),
+                 [(dl, 9, False, INK_3, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
+    phase_cols = [
+        (STEEL_WASH, STEEL, "Prove — days 0–90",
+         ["One endpoint on AI Inference Server", "Accelerator capacity plan", "Data classes agreed in writing",
+          "One workflow with a reviewer", "Baseline measured first"]),
+        (AMBER_WASH, AMBER, "Ground — days 90–180",
+         ["Serving on OpenShift AI", "Retrieval over your guidance", "Tune on agency vocabulary",
+          "Drift and compliance wired", "Provisioning automated"]),
+        (RED_WASH, RED_DARK, "Scale — days 180+",
+         ["Registry with real approvals", "Workflows two to five", "Filing-season rehearsal",
+          "Extend to the enclave", "Report in mission terms"]),
+    ]
+    py = Inches(3.45)
+    pw = Inches(3.77)
+    for i, (wash, col, head, items) in enumerate(phase_cols):
+        px = MARGIN + i * (pw + Inches(0.16))
+        rrect(s, px, py, pw, Inches(0.42), wash, radius=0.18)
+        add_text(s, px + Inches(0.16), py + Inches(0.04), pw - Inches(0.3), Inches(0.34),
+                 [(head, 12.5, True, col, HEAD_FONT, 0)])
+        runs = []
+        for it in items:
+            runs.append(("•  " + it, 11, False, INK_2, BODY_FONT, 5))
+        add_text(s, px + Inches(0.16), py + Inches(0.52), pw - Inches(0.3), Inches(2.6), runs)
+
+    # ---- 9 next steps ----------------------------------------------------------
+    s = add_base(prs, "Close with a specific ask, not a thank-you. Step zero is the lab "
+                      "walk-through: an hour running the eight labs together to find the point in "
+                      "the stack where they want to prove value, which scopes the pilot. The "
+                      "architecture workshop follows, then hand off to Four Inc. and Carahsoft for "
+                      "the contract vehicle conversation. Point at the contact panel: Brad's email "
+                      "is there deliberately, and if nothing else he is the connector to the right "
+                      "person. Ask for the cyber team by name: if nobody from IRS cyber is on, get "
+                      "a referral to the ISSO and run the appendix for them in depth.")
+    add_spine(s, "Next steps")
+    eyebrow_and_title(s, "Next steps", "What happens after this hour")
+    steps = [
+        ("Step zero", "Lab walk-through",
+         "An hour where we run the eight labs together, show and tell, and find the point in "
+         "the stack where you want to prove value. That scopes the pilot."),
+        ("Step one", "Architecture workshop",
+         "A half-day with your platform and security teams to size accelerators, place the "
+         "first workload and name the data classes in scope."),
+        ("Step two", "Guided pilot",
+         "One workflow, on your infrastructure, with a measured baseline and an agreed "
+         "definition of success before we start."),
+        ("Step three", "Acquisition path",
+         "Four Inc. and Carahsoft carry the vehicles and pricing — bring them in early, not at "
+         "the end."),
+    ]
+    gap = Inches(0.3)
+    cw = int((SLIDE_W - 2 * MARGIN - gap * 3) / 4)
+    for i, (tag, heading, body) in enumerate(steps):
+        side_card(s, MARGIN + i * (cw + gap), Inches(2.0), cw, Inches(1.45), tag, heading, body)
+
+    # the contact panel on the left and the moves on the right, as the deck lays them out
+    cy = Inches(3.6)
+    ch = Inches(2.8)
+    pw = Inches(5.5)
+    rrect(s, MARGIN, cy, pw, ch, SURFACE, BORDER, 1.0, radius=0.05)
+    add_text(s, MARGIN + Inches(0.2), cy + Inches(0.12), pw - Inches(0.4), ch - Inches(0.2),
+             [("Point of contact — Brad will follow up".upper(), 8.5, True, INK_3, MONO_FONT, 6),
+              ("Brad Scalio", 16, True, INK, HEAD_FONT, 1),
+              ("Red Hat · if nothing else, he will get you to the right person", 10, False, INK_2, BODY_FONT, 2),
+              ("bscalio@redhat.com", 11, True, RED_DARK, MONO_FONT, 5),
+              ("IRS account executive: Ted Craig, Red Hat. Everyone else, email Brad and he "
+               "connects you to yours.", 10, False, INK_2, BODY_FONT, 8),
+              ("RED HAT  ·  FOUR INC.  ·  CARAHSOFT", 8.5, True, INK_3, MONO_FONT, 6),
+              ("Everything from today — deck, labs, guides — at nommsweymx.github.io/redhat-ai-tax-labs. "
+               "The eight labs are the commands your engineers will run on day one. Follow it on "
+               "your own: …/adventure.html.", 9, False, INK_3, BODY_FONT, 0)])
+    mx = MARGIN + pw + Inches(0.35)
+    mw = SLIDE_W - MARGIN - mx
+    moves = [
+        ("Already a Red Hat customer? Ask for your Solution Architect.",
+         "Not sure who that is? Email Brad, open a ticket in the Customer Portal and ask "
+         "support, or ask through your management line. The foundational questions are free "
+         "to ask and expensive to skip."),
+        ("Start a community of practice.",
+         "A standing group across platform, security and mission teams, built around one "
+         "workflow. We will help seed it and we will show up."),
+        ("Bring your hardest question.",
+         "Air-gapped operation, FedRAMP boundaries, accelerator scarcity, model provenance. If "
+         "you did not see it here today, that does not mean it does not exist — ask."),
+        ("Bring your cyber team.",
+         "If nobody from IRS cyber is on today, refer us to your ISSO or security lead. We will "
+         "run a dedicated security session for them: the appendix, in depth."),
+    ]
+    runs = [("YOUR MOVE", 8.5, True, INK_3, MONO_FONT, 6)]
+    for lead, detail in moves:
+        runs.append((lead, 11, True, INK, BODY_FONT, 1))
+        runs.append((detail, 9.5, False, INK_2, BODY_FONT, 7))
+    add_text(s, mx, cy - Inches(0.05), mw, ch, runs)
+
+    # ---- 10 labs ----------------------------------------------------------------
+    s = add_base(prs, "Transition slide. Switch to a terminal now. Tell them the labs run in "
+                      "simulate mode on a laptop with no cluster, and in live mode against their "
+                      "own environment — same script, same commands. Run Lab 01 and stop hard on "
+                      "step 4, the endpoint bound to 127.0.0.1. The deck's Demo view plays every "
+                      "lab hands-free if you would rather narrate than type.")
+    add_spine(s, "Labs preview")
+    eyebrow_and_title(s, "Hands on · the takeaway", "Eight labs — real commands, run them yourself",
+                      "An opinionated path on a personal laptop — not an MVP, never production, never on "
+                      "a government computer. Free of charge and open to anyone: one self-contained HTML "
+                      "on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs. "
+                      "Prove it to yourself: watch the model serve on 127.0.0.1.",
+                      lede_top=Inches(2.05))
+    add_table(s, [
+        ["Lab", "What you do", "Product", "Rung"],
+        ["01", "Serve a model inside your boundary", "AI Inference Server", "data → information"],
+        ["02", "Teach it your notice taxonomy", "SDG Hub + Training Hub", "knowledge"],
+        ["03", "Survive filing season", "OpenShift AI", "information at scale"],
+        ["04", "Ground answers in your own guidance", "Retrieval", "knowledge"],
+        ["05", "Automate the toil around the model", "Ansible", "executes judgement"],
+        ["06", "Prove it to your ISSO", "Compliance, TrustyAI", "evidence → judgement"],
+        ["07", "Ask your own logs", "Ops notebook", "information → knowledge"],
+        ["08", "One loop, end to end", "OpenShift AI · Lightspeed · EDA", "data → judgement"],
+    ], Inches(3.05), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
+    add_text(s, MARGIN, Inches(6.42), Inches(11.5), Inches(1.0),
+             [("One thing to remember: nothing here needed a public endpoint", 15, True, INK, HEAD_FONT, 4),
+              ("No public model endpoint, no internet connection at inference time, no rewrite of a "
+               "system of record. The labs run the upstream bits on a laptop; what an agency "
+               "accredits is the supported Red Hat product built from them. Lab 08 chains the whole loop.",
+               12, False, INK_2, BODY_FONT, 0)])
 
     # ---- 11 appendix: AO questions ----------------------------------------------
     s = add_base(prs, "This is the slide that unblocks the deal. Every row is a control the "

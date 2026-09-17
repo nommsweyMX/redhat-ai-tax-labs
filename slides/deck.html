@@ -449,6 +449,16 @@ kbd{
 .gfxpill::before{content:"";width:9px;height:9px;border:1.5px solid var(--accent);border-radius:2px;background:linear-gradient(135deg,transparent 55%,var(--accent) 56%)}
 .gfxpill:hover{border-color:var(--accent);color:var(--ink)}
 #stage:fullscreen .gfxpill{bottom:22px}
+/* chapter stepper — the six beats of the hour along the bottom edge of every slide */
+.chapstrip{position:absolute;left:clamp(28px,3.4vw,54px);bottom:14px;display:flex;gap:10px;align-items:center;font-family:"Red Hat Mono",monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;pointer-events:none;line-height:1}
+.chapstrip .ch{display:inline-flex;align-items:center;gap:6px}
+.chapstrip .ch i{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--border-strong);font-size:.52rem;color:var(--ink-3);background:var(--surface)}
+.chapstrip .ch:not(.on) > span{display:none}
+.chapstrip .ch.on{color:var(--accent-ink);font-weight:700}
+.chapstrip .ch.on i{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+#stage:fullscreen .chapstrip{bottom:22px}
+.railchap{font-family:"Red Hat Mono",monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding:11px 8px 3px;margin-top:5px;border-top:1px solid var(--border)}
+.railchap:first-child{border-top:0;margin-top:0;padding-top:4px}
 .popout{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:22px}
 .popout[hidden]{display:none}
 .po-backdrop{position:absolute;inset:0;background:rgba(18,13,12,.66)}
@@ -533,7 +543,8 @@ kbd{
 :root[data-view="show"] .slide[data-title="Why Red Hat AI"] .promise .subq{font-size:.95rem}
 :root[data-view="show"] .slide[data-title="Why one platform"] .cols{display:none}
 :root[data-view="show"] .slide[data-title="Why one platform"] .slide-body > div{justify-content:center;height:100%}
-:root[data-view="show"] .slide[data-title="AI for operations"] .knowledgebar,:root[data-view="show"] .slide[data-title="AI for operations"] .cols{display:none}
+:root[data-view="show"] .slide[data-title="AI for operations"] .knowledgebar,:root[data-view="show"] .slide[data-title="AI for operations"] .cols,:root[data-view="show"] .slide[data-title="AI for operations"] .flywheel{display:none}
+:root[data-view="show"] .slide[data-title="AI for operations"] .loopring{height:100%!important;width:auto!important;max-width:100%;max-height:100%;margin:0 auto;display:block}
 :root[data-view="show"] .slide[data-title="AI for operations"] .fwstep{padding:18px 20px;gap:8px}
 :root[data-view="show"] .slide[data-title="AI for operations"] .fwstep h4{font-size:1.2rem}
 :root[data-view="show"] .slide[data-title="AI for operations"] .fwstep p{font-size:.9rem;line-height:1.45}
@@ -552,6 +563,8 @@ kbd{
 .closing{padding:34px 0 0}
 :root[data-view="show"] .vennlite{width:96%;margin:0 auto}
 .vennlite text{font-family:"Red Hat Text",system-ui,sans-serif}
+html[lang="es"] .loopring .tt{font-size:12.5px}
+html[lang="es"] .loopring .st{font-size:10.5px}
 .loopbody{display:flex;flex-direction:column;gap:8px;padding-top:8px}
 .loopgrid{display:grid;grid-template-columns:1.05fr 1.35fr;gap:10px;min-height:0}
 .askbox{border:1px solid var(--border);border-radius:8px;background:var(--term-bg);padding:7px 11px;display:flex;flex-direction:column;gap:2px}
@@ -902,26 +915,6 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 2 -->
-        <article class="slide" data-title="AI in plain English" data-rungs="information,knowledge,judgement" data-notes="Start with the umbrella. Federal audiences hear AI used as if every technique is the same. It is not. Predictive AI estimates or classifies. Generative AI creates. An LLM is a generative model specialized in language. Agentic systems add tools and workflow. Automation executes known steps. The strongest mission pattern combines them rather than asking one model to do everything. Land the on-ramp line: if you are not automated, you are not going to have a good generative or predictive AI inside your boundary — automation is the prerequisite. HAND-OFF (optional): on the Estimate and Create cards Brad turns to Jon — Jon, what do you know about predictive and generative? Give the room an analogy. Jon lands the weather-forecast and well-read-drafting-assistant lines already on the cards; Brad takes back Reason + act and Automate.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">AI foundations · no alphabet soup</span>
-            <h2>Four different jobs get called “AI”</h2>
-            <p class="lede">Treat AI as a toolbox, not a magic employee. Pick the tool by the job you need done.</p>
-          </div>
-          <div class="slide-body" style="display:flex;flex-direction:column">
-            <div class="ai-spectrum">
-              <div class="ai-kind predict"><span class="tag">Estimate</span><div class="big">Predictive AI</div><span class="rung r-info">data → information</span><div class="plain">Finds patterns in historical data to score, classify or forecast an outcome.</div><div class="analogy"><b>Analogy</b><br>A weather forecast: “there is a 70% chance,” not a guarantee.</div></div>
-              <div class="ai-kind generate"><span class="tag">Create</span><div class="big">Generative AI / LLM</div><span class="rung r-know">information → knowledge</span><div class="plain">Produces new language by predicting useful next tokens from patterns learned during training and context supplied now.</div><div class="analogy"><b>Analogy</b><br>A very well-read drafting assistant — fast, fluent, and still capable of being wrong.</div></div>
-              <div class="ai-kind agent"><span class="tag">Reason + act</span><div class="big">Agentic AI</div><span class="rung r-know">knowledge → action</span><div class="plain">Pairs a model with approved tools, state and rules so it can plan steps and call systems.</div><div class="analogy"><b>Analogy</b><br>A junior analyst with a badge and a restricted tool belt — permissions still matter.</div></div>
-              <div class="ai-kind auto"><span class="tag">Execute</span><div class="big">Automation</div><span class="rung r-judge">executes judgement</span><div class="plain">Runs deterministic, tested steps when a condition or human decision says to act.</div><div class="analogy"><b>Analogy</b><br>A checklist that actually performs the checklist. This is where Ansible belongs.</div></div>
-            </div>
-            <div class="notbox"><b>What predictive AI is not:</b> a crystal ball. &nbsp; <b>What an LLM is not:</b> a database, policy authority or source of truth. &nbsp; <b>What an agent is not:</b> permission to bypass controls.</div>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
-        <!-- 3 -->
         <article class="slide" data-title="Why now" data-rungs="data" data-notes="Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk. AI is interesting here precisely because it works on unstructured language — which is most of what a tax agency actually handles. Context to use with tact: large federal accounts are losing institutional knowledge as people age out or are RIF’d — capturing what the workforce knows is part of why this matters now. The chart: a year of demand arrives in six weeks. The analogy: Macy’s at Thanksgiving, Black Friday and Christmas — a very seasonal workload against a fixed store. The off-season is not waste; it is when you rewrite and integrate the knowledge you gathered during the surge, so there is more headroom when the next surge comes. Idle capacity in August is only unjustifiable if you do nothing with it. The closed loop has one rule: it feeds on data from YOUR systems of record, added to your knowledge base to automate it — never information generated from information. That is the snake eating its own tail. And the constraint that decides the architecture — federal tax information cannot go to a public endpoint; the model comes to the data.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -972,91 +965,27 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           <span class="slidenum"></span>
         </article>
 
+        <!-- 3 -->
+        <article class="slide" data-title="AI in plain English" data-rungs="information,knowledge,judgement" data-notes="Start with the umbrella. Federal audiences hear AI used as if every technique is the same. It is not. Predictive AI estimates or classifies. Generative AI creates. An LLM is a generative model specialized in language. Agentic systems add tools and workflow. Automation executes known steps. The strongest mission pattern combines them rather than asking one model to do everything. Land the on-ramp line: if you are not automated, you are not going to have a good generative or predictive AI inside your boundary — automation is the prerequisite. HAND-OFF (optional): on the Estimate and Create cards Brad turns to Jon — Jon, what do you know about predictive and generative? Give the room an analogy. Jon lands the weather-forecast and well-read-drafting-assistant lines already on the cards; Brad takes back Reason + act and Automate.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">AI foundations · no alphabet soup</span>
+            <h2>Four different jobs get called “AI”</h2>
+            <p class="lede">Treat AI as a toolbox, not a magic employee. Pick the tool by the job you need done.</p>
+          </div>
+          <div class="slide-body" style="display:flex;flex-direction:column">
+            <div class="ai-spectrum">
+              <div class="ai-kind predict"><span class="tag">Estimate</span><div class="big">Predictive AI</div><span class="rung r-info">data → information</span><div class="plain">Finds patterns in historical data to score, classify or forecast an outcome.</div><div class="analogy"><b>Analogy</b><br>A weather forecast: “there is a 70% chance,” not a guarantee.</div></div>
+              <div class="ai-kind generate"><span class="tag">Create</span><div class="big">Generative AI / LLM</div><span class="rung r-know">information → knowledge</span><div class="plain">Produces new language by predicting useful next tokens from patterns learned during training and context supplied now.</div><div class="analogy"><b>Analogy</b><br>A very well-read drafting assistant — fast, fluent, and still capable of being wrong.</div></div>
+              <div class="ai-kind agent"><span class="tag">Reason + act</span><div class="big">Agentic AI</div><span class="rung r-know">knowledge → action</span><div class="plain">Pairs a model with approved tools, state and rules so it can plan steps and call systems.</div><div class="analogy"><b>Analogy</b><br>A junior analyst with a badge and a restricted tool belt — permissions still matter.</div></div>
+              <div class="ai-kind auto"><span class="tag">Execute</span><div class="big">Automation</div><span class="rung r-judge">executes judgement</span><div class="plain">Runs deterministic, tested steps when a condition or human decision says to act.</div><div class="analogy"><b>Analogy</b><br>A checklist that actually performs the checklist. This is where Ansible belongs.</div></div>
+            </div>
+            <div class="notbox"><b>What predictive AI is not:</b> a crystal ball. &nbsp; <b>What an LLM is not:</b> a database, policy authority or source of truth. &nbsp; <b>What an agent is not:</b> permission to bypass controls.</div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
         <!-- 4 -->
-        <article class="slide" data-title="Inside an LLM" data-rungs="data,information,knowledge,judgement" data-notes="One central visual, minimal text. This slide has ONE job: show that there is a lot around the LLM, not just the model — the inference runtime, the platform controls and the system around it are what is critical. Do not try to teach every concept here. Use the car analogy: the LLM is the engine, and an engine alone does not drive you to the store and pick up groceries — you need the vehicle. You want to get from point A to point B — you do not care whether the tires are Goodyear or Kumho; you care that the vehicle does the job and the mission. Then walk the picture bottom-up: unstructured logs and core dumps at the compute and data layer feed the platform, and the mission app sits at the judgement layer, where a person decides. Running an LLM on a laptop is easy; that is not an enterprise-worthy AI solution. Then the three knobs, spoken not shown: prompting is better instructions for THIS request; RAG is the right references for THIS request; fine-tuning changes learned behavior for FUTURE requests — durable behavior, never facts that change each filing season. Land Jon’s analogy on screen: fine-tuning is studying for the test, retrieval is bringing the notebook — an AND, not an either/or, and Red Hat’s own metrics show doing both gives the best results. Brad’s rejoinder if it lands well: some people are bad test takers — that does not mean they did not study. Tell the room the text stands alone as a takeaway so they stop reading and listen.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">Large language model · what is actually happening</span>
-            <h2>An LLM is the engine — not the whole vehicle</h2>
-          </div>
-          <div class="slide-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
-            <div class="stacklayers" style="width:min(860px,100%)">
-              <div class="stacklayer"><strong>Mission app</strong><span>The taxpayer-service UI, case workflow or console that asks for help. <span class="rung r-judge">judgement</span></span></div>
-              <div class="stacklayer context"><strong>Context / RAG</strong><span>The approved guidance for this exact question — the <b>open book</b>. <span class="rung r-know">knowledge</span></span></div>
-              <div class="stacklayer model"><strong>Model / LLM</strong><span>Learned language patterns — not your live system of record. <span class="rung r-info">information</span></span></div>
-              <div class="stacklayer"><strong>Inference</strong><span>The engine — vLLM, the Red Hat AI Inference Server. <span class="rung r-info">data → information</span></span></div>
-              <div class="stacklayer platform"><strong>Platform</strong><span>Identity, scaling, isolation, lifecycle, policy — RHEL and OpenShift AI. <span class="rung r-judge">executes judgement</span></span></div>
-              <div class="stacklayer"><strong>Compute + data</strong><span>Accelerators and agency data — wherever authorization requires. <span class="rung r-data">data</span></span></div>
-            </div>
-            <p class="takeaway" style="margin-top:22px;max-width:66ch"><b>Fine-tuning is studying for the test. Retrieval is bringing the notebook.</b> You want both — and neither makes the model a source of truth.</p>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
-        <!-- 5 -->
-        <article class="slide" data-title="Data to judgement" data-rungs="data,information,knowledge,judgement" data-notes="The masterpiece slide — Jon’s word. Say it out loud — anyone with ten or twenty years in tech will recognize the classic data-information-knowledge-insight progression. We replaced insight with judgement for the AI age, and judgement is the rung that matters most: it is the one a person signs. Walk the stairs left to right: data, information, knowledge, judgement. Brad’s line, said out loud: we are really good at creating data and information and pretending it is knowledge — if it is not informing anything we need, it is not knowledge. Knowledge has to drive action, not check a box. Each rung is worth more to the mission. Predictive climbs the first riser, generative with retrieval the second, and judgement is deliberately never automated — that is where people come in and always will. Make it concrete. Knowledge can be automated: reboot the mail server every Friday, patch the Windows devices every Tuesday — a directive, a mandate or an AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS GovCloud region is down is not the time to run it. AI is not replacing that person; their call feeds back into the loop as the next piece of knowledge. PLANTED QUESTION: Jon asks ‘so is AI taking jobs?’ — Brad answers: it is not coming for your job, because right now it does not have judgement. The make-the-tests-pass example: ask an AI to make all the tests pass and it edits the code so they pass — it did exactly what you asked. That is information, not knowledge and judgement. Optional garnish, correctly attributed: Karpathy’s ‘you can outsource intelligence but you cannot outsource understanding.’ GRAPHIC (G) — AI foundations for intelligent tax administration: An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination. Talk to it: (1) Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs. (2) The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge. (3) The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding. (4) Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">Why it matters</span>
-            <h2>From data to judgement — and who climbs each step</h2>
-          </div>
-          <div class="slide-body">
-            <div style="display:flex;flex-direction:column;gap:14px">
-              <svg viewBox="0 0 1180 332" role="img" style="width:100%;height:auto" aria-label="A four-step staircase rising left to right: data, information, knowledge, judgement. Predictive AI climbs the first riser by scoring, matching and flagging; generative AI with retrieval climbs the second by reading, grounding and drafting; the final step to judgement is climbed by people, who decide and sign. The judgement step is marked as staying human.">
-                <defs>
-                  <filter id="sLsh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#1B1211" flood-opacity=".13"/></filter>
-                  <marker id="sLar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-2)"/></marker>
-                  <linearGradient id="sLstep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
-                </defs>
-                <rect x="4" y="4" width="1172" height="324" rx="12" fill="var(--surface)" stroke="var(--border)" filter="url(#sLsh)"/>
-                <text x="28" y="36" font-family="Red Hat Display" font-size="18" font-weight="800" fill="var(--ink)">Every step up is worth more to the mission</text>
-                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">AI moves the work up the ladder — it never takes the top step</text>
-                <line x1="40" y1="300" x2="1132" y2="300" stroke="var(--border-strong)"/>
-                <!-- step 1: data -->
-                <rect x="40" y="216" width="258" height="84" rx="6" fill="var(--r-data-wash)" stroke="var(--r-data)" filter="url(#sLsh)"/>
-                <text x="56" y="244" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Data</text>
-                <text x="56" y="264" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">What happened, uninterpreted</text>
-                <text x="56" y="284" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">returns · transcripts · calls · scans</text>
-                <!-- step 2: information -->
-                <rect x="318" y="172" width="258" height="128" rx="6" fill="var(--r-info-wash)" stroke="var(--r-info)" filter="url(#sLsh)"/>
-                <text x="334" y="200" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Information</text>
-                <text x="334" y="220" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Data in context for one case</text>
-                <text x="334" y="240" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">matched · flagged · routed by intent</text>
-                <!-- step 3: knowledge -->
-                <rect x="596" y="128" width="258" height="172" rx="6" fill="var(--r-know-wash)" stroke="var(--r-know)" filter="url(#sLsh)"/>
-                <text x="612" y="156" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Knowledge</text>
-                <text x="612" y="176" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Information that informs an outcome</text>
-                <text x="612" y="196" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">guidance · precedent · taxonomies</text>
-                <!-- step 4: judgement -->
-                <rect x="874" y="84" width="258" height="216" rx="6" fill="var(--r-judge-wash)" stroke="var(--r-judge)" filter="url(#sLsh)"/>
-                <text x="890" y="112" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Judgement</text>
-                <text x="890" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">A determination someone signs</text>
-                <text x="890" y="152" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">the decision — and the accountability</text>
-                <rect x="890" y="170" width="118" height="21" rx="10.5" fill="var(--surface)" stroke="var(--r-judge)"/>
-                <text x="949" y="184" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">stays human</text>
-                <!-- riser 1: predictive -->
-                <line x1="292" y1="208" x2="336" y2="180" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
-                <rect x="210" y="138" width="216" height="22" rx="11" fill="var(--r-info-wash)" stroke="var(--r-info)"/>
-                <text x="318" y="153" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-info)">PREDICTIVE AI — score · match · flag</text>
-                <!-- riser 2: generative -->
-                <line x1="570" y1="164" x2="614" y2="136" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
-                <rect x="466" y="94" width="260" height="22" rx="11" fill="var(--r-know-wash)" stroke="var(--r-know)"/>
-                <text x="596" y="109" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-know)">GENERATIVE AI + RAG — read · ground · draft</text>
-                <!-- riser 3: people -->
-                <line x1="848" y1="120" x2="892" y2="92" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
-                <rect x="794" y="50" width="160" height="22" rx="11" fill="var(--r-judge-wash)" stroke="var(--r-judge)"/>
-                <text x="874" y="65" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">PEOPLE — decide &amp; sign</text>
-              </svg>
-              <div class="cols c2">
-                <div class="card"><span class="tag">Why it matters</span><h4>The backlog lives at the bottom of the ladder</h4><p>Transcribing, matching, routing and summarizing consume the workforce. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p></div>
-                <div class="card"><span class="tag">Why it matters</span><h4>Judgement is deliberately never automated</h4><p>The model classifies, grounds and drafts; a named person decides and signs. That is a design rule, not a technical limit — and it is what makes the deployment defensible to counsel and oversight.</p></div>
-              </div>
-            </div>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
-        <!-- 6 -->
         <article class="slide" data-title="Two kinds of AI" data-rungs="information,knowledge" data-notes="One graphic, per Jon: predictive and generative overlap. Left crescent, a number from structured history; right crescent, language from text; the lens is where the strongest workflows chain both — score, then explain — and one platform serves both models (Lab 03). Walk it left to right, then the strip: a score is not a determination, a fluent sentence is not evidence, a person decides. The old six-row table survives in the reveal export and the facilitator guide as the take-home. Most rooms use one word — AI — for two different tools, and most failed projects picked the wrong one. Predictive models produce a number from structured history; generative models produce language. They fail differently, so they are governed differently. Close on the compose line: the strongest workflows chain them, and the platform runs both side by side. OPTIONAL IF TIME IS SHORT — this is a deep dive on the predictive and generative cards from the terminology slide; drop it first and let the table stand as the leave-behind, unless the room asks how the two are governed differently.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -1155,6 +1084,90 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 <text x="927.0" y="430" text-anchor="middle" style="font-family:'Red Hat Mono',ui-monospace,monospace" font-size="13" font-weight="600" fill="var(--r-know)">fails as a plausible sentence</text>
 <text x="927.0" y="451" text-anchor="middle" style="font-family:'Red Hat Display','Red Hat Text',system-ui,sans-serif" font-size="16" font-weight="700" fill="var(--ink)">a fluent sentence is not evidence</text>
 </svg>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 5 -->
+        <article class="slide" data-title="Inside an LLM" data-rungs="data,information,knowledge,judgement" data-notes="One central visual, minimal text. This slide has ONE job: show that there is a lot around the LLM, not just the model — the inference runtime, the platform controls and the system around it are what is critical. Do not try to teach every concept here. Use the car analogy: the LLM is the engine, and an engine alone does not drive you to the store and pick up groceries — you need the vehicle. You want to get from point A to point B — you do not care whether the tires are Goodyear or Kumho; you care that the vehicle does the job and the mission. Then walk the picture bottom-up: unstructured logs and core dumps at the compute and data layer feed the platform, and the mission app sits at the judgement layer, where a person decides. Running an LLM on a laptop is easy; that is not an enterprise-worthy AI solution. Then the three knobs, spoken not shown: prompting is better instructions for THIS request; RAG is the right references for THIS request; fine-tuning changes learned behavior for FUTURE requests — durable behavior, never facts that change each filing season. Land Jon’s analogy on screen: fine-tuning is studying for the test, retrieval is bringing the notebook — an AND, not an either/or, and Red Hat’s own metrics show doing both gives the best results. Brad’s rejoinder if it lands well: some people are bad test takers — that does not mean they did not study. Tell the room the text stands alone as a takeaway so they stop reading and listen.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Large language model · what is actually happening</span>
+            <h2>An LLM is the engine — not the whole vehicle</h2>
+          </div>
+          <div class="slide-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div class="stacklayers" style="width:min(860px,100%)">
+              <div class="stacklayer"><strong>Mission app</strong><span>The taxpayer-service UI, case workflow or console that asks for help. <span class="rung r-judge">judgement</span></span></div>
+              <div class="stacklayer context"><strong>Context / RAG</strong><span>The approved guidance for this exact question — the <b>open book</b>. <span class="rung r-know">knowledge</span></span></div>
+              <div class="stacklayer model"><strong>Model / LLM</strong><span>Learned language patterns — not your live system of record. <span class="rung r-info">information</span></span></div>
+              <div class="stacklayer"><strong>Inference</strong><span>The engine — vLLM, the Red Hat AI Inference Server. <span class="rung r-info">data → information</span></span></div>
+              <div class="stacklayer platform"><strong>Platform</strong><span>Identity, scaling, isolation, lifecycle, policy — RHEL and OpenShift AI. <span class="rung r-judge">executes judgement</span></span></div>
+              <div class="stacklayer"><strong>Compute + data</strong><span>Accelerators and agency data — wherever authorization requires. <span class="rung r-data">data</span></span></div>
+            </div>
+            <p class="takeaway" style="margin-top:22px;max-width:66ch"><b>Fine-tuning is studying for the test. Retrieval is bringing the notebook.</b> You want both — and neither makes the model a source of truth.</p>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 6 -->
+        <article class="slide" data-title="Data to judgement" data-rungs="data,information,knowledge,judgement" data-notes="The masterpiece slide — Jon’s word. Say it out loud — anyone with ten or twenty years in tech will recognize the classic data-information-knowledge-insight progression. We replaced insight with judgement for the AI age, and judgement is the rung that matters most: it is the one a person signs. Walk the stairs left to right: data, information, knowledge, judgement. Brad’s line, said out loud: we are really good at creating data and information and pretending it is knowledge — if it is not informing anything we need, it is not knowledge. Knowledge has to drive action, not check a box. Each rung is worth more to the mission. Predictive climbs the first riser, generative with retrieval the second, and judgement is deliberately never automated — that is where people come in and always will. Make it concrete. Knowledge can be automated: reboot the mail server every Friday, patch the Windows devices every Tuesday — a directive, a mandate or an AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS GovCloud region is down is not the time to run it. AI is not replacing that person; their call feeds back into the loop as the next piece of knowledge. PLANTED QUESTION: Jon asks ‘so is AI taking jobs?’ — Brad answers: it is not coming for your job, because right now it does not have judgement. The make-the-tests-pass example: ask an AI to make all the tests pass and it edits the code so they pass — it did exactly what you asked. That is information, not knowledge and judgement. Optional garnish, correctly attributed: Karpathy’s ‘you can outsource intelligence but you cannot outsource understanding.’ GRAPHIC (G) — AI foundations for intelligent tax administration: An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination. Talk to it: (1) Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs. (2) The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge. (3) The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding. (4) Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Why it matters</span>
+            <h2>From data to judgement — and who climbs each step</h2>
+          </div>
+          <div class="slide-body">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <svg viewBox="0 0 1180 332" role="img" style="width:100%;height:auto" aria-label="A four-step staircase rising left to right: data, information, knowledge, judgement. Predictive AI climbs the first riser by scoring, matching and flagging; generative AI with retrieval climbs the second by reading, grounding and drafting; the final step to judgement is climbed by people, who decide and sign. The judgement step is marked as staying human.">
+                <defs>
+                  <filter id="sLsh" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#1B1211" flood-opacity=".13"/></filter>
+                  <marker id="sLar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-2)"/></marker>
+                  <linearGradient id="sLstep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
+                </defs>
+                <rect x="4" y="4" width="1172" height="324" rx="12" fill="var(--surface)" stroke="var(--border)" filter="url(#sLsh)"/>
+                <text x="28" y="36" font-family="Red Hat Display" font-size="18" font-weight="800" fill="var(--ink)">Every step up is worth more to the mission</text>
+                <text x="28" y="54" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-3)">AI moves the work up the ladder — it never takes the top step</text>
+                <line x1="40" y1="300" x2="1132" y2="300" stroke="var(--border-strong)"/>
+                <!-- step 1: data -->
+                <rect x="40" y="216" width="258" height="84" rx="6" fill="var(--r-data-wash)" stroke="var(--r-data)" filter="url(#sLsh)"/>
+                <text x="56" y="244" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Data</text>
+                <text x="56" y="264" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">What happened, uninterpreted</text>
+                <text x="56" y="284" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">returns · transcripts · calls · scans</text>
+                <!-- step 2: information -->
+                <rect x="318" y="172" width="258" height="128" rx="6" fill="var(--r-info-wash)" stroke="var(--r-info)" filter="url(#sLsh)"/>
+                <text x="334" y="200" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Information</text>
+                <text x="334" y="220" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Data in context for one case</text>
+                <text x="334" y="240" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">matched · flagged · routed by intent</text>
+                <!-- step 3: knowledge -->
+                <rect x="596" y="128" width="258" height="172" rx="6" fill="var(--r-know-wash)" stroke="var(--r-know)" filter="url(#sLsh)"/>
+                <text x="612" y="156" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Knowledge</text>
+                <text x="612" y="176" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Information that informs an outcome</text>
+                <text x="612" y="196" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">guidance · precedent · taxonomies</text>
+                <!-- step 4: judgement -->
+                <rect x="874" y="84" width="258" height="216" rx="6" fill="var(--r-judge-wash)" stroke="var(--r-judge)" filter="url(#sLsh)"/>
+                <text x="890" y="112" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Judgement</text>
+                <text x="890" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">A determination someone signs</text>
+                <text x="890" y="152" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">the decision — and the accountability</text>
+                <rect x="890" y="170" width="118" height="21" rx="10.5" fill="var(--surface)" stroke="var(--r-judge)"/>
+                <text x="949" y="184" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">stays human</text>
+                <!-- riser 1: predictive -->
+                <line x1="292" y1="208" x2="336" y2="180" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
+                <rect x="210" y="138" width="216" height="22" rx="11" fill="var(--r-info-wash)" stroke="var(--r-info)"/>
+                <text x="318" y="153" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-info)">PREDICTIVE AI — score · match · flag</text>
+                <!-- riser 2: generative -->
+                <line x1="570" y1="164" x2="614" y2="136" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
+                <rect x="466" y="94" width="260" height="22" rx="11" fill="var(--r-know-wash)" stroke="var(--r-know)"/>
+                <text x="596" y="109" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-know)">GENERATIVE AI + RAG — read · ground · draft</text>
+                <!-- riser 3: people -->
+                <line x1="848" y1="120" x2="892" y2="92" stroke="var(--ink-2)" stroke-width="1.6" marker-end="url(#sLar)"/>
+                <rect x="794" y="50" width="160" height="22" rx="11" fill="var(--r-judge-wash)" stroke="var(--r-judge)"/>
+                <text x="874" y="65" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">PEOPLE — decide &amp; sign</text>
+              </svg>
+              <div class="cols c2">
+                <div class="card"><span class="tag">Why it matters</span><h4>The backlog lives at the bottom of the ladder</h4><p>Transcribing, matching, routing and summarizing consume the workforce. Every hour a machine absorbs down there is an hour an examiner spends deciding — the only work that resolves a case.</p></div>
+                <div class="card"><span class="tag">Why it matters</span><h4>Judgement is deliberately never automated</h4><p>The model classifies, grounds and drafts; a named person decides and signs. That is a design rule, not a technical limit — and it is what makes the deployment defensible to counsel and oversight.</p></div>
+              </div>
+            </div>
           </div>
           <span class="slidenum"></span>
         </article>
@@ -1275,6 +1288,37 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 9 -->
+        <article class="slide" data-title="Why Red Hat AI" data-rungs="data,information,knowledge,judgement" data-notes="One focal point: the red box in the middle — bring the model to the mission, not the mission data to somebody else’s model. Say the two lines: don’t move what’s hard — bring what’s easy to the data. And: what is unique is your data; you have it, you keep visibility into it, and you should never have to give it up. Keep the data on-prem and scale horizontally, or serve the model as a service locally — either way the data does not travel. Reprise the pizza line once: pizza tonight, spaghetti tomorrow — decisions made today do not limit tomorrow’s alignment to new requirements or technology. Say the supporting lines rather than pointing at them: cloud AI is ultimately someone else’s computer; on your computer, next to your data, you can go check and verify. Agencies buy ten thousand chatbot seats and start plugging things in — the alternative they are not shown is running their own instances beside their own data, feeding self-healing closed-loop systems. Colocation cuts attack surface AND transit time. Automation alone is a differentiator; the estate — one OS, the interconnect, the ecosystem, the execution layer tying them together — is the discriminator nobody else has. The six cards below are explicitly the take-home reference; tell the room that so they stop reading. The next slide shows the mechanics.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Why Red Hat AI</span><span class="leavebehind">the grid below is your take-home reference</span>
+            <h2>The federal problem is not “get a model.” It is operate AI without giving up control.</h2>
+          </div>
+          <div class="slide-body why-rh2">
+            <div class="promise">
+              <span class="tag">The Red Hat proposition</span>
+              <div class="quote">Bring the model to the mission — not the mission data to somebody else’s model.</div>
+              <div class="subq">Use the model, accelerator and deployment location that fit the workload. One operating model across datacenter, accredited cloud, edge and disconnected — and a <b>glass box</b> you can open and inspect, not a black box.</div>
+              <div class="portfolio-strip">
+                <div style="border-top-color:#96620A"><b>Inference</b>Serve efficiently with vLLM / llm-d.</div>
+                <div><b>Data</b>Connect private agency knowledge.</div>
+                <div style="border-top-color:#1E7A55"><b>Agents</b>Govern tool-using workflows.</div>
+                <div style="border-top-color:#286C88"><b>Platform</b>Scale and operate consistently.</div>
+              </div>
+            </div>
+            <div class="rhgrid">
+              <div class="rhpoint"><span class="tag">Choice</span> <span class="rung r-know">knowledge</span><h4>Model freedom</h4><p>Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.</p></div>
+              <div class="rhpoint"><span class="tag">Control</span> <span class="rung r-data">data</span><h4>Data locality</h4><p>Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.</p></div>
+              <div class="rhpoint"><span class="tag">Operations</span> <span class="rung r-info">information</span><h4>Models-as-a-Service</h4><p>Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.</p></div>
+              <div class="rhpoint"><span class="tag">Economics</span> <span class="rung r-data">data</span><h4>Use accelerators efficiently</h4><p>vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.</p></div>
+              <div class="rhpoint"><span class="tag">Lifecycle</span> <span class="rung r-info">information</span><span class="rung r-know">knowledge</span><h4>Predictive + generative</h4><p>OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.</p></div>
+              <div class="rhpoint"><span class="tag">Execution</span> <span class="rung r-judge">executes judgement</span><h4>Ansible closes the loop</h4><p>Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.</p></div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 10 -->
         <article class="slide" data-title="Architecture" data-rungs="data,information,knowledge,judgement" data-notes="Seams riff first (Jon’s request). Failures happen at the seams between systems, not inside. Pants: gain weight and they split at the seams, never where the fabric is strongest. Boring seams is more than fewer: know where each is, operationalize them, have people ready to repair — and do each right, where cyber comes in; the AO’s question, the bridge to the appendix. Any decision is a lock-in — pizza tonight eliminates spaghetti; Red Hat keeps tomorrow’s spaghetti open. RHEL and OpenShift interoperating layer to layer eases integration — not the only ones, but uniquely placed. Ansible and OpenShift: heterogeneous platforms, homogeneous interface. Estates are diverse; nobody chose that to spite you. The old system is not legacy to modernize — it joins the same back plane, no snowflakes. Hardware: mainframes, TPMs, PIV/CAC crypto — it extracts data and creates the information everything above turns into knowledge or judgement; Red Hat tests with vendors so it does what our software expects. Read bottom to top; the point is the two vertical bands — automation and trust are not a layer added last. Training box: SDG Hub and Training Hub beside serving, pipelines, registry, retrieval. Naming trap: OpenShift versus OpenShift AI is a product-vs-value tangent — a value room sees serving and retrieval as one (‘I want my data out of it’); split only for a technical room. Jon’s core: one foundation from bare metal to the taxpayer — but how do you turn information into actionable knowledge? PLANTED: Jon plays the foil — ‘what’s a seam?’ — Brad answers with the pants; then Brad cold-asks Jon ‘what is fine-tuning to you?’ — Jon is fine with it. HAND-OFF: after seams and hardware, Brad throws to Jon for the platform boxes — serving, retrieval, registry; Jon closes on why one foundation matters; Brad takes it back: bring the model to the mission, not the data to someone else’s model. GRAPHIC (G) — One foundation, from bare metal to the taxpayer: One Red Hat platform inside one security enclosure, with a case moving left to right through six stations, from agency case files through model inference, retrieval, automation and compliance checks to a reviewer at a screen; notice that the model cube sits inside the same enclosure as the data. Talk to it: (1) Read the colors as the ladder: red case files are data, the orange cube makes information, green retrieval adds knowledge, and a person at the purple desk signs the judgement. (2) The model comes to the data, and FIPS, signing and compliance scanning attach to the platform, not the project: accredit once, inherit everywhere; workflow two starts with workflow one's evidence. (3) Six stations, one plinth: the seven words below are capabilities, not seven labs; one foundation keeps the seams boring, and like pizza tonight it never rules out spaghetti tomorrow. (4) The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -1419,37 +1463,6 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           <span class="slidenum"></span>
         </article>
 
-        <!-- 10 -->
-        <article class="slide" data-title="Why Red Hat AI" data-rungs="data,information,knowledge,judgement" data-notes="One focal point: the red box in the middle — bring the model to the mission, not the mission data to somebody else’s model. Say the two lines: don’t move what’s hard — bring what’s easy to the data. And: what is unique is your data; you have it, you keep visibility into it, and you should never have to give it up. Keep the data on-prem and scale horizontally, or serve the model as a service locally — either way the data does not travel. Reprise the pizza line once: pizza tonight, spaghetti tomorrow — decisions made today do not limit tomorrow’s alignment to new requirements or technology. Say the supporting lines rather than pointing at them: cloud AI is ultimately someone else’s computer; on your computer, next to your data, you can go check and verify. Agencies buy ten thousand chatbot seats and start plugging things in — the alternative they are not shown is running their own instances beside their own data, feeding self-healing closed-loop systems. Colocation cuts attack surface AND transit time. Automation alone is a differentiator; the estate — one OS, the interconnect, the ecosystem, the execution layer tying them together — is the discriminator nobody else has. The six cards below are explicitly the take-home reference; tell the room that so they stop reading. The next slide shows the mechanics.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">Why Red Hat AI</span><span class="leavebehind">the grid below is your take-home reference</span>
-            <h2>The federal problem is not “get a model.” It is operate AI without giving up control.</h2>
-          </div>
-          <div class="slide-body why-rh2">
-            <div class="promise">
-              <span class="tag">The Red Hat proposition</span>
-              <div class="quote">Bring the model to the mission — not the mission data to somebody else’s model.</div>
-              <div class="subq">Use the model, accelerator and deployment location that fit the workload. One operating model across datacenter, accredited cloud, edge and disconnected — and a <b>glass box</b> you can open and inspect, not a black box.</div>
-              <div class="portfolio-strip">
-                <div style="border-top-color:#96620A"><b>Inference</b>Serve efficiently with vLLM / llm-d.</div>
-                <div><b>Data</b>Connect private agency knowledge.</div>
-                <div style="border-top-color:#1E7A55"><b>Agents</b>Govern tool-using workflows.</div>
-                <div style="border-top-color:#286C88"><b>Platform</b>Scale and operate consistently.</div>
-              </div>
-            </div>
-            <div class="rhgrid">
-              <div class="rhpoint"><span class="tag">Choice</span> <span class="rung r-know">knowledge</span><h4>Model freedom</h4><p>Open models and standard APIs keep the exit open. Modern lock-in limits what you can build next — a worse trap than the old hardware kind.</p></div>
-              <div class="rhpoint"><span class="tag">Control</span> <span class="rung r-data">data</span><h4>Data locality</h4><p>Run inference inside the boundary dictated by FTI, mission data, sovereignty and accreditation.</p></div>
-              <div class="rhpoint"><span class="tag">Operations</span> <span class="rung r-info">information</span><h4>Models-as-a-Service</h4><p>Central platform teams publish governed model endpoints other projects consume — instead of every project building its own fragile AI stack.</p></div>
-              <div class="rhpoint"><span class="tag">Economics</span> <span class="rung r-data">data</span><h4>Use accelerators efficiently</h4><p>vLLM and distributed inference focus on throughput, latency and cost per token rather than GPU ownership as a trophy.</p></div>
-              <div class="rhpoint"><span class="tag">Lifecycle</span> <span class="rung r-info">information</span><span class="rung r-know">knowledge</span><h4>Predictive + generative</h4><p>OpenShift AI manages the lifecycle of traditional ML and generative workloads so they can coexist in one operational model.</p></div>
-              <div class="rhpoint"><span class="tag">Execution</span> <span class="rung r-judge">executes judgement</span><h4>Ansible closes the loop</h4><p>Provision, configure, remediate and collect evidence with deterministic automation around probabilistic AI.</p></div>
-            </div>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
         <!-- 11 -->
         <article class="slide" data-title="Why one platform" data-rungs="data,information,judgement" data-notes="The left box is the definition of the service — infrastructure as code: a manifest, a signed model, a GitOps repo. The three on the right are where it runs, unchanged: cloud burst, air-gapped enclave, dev and research. Infrastructure as code decouples the placement so it becomes a policy, not a re-architecture — this is the hybrid multicloud value prop. The lock-in riff: modern lock-in is far more dangerous than the old kind, because it limits your FUTURE decisions without you even knowing. The Mexico phone-plan analogy — a plan where you cannot call Pizza Hut, only Domino's. Real lock-in is tying into bespoke hyperscaler-unique services. Honesty caveat, say it out loud: this is not easy and not right for every situation — sometimes you legitimately need a native service. The ask is only that you define infrastructure and services as code, so placement is policy rather than a rewrite. Fine to spin up fast — then ground it after you prove it. PLANTED QUESTION: Jon plays the foil — 'what do you actually mean by lock-in? I thought we already bought the software' — and Brad answers with the phone-plan analogy. GRAPHIC (G) — One foundation, from bare metal to the taxpayer: One Red Hat platform inside one security enclosure, with a case moving left to right through six stations, from agency case files through model inference, retrieval, automation and compliance checks to a reviewer at a screen; notice that the model cube sits inside the same enclosure as the data. Talk to it: (1) Read the colors as the ladder: red case files are data, the orange cube makes information, green retrieval adds knowledge, and a person at the purple desk signs the judgement. (2) The model comes to the data, and FIPS, signing and compliance scanning attach to the platform, not the project: accredit once, inherit everywhere; workflow two starts with workflow one's evidence. (3) Six stations, one plinth: the seven words below are capabilities, not seven labs; one foundation keeps the seams boring, and like pizza tonight it never rules out spaghetti tomorrow. (4) The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.">
           <div class="rule"></div>
@@ -1459,43 +1472,56 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           </div>
           <div class="slide-body">
             <div style="display:flex;flex-direction:column;gap:16px">
-              <svg viewBox="0 0 1180 252" role="img" style="width:100%;height:auto" aria-label="One service definition — an InferenceService manifest with a signed model, delivered by GitOps — deploys unchanged, via oc apply, to three environments: a datacenter with bare-metal GPU nodes, an accredited cloud region, and an air-gapped enclave. Only the venue differs; the image, controls and skills are the same.">
+              <svg viewBox="0 0 1180 300" role="img" style="width:100%;height:auto" aria-label="One service definition — an InferenceService manifest with a signed model, delivered by GitOps — deploys unchanged, via oc apply, to three venues: a datacenter with bare-metal GPU nodes, an accredited cloud region, and an air-gapped enclave. Same image, same controls, same skills; only the venue differs.">
                 <defs>
                   <filter id="sPsh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".14"/></filter>
-                  <marker id="sPar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
-                  <linearGradient id="sPbox" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EAE7"/></linearGradient>
+                  <marker id="sPar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
                 </defs>
-                <!-- source: one definition -->
-                <rect x="12" y="56" width="280" height="140" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" filter="url(#sPsh)"/>
-                <text x="32" y="86" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">One service definition</text><circle cx="276" cy="82" r="4.5" fill="#1E7A55"><title>placement is policy — data: where it lives decides the venue</title></circle>
-                <text x="32" y="110" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">inferenceservice.yaml</text>
-                <text x="32" y="128" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">model: granite-8b-tax-v1 (signed)</text>
-                <text x="32" y="146" font-family="Red Hat Mono" font-size="10" fill="var(--ink-2)">delivery: GitOps — main branch</text>
-                <text x="32" y="174" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-3)">Infrastructure as code — the manifest is the capacity plan (Lab 03)</text>
-                <!-- arrows -->
-                <line x1="292" y1="100" x2="556" y2="46" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
-                <line x1="292" y1="126" x2="556" y2="126" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
-                <line x1="292" y1="152" x2="556" y2="206" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#sPar)"/>
-                <text x="424" y="114" text-anchor="middle" font-family="Red Hat Text" font-size="11" font-weight="700" fill="var(--ink-2)">oc apply — unchanged</text>
-                <text x="424" y="146" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">same image · same controls · same skills</text>
-                <!-- env 1 -->
-                <rect x="560" y="12" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
-                <circle cx="586" cy="46" r="5" fill="var(--r-data)"/>
-                <text x="602" y="38" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Datacenter — bare-metal GPU nodes</text>
-                <text x="602" y="58" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Your floor, your hardware, shortest path to the systems of record</text>
-                <text x="1140" y="38" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: the iron</text>
-                <!-- env 2 -->
-                <rect x="560" y="92" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
-                <circle cx="586" cy="126" r="5" fill="var(--r-data)"/>
-                <text x="602" y="118" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Accredited cloud region</text>
-                <text x="602" y="138" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">FedRAMP boundary; surge capacity rented for the season, released after</text>
-                <text x="1140" y="118" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: the boundary</text>
-                <!-- env 3 -->
-                <rect x="560" y="172" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
-                <circle cx="586" cy="206" r="5" fill="var(--r-data)"/>
-                <text x="602" y="198" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Air-gapped enclave</text>
-                <text x="602" y="218" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Mirrored registry and models; no internet at inference or update time</text>
-                <text x="1140" y="198" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: no internet</text>
+                <!-- the one definition: a code card -->
+                <rect x="10" y="14" width="420" height="272" rx="12" fill="var(--term-bg)" stroke="var(--term-border)" filter="url(#sPsh)"/>
+                <path d="M10 26 a12 12 0 0 1 12 -12 h396 a12 12 0 0 1 12 12 v20 h-420 z" fill="var(--term-bg-2)"/>
+                <circle cx="28" cy="32" r="4" fill="#C4463A"/><circle cx="41" cy="32" r="4" fill="#B98B33"/><circle cx="54" cy="32" r="4" fill="#4A3A36"/>
+                <text x="70" y="36" font-family="Red Hat Mono" font-size="10.5" fill="var(--term-dim)">inferenceservice.yaml</text>
+                <text x="420" y="36" text-anchor="end" font-family="Red Hat Mono" font-size="10" font-weight="700" fill="var(--term-green)">One service definition</text>
+                <text x="30" y="74" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">apiVersion:</tspan><tspan fill="var(--term-ink)"> serving.kserve.io/v1beta1</tspan></text>
+                <text x="30" y="91.5" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">kind:</tspan><tspan fill="var(--term-ink)"> InferenceService</tspan></text>
+                <text x="30" y="109.0" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">metadata:</tspan></text>
+                <text x="44" y="126.5" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">name:</tspan><tspan fill="var(--term-ink)"> tax-classifier</tspan><tspan fill="var(--term-dim)">   # one name, every venue</tspan></text>
+                <text x="30" y="144.0" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">spec:</tspan></text>
+                <text x="44" y="161.5" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">predictor:</tspan></text>
+                <text x="58" y="179.0" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">model:</tspan></text>
+                <text x="72" y="196.5" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">runtime:</tspan><tspan fill="var(--term-ink)"> vllm-runtime</tspan></text>
+                <text x="72" y="214.0" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">storageUri:</tspan><tspan fill="var(--term-green)"> oci://…/granite-8b-tax-v1@sha256:4b91c0e2</tspan><tspan fill="var(--term-dim)">   # signed</tspan></text>
+                <text x="58" y="231.5" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">minReplicas:</tspan><tspan fill="var(--term-ink)"> 2</tspan><tspan fill="var(--term-dim)">   # the capacity plan (Lab 03)</tspan></text>
+                <text x="58" y="249.0" font-family="Red Hat Mono" font-size="11.5"><tspan fill="var(--term-blue)">maxReplicas:</tspan><tspan fill="var(--term-ink)"> 20</tspan></text>
+                <text x="30" y="270.5" font-family="Red Hat Mono" font-size="11" fill="var(--term-dim)"># signed model · delivered by GitOps — main branch</text>
+                <!-- one apply -->
+                <line x1="430" y1="150" x2="452" y2="150" stroke="var(--ink-3)" stroke-width="3"/>
+                <rect x="452" y="134" width="142" height="32" rx="16" fill="var(--accent)"/>
+                <text x="523" y="154.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">oc apply — unchanged</text>
+                <text x="486" y="122" text-anchor="middle" font-family="Red Hat Mono" font-size="9" fill="var(--ink-3)">same image · same controls · same skills</text>
+                <path d="M594 150 C620 150 616 55 640 55" fill="none" stroke="var(--ink-3)" stroke-width="2.4" marker-end="url(#sPar)"/>
+                <line x1="594" y1="150" x2="640" y2="150" stroke="var(--ink-3)" stroke-width="2.4" marker-end="url(#sPar)"/>
+                <path d="M594 150 C620 150 616 245 640 245" fill="none" stroke="var(--ink-3)" stroke-width="2.4" marker-end="url(#sPar)"/>
+                <!-- three venues -->
+                <rect x="644" y="16" width="526" height="78" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sPsh)"/>
+                <rect x="644" y="26" width="6" height="58" rx="3" fill="var(--r-data)"/>
+                <g fill="none" stroke="var(--ink-2)" stroke-width="1.8" stroke-linejoin="round"><rect x="666" y="40" width="30" height="11" rx="2"/><rect x="666" y="54" width="30" height="11" rx="2"/><circle cx="672" cy="45.5" r="1.6" fill="var(--r-data)" stroke="none"/><circle cx="672" cy="59.5" r="1.6" fill="var(--r-data)" stroke="none"/></g>
+                <text x="712" y="47" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Datacenter — bare-metal GPU nodes</text>
+                <text x="712" y="69" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">Your floor, your hardware, shortest path to the systems of record</text>
+                <text x="1152" y="47" text-anchor="end" font-family="Red Hat Mono" font-size="10" font-weight="600" fill="var(--ink-3)">differs: the iron</text>
+                <rect x="644" y="111" width="526" height="78" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sPsh)"/>
+                <rect x="644" y="121" width="6" height="58" rx="3" fill="var(--r-data)"/>
+                <path d="M672 154 a9 9 0 0 1 17 -4 a7 7 0 0 1 9 8 a6 6 0 0 1 -2 12 h-24 a7 7 0 0 1 0 -16 z" fill="none" stroke="var(--ink-2)" stroke-width="1.8" stroke-linejoin="round"/>
+                <text x="712" y="142" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Accredited cloud region</text>
+                <text x="712" y="164" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">FedRAMP boundary; surge capacity rented for the season, released after</text>
+                <text x="1152" y="142" text-anchor="end" font-family="Red Hat Mono" font-size="10" font-weight="600" fill="var(--ink-3)">differs: the boundary</text>
+                <rect x="644" y="206" width="526" height="78" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sPsh)"/>
+                <rect x="644" y="216" width="6" height="58" rx="3" fill="var(--r-data)"/>
+                <g fill="none" stroke="var(--ink-2)" stroke-width="1.8" stroke-linejoin="round"><rect x="668" y="243" width="26" height="18" rx="3"/><path d="M673 243 v-6 a8 8 0 0 1 16 0 v6"/><circle cx="681" cy="252" r="2.2" fill="var(--ink-2)" stroke="none"/></g>
+                <text x="712" y="237" font-family="Red Hat Display" font-size="15" font-weight="800" fill="var(--ink)">Air-gapped enclave</text>
+                <text x="712" y="259" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">Mirrored registry and models; no internet at inference or update time</text>
+                <text x="1152" y="237" text-anchor="end" font-family="Red Hat Mono" font-size="10" font-weight="600" fill="var(--ink-3)">differs: no internet</text>
               </svg>
               <div class="cols c3">
                 <div class="card"><span class="tag">Same platform</span><h4>Accredit once, inherit everywhere</h4><p>Signing, FIPS mode, compliance scanning and drift monitoring attach to the platform — so workflow two starts with workflow one’s evidence, and the skills and pipelines carry over the same way.</p><span class="rung r-judge">accredit once — judgement</span></div>
@@ -1516,6 +1542,49 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
             <p class="lede">Predict, explain, act: spot the pattern, turn the signals into language, use only what the agency has approved. Grounding and learning are how the loop earns the right to act; the connected estate underneath is the discriminator nobody else has.</p>
           </div>
           <div class="slide-body">
+            <svg class="showonly loopring" viewBox="0 0 1180 340" role="img" style="width:100%;height:auto" aria-label="The operations loop: 01 predict, 02 explain, 03 ground and act, 04 learn — and the reviewed record feeds the next prediction. Grounding and learning are how the loop earns the right to act.">
+              <defs>
+                <filter id="sLoopSh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="2" stdDeviation="4.5" flood-color="#1B1211" flood-opacity=".14"/></filter>
+                <marker id="sLoopAr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+              </defs>
+              <!-- node 1 -->
+              <rect x="30" y="22" width="244" height="150" rx="12" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sLoopSh)"/>
+              <rect x="30" y="22" width="244" height="6" rx="3" fill="var(--r-info)"/>
+              <text x="50" y="56" font-family="Red Hat Mono" font-size="10.5" font-weight="700" letter-spacing=".12em" fill="var(--r-info)">01 · PREDICT</text>
+              <text x="50" y="84" class="tt" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">Spot the pattern</text>
+              <text x="50" y="108" class="st" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">Telemetry and history estimate risk</text>
+              <text x="50" y="150" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--ink-3)">information · predictive ML</text>
+              <!-- node 2 -->
+              <rect x="314" y="22" width="244" height="150" rx="12" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sLoopSh)"/>
+              <rect x="314" y="22" width="244" height="6" rx="3" fill="var(--r-info)"/>
+              <text x="334" y="56" font-family="Red Hat Mono" font-size="10.5" font-weight="700" letter-spacing=".12em" fill="var(--r-info)">02 · EXPLAIN</text>
+              <text x="334" y="84" class="tt" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">Turn signals into language</text>
+              <text x="334" y="108" class="st" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">Evidence becomes a hypothesis</text>
+              <text x="334" y="150" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--ink-3)">information · GenAI / LLM</text>
+              <!-- node 3 -->
+              <rect x="598" y="22" width="244" height="150" rx="12" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sLoopSh)"/>
+              <rect x="598" y="22" width="244" height="6" rx="3" fill="var(--r-judge)"/>
+              <text x="618" y="56" font-family="Red Hat Mono" font-size="10.5" font-weight="700" letter-spacing=".12em" fill="var(--r-judge)">03 · GROUND + ACT</text>
+              <text x="618" y="84" class="tt" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">Use what the agency approved</text>
+              <text x="618" y="108" class="st" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">RAG cites the runbook; Ansible acts</text>
+              <text x="618" y="150" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--ink-3)">knowledge · judgement executed</text>
+              <!-- node 4 -->
+              <rect x="882" y="22" width="244" height="150" rx="12" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4" filter="url(#sLoopSh)"/>
+              <rect x="882" y="22" width="244" height="6" rx="3" fill="var(--r-know)"/>
+              <text x="902" y="56" font-family="Red Hat Mono" font-size="10.5" font-weight="700" letter-spacing=".12em" fill="var(--r-know)">04 · LEARN</text>
+              <text x="902" y="84" class="tt" font-family="Red Hat Display" font-size="14" font-weight="800" fill="var(--ink)">Records become knowledge</text>
+              <text x="902" y="108" class="st" font-family="Red Hat Text" font-size="11.5" fill="var(--ink-2)">Reviewed incidents become knowledge</text>
+              <text x="902" y="150" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--ink-3)">knowledge · the knowledge flywheel</text>
+              <!-- forward arrows -->
+              <line x1="276" y1="97" x2="308" y2="97" stroke="var(--accent)" stroke-width="3" marker-end="url(#sLoopAr)"/>
+              <line x1="560" y1="97" x2="592" y2="97" stroke="var(--accent)" stroke-width="3" marker-end="url(#sLoopAr)"/>
+              <line x1="844" y1="97" x2="876" y2="97" stroke="var(--accent)" stroke-width="3" marker-end="url(#sLoopAr)"/>
+              <!-- the return: the loop closes -->
+              <path d="M1004 172 V236 a10 10 0 0 1 -10 10 H162 a10 10 0 0 1 -10 -10 V184" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#sLoopAr)"/>
+              <rect x="300" y="228" width="580" height="36" rx="18" fill="var(--accent-wash)" stroke="var(--accent)"/>
+              <text x="590" y="251" text-anchor="middle" font-family="Red Hat Display" font-size="13" font-weight="800" fill="var(--accent-ink)">the loop closes — reviewed outcomes feed the next prediction</text>
+              <text x="590" y="312" text-anchor="middle" font-family="Red Hat Text" font-size="14" fill="var(--ink-2)">Grounding and learning are how the loop earns the right to act — a person approves; automation executes.</text>
+            </svg>
             <div class="flywheel">
               <div class="fwstep"><span class="num">01 · PREDICT</span><h4>Spot the pattern</h4><p>Telemetry and historical incidents estimate risk: saturation, failure probability, anomaly or likely incident class.</p><span class="stack"><span class="rung r-info">information</span> Predictive ML</span></div>
               <div class="fwarrow">→</div>
@@ -1591,6 +1660,37 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 14 -->
+        <article class="slide" data-title="One loop" data-rungs="data,information,knowledge,judgement" data-notes="Lab 08 is the whole hour in one loop; run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved. Say the two takeaways out loud: the platform is also the KM system and the documentation, because every promoted change is a cited record; and the assistant does not change anything, it launches approved jobs and reports with evidence. Ask the room: what is the last runbook you wrote that the on-call actually found? HAND-OFF: Jon takes the assistant questions, Brad takes the mainframe row.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Lab 08 · the whole loop</span>
+            <h2>One loop, end to end: from mainframe logs to an assistant that probes</h2>
+            <p class="lede">Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask.</p>
+          </div>
+          <div class="slide-body loopbody">
+            <div class="stagemap"></div>
+            <div class="loopgrid">
+              <div class="askbox">
+                <span class="tag">Ask the platform</span>
+                <div class="q">How is server1-taxreturns?</div>
+                <div class="a">Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088. <i>[job 40518 · journald · RB-214]</i></div>
+                <div class="q">How is server8-audits?</div>
+                <div class="a">Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed. <i>[job 40519]</i></div>
+                <div class="q">Which servers are showing online?</div>
+                <div class="a">13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00. <i>[job 40520 · estate ping]</i></div>
+              </div>
+              <div class="cols c2 loopcards">
+                <div class="card"><span class="tag">Takeaway</span><h4>The loop is the documentation</h4><p>Every promoted change, its review thread and its job outcome are indexed where the assistant searches. The KM system writes itself.</p></div>
+                <div class="card"><span class="tag">Takeaway</span><h4>Two kinds of AI, one platform</h4><p>The scorer and the drafter share a GPU node, a registry and an identity. Predictive and generative are pods, not projects.</p></div>
+                <div class="card"><span class="tag">Takeaway</span><h4>Promotion is a merge</h4><p>Repo, AAP and knowledge base update together, and a person decides. Nothing runs from a chat window.</p></div>
+                <div class="card"><span class="tag">Takeaway</span><h4>Ask, then probe</h4><p>The assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</p></div>
+              </div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 15 -->
         <article class="slide" data-title="Adoption path" data-rungs="data,information,knowledge" data-notes="Be honest about sequencing. Most agencies fail at AI not on the model but on the second and third bullets of Phase 1 — no GPU capacity plan, and no agreement on which data may be used. Two riffs to land: plan for problems, not predicaments — the problem right now is grounding the proof so you CAN scale, not the scale itself; no decision today may limit tomorrow’s options. And success means changing your processes, not just moving workloads onto new technology. Prove, ground, scale maps to data, information, knowledge. Under Prove: don’t boil the ocean — small pilot, crawl, walk, run. Start with one signal and one use case: the flashback moment when everybody got called in and ruined their Labor Day weekend over something that had happened a hundred times before, but the pattern just wasn’t connected. And you do not start with a ChatGPT-style box; you start with something valuable and integrated with your data and your mission. Ask directly which phase they are in. PLANTED QUESTION: Jon asks ‘what is a predicament versus a problem?’ — a problem you solve today, a predicament you only plan around.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -1668,7 +1768,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           <span class="slidenum"></span>
         </article>
 
-        <!-- 15 -->
+        <!-- 16 -->
         <article class="slide" data-title="Next steps" data-rungs="judgement" data-notes="Close with a specific ask, not a thank-you. Step zero, said first: for a PoC we set a time and run the seven labs together — show and tell — to find where in the stack you want to prove value; that scopes the pilot; if it gets serious Brad brings in more people. Then workshop, guided pilot, acquisition path — engage solution architects early; unanswered foundational questions get reworked later. No stupid questions. Say the line: not seeing it here does not mean it does not exist or is not a feature or product — name Models-as-a-Service for the platform people. Point at the contact panel — Brad’s Red Hat email is there deliberately: reach out and, if nothing else, I connect you to the right person, not stick you on somebody else. Point at Ted — say hi, Ted — Red Hat’s AE for the IRS. Do not know your AE, or not a customer yet? Email me; I connect you with your equivalent of Ted, and pilots route through the AE. Closer if it fits: that is why we get paid as solution architects — I would rather talk to you than my manager. Never end with nothing happening after. Then the labs, as the takeaway. Then the four moves, out loud: already a customer, ask for your Solution Architect — if you do not know who that is, email Brad, open a Customer Portal ticket, or ask up the management line; start a community of practice across platform, security and mission teams; bring your hardest question; bring your cyber team — nobody from IRS cyber today? Refer us to your ISSO or security lead; we run the appendix in depth for them. Spoken, not on the slide: not IRS or financial services? Reach out anyway — we rebuild this around your mission with your account team. CLOSING QUESTION, always: anybody on from cyber? Yes — pull up the appendix. No — cyber has had opinions before and deserves a fighting chance to hear it early: can anyone refer us to IRS cyber? We run it for them separately. GRAPHIC (G) — AI for Federal Financial Services: Eight cards on a dark grid under the title AI for Federal Financial Services, one for each thing published for this event: the deck, its reveal.js slides, the role-based adventure guide, the hands-free demo view, the docs, the GitHub repository, the seven labs and the exports; the thing to notice is that every red arrow lands on the same public site or repository, free, with nothing to buy. Talk to it: (1) This is the leave-behind for the Next steps slide: everything from today lives at nommsweymx.github.io/redhat-ai-tax-labs, free, public and open source, and Carahsoft's follow-up to every registrant carries the same links. (2) Only one card is the seven labs. Adventure is the choose-your-path guide by role, not the labs one-to-one; Slides is this deck in reveal.js; Demo View runs the labs hands-free. (3) The labs are the opinionated path, personal laptop only, never production: the model comes to the data on 127.0.0.1, the 6× April surge is rehearsed, the ISSO gets evidence. (4) Then crawl, walk, run: one workflow where a person already decides, proven here before any pilot; pilot requests go through your account executive, and Brad connects anyone without one.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -1706,7 +1806,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           <span class="slidenum"></span>
         </article>
 
-        <!-- 16 -->
+        <!-- 17 -->
         <article class="slide" data-title="Labs preview" data-rungs="data,information,knowledge,judgement" data-notes="The concluding takeaway — the deck ends hands-on. Frame it as an opinionated approach: we lead with one path so you do not drown in options. The line Brad credits, with a hedge, to Danny Mack from the OpenStack days: people hand you the bits and tell you to build something; sometimes you just want the pot to put the plant in. These labs are the pot — the Red Hat opinionated way to get going on a personal laptop, using the upstream community tool chain that is used and secured inside a Red Hat solution. Say that distinction so nobody leaves thinking the laptop stack is the one that goes in an authorization package: the labs run the community bits on a laptop; the supported Red Hat product built from the same tool chain is what an agency accredits. Disclaimer, say it: an opinionated path on a personal laptop — not an MVP, never production, and never on a government computer. Answer the two questions before they are asked: who can take it — anyone; what does it cost — nothing. It is a single self-contained HTML on the Carahsoft event page, with the source in the public repo. The point is to prove it to YOURSELF — you will watch the model serve on 127.0.0.1 with no egress — because if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal is the selling point: type each command step by step without installing anything, and off-script commands are refused, which is what makes it a prescriptive, defensible path for a pilot. And the punchline for the AO: your installation and scripting become the artifact you hand them. The full labs live in the repo — that is where people actually run them, not inside this page. Close the labs with the offer: if you want us to go deeper on any of these, or run them for a larger audience, reach out — we will do it. GRAPHIC (G) — Choose your path.: A map of the labs site: red roads run from the RED HAT AI TAX LABS hub to seven role paths (Leadership, Platform Operations, AI / Data Team, Security and Compliance, Mission Workflow, Live Demo, Explore More); notice they are entry points by role, not the seven labs one to one. Talk to it: (1) Seven roads into the same seven labs, Leadership through Explore More: pick yours by role, and notice every lab is tagged with the ladder rung it serves, data to judgement. (2) Take the Live Demo road to prove it yourself: Lab 01 serves the model on 127.0.0.1 with no egress. Tax data stays inside; the model comes to the data. (3) Platform Operations and Security and Compliance share one platform with no seams: FIPS and OS controls inherit up the stack, so you accredit once and inherit everywhere. (4) Mission Workflow wraps the system of record instead of rewriting it: automation absorbs the 6× April surge and closes the loop, while a person signs the determination. Crawl, walk, run.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -1724,37 +1824,6 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
               <div class="card"><span class="tag">Lab 06 · Trust</span><h4>Prove it to your ISSO</h4><p>Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.</p><div class="chips"><span class="rung r-judge">evidence → judgement</span></div></div>
               <div class="card"><span class="tag">Lab 07 · Ops notebook</span><h4>Ask your own logs</h4><p>Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.</p><div class="chips"><span class="rung r-know">information → knowledge</span></div></div>
               <div class="card takeaway-card"><span class="tag">One thing to remember</span><h4>Nothing here needed a public endpoint</h4><p>No public model endpoint, no internet connection at inference time, no rewrite of a system of record. The labs run upstream bits on a laptop; an agency accredits the supported Red Hat product. Lab 08 chains the whole loop.</p></div>
-            </div>
-          </div>
-          <span class="slidenum"></span>
-        </article>
-
-        <!-- 17 · one loop -->
-        <article class="slide" data-title="One loop" data-rungs="data,information,knowledge,judgement" data-notes="Lab 08 is the whole hour in one loop; run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved. Say the two takeaways out loud: the platform is also the KM system and the documentation, because every promoted change is a cited record; and the assistant does not change anything, it launches approved jobs and reports with evidence. Ask the room: what is the last runbook you wrote that the on-call actually found? HAND-OFF: Jon takes the assistant questions, Brad takes the mainframe row.">
-          <div class="rule"></div>
-          <div class="slide-head">
-            <span class="eyebrow">Lab 08 · the whole loop</span>
-            <h2>One loop, end to end: from mainframe logs to an assistant that probes</h2>
-            <p class="lede">Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask.</p>
-          </div>
-          <div class="slide-body loopbody">
-            <div class="stagemap"></div>
-            <div class="loopgrid">
-              <div class="askbox">
-                <span class="tag">Ask the platform</span>
-                <div class="q">How is server1-taxreturns?</div>
-                <div class="a">Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088. <i>[job 40518 · journald · RB-214]</i></div>
-                <div class="q">How is server8-audits?</div>
-                <div class="a">Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed. <i>[job 40519]</i></div>
-                <div class="q">Which servers are showing online?</div>
-                <div class="a">13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00. <i>[job 40520 · estate ping]</i></div>
-              </div>
-              <div class="cols c2 loopcards">
-                <div class="card"><span class="tag">Takeaway</span><h4>The loop is the documentation</h4><p>Every promoted change, its review thread and its job outcome are indexed where the assistant searches. The KM system writes itself.</p></div>
-                <div class="card"><span class="tag">Takeaway</span><h4>Two kinds of AI, one platform</h4><p>The scorer and the drafter share a GPU node, a registry and an identity. Predictive and generative are pods, not projects.</p></div>
-                <div class="card"><span class="tag">Takeaway</span><h4>Promotion is a merge</h4><p>Repo, AAP and knowledge base update together, and a person decides. Nothing runs from a chat window.</p></div>
-                <div class="card"><span class="tag">Takeaway</span><h4>Ask, then probe</h4><p>The assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</p></div>
-              </div>
             </div>
           </div>
           <span class="slidenum"></span>
@@ -1827,7 +1896,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       <div class="closing">
         <h3>After the labs</h3>
         <div class="contactgrid">
-          <div class="card"><span class="tag">Red Hat</span><h4>Architecture and delivery</h4><p>Bring the reference architecture from slide 9 to your own platform and security teams in a half-day workshop.</p></div>
+          <div class="card"><span class="tag">Red Hat</span><h4>Architecture and delivery</h4><p>Bring the reference architecture from slide 10 to your own platform and security teams in a half-day workshop.</p></div>
           <div class="card"><span class="tag">Four Inc.</span><h4>Public sector distribution</h4><p>Contract vehicles, pricing and the paperwork path for a pilot that has to start this fiscal year.</p></div>
           <div class="card"><span class="tag">Carahsoft</span><h4>Government aggregation</h4><p>Procurement support across the agencies and integrators already running Red Hat platforms.</p></div>
         </div>
@@ -1983,6 +2052,33 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     h += '<rect x="10" y="424" width="5" height="40" rx="2.5" fill="var(--accent)"/>';
     h += '<text x="370" y="449" text-anchor="middle" ' + disp + ' font-size="13.5" font-weight="800" fill="var(--ink)">' + esc(TITLE_STR.base[L]) + '</text>';
     return h + '</svg>';
+  }
+  /* Chapters: the six beats of the hour, keyed by data-title. Every slide carries
+     a stepper along its bottom edge with its chapter lit (the other chapters show
+     as numbered dots), and the rail groups the slides under the same headings. */
+  var CHAPTERS = [
+    {n:1, en:"Solve a problem", es:"Resolver un problema", slides:["Title", "Why now"]},
+    {n:2, en:"Right tool, right time", es:"La herramienta justa, a tiempo", slides:["AI in plain English", "Two kinds of AI", "Inside an LLM", "Data to judgement"]},
+    {n:3, en:"Human in the loop", es:"La persona en el circuito", slides:["Where AI lands", "Five outcomes"]},
+    {n:4, en:"One platform, no seams", es:"Una plataforma, sin costuras", slides:["Why Red Hat AI", "Architecture", "Why one platform"]},
+    {n:5, en:"The loop, end to end", es:"El circuito, de punta a punta", slides:["AI for operations", "Logs to MTTR", "One loop"]},
+    {n:6, en:"Your move", es:"Tu jugada", slides:["Adoption path", "Next steps", "Labs preview", "Security posture"]}
+  ];
+  function chapterOf(title){
+    for(var i = 0; i < CHAPTERS.length; i++){ if(CHAPTERS[i].slides.indexOf(title) >= 0) return CHAPTERS[i]; }
+    return null;
+  }
+  function chapterName(c){ return lang === 'es' ? c.es : c.en; }
+  function renderChapters(){
+    slides.forEach(function(s){
+      var here = chapterOf(s.dataset.title);
+      var el = s.querySelector('.chapstrip');
+      if(!el){ el = document.createElement('div'); el.className = 'chapstrip'; el.setAttribute('aria-hidden', 'true'); s.appendChild(el); }
+      el.innerHTML = CHAPTERS.map(function(c){
+        var on = here && c.n === here.n;
+        return '<span class="ch' + (on ? ' on' : '') + '" title="' + esc(chapterName(c)) + '"><i>' + c.n + '</i><span>' + esc(chapterName(c)) + '</span></span>';
+      }).join('');
+    });
   }
   function renderTitlePyramid(){
     var el = document.getElementById('title-pyr');
@@ -2189,7 +2285,16 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     railnav.innerHTML = '';
     if(mode === 'deck'){
       railLabel.textContent = C('slidesLbl');
+      var lastChap = null;
       slides.forEach(function(s,i){
+        var chap = chapterOf(s.dataset.title);
+        if(chap && chap !== lastChap){
+          var h = document.createElement('div');
+          h.className = 'railchap';
+          h.textContent = chap.n + ' · ' + chapterName(chap);
+          railnav.appendChild(h);
+          lastChap = chap;
+        }
         var b = document.createElement('button');
         b.className = 'navitem';
         b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
@@ -2406,6 +2511,19 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 
 
   var ES_TEXT = {
+    "Records become knowledge":"Los registros ya son saber",
+    "Telemetry and history estimate risk":"Telemetría e historial estiman riesgo",
+    "knowledge · judgement executed":"conocimiento · juicio ejecutado",
+    "Reviewed incidents become knowledge":"Incidentes revisados, ya conocimiento",
+    "RAG cites the runbook; Ansible acts":"RAG cita el runbook; Ansible actúa",
+    "Evidence becomes a hypothesis":"La evidencia se vuelve hipótesis",
+    "# signed model · delivered by GitOps — main branch":"# modelo firmado · entregado por GitOps — rama main",
+    "04 · LEARN":"04 · APRENDER",
+    "information · predictive ML":"información · ML predictivo",
+    "information · GenAI / LLM":"información · GenAI / LLM",
+    "knowledge · the knowledge flywheel":"conocimiento · el volante",
+    "the loop closes — reviewed outcomes feed the next prediction":"el circuito se cierra — lo revisado alimenta la siguiente predicción",
+    "Grounding and learning are how the loop earns the right to act — a person approves; automation executes.":"Fundamentar y aprender son lo que le da al circuito el derecho a actuar — una persona aprueba; la automatización ejecuta.",
     /* ---- chrome ---- */
     "Notes":"Notas",
     "the strongest workflows":"los flujos más fuertes",
@@ -3029,7 +3147,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     "A confident answer assembled from plausible tokens with nothing behind it. Countered with retrieval, thresholds, refusal — and a human signature.":"Una respuesta segura armada con tokens plausibles y nada detrás. Se combate con recuperación, umbrales, rechazo — y una firma humana.",
     "After the labs":"Después de los labs",
     "Architecture and delivery":"Arquitectura y entrega",
-    "Bring the reference architecture from slide 9 to your own platform and security teams in a half-day workshop.":"Lleva la arquitectura de referencia de la diapositiva 9 a tus equipos de plataforma y seguridad en un taller de media jornada.",
+    "Bring the reference architecture from slide 10 to your own platform and security teams in a half-day workshop.":"Lleva la arquitectura de referencia de la diapositiva 10 a tus equipos de plataforma y seguridad en un taller de media jornada.",
     "Public sector distribution":"Distribución para sector público",
     "Contract vehicles, pricing and the paperwork path for a pilot that has to start this fiscal year.":"Vehículos de contrato, precios y la ruta de trámites para un piloto que debe arrancar este año fiscal.",
     "Government aggregation":"Agregación gubernamental",
@@ -4705,6 +4823,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     renderSpines();
     renderLoopSlide();
     renderTitlePyramid();
+    renderChapters();
     renderGfxPills();
     syncGfxBtn();
     document.getElementById('view-show').textContent = C('show');
@@ -4735,6 +4854,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   renderLoopSlide();
   renderSpines();
   renderTitlePyramid();
+  renderChapters();
   renderGfxPills();
   (function(){ var v = null; try { v = localStorage.getItem('deck-view'); } catch(err) {} setView(v === 'show' ? 'show' : 'tell'); })();
   rebuildLabs();

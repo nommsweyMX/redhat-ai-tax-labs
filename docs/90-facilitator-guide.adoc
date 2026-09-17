@@ -42,21 +42,21 @@ Owners and deadlines from the September 15 review.
 |===
 | Minutes | Content | Mode
 
-| 0–3   | Welcome — Brad drives, Jon color-commentates. Walk the pyramid bottom to top and say the rule on its base: solve a problem someone has. Set the promise: every claim gets run in a shell. | Slide 1
-| 3–11  | Foundations first, so the room shares a vocabulary: terminology, why now, inside an LLM, data-to-judgement, predictive vs generative. | Slides 2–6
-| 11–17 | Where AI lands, the five outcomes, the reference architecture (open with the seams riff). | Slides 7–9
-| 17–23 | Why Red Hat AI (glass box, Models-as-a-Service) and define-once-run-anywhere. | Slides 10–11
-| 23–28 | The operations loop and logs-to-MTTR — industry metric first, then the personal story. | Slides 12–13
-| 28–32 | Adoption path (crawl, walk, run) and next steps — point at the contact strip. | Slides 14–15
-| 32–34 | Labs preview — the concluding takeaway. Switch to the Labs view. | Slide 16
+| 0–3   | Chapter 1, solve a problem — welcome, Brad drives, Jon color-commentates. Walk the pyramid bottom to top and say the rule on its base. Set the promise: every claim gets run in a shell. | Slide 1
+| 3–6   | Why now — the shape of the problem before any technology: seasonal, textual, unforgiving. | Slide 2
+| 6–14  | Chapter 2, right tool, right time — four jobs called AI, predictive vs generative, inside an LLM, and who climbs each step of the ladder. | Slides 3–6
+| 14–18 | Chapter 3, human in the loop — where AI lands in the lifecycle (a person signs), the five outcomes and the lab that proves each. | Slides 7–8
+| 18–24 | Chapter 4, one platform, no seams — the proposition (glass box, Models-as-a-Service), the reference architecture (open with the seams riff), define once and run anywhere. | Slides 9–11
+| 24–30 | Chapter 5, the loop, end to end — the operations loop, logs-to-MTTR (industry metric first, then the personal story), and the whole loop on one slide, Lab 08's map. | Slides 12–14
+| 30–34 | Chapter 6, your move — adoption path (crawl, walk, run), next steps (point at the contact strip), labs preview. Switch to the Labs view. | Slides 15–17
 | 34–42 | *Run Lab 01 live on screen.* Stop on `ss -ltnp`. That single line answers the data question. | Lab 01
 | 42–50 | *Run Lab 05 live on screen.* The 62-second remediation is the moment people remember. | Lab 05
 | 50–56 | Skim Labs 02, 03, 04, 06, 07. Tell them the repo is theirs to take home. | Labs
-| 50–58 | *Optional finale for an operational room: run Lab 08 live* in place of the skim (slide 17 is its map). | Slide 17 · Lab 08
+| 50–58 | *Optional finale for an operational room: run Lab 08 live* in place of the skim (slide 14 is its map). | Slide 14 · Lab 08
 | 56–60 | Questions. The security appendix stays on standby — pull it up when an ISSO engages. | Slide 18
 |===
 
-TIP: If you only have 30 minutes, cut to slides 1, 2, 8 and run Lab 01 plus the
+TIP: If you only have 30 minutes, cut to slides 1, 3, 8 and run Lab 01 plus the
 drift section of Lab 06. Keep the appendix (slide 18) loaded for security
 questions.
 
@@ -185,6 +185,15 @@ the current slide or lab as you move; put that window on the presenter's
 display only. The console carries the read-aloud script, the discussion
 notes, the Jon cues, the graphic talking points and the lab step cards side
 by side.
+
+The deck runs in six chapters, and every slide carries a stepper along its
+bottom edge with its chapter lit: 1 solve a problem (title, why now); 2 right
+tool, right time (four jobs, predictive vs generative, inside an LLM, the
+ladder); 3 human in the loop (where AI lands, five outcomes); 4 one platform,
+no seams (the proposition, the architecture, define once); 5 the loop, end to
+end (the operations loop, logs-to-MTTR, one loop); 6 your move (adoption, next
+steps, labs, the appendix). The rail groups the slides under the same
+headings, so a jump mid-session lands in a chapter, not just on a number.
 
 Two more switches arrived after the September 15 review. The ladder now
 sits in the corner of every slide as a small *stacked pyramid* (judgement at

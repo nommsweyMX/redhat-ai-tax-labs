@@ -50,10 +50,18 @@
         "knowledge",
         "judgement"
       ],
-      "note": "Carries the four-rung legend: every technology in this hour is tagged with the rung it serves."
+      "note": "Carries the layered pyramid: every technology in this hour is tagged with the layer it serves; the rule on its base, solve a problem someone has, governs the hour."
     },
     {
       "n": 2,
+      "title": "Why now",
+      "rungs": [
+        "data"
+      ],
+      "note": "The data cannot leave; the answers are in the text."
+    },
+    {
+      "n": 3,
       "title": "AI in plain English",
       "rungs": [
         "information",
@@ -68,15 +76,19 @@
       }
     },
     {
-      "n": 3,
-      "title": "Why now",
+      "n": 4,
+      "title": "Two kinds of AI",
       "rungs": [
-        "data"
+        "information",
+        "knowledge"
       ],
-      "note": "The data cannot leave; the answers are in the text."
+      "items": {
+        "Predictive AI": "data → information",
+        "Generative AI": "information → knowledge"
+      }
     },
     {
-      "n": 4,
+      "n": 5,
       "title": "Inside an LLM",
       "rungs": [
         "data",
@@ -94,7 +106,7 @@
       }
     },
     {
-      "n": 5,
+      "n": 6,
       "title": "Data to judgement",
       "rungs": [
         "data",
@@ -103,18 +115,6 @@
         "judgement"
       ],
       "note": "The spine itself. Steps coloured by rung; risers coloured by the rung they deliver: predictive → information, generative + RAG → knowledge, people → judgement."
-    },
-    {
-      "n": 6,
-      "title": "Two kinds of AI",
-      "rungs": [
-        "information",
-        "knowledge"
-      ],
-      "items": {
-        "Predictive AI": "data → information",
-        "Generative AI": "information → knowledge"
-      }
     },
     {
       "n": 7,
@@ -143,28 +143,6 @@
     },
     {
       "n": 9,
-      "title": "Architecture",
-      "rungs": [
-        "data",
-        "information",
-        "knowledge",
-        "judgement"
-      ],
-      "items": {
-        "Mission applications": "judgement",
-        "Model serving": "information",
-        "Training": "knowledge",
-        "Pipelines": "knowledge",
-        "Model registry": "judgement",
-        "Retrieval": "knowledge",
-        "Red Hat OpenShift": "data",
-        "RHEL + AI Inference Server": "data",
-        "TRUST pillar": "judgement",
-        "AUTOMATION pillar": "judgement"
-      }
-    },
-    {
-      "n": 10,
       "title": "Why Red Hat AI",
       "rungs": [
         "data",
@@ -183,6 +161,28 @@
         "Use accelerators efficiently": "data",
         "Predictive + generative": "information + knowledge",
         "Ansible closes the loop": "executes judgement"
+      }
+    },
+    {
+      "n": 10,
+      "title": "Architecture",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "items": {
+        "Mission applications": "judgement",
+        "Model serving": "information",
+        "Training": "knowledge",
+        "Pipelines": "knowledge",
+        "Model registry": "judgement",
+        "Retrieval": "knowledge",
+        "Red Hat OpenShift": "data",
+        "RHEL + AI Inference Server": "data",
+        "TRUST pillar": "judgement",
+        "AUTOMATION pillar": "judgement"
       }
     },
     {
@@ -233,6 +233,17 @@
     },
     {
       "n": 14,
+      "title": "One loop",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "note": "Lab 08 on one slide: the eight-station map and why the platform becomes the KM system."
+    },
+    {
+      "n": 15,
       "title": "Adoption path",
       "rungs": [
         "data",
@@ -247,7 +258,7 @@
       "note": "Brad's mapping, verbatim from the Sept 3 call: prove, ground, scale = data, information, knowledge."
     },
     {
-      "n": 15,
+      "n": 16,
       "title": "Next steps",
       "rungs": [
         "judgement"
@@ -255,7 +266,7 @@
       "note": "The next decision is the room's."
     },
     {
-      "n": 16,
+      "n": 17,
       "title": "Labs preview",
       "rungs": [
         "data",
@@ -266,7 +277,7 @@
       "note": "Each lab card carries its rung chip (see labs below)."
     },
     {
-      "n": 17,
+      "n": 18,
       "title": "Security posture",
       "rungs": [
         "information",
@@ -372,5 +383,61 @@
     "Models-as-a-Service": "information",
     "llm-d": "information"
   },
-  "scale": "Rainbow order, so nobody has to learn a palette: data = red, information = orange, knowledge = green, judgement = violet. Yellow (#D99A00) and blue (#1D4ED8) appear only as the in-between segments of the ladder track."
+  "scale": "Rainbow order, so nobody has to learn a palette: data = red, information = orange, knowledge = green, judgement = violet. Yellow (#D99A00) and blue (#1D4ED8) appear only as the in-between segments of the ladder track.",
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Solve a problem",
+      "slides": [
+        "Title",
+        "Why now"
+      ]
+    },
+    {
+      "n": 2,
+      "title": "Right tool, right time",
+      "slides": [
+        "AI in plain English",
+        "Two kinds of AI",
+        "Inside an LLM",
+        "Data to judgement"
+      ]
+    },
+    {
+      "n": 3,
+      "title": "Human in the loop",
+      "slides": [
+        "Where AI lands",
+        "Five outcomes"
+      ]
+    },
+    {
+      "n": 4,
+      "title": "One platform, no seams",
+      "slides": [
+        "Why Red Hat AI",
+        "Architecture",
+        "Why one platform"
+      ]
+    },
+    {
+      "n": 5,
+      "title": "The loop, end to end",
+      "slides": [
+        "AI for operations",
+        "Logs to MTTR",
+        "One loop"
+      ]
+    },
+    {
+      "n": 6,
+      "title": "Your move",
+      "slides": [
+        "Adoption path",
+        "Next steps",
+        "Labs preview",
+        "Security posture"
+      ]
+    }
+  ]
 }

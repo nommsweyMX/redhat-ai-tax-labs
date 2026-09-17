@@ -81,6 +81,7 @@ body.scroll .step{display:block;margin-bottom:34px}
 body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:34px}
 
 .step-head{padding:16px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.step-head .chapter{display:inline-block;margin-left:10px;font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);border:1px solid var(--accent);border-radius:100px;padding:2px 9px;vertical-align:middle}
 .step-head .kind{display:inline-block;font-family:"Red Hat Mono",monospace;font-size:.7rem;font-weight:700;letter-spacing:.12em;border-radius:4px;padding:3px 9px;margin-bottom:10px}
 .step-head .kind.slide{background:var(--accent-wash);color:var(--accent-ink)}
 .step-head .kind.lab{background:var(--term-bg);color:var(--term-green)}
@@ -377,7 +378,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 <!-- ============ SLIDE 1 ============ -->
 <section class="step" data-label="Slide 01 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 01 · TITLE</span>
+    <span class="kind slide">SLIDE 01 · TITLE</span><span class="chapter">Chapter 1 · Solve a problem</span>
     <h2>AI foundations for intelligent tax administration</h2>
     <div class="time">0–3 min</div>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">Carries the layered pyramid: every technology in this hour is tagged with the layer it serves, and the rule on its base — solve a problem someone has — governs the hour.</span></div>
@@ -429,13 +430,49 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>the terminology</b> (four jobs called AI)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>The work is seasonal, textual and unforgiving</b> (slide 02)</span></div>
 </section>
 
 <!-- ============ SLIDE 2 ============ -->
 <section class="step" data-label="Slide 02 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 02 · AI IN PLAIN ENGLISH</span>
+    <span class="kind slide">SLIDE 02 · WHY NOW</span><span class="chapter">Chapter 1 · Solve a problem</span>
+    <h2>The work is seasonal, textual and unforgiving</h2>
+    <div class="rungs"><span class="rung r-data">Data</span><span class="why">The data cannot leave; the answers are in the text.</span></div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Demand curve — April at 6× the August low, far above the flat staffed-capacity line — plus four cards ending on the red one: "the data cannot leave."</div>
+  <div class="talk">
+    <p>Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk.</p>
+    <p>The chart is the argument: <b>a year of demand arrives in six weeks.</b> The shaded gap is what automation absorbs. And the last card decides the architecture: <b>federal tax information cannot go to a public endpoint. The model has to come to the data.</b></p>
+  </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“Why now? Because the work is seasonal, textual and unforgiving. The workforce is comparatively flat, but demand is not. A disproportionate share of demand arrives during the filing-season peak, and the shaded space between the demand curve and staffed capacity is where backlogs, overtime and inconsistent handling appear.”</p>
+    <p>“AI can help because much of the work is language: correspondence, guidance, notes, notices and the institutional memory carried by experienced employees. But AI also produces information at machine speed. If every classification, explanation or recommendation lands in a manual queue, we have not removed the bottleneck—we have amplified it.”</p>
+    <p>“That is why automation strategy comes before AI scale. A governed toolchain has to route, validate, execute, record and escalate that output. Otherwise the agency gets a faster backlog.”</p>
+    <p>“Mistake number one is starting an AI program without understanding the automation strategy that will carry it. A few isolated scripts are not an enterprise toolchain. You can learn in a bounded pilot while you build the foundation, but the path into institutional operation needs to be part of the plan from the beginning.”</p>
+    <p>“The final constraint determines the architecture: the data boundary and approved uses determine where sensitive information may be processed. The model comes to the data. Choosing a particular model may be a six-month decision. Choosing where models run, how they are governed, and how work moves around them is a ten-year decision.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · volume, velocity and the review queue</b>
+    <p>Use the demand curve to explain a capacity problem. AI can produce classifications, summaries and recommendations much faster than a team can review or act on them. That output creates work unless the workflow also handles duplicate results, quality checks, routing and exceptions.</p>
+    <p><b>Illustrative arithmetic, not an IRS measurement:</b> 1,000 AI summaries requiring two minutes of review each create roughly 33 staff-hours of review. Faster generation alone does not resolve that queue. Measure how much work reaches a verified outcome, not how many paragraphs the model emits.</p>
+    <p>This is the practical reason for automation maturity first. A small experiment can begin while the broader program improves its toolchain. Scaling AI into operations without ownership, testing, access control, execution records and exception handling is the mistake. For the chosen workflow, build the minimum reliable path first and extend it deliberately.</p>
+    <p>Bridge to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-15">Slide 15</a>: “Before we increase the rate of output, show me where an output goes and how it becomes a completed, checked result.”</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · make the surge operational</b><b>Brad:</b> “Jon, what happens if we improve classification tenfold but leave every downstream hand-off manual?” <b>Jon lands:</b> the backlog relocates; more information reaches the same constrained queue faster. <b>Brad:</b> “Right. That is why the shaded gap is an automation problem, not only a model problem.”</div>
+  <div class="beat"><b>Pivot line</b>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one.</div>
+  <div class="beat"><b>Macy’s at Black Friday</b>The analogy: Macy’s at Thanksgiving, Black Friday and Christmas, a very seasonal workload against a fixed store. The off-season is not waste; it is when you rewrite and integrate the knowledge you gathered during the surge, so there is more headroom when the next surge comes. Idle capacity in August is only unjustifiable if you do nothing with it.</div>
+  <div class="beat"><b>The snake eating its own tail</b>The closed loop has one rule: it feeds on data from YOUR systems of record, added to your knowledge base to automate it. Never information generated from information; that is the snake eating its own tail.</div>
+  <div class="beat"><b>Connect volume to automation</b>The April surge is not only more transactions; AI also creates more classifications, explanations and recommended actions per transaction. If those outputs land in human queues, the technology amplifies the bottleneck. A governed automation toolchain is how the agency absorbs the velocity without losing control.</div>
+  <div class="beat"><b>Use with tact</b>AI is interesting here precisely because it works on unstructured language, which is most of what a tax agency actually handles. Large federal accounts are losing institutional knowledge as people age out or are RIF’d; capturing what the workforce knows is part of why this matters now.</div>
+  <div class="cue"><span class="next">NEXT → <b>Four different jobs get called “AI”</b> (slide 03)</span></div>
+</section>
+
+<!-- ============ SLIDE 3 ============ -->
+<section class="step" data-label="Slide 03 / 18">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 03 · AI IN PLAIN ENGLISH</span><span class="chapter">Chapter 2 · Right tool, right time</span>
     <h2>Four different jobs get called “AI”</h2>
     <div class="time">3–11 min block begins</div>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
@@ -537,49 +574,51 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Land the not-box</b>Predictive AI is not a crystal ball. An LLM is not a database, a policy authority, or a source of truth. An agent is not permission to bypass controls.</div>
   <div class="beat"><b>Land the on-ramp line</b>If you are not automated, you are not going to have a good generative or predictive AI inside your boundary. Automation is the prerequisite—not because AI cannot run, but because the enterprise cannot safely absorb, act on and audit the volume and velocity of what it produces.</div>
   <div class="beat"><b>HAND-OFF (optional): Brad turns to Jon</b>On the Estimate and Create cards: “Jon, what do you know about predictive and generative? Give the room an analogy.” Jon lands the weather-forecast and well-read-drafting-assistant lines already on the cards; Brad takes back Reason + act and Automate.</div>
-  <div class="cue"><span class="next">NEXT → <b>why now</b> (the demand chart)</span></div>
-</section>
-
-<!-- ============ SLIDE 3 ============ -->
-<section class="step" data-label="Slide 03 / 18">
-  <div class="step-head">
-    <span class="kind slide">SLIDE 03 · WHY NOW</span>
-    <h2>The work is seasonal, textual and unforgiving</h2>
-    <div class="rungs"><span class="rung r-data">Data</span><span class="why">The data cannot leave; the answers are in the text.</span></div>
-  </div>
-  <div class="onscreen"><b>On screen</b>Demand curve — April at 6× the August low, far above the flat staffed-capacity line — plus four cards ending on the red one: "the data cannot leave."</div>
-  <div class="talk">
-    <p>Do not lead with the technology. Lead with the shape of the problem: seasonal demand spikes against a fixed workforce, decades of correspondence logic locked in code nobody wants to touch, and data spread across systems that were never designed to talk.</p>
-    <p>The chart is the argument: <b>a year of demand arrives in six weeks.</b> The shaded gap is what automation absorbs. And the last card decides the architecture: <b>federal tax information cannot go to a public endpoint. The model has to come to the data.</b></p>
-  </div>
-  <div class="read-script">
-    <b>Read-aloud script · about 90 seconds</b>
-    <p>“Why now? Because the work is seasonal, textual and unforgiving. The workforce is comparatively flat, but demand is not. A disproportionate share of demand arrives during the filing-season peak, and the shaded space between the demand curve and staffed capacity is where backlogs, overtime and inconsistent handling appear.”</p>
-    <p>“AI can help because much of the work is language: correspondence, guidance, notes, notices and the institutional memory carried by experienced employees. But AI also produces information at machine speed. If every classification, explanation or recommendation lands in a manual queue, we have not removed the bottleneck—we have amplified it.”</p>
-    <p>“That is why automation strategy comes before AI scale. A governed toolchain has to route, validate, execute, record and escalate that output. Otherwise the agency gets a faster backlog.”</p>
-    <p>“Mistake number one is starting an AI program without understanding the automation strategy that will carry it. A few isolated scripts are not an enterprise toolchain. You can learn in a bounded pilot while you build the foundation, but the path into institutional operation needs to be part of the plan from the beginning.”</p>
-    <p>“The final constraint determines the architecture: the data boundary and approved uses determine where sensitive information may be processed. The model comes to the data. Choosing a particular model may be a six-month decision. Choosing where models run, how they are governed, and how work moves around them is a ten-year decision.”</p>
-  </div>
-  <div class="discussion">
-    <b>Discussion · volume, velocity and the review queue</b>
-    <p>Use the demand curve to explain a capacity problem. AI can produce classifications, summaries and recommendations much faster than a team can review or act on them. That output creates work unless the workflow also handles duplicate results, quality checks, routing and exceptions.</p>
-    <p><b>Illustrative arithmetic, not an IRS measurement:</b> 1,000 AI summaries requiring two minutes of review each create roughly 33 staff-hours of review. Faster generation alone does not resolve that queue. Measure how much work reaches a verified outcome, not how many paragraphs the model emits.</p>
-    <p>This is the practical reason for automation maturity first. A small experiment can begin while the broader program improves its toolchain. Scaling AI into operations without ownership, testing, access control, execution records and exception handling is the mistake. For the chosen workflow, build the minimum reliable path first and extend it deliberately.</p>
-    <p>Bridge to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-14">Slide 14</a>: “Before we increase the rate of output, show me where an output goes and how it becomes a completed, checked result.”</p>
-  </div>
-  <div class="jon-cue"><b>Engage Jon · make the surge operational</b><b>Brad:</b> “Jon, what happens if we improve classification tenfold but leave every downstream hand-off manual?” <b>Jon lands:</b> the backlog relocates; more information reaches the same constrained queue faster. <b>Brad:</b> “Right. That is why the shaded gap is an automation problem, not only a model problem.”</div>
-  <div class="beat"><b>Pivot line</b>Choosing a model is a six-month decision. Choosing where models run, how they are governed and how they scale is a ten-year one.</div>
-  <div class="beat"><b>Macy’s at Black Friday</b>The analogy: Macy’s at Thanksgiving, Black Friday and Christmas, a very seasonal workload against a fixed store. The off-season is not waste; it is when you rewrite and integrate the knowledge you gathered during the surge, so there is more headroom when the next surge comes. Idle capacity in August is only unjustifiable if you do nothing with it.</div>
-  <div class="beat"><b>The snake eating its own tail</b>The closed loop has one rule: it feeds on data from YOUR systems of record, added to your knowledge base to automate it. Never information generated from information; that is the snake eating its own tail.</div>
-  <div class="beat"><b>Connect volume to automation</b>The April surge is not only more transactions; AI also creates more classifications, explanations and recommended actions per transaction. If those outputs land in human queues, the technology amplifies the bottleneck. A governed automation toolchain is how the agency absorbs the velocity without losing control.</div>
-  <div class="beat"><b>Use with tact</b>AI is interesting here precisely because it works on unstructured language, which is most of what a tax agency actually handles. Large federal accounts are losing institutional knowledge as people age out or are RIF’d; capturing what the workforce knows is part of why this matters now.</div>
-  <div class="cue"><span class="next">NEXT → <b>inside an LLM</b> (one central visual)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>Predictive and generative AI answer different questions</b> (slide 04)</span></div>
 </section>
 
 <!-- ============ SLIDE 4 ============ -->
 <section class="step" data-label="Slide 04 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 04 · INSIDE AN LLM</span>
+    <span class="kind slide">SLIDE 04 · TWO KINDS OF AI</span><span class="chapter">Chapter 2 · Right tool, right time</span>
+    <h2>Predictive and generative AI answer different questions</h2>
+    <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span></div>
+  </div>
+  <div class="onscreen"><b>On screen</b>One graphic, per Jon: two overlapping circles. Left crescent, a number from structured history; right crescent, language from text; the lens is where the strongest workflows chain both (score, then explain) and one platform serves both models (Lab 03). Kicker: "one graphic — take it home." Lede: "They fail differently — so they are governed differently." The old six-row table survives in the reveal export and the facilitator guide as the take-home.</div>
+  <div class="talk">
+    <p>One produces <b>a number</b> from structured history; the other produces <b>language</b>. The row that matters is <b>how they fail</b>: a bad number is visible in precision and recall; a generative failure is <b>a plausible sentence</b> — which is why grounding and human review are non-negotiable.</p>
+    <p>Close on composition — this is the closed loop the agency actually wants: a risk score picks the case, a language model prepares the brief, a person decides, automation executes. One cluster serves both models side by side.</p>
+  </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 90 seconds</b>
+    <p>“Predictive and generative describe the job we ask the technology to do. Prediction estimates a value, category or outcome. Generation produces content. They overlap: a generative language model itself uses prediction to build text. We separate them here because forecasting a failure and drafting an explanation require different evidence and tests.”</p>
+    <p>“A predictive error is not automatically obvious. A score can look reasonable and still be wrong. We need known outcomes to check missed incidents, false alarms and whether the scores mean what people think they mean.”</p>
+    <p>“A generated paragraph can also look reasonable and be wrong. It might cite the wrong year, omit an exception or state a possible cause as a proven cause. We check whether the source supports the claim, whether the answer covers the relevant facts, and whether the model stops when evidence is missing.”</p>
+    <p>“A forecast is not a diagnosis. A diagnosis draft is not an approved repair. An unusual deduction is not an improper deduction. The useful system keeps those distinctions visible.”</p>
+    <p>“Sometimes the best solution combines a score, a grounded draft, a reviewer and automation. Sometimes an exact rule and a calculator are enough. Selecting the smallest reliable combination is more valuable than using every term on this slide.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · a forecast, an explanation and a formula are different</b>
+    <p>“Predictive” does not mean only the future. A model may classify a current document or estimate a missing value. “Generative” does not mean only creative writing. A model may produce a structured extract, a summary or code. The labels describe uses, with overlap between the underlying methods.</p>
+    <p>A memory-risk score is useful if it identifies incidents early enough to help without drowning operators in false alarms. A score of 0.8 is not automatically an 80 percent chance unless the system defines it as a probability and validates that interpretation. A sentence saying “I am highly confident” is also not a measured accuracy guarantee.</p>
+    <p>When someone asks for an exact calculation under known rules, start with the calculation. When someone asks for exact records, start with a query. When someone asks what may happen or what a pile of documents means, a model may add value.</p>
+    <p><b>Jon prompt:</b> “If an LLM predicts the next piece of text, why call it generative?” Suggested answer: prediction is part of its mechanism; producing new content is the job it performs for us. We use the labels to choose work, not to create rigid scientific boxes.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · force the governance distinction</b><b>Brad:</b> “Jon, can a score look as convincing as a well-written paragraph and still be wrong?” <b>Jon lands:</b> yes; both need evaluation. Scores need comparison with known outcomes, while generated claims also need source and applicability checks. <b>Brad:</b> “Good. Confidence in the presentation is not evidence of correctness.”</div>
+  <div class="beat ladder"><b>On the ladder</b>
+    <div class="rungmap">
+      <div><span class="what">Predictive AI</span><span class="to"><span class="rung r-info">data → information</span></span></div>
+      <div><span class="what">Generative AI</span><span class="to"><span class="rung r-know">information → knowledge</span></span></div>
+    </div>
+  </div>
+  <div class="beat"><b>Walk it left to right, then the strip</b>A score is not a determination, a fluent sentence is not evidence, a person decides. Optional if time is short: this is a deep dive on two of slide 2’s cards; drop it first unless the room asks how the two are governed differently.</div>
+  <div class="cue"><span class="next">NEXT → <b>An LLM is the engine — not the whole vehicle</b> (slide 05)</span></div>
+</section>
+
+<!-- ============ SLIDE 5 ============ -->
+<section class="step" data-label="Slide 05 / 18">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 05 · INSIDE AN LLM</span><span class="chapter">Chapter 2 · Right tool, right time</span>
     <h2>An LLM is the engine — not the whole vehicle</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span></div>
   </div>
@@ -610,7 +649,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>A good response distinguishes those sources. “I observed this in the log,” “I estimate this from the pattern,” and “the approved runbook says this” are materially different claims.</p>
     <p><b>Prompting, retrieval and fine-tuning:</b> better instructions help when the task is unclear; better retrieval helps when the needed evidence is missing; additional training may help when the model consistently performs a specialized task poorly. These approaches can be combined, but there is no rule that using all three always gives the best result.</p>
     <p><b>Jon prompt:</b> “If I train it on every IRS document, have I turned it into IRS policy?” Suggested answer: no; you have changed what it can generate. You still need controlled sources, current applicability checks and an accountable workflow.</p>
-    <p>The technical detail stops here. Refer back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-2">Slide 2</a> for the vocabulary and forward to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-9">Slide 9</a> for the service built around it.</p>
+    <p>The technical detail stops here. Refer back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-3">Slide 3</a> for the vocabulary and forward to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-10">Slide 10</a> for the service built around it.</p>
   </div>
   <div class="jon-cue"><b>Engage Jon · use his test analogy</b><b>Brad:</b> “Jon, give us your shortest distinction between retrieval and fine-tuning.” <b>Jon:</b> “Fine-tuning is studying for the test; retrieval is bringing the notebook into the test.” <b>Brad:</b> “And strong systems often do both—but the notebook is where changing facts belong.”</div>
   <div class="beat ladder"><b>On the ladder</b>
@@ -627,13 +666,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Jon’s analogy — land it</b>Fine-tuning is studying for the test. Retrieval is bringing the notebook into the test. An AND, not an either/or — Red Hat’s own metrics show doing both gives the best results. Brad’s rejoinder if it lands: some people are bad test takers — that does not mean they did not study.</div>
   <div class="beat"><b>Why the prompt itself matters</b>The model never reads your sentence the way you wrote it — it breaks it into tokens and reassembles intent, so an ask that bundles everything into one line comes back flattened and literal. <span style="color:var(--ink-3)">Optional, if the room is enjoying the analogies: the tattoo story — ask for “towers on hills” all in one breath and towers on hills is literally what you get. The punchline: it is really in your prompting — the way you construct the action — because people like to say everything at once.</span></div>
   <div class="beat"><b>Tell them to stop reading</b>On any dense slide, say it out loud: this is a leave-behind that stands alone when you review it later — this is not death by slideshow. People read on instinct; releasing them from it buys you their attention.</div>
-  <div class="cue"><span class="next">NEXT → <b>data to judgement</b> (the staircase)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>From data to judgement — and who climbs each step</b> (slide 06)</span></div>
 </section>
 
-<!-- ============ SLIDE 5 ============ -->
-<section class="step" data-label="Slide 05 / 18">
+<!-- ============ SLIDE 6 ============ -->
+<section class="step" data-label="Slide 06 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 05 · DATA TO JUDGEMENT</span>
+    <span class="kind slide">SLIDE 06 · DATA TO JUDGEMENT</span><span class="chapter">Chapter 2 · Right tool, right time</span>
     <h2>From data to judgement — and who climbs each step</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">The spine itself. Steps coloured by rung; risers coloured by the rung they deliver: predictive → information, generative + RAG → knowledge, people → judgement.</span></div>
   </div>
@@ -671,51 +710,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>predictive vs generative</b> (one graphic, the overlap)</span></div>
-</section>
-
-<!-- ============ SLIDE 6 ============ -->
-<section class="step" data-label="Slide 06 / 18">
-  <div class="step-head">
-    <span class="kind slide">SLIDE 06 · TWO KINDS OF AI</span>
-    <h2>Predictive and generative AI answer different questions</h2>
-    <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span></div>
-  </div>
-  <div class="onscreen"><b>On screen</b>One graphic, per Jon: two overlapping circles. Left crescent, a number from structured history; right crescent, language from text; the lens is where the strongest workflows chain both (score, then explain) and one platform serves both models (Lab 03). Kicker: "one graphic — take it home." Lede: "They fail differently — so they are governed differently." The old six-row table survives in the reveal export and the facilitator guide as the take-home.</div>
-  <div class="talk">
-    <p>One produces <b>a number</b> from structured history; the other produces <b>language</b>. The row that matters is <b>how they fail</b>: a bad number is visible in precision and recall; a generative failure is <b>a plausible sentence</b> — which is why grounding and human review are non-negotiable.</p>
-    <p>Close on composition — this is the closed loop the agency actually wants: a risk score picks the case, a language model prepares the brief, a person decides, automation executes. One cluster serves both models side by side.</p>
-  </div>
-  <div class="read-script">
-    <b>Read-aloud script · about 90 seconds</b>
-    <p>“Predictive and generative describe the job we ask the technology to do. Prediction estimates a value, category or outcome. Generation produces content. They overlap: a generative language model itself uses prediction to build text. We separate them here because forecasting a failure and drafting an explanation require different evidence and tests.”</p>
-    <p>“A predictive error is not automatically obvious. A score can look reasonable and still be wrong. We need known outcomes to check missed incidents, false alarms and whether the scores mean what people think they mean.”</p>
-    <p>“A generated paragraph can also look reasonable and be wrong. It might cite the wrong year, omit an exception or state a possible cause as a proven cause. We check whether the source supports the claim, whether the answer covers the relevant facts, and whether the model stops when evidence is missing.”</p>
-    <p>“A forecast is not a diagnosis. A diagnosis draft is not an approved repair. An unusual deduction is not an improper deduction. The useful system keeps those distinctions visible.”</p>
-    <p>“Sometimes the best solution combines a score, a grounded draft, a reviewer and automation. Sometimes an exact rule and a calculator are enough. Selecting the smallest reliable combination is more valuable than using every term on this slide.”</p>
-  </div>
-  <div class="discussion">
-    <b>Discussion · a forecast, an explanation and a formula are different</b>
-    <p>“Predictive” does not mean only the future. A model may classify a current document or estimate a missing value. “Generative” does not mean only creative writing. A model may produce a structured extract, a summary or code. The labels describe uses, with overlap between the underlying methods.</p>
-    <p>A memory-risk score is useful if it identifies incidents early enough to help without drowning operators in false alarms. A score of 0.8 is not automatically an 80 percent chance unless the system defines it as a probability and validates that interpretation. A sentence saying “I am highly confident” is also not a measured accuracy guarantee.</p>
-    <p>When someone asks for an exact calculation under known rules, start with the calculation. When someone asks for exact records, start with a query. When someone asks what may happen or what a pile of documents means, a model may add value.</p>
-    <p><b>Jon prompt:</b> “If an LLM predicts the next piece of text, why call it generative?” Suggested answer: prediction is part of its mechanism; producing new content is the job it performs for us. We use the labels to choose work, not to create rigid scientific boxes.</p>
-  </div>
-  <div class="jon-cue"><b>Engage Jon · force the governance distinction</b><b>Brad:</b> “Jon, can a score look as convincing as a well-written paragraph and still be wrong?” <b>Jon lands:</b> yes; both need evaluation. Scores need comparison with known outcomes, while generated claims also need source and applicability checks. <b>Brad:</b> “Good. Confidence in the presentation is not evidence of correctness.”</div>
-  <div class="beat ladder"><b>On the ladder</b>
-    <div class="rungmap">
-      <div><span class="what">Predictive AI</span><span class="to"><span class="rung r-info">data → information</span></span></div>
-      <div><span class="what">Generative AI</span><span class="to"><span class="rung r-know">information → knowledge</span></span></div>
-    </div>
-  </div>
-  <div class="beat"><b>Walk it left to right, then the strip</b>A score is not a determination, a fluent sentence is not evidence, a person decides. Optional if time is short: this is a deep dive on two of slide 2’s cards; drop it first unless the room asks how the two are governed differently.</div>
-  <div class="cue"><span class="next">NEXT → <b>where AI lands</b> in the filing lifecycle</span></div>
+  <div class="cue"><span class="next">NEXT → <b>Where AI actually lands in the filing lifecycle</b> (slide 07)</span></div>
 </section>
 
 <!-- ============ SLIDE 7 ============ -->
 <section class="step" data-label="Slide 07 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 07 · WHERE AI LANDS</span>
+    <span class="kind slide">SLIDE 07 · WHERE AI LANDS</span><span class="chapter">Chapter 3 · Human in the loop</span>
     <h2>Where AI actually lands in the filing lifecycle</h2>
     <div class="time">11–17 min block begins</div>
     <div class="rungs"><span class="rung r-judge">Judgement</span><span class="why">The rail's top bars follow the ladder: information orange on 01–02, knowledge green on 03–04 and 08, judgement violet on 05–07. Review and decision stay with a person.</span></div>
@@ -738,7 +739,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p>Avoid the phrase “AI will audit the return” without naming what is actually happening. “Extract proposed fields for review,” “retrieve the relevant guidance,” “reproduce a calculation” and “draft questions about missing evidence” are concrete, testable tasks.</p>
     <p>Specify each task’s input, output and owner. A generative model can propose an extracted value; a validation check can compare it with the source field; a calculator can use the validated amount; a reviewer can decide whether the supporting facts establish eligibility.</p>
     <p>Our deduction example supports an authorized review. It is not a proposal to let an anomaly score independently initiate an examination. Likewise, automatic routing of an already reviewed result is different from making the underlying determination.</p>
-    <p>Connect back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-2">Slide 2’s comparison</a>: the same interface may coordinate several kinds of work, but those kinds retain different authority.</p>
+    <p>Connect back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-3">Slide 3’s comparison</a>: the same interface may coordinate several kinds of work, but those kinds retain different authority.</p>
   </div>
   <div class="jon-cue"><b>Engage Jon · point to the missing highlight</b><b>Brad:</b> “Jon, why did we intentionally leave exam selection grey?” <b>Jon lands:</b> consequence changes the governance burden; assistance to an existing reviewer is not authority to initiate action against a taxpayer. <b>Brad:</b> “That restraint is part of the architecture, not a disclaimer added later.”</div>
   <div class="beat ladder"><b>On the ladder</b>
@@ -763,13 +764,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>One platform under all eight stations: the model comes to the data, the seams stay boring, and controls accredited once for Intake are inherited all the way to Operations.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>the five outcomes</b></span></div>
+  <div class="cue"><span class="next">NEXT → <b>Five outcomes, and where each one is proven</b> (slide 08)</span></div>
 </section>
 
 <!-- ============ SLIDE 8 ============ -->
 <section class="step" data-label="Slide 08 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 08 · FIVE OUTCOMES</span>
+    <span class="kind slide">SLIDE 08 · FIVE OUTCOMES</span><span class="chapter">Chapter 3 · Human in the loop</span>
     <h2>Five outcomes, and where each one is proven</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
   </div>
@@ -811,13 +812,65 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>One platform under all eight stations: the model comes to the data, the seams stay boring, and controls accredited once for Intake are inherited all the way to Operations.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>the reference architecture</b> (open with the seams line)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>The federal problem is not “get a model.” It is operate AI without giving up control.</b> (slide 09)</span></div>
 </section>
 
 <!-- ============ SLIDE 9 ============ -->
 <section class="step" data-label="Slide 09 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 09 · ARCHITECTURE</span>
+    <span class="kind slide">SLIDE 09 · WHY RED HAT AI</span><span class="chapter">Chapter 4 · One platform, no seams</span>
+    <h2>The federal problem is not “get a model.” It is operate AI without giving up control.</h2>
+    <div class="time">17–23 min block begins</div>
+    <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-judge">Judgement</span></div>
+  </div>
+  <div class="onscreen"><b>On screen</b>"Bring the model to the mission" proposition (now with the glass-box line), Inference / Data / Agents / Platform strip, and six proof points including Models-as-a-Service and the modern-lock-in framing.</div>
+  <div class="talk">
+    <p><b>Do not sell a particular model as the moat.</b> The value is operational control: choose the model, accelerator and location; keep data where authorization requires; run inference efficiently; govern agents and lifecycle; automate the surrounding environment.</p>
+    <p>Two lines to land: <b>glass box, not black box</b> — open source means you can inspect what the system is doing; and <b>modern lock-in limits what you can build next</b> — a worse trap than the old hardware kind, because it constrains future functionality, not just today’s invoice.</p>
+    <p>For the platform people in the room: <b>Models-as-a-Service</b> — a central team publishes governed model endpoints the projects consume, instead of every project building its own fragile AI stack.</p>
+  </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2 minutes</b>
+    <p>“The federal problem is not getting a model. Models are abundant. The problem is operating AI without giving up control of the data, location, hardware, lifecycle or future choices.”</p>
+    <p>“Our proposition is: bring the model to the mission, not mission data to somebody else’s model. The unique asset is your data and the procedures around it. Keep visibility into both. Run on-premises, in an accredited cloud or in a disconnected enclave as policy requires.”</p>
+    <p>“Open source gives us a glass box rather than a black box. That does not make every model output explainable by magic. It means the components, interfaces and lifecycle remain inspectable and replaceable.”</p>
+    <p>“For platform teams, Models-as-a-Service is the practical pattern. A central team publishes governed model endpoints. Projects receive identity, quotas, monitoring and an upgrade path instead of rebuilding an entire stack.”</p>
+    <p>“Automation is a differentiator. The durable discriminator is the connected estate: operating system, platform, security controls, model lifecycle and execution layer working as one governed system. That keeps today’s decision from limiting tomorrow’s mission.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · control is the ability to change components deliberately</b>
+    <p>“Model freedom” means being able to evaluate and replace a model without abandoning the surrounding mission workflow. It is not permission for every project to expose its own endpoint with its own rules.</p>
+    <p>“Models-as-a-Service” means a platform team supplies approved model access as a shared service. Project teams can focus on their workflow while the platform team manages capacity, versions, access and monitoring. The service should make it clear which model produced which result and whether that model is approved for that particular use.</p>
+    <p>Open source can make software and interfaces inspectable. It does not automatically explain why a model produced a specific sentence or guarantee easy migration. Contracts, formats, evaluation cases and operational experience still matter.</p>
+    <p>Bring the discussion back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-11">Slide 11</a>: choose today's components with a practical replacement path, and test that path instead of relying on a portability slogan.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · separate freedom from chaos</b><b>Brad:</b> “Jon, does model choice mean every team deploys whatever it wants?” <b>Jon lands:</b> no—freedom belongs inside an approved catalog and lifecycle; replaceability is governed, not anarchic. <b>Brad:</b> “Exactly. Glass box does not mean junk drawer.”</div>
+  <div class="beat ladder"><b>On the ladder</b>
+    <div class="rungmap">
+      <div><span class="what">Inference</span><span class="to"><span class="rung r-info">Information</span></span></div>
+      <div><span class="what">Data</span><span class="to"><span class="rung r-know">Knowledge</span></span></div>
+      <div><span class="what">Agents</span><span class="to"><span class="rung r-judge">Judgement</span></span></div>
+      <div><span class="what">Platform</span><span class="to"><span class="rung r-data">Data</span></span></div>
+      <div><span class="what">Model freedom</span><span class="to"><span class="rung r-know">Knowledge</span></span></div>
+      <div><span class="what">Data locality</span><span class="to"><span class="rung r-data">Data</span></span></div>
+      <div><span class="what">Models-as-a-Service</span><span class="to"><span class="rung r-info">Information</span></span></div>
+      <div><span class="what">Use accelerators efficiently</span><span class="to"><span class="rung r-data">Data</span></span></div>
+      <div><span class="what">Predictive + generative</span><span class="to"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span></span></div>
+      <div><span class="what">Ansible closes the loop</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
+    </div>
+  </div>
+  <div class="beat"><b>The 10,000 seats story</b>Agencies buy ten thousand chatbot seats and start plugging things into them. What they are never shown is the alternative: running their own instances <em>next to their own data</em> — feeding self-healing, closed-loop systems of record, tied into operations, extended toward fraud, waste and abuse. The knowledge that matters lives in workflows, policies and procedures you cannot paste into a public chatbot.</div>
+  <div class="beat"><b>Someone else’s computer</b>Cloud AI is ultimately just someone else’s computer. If it is your computer and your data, you can go check and verify — and if you are not convinced by the answers coming back, that is a waste of CPUs, GPUs and cooling. <b>Colocation</b> cuts the attack surface and the pivot points, and it makes the experience better: no chain of egresses, ingresses, F5s, LTMs and NAT hops adding transit time. If the first experience is not enjoyable, nobody comes back.</div>
+  <div class="beat"><b>Differentiator vs discriminator</b>Automation alone is a <em>differentiator</em>. The estate — the underlying OS, the interconnectability, the whole ecosystem, with an execution layer tying them together — is the <em>discriminator</em> nobody else has.</div>
+  <div class="beat"><b>Say the two lines</b>One focal point, the red box in the middle: bring the model to the mission, not the mission data to somebody else’s model. Then: don’t move what’s hard; bring what’s easy to the data. And: what is unique is your data; you have it, you keep visibility into it, and you should never have to give it up. Keep the data on-prem and scale horizontally, or serve the model as a service locally; either way the data does not travel.</div>
+  <div class="beat"><b>Reprise the pizza line once</b>Pizza tonight, spaghetti tomorrow: decisions made today do not limit tomorrow’s alignment to new requirements or technology. The six cards below are explicitly the take-home reference; tell the room that so they stop reading.</div>
+  <div class="cue"><span class="next">NEXT → <b>One foundation, from bare metal to the taxpayer</b> (slide 10)</span></div>
+</section>
+
+<!-- ============ SLIDE 10 ============ -->
+<section class="step" data-label="Slide 10 / 18">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 10 · ARCHITECTURE</span><span class="chapter">Chapter 4 · One platform, no seams</span>
     <h2>One foundation, from bare metal to the taxpayer</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
   </div>
@@ -873,65 +926,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>Why Red Hat AI</b> (the proposition)</span></div>
-</section>
-
-<!-- ============ SLIDE 10 ============ -->
-<section class="step" data-label="Slide 10 / 18">
-  <div class="step-head">
-    <span class="kind slide">SLIDE 10 · WHY RED HAT AI</span>
-    <h2>The federal problem is not “get a model.” It is operate AI without giving up control.</h2>
-    <div class="time">17–23 min block begins</div>
-    <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-judge">Judgement</span></div>
-  </div>
-  <div class="onscreen"><b>On screen</b>"Bring the model to the mission" proposition (now with the glass-box line), Inference / Data / Agents / Platform strip, and six proof points including Models-as-a-Service and the modern-lock-in framing.</div>
-  <div class="talk">
-    <p><b>Do not sell a particular model as the moat.</b> The value is operational control: choose the model, accelerator and location; keep data where authorization requires; run inference efficiently; govern agents and lifecycle; automate the surrounding environment.</p>
-    <p>Two lines to land: <b>glass box, not black box</b> — open source means you can inspect what the system is doing; and <b>modern lock-in limits what you can build next</b> — a worse trap than the old hardware kind, because it constrains future functionality, not just today’s invoice.</p>
-    <p>For the platform people in the room: <b>Models-as-a-Service</b> — a central team publishes governed model endpoints the projects consume, instead of every project building its own fragile AI stack.</p>
-  </div>
-  <div class="read-script">
-    <b>Read-aloud script · about 2 minutes</b>
-    <p>“The federal problem is not getting a model. Models are abundant. The problem is operating AI without giving up control of the data, location, hardware, lifecycle or future choices.”</p>
-    <p>“Our proposition is: bring the model to the mission, not mission data to somebody else’s model. The unique asset is your data and the procedures around it. Keep visibility into both. Run on-premises, in an accredited cloud or in a disconnected enclave as policy requires.”</p>
-    <p>“Open source gives us a glass box rather than a black box. That does not make every model output explainable by magic. It means the components, interfaces and lifecycle remain inspectable and replaceable.”</p>
-    <p>“For platform teams, Models-as-a-Service is the practical pattern. A central team publishes governed model endpoints. Projects receive identity, quotas, monitoring and an upgrade path instead of rebuilding an entire stack.”</p>
-    <p>“Automation is a differentiator. The durable discriminator is the connected estate: operating system, platform, security controls, model lifecycle and execution layer working as one governed system. That keeps today’s decision from limiting tomorrow’s mission.”</p>
-  </div>
-  <div class="discussion">
-    <b>Discussion · control is the ability to change components deliberately</b>
-    <p>“Model freedom” means being able to evaluate and replace a model without abandoning the surrounding mission workflow. It is not permission for every project to expose its own endpoint with its own rules.</p>
-    <p>“Models-as-a-Service” means a platform team supplies approved model access as a shared service. Project teams can focus on their workflow while the platform team manages capacity, versions, access and monitoring. The service should make it clear which model produced which result and whether that model is approved for that particular use.</p>
-    <p>Open source can make software and interfaces inspectable. It does not automatically explain why a model produced a specific sentence or guarantee easy migration. Contracts, formats, evaluation cases and operational experience still matter.</p>
-    <p>Bring the discussion back to <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-11">Slide 11</a>: choose today's components with a practical replacement path, and test that path instead of relying on a portability slogan.</p>
-  </div>
-  <div class="jon-cue"><b>Engage Jon · separate freedom from chaos</b><b>Brad:</b> “Jon, does model choice mean every team deploys whatever it wants?” <b>Jon lands:</b> no—freedom belongs inside an approved catalog and lifecycle; replaceability is governed, not anarchic. <b>Brad:</b> “Exactly. Glass box does not mean junk drawer.”</div>
-  <div class="beat ladder"><b>On the ladder</b>
-    <div class="rungmap">
-      <div><span class="what">Inference</span><span class="to"><span class="rung r-info">Information</span></span></div>
-      <div><span class="what">Data</span><span class="to"><span class="rung r-know">Knowledge</span></span></div>
-      <div><span class="what">Agents</span><span class="to"><span class="rung r-judge">Judgement</span></span></div>
-      <div><span class="what">Platform</span><span class="to"><span class="rung r-data">Data</span></span></div>
-      <div><span class="what">Model freedom</span><span class="to"><span class="rung r-know">Knowledge</span></span></div>
-      <div><span class="what">Data locality</span><span class="to"><span class="rung r-data">Data</span></span></div>
-      <div><span class="what">Models-as-a-Service</span><span class="to"><span class="rung r-info">Information</span></span></div>
-      <div><span class="what">Use accelerators efficiently</span><span class="to"><span class="rung r-data">Data</span></span></div>
-      <div><span class="what">Predictive + generative</span><span class="to"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span></span></div>
-      <div><span class="what">Ansible closes the loop</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
-    </div>
-  </div>
-  <div class="beat"><b>The 10,000 seats story</b>Agencies buy ten thousand chatbot seats and start plugging things into them. What they are never shown is the alternative: running their own instances <em>next to their own data</em> — feeding self-healing, closed-loop systems of record, tied into operations, extended toward fraud, waste and abuse. The knowledge that matters lives in workflows, policies and procedures you cannot paste into a public chatbot.</div>
-  <div class="beat"><b>Someone else’s computer</b>Cloud AI is ultimately just someone else’s computer. If it is your computer and your data, you can go check and verify — and if you are not convinced by the answers coming back, that is a waste of CPUs, GPUs and cooling. <b>Colocation</b> cuts the attack surface and the pivot points, and it makes the experience better: no chain of egresses, ingresses, F5s, LTMs and NAT hops adding transit time. If the first experience is not enjoyable, nobody comes back.</div>
-  <div class="beat"><b>Differentiator vs discriminator</b>Automation alone is a <em>differentiator</em>. The estate — the underlying OS, the interconnectability, the whole ecosystem, with an execution layer tying them together — is the <em>discriminator</em> nobody else has.</div>
-  <div class="beat"><b>Say the two lines</b>One focal point, the red box in the middle: bring the model to the mission, not the mission data to somebody else’s model. Then: don’t move what’s hard; bring what’s easy to the data. And: what is unique is your data; you have it, you keep visibility into it, and you should never have to give it up. Keep the data on-prem and scale horizontally, or serve the model as a service locally; either way the data does not travel.</div>
-  <div class="beat"><b>Reprise the pizza line once</b>Pizza tonight, spaghetti tomorrow: decisions made today do not limit tomorrow’s alignment to new requirements or technology. The six cards below are explicitly the take-home reference; tell the room that so they stop reading.</div>
-  <div class="cue"><span class="next">NEXT → <b>the mechanics</b> — define once, run anywhere</span></div>
+  <div class="cue"><span class="next">NEXT → <b>Define the service once — run it wherever the mission needs it</b> (slide 11)</span></div>
 </section>
 
 <!-- ============ SLIDE 11 ============ -->
 <section class="step" data-label="Slide 11 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 11 · WHY ONE PLATFORM</span>
+    <span class="kind slide">SLIDE 11 · WHY ONE PLATFORM</span><span class="chapter">Chapter 4 · One platform, no seams</span>
     <h2>Define the service once — run it wherever the mission needs it</h2>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-judge">Judgement</span></div>
   </div>
@@ -984,13 +985,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>the operations loop</b></span></div>
+  <div class="cue"><span class="next">NEXT → <b>The useful pattern is a loop, not a chatbot</b> (slide 12)</span></div>
 </section>
 
 <!-- ============ SLIDE 12 ============ -->
 <section class="step" data-label="Slide 12 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 12 · AI FOR OPERATIONS</span>
+    <span class="kind slide">SLIDE 12 · AI FOR OPERATIONS</span><span class="chapter">Chapter 5 · The loop, end to end</span>
     <h2>The useful pattern is a loop, not a chatbot</h2>
     <div class="time">23–28 min block begins</div>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span></div>
@@ -1032,13 +1033,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>At LEARN</b>What the loop learns from is data from your own systems, never information generated from information. Generated text is a draft until it passes the same curation any knowledge record gets.</div>
   <div class="beat"><b>Authority comes from your language</b>The fluency that becomes authority has to be grounded in <em>your</em> language and <em>your</em> approved processes — not OpenAI’s. And most of the effort here is provisioning, patching, scaling, data collection and inputs: an automation problem, not an AI problem.</div>
   <div class="beat"><b>Name the agent boundary</b>The agent may choose which approved diagnostic tool to call next; it may not invent a new production action. Its tool belt, scope, identity, approval gates, stop conditions and evidence obligations are policy. Ansible then executes the known, tested step. <b>Tool choice is not unlimited authority.</b></div>
-  <div class="cue"><span class="next">NEXT → <b>the MTTR proof</b> (this loop, quantified)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>Point the same pattern at your logs — MTTR is the proof</b> (slide 13)</span></div>
 </section>
 
 <!-- ============ SLIDE 13 ============ -->
 <section class="step" data-label="Slide 13 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 13 · LOGS TO MTTR</span>
+    <span class="kind slide">SLIDE 13 · LOGS TO MTTR</span><span class="chapter">Chapter 5 · The loop, end to end</span>
     <h2>Point the same pattern at your logs — MTTR is the proof</h2>
     <div class="rungs"><span class="rung r-info">Information</span><span class="why">Diagnosis is information; the data (blue) does not change, the time to create information did.</span></div>
   </div>
@@ -1077,13 +1078,54 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Jon asked for this narration verbatim</b>The big orange bar is diagnosis — <em>that is all information</em>. The blue is data; the data does not change. What changed is the time to create the information. That ties this chart straight back to the ladder.</div>
   <div class="beat"><b>If the room is operational</b>Offer to jump straight to Lab 07 — it runs this incident end to end.</div>
   <div class="beat"><b>OOM story · preserve the four layers</b>The risk score is predictive. The cited diagnosis is generative. Choosing whether to query logs, metrics, CMDB or the ticket is agentic—but only inside the allowed tool belt. The remediation and verification are automation. Say the four nouns again so the story teaches the architecture, not merely the anecdote.</div>
-  <div class="cue"><span class="next">NEXT → <b>the adoption path</b> (crawl, walk, run)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>One loop, end to end: from mainframe logs to an assistant that probes</b> (slide 14)</span></div>
 </section>
 
 <!-- ============ SLIDE 14 ============ -->
 <section class="step" data-label="Slide 14 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 14 · ADOPTION PATH</span>
+    <span class="kind slide">SLIDE 14 · ONE LOOP · THE LAB 08 MAP</span><span class="chapter">Chapter 5 · The loop, end to end</span>
+    <h2>One loop, end to end: from mainframe logs to an assistant that probes</h2>
+    <div class="time">if the room is operational · natural home: 50–58, before questions · otherwise walk the map in two minutes</div>
+    <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">The whole ladder in one loop: the logs are data, the score is information, the draft is knowledge, the merge is judgement.</span></div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Eyebrow "Lab 08 · the whole loop". Lede: "Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask." A stage map of eight stations, coloured by rung: 01 Mainframe + servers (MVSA · server1..12), 02 Vector · Loki (OpenShift Logging), 03 outage-risk scorer (KServe · sklearn · OpenShift AI), 04 Granite · Lightspeed (vLLM · OpenShift AI), 05 Pull request (a person reviews and merges), 06 Repo → AAP → EDA (the merge is the promotion), 07 Event-Driven Ansible (approved job templates), 08 Knowledge base + assistant (pgvector · ops notebook). The return arrow from 08 to 01 is labelled "THE LOOP · ASK, THEN PROBE". Below the map: an "Ask the platform" box with three questions and cited answers, and four takeaway cards.</div>
+  <div class="talk">
+    <p><b>Lab 08 is the whole hour in one loop.</b> Run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved.</p>
+    <p>One platform carries every step: the predictive scorer and the generative drafter are pods on the same GPU node, the automation is the same AAP console as Lab 05, and the knowledge base is the same pgvector store as Lab 07. Nothing left the cluster.</p>
+  </div>
+  <div class="read-script">
+    <b>Read-aloud script · about 2½ minutes</b>
+    <p>“This is the entire hour in one loop. Start with logs from the mainframe and distributed systems. They land in Loki as data. A predictive model uses the approved features to score which service is most likely to fail in the next seventy-two hours. That score is information, not a decision.”</p>
+    <p>“Lightspeed then retrieves the relevant incident history, change records and runbooks. It drafts a playbook and an Event-Driven Ansible rulebook with citations. That is drafting assistance. When the model also chooses the next permitted tool based on what it finds, the system is acting agentically.”</p>
+    <p>“Then the loop deliberately stops. A person reviews the pull request, edits it and decides whether to merge. In this configured workflow, a merge after the required checks triggers promotion. The approved content enters the repository, Ansible Automation Platform and the curated knowledge base.”</p>
+    <p>“When the known event fires, Event-Driven Ansible launches the approved job. The procedure follows the approved steps and programmed branches; the result still has to be checked. It validates the outcome, preserves the job history and escalates if the condition falls outside the policy envelope.”</p>
+    <p>“Now the assistant can answer what happened, what was approved, what ran and whether it worked—using the evidence the loop itself produced. It does not SSH into a host and improvise. It launches job templates a person already approved.”</p>
+    <p>“That is institutional automation: not a person noticing the same problem again, not a model inventing a fix, and not an orphaned script. Review, indexing and ownership turn the promoted changes and their outcomes into a usable knowledge record.”</p>
+  </div>
+  <div class="discussion">
+    <b>Discussion · a complete loop without turning the model into policy</b>
+    <p>The 72-hour risk score estimates a possible future condition. The draft playbook is generated content. A proposed pull request is a request to change the approved procedure. None acquires permission merely by existing.</p>
+    <p>In this example, the system connects drafting assistance, review, tests, a release process and AAP. A merge can be the configured promotion trigger after required checks; it is not a universal product behavior. Use “the workflow is wired to promote this approved change” when describing the connection.</p>
+    <p>The adaptive choice of which tool to call next is agentic. A fixed chain that always retrieves, drafts and runs the same checks is a workflow even if one step uses an LLM. Both can be useful. Do not award the label “agentic” just because a product drafted code.</p>
+    <p>When the assistant is asked “How is server8?”, it should identify whether it retrieved an old incident record or ran a current approved health check. Include the timestamp and job evidence. Repeating yesterday's green status is not a present observation.</p>
+    <p>The record becomes reusable institutional knowledge through review, indexing and ownership. Logging alone does not create a trustworthy knowledge base. This connects the model explanation in <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-5">Slide 5</a> to the operating strategy in <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-12">Slide 12</a>.</p>
+  </div>
+  <div class="jon-cue"><b>Engage Jon · split the loop</b><b>Brad:</b> “Jon, take the assistant side—what is it allowed to do?” <b>Jon lands:</b> retrieve, explain, draft, launch approved templates and report evidence; never self-promote or improvise production changes. <b>Brad:</b> take the mainframe row and ask the room, “What is the last runbook you wrote that the on-call actually found?”</div>
+  <div class="beat"><b>Ask the platform: read the three answers</b>"How is server1-taxreturns?" Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088 [job 40518 · journald · RB-214]. "How is server8-audits?" Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed [job 40519]. "Which servers are showing online?" 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00 [job 40520 · estate ping]. Every answer carries a job id and a citation: evidence, not fluency.</div>
+  <div class="beat"><b>Say the two takeaways out loud</b>The platform is also the KM system and the documentation, because every promoted change is a cited record. And the assistant does not change anything: it launches approved jobs and reports with evidence.</div>
+  <div class="beat"><b>The four cards, if you need the words</b>The loop is the documentation: every promoted change, its review thread and its job outcome are indexed where the assistant searches; the KM system writes itself. Two kinds of AI, one platform: the scorer and the drafter share a GPU node, a registry and an identity; predictive and generative are pods, not projects. Promotion is a merge: repo, AAP and knowledge base update together, and a person decides; nothing runs from a chat window. Ask, then probe: the assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</div>
+  <div class="beat"><b>Ask the room</b>What is the last runbook you wrote that the on-call actually found?</div>
+  <div class="beat"><b>HAND-OFF</b>Jon takes the assistant questions, Brad takes the mainframe row.</div>
+  <div class="beat"><b>Console handoff</b>Running it: jump to the Lab 08 notes and switch the deck to the Labs view, Lab 08. Walking it: two minutes on this map, then the appendix stays on standby and the labs run from Lab 01.</div>
+  <button class="jumpbtn" data-goto="25">Go to Lab 08 notes →</button>
+  <div class="cue"><span class="next">NEXT → <b>Ninety days, then ninety more</b> (slide 15)</span></div>
+</section>
+
+<!-- ============ SLIDE 15 ============ -->
+<section class="step" data-label="Slide 15 / 18">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 15 · ADOPTION PATH</span><span class="chapter">Chapter 6 · Your move</span>
     <h2>Ninety days, then ninety more</h2>
     <div class="time">28–32 min block begins</div>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="why">Brad’s mapping, verbatim from the Sept 3 call: prove, ground, scale = data, information, knowledge.</span></div>
@@ -1122,13 +1164,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Processes, not just workloads</b>Success depends on changing how you deploy — your processes — not merely moving workloads onto new technology. <span style="color:var(--ink-3)">Optional: containers took off because we did not have to teach people containers; developers just needed it to fit their workflow. That is still what is missing in a lot of places.</span> And use the ground truth you already have: your experience with the agency’s applications, software and data layers is what proves it.</div>
   <div class="strategy-callout"><h3>Automation maturity is the gate before “Crawl”</h3><p>Inventory the existing automation estate before selecting the AI pilot: owners, execution platforms, credentials, reusable content, source control, testing, approvals, logging and rollback. Consolidate the minimum viable toolchain for the chosen workflow. Otherwise the pilot adds another island and calls it transformation.</p></div>
   <div class="beat"><b>Under Prove: don’t boil the ocean</b>Small pilot; crawl, walk, run. Start with one signal and one use case: the flashback moment when everybody got called in and ruined their Labor Day weekend over something that had happened a hundred times before, but the pattern just wasn’t connected. And you do not start with a ChatGPT-style box; you start with something valuable and integrated with your data and your mission.</div>
-  <div class="cue"><span class="next">NEXT → <b>next steps</b> (step zero, the contact panel, the closing cyber question)</span></div>
+  <div class="cue"><span class="next">NEXT → <b>What happens after this hour</b> (slide 16)</span></div>
 </section>
 
-<!-- ============ SLIDE 15 ============ -->
-<section class="step" data-label="Slide 15 / 18">
+<!-- ============ SLIDE 16 ============ -->
+<section class="step" data-label="Slide 16 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 15 · NEXT STEPS</span>
+    <span class="kind slide">SLIDE 16 · NEXT STEPS</span><span class="chapter">Chapter 6 · Your move</span>
     <h2>What happens after this hour</h2>
     <div class="rungs"><span class="rung r-judge">Judgement</span><span class="why">The next decision is the room’s.</span></div>
   </div>
@@ -1167,13 +1209,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>Then crawl, walk, run: one workflow where a person already decides, proven here before any pilot; pilot requests go through your account executive, and Brad connects anyone without one.</li>
     </ol>
   </div>
-  <div class="cue"><span class="next">NEXT → <b>the labs</b> — the concluding takeaway</span></div>
+  <div class="cue"><span class="next">NEXT → <b>Eight labs — real commands, run them yourself</b> (slide 17)</span></div>
 </section>
 
-<!-- ============ SLIDE 16 ============ -->
-<section class="step" data-label="Slide 16 / 18">
+<!-- ============ SLIDE 17 ============ -->
+<section class="step" data-label="Slide 17 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 16 · LABS — THE TAKEAWAY</span>
+    <span class="kind slide">SLIDE 17 · LABS — THE TAKEAWAY</span><span class="chapter">Chapter 6 · Your move</span>
     <h2>Seven labs — real commands, run them yourself</h2>
     <div class="time">32–34 min · then labs 34–56</div>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">Each lab card carries its rung chip (see labs below).</span></div>
@@ -1214,54 +1256,13 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     </ol>
   </div>
   <button class="jumpbtn" data-goto="18">Go to Lab 01 notes →</button>
-  <div class="cue"><span class="next">NEXT → <b>One loop</b> (the Lab 08 map) · then appendix (standby) · then Lab 01 notes</span></div>
+  <div class="cue"><span class="next">NEXT → <b>appendix (standby)</b> · then Lab 01 notes · the deck switches to the Labs view</span></div>
 </section>
 
-<!-- ============ SLIDE 17 · ONE LOOP ============ -->
-<section class="step" data-label="Slide 17 / 18">
-  <div class="step-head">
-    <span class="kind slide">SLIDE 17 · ONE LOOP · THE LAB 08 MAP</span>
-    <h2>One loop, end to end: from mainframe logs to an assistant that probes</h2>
-    <div class="time">if the room is operational · natural home: 50–58, before questions · otherwise walk the map in two minutes</div>
-    <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">The whole ladder in one loop: the logs are data, the score is information, the draft is knowledge, the merge is judgement.</span></div>
-  </div>
-  <div class="onscreen"><b>On screen</b>Eyebrow "Lab 08 · the whole loop". Lede: "Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask." A stage map of eight stations, coloured by rung: 01 Mainframe + servers (MVSA · server1..12), 02 Vector · Loki (OpenShift Logging), 03 outage-risk scorer (KServe · sklearn · OpenShift AI), 04 Granite · Lightspeed (vLLM · OpenShift AI), 05 Pull request (a person reviews and merges), 06 Repo → AAP → EDA (the merge is the promotion), 07 Event-Driven Ansible (approved job templates), 08 Knowledge base + assistant (pgvector · ops notebook). The return arrow from 08 to 01 is labelled "THE LOOP · ASK, THEN PROBE". Below the map: an "Ask the platform" box with three questions and cited answers, and four takeaway cards.</div>
-  <div class="talk">
-    <p><b>Lab 08 is the whole hour in one loop.</b> Run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved.</p>
-    <p>One platform carries every step: the predictive scorer and the generative drafter are pods on the same GPU node, the automation is the same AAP console as Lab 05, and the knowledge base is the same pgvector store as Lab 07. Nothing left the cluster.</p>
-  </div>
-  <div class="read-script">
-    <b>Read-aloud script · about 2½ minutes</b>
-    <p>“This is the entire hour in one loop. Start with logs from the mainframe and distributed systems. They land in Loki as data. A predictive model uses the approved features to score which service is most likely to fail in the next seventy-two hours. That score is information, not a decision.”</p>
-    <p>“Lightspeed then retrieves the relevant incident history, change records and runbooks. It drafts a playbook and an Event-Driven Ansible rulebook with citations. That is drafting assistance. When the model also chooses the next permitted tool based on what it finds, the system is acting agentically.”</p>
-    <p>“Then the loop deliberately stops. A person reviews the pull request, edits it and decides whether to merge. In this configured workflow, a merge after the required checks triggers promotion. The approved content enters the repository, Ansible Automation Platform and the curated knowledge base.”</p>
-    <p>“When the known event fires, Event-Driven Ansible launches the approved job. The procedure follows the approved steps and programmed branches; the result still has to be checked. It validates the outcome, preserves the job history and escalates if the condition falls outside the policy envelope.”</p>
-    <p>“Now the assistant can answer what happened, what was approved, what ran and whether it worked—using the evidence the loop itself produced. It does not SSH into a host and improvise. It launches job templates a person already approved.”</p>
-    <p>“That is institutional automation: not a person noticing the same problem again, not a model inventing a fix, and not an orphaned script. Review, indexing and ownership turn the promoted changes and their outcomes into a usable knowledge record.”</p>
-  </div>
-  <div class="discussion">
-    <b>Discussion · a complete loop without turning the model into policy</b>
-    <p>The 72-hour risk score estimates a possible future condition. The draft playbook is generated content. A proposed pull request is a request to change the approved procedure. None acquires permission merely by existing.</p>
-    <p>In this example, the system connects drafting assistance, review, tests, a release process and AAP. A merge can be the configured promotion trigger after required checks; it is not a universal product behavior. Use “the workflow is wired to promote this approved change” when describing the connection.</p>
-    <p>The adaptive choice of which tool to call next is agentic. A fixed chain that always retrieves, drafts and runs the same checks is a workflow even if one step uses an LLM. Both can be useful. Do not award the label “agentic” just because a product drafted code.</p>
-    <p>When the assistant is asked “How is server8?”, it should identify whether it retrieved an old incident record or ran a current approved health check. Include the timestamp and job evidence. Repeating yesterday's green status is not a present observation.</p>
-    <p>The record becomes reusable institutional knowledge through review, indexing and ownership. Logging alone does not create a trustworthy knowledge base. This connects the model explanation in <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-4">Slide 4</a> to the operating strategy in <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/#slide-12">Slide 12</a>.</p>
-  </div>
-  <div class="jon-cue"><b>Engage Jon · split the loop</b><b>Brad:</b> “Jon, take the assistant side—what is it allowed to do?” <b>Jon lands:</b> retrieve, explain, draft, launch approved templates and report evidence; never self-promote or improvise production changes. <b>Brad:</b> take the mainframe row and ask the room, “What is the last runbook you wrote that the on-call actually found?”</div>
-  <div class="beat"><b>Ask the platform: read the three answers</b>"How is server1-taxreturns?" Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088 [job 40518 · journald · RB-214]. "How is server8-audits?" Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed [job 40519]. "Which servers are showing online?" 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00 [job 40520 · estate ping]. Every answer carries a job id and a citation: evidence, not fluency.</div>
-  <div class="beat"><b>Say the two takeaways out loud</b>The platform is also the KM system and the documentation, because every promoted change is a cited record. And the assistant does not change anything: it launches approved jobs and reports with evidence.</div>
-  <div class="beat"><b>The four cards, if you need the words</b>The loop is the documentation: every promoted change, its review thread and its job outcome are indexed where the assistant searches; the KM system writes itself. Two kinds of AI, one platform: the scorer and the drafter share a GPU node, a registry and an identity; predictive and generative are pods, not projects. Promotion is a merge: repo, AAP and knowledge base update together, and a person decides; nothing runs from a chat window. Ask, then probe: the assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</div>
-  <div class="beat"><b>Ask the room</b>What is the last runbook you wrote that the on-call actually found?</div>
-  <div class="beat"><b>HAND-OFF</b>Jon takes the assistant questions, Brad takes the mainframe row.</div>
-  <div class="beat"><b>Console handoff</b>Running it: jump to the Lab 08 notes and switch the deck to the Labs view, Lab 08. Walking it: two minutes on this map, then the appendix stays on standby and the labs run from Lab 01.</div>
-  <button class="jumpbtn" data-goto="25">Go to Lab 08 notes →</button>
-  <div class="cue"><span class="next">NEXT → <b>appendix (standby)</b> · then Lab 01 notes</span></div>
-</section>
-
-<!-- ============ SLIDE 18 · APPENDIX ============ -->
+<!-- ============ SLIDE 18 ============ -->
 <section class="step" data-label="Slide 18 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 18 · APPENDIX — SECURITY (ON STANDBY)</span>
+    <span class="kind slide">SLIDE 18 · APPENDIX — SECURITY (ON STANDBY)</span><span class="chapter">Chapter 6 · Your move</span>
     <h2>The questions an authorizing official will ask</h2>
     <div class="time">pull up on demand · natural home: 56–60 questions</div>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-judge">Judgement</span><span class="why">Evidence is information; the authorizing official’s decision is judgement.</span></div>
@@ -1589,7 +1590,7 @@ after:  detect 4m · <span class="ok">diagnose 24m</span>    · fix 22m · verif
   <p class="takeaway"><b>Takeaway.</b> Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.</p>
   <div class="cardline wrap"><span><b>What you did</b>Five commands aimed Lab 04's retrieval pattern at operations: Loki logs, runbooks, postmortems and change records became a notebook that diagnosed a live OOM incident with citations, handed the fix to Ansible and cut diagnosis from hours to minutes.</span><span><b>Why</b>Dashboards show that something broke; a notebook over your own logs tells you why, and diagnosis is where MTTR actually lives. A person still decides, and the platform that serves taxpayers now also explains itself.</span><span><b>Red Hat</b>Nothing new was installed: OpenShift Logging, OpenShift AI, Granite, Llama Stack and Ansible were already there, so the ops notebook inherited the taxpayer system's accreditation. Accredit once, inherit everywhere; nobody stands up a second AI stack for operations.</span></div>
   <div class="beat"><b>Close the loop</b>This lab generates a diagnosis; the operating model decides what happens next. At enterprise scale, the approved result must feed the same governed automation toolchain—not a new script, bot or manual queue for every model.</div>
-  <button class="jumpbtn ghosted" data-goto="15">← Back to Slide 16 (labs) to close</button>
+  <button class="jumpbtn ghosted" data-goto="16">← Back to Slide 17 (labs) to close</button>
 </section>
 
 <!-- ============ LAB 08 ============ -->
@@ -1676,8 +1677,8 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
   </div>
   <p class="takeaway"><b>Takeaway.</b> One platform runs the predictive model, the generative model, the automation and the knowledge base, so the loop that keeps systems up is also the documentation, and the assistant answers from what the loop wrote.</p>
   <div class="cardline wrap"><span><b>What you did</b>Eight commands closed one loop: mainframe, RHEL and OpenShift logs became features, a tabular model scored server8-audits 0.91, Lightspeed drafted the fix, a person merged PR #482, Event-Driven Ansible repaired it in 42 seconds, and the assistant cited every step.</span><span><b>Why</b>Predictive climbed Data to Information, generative drafted Knowledge, a person held Judgement, and every promotion wrote the knowledge base the assistant reads. The loop is the documentation, and the systems behind filing season stay up with judgement still human.</span><span><b>Red Hat</b>Scorer, drafter, rulebook, memory and assistant shared one platform, one identity and one job history, so nothing needed glue. Stitch a log SaaS, a data-science cluster, a chat vendor and a ticket webhook together and it splits at the seams.</span></div>
-  <button class="jumpbtn ghosted" data-goto="16">← Back to Slide 17 (the loop map)</button>
-  <button class="jumpbtn ghosted" data-goto="15">← Back to Slide 16 (labs) to close</button>
+  <button class="jumpbtn ghosted" data-goto="13">← Back to Slide 14 (the loop map)</button>
+  <button class="jumpbtn ghosted" data-goto="16">← Back to Slide 17 (labs) to close</button>
 </section>
 
 </main>

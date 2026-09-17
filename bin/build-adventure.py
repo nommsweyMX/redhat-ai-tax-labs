@@ -152,14 +152,14 @@ def build(out: Path, base: str = "./") -> None:
             "tag": "Programme owner · mission lead · acquisition",
             "why": "You need to know what is real, what is safe to start, and what to ask for. Read first, then watch one lab refuse to guess.",
             "steps": [
-                ("slide-03", "Why now — a year of demand in six weeks, and the data cannot leave."),
-                ("slide-05", "The ladder. If you remember one picture, make it this one."),
+                ("slide-02", "Why now — a year of demand in six weeks, and the data cannot leave."),
+                ("slide-06", "The ladder. If you remember one picture, make it this one."),
                 ("slide-07", "Where AI lands first, and why exam selection is deliberately not on the list."),
                 ("slide-08", "Five outcomes, each tied to the lab that proves it."),
                 ("event-brief", "The brief: the same argument in prose, for the people you have to convince."),
                 ("lab-04", "Watch the system refuse a question it has no guidance for. That is the governance story."),
-                ("slide-14", "Ninety days, then ninety more — where programmes actually stall."),
-                ("slide-15", "Your move: Solution Architect, community of practice, hardest question."),
+                ("slide-15", "Ninety days, then ninety more — where programmes actually stall."),
+                ("slide-16", "Your move: Solution Architect, community of practice, hardest question."),
             ],
         },
         {
@@ -167,7 +167,7 @@ def build(out: Path, base: str = "./") -> None:
             "tag": "Platform · infrastructure · capacity",
             "why": "One foundation from bare metal to the taxpayer. Serve a model on localhost, then survive April, then let automation carry the toil.",
             "steps": [
-                ("slide-09", "The reference architecture — read it bottom to top; trust and automation span every layer."),
+                ("slide-10", "The reference architecture — read it bottom to top; trust and automation span every layer."),
                 ("slide-11", "Define the service once, run it in the datacenter, the accredited cloud or the enclave."),
                 ("lab-01", "Serve Granite on 127.0.0.1 with the AI Inference Server. Stop on ss -ltnp."),
                 ("lab-03", "KServe + vLLM on OpenShift AI: 2 → 20 replicas under a 400-user rehearsal."),
@@ -196,8 +196,8 @@ def build(out: Path, base: str = "./") -> None:
             "tag": "Subject-matter expert · data lead · correspondence",
             "why": "Knowledge is the institution's memory, retrievable and cited. You write it once as seeds and guidance; the model learns the vocabulary and cites the source.",
             "steps": [
-                ("slide-04", "An LLM is the engine, not the vehicle — fine-tuning studies for the test, retrieval brings the notebook."),
-                ("slide-06", "Predictive and generative fail differently, so they are governed differently."),
+                ("slide-05", "An LLM is the engine, not the vehicle — fine-tuning studies for the test, retrieval brings the notebook."),
+                ("slide-04", "Predictive and generative fail differently, so they are governed differently."),
                 ("lab-02", "Twelve seed examples become 2,200 kept samples; the tuned model beats the base on your taxonomy."),
                 ("taxonomy-qna", "What an expert actually writes: contexts and Q&A pairs in qna.yaml, reviewed like code."),
                 ("lab-04", "Ingest Publications 17, 501 and 594; get a cited CP14 answer; watch the refusal."),
@@ -215,7 +215,7 @@ def build(out: Path, base: str = "./") -> None:
                 ("slide-12", "The useful pattern is a loop, not a chatbot."),
                 ("slide-13", "Where the hours actually live: diagnosis. MTTR is the proof."),
                 ("lab-07", "Ninety days of logs, 48 runbooks, 312 postmortems — a cited diagnosis of an OOM in seconds."),
-                ("slide-17", "One loop, end to end: the eight-station map, and why the platform becomes the KM system."),
+                ("slide-14", "One loop, end to end: the eight-station map, and why the platform becomes the KM system."),
                 ("lab-08", "The whole loop on one platform: logs scored, a Lightspeed draft reviewed and merged, EDA closing it in 42 seconds, the assistant citing RB-214."),
                 ("lab-05", "The remediation that follows, with the digest check people forget."),
                 ("lab-04", "The retrieval stack Lab 07 reuses — only the corpus changed."),
@@ -453,7 +453,7 @@ footer a{{color:var(--ink-2)}}
 <section id="ladder"><div class="wrap">
   <span class="tag">The one thing to remember</span>
   <h2>The ladder: data → information → knowledge → judgement</h2>
-  <p class="lede">Every technology, slide and lab in the kit is tagged with the rung it serves — in rainbow order, so nobody has to learn a palette. AI moves work up the ladder; it never takes the top step. <a href="./#slide-5">See the slide</a> · <a href="./docs/index.html#ladder">read the definitions</a> · <a href="{esc(blob('slides/ladder-map.json'))}">the machine-readable map</a>.</p>
+  <p class="lede">Every technology, slide and lab in the kit is tagged with the rung it serves — in rainbow order, so nobody has to learn a palette. AI moves work up the ladder; it never takes the top step. <a href="./#slide-6">See the slide</a> · <a href="./docs/index.html#ladder">read the definitions</a> · <a href="{esc(blob('slides/ladder-map.json'))}">the machine-readable map</a>.</p>
   <div class="grid g4">{rung_cards}</div>
   <div class="tablewrap"><table><thead><tr><th>Technology</th><th>Rung it serves</th></tr></thead><tbody>{tech_rows}</tbody></table></div>
 </div></section>

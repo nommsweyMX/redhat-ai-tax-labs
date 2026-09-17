@@ -539,7 +539,7 @@
    "highlights": [
     "Native drawings: a cosine-interpolated filing-season demand curve, a six-chevron lifecycle flow, a layered architecture, a three-phase roadmap.",
     "Palette matches deck.html: Red Hat red #CC0000 plus the rainbow rung scale (red, orange, green, violet); fonts Red Hat Display/Text/Mono.",
-    "Slide 2 draws the ladder as a rising staircase of four rung cards with technology captions.",
+    "Slide 3 draws the ladder as a rising staircase of four rung cards with technology captions.",
     "Usage: python3 bin/build-pptx.py [--out slides/exports/redhat-ai-tax-administration.pptx]; requires pip install python-pptx."
    ],
    "audience": "Contributors regenerating the export after changing the narrative.",
@@ -628,7 +628,7 @@
    "highlights": [
     "Rungs in rainbow order: data #CC0000 r-data, information #C2410C r-info, knowledge #1E7A55 r-know, judgement #5B2E91 r-judge — yellow and blue are only the in-between segments of the ladder track.",
     "Chip conventions: plain ('Knowledge'), arrow ('data → information'), automation ('executes judgement'); CSS for the pill is included.",
-    "Slide 14 note records the mapping prove/ground/scale = data/information/knowledge, verbatim from the Sept 3 planning call.",
+    "Slide 15 note records the mapping prove/ground/scale = data/information/knowledge, verbatim from the Sept 3 planning call.",
     "deck.html, presenter-notes.html, slides.adoc, docs/ and README must agree with it; bin/build-adventure.py reads it to build this page."
    ],
    "audience": "Contributors changing the theme or adding a slide, lab or product.",
@@ -796,40 +796,18 @@
     "Presented by Jon Keam and Brad Scalio; hosts Red Hat, Four Inc., Carahsoft; September 17, 2026."
    ],
    "next": [
-    "slide-02"
-   ]
-  },
-  {
-   "id": "slide-02",
-   "kind": "slide",
-   "title": "Four different jobs get called “AI”",
-   "path": "slides/deck.html",
-   "site_url": "/",
-   "anchors": [
-    "data-title=\"AI in plain English\"",
-    "console step: Slide 02 / 18"
-   ],
-   "rung": "information · knowledge · judgement",
-   "minutes": "3–11 block (slides 2–6)",
-   "what_you_learn": "Predictive, generative/LLM, agentic and automation defined as four separate jobs, each with a plain analogy, its ladder rung, and a 'what it is not' box.",
-   "highlights": [
-    "Analogies: weather forecast, well-read drafting assistant, junior analyst with a restricted tool belt, checklist that performs itself.",
-    "Not-box: an LLM is not a database, policy authority or source of truth; an agent is not permission to bypass controls.",
-    "Notes: automation is the prerequisite — 'if you are not automated' you will not have good AI inside your boundary."
-   ],
-   "next": [
     "slide-03"
    ]
   },
   {
-   "id": "slide-03",
+   "id": "slide-02",
    "kind": "slide",
    "title": "The work is seasonal, textual and unforgiving",
    "path": "slides/deck.html",
    "site_url": "/",
    "anchors": [
     "data-title=\"Why now\"",
-    "console step: Slide 03 / 18"
+    "console step: Slide 02 / 18"
    ],
    "rung": "data",
    "minutes": "3–11 block",
@@ -840,63 +818,40 @@
     "Console pivot line: choosing a model is a six-month decision; where it runs is a ten-year one."
    ],
    "next": [
-    "slide-04"
-   ]
-  },
-  {
-   "id": "slide-04",
-   "kind": "slide",
-   "title": "An LLM is the engine — not the whole vehicle",
-   "path": "slides/deck.html",
-   "site_url": "/",
-   "anchors": [
-    "data-title=\"Inside an LLM\"",
-    "console step: Slide 04 / 18"
-   ],
-   "rung": "data · information · knowledge · judgement",
-   "minutes": "3–11 block",
-   "what_you_learn": "The six-layer stack around a model (mission app → context/RAG → model → inference → platform → compute + data) and the three knobs: prompting, RAG, fine-tuning.",
-   "highlights": [
-    "Fine-tuning is studying for the test. Retrieval is bringing the notebook. You want both.",
-    "The model is learned language patterns — not your live system of record.",
-    "Inference is vLLM, the Red Hat AI Inference Server; platform is RHEL and OpenShift AI."
-   ],
-   "next": [
     "slide-05"
    ]
   },
   {
-   "id": "slide-05",
+   "id": "slide-03",
    "kind": "slide",
-   "title": "From data to judgement — and who climbs each step",
+   "title": "Four different jobs get called “AI”",
    "path": "slides/deck.html",
    "site_url": "/",
    "anchors": [
-    "data-title=\"Data to judgement\"",
-    "console step: Slide 05 / 18",
-    "docs anchor: /docs/index.html#ladder"
+    "data-title=\"AI in plain English\"",
+    "console step: Slide 03 / 18"
    ],
-   "rung": "data · information · knowledge · judgement",
-   "minutes": "3–11 block",
-   "what_you_learn": "The ladder as a staircase: predictive AI climbs data→information, generative AI with RAG climbs to knowledge, and only people climb to judgement.",
+   "rung": "information · knowledge · judgement",
+   "minutes": "3–11 block (slides 2–6)",
+   "what_you_learn": "Predictive, generative/LLM, agentic and automation defined as four separate jobs, each with a plain analogy, its ladder rung, and a 'what it is not' box.",
    "highlights": [
-    "The top step is marked 'stays human' — a design rule, not a technical limit.",
-    "The backlog lives at the bottom of the ladder; every hour absorbed there is an examiner hour.",
-    "Console calls this the masterpiece slide: if the room remembers one picture, make it this one."
+    "Analogies: weather forecast, well-read drafting assistant, junior analyst with a restricted tool belt, checklist that performs itself.",
+    "Not-box: an LLM is not a database, policy authority or source of truth; an agent is not permission to bypass controls.",
+    "Notes: automation is the prerequisite — 'if you are not automated' you will not have good AI inside your boundary."
    ],
    "next": [
-    "slide-06"
+    "slide-02"
    ]
   },
   {
-   "id": "slide-06",
+   "id": "slide-04",
    "kind": "slide",
    "title": "Predictive and generative AI answer different questions",
    "path": "slides/deck.html",
    "site_url": "/",
    "anchors": [
     "data-title=\"Two kinds of AI\"",
-    "console step: Slide 06 / 18"
+    "console step: Slide 04 / 18"
    ],
    "rung": "information · knowledge",
    "minutes": "3–11 block (optional; first to cut if running long)",
@@ -908,6 +863,51 @@
    ],
    "next": [
     "slide-07"
+   ]
+  },
+  {
+   "id": "slide-05",
+   "kind": "slide",
+   "title": "An LLM is the engine — not the whole vehicle",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Inside an LLM\"",
+    "console step: Slide 05 / 18"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "3–11 block",
+   "what_you_learn": "The six-layer stack around a model (mission app → context/RAG → model → inference → platform → compute + data) and the three knobs: prompting, RAG, fine-tuning.",
+   "highlights": [
+    "Fine-tuning is studying for the test. Retrieval is bringing the notebook. You want both.",
+    "The model is learned language patterns — not your live system of record.",
+    "Inference is vLLM, the Red Hat AI Inference Server; platform is RHEL and OpenShift AI."
+   ],
+   "next": [
+    "slide-06"
+   ]
+  },
+  {
+   "id": "slide-06",
+   "kind": "slide",
+   "title": "From data to judgement — and who climbs each step",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Data to judgement\"",
+    "console step: Slide 06 / 18",
+    "docs anchor: /docs/index.html#ladder"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "3–11 block",
+   "what_you_learn": "The ladder as a staircase: predictive AI climbs data→information, generative AI with RAG climbs to knowledge, and only people climb to judgement.",
+   "highlights": [
+    "The top step is marked 'stays human' — a design rule, not a technical limit.",
+    "The backlog lives at the bottom of the ladder; every hour absorbed there is an examiner hour.",
+    "Console calls this the masterpiece slide: if the room remembers one picture, make it this one."
+   ],
+   "next": [
+    "slide-04"
    ]
   },
   {
@@ -952,40 +952,18 @@
     "Security → RHEL · Compliance Operator · TrustyAI · Sigstore → Lab 06; foundation → OpenShift AI · KServe · vLLM → Lab 03."
    ],
    "next": [
-    "slide-09"
-   ]
-  },
-  {
-   "id": "slide-09",
-   "kind": "slide",
-   "title": "One foundation, from bare metal to the taxpayer",
-   "path": "slides/deck.html",
-   "site_url": "/",
-   "anchors": [
-    "data-title=\"Architecture\"",
-    "console step: Slide 09 / 18"
-   ],
-   "rung": "data · information · knowledge · judgement",
-   "minutes": "11–17 block",
-   "what_you_learn": "The reference architecture: RHEL + AI Inference Server on GPU nodes, OpenShift, OpenShift AI (serving, training, pipelines, registry, retrieval), mission apps — with trust and automation pillars spanning every layer.",
-   "highlights": [
-    "Most failures happen at the seams between systems, not inside them — the platform makes seams boring.",
-    "Trust pillar (Lab 06) and automation pillar (Lab 05) are not a layer you add at the end.",
-    "Systems of record stay where they are — reached through APIs and automation, not replaced."
-   ],
-   "next": [
     "slide-10"
    ]
   },
   {
-   "id": "slide-10",
+   "id": "slide-09",
    "kind": "slide",
    "title": "The federal problem is not “get a model.” It is operate AI without giving up control.",
    "path": "slides/deck.html",
    "site_url": "/",
    "anchors": [
     "data-title=\"Why Red Hat AI\"",
-    "console step: Slide 10 / 18"
+    "console step: Slide 09 / 18"
    ],
    "rung": "data · information · knowledge · judgement",
    "minutes": "17–23 block (slides 10–11)",
@@ -997,6 +975,28 @@
    ],
    "next": [
     "slide-11"
+   ]
+  },
+  {
+   "id": "slide-10",
+   "kind": "slide",
+   "title": "One foundation, from bare metal to the taxpayer",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Architecture\"",
+    "console step: Slide 10 / 18"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "11–17 block",
+   "what_you_learn": "The reference architecture: RHEL + AI Inference Server on GPU nodes, OpenShift, OpenShift AI (serving, training, pipelines, registry, retrieval), mission apps — with trust and automation pillars spanning every layer.",
+   "highlights": [
+    "Most failures happen at the seams between systems, not inside them — the platform makes seams boring.",
+    "Trust pillar (Lab 06) and automation pillar (Lab 05) are not a layer you add at the end.",
+    "Systems of record stay where they are — reached through APIs and automation, not replaced."
+   ],
+   "next": [
+    "slide-09"
    ]
   },
   {
@@ -1064,86 +1064,18 @@
     "Logs are FTI-adjacent, so the notebook runs on the same OpenShift it observes; Lab 07 runs it end to end."
    ],
    "next": [
-    "slide-14"
-   ]
-  },
-  {
-   "id": "slide-14",
-   "kind": "slide",
-   "title": "Ninety days, then ninety more",
-   "path": "slides/deck.html",
-   "site_url": "/",
-   "anchors": [
-    "data-title=\"Adoption path\"",
-    "console step: Slide 14 / 18"
-   ],
-   "rung": "data · information · knowledge",
-   "minutes": "28–32 block (slides 14–15)",
-   "what_you_learn": "A crawl/walk/run adoption path — Prove (days 0–90), Ground (90–180), Scale (180+) — with five concrete checklist items per phase.",
-   "highlights": [
-    "Prove = data, Ground = information, Scale = knowledge.",
-    "Agencies stall on Crawl's second and third bullets: no accelerator capacity plan, no written data-class agreement.",
-    "Measure the baseline before you change anything; report outcomes in mission terms, not token counts."
-   ],
-   "next": [
     "slide-15"
    ]
   },
   {
-   "id": "slide-15",
-   "kind": "slide",
-   "title": "What happens after this hour",
-   "path": "slides/deck.html",
-   "site_url": "/",
-   "anchors": [
-    "data-title=\"Next steps\"",
-    "console step: Slide 15 / 18"
-   ],
-   "rung": "judgement",
-   "minutes": "28–32 block",
-   "what_you_learn": "Three concrete asks — a half-day architecture workshop, a guided pilot with a measured baseline, and acquisition through Four Inc. and Carahsoft — plus the repo and contact strip.",
-   "highlights": [
-    "If you did not see it here, that does not mean it does not exist — ask.",
-    "Foundational questions are free to ask and expensive to skip.",
-    "Whole kit lives at github.com/nommsweyMX/redhat-ai-tax-labs."
-   ],
-   "next": [
-    "slide-16"
-   ]
-  },
-  {
-   "id": "slide-16",
-   "kind": "slide",
-   "title": "Eight labs — real commands, run them yourself",
-   "path": "slides/deck.html",
-   "site_url": "/",
-   "anchors": [
-    "data-title=\"Labs preview\"",
-    "console step: Slide 16 / 18",
-    "/docs/index.html#lab-01 … #lab-08"
-   ],
-   "rung": "data · information · knowledge · judgement",
-   "minutes": "32–34, then labs 34–56",
-   "what_you_learn": "The eight lab cards with their rung chips and one-line goals — the deck's concluding takeaway before the presenter switches to the Labs view.",
-   "highlights": [
-    "Run this on a personal laptop — never production, never a work laptop.",
-    "One thing to remember: nothing needed a public endpoint, internet at inference time, or a system-of-record rewrite.",
-    "Console plan: run Lab 01 live (stop hard on ss -ltnp) and Lab 05 live (the 62-second remediation)."
-   ],
-   "next": [
-    "slide-17",
-    "page-presenter-console"
-   ]
-  },
-  {
-   "id": "slide-17",
+   "id": "slide-14",
    "kind": "slide",
    "title": "One loop, end to end: from mainframe logs to an assistant that probes",
    "path": "slides/deck.html",
    "site_url": "/",
    "anchors": [
     "data-title=\"One loop\"",
-    "console step: Slide 17 / 18",
+    "console step: Slide 14 / 18",
     "/docs/index.html#lab-08"
    ],
    "rung": "data · information · knowledge · judgement",
@@ -1158,6 +1090,74 @@
    "next": [
     "lab-08",
     "slide-18"
+   ]
+  },
+  {
+   "id": "slide-15",
+   "kind": "slide",
+   "title": "Ninety days, then ninety more",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Adoption path\"",
+    "console step: Slide 15 / 18"
+   ],
+   "rung": "data · information · knowledge",
+   "minutes": "28–32 block (slides 14–15)",
+   "what_you_learn": "A crawl/walk/run adoption path — Prove (days 0–90), Ground (90–180), Scale (180+) — with five concrete checklist items per phase.",
+   "highlights": [
+    "Prove = data, Ground = information, Scale = knowledge.",
+    "Agencies stall on Crawl's second and third bullets: no accelerator capacity plan, no written data-class agreement.",
+    "Measure the baseline before you change anything; report outcomes in mission terms, not token counts."
+   ],
+   "next": [
+    "slide-16"
+   ]
+  },
+  {
+   "id": "slide-16",
+   "kind": "slide",
+   "title": "What happens after this hour",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Next steps\"",
+    "console step: Slide 16 / 18"
+   ],
+   "rung": "judgement",
+   "minutes": "28–32 block",
+   "what_you_learn": "Three concrete asks — a half-day architecture workshop, a guided pilot with a measured baseline, and acquisition through Four Inc. and Carahsoft — plus the repo and contact strip.",
+   "highlights": [
+    "If you did not see it here, that does not mean it does not exist — ask.",
+    "Foundational questions are free to ask and expensive to skip.",
+    "Whole kit lives at github.com/nommsweyMX/redhat-ai-tax-labs."
+   ],
+   "next": [
+    "slide-17"
+   ]
+  },
+  {
+   "id": "slide-17",
+   "kind": "slide",
+   "title": "Eight labs — real commands, run them yourself",
+   "path": "slides/deck.html",
+   "site_url": "/",
+   "anchors": [
+    "data-title=\"Labs preview\"",
+    "console step: Slide 17 / 18",
+    "/docs/index.html#lab-01 … #lab-08"
+   ],
+   "rung": "data · information · knowledge · judgement",
+   "minutes": "32–34, then labs 34–56",
+   "what_you_learn": "The eight lab cards with their rung chips and one-line goals — the deck's concluding takeaway before the presenter switches to the Labs view.",
+   "highlights": [
+    "Run this on a personal laptop — never production, never a work laptop.",
+    "One thing to remember: nothing needed a public endpoint, internet at inference time, or a system-of-record rewrite.",
+    "Console plan: run Lab 01 live (stop hard on ss -ltnp) and Lab 05 live (the 62-second remediation)."
+   ],
+   "next": [
+    "slide-14",
+    "page-presenter-console"
    ]
   },
   {
