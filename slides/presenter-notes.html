@@ -223,7 +223,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
   <div><h1>Presenter console</h1><div class="who">Intelligent Tax Administration · Sept 17 · Brad drives, Jon adds color</div></div>
   <span class="spacer"></span>
-  <span class="pos" id="pos">Slide 01 / 17</span>
+  <span class="pos" id="pos">Slide 01 / 18</span>
   <button id="modeBtn" aria-pressed="false" title="Toggle step / read-all">Read all</button>
   <button id="jumpOpen" title="Jump to a step (J)">Jump</button>
 </header>
@@ -243,7 +243,8 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <tr><td class="mono">34–42</td><td><b>Run Lab 01 live.</b> Stop hard on <code>ss -ltnp</code>.</td><td class="mono">Lab 01</td></tr>
       <tr><td class="mono">42–50</td><td><b>Run Lab 05 live.</b> The 62-second remediation is the moment people remember.</td><td class="mono">Lab 05</td></tr>
       <tr><td class="mono">50–56</td><td>Skim Labs 02, 03, 04, 06, 07. The repo is theirs to take home.</td><td class="mono">Labs</td></tr>
-      <tr><td class="mono">56–60</td><td>Questions. Security appendix (slide 17) stays on standby — pull it up when an ISSO engages.</td><td class="mono">Slide 17</td></tr>
+      <tr><td class="mono">50–58</td><td><b>Optional finale, if the room is operational: run Lab 08 live</b> in place of the skim. Eight minutes, the whole loop: logs in, risk scored, Lightspeed drafts, a person merges, EDA runs, the assistant answers with job evidence. Slide 17 is its map. Lab 01 and Lab 05 stay the live ones.</td><td class="mono">Slide 17 · Lab 08</td></tr>
+      <tr><td class="mono">56–60</td><td>Questions. Security appendix (slide 18) stays on standby — pull it up when an ISSO engages.</td><td class="mono">Slide 18</td></tr>
     </table>
     <div class="ladder">
       <div class="head"><div class="eyebrow">The ladder</div></div>
@@ -253,7 +254,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <div class="row"><span class="rung r-judge">Judgement</span><span>A determination someone signs. Deliberately human; automation executes what was decided, it never decides.</span></div>
       <p class="tip">Every slide and lab below is tagged with the rung it serves.</p>
     </div>
-    <p class="tip"><b>Only 30 minutes?</b> Cut to slides 1, 2, 8 and run Lab 01 plus the drift section of Lab 06. Keep the appendix (slide 17) loaded for security questions.</p>
+    <p class="tip"><b>Only 30 minutes?</b> Cut to slides 1, 2, 8 and run Lab 01 plus the drift section of Lab 06. Keep the appendix (slide 18) loaded for security questions.</p>
     <p class="tip"><b>Running long?</b> Slide 6 (predictive vs generative) is a deep dive on two of slide 2’s four cards — drop it first and let its table stand as the leave-behind, pulling it up only if the room asks how the two are governed differently. That buys back the slack the planted questions and pauses need.</p>
     <p class="tip"><b>On a projector:</b> <code>LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh</code> — and <code>NO_COLOR=1</code> if the room washes out color.</p>
     <p class="tip"><b>Main screen:</b> open <code>slides/deck.html</code>. This console mirrors it one-for-one: when the deck goes next, press <kbd>→</kbd> here.</p>
@@ -265,7 +266,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 <main id="steps">
 
 <!-- ============ SLIDE 1 ============ -->
-<section class="step" data-label="Slide 01 / 17">
+<section class="step" data-label="Slide 01 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 01 · TITLE</span>
     <h2>AI foundations for intelligent tax administration</h2>
@@ -279,7 +280,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   </div>
   <div class="beat"><b>Say the color code once</b>It is the rainbow: red on the far left is data, the least structured thing we have; purple on the far right is judgement, the most structured. Every slide carries its colors in the corner, so you always know which rung we are on.</div>
   <div class="beat"><b>Cold-room intro</b>Assume a cold room: about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each: Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host. Say why the three of us are here together.</div>
-  <div class="beat"><b>Logistics</b>Security lives in the appendix (slide 17) — pull it up the moment an ISSO or security lead engages, not before. Tell the room: security is at the very end, and it is a broad conversation; anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on.</div>
+  <div class="beat"><b>Logistics</b>Security lives in the appendix (slide 18) — pull it up the moment an ISSO or security lead engages, not before. Tell the room: security is at the very end, and it is a broad conversation; anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on.</div>
   <div class="beat gfx"><b>Graphic (G) · AI foundations for intelligent tax administration</b><span class="cap">An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination.</span><span class="eyebrow">Talk to this</span>
     <ol>
       <li>Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs.</li>
@@ -292,7 +293,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 2 ============ -->
-<section class="step" data-label="Slide 02 / 17">
+<section class="step" data-label="Slide 02 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 02 · AI IN PLAIN ENGLISH</span>
     <h2>Four different jobs get called “AI”</h2>
@@ -319,7 +320,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 3 ============ -->
-<section class="step" data-label="Slide 03 / 17">
+<section class="step" data-label="Slide 03 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 03 · WHY NOW</span>
     <h2>The work is seasonal, textual and unforgiving</h2>
@@ -338,7 +339,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 4 ============ -->
-<section class="step" data-label="Slide 04 / 17">
+<section class="step" data-label="Slide 04 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 04 · INSIDE AN LLM</span>
     <h2>An LLM is the engine — not the whole vehicle</h2>
@@ -367,7 +368,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 5 ============ -->
-<section class="step" data-label="Slide 05 / 17">
+<section class="step" data-label="Slide 05 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 05 · DATA TO JUDGEMENT</span>
     <h2>From data to judgement — and who climbs each step</h2>
@@ -396,7 +397,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 6 ============ -->
-<section class="step" data-label="Slide 06 / 17">
+<section class="step" data-label="Slide 06 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 06 · TWO KINDS OF AI</span>
     <h2>Predictive and generative AI answer different questions</h2>
@@ -418,7 +419,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 7 ============ -->
-<section class="step" data-label="Slide 07 / 17">
+<section class="step" data-label="Slide 07 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 07 · WHERE AI LANDS</span>
     <h2>Where AI actually lands in the filing lifecycle</h2>
@@ -450,7 +451,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 8 ============ -->
-<section class="step" data-label="Slide 08 / 17">
+<section class="step" data-label="Slide 08 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 08 · FIVE OUTCOMES</span>
     <h2>Five outcomes, and where each one is proven</h2>
@@ -484,7 +485,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 9 ============ -->
-<section class="step" data-label="Slide 09 / 17">
+<section class="step" data-label="Slide 09 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 09 · ARCHITECTURE</span>
     <h2>One foundation, from bare metal to the taxpayer</h2>
@@ -530,7 +531,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 10 ============ -->
-<section class="step" data-label="Slide 10 / 17">
+<section class="step" data-label="Slide 10 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 10 · WHY RED HAT AI</span>
     <h2>The federal problem is not “get a model.” It is operate AI without giving up control.</h2>
@@ -566,7 +567,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 11 ============ -->
-<section class="step" data-label="Slide 11 / 17">
+<section class="step" data-label="Slide 11 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 11 · WHY ONE PLATFORM</span>
     <h2>Define the service once — run it wherever the mission needs it</h2>
@@ -602,7 +603,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 12 ============ -->
-<section class="step" data-label="Slide 12 / 17">
+<section class="step" data-label="Slide 12 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 12 · AI FOR OPERATIONS</span>
     <h2>The useful pattern is a loop, not a chatbot</h2>
@@ -632,7 +633,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 13 ============ -->
-<section class="step" data-label="Slide 13 / 17">
+<section class="step" data-label="Slide 13 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 13 · LOGS TO MTTR</span>
     <h2>Point the same pattern at your logs — MTTR is the proof</h2>
@@ -660,7 +661,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 14 ============ -->
-<section class="step" data-label="Slide 14 / 17">
+<section class="step" data-label="Slide 14 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 14 · ADOPTION PATH</span>
     <h2>Ninety days, then ninety more</h2>
@@ -688,7 +689,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 15 ============ -->
-<section class="step" data-label="Slide 15 / 17">
+<section class="step" data-label="Slide 15 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 15 · NEXT STEPS</span>
     <h2>What happens after this hour</h2>
@@ -717,14 +718,14 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 </section>
 
 <!-- ============ SLIDE 16 ============ -->
-<section class="step" data-label="Slide 16 / 17">
+<section class="step" data-label="Slide 16 / 18">
   <div class="step-head">
     <span class="kind slide">SLIDE 16 · LABS — THE TAKEAWAY</span>
     <h2>Seven labs — real commands, run them yourself</h2>
     <div class="time">32–34 min · then labs 34–56</div>
     <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">Each lab card carries its rung chip (see labs below).</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Seven lab cards under the new lede: an opinionated path on a personal laptop, not an MVP, never production, never on a government computer; free of charge and open to anyone, one self-contained HTML on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs; prove it to yourself, watch the model serve on 127.0.0.1. The takeaway card now ends: "The labs run the upstream bits on a laptop; what an agency accredits is the supported Red Hat product built from them." The deck ends hands-on; you are about to switch the main screen to the Labs view.</div>
+  <div class="onscreen"><b>On screen</b>Seven lab cards under the new lede: an opinionated path on a personal laptop, not an MVP, never production, never on a government computer; free of charge and open to anyone, one self-contained HTML on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs; prove it to yourself, watch the model serve on 127.0.0.1. The takeaway card now ends: "The labs run upstream bits on a laptop; an agency accredits the supported Red Hat product. Lab 08 chains the whole loop." The deck ends hands-on; you are about to switch the main screen to the Labs view.</div>
   <div class="talk">
     <p>This is the concluding takeaway — the deck ends hands-on, not with a thank-you slide. <b>Switch the deck to the Labs view now.</b> The terminals are typed by them; commands are real and copyable; output is representative. The Demo view plays all seven hands-free.</p>
     <p>The plan: run <b>Lab 01</b> live and stop hard on the <code>ss -ltnp</code> step. Run <b>Lab 05</b> live — the 62-second remediation. Skim the rest; the repo goes home with them.</p>
@@ -734,7 +735,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   <div class="beat"><b>Why they should care</b>The point is to prove it to <em>yourself</em>: you will watch the model serve on 127.0.0.1 with no egress — and if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal lets people type each command without installing anything, and it refuses off-script commands, which is exactly what makes it a prescriptive, defensible path for a pilot. The punchline: your installation and scripting become the artifact you hand your AO.</div>
   <div class="beat"><b>Answer the two questions before they are asked</b>Who can take it: anyone. What does it cost: nothing. It is a single self-contained HTML on the Carahsoft event page, with the source in the public repo. The full labs live in the repo; that is where people actually run them, not inside this page.</div>
   <div class="beat"><b>Close the labs with the offer</b>If you want us to go deeper on any of these, or run them live for a larger audience, reach out; we will do it.</div>
-  <div class="beat"><b>Console handoff</b>Step through the lab pages from here (they follow the appendix). Slide 17 is the security appendix — on standby for questions, not part of the run.</div>
+  <div class="beat"><b>Console handoff</b>Step through the lab pages from here (they follow the appendix). Slide 17 is the One loop map (Lab 08, the optional finale for an operational room); slide 18 is the security appendix, on standby for questions, not part of the run.</div>
   <div class="beat gfx"><b>Graphic (G) · Choose your path.</b><span class="cap">A map of the labs site: red roads run from the RED HAT AI TAX LABS hub to seven role paths (Leadership, Platform Operations, AI / Data Team, Security &amp; Compliance, Mission Workflow, Live Demo, Explore More); notice they are entry points by role, not the seven labs one to one.</span><span class="eyebrow">Talk to this</span>
     <ol>
       <li>Seven roads into the same seven labs, Leadership through Explore More: pick yours by role, and notice every lab is tagged with the ladder rung it serves, data to judgement.</li>
@@ -743,14 +744,37 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
       <li>Mission Workflow wraps the system of record instead of rewriting it: automation absorbs the 6× April surge and closes the loop, while a person signs the determination. Crawl, walk, run.</li>
     </ol>
   </div>
-  <button class="jumpbtn" data-goto="17">Go to Lab 01 notes →</button>
+  <button class="jumpbtn" data-goto="18">Go to Lab 01 notes →</button>
+  <div class="cue"><span class="next">NEXT → <b>One loop</b> (the Lab 08 map) · then appendix (standby) · then Lab 01 notes</span></div>
+</section>
+
+<!-- ============ SLIDE 17 · ONE LOOP ============ -->
+<section class="step" data-label="Slide 17 / 18">
+  <div class="step-head">
+    <span class="kind slide">SLIDE 17 · ONE LOOP · THE LAB 08 MAP</span>
+    <h2>One loop, end to end: from mainframe logs to an assistant that probes</h2>
+    <div class="time">if the room is operational · natural home: 50–58, before questions · otherwise walk the map in two minutes</div>
+    <div class="rungs"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="why">The whole ladder in one loop: the logs are data, the score is information, the draft is knowledge, the merge is judgement.</span></div>
+  </div>
+  <div class="onscreen"><b>On screen</b>Eyebrow "Lab 08 · the whole loop". Lede: "Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask." A stage map of eight stations, coloured by rung: 01 Mainframe + servers (MVSA · server1..12), 02 Vector · Loki (OpenShift Logging), 03 outage-risk scorer (KServe · sklearn · OpenShift AI), 04 Granite · Lightspeed (vLLM · OpenShift AI), 05 Pull request (a person reviews and merges), 06 Repo → AAP → EDA (the merge is the promotion), 07 Event-Driven Ansible (approved job templates), 08 Knowledge base + assistant (pgvector · ops notebook). The return arrow from 08 to 01 is labelled "THE LOOP · ASK, THEN PROBE". Below the map: an "Ask the platform" box with three questions and cited answers, and four takeaway cards.</div>
+  <div class="talk">
+    <p><b>Lab 08 is the whole hour in one loop.</b> Run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved.</p>
+    <p>One platform carries every step: the predictive scorer and the generative drafter are pods on the same GPU node, the automation is the same AAP console as Lab 05, and the knowledge base is the same pgvector store as Lab 07. Nothing left the cluster.</p>
+  </div>
+  <div class="beat"><b>Ask the platform: read the three answers</b>"How is server1-taxreturns?" Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088 [job 40518 · journald · RB-214]. "How is server8-audits?" Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed [job 40519]. "Which servers are showing online?" 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00 [job 40520 · estate ping]. Every answer carries a job id and a citation: evidence, not fluency.</div>
+  <div class="beat"><b>Say the two takeaways out loud</b>The platform is also the KM system and the documentation, because every promoted change is a cited record. And the assistant does not change anything: it launches approved jobs and reports with evidence.</div>
+  <div class="beat"><b>The four cards, if you need the words</b>The loop is the documentation: every promoted change, its review thread and its job outcome are indexed where the assistant searches; the KM system writes itself. Two kinds of AI, one platform: the scorer and the drafter share a GPU node, a registry and an identity; predictive and generative are pods, not projects. Promotion is a merge: repo, AAP and knowledge base update together, and a person decides; nothing runs from a chat window. Ask, then probe: the assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</div>
+  <div class="beat"><b>Ask the room</b>What is the last runbook you wrote that the on-call actually found?</div>
+  <div class="beat"><b>HAND-OFF</b>Jon takes the assistant questions, Brad takes the mainframe row.</div>
+  <div class="beat"><b>Console handoff</b>Running it: jump to the Lab 08 notes and switch the deck to the Labs view, Lab 08. Walking it: two minutes on this map, then the appendix stays on standby and the labs run from Lab 01.</div>
+  <button class="jumpbtn" data-goto="25">Go to Lab 08 notes →</button>
   <div class="cue"><span class="next">NEXT → <b>appendix (standby)</b> · then Lab 01 notes</span></div>
 </section>
 
-<!-- ============ SLIDE 17 · APPENDIX ============ -->
-<section class="step" data-label="Slide 17 / 17">
+<!-- ============ SLIDE 18 · APPENDIX ============ -->
+<section class="step" data-label="Slide 18 / 18">
   <div class="step-head">
-    <span class="kind slide">SLIDE 17 · APPENDIX — SECURITY (ON STANDBY)</span>
+    <span class="kind slide">SLIDE 18 · APPENDIX — SECURITY (ON STANDBY)</span>
     <h2>The questions an authorizing official will ask</h2>
     <div class="time">pull up on demand · natural home: 56–60 questions</div>
     <div class="rungs"><span class="rung r-info">Information</span><span class="rung r-judge">Judgement</span><span class="why">Evidence is information; the authorizing official’s decision is judgement.</span></div>
@@ -955,7 +979,7 @@ Refer this to a specialist rather than relying on this answer.</span>
     <h2>Prove it to your ISSO</h2>
     <div class="meta"><span class="rung r-judge">evidence → judgement</span><span class="chip prod">RHEL · Compliance Operator · TrustyAI · Sigstore</span><span class="chip">~6 min</span><span class="chip mono">you@bastion:~</span></div>
   </div>
-  <div class="onscreen"><b>Goal, said out loud</b>Walk the exact checks an authorizing official runs. Pairs with the security appendix (slide 17) — pull both up together when the ISSO engages.</div>
+  <div class="onscreen"><b>Goal, said out loud</b>Walk the exact checks an authorizing official runs. Pairs with the security appendix (slide 18) — pull both up together when the ISSO engages.</div>
   <div class="cmds">
     <div class="cmd">
       <div class="c">cosign verify --key agency-model-signing.pub registry.agency.gov/models/granite-8b-tax-v1</div>
@@ -1012,6 +1036,85 @@ after:  detect 4m · <span class="ok">diagnose 24m</span>    · fix 22m · verif
     </div>
   </div>
   <p class="takeaway"><b>Takeaway.</b> Dashboards show that something broke. A notebook grounded in your own logs, runbooks and incidents tells you why — and diagnosis is where MTTR actually lives.</p>
+  <button class="jumpbtn ghosted" data-goto="15">← Back to Slide 16 (labs) to close</button>
+</section>
+
+<!-- ============ LAB 08 ============ -->
+<section class="step" data-label="Lab 08 · hands-on">
+  <div class="step-head">
+    <span class="kind lab">LAB 08 · THE FINALE IF THE ROOM IS OPERATIONAL</span>
+    <h2>One loop, end to end</h2>
+    <div class="time">optional · 50–58 min · in place of the skim; Lab 01 and Lab 05 stay the live ones</div>
+    <div class="meta"><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><span class="chip prod">OpenShift AI · Ansible Lightspeed · Event-Driven Ansible</span><span class="chip">~8 min</span><span class="chip mono">admin@ocp-bastion:~/loop</span></div>
+  </div>
+  <div class="onscreen"><b>Goal, said out loud</b>Mainframe and server logs come in, a predictive model scores which systems will fall over next, Ansible Lightspeed drafts the rulebook and playbook, a person reviews and merges them, Event-Driven Ansible runs them, and the assistant answers "how is server8-audits?" by probing the estate. One platform carries every step, and the loop is also the knowledge base. On the slide 17 map (and above the Lab 08 terminal) the stations light as each step runs: 03·04·08, then 01·02, 02·03, 03, 04, 05·06·08, 07·01, and 08·07·01 as the loop closes.</div>
+  <div class="cmds">
+    <div class="cmd">
+      <div class="c">oc get pods -n tax-loop -o wide | awk '{print $1, $3, $7}' | column -t</div>
+      <div class="o"><span class="ky">NAME                                     STATUS   NODE</span>
+outage-risk-predictor-00003-deployment   Running  ocp-gpu-02
+granite-8b-tax-v1-predictor-00007        Running  ocp-gpu-02
+Predictive (sklearn) and generative (vLLM) models on the same GPU node, same registry, same identity.</div>
+      <div class="say">Two kinds of AI in one namespace: the predictive scorer and the generative drafter share ocp-gpu-02, one registry and one identity.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">logcli query '{source=~"zos-syslog|journald|openshift"} |~ "OOM|S878|S80A|OOMKilled"' --since 24h --limit 7</div>
+      <div class="o"><span class="err">02:41:09Z MVSA  IEF450I IMFBATCH STEP04 - ABEND=S878 U0000 REASON=00000010</span>
+<span class="err">02:58:33Z server8-audits  kernel: Out of memory: Killed process 41823 (java) total-vm:9.2G anon-rss:6.8G</span>
+<span class="wr">03:20:02Z tax-inference  predictor-b2d14  container "kserve-container" OOMKilled (exit 137)</span>
+09:14:21Z server1-taxreturns  kernel: java invoked oom-killer: gfp_mask=0x140dca  (survived: cgroup limit held)</div>
+      <div class="say">Three estates, one query: z/OS SYSLOG through Vector, RHEL journald and OpenShift container logs, all in Loki.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python ingest_estate.py --sources zos-syslog,journald,openshift --window 30d --out estate.parquet</div>
+      <div class="o">zos-syslog  2 LPARs  612,400 lines · journald  12 RHEL hosts  1,384,912 lines · openshift  2 namespaces  211,748 lines
+Features per system per hour: mem_headroom, gc_pause_p95, abend_rate, batch_overlap, restarts
+<span class="ok">Wrote estate.parquet  14 systems x 720 hours = 10,080 rows  (2,209,060 lines in; no line left the cluster)</span></div>
+      <div class="say">Data becomes features, from the same Loki the Lab 07 notebook reads; nothing new was installed.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python score.py --model outage-risk --horizon 72h --top 5</div>
+      <div class="o"><span class="ky">SYSTEM               72H RISK  DRIVERS                                               TREND</span>
+<span class="err">server8-audits         0.91    heap headroom -38% wk/wk · GC p95 2.4s · 2 OOM kills     ^ rising</span>
+<span class="wr">MVSA / IMFBATCH        0.74    S878 x3 in 7d · region 512M · batch overlap 02:00-03:00   ^ rising</span>
+Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93  (tabular; the Lab 02 pattern)</div>
+      <div class="say">Information is a number per system; nothing has been decided, and a person decides what 0.91 means tonight.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python lightspeed_draft.py --prompt prompts/memory-pressure.txt --out drafts/</div>
+      <div class="o">Ansible Lightspeed (on-prem)  model: granite-8b-code-instruct  served by: OpenShift AI (ocp-gpu-02)
+<span class="ok">generated  drafts/playbooks/relieve_memory_pressure.yml  42 lines · drafts/rulebooks/memory_pressure.yml  31 lines</span>
+    condition: event.alert.labels.alertname == "OutageRiskHigh" and event.alert.labels.score &gt; 0.8
+<span class="vi">citations: RB-207 (JVM sizing) · CR-9120 (audits heap change) · INC-2311 (last OOM on server8-audits)</span></div>
+      <div class="say">Generative means a draft with citations that nobody has run, and Lightspeed's model is served by the same OpenShift AI as the scorer.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">ansible-lint drafts/ &amp;&amp; git checkout -b eda/memory-pressure &amp;&amp; git add drafts/ &amp;&amp; git commit -qm 'EDA: memory pressure (Lightspeed draft)' &amp;&amp; gh pr create -f -r sre-lead</div>
+      <div class="o"><span class="ky">https://git.agency.gov/ops/loop-ops/pull/482</span>
+<span class="wr">  review  sre-lead  requested changes: threshold 0.8 -&gt; 0.85; add maintenance_window guard   (+11 min)</span>
+<span class="ok">  merged  main &lt;- eda/memory-pressure   #482   by j.rivera  ·  awx project synced rev 3f1c2a9 · rulebook activation restarted</span>
+<span class="vi">km_publish: PR #482 + review thread indexed as RB-214 in pgvector.ops_notebook  (cites CR-9120, INC-2311)</span></div>
+      <div class="say">Judgement is a person editing, approving and merging, and the merge is the promotion into the repo, into AAP and into the knowledge base.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">ansible-rulebook --rulebook rulebooks/memory_pressure.yml -i inventory/prod --controller-url https://aap.agency.gov</div>
+      <div class="o"><span class="wr">[03:12:51] EVENT   OutageRiskHigh  instance=server8-audits  score=0.91</span>
+[03:12:52] ACTION  run_job_template -&gt; "Relieve memory pressure"  host=server8-audits   (maintenance_window: true)
+<span class="ok">[03:13:29]         job 40512 | Xmx 6g -&gt; 7g (cgroup 9g) | audits-case.service restarted | probe 200 OK in 0.31s</span>
+<span class="ok">Elapsed from event to verified: 42 seconds. No page. server8-audits re-scored: 0.91 -&gt; 0.34</span></div>
+      <div class="say">The loop closes with an event, an approved playbook, ticket INC-2340 and knowledge record RB-214, in the same job history as Lab 05.</div>
+    </div>
+    <div class="cmd">
+      <div class="c">python ask.py "How is server1-taxreturns? How is server8-audits? Which servers are showing online?"</div>
+      <div class="o"><span class="ky">[tool] job_template.launch "Probe host"  host=server8-audits        -&gt; job 40519  3.8s</span>
+<span class="vi">server8-audits: online, restored 03:13 by job 40512 (Xmx 7g); no OOM since; risk 0.91 -&gt; 0.34; PR #482 merged, INC-2340 closed.   [job 40512 · PR #482 · INC-2340]</span>
+<span class="vi">online 13/14: server1..server12 ok · MVSA reachable (z/OSMF) · MVSB in planned IPL window until 06:00  [CR-9131]</span>
+<span class="ok">The assistant probes and reports. It changes nothing except through a job template a person approved.</span></div>
+      <div class="say">Ask the platform what it knows: the tools are Ansible jobs, the memory is the knowledge base the loop wrote, and every answer carries a job id.</div>
+    </div>
+  </div>
+  <p class="takeaway"><b>Takeaway.</b> One platform runs the predictive model, the generative model, the automation and the knowledge base, so the loop that keeps systems up is also the documentation, and the assistant answers from what the loop wrote.</p>
+  <button class="jumpbtn ghosted" data-goto="16">← Back to Slide 17 (the loop map)</button>
   <button class="jumpbtn ghosted" data-goto="15">← Back to Slide 16 (labs) to close</button>
 </section>
 

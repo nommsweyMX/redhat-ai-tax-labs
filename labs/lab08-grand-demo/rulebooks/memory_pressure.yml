@@ -1,0 +1,68 @@
+---
+# Event-Driven Ansible: the rulebook IS the runbook.
+#
+# Drafted by Ansible Lightspeed from prompts/memory-pressure.txt, then reviewed
+# and merged as PR #482 (loop-ops). The two review edits are marked below:
+# the risk threshold moved from 0.8 to 0.85, and the remediation only fires
+# inside a maintenance window. The merge is the promotion: the same commit
+# updates the repository, the AAP project and the knowledge base (RB-214).
+#
+# Alertmanager posts the outage-risk alerts (score.py raises OutageRiskHigh);
+# the mainframe SYSLOG pipeline posts S878 abends to the webhook source.
+- name: Memory pressure
+  hosts: all
+  sources:
+    - ansible.eda.alertmanager:
+        host: 0.0.0.0
+        port: 5000
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5001
+
+  rules:
+    - name: Outage risk above threshold
+      # review edit 1: 0.8 -> 0.85 (sre-lead, PR #482)
+      # review edit 2: only act inside a maintenance window; the playbook
+      #                asserts the same guard before it restarts anything
+      condition: >-
+        event.alert.labels.alertname == "OutageRiskHigh" and
+        event.alert.labels.score > 0.85 and
+        event.alert.labels.maintenance_window == "true"
+      action:
+        run_job_template:
+          name: "Relieve memory pressure"
+          organization: "Revenue Modernization"
+          job_args:
+            extra_vars:
+              host: "{{ event.alert.labels.instance }}"
+              score: "{{ event.alert.labels.score }}"
+              maintenance_window: "{{ event.alert.labels.maintenance_window }}"
+              knowledge_record: "RB-214"
+
+    - name: Outage risk above threshold, outside the maintenance window
+      # Deliberately does NOT restart anything. Outside the window a person
+      # decides what 0.91 means tonight; the job opens the change request.
+      condition: >-
+        event.alert.labels.alertname == "OutageRiskHigh" and
+        event.alert.labels.score > 0.85 and
+        event.alert.labels.maintenance_window != "true"
+      action:
+        run_job_template:
+          name: "Open change request for memory pressure"
+          organization: "Revenue Modernization"
+          job_args:
+            extra_vars:
+              host: "{{ event.alert.labels.instance }}"
+              score: "{{ event.alert.labels.score }}"
+
+    - name: Mainframe storage abend
+      condition: event.payload.abend == "S878"
+      action:
+        run_job_template:
+          name: "Notify mainframe on-call"
+          organization: "Revenue Modernization"
+          job_args:
+            extra_vars:
+              lpar: "{{ event.payload.lpar }}"
+              job: "{{ event.payload.job }}"
+              reason: "{{ event.payload.reason }}"

@@ -1,0 +1,243 @@
+[#lab-08]
+= Lab 08 — One loop, end to end
+
+[cols="1,3"]
+|===
+| Product   | {rhoai}, Ansible Lightspeed, {eda}
+| Rung      | data → information → knowledge → judgement
+| Time      | About 8 minutes
+| Script    | `labs/lab08-grand-demo/run.sh`
+| Outcome   | One platform carrying logs, scores, drafts, review, automation and answers, with the loop as the knowledge base
+|===
+
+== Objective
+
+Mainframe and server logs come in, a predictive model scores which systems
+will fall over next, Ansible Lightspeed drafts the rulebook and playbook, a
+person reviews and merges them, Event-Driven Ansible runs them, and the
+assistant answers "how is server8-audits?" by probing the estate. One platform
+carries every step, and the loop is also the knowledge base.
+
+On the ladder this lab climbs every rung in order. The log lines are data; the
+outage-risk score is information about one system; the drafts, the review
+thread and the job outcome become knowledge the moment they are merged and
+indexed; and the merge itself is judgement, a determination a named reviewer
+signs. Automation executes that judgement. It never makes it.
+
+This is the lab that ties the other seven together: the tabular model from
+<<lab-02>>, model serving from <<lab-03>>, retrieval from <<lab-04>>, the
+rulebook and job history from <<lab-05>>, and the operations corpus from
+<<lab-07>>, on the one platform <<lab-01>> and <<lab-06>> keep inside the
+boundary.
+
+== What you use
+
+* Two model pods side by side on *OpenShift AI*: a tabular outage-risk scorer
+  (sklearn on KServe) and Granite on vLLM, one namespace, one GPU node
+* *Vector* and *Loki* ingesting z/OS SYSLOG, RHEL journald and OpenShift
+  container logs into one queryable store
+* *Ansible Lightspeed* (on-prem, its model served by OpenShift AI) drafting the
+  playbook and rulebook, then a pull request for the human review
+* *Event-Driven Ansible* running the promoted rulebook, and the ops assistant
+  probing hosts through approved job templates
+
+== What to notice
+
+* The scorer produces a *number*; the drafter produces *YAML*; neither runs
+  anything until a person merges the pull request
+* The merge is the promotion: repo, AAP project and knowledge base update in
+  one step
+* Every assistant answer carries citations and a job id: evidence, not fluency
+* Nothing left the cluster: mainframe logs, scores, drafts and answers all
+  stayed inside the boundary
+
+== Prerequisites
+
+For live mode: {rhoai} with a KServe sklearn runtime for the outage-risk model
+and vLLM for Granite; OpenShift Logging with Vector receiving z/OS SYSLOG
+beside journald and container logs into Loki; {aap} 2.5 with Ansible
+Lightspeed on-prem, its model served through OpenShift AI model serving; an
+{eda} controller with the named job templates; an ITSM webhook for the ticket;
+and `oc`, `logcli`, `python3`, `ansible-rulebook`, `ansible-lint`, `git`, `gh`
+and `awx` on the path.
+
+As with <<lab-07>>, the helpers the script calls (`ingest_estate.py`,
+`score.py`, `lightspeed_draft.py` and `ask.py`) are representative wrappers
+and are not shipped in the lab directory. What is shipped beside `run.sh` is
+the Lightspeed prompt (`prompts/memory-pressure.txt`) and the reviewed,
+post-merge rulebook and playbook (`rulebooks/memory_pressure.yml`,
+`playbooks/relieve_memory_pressure.yml`).
+
+[source,bash]
+----
+cd labs/lab08-grand-demo
+LAB_PACE=step ./run.sh
+----
+
+== Walkthrough
+
+[cols="1,2,3", options="header"]
+|===
+| Step | Command | What to look for
+
+| 1
+| `oc get pods -n tax-loop -o wide`
+| Two kinds of AI in one namespace: the sklearn scorer and the Granite drafter
+  both on `ocp-gpu-02`, beside Vector, Loki, the EDA worker and the assistant.
+  Same registry, same identity.
+
+| 2
+| `logcli query '{source=~"zos-syslog\|journald\|openshift"} \|~ "OOM\|S878\|S80A\|OOMKilled"'`
+| Three estates, one query: an S878 abend on MVSA, two OOM kills on
+  `server8-audits`, an OOMKilled container in `tax-inference`, and the survivor
+  on `server1-taxreturns` whose cgroup limit held.
+
+| 3
+| `python ingest_estate.py --sources zos-syslog,journald,openshift --window 30d`
+| 2,209,060 lines become 10,080 rows of hourly features per system. Same Loki
+  the <<lab-07>> notebook reads; nothing new was installed and no line left the
+  cluster.
+
+| 4
+| `python score.py --model outage-risk --horizon 72h --top 5`
+| A number per system: `server8-audits` at 0.91 and rising. Nothing has been
+  decided; a person decides what 0.91 means tonight. The model is the
+  <<lab-02>> tabular pattern, AUC 0.93 on 180 days of history.
+
+| 5
+| `python lightspeed_draft.py --prompt prompts/memory-pressure.txt`
+| A draft playbook and rulebook with citations to RB-207, CR-9120 and INC-2311.
+  Nobody has run it. Lightspeed's model is served by the same OpenShift AI as
+  the scorer.
+
+| 6
+| `ansible-lint drafts/ && git commit ... && gh pr create -r sre-lead`
+| The human gate. The reviewer asks for two edits (threshold 0.8 -> 0.85, a
+  `maintenance_window` guard), approves and merges. One merge syncs the AAP
+  project, restarts the activation and indexes the review thread as RB-214.
+
+| 7
+| `ansible-rulebook --rulebook rulebooks/memory_pressure.yml`
+| The loop closes: `OutageRiskHigh` at 03:12:51, job 40512 raises Xmx 6g to
+  7g inside the 9g cgroup, restarts the service, probes 200 OK, opens and
+  closes INC-2340. Forty-two seconds, no page. Same job history as <<lab-05>>.
+
+| 8
+| `python ask.py "How is server8-audits? ..."`
+| Three probes through approved job templates, three cited answers. The
+  assistant changes nothing except through a job template a person approved.
+|===
+
+== What good looks like
+
+The score is a number with drivers, not a verdict:
+
+[listing]
+----
+SYSTEM               72H RISK  DRIVERS                                               TREND
+server8-audits         0.91    heap headroom -38% wk/wk · GC p95 2.4s · 2 OOM kills     ^ rising
+MVSA / IMFBATCH        0.74    S878 x3 in 7d · region 512M · batch overlap 02:00-03:00   ^ rising
+server3-notices        0.41    swap in use 18% · restarts 1                            = flat
+server1-taxreturns     0.22    cgroup limit held · 1 oom-killer survived               v falling
+server5-transcripts    0.09    -                                                       = flat
+Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93  (tabular; the Lab 02 pattern)
+----
+
+The review is visible, and the merge does three jobs at once:
+
+[listing]
+----
+https://git.agency.gov/ops/loop-ops/pull/482
+  review  sre-lead  requested changes: threshold 0.8 -> 0.85; add maintenance_window guard   (+11 min)
+  review  sre-lead  approved after 2 edits                                                 (14:07)
+  merged  main <- eda/memory-pressure   #482   by j.rivera
+awx project update loop-ops                       -> synced rev 3f1c2a9 (14:08)
+awx rulebook activation restart memory-pressure   -> running, rulebook memory_pressure.yml
+km_publish: PR #482 + review thread indexed as RB-214 in pgvector.ops_notebook  (cites CR-9120, INC-2311)
+----
+
+The remediation runs only the approved playbook, and records itself:
+
+[listing]
+----
+[03:12:51] EVENT   OutageRiskHigh  instance=server8-audits  score=0.91
+[03:12:51] RULE    "Outage risk above threshold" matched   (maintenance_window: true)
+[03:12:52] ACTION  run_job_template -> "Relieve memory pressure"  host=server8-audits
+[03:13:29]         job 40512 | Xmx 6g -> 7g (cgroup 9g) | audits-case.service restarted | probe 200 OK in 0.31s
+[03:13:33]         job 40512 | ServiceNow INC-2340 opened and closed | KM record RB-214 updated (outcome: success)
+Elapsed from event to verified: 42 seconds. No page. server8-audits re-scored: 0.91 -> 0.34
+----
+
+The assistant probes through job templates and cites what the loop wrote:
+
+[listing]
+----
+[tool] job_template.launch "Probe host"  host=server8-audits        -> job 40519  3.8s
+server8-audits: online, restored 03:13 by job 40512 (Xmx 7g); no OOM since; risk 0.91 -> 0.34;
+  change PR #482 merged, INC-2340 closed.   [job 40512 · PR #482 · INC-2340]
+[tool] job_template.launch "Estate ping"  hosts=all                 -> job 40520  6.2s
+online 13/14: server1..server12 ok · MVSA reachable (z/OSMF) · MVSB in planned IPL window until 06:00  [CR-9131]
+----
+
+If a score arrives without drivers, a draft arrives without citations, a job
+runs that nobody merged, or an answer arrives without a job id, that is the
+finding. Each of those is the same failure the earlier labs guard against,
+and the loop is only as trustworthy as its weakest gate.
+
+== Two kinds of mathematics, one platform
+
+Two different mathematics share one platform. The outage-risk model is tabular
+prediction: hourly features per system (memory headroom, GC pauses, abend
+rate, batch overlap) fitted to 180 days of history, so its output is a
+probability, not an explanation. The drafts come from a code model predicting
+tokens, steered by your prompt and the runbooks retrieved as context, so its
+output is plausible YAML that must be reviewed like any other change.
+Event-Driven Ansible contains no machine learning at all: the same event
+always runs the same approved job. The knowledge base grows because every
+promotion (the pull request, its review thread, the job outcome) is embedded
+into the same vector store the assistant searches, which is why the assistant
+can cite RB-214 an hour after it was written.
+
+IMPORTANT: One platform runs the predictive model, the generative model, the
+automation and the knowledge base, so the loop that keeps systems up is also
+the documentation, and the assistant answers from what the loop wrote.
+
+== Troubleshooting
+
+`logcli` returns only one of the three sources::
+The label is `source`. Check the Vector pipeline receiving z/OS SYSLOG and the
+journald forwarder on the RHEL hosts; `oc -n openshift-logging get
+clusterlogforwarder` shows what is wired.
+
+The scorer answers but every risk is 0.0x::
+The feature window is too short or the model was trained on a different
+estate. Re-run the ingest with the 30-day window and confirm the model version
+in the registry matches `outage-risk v14`.
+
+The draft has no citations::
+Lightspeed is answering from the model alone. Point it at the <<lab-07>>
+operations corpus so RB-207, CR-9120 and INC-2311 are retrievable, and treat an
+uncited draft the way <<lab-04>> treats an uncited answer.
+
+The rule matches but no job launches::
+The job template name and organization must match Automation Controller
+exactly, and the activation must have restarted after the merge. Same
+troubleshooting as <<lab-05>>.
+
+The playbook refuses to restart the service::
+That is the `maintenance_window` guard from the review. Outside the window the
+second rule opens a change request instead; a person decides.
+
+The assistant answers without a job id::
+It is answering from memory rather than probing. Every host answer should
+carry a `job_template.launch` line; if it does not, the tools are not wired
+and the answer is fluency, not evidence.
+
+== Discussion questions
+
+. Which of the eight steps does your agency already have, and which seam
+  between them costs the most time today?
+. Who is the `sre-lead` in your organization, and what would it take for a
+  Lightspeed draft to reach them as a pull request rather than a ticket?
+. Which events would you let close the loop automatically, which only inside a
+  maintenance window, and which should always stop at a person?

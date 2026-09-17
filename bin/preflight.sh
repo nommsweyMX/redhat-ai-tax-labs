@@ -24,6 +24,7 @@ check "lab04-rag"          oc python3
 check "lab05-ansible"      ansible-navigator ansible-rulebook
 check "lab06-trust"        oc cosign ssh
 check "lab07-ops-notebook" logcli python3
+check "lab08-grand-demo"   oc logcli python3 ansible-rulebook ansible-lint git gh awx
 echo
 echo "Every lab runs today in simulate mode, which needs nothing above."
 echo "  ./bin/run-all-labs.sh"

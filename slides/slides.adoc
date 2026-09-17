@@ -21,7 +21,7 @@ Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026
 
 What predictive AI, generative AI and LLMs actually do — then how Red Hat
 turns models, agency knowledge and automation into an operable mission
-capability, proven in seven labs you run yourself.
+capability, proven in eight labs you run yourself.
 
 Presented by *Jon Keam* and *Brad Scalio*.
 
@@ -736,7 +736,7 @@ problem you solve today, a predicament you only plan around.
 
 `Rung: judgement`
 
-* *Step zero · Lab walk-through.* An hour where we run the seven labs together,
+* *Step zero · Lab walk-through.* An hour where we run the eight labs together,
   show and tell, and find the point in the stack where you want to prove value.
   That scopes the pilot.
 * *Step one · Architecture workshop.* A half-day with your platform and security
@@ -754,7 +754,7 @@ you to yours.
 
 *Take the labs with you.* Everything from today — deck, labs, guides — at
 https://nommsweymx.github.io/redhat-ai-tax-labs/ (source:
-github.com/nommsweyMX/redhat-ai-tax-labs). The seven labs are the commands your
+github.com/nommsweyMX/redhat-ai-tax-labs). The eight labs are the commands your
 engineers will run on day one. Follow it on your own:
 https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html.
 
@@ -777,7 +777,7 @@ https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html.
 [.notes]
 --
 Close with a specific ask, not a thank-you. Step zero, said first: for a PoC
-we set a time and run the seven labs together — show and tell — to find where
+we set a time and run the eight labs together — show and tell — to find where
 in the stack you want to prove value; that scopes the pilot; if it gets
 serious Brad brings in more people.
 
@@ -816,7 +816,7 @@ No — cyber has had opinions before and deserves a fighting chance to hear it
 early: can anyone refer us to IRS cyber? We run it for them separately.
 --
 
-== Seven labs — real commands, run them yourself
+== Eight labs — real commands, run them yourself
 
 `Rung: data · information · knowledge · judgement`
 
@@ -837,12 +837,13 @@ the model serve on 127.0.0.1.
 | 05 · Ansible | *Automate the toil around the model* (executes judgement) | An Event-Driven Ansible rulebook detects inference saturation and remediates it before anyone opens a ticket.
 | 06 · Trust | *Prove it to your ISSO* (evidence → judgement) | Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.
 | 07 · Ops notebook | *Ask your own logs* (information → knowledge) | Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.
+| 08 · The whole loop | *One loop, end to end* (data → judgement) | Mainframe and server logs in, an outage-risk model scores who fails next, Lightspeed drafts the rulebook and playbook, a person merges, Event-Driven Ansible runs it, and the assistant answers "how is server8-audits?" with job evidence.
 |===
 
 *One thing to remember: nothing here needed a public endpoint.* No public model
 endpoint, no internet connection at inference time, no rewrite of a system of
 record. The labs run the upstream bits on a laptop; what an agency accredits is
-the supported Red Hat product built from them.
+the supported Red Hat product built from them. Lab 08 chains the whole loop.
 
 [.notes]
 --
@@ -881,6 +882,69 @@ inside this page.
 
 Close the labs with the offer: if you want us to go deeper on any of these, or
 run them for a larger audience, reach out — we will do it.
+--
+
+== One loop, end to end: from mainframe logs to an assistant that probes
+
+`Rung: data · information · knowledge · judgement`
+
+*Lab 08 · the whole loop.* Logs in, risk scored, fix drafted by Lightspeed,
+merged by a person, run by Event-Driven Ansible, remembered by the platform, so
+you can ask.
+
+.The loop: eight stations, and the eighth feeds the first
+. *Mainframe + servers* (data): MVSA · server1..12
+. *Vector · Loki* (data): OpenShift Logging
+. *outage-risk scorer* (information): KServe · sklearn · OpenShift AI
+. *Granite · Lightspeed* (knowledge): vLLM · OpenShift AI
+. *Pull request* (judgement): a person reviews and merges
+. *Repo → AAP → EDA* (judgement): the merge is the promotion
+. *Event-Driven Ansible* (judgement): approved job templates
+. *Knowledge base + assistant* (knowledge): pgvector · ops notebook; ask, then probe, and the loop starts again
+
+.Ask the platform
+[cols="1,3", options="header"]
+|===
+| Question | Answer, with its evidence
+
+| How is server1-taxreturns? | Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088. _[job 40518 · journald · RB-214]_
+| How is server8-audits? | Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed. _[job 40519]_
+| Which servers are showing online? | 13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00. _[job 40520 · estate ping]_
+|===
+
+* *The loop is the documentation.* Every promoted change, its review thread and
+  its job outcome are indexed where the assistant searches. The KM system writes
+  itself.
+* *Two kinds of AI, one platform.* The scorer and the drafter share a GPU node, a
+  registry and an identity. Predictive and generative are pods, not projects.
+* *Promotion is a merge.* Repo, AAP and knowledge base update together, and a
+  person decides. Nothing runs from a chat window.
+* *Ask, then probe.* The assistant's tools are approved job templates, so "how is
+  server8?" becomes a job with evidence, not a guess.
+
+[.notes]
+--
+Lab 08 is the whole hour in one loop; run it if the room is operational, or
+walk the map.
+
+Read the map clockwise: logs from the mainframe and the servers land in Loki
+(data); the outage-risk model scores who fails next in the next 72 hours
+(information); Lightspeed drafts the playbook and the rulebook with citations
+(knowledge); a person reviews, edits and merges the pull request, and that
+merge is the promotion into the repo, AAP and the knowledge base (judgement);
+Event-Driven Ansible runs the approved job when the event fires, 42 seconds,
+no page; and the assistant answers from what the loop wrote, probing hosts
+through job templates a person approved.
+
+Say the two takeaways out loud: the platform is also the KM system and the
+documentation, because every promoted change is a cited record; and the
+assistant does not change anything, it launches approved jobs and reports with
+evidence.
+
+Ask the room: what is the last runbook you wrote that the on-call actually
+found?
+
+HAND-OFF: Jon takes the assistant questions, Brad takes the mainframe row.
 --
 
 == The questions an authorizing official will ask

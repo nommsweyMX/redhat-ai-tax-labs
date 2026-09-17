@@ -1,0 +1,110 @@
+---
+# Relieve JVM memory pressure on a RHEL host without leaving the cgroup limit.
+#
+# Drafted by Ansible Lightspeed from prompts/memory-pressure.txt, reviewed and
+# merged as PR #482. Launched by the "Relieve memory pressure" job template
+# from ../rulebooks/memory_pressure.yml with host, score and maintenance_window
+# as extra_vars. The job registers its outcome with set_stats so Automation
+# Controller, the ITSM ticket and knowledge record RB-214 all read the same
+# result (job 40512: Xmx 6g -> 7g, cgroup 9g, probe 200 OK in 0.31s).
+- name: Relieve memory pressure
+  hosts: "{{ host }}"
+  become: true
+  gather_facts: true
+  vars:
+    service_name: audits-case.service
+    cgroup_memory_max: "/sys/fs/cgroup/system.slice/{{ service_name }}/memory.max"
+    heap_share: 0.8
+    dropin_dir: "/etc/systemd/system/{{ service_name }}.d"
+    probe_url: "https://{{ host }}:8443/health"
+    probe_threshold_seconds: 2.0
+    maintenance_window: "false"
+    knowledge_record: "RB-214"
+
+  tasks:
+    - name: Refuse to restart anything outside the maintenance window
+      # review edit 2 (PR #482): the rulebook guards on the same label; this
+      # assertion keeps the playbook safe when it is launched by hand.
+      ansible.builtin.assert:
+        that:
+          - maintenance_window | bool
+        fail_msg: >-
+          {{ inventory_hostname }} is outside its maintenance window. Open a
+          change request instead of restarting {{ service_name }} now.
+
+    - name: Read the cgroup memory limit the service runs under
+      ansible.builtin.slurp:
+        src: "{{ cgroup_memory_max }}"
+      register: cgroup_limit
+
+    - name: Read the heap the service is running with today
+      ansible.builtin.shell:
+        cmd: "systemctl show -p Environment {{ service_name }} | grep -o 'Xmx[0-9]*[gm]' || true"
+      changed_when: false
+      register: current_heap
+
+    - name: Compute the new Xmx inside the cgroup limit
+      # Never the whole cgroup: the JVM needs headroom for metaspace, threads
+      # and direct buffers, or the kernel kills it again (INC-2311).
+      ansible.builtin.set_fact:
+        cgroup_limit_gb: "{{ ((cgroup_limit.content | b64decode | trim) | int / 1073741824) | round(0, 'floor') | int }}"
+        xmx_gb: "{{ (((cgroup_limit.content | b64decode | trim) | int / 1073741824) * heap_share) | round(0, 'floor') | int }}"
+
+    - name: Set the JVM heap option in a systemd drop-in
+      ansible.builtin.copy:
+        dest: "{{ dropin_dir }}/10-jvm-heap.conf"
+        mode: "0644"
+        content: |
+          # Managed by Ansible (job template "Relieve memory pressure", {{ knowledge_record }}).
+          # Xmx sized to {{ heap_share }} of the cgroup limit ({{ cgroup_limit_gb }}g).
+          [Service]
+          Environment="JAVA_OPTS=-Xmx{{ xmx_gb }}g -XX:+ExitOnOutOfMemoryError"
+      register: heap_dropin
+
+    - name: Restart the service in the maintenance window
+      ansible.builtin.systemd:
+        name: "{{ service_name }}"
+        state: restarted
+        daemon_reload: true
+      when: heap_dropin.changed
+
+    - name: Probe the service the way a caseworker would
+      ansible.builtin.uri:
+        url: "{{ probe_url }}"
+        method: GET
+        validate_certs: false
+        status_code: 200
+      register: probe
+      retries: 6
+      delay: 5
+      until: probe.status == 200
+
+    - name: Fail if the probe was slower than the service threshold
+      ansible.builtin.assert:
+        that:
+          - probe.elapsed | float < probe_threshold_seconds
+        fail_msg: >-
+          Probe answered in {{ probe.elapsed }}s, over the
+          {{ probe_threshold_seconds }}s threshold. The heap change is not
+          enough; escalate to the runbook owner.
+        success_msg: "probe {{ probe.status }} OK in {{ probe.elapsed }}s"
+
+    - name: Register the outcome for the ticket and the knowledge record
+      ansible.builtin.set_stats:
+        data:
+          outcome: success
+          host: "{{ inventory_hostname }}"
+          service: "{{ service_name }}"
+          previous_heap: "{{ current_heap.stdout | default('unknown', true) }}"
+          new_heap: "Xmx{{ xmx_gb }}g"
+          cgroup_limit: "{{ cgroup_limit_gb }}g"
+          probe_status: "{{ probe.status }}"
+          probe_seconds: "{{ probe.elapsed }}"
+          knowledge_record: "{{ knowledge_record }}"
+
+    - name: Report what changed
+      ansible.builtin.debug:
+        msg: >-
+          {{ current_heap.stdout | default('Xmx?', true) }} -> Xmx{{ xmx_gb }}g
+          (cgroup {{ cgroup_limit_gb }}g) | {{ service_name }} restarted |
+          probe {{ probe.status }} OK in {{ probe.elapsed }}s

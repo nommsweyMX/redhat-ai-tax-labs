@@ -52,14 +52,24 @@ Owners and deadlines from the September 15 review.
 | 34–42 | *Run Lab 01 live on screen.* Stop on `ss -ltnp`. That single line answers the data question. | Lab 01
 | 42–50 | *Run Lab 05 live on screen.* The 62-second remediation is the moment people remember. | Lab 05
 | 50–56 | Skim Labs 02, 03, 04, 06, 07. Tell them the repo is theirs to take home. | Labs
-| 56–60 | Questions. The security appendix stays on standby — pull it up when an ISSO engages. | Slide 17
+| 50–58 | *Optional finale for an operational room: run Lab 08 live* in place of the skim (slide 17 is its map). | Slide 17 · Lab 08
+| 56–60 | Questions. The security appendix stays on standby — pull it up when an ISSO engages. | Slide 18
 |===
 
 TIP: If you only have 30 minutes, cut to slides 1, 2, 8 and run Lab 01 plus the
-drift section of Lab 06. Keep the appendix (slide 17) loaded for security
+drift section of Lab 06. Keep the appendix (slide 18) loaded for security
 questions.
 
-Security posture (slide 17) stays the appendix. Brad offered at the September
+Lab 08 is the finale for an operational room. Eight minutes, the whole loop on
+slide 17: logs in, risk scored, Lightspeed drafts, a person merges, EDA runs,
+and the assistant answers with job evidence. Run it in place of the 50 to 56
+skim; Lab 01 and Lab 05 stay the live ones. Two takeaways to say out loud: the
+platform is also the KM system and the documentation, because every promoted
+change is a cited record; and the assistant launches approved jobs and reports,
+it changes nothing itself. Then the question to ask the room: what is the last
+runbook you wrote that the on-call actually found?
+
+Security posture (slide 18) stays the appendix. Brad offered at the September
 15 review to move it ahead of the labs and next steps; Ted Craig (Red Hat account executive for the IRS)
 decided it stays where it is, because cyber will be one or two of the 52 or so
 at most, not the majority of the room by any stretch. Pull it up only when a
@@ -112,6 +122,11 @@ Lab 04:: Run step 4 — the refusal — if anyone raises hallucination. It is a
 Lab 07:: If operations or SRE leaders are in the room. The cited diagnosis in
 step 3 and the MTTR table in step 5 are the two screens that sell the
 ops-notebook story.
+
+Lab 08:: When the room wants the whole loop rather than one link of it. Steps
+4, 6 and 7 (the score, the merged review, the 42-second remediation) carry the
+argument; step 8, the assistant probing the estate, is the closer if time
+allows.
 
 Labs 02 and 03:: Usually better as a walkthrough than a live run. Both have
 long-running steps that do not demo well in real time.
@@ -221,7 +236,7 @@ Say these out loud during the session. They buy more credibility than any demo.
 == Pilot requests
 
 The first response to any proof-of-concept interest is a scheduled
-show-and-tell: Brad and Jon Keam (or whoever Brad picks) walk the seven labs
+show-and-tell: Brad and Jon Keam (or whoever Brad picks) walk the eight labs
 with the interested team to find where in the stack they want to prove value
 right now, and to start the community of practice around it. Only if the POC
 gets serious or ratchets up do we bring in more resources (Dan and company).

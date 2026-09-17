@@ -8,11 +8,12 @@ Presentation, hands-on labs and documentation for the Red Hat, Four Inc. and
 Carahsoft virtual event on modernizing tax administration with AI and
 automation.
 
-Seven labs walk the whole path: standing a model up inside your boundary,
+Eight labs walk the whole path: standing a model up inside your boundary,
 teaching it your agency's vocabulary, serving it through a filing-season peak,
 grounding its answers in your published guidance, automating the operational
-toil around it, proving the result to an authorizing official, and pointing
-the same retrieval pattern at your own logs to drive MTTR down.
+toil around it, proving the result to an authorizing official, pointing the
+same retrieval pattern at your own logs to drive MTTR down, and running the
+whole loop end to end on one platform.
 
 One theme runs through all of it: the ladder from data → information →
 knowledge → judgement. Data is what happened; information is data in context
@@ -50,7 +51,7 @@ cd redhat-ai-tax-labs
 # Walk one lab, pausing for Enter at each command
 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh
 
-# Walk all seven end to end
+# Walk all eight end to end
 ./bin/run-all-labs.sh
 ----
 
@@ -63,7 +64,7 @@ Nothing above needs a cluster, a GPU, or credentials.
 | Path | Contents
 
 | `labs/`
-| Seven runnable lab scripts with their manifests, playbooks and sample data.
+| Eight runnable lab scripts with their manifests, playbooks and sample data.
 
 | `docs/`
 | AsciiDoc documentation — event brief, one module per lab, facilitator guide.
@@ -73,10 +74,10 @@ Nothing above needs a cluster, a GPU, or credentials.
 | The event deck as asciidoctor-revealjs source, with speaker notes.
 
 | `slides/deck.html`
-| A self-contained interactive deck: seventeen slides plus seven virtual
+| A self-contained interactive deck: seventeen slides plus eight virtual
   terminals you type into, a pop-up card on every step (what is happening,
   why it matters, the seam one platform removes), a theory panel in every
-  lab, a glossary, and a Demo view that plays all seven labs hands-free.
+  lab, a glossary, and a Demo view that plays all eight labs hands-free.
   Every slide carries the data → judgement ladder as a small stacked
   pyramid in its corner, and the slides that have an illustrated graphic
   pop it out (press `G`) with discussion points beside it. English/Spanish tab and
@@ -130,6 +131,11 @@ Nothing above needs a cluster, a GPU, or credentials.
 | Ask your own logs — a cited diagnosis during a live incident, then the MTTR numbers
 | OpenShift AI + OpenShift Logging
 | information → knowledge
+
+| link:labs/lab08-grand-demo/run.sh[08]
+| One loop, end to end: logs scored, a Lightspeed draft reviewed and merged, EDA closing it, the assistant citing what the loop wrote
+| OpenShift AI + Ansible Lightspeed + Event-Driven Ansible
+| data → information → knowledge → judgement
 |===
 
 Full write-ups, prerequisites, troubleshooting and discussion questions are in
@@ -204,7 +210,7 @@ Before opening a pull request:
 make test
 ----
 
-That runs `bash -n` over every script and executes all seven labs in simulate
+That runs `bash -n` over every script and executes all eight labs in simulate
 mode. CI runs the same thing.
 
 == License

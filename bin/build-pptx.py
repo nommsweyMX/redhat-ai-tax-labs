@@ -170,6 +170,7 @@ DECK_RUNGS = {
     "Adoption path": ("data", "information", "knowledge"),
     "Next steps": ("judgement",),
     "Labs preview": ("data", "information", "knowledge", "judgement"),
+    "One loop": ("data", "information", "knowledge", "judgement"),
     "Security posture": ("information", "judgement"),
 }
 
@@ -430,7 +431,7 @@ def build(out_path: Path) -> None:
     add_text(s, MARGIN, Inches(4.75), Inches(9.4), Inches(1.1),
              [("What predictive AI, generative AI and LLMs actually do — then how Red Hat turns "
                "models, agency knowledge and automation into an operable mission capability, "
-               "proven in seven labs you run yourself.", 17, False, INK_2, BODY_FONT, 0)])
+               "proven in eight labs you run yourself.", 17, False, INK_2, BODY_FONT, 0)])
     add_text(s, MARGIN, Inches(5.85), Inches(9.4), Inches(0.4),
              [("Presented by Jon Keam (jkeam@redhat.com) and Brad Scalio (bscalio@redhat.com)", 14, True, INK_2, BODY_FONT, 0)])
 
@@ -724,7 +725,7 @@ def build(out_path: Path) -> None:
 
     # ---- 8 next steps ----------------------------------------------------------
     s = add_base(prs, "Close with a specific ask, not a thank-you. Step zero is the lab "
-                      "walk-through: an hour running the seven labs together to find the point in "
+                      "walk-through: an hour running the eight labs together to find the point in "
                       "the stack where they want to prove value, which scopes the pilot. The "
                       "architecture workshop follows, then hand off to Four Inc. and Carahsoft for "
                       "the contract vehicle conversation. Point at the contact panel: Brad's email "
@@ -735,7 +736,7 @@ def build(out_path: Path) -> None:
     eyebrow_and_title(s, "Next steps", "What happens after this hour")
     steps = [
         ("Step zero", "Lab walk-through",
-         "An hour where we run the seven labs together, show and tell, and find the point in "
+         "An hour where we run the eight labs together, show and tell, and find the point in "
          "the stack where you want to prove value. That scopes the pilot."),
         ("Step one", "Architecture workshop",
          "A half-day with your platform and security teams to size accelerators, place the "
@@ -766,7 +767,7 @@ def build(out_path: Path) -> None:
                "connects you to yours.", 10, False, INK_2, BODY_FONT, 8),
               ("RED HAT  ·  FOUR INC.  ·  CARAHSOFT", 8.5, True, INK_3, MONO_FONT, 6),
               ("Everything from today — deck, labs, guides — at nommsweymx.github.io/redhat-ai-tax-labs. "
-               "The seven labs are the commands your engineers will run on day one. Follow it on "
+               "The eight labs are the commands your engineers will run on day one. Follow it on "
                "your own: …/adventure.html.", 9, False, INK_3, BODY_FONT, 0)])
     mx = MARGIN + pw + Inches(0.35)
     mw = SLIDE_W - MARGIN - mx
@@ -798,7 +799,7 @@ def build(out_path: Path) -> None:
                       "step 4, the endpoint bound to 127.0.0.1. The deck's Demo view plays every "
                       "lab hands-free if you would rather narrate than type.")
     add_spine(s, "Labs preview")
-    eyebrow_and_title(s, "Hands on · the takeaway", "Seven labs — real commands, run them yourself",
+    eyebrow_and_title(s, "Hands on · the takeaway", "Eight labs — real commands, run them yourself",
                       "An opinionated path on a personal laptop — not an MVP, never production, never on "
                       "a government computer. Free of charge and open to anyone: one self-contained HTML "
                       "on the Carahsoft event page, source at nommsweymx.github.io/redhat-ai-tax-labs. "
@@ -813,14 +814,112 @@ def build(out_path: Path) -> None:
         ["05", "Automate the toil around the model", "Ansible", "executes judgement"],
         ["06", "Prove it to your ISSO", "Compliance, TrustyAI", "evidence → judgement"],
         ["07", "Ask your own logs", "Ops notebook", "information → knowledge"],
-    ], Inches(3.1), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
-    add_text(s, MARGIN, Inches(6.1), Inches(11.5), Inches(1.1),
-             [("One thing to remember: nothing here needed a public endpoint", 15, True, INK, HEAD_FONT, 5),
+        ["08", "One loop, end to end", "OpenShift AI · Lightspeed · EDA", "data → judgement"],
+    ], Inches(3.05), [Inches(0.9), Inches(4.9), Inches(3.0), Inches(2.8)], mono_cols=(0, 2, 3))
+    add_text(s, MARGIN, Inches(6.42), Inches(11.5), Inches(1.0),
+             [("One thing to remember: nothing here needed a public endpoint", 15, True, INK, HEAD_FONT, 4),
               ("No public model endpoint, no internet connection at inference time, no rewrite of a "
                "system of record. The labs run the upstream bits on a laptop; what an agency "
-               "accredits is the supported Red Hat product built from them.", 12, False, INK_2, BODY_FONT, 0)])
+               "accredits is the supported Red Hat product built from them. Lab 08 chains the whole loop.",
+               12, False, INK_2, BODY_FONT, 0)])
 
-    # ---- 10 appendix: AO questions ----------------------------------------------
+    # ---- 10 one loop, end to end (Lab 08) ----------------------------------------
+    s = add_base(prs, "Lab 08 is the whole hour in one loop; run it if the room is operational, or "
+                      "walk the map. Read the map clockwise: logs from the mainframe and the servers "
+                      "land in Loki (data); the outage-risk model scores who fails next in the next 72 "
+                      "hours (information); Lightspeed drafts the playbook and the rulebook with "
+                      "citations (knowledge); a person reviews, edits and merges the pull request, and "
+                      "that merge is the promotion into the repo, AAP and the knowledge base "
+                      "(judgement); Event-Driven Ansible runs the approved job when the event fires, "
+                      "42 seconds, no page; and the assistant answers from what the loop wrote, probing "
+                      "hosts through job templates a person approved. Say the two takeaways out loud: "
+                      "the platform is also the KM system and the documentation, because every "
+                      "promoted change is a cited record; and the assistant does not change anything, "
+                      "it launches approved jobs and reports with evidence. Ask the room: what is the "
+                      "last runbook you wrote that the on-call actually found? HAND-OFF: Jon takes the "
+                      "assistant questions, Brad takes the mainframe row.")
+    add_spine(s, "One loop")
+    eyebrow_and_title(s, "Lab 08 · the whole loop", "One loop, end to end",
+                      "Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by "
+                      "Event-Driven Ansible, remembered by the platform, so you can ask.")
+    # the eight stations of the deck's stage map (LOOP_STATIONS), as a numbered 4 x 2 grid:
+    # 01 to 04 across the top, 05 to 08 across the bottom, and 08 feeds 01 again
+    stations = [
+        ("01", "Mainframe + servers", "MVSA · server1..12", R_DATA),
+        ("02", "Vector · Loki", "OpenShift Logging", R_DATA),
+        ("03", "outage-risk scorer", "KServe · sklearn · OpenShift AI", R_INFO),
+        ("04", "Granite · Lightspeed", "vLLM · OpenShift AI", R_KNOW),
+        ("05", "Pull request", "a person reviews and merges", R_JUDGE),
+        ("06", "Repo → AAP → EDA", "the merge is the promotion", R_JUDGE),
+        ("07", "Event-Driven Ansible", "approved job templates", R_JUDGE),
+        ("08", "Knowledge base + assistant", "pgvector · ops notebook", R_KNOW),
+    ]
+    gap = Inches(0.22)
+    bw = int((SLIDE_W - 2 * MARGIN - gap * 3) / 4)
+    bh = Inches(0.86)
+    gy = Inches(2.28)
+    for i, (num, name, sub, colour) in enumerate(stations):
+        x = MARGIN + (i % 4) * (bw + gap)
+        y = gy + (i // 4) * (bh + Inches(0.14))
+        rrect(s, x, y, bw, bh, SURFACE, BORDER_STRONG, 0.75, radius=0.08)
+        solid(s.shapes.add_shape(MSO_SHAPE.RECTANGLE, x + Inches(0.1), y + Inches(0.12),
+                                 Inches(0.05), bh - Inches(0.24)), colour)
+        add_text(s, x + Inches(0.22), y + Inches(0.06), bw - Inches(0.3), bh - Inches(0.1),
+                 [(num, 8.5, True, colour, MONO_FONT, 0),
+                  (name, 11, True, INK, HEAD_FONT, 0),
+                  (sub, 8.5, False, INK_3, MONO_FONT, 0)])
+    add_text(s, MARGIN, gy + 2 * bh + Inches(0.16), SLIDE_W - 2 * MARGIN, Inches(0.22),
+             [("THE LOOP · ASK, THEN PROBE · 08 FEEDS 01", 8.5, True, INK_3, MONO_FONT, 0)],
+             align=PP_ALIGN.RIGHT)
+
+    # ask the platform: the three questions, each with its answer and its evidence
+    qy, qh = Inches(4.5), Inches(1.2)
+    rrect(s, MARGIN, qy, SLIDE_W - 2 * MARGIN, qh, SURFACE, BORDER, 1.0, radius=0.06)
+    qbox = s.shapes.add_textbox(MARGIN + Inches(0.18), qy + Inches(0.05),
+                                SLIDE_W - 2 * MARGIN - Inches(0.36), qh - Inches(0.1))
+    qtf = qbox.text_frame
+    qtf.word_wrap = True
+    head = qtf.paragraphs[0]
+    head.space_after = Pt(3)
+    hr = head.add_run()
+    hr.text = "ASK THE PLATFORM"
+    hr.font.size, hr.font.bold, hr.font.name, hr.font.color.rgb = Pt(8.5), True, MONO_FONT, INK_3
+    for q, a, ev in [
+        ("How is server1-taxreturns?",
+         "Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088.", "job 40518 · journald · RB-214"),
+        ("How is server8-audits?",
+         "Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed.", "job 40519"),
+        ("Which servers are showing online?",
+         "13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00.", "job 40520 · estate ping"),
+    ]:
+        para = qtf.add_paragraph()
+        para.space_after = Pt(2)
+        for text, colour, bold in ((q + "   ", INK, True), (a + "  ", INK_2, False), ("[" + ev + "]", STEEL, False)):
+            run = para.add_run()
+            run.text = text
+            run.font.size, run.font.bold, run.font.name, run.font.color.rgb = Pt(9), bold, MONO_FONT, colour
+
+    # the four takeaways
+    cy, ch = Inches(5.82), Inches(1.5)
+    gap = Inches(0.3)
+    cw = int((SLIDE_W - 2 * MARGIN - gap * 3) / 4)
+    for i, (heading, body) in enumerate([
+        ("The loop is the documentation",
+         "Every promoted change, its review thread and its job outcome are indexed where the "
+         "assistant searches. The KM system writes itself."),
+        ("Two kinds of AI, one platform",
+         "The scorer and the drafter share a GPU node, a registry and an identity. Predictive "
+         "and generative are pods, not projects."),
+        ("Promotion is a merge",
+         "Repo, AAP and knowledge base update together, and a person decides. Nothing runs "
+         "from a chat window."),
+        ("Ask, then probe",
+         "The assistant's tools are approved job templates, so \"how is server8?\" becomes a "
+         "job with evidence, not a guess."),
+    ]):
+        side_card(s, MARGIN + i * (cw + gap), cy, cw, ch, "Takeaway", heading, body)
+
+    # ---- 11 appendix: AO questions ----------------------------------------------
     s = add_base(prs, "This is the slide that unblocks the deal. Every row is a control the "
                       "platform provides, mapped to the question an authorizing official actually "
                       "asks. Expect interruptions here — let them happen, this is the conversation "
