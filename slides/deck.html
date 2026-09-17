@@ -467,7 +467,52 @@ kbd{
 .labs-intro .gfxpill{position:static;margin-left:10px;vertical-align:middle}
 @media (max-width:900px){.po-body{grid-template-columns:1fr}.po-side{border-left:0;border-top:1px solid var(--border)}.po-figure img,.po-figure svg{max-height:50vh}}
 
+/* stage map — where each step of a lab runs, lit as it runs */
+.stagemap{margin:0 0 16px;border:1px solid var(--border);border-radius:9px;background:var(--surface);padding:10px 12px 6px}
+.stagemap svg{width:100%;height:auto;display:block;overflow:visible}
+.stagemap .cap{font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:6px 0 2px}
+.stagemap .st rect.box{fill:var(--surface);stroke:var(--border-strong);stroke-width:1.2;transition:fill .25s,stroke .25s}
+.stagemap .st rect.bar{opacity:.55}
+.stagemap .st.on rect.box{fill:var(--accent-wash);stroke:var(--accent);stroke-width:2}
+.stagemap .st.on rect.bar{opacity:1}
+.stagemap .st .chk{opacity:0;transition:opacity .25s}
+.stagemap .st.done .chk{opacity:1}
+.stagemap .st text{font-family:"Red Hat Text",system-ui,sans-serif}
+.stagemap .st text.l{font-family:"Red Hat Display","Red Hat Text",sans-serif;font-size:14px;font-weight:700;fill:var(--ink)}
+.stagemap .st text.s{font-size:11px;fill:var(--ink-2)}
+.stagemap .st text.n{font-family:"Red Hat Mono",monospace;font-size:10px;fill:var(--ink-3);letter-spacing:.1em}
+.stagemap .st.on text.n{fill:var(--accent)}
+.stagemap .arrow{stroke:var(--border-strong);stroke-width:1.6;fill:none}
+.stagemap .arrow.loop{stroke:var(--accent);stroke-dasharray:5 4}
+.stagemap text.looplbl{font-family:"Red Hat Mono",monospace;font-size:10px;fill:var(--accent);letter-spacing:.12em}
+.slide .stagemap{border:0;padding:0;margin:0}
+.slide .stagemap .st text.l{font-size:15px}
+.slide .stagemap .st text.s{font-size:12px}
+.demo-map{margin:0 0 12px}
+.demo-map .stagemap{margin:0}
 .closing{padding:34px 0 0}
+.loopbody{display:flex;flex-direction:column;gap:8px;padding-top:8px}
+.loopgrid{display:grid;grid-template-columns:1.05fr 1.35fr;gap:10px;min-height:0}
+.askbox{border:1px solid var(--border);border-radius:8px;background:var(--term-bg);padding:7px 11px;display:flex;flex-direction:column;gap:2px}
+.askbox .tag{font-family:"Red Hat Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--term-dim)}
+.askbox .q{font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--term-green);font-weight:600}
+.askbox .q::before{content:"> "}
+.askbox .a{font-family:"Red Hat Mono",monospace;font-size:.62rem;color:var(--term-ink);line-height:1.35;margin-bottom:2px}
+.askbox .a i{font-style:normal;color:var(--term-violet)}
+.loopcards{gap:8px}
+.loopcards .card{padding:7px 10px;gap:2px}
+.loopcards .card h4{font-size:.82rem}
+.loopcards .card p{font-size:.7rem;line-height:1.32}
+.loopcards .card .tag{font-size:.58rem}
+.slide[data-title="One loop"] .slide-head{padding-bottom:8px}
+.slide[data-title="One loop"] .lede{max-width:100ch;font-size:clamp(.84rem,.95vw,.98rem)}
+html[lang="es"] .slide[data-title="One loop"] .lede{font-size:clamp(.78rem,.88vw,.9rem)}
+html[lang="es"] .loopcards .card p{font-size:.64rem;line-height:1.28}
+html[lang="es"] .loopcards .card h4{font-size:.76rem}
+html[lang="es"] .loopcards .card{padding:6px 9px}
+html[lang="es"] .askbox .a{font-size:.58rem}
+html[lang="es"] .askbox .q{font-size:.64rem}
+html[lang="es"] .slide[data-title="One loop"] .stagemap svg{width:94%;margin:0 auto}
 .closing h3{font-size:1.3rem}
 .contactgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
 
@@ -736,7 +781,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     </div>
   </div>
 </div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="pyr-clip"><polygon points="24,1 47,37 1,37"/></clipPath></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="pyr-clip"><polygon points="24,1 47,37 1,37"/></clipPath><marker id="loop-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--border-strong)"/></marker><marker id="loop-arr-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs></svg>
 <div class="shell">
   <nav class="rail">
     <div class="brandmark">
@@ -1607,7 +1652,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Hands on · the takeaway</span>
-            <h2>Seven labs — real commands, run them yourself</h2>
+            <h2>Eight labs — real commands, run them yourself</h2>
             <p class="lede">An opinionated path on a personal laptop — not an MVP, never production, never on a government computer. Free of charge and open to anyone: one self-contained HTML on the Carahsoft event page, source at <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. Prove it to <em>yourself</em>: watch the model serve on 127.0.0.1.</p>
           </div>
           <div class="slide-body">
@@ -1619,13 +1664,44 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
               <div class="card"><span class="tag">Lab 05 · Ansible</span><h4>Automate the toil around the model</h4><p>An Event-Driven Ansible rulebook detects inference saturation and remediates it before anyone opens a ticket.</p><div class="chips"><span class="rung r-judge">executes judgement</span></div></div>
               <div class="card"><span class="tag">Lab 06 · Trust</span><h4>Prove it to your ISSO</h4><p>Verify the model signature, check FIPS, run a compliance scan and read drift metrics off live traffic.</p><div class="chips"><span class="rung r-judge">evidence → judgement</span></div></div>
               <div class="card"><span class="tag">Lab 07 · Ops notebook</span><h4>Ask your own logs</h4><p>Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.</p><div class="chips"><span class="rung r-know">information → knowledge</span></div></div>
-              <div class="card takeaway-card"><span class="tag">One thing to remember</span><h4>Nothing here needed a public endpoint</h4><p>No public model endpoint, no internet connection at inference time, no rewrite of a system of record. The labs run the upstream bits on a laptop; what an agency accredits is the supported Red Hat product built from them.</p></div>
+              <div class="card takeaway-card"><span class="tag">One thing to remember</span><h4>Nothing here needed a public endpoint</h4><p>No public model endpoint, no internet connection at inference time, no rewrite of a system of record. The labs run upstream bits on a laptop; an agency accredits the supported Red Hat product. Lab 08 chains the whole loop.</p></div>
             </div>
           </div>
           <span class="slidenum"></span>
         </article>
 
-        <!-- 17 -->
+        <!-- 17 · one loop -->
+        <article class="slide" data-title="One loop" data-rungs="data,information,knowledge,judgement" data-notes="Lab 08 is the whole hour in one loop; run it if the room is operational, or walk the map. Read the map clockwise: logs from the mainframe and the servers land in Loki (data); the outage-risk model scores who fails next in the next 72 hours (information); Lightspeed drafts the playbook and the rulebook with citations (knowledge); a person reviews, edits and merges the pull request, and that merge is the promotion into the repo, AAP and the knowledge base (judgement); Event-Driven Ansible runs the approved job when the event fires, 42 seconds, no page; and the assistant answers from what the loop wrote, probing hosts through job templates a person approved. Say the two takeaways out loud: the platform is also the KM system and the documentation, because every promoted change is a cited record; and the assistant does not change anything, it launches approved jobs and reports with evidence. Ask the room: what is the last runbook you wrote that the on-call actually found? HAND-OFF: Jon takes the assistant questions, Brad takes the mainframe row.">
+          <div class="rule"></div>
+          <div class="slide-head">
+            <span class="eyebrow">Lab 08 · the whole loop</span>
+            <h2>One loop, end to end: from mainframe logs to an assistant that probes</h2>
+            <p class="lede">Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask.</p>
+          </div>
+          <div class="slide-body loopbody">
+            <div class="stagemap"></div>
+            <div class="loopgrid">
+              <div class="askbox">
+                <span class="tag">Ask the platform</span>
+                <div class="q">How is server1-taxreturns?</div>
+                <div class="a">Online, up 41d, mem 62%, 72h risk 0.22 and falling; last change CR-9088. <i>[job 40518 · journald · RB-214]</i></div>
+                <div class="q">How is server8-audits?</div>
+                <div class="a">Restored 03:13 by job 40512 (Xmx 7g); risk 0.91 → 0.34; PR #482 merged, INC-2340 closed. <i>[job 40519]</i></div>
+                <div class="q">Which servers are showing online?</div>
+                <div class="a">13 of 14: server1..12 ok, MVSA reachable, MVSB in its IPL window until 06:00. <i>[job 40520 · estate ping]</i></div>
+              </div>
+              <div class="cols c2 loopcards">
+                <div class="card"><span class="tag">Takeaway</span><h4>The loop is the documentation</h4><p>Every promoted change, its review thread and its job outcome are indexed where the assistant searches. The KM system writes itself.</p></div>
+                <div class="card"><span class="tag">Takeaway</span><h4>Two kinds of AI, one platform</h4><p>The scorer and the drafter share a GPU node, a registry and an identity. Predictive and generative are pods, not projects.</p></div>
+                <div class="card"><span class="tag">Takeaway</span><h4>Promotion is a merge</h4><p>Repo, AAP and knowledge base update together, and a person decides. Nothing runs from a chat window.</p></div>
+                <div class="card"><span class="tag">Takeaway</span><h4>Ask, then probe</h4><p>The assistant's tools are approved job templates, so "how is server8?" becomes a job with evidence, not a guess.</p></div>
+              </div>
+            </div>
+          </div>
+          <span class="slidenum"></span>
+        </article>
+
+        <!-- 18 -->
         <article class="slide" data-title="Security posture" data-rungs="information,judgement" data-notes="Open with the labs line: it never leaves your network — true? Prove it to yourself first; if you do not believe it you cannot prove it to an AO. Each row’s Proven-in tag names the lab that proves it: where does our data go? Nowhere; it runs in your enclave. Appendix by design, for momentum — but this slide unblocks the deal; when an ISSO or security lead engages, pull it up, pick a few rows and drill in, do not read the table. WHEN CYBER IS IN THE ROOM: seams done right is where cyber comes in. Each layer inherits controls from below — FIPS mode and crypto from RHEL CoreOS carry up through OpenShift and OpenShift AI. No absolutes: what is not FIPS-inherited, say so — documented and addressed elsewhere in the system. Cyber replay: depth here and on seams, no re-pitch. ‘Is AI safe, can we put guardrails on it’ always comes up. Cover: FIPS 199, FISMA moderate or high; federal templating and reporting shipped WITH the platform; air-gap, registry mirroring, Compliance Operator; civilian and DoD share requirements. FIPS row, credential once: former ITO / ISSO on a FISMA High system — this in your authorization package is perfectly acceptable; practitioner evidence, not a vendor claim. New rows: hardware crypto — Red Hat tests with vendors (mainframes, TPMs, PIV/CAC) so it does what our software expects; your apps — our security tool chains span their life cycle, not just our products; accountability — every action runs from one governed AAP console, enterprise RBAC, show-back, no islands of automation. The real difference from commercial is paperwork: attestation, POAMs, FITARA scorecards. Do not roll your own validations — we connect you to a specialist. If it fits: Hugging Face breach — attackers hit the SaaS model to pivot in; on-prem and SaaS answer different questions. Brief cyber early: at the IRS ideas die when cyber hears late — hence the community of practice.">
           <div class="rule"></div>
           <div class="slide-head">
@@ -1665,7 +1741,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       <div class="labs-intro">
         <span class="eyebrow">Hands-on track</span>
         <h2>Virtual terminal labs</h2>
-        <p>Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html">choose-your-own-adventure page</a> lays out a reading order for every job in the room. As each command runs, a <b>card</b> pops up under the terminal: what is happening, why it matters to this talk, and the seam a single platform removes. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.</p>
+        <p>Eight labs, roughly five minutes each (Lab 08 runs the whole loop). Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href="https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html">choose-your-own-adventure page</a> lays out a reading order for every job in the room. As each command runs, a <b>card</b> pops up under the terminal: what is happening, why it matters to this talk, and the seam a single platform removes. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.</p>
         <div class="labs-legend"><span>Each lab is tagged with the rung of the ladder it serves:</span><span class="rung r-data">Data</span><span class="rung r-info">Information</span><span class="rung r-know">Knowledge</span><span class="rung r-judge">Judgement</span><button type="button" class="gfxpill" id="labs-map-btn">See the map</button></div>
       </div>
       <div id="labholder"></div>
@@ -1728,6 +1804,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           </select>
         </div>
       </div>
+      <div class="demo-map" id="demo-map" hidden></div>
       <div class="demo-stage">
         <div class="term">
           <div class="term-bar">
@@ -1739,7 +1816,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </div>
         <div id="demo-card"></div>
       </div>
-      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
+      <p class="foot"><kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all eight continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.</p>
     </section>
   </main>
 </div>
@@ -2082,7 +2159,8 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       gfxBtn:'Graphic ⤢', gfxPill:'graphic', gfxPoints:'Talk to this', gfxClose:'Close',
       gfxKicker:'Graphic — discussion points', gfxVector:'Vector rendition. The illustrated render loads from',
       gfxVector2:'when that file is present in the repository.', gfxMap:'See the map',
-      allow:'allowlist', allowTitle:'Only this lab\'s commands run here; anything else is refused with a hint.'
+      allow:'allowlist', allowTitle:'Only this lab\'s commands run here; anything else is refused with a hint.',
+      mapCap:'Where each step runs — lit as it runs, checked when done'
     },
     es: {
       deck:'Diapos', labsBtn:'Labs', demoBtnMode:'Demo',
@@ -2107,7 +2185,8 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       gfxBtn:'Gráfico ⤢', gfxPill:'gráfico', gfxPoints:'Qué comentar', gfxClose:'Cerrar',
       gfxKicker:'Gráfico — puntos de conversación', gfxVector:'Versión vectorial. La ilustración se carga desde',
       gfxVector2:'cuando ese archivo está en el repositorio.', gfxMap:'Ver el mapa',
-      allow:'lista permitida', allowTitle:'Aquí solo corren los comandos de este lab; cualquier otro se rechaza con una pista.'
+      allow:'lista permitida', allowTitle:'Aquí solo corren los comandos de este lab; cualquier otro se rechaza con una pista.',
+      mapCap:'Dónde corre cada paso — se enciende al correr, se marca al terminar'
     }
   };
   function C(k){ return (CHROME[lang] && CHROME[lang][k]) || CHROME.en[k] || k; }
@@ -2128,7 +2207,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     'Why Red Hat AI':'Por qué Red Hat AI', 'Why one platform':'Por qué una plataforma',
     'AI for operations':'IA para operaciones', 'Logs to MTTR':'De logs a MTTR',
     'Adoption path':'Ruta de adopción', 'Next steps':'Próximos pasos',
-    'Labs preview':'Vista de labs', 'Security posture':'Postura de seguridad'
+    'Labs preview':'Vista de labs', 'Security posture':'Postura de seguridad', 'One loop':'Un solo bucle'
   };
   function slideTitleLocal(t){
     return (lang === 'es' && TITLES_ES[t]) ? TITLES_ES[t] : t;
@@ -2142,6 +2221,19 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   var ES_TEXT = {
     /* ---- chrome ---- */
     "Notes":"Notas",
+    "Lab 08 · the whole loop":"Lab 08 · el bucle completo",
+    "One loop, end to end: from mainframe logs to an assistant that probes":"Un solo bucle, de punta a punta: de los logs del mainframe a un asistente que sondea",
+    "Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask.":"Entran los logs, se puntúa el riesgo, Lightspeed redacta el arreglo, una persona lo fusiona, Event-Driven Ansible lo ejecuta, la plataforma lo recuerda, así que puedes preguntar.",
+    "Ask the platform":"Pregúntale a la plataforma",
+    "The loop is the documentation":"El bucle es la documentación",
+    "Every promoted change, its review thread and its job outcome are indexed where the assistant searches. The KM system writes itself.":"Cada cambio promovido, su hilo de revisión y el resultado del job se indexan donde busca el asistente. El sistema de conocimiento se escribe solo.",
+    "Two kinds of AI, one platform":"Dos clases de IA, una plataforma",
+    "The scorer and the drafter share a GPU node, a registry and an identity. Predictive and generative are pods, not projects.":"El puntuador y el redactor comparten un nodo GPU, un registro y una identidad. Predictiva y generativa son pods, no proyectos.",
+    "Promotion is a merge":"Promover es fusionar",
+    "Repo, AAP and knowledge base update together, and a person decides. Nothing runs from a chat window.":"Repo, AAP y base de conocimiento se actualizan juntos, y una persona decide. Nada corre desde una ventana de chat.",
+    "Ask, then probe":"Pregunta, luego sondea",
+    "The assistant's tools are approved job templates, so \"how is server8?\" becomes a job with evidence, not a guess.":"Las herramientas del asistente son plantillas de job aprobadas, así que “¿cómo está server8?” se vuelve un job con evidencia, no una suposición.",
+    "Takeaway":"Conclusión",
     "Lab 01 · 127.0.0.1, no egress":"Lab 01 · 127.0.0.1, sin salida",
     "Lab 06 · cosign verify":"Lab 06 · cosign verify",
     "Lab 06 · fips-mode-setup, sestatus":"Lab 06 · fips-mode-setup, sestatus",
@@ -2223,7 +2315,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     "Red Hat AI · virtual event deck &amp; hands-on labs":"Red Hat AI · presentación del evento y labs prácticos",
     "<kbd>←</kbd> <kbd>→</kbd> to move &nbsp;·&nbsp; <kbd>N</kbd> presenter notes &nbsp;·&nbsp; <kbd>G</kbd> graphic &nbsp;·&nbsp; <kbd>F</kbd> present full-screen":"<kbd>←</kbd> <kbd>→</kbd> para moverte &nbsp;·&nbsp; <kbd>N</kbd> notas &nbsp;·&nbsp; <kbd>G</kbd> gráfico &nbsp;·&nbsp; <kbd>F</kbd> pantalla completa",
     "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all six continuously. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre todos en bucle continuo. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
-    "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all seven continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre los siete en bucle continuo. Una tarjeta junto a la terminal explica cada paso mientras corre. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
+    "<kbd>Space</kbd> plays and pauses &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> switch labs &nbsp;·&nbsp; loops through all eight continuously. A card beside the terminal explains each step as it runs. Open the page with <code>#demo</code> on the URL to start here, playing.":"<kbd>Espacio</kbd> reproduce y pausa &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> cambian de lab &nbsp;·&nbsp; recorre los ocho en bucle continuo. Una tarjeta junto a la terminal explica cada paso mientras corre. Abre la página con <code>#demo</code> en la URL para empezar aquí, reproduciendo.",
 
     /* ---- rung labels (standalone chips) ---- */
     "Data":"Datos",
@@ -2635,7 +2727,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 
     /* ---- slide 16: labs preview ---- */
     "Hands on · the takeaway":"Manos a la obra · el cierre",
-    "Seven labs — real commands, run them yourself":"Siete labs — comandos reales, córrelos tú mismo",
+    "Eight labs — real commands, run them yourself":"Ocho labs — comandos reales, córrelos tú mismo",
     "An opinionated path on a personal laptop — not an MVP, never production, never on a government computer. Free of charge and open to anyone: one self-contained HTML on the Carahsoft event page, source at <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/\"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. Prove it to <em>yourself</em>: watch the model serve on 127.0.0.1.":"Un camino con opinión en una laptop personal — no es un MVP, nunca producción, nunca en una computadora del gobierno. Gratis y abierto a cualquiera: un solo HTML autocontenido en la página del evento de Carahsoft, con la fuente en <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/\"><b>nommsweymx.github.io/redhat-ai-tax-labs</b></a>. Compruébalo <em>tú mismo</em>: mira al modelo servir en 127.0.0.1.",
     "Serve a model inside your boundary":"Sirve un modelo dentro de tu perímetro",
     "Pull the vLLM-based inference server, serve a validated Granite model, and classify a taxpayer inquiry — without a single byte leaving the host.":"Descarga el servidor de inferencia basado en vLLM, sirve un modelo Granite validado y clasifica una consulta — sin que un solo byte salga del host.",
@@ -2653,7 +2745,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     "Ingest logs, runbooks and incident history into an on-cluster notebook, diagnose a live incident with citations — then read the MTTR numbers.":"Ingesta logs, runbooks e historial de incidentes a un cuaderno en el clúster, diagnostica un incidente en vivo con citas — y luego lee los números de MTTR.",
     "One thing to remember":"Una sola cosa para recordar",
     "Nothing here needed a public endpoint":"Nada aquí necesitó un endpoint público",
-    "No public model endpoint, no internet connection at inference time, no rewrite of a system of record. The labs run the upstream bits on a laptop; what an agency accredits is the supported Red Hat product built from them.":"Sin endpoint público de modelo, sin conexión a internet al momento de inferir, sin reescribir un sistema de registro. Los labs corren las piezas upstream en una laptop; lo que una agencia acredita es el producto Red Hat soportado construido a partir de ellas.",
+    "No public model endpoint, no internet connection at inference time, no rewrite of a system of record. The labs run upstream bits on a laptop; an agency accredits the supported Red Hat product. Lab 08 chains the whole loop.":"Sin endpoint público de modelo, sin conexión a internet al momento de inferir, sin reescribir un sistema de registro. Los labs corren piezas upstream en una laptop; la agencia acredita el producto Red Hat soportado. El Lab 08 encadena el bucle completo.",
 
     /* ---- slide 17: security ---- */
     "Appendix · Trusted, enterprise-ready AI":"Apéndice · IA confiable, lista para la empresa",
@@ -2683,7 +2775,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     /* ---- labs intro / legend / glossary / closing ---- */
     "Hands-on track":"Ruta práctica",
     "Virtual terminal labs":"Laboratorios de terminal virtual",
-    "Seven labs, roughly five minutes each. Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">choose-your-own-adventure page</a> lays out a reading order for every job in the room. As each command runs, a <b>card</b> pops up under the terminal: what is happening, why it matters to this talk, and the seam a single platform removes. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.":"Siete labs, de unos cinco minutos cada uno. Pulsa <b>Ver</b> para revelar el siguiente comando y escribirlo tú, o <b>Ejecutar</b> para que corra solo. Los comandos son reales y copiables; la salida es representativa de un entorno real para que el lab corra igual para todos. <b>Demo</b> reproduce un lab completo sin intervención — y la vista <b>Demo</b> de la barra lateral recorre los siete en bucle. ¿No sabes por dónde empezar? La <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">página elige-tu-propia-aventura</a> propone un orden de lectura para cada rol en la sala. Mientras corre cada comando, aparece una <b>tarjeta</b> bajo la terminal: qué está pasando, por qué importa en esta charla y la costura que una sola plataforma elimina. Cada lab lleva además un <b>panel de teoría</b> que explica qué pasó realmente, y el <b>glosario</b> del final desmitifica la jerga.",
+    "Eight labs, roughly five minutes each (Lab 08 runs the whole loop). Press <b>Show</b> to reveal the next command and type it yourself, or press <b>Run</b> to execute it for you. Commands are real and copyable; output is representative of a working environment so the lab runs the same for everyone. <b>Demo</b> plays a whole lab hands-free — and the <b>Demo</b> view in the sidebar runs all seven on a loop. Not sure where to start? The <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">choose-your-own-adventure page</a> lays out a reading order for every job in the room. As each command runs, a <b>card</b> pops up under the terminal: what is happening, why it matters to this talk, and the seam a single platform removes. Every lab also carries a <b>theory panel</b> explaining what actually happened, and the <b>glossary</b> at the bottom demystifies the jargon.":"Ocho labs, de unos cinco minutos cada uno (el Lab 08 recorre el bucle completo). Pulsa <b>Ver</b> para revelar el siguiente comando y escribirlo tú, o <b>Ejecutar</b> para que corra solo. Los comandos son reales y copiables; la salida es representativa de un entorno real para que el lab corra igual para todos. <b>Demo</b> reproduce un lab completo sin intervención — y la vista <b>Demo</b> de la barra lateral recorre los siete en bucle. ¿No sabes por dónde empezar? La <a href=\"https://nommsweymx.github.io/redhat-ai-tax-labs/adventure.html\">página elige-tu-propia-aventura</a> propone un orden de lectura para cada rol en la sala. Mientras corre cada comando, aparece una <b>tarjeta</b> bajo la terminal: qué está pasando, por qué importa en esta charla y la costura que una sola plataforma elimina. Cada lab lleva además un <b>panel de teoría</b> que explica qué pasó realmente, y el <b>glosario</b> del final desmitifica la jerga.",
     "Each lab is tagged with the rung of the ladder it serves:":"Cada lab lleva el peldaño de la escalera que sirve:",
     "Glossary — the jargon, demystified":"Glosario — la jerga, desmitificada",
     "Token":"Token",
@@ -3319,6 +3411,120 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           ['note','Detection was already fast. The hours lived in diagnosis — that is what a notebook over your own logs removes.']
         ]}
     ]
+  },
+  {title:"One loop, end to end", product:"OpenShift AI · Ansible Lightspeed · Event-Driven Ansible", time:"~8 min",
+    rungs:[["r-data", "data"], ["r-info", "information"], ["r-know", "knowledge"], ["r-judge", "judgement"]],
+    host:"admin@ocp-bastion:~/loop",
+    goal:"Mainframe and server logs come in, a predictive model scores which systems will fall over next, Ansible Lightspeed drafts the rulebook and playbook, a person reviews and merges them, Event-Driven Ansible runs them, and the assistant answers ‘how is server8-audits?’ by probing the estate. One platform carries every step, and the loop is also the knowledge base.",
+    youll:["Two model pods side by side on <b>OpenShift AI</b>: a tabular outage-risk scorer (sklearn on KServe) and Granite on vLLM, one namespace, one GPU node", "<b>Vector</b> and <b>Loki</b> ingesting z/OS SYSLOG, RHEL journald and OpenShift container logs into one queryable store", "<b>Ansible Lightspeed</b> (on-prem, its model served by OpenShift AI) drafting the playbook and rulebook, then a pull request for the human review", "<b>Event-Driven Ansible</b> running the promoted rulebook, and the ops assistant probing hosts through approved job templates"],
+    watch:["The scorer produces a <b>number</b>; the drafter produces <b>YAML</b>; neither runs anything until a person merges the pull request", "The merge is the promotion: repo, AAP project and knowledge base update in one step", "Every assistant answer carries citations and a job id: evidence, not fluency", "Nothing left the cluster: mainframe logs, scores, drafts and answers all stayed inside the boundary"],
+    take:"One platform runs the predictive model, the generative model, the automation and the knowledge base, so the loop that keeps systems up is also the documentation, and the assistant answers from what the loop wrote.",
+    theory:"Two different mathematics share one platform. The outage-risk model is tabular prediction: hourly features per system (memory headroom, GC pauses, abend rate, batch overlap) fitted to 180 days of history, so its output is a probability, not an explanation. The drafts come from a code model predicting tokens, steered by your prompt and the runbooks retrieved as context, so its output is plausible YAML that must be reviewed like any other change. Event-Driven Ansible contains no machine learning at all: the same event always runs the same approved job. The knowledge base grows because every promotion (the pull request, its review thread, the job outcome) is embedded into the same vector store the assistant searches, which is why the assistant can cite RB-214 an hour after it was written.",
+    map:[[2, 3, 7], [0, 1], [1, 2], [2], [3], [4, 5, 7], [6, 0], [7, 6, 0]],
+    es:{"title": "Un solo bucle, de punta a punta", "goal": "Entran logs de mainframe y de servidores, un modelo predictivo puntúa qué sistemas van a caer después, Ansible Lightspeed redacta el rulebook y el playbook, una persona los revisa y hace merge, Event-Driven Ansible los ejecuta, y el asistente responde ‘¿cómo está server8-audits?’ sondeando la flota. Una sola plataforma lleva cada paso, y el ciclo es también la base de conocimiento.", "youll": ["Dos pods de modelo lado a lado en <b>OpenShift AI</b>: un predictor tabular de riesgo de caída (sklearn en KServe) y Granite en vLLM, un namespace, un nodo GPU", "<b>Vector</b> y <b>Loki</b> ingiriendo el SYSLOG de z/OS, journald de RHEL y logs de contenedores de OpenShift en un solo almacén consultable", "<b>Ansible Lightspeed</b> (on-prem, con su modelo servido por OpenShift AI) redactando el playbook y el rulebook, y luego un pull request para la revisión humana", "<b>Event-Driven Ansible</b> ejecutando el rulebook promovido, y el asistente de operaciones sondeando hosts a través de plantillas de job aprobadas"], "watch": ["El predictor produce un <b>número</b>; el redactor produce <b>YAML</b>; ninguno ejecuta nada hasta que una persona hace merge del pull request", "El merge es la promoción: repo, proyecto de AAP y base de conocimiento se actualizan en un solo paso", "Cada respuesta del asistente trae citas y un id de job: evidencia, no fluidez", "Nada salió del clúster: logs del mainframe, puntajes, borradores y respuestas se quedaron dentro del perímetro"], "take": "Una sola plataforma corre el modelo predictivo, el generativo, la automatización y la base de conocimiento, así que el ciclo que mantiene los sistemas arriba es también la documentación, y el asistente responde con lo que el ciclo escribió.", "theory": "Dos matemáticas distintas comparten una plataforma. El modelo de riesgo de caída es predicción tabular: features por sistema y por hora (memoria libre, pausas de GC, tasa de abends, solape de batch) ajustados a 180 días de historia, así que su salida es una probabilidad, no una explicación. Los borradores salen de un modelo de código que predice tokens, guiado por tu prompt y por los runbooks recuperados como contexto, así que su salida es YAML plausible que debe revisarse como cualquier otro cambio. Event-Driven Ansible no contiene aprendizaje automático: el mismo evento siempre corre el mismo job aprobado. La base de conocimiento crece porque cada promoción (el pull request, su hilo de revisión, el resultado del job) se embebe en el mismo almacén vectorial que el asistente consulta, y por eso el asistente puede citar RB-214 una hora después de que se escribió.", "rungs": [["r-data", "datos"], ["r-info", "información"], ["r-know", "conocimiento"], ["r-judge", "juicio"]]},
+    steps:[
+      {cmd:"oc get pods -n tax-loop -o wide | awk '{print $1, $3, $7}' | column -t",
+       note:"Two kinds of AI, one namespace: the scorer and the drafter share ocp-gpu-02.",
+       out:[
+          ["key", "NAME                                     STATUS   NODE"],
+          ["", "outage-risk-predictor-00003-deployment   Running  ocp-gpu-02"],
+          ["", "granite-8b-tax-v1-predictor-00007        Running  ocp-gpu-02"],
+          ["", "lightspeed-api-6c8f9d                    Running  ocp-worker-05"],
+          ["", "vector-zos-syslog-0                      Running  ocp-worker-03"],
+          ["", "loki-gateway-7b9c                        Running  ocp-worker-03"],
+          ["", "eda-worker-activation-memory-pressure    Running  ocp-worker-05"],
+          ["", "ops-notebook-assistant-5d7f              Running  ocp-gpu-02"],
+          ["dim", "Predictive (sklearn) and generative (vLLM) models on the same GPU node, same registry, same identity."],
+        ]},
+      {cmd:"logcli query '{source=~\"zos-syslog|journald|openshift\"} |~ \"OOM|S878|S80A|OOMKilled\"' --since 24h --limit 7",
+       note:"Three estates, one query: z/OS SYSLOG via Vector, RHEL journald, OpenShift container logs, all in Loki.",
+       out:[
+          ["dim", "https://loki-gateway.openshift-logging.svc - tenant: infrastructure"],
+          ["err", "02:41:07Z MVSA  IEA995I SYMPTOM DUMP OUTPUT  SYSTEM COMPLETION CODE=878  REASON=00000010  JOB IMFBATCH"],
+          ["err", "02:41:09Z MVSA  IEF450I IMFBATCH STEP04 - ABEND=S878 U0000 REASON=00000010"],
+          ["err", "02:58:33Z server8-audits  kernel: Out of memory: Killed process 41823 (java) total-vm:9.2G anon-rss:6.8G"],
+          ["warn", "02:58:34Z server8-audits  systemd[1]: audits-case.service: Main process exited, code=killed, status=9/KILL"],
+          ["err", "03:12:50Z server8-audits  kernel: Out of memory: Killed process 42110 (java) total-vm:9.4G anon-rss:7.0G"],
+          ["warn", "03:20:02Z tax-inference  predictor-b2d14  container \"kserve-container\" OOMKilled (exit 137)"],
+          ["dim", "09:14:21Z server1-taxreturns  kernel: java invoked oom-killer: gfp_mask=0x140dca  (survived: cgroup limit held)"],
+        ]},
+      {cmd:"python ingest_estate.py --sources zos-syslog,journald,openshift --window 30d --out estate.parquet",
+       note:"Data becomes features. Same Loki the ops notebook (Lab 07) reads; nothing new was installed.",
+       out:[
+          ["dim", "Reading 30 days from Loki ..."],
+          ["", "  zos-syslog   MVSA, MVSB               2 LPARs         612,400 lines   S878 · S80A · S0C4 · region · paging"],
+          ["", "  journald     12 RHEL hosts                           1,384,912 lines   oom-killer · GC pauses · swap"],
+          ["", "  openshift    tax-inference, tax-loop  2 namespaces    211,748 lines   OOMKilled · restarts · limits"],
+          ["", "Features per system per hour: mem_headroom, gc_pause_p95, abend_rate, batch_overlap, restarts"],
+          ["ok", "Wrote estate.parquet  14 systems x 720 hours = 10,080 rows  (2,209,060 lines in; no line left the cluster)"],
+        ]},
+      {cmd:"python score.py --model outage-risk --horizon 72h --top 5",
+       note:"Information: a number per system. Nothing has been decided; a person decides what 0.91 means tonight.",
+       out:[
+          ["dim", "POST https://outage-risk-predictor.tax-loop.svc/v2/models/outage-risk/infer   (KServe · sklearn runtime)"],
+          ["key", "SYSTEM               72H RISK  DRIVERS                                               TREND"],
+          ["err", "server8-audits         0.91    heap headroom -38% wk/wk · GC p95 2.4s · 2 OOM kills     ^ rising"],
+          ["warn", "MVSA / IMFBATCH        0.74    S878 x3 in 7d · region 512M · batch overlap 02:00-03:00   ^ rising"],
+          ["", "server3-notices        0.41    swap in use 18% · restarts 1                            = flat"],
+          ["ok", "server1-taxreturns     0.22    cgroup limit held · 1 oom-killer survived               v falling"],
+          ["ok", "server5-transcripts    0.09    -                                                       = flat"],
+          ["dim", "Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93  (tabular; the Lab 02 pattern)"],
+        ]},
+      {cmd:"python lightspeed_draft.py --prompt prompts/memory-pressure.txt --out drafts/",
+       note:"Generative: a draft, with citations. Nobody has run it. Lightspeed's model is served by the same OpenShift AI as the scorer.",
+       out:[
+          ["dim", "Ansible Lightspeed (on-prem)  model: granite-8b-code-instruct  served by: OpenShift AI (ocp-gpu-02)"],
+          ["dim", "prompt: relieve JVM memory pressure on a RHEL host inside the cgroup limit, restart in a maintenance"],
+          ["dim", "        window, verify with a probe; for a z/OS S878 abend notify the mainframe on-call"],
+          ["ok", "generated  drafts/playbooks/relieve_memory_pressure.yml   42 lines  (hosts, become, 5 tasks, a probe)"],
+          ["ok", "generated  drafts/rulebooks/memory_pressure.yml           31 lines  (sources: alertmanager, webhook)"],
+          ["yaml", "  - name: Outage risk above threshold"],
+          ["yaml", "    condition: event.alert.labels.alertname == \"OutageRiskHigh\" and event.alert.labels.score > 0.8"],
+          ["yaml", "    action: run_job_template: { name: \"Relieve memory pressure\", extra_vars: { host: \"{{ event.alert.labels.instance }}\" } }"],
+          ["yaml", "  - name: Mainframe storage abend"],
+          ["yaml", "    condition: event.payload.abend == \"S878\""],
+          ["yaml", "    action: run_job_template: { name: \"Notify mainframe on-call\" }"],
+          ["vio", "citations: RB-207 (JVM sizing) · CR-9120 (audits heap change) · INC-2311 (last OOM on server8-audits)"],
+        ]},
+      {cmd:"ansible-lint drafts/ && git checkout -b eda/memory-pressure && git add drafts/ && git commit -qm 'EDA: memory pressure (Lightspeed draft)' && gh pr create -f -r sre-lead",
+       note:"Judgement: a person edits, approves and merges. The merge is the promotion: into the repo, into AAP, and into the knowledge base.",
+       out:[
+          ["ok", "ansible-lint  Passed: 0 failure(s), 0 warning(s) on 2 files.  Profile: production"],
+          ["", "[eda/memory-pressure 3f1c2a9] EDA: memory pressure (Lightspeed draft)   2 files changed, 73 insertions(+)"],
+          ["key", "https://git.agency.gov/ops/loop-ops/pull/482"],
+          ["warn", "  review  sre-lead  requested changes: threshold 0.8 -> 0.85; add maintenance_window guard   (+11 min)"],
+          ["ok", "  review  sre-lead  approved after 2 edits                                                 (14:07)"],
+          ["ok", "  merged  main <- eda/memory-pressure   #482   by j.rivera"],
+          ["", "awx project update loop-ops                       -> synced rev 3f1c2a9 (14:08)"],
+          ["", "awx rulebook activation restart memory-pressure   -> running, rulebook memory_pressure.yml"],
+          ["vio", "km_publish: PR #482 + review thread indexed as RB-214 in pgvector.ops_notebook  (cites CR-9120, INC-2311)"],
+        ]},
+      {cmd:"ansible-rulebook --rulebook rulebooks/memory_pressure.yml -i inventory/prod --controller-url https://aap.agency.gov",
+       note:"The loop closes: event, approved playbook, ticket, knowledge record. Same job history as Lab 05.",
+       out:[
+          ["dim", "INFO  Ruleset \"Memory pressure\" started   sources: alertmanager:5000, webhook:5001"],
+          ["warn", "[03:12:51] EVENT   OutageRiskHigh  instance=server8-audits  score=0.91"],
+          ["", "[03:12:51] RULE    \"Outage risk above threshold\" matched   (maintenance_window: true)"],
+          ["", "[03:12:52] ACTION  run_job_template -> \"Relieve memory pressure\"  host=server8-audits"],
+          ["ok", "[03:13:29]         job 40512 | Xmx 6g -> 7g (cgroup 9g) | audits-case.service restarted | probe 200 OK in 0.31s"],
+          ["ok", "[03:13:33]         job 40512 | ServiceNow INC-2340 opened and closed | KM record RB-214 updated (outcome: success)"],
+          ["ok", "Elapsed from event to verified: 42 seconds. No page. server8-audits re-scored: 0.91 -> 0.34"],
+        ]},
+      {cmd:"python ask.py \"How is server1-taxreturns? How is server8-audits? Which servers are showing online?\"",
+       note:"Ask the platform what it knows. The tools are Ansible jobs; the memory is the knowledge base the loop wrote.",
+       out:[
+          ["dim", "ops assistant  (Granite on OpenShift AI · tools: job_template.launch, loki.query, km.search)"],
+          ["key", "[tool] job_template.launch \"Probe host\"  host=server1-taxreturns    -> job 40518  4.1s"],
+          ["vio", "server1-taxreturns: online, up 41d, mem 62% (cgroup limit held), last oom-killer 09:14 today (survived),"],
+          ["vio", "  72h risk 0.22 and falling; last change CR-9088 (kernel patch, 09-02).   [journald · score.py · RB-214]"],
+          ["key", "[tool] job_template.launch \"Probe host\"  host=server8-audits        -> job 40519  3.8s"],
+          ["vio", "server8-audits: online, restored 03:13 by job 40512 (Xmx 7g); no OOM since; risk 0.91 -> 0.34;"],
+          ["vio", "  change PR #482 merged, INC-2340 closed.   [job 40512 · PR #482 · INC-2340]"],
+          ["key", "[tool] job_template.launch \"Estate ping\"  hosts=all                 -> job 40520  6.2s"],
+          ["vio", "online 13/14: server1..server12 ok · MVSA reachable (z/OSMF) · MVSB in planned IPL window until 06:00  [CR-9131]"],
+          ["ok", "The assistant probes and reports. It changes nothing except through a job template a person approved."],
+        ]},
+    ]
   }
   ];
 
@@ -3592,6 +3798,62 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
        es:{what:"Cinco comandos apuntaron el patrón del Lab 04 a operaciones: logs, runbooks, postmortems y registros de cambio se volvieron un cuaderno que diagnosticó un OOM con citas, pasó la corrección a Ansible y bajó el diagnóstico de horas a minutos.",
            why:"Los tableros muestran que algo se rompió; un cuaderno sobre tus propios logs te dice por qué, y el diagnóstico es donde vive el MTTR. Una persona sigue decidiendo, y la plataforma que atiende al contribuyente también se explica sola.",
            value:"No se instaló nada: OpenShift Logging, OpenShift AI, Granite, Llama Stack y Ansible ya estaban ahí, y el cuaderno heredó la acreditación del sistema del contribuyente. Acredita una vez, hereda en todas partes; nadie levanta un segundo stack de AI."}}},
+    /* Lab 08 — One loop, end to end */
+    {steps:[
+      {what:"Lists the pods in tax-loop with their nodes. The tabular outage-risk scorer and the Granite drafter both run on ocp-gpu-02, beside the Lightspeed API, the Vector shipper for z/OS SYSLOG, Loki and the EDA worker.",
+       why:"Predictive and generative are two different mathematics, and the deck said they coexist in one operational model. Here it is in one column: the number-maker and the YAML-maker share a node, a registry and an identity.",
+       value:"OpenShift AI serves sklearn on KServe and Granite on vLLM from one registry under one identity. There is no data-science cluster for the scorer and a separate chat vendor for the drafter, each with its own patch stream and paperwork.",
+       es:{what:"Lista los pods de tax-loop con su nodo. El modelo tabular de riesgo y el Granite que redacta corren en ocp-gpu-02, junto al API de Lightspeed, el Vector del SYSLOG de z/OS, Loki y el worker de EDA.",
+           why:"Predictivo y generativo son dos matemáticas distintas, y la charla dijo que conviven en un solo modelo operativo. Aquí están en una columna: el que produce números y el que produce YAML comparten nodo, registro e identidad.",
+           value:"OpenShift AI sirve sklearn en KServe y Granite en vLLM desde un registro y una identidad. No hay un clúster de data science para el predictor ni un proveedor de chat aparte para el redactor, cada uno con sus parches."}},
+      {what:"Queries Loki once across three estates for memory failures in the last 24 hours. IMFBATCH on MVSA abended S878 at 02:41, server8-audits killed its java process twice, and a KServe container was OOMKilled at 03:20.",
+       why:"This is the Data rung, and the point is the mix: mainframe, RHEL and container logs in one query, one clock. The systems of record still run on z/OS, and a model that cannot see them scores half the estate.",
+       value:"Vector ships z/OS SYSLOG into the same OpenShift Logging tenant that already holds journald and container logs, under the cluster's identity. There is no SaaS log stack that never saw the mainframe and no second collector nobody accredited.",
+       es:{what:"Una consulta a Loki en tres entornos por fallas de memoria de las últimas 24 horas. IMFBATCH en MVSA abendó S878 a las 02:41, server8-audits mató su proceso java dos veces y un contenedor KServe quedó OOMKilled a las 03:20.",
+           why:"Peldaño de Datos, y lo que importa es la mezcla: logs de mainframe, RHEL y contenedores en una consulta, un reloj. Los sistemas de registro siguen en z/OS, y un modelo que no los ve califica media flota.",
+           value:"Vector manda el SYSLOG de z/OS al mismo tenant de OpenShift Logging que guarda journald y contenedores, con la identidad del clúster. No hay un SaaS de logs que nunca vio el mainframe ni un segundo colector que nadie acreditó."}},
+      {what:"Reads 30 days from Loki, 2,209,060 lines from 2 LPARs, 12 RHEL hosts and 2 namespaces, and reduces them to five hourly features: memory headroom, GC pause p95, abend rate, batch overlap, restarts. Result: estate.parquet, 14 systems by 720 hours.",
+       why:"Data becomes Information: two million lines nobody could read become 10,080 rows a model can. The mainframe's S878 abends and a RHEL host's GC pauses now sit in the same table, and not one line left the cluster.",
+       value:"The feature job reads the same Loki the Lab 07 notebook reads, on the same OpenShift AI; nothing new was installed. There is no export pipeline copying mainframe logs to a data lake with its own credentials and no owner.",
+       es:{what:"Lee 30 días de Loki, 2,209,060 líneas de 2 LPARs, 12 hosts RHEL y 2 namespaces, y las reduce a features por hora: memoria libre, pausas de GC, abends, solape de batch, reinicios. Resultado: estate.parquet, 14 sistemas por 720 horas.",
+           why:"De Datos a Información: dos millones de líneas que nadie leía son 10,080 filas que un modelo lee. Los S878 del mainframe y las pausas de GC de un host RHEL comparten tabla, y ni una línea salió del clúster.",
+           value:"El job de features lee el mismo Loki que el cuaderno del Lab 07, en el mismo OpenShift AI; no se instaló nada. No hay pipeline copiando logs del mainframe a un data lake con credenciales propias y sin dueño."}},
+      {what:"Posts the feature rows to the KServe endpoint and prints a 72-hour outage probability per system. server8-audits scores 0.91 and rising on heap headroom down 38 percent and two OOM kills; MVSA IMFBATCH 0.74; server1-taxreturns 0.22 and falling.",
+       why:"Information, not a decision: a number per system from a tabular model with AUC 0.93, the Lab 02 pattern aimed at the estate that serves taxpayers. Nobody has restarted anything; a person decides what 0.91 means tonight.",
+       value:"The scorer is a KServe endpoint on OpenShift AI, versioned as outage-risk v14, reading features built from the platform's own logs. There is no scorer bolted to a scheduler that cannot read its features, fed from an emailed CSV.",
+       es:{what:"Envía los features al endpoint de KServe e imprime una probabilidad de caída a 72 horas por sistema. server8-audits marca 0.91 y subiendo, con 38% menos de heap y dos OOM kills; MVSA IMFBATCH 0.74; server1-taxreturns 0.22 y bajando.",
+           why:"Información, no una decisión: un número por sistema desde un modelo tabular con AUC 0.93, el patrón del Lab 02 apuntado a la flota que atiende al contribuyente. Nadie reinició nada; una persona decide qué significa 0.91 esta noche.",
+           value:"El predictor es un endpoint KServe en OpenShift AI, versionado como outage-risk v14, con features de los logs de la misma plataforma. No hay un modelo atornillado a un scheduler que no lee sus features, alimentado con CSV por correo."}},
+      {what:"Sends the memory-pressure prompt to Ansible Lightspeed, whose Granite code model runs on ocp-gpu-02 beside the scorer. It drafts a 42-line playbook and a 31-line rulebook, risk above 0.8 launching Relieve memory pressure, and cites RB-207, CR-9120 and INC-2311.",
+       why:"Generative: Knowledge in draft form. The model read RB-207 and the last OOM on server8-audits and wrote plausible YAML with sources attached, and plausible is the word. Nobody has run it; it goes to review like any change.",
+       value:"Lightspeed runs on-prem, its model served by the same OpenShift AI as the scorer, so prompt, retrieved runbooks and draft stay inside your boundary. There is no LLM draft pasted from a chat window with no review trail.",
+       es:{what:"Manda el prompt memory-pressure a Ansible Lightspeed, cuyo Granite de código corre en ocp-gpu-02. Redacta un playbook de 42 líneas y un rulebook de 31 donde riesgo mayor a 0.8 lanza Relieve memory pressure, citando RB-207, CR-9120 e INC-2311.",
+           why:"Generativo: Conocimiento en borrador. El modelo leyó RB-207 y el último OOM de server8-audits y escribió YAML plausible con sus fuentes, y plausible es la palabra. Nadie lo ejecutó; va a revisión como cualquier cambio.",
+           value:"Lightspeed corre on-prem, su modelo servido por el mismo OpenShift AI que el predictor: prompt, runbooks recuperados y borrador quedan dentro de tu perímetro. No hay un borrador de LLM pegado desde un chat sin rastro de revisión."}},
+      {what:"Commits the drafts as 3f1c2a9 and opens PR #482 for sre-lead, who raises the threshold to 0.85, adds a maintenance_window guard and approves after 2 edits. The merge syncs AAP, restarts the activation and indexes the review as RB-214.",
+       why:"Judgement, and it stays human: the model proposed 0.8, a person said 0.85 and demanded a maintenance window, and only then did anything become runnable. The merge is the promotion: repo, AAP and knowledge base in one step.",
+       value:"Git, Automation Controller and the pgvector knowledge base all move on one merge, one platform, one event. There is no wiki updated by hand a week later, and no YAML pasted from the PR into a controller by an admin.",
+       es:{what:"Hace commit 3f1c2a9 y abre el PR #482 para sre-lead, que sube el umbral a 0.85, agrega un guard de maintenance_window y aprueba tras 2 ediciones. El merge sincroniza AAP, reinicia la activación e indexa la revisión como RB-214.",
+           why:"Juicio, y sigue siendo humano: el modelo propuso 0.8, una persona dijo 0.85 y exigió ventana de mantenimiento, y solo entonces algo se volvió ejecutable. El merge es la promoción: repo, AAP y base de conocimiento en un solo paso.",
+           value:"Git, Automation Controller y la base de conocimiento en pgvector se mueven con un solo merge: una plataforma, un evento. No hay wiki actualizada a mano una semana después, ni YAML pegado del PR a un controlador por un admin."}},
+      {what:"Runs the promoted rulebook. At 03:12:51 OutageRiskHigh arrives for server8-audits at 0.91, the maintenance window is open, and job 40512 raises Xmx from 6g to 7g, restarts audits-case.service and probes 200 OK in 0.31 s. Event to verified: 42 seconds.",
+       why:"The loop closes with no machine learning in it: the same event runs the same approved job every time. INC-2340 opened and closed itself, RB-214 logged the outcome, the score fell 0.91 to 0.34, and no one was paged.",
+       value:"Rulebook, job, ServiceNow ticket and knowledge record land in one job history under one identity, as in Lab 05. There is no alerting SaaS paging a human to type the runbook at 3 a.m., no ticket left open till Monday.",
+       es:{what:"Corre el rulebook promovido. A las 03:12:51 llega OutageRiskHigh para server8-audits con 0.91, hay ventana de mantenimiento, el job 40512 sube Xmx de 6g a 7g, reinicia audits-case.service y prueba 200 OK en 0.31 s. Evento a verificado: 42 segundos.",
+           why:"El ciclo se cierra sin aprendizaje automático: el mismo evento corre el mismo job aprobado cada vez. INC-2340 se abrió y cerró solo, RB-214 registró el resultado, el puntaje bajó de 0.91 a 0.34 y nadie recibió una llamada.",
+           value:"Rulebook, job, ticket de ServiceNow y registro de conocimiento caen en un historial y una identidad, como en el Lab 05. No hay SaaS de alertas despertando a alguien para teclear el runbook a las 3 a.m., ni ticket olvidado."}},
+      {what:"Asks the ops assistant three questions. It launches approved job templates, Probe host and Estate ping, as jobs 40518 to 40520 and answers with citations: server1-taxreturns at risk 0.22 and falling, server8-audits restored by job 40512, 13 of 14 online.",
+       why:"Not a chatbot: the assistant probes the estate through job templates a person approved and reads the knowledge base the loop wrote, citing job 40512, PR #482 and INC-2340 for server8-audits. Evidence, not fluency, and it changes nothing.",
+       value:"Granite, the Ansible tools and the pgvector memory share the platform that wrote RB-214, so the answer is current by construction. There is no chatbot that 'knows' what a wiki said last quarter, and no bot holding SSH keys.",
+       es:{what:"Tres preguntas al asistente de operaciones. Lanza plantillas aprobadas, Probe host y Estate ping, como jobs 40518 a 40520 y responde con citas: server1-taxreturns riesgo 0.22 y bajando, server8-audits restaurado por el job 40512, 13 de 14 en línea.",
+           why:"No es un chatbot: sondea la flota con plantillas que una persona aprobó y lee la base de conocimiento que el ciclo escribió, citando job 40512, PR #482 e INC-2340 para server8-audits. Evidencia, no fluidez, y no cambia nada.",
+           value:"Granite, las herramientas Ansible y la memoria pgvector comparten la plataforma que escribió RB-214: la respuesta es actual por construcción. No hay chatbot que 'sabe' lo que decía la wiki el trimestre pasado, ni bot con llaves SSH propias."}},
+    ], wrap:{what:"Eight commands closed one loop: mainframe, RHEL and OpenShift logs became features, a tabular model scored server8-audits 0.91, Lightspeed drafted the fix, a person merged PR #482, Event-Driven Ansible repaired it in 42 seconds, and the assistant cited every step.",
+       why:"Predictive climbed Data to Information, generative drafted Knowledge, a person held Judgement, and every promotion wrote the knowledge base the assistant reads. The loop is the documentation, and the systems behind filing season stay up with judgement still human.",
+       value:"Scorer, drafter, rulebook, memory and assistant shared one platform, one identity and one job history, so nothing needed glue. Stitch a log SaaS, a data-science cluster, a chat vendor and a ticket webhook together and it splits at the seams.",
+       es:{what:"Ocho comandos cerraron el ciclo: logs de tres entornos se volvieron features, un modelo tabular puntuó server8-audits 0.91, Lightspeed redactó la corrección, una persona aprobó PR #482, Event-Driven Ansible lo reparó en 42 segundos y el asistente citó cada paso.",
+           why:"Lo predictivo subió de Datos a Información, lo generativo redactó Conocimiento, una persona sostuvo el Juicio, y cada promoción escribió la memoria del asistente. El ciclo es la documentación, y la temporada de declaraciones sigue en pie con juicio humano.",
+           value:"Predictor, redactor, rulebook, memoria y asistente compartieron plataforma, identidad e historial de jobs: nada necesitó pegamento. Junta un SaaS de logs, un clúster de data science, un chat externo y un webhook de tickets, y se rompe por las costuras."}}},
   ];
 
   function cardText(c, f){
@@ -3647,6 +3909,65 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 
   var autoStops = [];
 
+  /* The loop's eight stations: where each Lab 08 step runs. */
+  var LOOP_STATIONS = [
+    ['r-data',  ['Mainframe + servers', 'Mainframe y servidores'], ['MVSA · server1..12', 'MVSA · server1..12']],
+    ['r-data',  ['Vector · Loki', 'Vector · Loki'], ['OpenShift Logging', 'OpenShift Logging']],
+    ['r-info',  ['outage-risk scorer', 'scorer outage-risk'], ['KServe · sklearn · OpenShift AI', 'KServe · sklearn · OpenShift AI']],
+    ['r-know',  ['Granite · Lightspeed', 'Granite · Lightspeed'], ['vLLM · OpenShift AI', 'vLLM · OpenShift AI']],
+    ['r-judge', ['Pull request', 'Pull request'], ['a person reviews and merges', 'una persona revisa y fusiona']],
+    ['r-judge', ['Repo → AAP → EDA', 'Repo → AAP → EDA'], ['the merge is the promotion', 'el merge es la promoción']],
+    ['r-judge', ['Event-Driven Ansible', 'Event-Driven Ansible'], ['approved job templates', 'plantillas de job aprobadas']],
+    ['r-know',  ['Knowledge base + assistant', 'Base de conocimiento + asistente'], ['pgvector · ops notebook', 'pgvector · ops notebook']]
+  ];
+  var LOOP_RUNGVAR = {'r-data':'var(--r-data)','r-info':'var(--r-info)','r-know':'var(--r-know)','r-judge':'var(--r-judge)'};
+  function loopMapSVG(){
+    var L = lang === 'es' ? 1 : 0;
+    var pos = [[40,14],[320,14],[600,14],[880,14],[880,166],[600,166],[320,166],[40,166]];
+    var W = 240, H = 72;
+    var h = '<svg viewBox="0 0 1180 252" role="img" aria-label="' + (L ? 'El bucle: ocho estaciones' : 'The loop: eight stations') + '">';
+    // arrows: 0→1→2→3 across the top, 3→4 down, 4→5→6→7 across the bottom, 7→0 up (the loop)
+    [[0,1],[1,2],[2,3],[4,5],[5,6],[6,7]].forEach(function(p){
+      var a = pos[p[0]], b = pos[p[1]];
+      if(a[0] < b[0]) h += '<path class="arrow" marker-end="url(#loop-arr)" d="M' + (a[0]+W) + ',' + (a[1]+H/2) + ' L' + (b[0]-4) + ',' + (b[1]+H/2) + '"/>';
+      else h += '<path class="arrow" marker-end="url(#loop-arr)" d="M' + a[0] + ',' + (a[1]+H/2) + ' L' + (b[0]+W+4) + ',' + (b[1]+H/2) + '"/>';
+    });
+    h += '<path class="arrow" marker-end="url(#loop-arr)" d="M' + (pos[3][0]+W/2) + ',' + (pos[3][1]+H) + ' L' + (pos[4][0]+W/2) + ',' + (pos[4][1]-4) + '"/>';
+    h += '<path class="arrow loop" marker-end="url(#loop-arr-on)" d="M' + (pos[7][0]+W/2) + ',' + pos[7][1] + ' L' + (pos[0][0]+W/2) + ',' + (pos[0][1]+H+4) + '"/>';
+    h += '<text class="looplbl" x="' + (pos[7][0]+W/2+8) + '" y="' + (pos[7][1]-36) + '">' + (L ? 'EL BUCLE · SE PREGUNTA, SE SONDEA' : 'THE LOOP · ASK, THEN PROBE') + '</text>';
+    LOOP_STATIONS.forEach(function(st, i){
+      var x = pos[i][0], y = pos[i][1];
+      h += '<g class="st" data-st="' + i + '">';
+      h += '<rect class="box" x="' + x + '" y="' + y + '" width="' + W + '" height="' + H + '" rx="10"/>';
+      h += '<rect class="bar" x="' + (x+1) + '" y="' + (y+12) + '" width="4" height="' + (H-24) + '" rx="2" fill="' + LOOP_RUNGVAR[st[0]] + '"/>';
+      h += '<text class="n" x="' + (x+16) + '" y="' + (y+18) + '">0' + (i+1) + '</text>';
+      h += '<text class="l" x="' + (x+16) + '" y="' + (y+39) + '">' + esc(st[1][L]) + '</text>';
+      h += '<text class="s" x="' + (x+16) + '" y="' + (y+57) + '">' + esc(st[2][L]) + '</text>';
+      h += '<g class="chk"><circle cx="' + (x+W-16) + '" cy="' + (y+16) + '" r="8" fill="var(--good)"/><polyline points="' + (x+W-20) + ',' + (y+16) + ' ' + (x+W-17) + ',' + (y+19) + ' ' + (x+W-12) + ',' + (y+12) + '" fill="none" stroke="var(--surface)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>';
+      h += '</g>';
+    });
+    return h + '</svg>';
+  }
+  function stageMapEl(withCap){
+    var el = document.createElement('div');
+    el.className = 'stagemap';
+    el.innerHTML = loopMapSVG() + (withCap ? '<div class="cap"></div>' : '');
+    if(withCap) el.querySelector('.cap').textContent = C('mapCap');
+    return el;
+  }
+  // light the stations a step runs on; mark earlier stations done
+  function stageMapLight(el, lab, stepIdx, state){
+    if(!el || !lab.map) return;
+    var on = stepIdx >= 0 ? (lab.map[stepIdx] || []) : [];
+    var done = {};
+    for(var k = 0; k < stepIdx; k++) (lab.map[k] || []).forEach(function(i){ done[i] = true; });
+    if(state === 'done' && stepIdx >= 0) on.forEach(function(i){ done[i] = true; });
+    Array.prototype.forEach.call(el.querySelectorAll('.st'), function(g){
+      var i = parseInt(g.getAttribute('data-st'), 10);
+      g.classList.toggle('on', state !== 'done' && on.indexOf(i) >= 0);
+      g.classList.toggle('done', !!done[i]);
+    });
+  }
   var RUNG_KEY = {'r-data':'data', 'r-info':'information', 'r-know':'knowledge', 'r-judge':'judgement'};
   function labRungKeys(lab){
     var set = [];
@@ -3690,6 +4011,9 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       th.querySelector('p').textContent = LT(lab, 'theory');
       grid.appendChild(th);
     }
+
+    var smap = null;
+    if(lab.map){ smap = stageMapEl(true); wrap.appendChild(smap); }
 
     /* terminal */
     var term = document.createElement('div');
@@ -3815,6 +4139,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       if(step.note) print('note', '# ' + step.note);
       input.value = '';
       cardShow(card, lab, idx, i, 'running');
+      stageMapLight(smap, lab, i, 'running');
       function proceed(){
         if(g !== gen){ return; }
         emit(step, g, function(){
@@ -3823,6 +4148,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
           busy = false;
           updateProg();
           cardShow(card, lab, idx, i-1, 'done');
+          stageMapLight(smap, lab, i-1, 'done');
           if(i >= lab.steps.length){
             print('ok', completeLine(String(idx+1).padStart(2,'0'), lab));
             setTimeout(function(){ if(g === gen) cardShow(card, lab, idx, -1); }, reduced ? 0 : 900);
@@ -3885,7 +4211,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       }
       else if(act === 'reset'){
         gen++; stopAuto();
-        screen.innerHTML = ''; i = 0; busy = false; input.value = ''; updateProg(); banner(); cardHide(card);
+        screen.innerHTML = ''; i = 0; busy = false; input.value = ''; updateProg(); banner(); cardHide(card); stageMapLight(smap, lab, -1);
       }
       else if(act === 'copyall'){
         var text = lab.steps.map(function(s){ return s.cmd; }).join('\n');
@@ -3954,6 +4280,9 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     document.getElementById('demo-host').textContent = lab.host;
     document.getElementById('demo-rungs').innerHTML = LT(lab, 'rungs').map(function(r){ return '<span class="rung ' + r[0] + '">' + esc(r[1]) + '</span>'; }).join('') +
       '<span class="pyr-inline" aria-hidden="true">' + pyramidSVG(labRungKeys(lab), false) + '</span>';
+    var dm = document.getElementById('demo-map');
+    dm.innerHTML = '';
+    if(lab.map){ dm.appendChild(stageMapEl(true)); dm.hidden = false; } else { dm.hidden = true; }
   }
 
   function demoProg(stepIdx){
@@ -4021,6 +4350,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       D.clock += act.ms / D.speed;
     } else if(act.t === 'card'){
       cardShow(demoCard, LABS[D.lab], D.lab, act.si, act.state);
+      stageMapLight(document.querySelector('#demo-map .stagemap'), LABS[D.lab], act.si, act.state);
       D.ai++;
       D.clock += 140 / D.speed;
     } else if(act.t === 'next'){
@@ -4146,6 +4476,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       }
     });
     renderSpines();
+    renderLoopSlide();
     renderGfxPills();
     syncGfxBtn();
     themeBtn.textContent = themeNow() === 'dark' ? C('light') : C('dark');
@@ -4164,6 +4495,14 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     if(stored === 'es') setLang('es');
   })();
 
+  function renderLoopSlide(){
+    var host = document.querySelector('.slide[data-title="One loop"] .stagemap');
+    if(!host) return;
+    host.innerHTML = loopMapSVG();
+    var lab8 = LABS[LABS.length-1];
+    Array.prototype.forEach.call(host.querySelectorAll('.st'), function(g){ g.classList.add('done'); });
+  }
+  renderLoopSlide();
   renderSpines();
   renderGfxPills();
   rebuildLabs();
@@ -4175,7 +4514,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     var h = location.hash || '', m;
     if(h === '#demo'){ setMode('demo'); demoSetPlaying(true); demoGo(); return; }
     if(h === '#labs'){ setMode('labs'); window.scrollTo(0,0); return; }
-    if((m = /^#lab-?0?([1-7])$/.exec(h))){
+    if((m = /^#lab-?0?([1-8])$/.exec(h))){
       setMode('labs');
       var el = document.querySelectorAll('#labs .lab')[parseInt(m[1],10)-1];
       if(el) setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);

@@ -334,6 +334,17 @@
         "knowledge"
       ],
       "chip": "information → knowledge"
+    },
+    {
+      "n": 8,
+      "title": "One loop, end to end",
+      "rungs": [
+        "data",
+        "information",
+        "knowledge",
+        "judgement"
+      ],
+      "chip": "data → information → knowledge → judgement"
     }
   ],
   "technologies": {

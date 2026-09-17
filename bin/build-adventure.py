@@ -215,6 +215,7 @@ def build(out: Path, base: str = "./") -> None:
                 ("slide-12", "The useful pattern is a loop, not a chatbot."),
                 ("slide-13", "Where the hours actually live: diagnosis. MTTR is the proof."),
                 ("lab-07", "Ninety days of logs, 48 runbooks, 312 postmortems — a cited diagnosis of an OOM in seconds."),
+                ("lab-08", "The whole loop on one platform: logs scored, a Lightspeed draft reviewed and merged, EDA closing it in 42 seconds, the assistant citing RB-214."),
                 ("lab-05", "The remediation that follows, with the digest check people forget."),
                 ("lab-04", "The retrieval stack Lab 07 reuses — only the corpus changed."),
                 ("lib-sh", "LAB_PACE=step and the other knobs for rehearsing on a projector."),
@@ -227,7 +228,7 @@ def build(out: Path, base: str = "./") -> None:
             "steps": [
                 ("facilitator-guide", "Minute-by-minute timing, which labs to run live, projector settings, the honesty checklist."),
                 ("page-presenter-console", "The console: 24 steps in lockstep with the deck, planted questions and 'on the ladder' beats."),
-                ("run-all-labs", "Rehearse all seven labs in one command; CI runs the same thing."),
+                ("run-all-labs", "Rehearse all eight labs in one command; CI runs the same thing."),
                 ("deck-demo", "The Demo view plays every lab hands-free — a holding screen before you start."),
                 ("reveal-slides", "The reveal.js cut of the deck, with speaker notes on S."),
                 ("pptx-export", "The PowerPoint for platforms that insist on an upload."),
@@ -436,7 +437,7 @@ footer a{{color:var(--ink-2)}}
 <header class="hero"><div class="wrap">
   <div class="brand"><div class="bars"><i></i><i></i><i></i></div><span>Red Hat · Four Inc. · Carahsoft · September 17, 2026</span></div>
   <h1>Choose your own adventure</h1>
-  <p class="kicker">Everything from the session — the deck, seven virtual-terminal labs, the guides, the talk track, the tools and the files — catalogued and connected, so you can follow it on your own. Pick the path that matches your job, or browse the whole kit below.</p>
+  <p class="kicker">Everything from the session — the deck, eight virtual-terminal labs, the guides, the talk track, the tools and the files — catalogued and connected, so you can follow it on your own. Pick the path that matches your job, or browse the whole kit below.</p>
   <div class="quick">{quick_html}</div>
   <div class="search"><input id="q" type="search" placeholder="Filter the catalogue — try: refusal, FIPS, MTTR, pgvector, taxonomy" aria-label="Filter the catalogue"><span id="qn"></span></div>
 </div></header>
@@ -458,10 +459,10 @@ footer a{{color:var(--ink-2)}}
 
 <section id="labs"><div class="wrap">
   <span class="tag">Hands on</span>
-  <h2>The seven labs, connected</h2>
+  <h2>The eight labs, connected</h2>
   <p class="lede">Real commands, representative output. Run them in the browser from the deck's Labs view, watch them in the Demo view, or clone the repo and run <code>./bin/run-all-labs.sh</code>. Each card says who it is for, what you will see, and what a live run needs.</p>
   <div class="flow">{flow}</div>
-  <p class="hint">Labs 02 and 07 ship as walkthroughs: their run.sh files narrate the helper scripts they call, and those scripts are not in the repository yet — simulate mode is complete, live mode for those two is a to-do.</p>
+  <p class="hint">Labs 02, 07 and 08 ship as walkthroughs: their run.sh files narrate the helper scripts they call, and those scripts are not in the repository yet — simulate mode is complete, live mode for those three is a to-do.</p>
   <div class="grid g2">{labs_html}</div>
 </div></section>
 

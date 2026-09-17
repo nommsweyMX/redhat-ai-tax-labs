@@ -1,0 +1,8 @@
+Relieve JVM memory pressure on a RHEL host inside the cgroup limit, restart in
+a maintenance window, verify with a probe; for a z/OS S878 abend notify the
+mainframe on-call.
+
+Context to retrieve: RB-207 (JVM sizing), CR-9120 (audits heap change),
+INC-2311 (last OOM on server8-audits). Target the audits-case.service on
+server8-audits. Use only job templates that already exist in Automation
+Controller: "Relieve memory pressure" and "Notify mainframe on-call".
