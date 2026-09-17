@@ -248,6 +248,126 @@ def add_spine(slide, deck_title):
     add_pyramid(slide, DECK_RUNGS[deck_title], SLIDE_W - MARGIN - PYR_W, PYR_TOP, PYR_W)
 
 
+# ---------------------------------------------------------------- the title pyramid
+# The title slide's graphic (deck.html: TITLE_LAYERS / titlePyramidSVG): the ladder as
+# a layered pyramid, each layer with the question it answers, what lives there and
+# who does the work; a rail up the side (data informs every layer), the end state at
+# the apex and the rule along the base. Geometry follows the deck: half-width 150
+# over a height of 364 viewBox units, tiers on the icon's 1..37 scale.
+TITLE_LAYERS = [
+    ("judgement", "04", R_JUDGE, 1.0, 10.0, 0.0, "Judgement", "What will we do, and who signs?",
+     "A determination a named person signs. Deliberately human: automation executes it and never decides.",
+     "PEOPLE DECIDE · ANSIBLE EXECUTES · SIGSTORE RECORDS"),
+    (None, None, RB_BLUE, 10.0, 11.6, 0.0, None, None, None, None),
+    ("knowledge", "03", R_KNOW, 11.6, 20.5, 0.0, "Knowledge", "What do we know that bears on this?",
+     "Information that informs an outcome: guidance, precedent, runbooks. The institution’s memory, retrievable and cited.",
+     "GENERATIVE AI · GROUNDED IN APPROVED SOURCES · CITED"),
+    (None, None, RB_YELLOW, 20.5, 22.0, 0.0, None, None, None, None),
+    ("information", "02", R_INFO, 22.0, 30.0, -0.08, "Information", "What does it mean for this case?",
+     "Data in context: a score, a classification, a diagnosis, a metric. A model estimates it; a person checks it.",
+     "PREDICTIVE AI · INFERENCE"),
+    ("data", "01", R_DATA, 30.0, 37.0, 0.12, "Data", "What happened?",
+     "Uninterpreted: returns, transcripts, calls, logs, telemetry. Where it lives decides the architecture.",
+     "THE PLATFORM · INGEST · STORE · GOVERN"),
+]
+TITLE_APEX = "THE END STATE: KNOWING ENOUGH TO DECIDE"
+TITLE_RAIL = "DATA INFORMS EVERY LAYER"
+TITLE_RULE = "Solve a problem someone has. Don’t invent a solution to one no one has."
+
+
+def add_title_pyramid(slide, left, top, height):
+    """Draw the title slide's layered pyramid with its layer notes at (left, top)."""
+    unit = height / 36.0
+    half = height * 150.0 / 364.0
+    ax = left + half
+
+    def Y(u):
+        return int(top + (u - 1.0) * unit)
+
+    def edges(y):
+        f = (y - top) / height
+        return ax - half * f, ax + half * f
+
+    def polygon(pts):
+        ff = slide.shapes.build_freeform(*pts[0], scale=1)
+        ff.add_line_segments(pts[1:], close=True)
+        sp = ff.convert_to_shape()
+        sp._element.remove(sp._element.find(qn("p:style")))
+        return sp
+
+    rail_x = int(ax + half + Inches(0.14))
+    label_x = int(ax + half + Inches(0.46))
+    label_w = int(SLIDE_W - MARGIN - label_x)
+
+    add_text(slide, int(left), int(top - Inches(0.32)), int(half * 2 + Inches(0.3)), Inches(0.25),
+             [(TITLE_APEX, 7, True, R_JUDGE, MONO_FONT, 0)])
+
+    for key, num, colour, u0, u1, dy, name, question, definition, who in TITLE_LAYERS:
+        gap = Inches(0.012)
+        y0, y1 = int(Y(u0) + gap), int(Y(u1) - gap)
+        l0, r0 = edges(y0)
+        l1, r1 = edges(y1)
+        pts = [(int(l0), y0), (int(r0), y0), (int(r1), y1), (int(l1), y1)]
+        pts = [p for i, p in enumerate(pts) if i == 0 or p != pts[i - 1]]
+        solid(polygon(pts), colour)
+        if not key:
+            continue
+        yc = (y0 + y1) // 2
+        add_text(slide, int(ax - Inches(0.3)), int(yc - Inches(0.11)), Inches(0.6), Inches(0.22),
+                 [(num, 9, True, SURFACE, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
+        tick = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, int(edges(yc)[1] + Inches(0.05)), yc,
+                                          int(rail_x - Inches(0.06)), yc)
+        tick.line.color.rgb = BORDER_STRONG
+        tick.line.width = Pt(0.75)
+        block_h = Inches(0.78)
+        add_text(slide, label_x, int(yc - block_h / 2 + Inches(dy)), label_w, block_h,
+                 [(name.upper(), 7, True, colour, MONO_FONT, 1),
+                  (question, 10, True, INK, HEAD_FONT, 2),
+                  (definition, 7.5, False, INK_2, BODY_FONT, 2),
+                  (who, 6, True, INK_3, MONO_FONT, 0)])
+
+    outline = polygon([(int(ax), int(top)), (int(ax + half), int(top + height)), (int(ax - half), int(top + height))])
+    outline.fill.background()
+    outline.line.color.rgb = BORDER_STRONG
+    outline.line.width = Pt(0.5)
+    outline.shadow.inherit = False
+
+    rail = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, rail_x, int(top + height), rail_x, int(top + Inches(0.12)))
+    rail.line.color.rgb = INK_3
+    rail.line.width = Pt(1.1)
+    head = slide.shapes.add_shape(MSO_SHAPE.ISOSCELES_TRIANGLE, int(rail_x - Inches(0.05)), int(top), Inches(0.1), Inches(0.13))
+    solid(head, INK_3)
+    rail_label = add_text(slide, int(rail_x + Inches(0.1) - Inches(1.5)), int(top + height / 2 - Inches(0.12)),
+                          Inches(3.0), Inches(0.24), [(TITLE_RAIL, 6.5, True, INK_3, MONO_FONT, 0)], align=PP_ALIGN.CENTER)
+    rail_label.rotation = 270.0
+
+    by = int(top + height + Inches(0.2))
+    bw = int(SLIDE_W - MARGIN - left)
+    rrect(slide, int(left), by, bw, Inches(0.42), SURFACE_2, BORDER, 0.75, radius=0.2)
+    solid(slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, int(left), by, Inches(0.05), Inches(0.42)), RED)
+    add_text(slide, int(left + Inches(0.1)), int(by + Inches(0.07)), int(bw - Inches(0.2)), Inches(0.3),
+             [(TITLE_RULE, 10, True, INK, HEAD_FONT, 0)], align=PP_ALIGN.CENTER)
+
+
+TITLE_NOTES = (
+    "Brad drives, Jon adds color commentary. Open by naming the room: Red Hat, Four Inc. and Carahsoft. "
+    "THE PYRAMID, the only graphic on this slide and the spine of the hour; read it bottom to top. "
+    "01 Data, the base and the widest layer: what happened, uninterpreted (returns, transcripts, calls, logs, telemetry); "
+    "nothing above it exists without it, and where it lives decides the architecture. "
+    "02 Information: data put in context for one case (a score, a classification, a diagnosis); what predictive AI and inference produce; "
+    "a model makes the estimate, a person checks it. "
+    "03 Knowledge: information that informs an outcome (guidance, precedent, runbooks), the institution's memory, retrievable and cited; "
+    "generative AI grounded in approved sources works here; if it cannot cite, it is not knowledge. "
+    "04 Judgement, the apex: a determination a named person signs; deliberately human, automation executes what was decided and never decides. "
+    "The arrow up the side: data informs every layer, so anything higher up the stack has to trace back down to data or it is decoration. "
+    "The label at the apex: the end state is knowing, knowing enough to decide, with the evidence in hand. "
+    "WHY WE ARE HERE: not to sell a model. Every technology in the hour is tagged with the layer it serves, and every claim gets run in a shell before you leave. "
+    "The test for anything we show, and for anything a vendor shows you: which layer does it move work up, and which problem in your queue does that solve? "
+    "Solve a problem someone has; do not invent a solution to one no one has. If a proposal cannot name the layer and the problem, it is technology looking for a mission. "
+    "Frame the hour: foundations, then the platform story, then live terminal, 5 for questions."
+)
+
+
 def eyebrow_and_title(slide, eyebrow, title, lede="", lede_top=Inches(1.68), title_size=34):
     add_text(slide, MARGIN, Inches(0.55), SLIDE_W - 2 * MARGIN, Inches(0.34),
              [(eyebrow.upper(), 11, True, INK_3, MONO_FONT, 0)])
@@ -419,21 +539,19 @@ def build(out_path: Path) -> None:
     prs.slide_height = SLIDE_H
 
     # ---- 1 title ---------------------------------------------------------------
-    s = add_base(prs, "Jon Keam and Brad Scalio present. Open by naming the room: Red Hat, Four "
-                      "Inc. and Carahsoft. Frame the hour — foundations, then the platform story, "
-                      "then live terminal, 5 for questions. "
-                      "The promise: every claim we make today, we run in a shell before you leave.")
+    s = add_base(prs, TITLE_NOTES)
     add_spine(s, "Title")
-    add_text(s, MARGIN, Inches(2.05), Inches(11.2), Inches(0.34),
-             [("RED HAT  ·  FOUR INC.  ·  CARAHSOFT — VIRTUAL EVENT", 12, True, RED, MONO_FONT, 0)])
-    add_text(s, MARGIN, Inches(2.55), Inches(10.6), Inches(2.0),
-             [("AI foundations for intelligent tax administration", 44, True, INK, HEAD_FONT, 0)])
-    add_text(s, MARGIN, Inches(4.75), Inches(9.4), Inches(1.1),
+    add_text(s, MARGIN, Inches(1.75), Inches(4.8), Inches(0.5),
+             [("RED HAT  ·  FOUR INC.  ·  CARAHSOFT — VIRTUAL EVENT", 11, True, RED, MONO_FONT, 0)])
+    add_text(s, MARGIN, Inches(2.25), Inches(4.8), Inches(2.0),
+             [("AI foundations for intelligent tax administration", 32, True, INK, HEAD_FONT, 0)])
+    add_text(s, MARGIN, Inches(4.3), Inches(4.8), Inches(1.4),
              [("What predictive AI, generative AI and LLMs actually do — then how Red Hat turns "
                "models, agency knowledge and automation into an operable mission capability, "
-               "proven in eight labs you run yourself.", 17, False, INK_2, BODY_FONT, 0)])
-    add_text(s, MARGIN, Inches(5.85), Inches(9.4), Inches(0.4),
-             [("Presented by Jon Keam (jkeam@redhat.com) and Brad Scalio (bscalio@redhat.com)", 14, True, INK_2, BODY_FONT, 0)])
+               "proven in eight labs you run yourself.", 13, False, INK_2, BODY_FONT, 0)])
+    add_text(s, MARGIN, Inches(5.75), Inches(4.8), Inches(0.5),
+             [("Presented by Jon Keam (jkeam@redhat.com) and Brad Scalio (bscalio@redhat.com)", 11, True, INK_2, BODY_FONT, 0)])
+    add_title_pyramid(s, Inches(5.75), Inches(1.45), Inches(3.7))
 
     # ---- 2 the ladder: data to judgement --------------------------------------
     s = add_base(prs, "The spine of the hour. Read it left to right: the platform holds the data, "

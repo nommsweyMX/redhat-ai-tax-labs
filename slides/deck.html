@@ -207,8 +207,14 @@ a{color:var(--accent-ink)}
 /* title slide */
 .title-slide{justify-content:center;background:
   radial-gradient(120% 90% at 88% 8%, var(--accent-wash) 0%, transparent 56%);}
-.title-slide h2{font-size:clamp(2rem,4.4vw,4rem);font-weight:900;letter-spacing:-.032em;max-width:20ch}
-.title-slide .kicker{font-size:clamp(1rem,1.4vw,1.3rem);color:var(--ink-2);margin-top:18px;max-width:52ch}
+.title-slide h2{font-size:clamp(1.6rem,3vw,2.65rem);font-weight:900;letter-spacing:-.032em;max-width:16ch}
+.title-slide .kicker{font-size:clamp(.92rem,1.12vw,1.1rem);color:var(--ink-2);margin-top:16px;max-width:40ch}
+.title-grid{display:grid;grid-template-columns:minmax(0,40fr) minmax(0,60fr);gap:clamp(22px,3vw,48px);align-items:center;width:100%;margin-top:8px}
+.title-copy{min-width:0}
+.title-copy .hosts{margin-top:22px}
+.title-pyr{min-width:0}
+.title-pyr svg{display:block;width:100%;height:auto;max-height:520px}
+@media (max-width:900px){.title-grid{grid-template-columns:1fr}.title-pyr{max-width:560px}}
 .hosts{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
 .host{
   border:1px solid var(--border-strong);border-radius:100px;padding:5px 14px;
@@ -501,13 +507,7 @@ kbd{
 :root[data-view="show"] .slide[data-title="Why now"] .slide-body > div,:root[data-view="show"] .slide[data-title="Why one platform"] .slide-body > div{height:100%;min-height:0;display:flex;flex-direction:column;justify-content:center}
 :root[data-view="show"] .slide[data-title="Two kinds of AI"] .vennlite{height:100%!important;width:auto!important;max-width:100%;margin:0 auto}
 :root[data-view="show"] .title-slide .kicker{display:none}
-:root[data-view="show"] .title-slide .ladder-legend{display:none}
-.title-slide .hero{display:none}
-:root[data-view="show"] .title-slide .hero{display:block;position:absolute;right:clamp(28px,3.4vw,54px);top:19%;width:47%;margin:0}
-.title-slide .hero img,.title-slide .hero svg{display:block;width:100%;height:auto;max-height:66%;object-fit:contain;border-radius:8px;border:1px solid var(--border);box-shadow:var(--shadow)}
-:root[data-view="show"] .title-slide h2{font-size:clamp(1.5rem,2.9vw,2.5rem);max-width:19ch}
-:root[data-view="show"] .title-slide .eyebrow{max-width:48%}
-:root[data-view="show"] .title-slide .hosts{margin-top:16px}
+:root[data-view="show"] .title-slide .title-grid{grid-template-columns:minmax(0,36fr) minmax(0,64fr)}
 :root[data-view="show"] .ai-kind .analogy,:root[data-view="show"] .slide[data-title="AI in plain English"] .notbox{display:none}
 :root[data-view="show"] .slide[data-title="AI in plain English"] .ai-kind .plain{font-size:1rem}
 :root[data-view="show"] .slide[data-title="AI in plain English"] .ai-kind .big{font-size:1.4rem}
@@ -580,8 +580,8 @@ html[lang="es"] .slide[data-title="One loop"] .stagemap svg{width:94%;margin:0 a
 /* Spanish runs ~15-20% longer; compress type only when lang=es so the
    English layout is untouched. */
 html[lang="es"] .slide .lede{font-size:clamp(.84rem,.95vw,1rem)}
-html[lang="es"] .title-slide .kicker{font-size:clamp(.9rem,1.2vw,1.15rem)}
-html[lang="es"] .ladder-legend p{font-size:.76rem}
+html[lang="es"] .title-slide .kicker{font-size:clamp(.85rem,1.02vw,1rem)}
+html[lang="es"] .title-slide h2{font-size:clamp(1.4rem,2.6vw,2.3rem)}
 html[lang="es"] .card h4{font-size:clamp(.8rem,.92vw,.96rem)}
 html[lang="es"] .card p{font-size:clamp(.71rem,.78vw,.85rem);line-height:1.4}
 html[lang="es"] .pillar p{font-size:clamp(.73rem,.8vw,.87rem)}
@@ -596,7 +596,6 @@ html[lang="es"] .rhpoint p{font-size:.72rem}
 html[lang="es"] .fwstep p{font-size:.73rem}
 html[lang="es"] .move span{font-size:.71rem}
 html[lang="es"] .knowledgebar p{font-size:.76rem}
-html[lang="es"] .ladder-legend{margin-top:16px;padding-top:12px}
 html[lang="es"] table.grid th,html[lang="es"] table.grid td{padding:7px 10px}
 .slide[data-title="Security posture"] table.grid td,.slide[data-title="Security posture"] table.grid th{padding:4px 8px;font-size:clamp(.68rem,.75vw,.8rem);line-height:1.38}
 .slide[data-title="Security posture"] table.grid td.mono{font-size:.7rem}
@@ -727,11 +726,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 .rdots{display:flex;gap:3px;align-self:center}
 .rdots i{display:block;width:6px;height:6px;border-radius:50%;background:var(--border)}
 .rdots i.r-data{background:var(--r-data)}.rdots i.r-info{background:var(--r-info)}.rdots i.r-know{background:var(--r-know)}.rdots i.r-judge{background:var(--r-judge)}
-.ladder-legend{margin-top:26px;border-top:1px solid var(--border);padding-top:16px;max-width:960px}
-.ladder-legend .ll-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:10px}
-.ladder-legend p{font-size:.82rem;color:var(--ink-2);margin-top:7px;line-height:1.4}
 .labs-legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:.84rem;color:var(--ink-2)}
-@media (max-width:900px){.ladder-legend .ll-row{grid-template-columns:1fr 1fr}}
 .card .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:2px}
 .slide[data-title="Labs preview"] .lede,.slide[data-title="Logs to MTTR"] .lede,.slide[data-title="AI for operations"] .lede{max-width:76ch}
 .slide[data-title="AI for operations"] .lede{max-width:96ch;font-size:clamp(.86rem,.98vw,1.02rem);margin-top:8px}
@@ -892,21 +887,16 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       <div class="stage" id="stage" tabindex="-1">
 
         <!-- 1 -->
-        <article class="slide title-slide" data-title="Title" data-rungs="data,information,knowledge,judgement" data-notes="Brad drives, Jon adds color commentary — objective one is to keep the room engaged; entertainment precedes learning. Open by naming the room: Red Hat, Four Inc. and Carahsoft. Say the color code once. It is the rainbow: red on the far left is data — the least structured thing we have; purple on the far right is judgement — the most structured. Every slide carries its colors in the corner, so you always know which rung we are on. Assume a cold room — about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each — Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host — and say why the three of us are here together. Frame the hour — terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway. The promise: every claim we make today, we run in a shell before you leave. Security lives in the appendix — pull it up the moment an ISSO engages. Tell the room: security is at the very end, and it is a broad conversation — anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on. GRAPHIC (G) — AI foundations for intelligent tax administration: An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination. Talk to it: (1) Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs. (2) The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge. (3) The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding. (4) Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.">
+        <article class="slide title-slide" data-title="Title" data-rungs="data,information,knowledge,judgement" data-notes="Brad drives, Jon adds color commentary — objective one is to keep the room engaged; entertainment precedes learning. Open by naming the room: Red Hat, Four Inc. and Carahsoft. THE PYRAMID — the only graphic on this slide, and the spine of the hour. Read it bottom to top. 01 Data, the base and the widest layer: what happened, uninterpreted — returns, transcripts, calls, logs, telemetry. Nothing above it exists without it, and where it lives decides the architecture. 02 Information: data put in context for one case — a score, a classification, a diagnosis. This is what predictive AI and inference produce; a model makes the estimate, a person checks it. 03 Knowledge: information that informs an outcome — guidance, precedent, runbooks — the institution’s memory, retrievable and cited. Generative AI, grounded in approved sources, works here; if it cannot cite, it is not knowledge. 04 Judgement, the apex: a determination a named person signs. Deliberately human — automation executes what was decided and never decides. Two things the graphic says on its own. The arrow up the side: data informs every layer, so anything higher up the stack has to trace back down to data, or it is decoration. The label at the apex: the end state is knowing — knowing enough to decide, with the evidence in hand. WHY WE ARE HERE — not to sell a model. Every technology in the hour is tagged with the layer it serves, and every claim gets run in a shell before you leave. The test for anything we show, and for anything a vendor shows you: which layer does it move work up, and which problem in your queue does that solve? Solve a problem someone has; do not invent a solution to one no one has. That rule sits on the base of the pyramid, and if a proposal cannot name the layer and the problem, it is technology looking for a mission. Say the color code once: red at the base is data, the least structured thing we have; purple at the apex is judgement, the most structured. Every slide carries the pyramid in the corner with its layers lit, so you always know where we are on the climb. Assume a cold room — about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each — Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host — and say why the three of us are here together. Frame the hour — terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway. The promise: every claim we make today, we run in a shell before you leave. Security lives in the appendix — pull it up the moment an ISSO engages. Tell the room: security is at the very end, and it is a broad conversation — anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on. GRAPHIC (G) — AI foundations for intelligent tax administration: the illustrated version of the same climb, an isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; the only person in the picture stands on the top step, signing the tax determination. Talk to it: (1) Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs. (2) The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge. (3) The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding. (4) Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.">
           <div class="rule"></div>
-          <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026</span>
-          <h2>AI foundations for intelligent tax administration</h2>
-          <p class="kicker">What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in seven labs you run yourself.</p>
-          <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
-          <div class="hero showonly" id="title-hero" aria-hidden="true"></div>
-          <div class="ladder-legend">
-            <span class="eyebrow">The spine of this hour — every technology is tagged with the rung it serves</span>
-            <div class="ll-row">
-              <div><span class="rung r-data">Data</span><p>What happened, uninterpreted — returns, transcripts, logs.</p></div>
-              <div><span class="rung r-info">Information</span><p>Data in context for one case — a score, a classification, a diagnosis.</p></div>
-              <div><span class="rung r-know">Knowledge</span><p>Information that informs an outcome — guidance, precedent, runbooks.</p></div>
-              <div><span class="rung r-judge">Judgement</span><p>A determination someone signs. Deliberately human; automation executes it.</p></div>
+          <div class="title-grid">
+            <div class="title-copy">
+              <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026</span>
+              <h2>AI foundations for intelligent tax administration</h2>
+              <p class="kicker">What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in eight labs you run yourself.</p>
+              <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
             </div>
+            <div class="title-pyr" id="title-pyr"></div>
           </div>
           <span class="slidenum"></span>
         </article>
@@ -1912,21 +1902,91 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     document.documentElement.setAttribute('data-view', view);
     document.getElementById('view-show').setAttribute('aria-pressed', String(view === 'show'));
     document.getElementById('view-tell').setAttribute('aria-pressed', String(view === 'tell'));
-    if(view === 'show') renderTitleHero();
     try { localStorage.setItem('deck-view', view); } catch(err) {}
   }
-  function renderTitleHero(){
-    var h = document.getElementById('title-hero');
-    if(!h || h.dataset.ready) return;
-    h.dataset.ready = '1';
-    var g = (typeof GRAPHICS !== 'undefined') && GRAPHICS['data-to-judgement'];
-    if(!g) return;
-    h.innerHTML = g.fallback ? g.fallback() : '';
-    if(g.file){
-      var img = new Image(); img.alt = '';
-      img.onload = function(){ h.innerHTML = ''; h.appendChild(img); };
-      img.src = g.file;
-    }
+  /* Title slide: the ladder drawn as a layered pyramid. Each layer carries the
+     question it answers, what lives there and who does the work; the rail up the
+     side says data informs every layer, the apex names the end state, and the
+     base carries the rule for everything in the hour. One graphic for Show and Tell. */
+  var TITLE_LAYERS = [
+    {k:'judgement', n:'04', fill:'var(--r-judge)', u:[1,10],
+     en:{name:'Judgement', q:'What will we do, and who signs?',
+         d:['A determination a named person signs. Deliberately human:', 'automation executes it and never decides.'],
+         w:'PEOPLE DECIDE · ANSIBLE EXECUTES · SIGSTORE RECORDS'},
+     es:{name:'Juicio', q:'¿Qué haremos, y quién firma?',
+         d:['Una determinación que firma una persona con nombre. Humana', 'a propósito: la automatización la ejecuta y nunca decide.'],
+         w:'PERSONAS DECIDEN · ANSIBLE EJECUTA · SIGSTORE REGISTRA'}},
+    {k:null, fill:'var(--rb-blue)', u:[10,11.6]},
+    {k:'knowledge', n:'03', fill:'var(--r-know)', u:[11.6,20.5],
+     en:{name:'Knowledge', q:'What do we know that bears on this?',
+         d:['Information that informs an outcome: guidance, precedent,', 'runbooks. The institution’s memory, retrievable and cited.'],
+         w:'GENERATIVE AI · GROUNDED IN APPROVED SOURCES · CITED'},
+     es:{name:'Conocimiento', q:'¿Qué sabemos que pese en este caso?',
+         d:['Información que informa un resultado: guías, precedentes,', 'runbooks. La memoria de la institución, recuperable y citada.'],
+         w:'IA GENERATIVA · ANCLADA EN FUENTES APROBADAS · CITADA'}},
+    {k:null, fill:'var(--rb-yellow)', u:[20.5,22]},
+    {k:'information', n:'02', fill:'var(--r-info)', u:[22,30], dy:-3,
+     en:{name:'Information', q:'What does it mean for this case?',
+         d:['Data in context: a score, a classification, a diagnosis,', 'a metric. A model estimates it; a person checks it.'],
+         w:'PREDICTIVE AI · INFERENCE'},
+     es:{name:'Información', q:'¿Qué significa para este caso?',
+         d:['Datos en contexto: una puntuación, una clasificación,', 'un diagnóstico. Un modelo la estima; una persona la revisa.'],
+         w:'IA PREDICTIVA · INFERENCIA'}},
+    {k:'data', n:'01', fill:'var(--r-data)', u:[30,37], dy:5,
+     en:{name:'Data', q:'What happened?',
+         d:['Uninterpreted: returns, transcripts, calls, logs, telemetry.', 'Where it lives decides the architecture.'],
+         w:'THE PLATFORM · INGEST · STORE · GOVERN'},
+     es:{name:'Datos', q:'¿Qué ocurrió?',
+         d:['Sin interpretar: declaraciones, transcripciones, logs,', 'telemetría. Dónde viven decide la arquitectura.'],
+         w:'LA PLATAFORMA · INGESTA · ALMACENA · GOBIERNA'}}
+  ];
+  var TITLE_STR = {
+    apex:['THE END STATE: KNOWING ENOUGH TO DECIDE', 'EL ESTADO FINAL: SABER LO SUFICIENTE PARA DECIDIR'],
+    rail:['DATA INFORMS EVERY LAYER', 'LOS DATOS INFORMAN CADA CAPA'],
+    base:['Solve a problem someone has. Don’t invent a solution to one no one has.',
+          'Resuelve un problema que alguien tiene. No inventes una solución para uno que nadie tiene.'],
+    aria:['The ladder as a layered pyramid: 01 Data, what happened; 02 Information, what it means for this case; 03 Knowledge, what we know that bears on it; 04 Judgement, what we will do and who signs. Data informs every layer; the end state is knowing enough to decide; solve a problem someone has.',
+          'La escalera como pirámide por capas: 01 Datos, qué ocurrió; 02 Información, qué significa para este caso; 03 Conocimiento, qué sabemos que pese; 04 Juicio, qué haremos y quién firma. Los datos informan cada capa; el estado final es saber lo suficiente para decidir; resuelve un problema que alguien tiene.']
+  };
+  function titlePyramidSVG(){
+    var L = (lang === 'es') ? 1 : 0;
+    var AX = 160, AY = 40, BY = 404, HW = 150, unit = (BY - AY) / 36;   /* icon units 1..37 */
+    var yOf = function(u){ return AY + (u - 1) * unit; };
+    var hwAt = function(y){ return HW * (y - AY) / (BY - AY); };
+    var f1 = function(v){ return (Math.round(v * 10) / 10).toString(); };
+    var mono = "font-family=\"Red Hat Mono, ui-monospace, monospace\"";
+    var disp = "font-family=\"Red Hat Display, Red Hat Text, system-ui, sans-serif\"";
+    var body = "font-family=\"Red Hat Text, system-ui, sans-serif\"";
+    var h = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 480" role="img" aria-label="' + esc(TITLE_STR.aria[L]) + '">';
+    h += '<text x="12" y="24" ' + mono + ' font-size="9.5" font-weight="700" letter-spacing=".08em" fill="var(--r-judge)">' + esc(TITLE_STR.apex[L]) + '</text>';
+    TITLE_LAYERS.forEach(function(t){
+      var gap = t.k ? 1.6 : 1.2;
+      var y0 = yOf(t.u[0]) + gap, y1 = yOf(t.u[1]) - gap;
+      var w0 = hwAt(y0), w1 = hwAt(y1);
+      h += '<polygon points="' + f1(AX-w0) + ',' + f1(y0) + ' ' + f1(AX+w0) + ',' + f1(y0) + ' ' + f1(AX+w1) + ',' + f1(y1) + ' ' + f1(AX-w1) + ',' + f1(y1) + '" fill="' + t.fill + '"/>';
+      if(!t.k) return;
+      var s = t[L ? 'es' : 'en'];
+      var yc = (y0 + y1) / 2, yt = yc + (t.dy || 0);
+      h += '<text x="' + AX + '" y="' + f1(yc + 4.5) + '" text-anchor="middle" ' + mono + ' font-size="13" font-weight="700" fill="#fff">' + t.n + '</text>';
+      h += '<line x1="' + f1(AX + hwAt(yc) + 6) + '" y1="' + f1(yc) + '" x2="330" y2="' + f1(yc) + '" stroke="var(--border-strong)" stroke-width="1" stroke-dasharray="2 3"/>';
+      h += '<text x="362" y="' + f1(yt - 25) + '" ' + mono + ' font-size="10.5" font-weight="700" letter-spacing=".12em" fill="' + t.fill + '">' + esc(s.name.toUpperCase()) + '</text>';
+      h += '<text x="362" y="' + f1(yt - 8) + '" ' + disp + ' font-size="14" font-weight="800" fill="var(--ink)">' + esc(s.q) + '</text>';
+      h += '<text x="362" y="' + f1(yt + 8) + '" ' + body + ' font-size="11.5" fill="var(--ink-2)">' + esc(s.d[0]) + '</text>';
+      h += '<text x="362" y="' + f1(yt + 22) + '" ' + body + ' font-size="11.5" fill="var(--ink-2)">' + esc(s.d[1]) + '</text>';
+      h += '<text x="362" y="' + f1(yt + 37) + '" ' + mono + ' font-size="9.5" font-weight="600" letter-spacing=".04em" fill="var(--ink-3)">' + esc(s.w) + '</text>';
+    });
+    h += '<polygon points="' + AX + ',' + AY + ' ' + (AX + HW) + ',' + BY + ' ' + (AX - HW) + ',' + BY + '" fill="none" stroke="var(--border-strong)" stroke-width=".8"/>';
+    h += '<line x1="338" y1="' + BY + '" x2="338" y2="54" stroke="var(--ink-3)" stroke-width="1.4"/>';
+    h += '<polygon points="338,42 333,54 343,54" fill="var(--ink-3)"/>';
+    h += '<text transform="translate(348 ' + f1((AY + BY) / 2) + ') rotate(-90)" text-anchor="middle" ' + mono + ' font-size="9.5" font-weight="700" letter-spacing=".14em" fill="var(--ink-3)">' + esc(TITLE_STR.rail[L]) + '</text>';
+    h += '<rect x="10" y="424" width="720" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>';
+    h += '<rect x="10" y="424" width="5" height="40" rx="2.5" fill="var(--accent)"/>';
+    h += '<text x="370" y="449" text-anchor="middle" ' + disp + ' font-size="13.5" font-weight="800" fill="var(--ink)">' + esc(TITLE_STR.base[L]) + '</text>';
+    return h + '</svg>';
+  }
+  function renderTitlePyramid(){
+    var el = document.getElementById('title-pyr');
+    if(el) el.innerHTML = titlePyramidSVG();
   }
   document.getElementById('view-show').addEventListener('click', function(){ setView('show'); });
   document.getElementById('view-tell').addEventListener('click', function(){ setView('tell'); });
@@ -2513,7 +2573,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     /* ---- slide 1: title ---- */
     "Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026":"Red Hat · Four Inc. · Carahsoft — Evento virtual · 17 de septiembre de 2026",
     "AI foundations for intelligent tax administration":"Fundamentos de IA para una administración tributaria inteligente",
-    "What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in seven labs you run yourself.":"Qué hacen realmente la IA predictiva, la IA generativa y los LLM — y cómo Red Hat convierte modelos, conocimiento de la agencia y automatización en una capacidad de misión operable, demostrada en siete labs que tú mismo ejecutas.",
+    "What predictive AI, generative AI and LLMs actually do — then how Red Hat turns models, agency knowledge and automation into an operable mission capability, proven in eight labs you run yourself.":"Qué hacen realmente la IA predictiva, la IA generativa y los LLM — y cómo Red Hat convierte modelos, conocimiento de la agencia y automatización en una capacidad de misión operable, demostrada en ocho labs que tú mismo ejecutas.",
     "The spine of this hour — every technology is tagged with the rung it serves":"La columna de esta hora — cada tecnología lleva el peldaño que sirve",
     "What happened, uninterpreted — returns, transcripts, logs.":"Lo que ocurrió, sin interpretar — declaraciones, transcripciones, logs.",
     "Data in context for one case — a score, a classification, a diagnosis.":"Datos en contexto para un caso — un puntaje, una clasificación, un diagnóstico.",
@@ -4644,6 +4704,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     });
     renderSpines();
     renderLoopSlide();
+    renderTitlePyramid();
     renderGfxPills();
     syncGfxBtn();
     document.getElementById('view-show').textContent = C('show');
@@ -4673,6 +4734,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   }
   renderLoopSlide();
   renderSpines();
+  renderTitlePyramid();
   renderGfxPills();
   (function(){ var v = null; try { v = localStorage.getItem('deck-view'); } catch(err) {} setView(v === 'show' ? 'show' : 'tell'); })();
   rebuildLabs();

@@ -25,17 +25,39 @@ capability, proven in eight labs you run yourself.
 
 Presented by *Jon Keam* and *Brad Scalio*.
 
-.The spine of this hour — every technology is tagged with the rung it serves
-* *Data* (data) — what happened, uninterpreted: returns, transcripts, logs.
-* *Information* (information) — data in context for one case: a score, a classification, a diagnosis.
-* *Knowledge* (knowledge) — information that informs an outcome: guidance, precedent, runbooks.
-* *Judgement* (judgement) — a determination someone signs. Deliberately human; automation executes it.
+image::assets/graphics/title-pyramid.svg["The ladder as a layered pyramid: 01 Data, 02 Information, 03 Knowledge, 04 Judgement, with the question each layer answers; data informs every layer, the end state is knowing enough to decide, and the rule on the base is to solve a problem someone has",width=760]
 
 [.notes]
 --
 Brad drives, Jon adds color commentary — objective one is to keep the room
 engaged; entertainment precedes learning. Open by naming the room: Red Hat,
 Four Inc. and Carahsoft.
+
+The pyramid — the only graphic on this slide, and the spine of the hour. Read
+it bottom to top. 01 Data, the base and the widest layer: what happened,
+uninterpreted — returns, transcripts, calls, logs, telemetry. Nothing above it
+exists without it, and where it lives decides the architecture. 02
+Information: data put in context for one case — a score, a classification, a
+diagnosis. This is what predictive AI and inference produce; a model makes the
+estimate, a person checks it. 03 Knowledge: information that informs an
+outcome — guidance, precedent, runbooks — the institution’s memory,
+retrievable and cited. Generative AI, grounded in approved sources, works
+here; if it cannot cite, it is not knowledge. 04 Judgement, the apex: a
+determination a named person signs. Deliberately human — automation executes
+what was decided and never decides.
+
+Two things the graphic says on its own. The arrow up the side: data informs
+every layer, so anything higher up the stack has to trace back down to data,
+or it is decoration. The label at the apex: the end state is knowing — knowing
+enough to decide, with the evidence in hand.
+
+Why we are here — not to sell a model. Every technology in the hour is tagged
+with the layer it serves, and every claim gets run in a shell before you
+leave. The test for anything we show, and for anything a vendor shows you:
+which layer does it move work up, and which problem in your queue does that
+solve? Solve a problem someone has; do not invent a solution to one no one
+has. That rule sits on the base of the pyramid, and if a proposal cannot name
+the layer and the problem, it is technology looking for a mission.
 
 Say the color code once. It is the rainbow: red on the far left is data — the
 least structured thing we have; purple on the far right is judgement — the
