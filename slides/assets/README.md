@@ -29,4 +29,10 @@ renditions (nothing else to change):
 
 `graphics/one-foundation-base.webp` is the unlabeled isometric base of the
 architecture graphic and is already checked in; the deck also embeds it.
+
+`graphics/title-pyramid.svg` is the title slide's layered pyramid as the
+reveal.js source (`slides/slides.adoc`) shows it. It is generated from the
+deck's own renderer (`titlePyramidSVG` in `slides/deck.html`) with the theme
+colours made literal; change the layers in the deck, then regenerate it,
+rather than editing the file by hand.
 PNG or WebP, 1672x941 or any 16:9 render; keep them under 1.5 MB each.

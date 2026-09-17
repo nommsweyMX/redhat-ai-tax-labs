@@ -128,7 +128,7 @@ def build(out: Path, base: str = "./") -> None:
         if k in ("page", "talk-track"):
             return "./presenter-notes.html" if "presenter" in i or k == "talk-track" else "./"
         if k == "table":
-            return "./#slide-17"
+            return "./#slide-18"
         if k == "nav":
             return "./"
         url = it.get("site_url") or ""
@@ -182,7 +182,7 @@ def build(out: Path, base: str = "./") -> None:
             "tag": "ISSO · authorizing official · assessor",
             "why": "Evidence is information; your decision is judgement. Everything here produces the first so a person can make the second.",
             "steps": [
-                ("slide-17", "The questions an authorizing official will ask, each mapped to a control."),
+                ("slide-18", "The questions an authorizing official will ask, each mapped to a control."),
                 ("lab-06", "cosign, FIPS, a Compliance Operator scan that honestly says NON-COMPLIANT, and drift read correctly."),
                 ("lab-01", "One line — the endpoint bound to 127.0.0.1 — answers 'where does our data go?'"),
                 ("lab-05", "The rulebook escalates a provenance mismatch instead of fixing it; the audit row writes itself."),
@@ -215,6 +215,7 @@ def build(out: Path, base: str = "./") -> None:
                 ("slide-12", "The useful pattern is a loop, not a chatbot."),
                 ("slide-13", "Where the hours actually live: diagnosis. MTTR is the proof."),
                 ("lab-07", "Ninety days of logs, 48 runbooks, 312 postmortems — a cited diagnosis of an OOM in seconds."),
+                ("slide-17", "One loop, end to end: the eight-station map, and why the platform becomes the KM system."),
                 ("lab-08", "The whole loop on one platform: logs scored, a Lightspeed draft reviewed and merged, EDA closing it in 42 seconds, the assistant citing RB-214."),
                 ("lab-05", "The remediation that follows, with the digest check people forget."),
                 ("lab-04", "The retrieval stack Lab 07 reuses — only the corpus changed."),
