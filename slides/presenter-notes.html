@@ -106,12 +106,12 @@ body.scroll .step+.step{border-top:1px dashed var(--border-strong);padding-top:3
    and blue kept as thin bands between the rungs (geometry mirrors deck.html) */
 .pyr-inline{display:inline-block;flex:none;width:126px;height:32px;vertical-align:middle;margin-left:auto;align-self:center}
 .pyr-inline svg{display:block;width:100%;height:100%;overflow:visible}
-.pyr-inline .tier{opacity:.2}.pyr-inline .tier.on{opacity:1}
-.pyr-inline .t-data{fill:var(--r-data)}.pyr-inline .t-info{fill:var(--r-info)}.pyr-inline .t-know{fill:var(--r-know)}.pyr-inline .t-judge{fill:var(--r-judge)}
-.pyr-inline .b-yellow{fill:var(--rb-yellow)}.pyr-inline .b-blue{fill:var(--rb-blue)}
-.pyr-inline .edge{fill:none;stroke:var(--border-strong);stroke-width:.6}
+.pyr-inline .tier{fill:var(--border-strong);opacity:.75}.pyr-inline .tier.on{opacity:1}
+.pyr-inline .tier.on.t-data{fill:var(--r-data)}.pyr-inline .tier.on.t-info{fill:var(--r-info)}.pyr-inline .tier.on.t-know{fill:var(--r-know)}.pyr-inline .tier.on.t-judge{fill:var(--r-judge)}
+.pyr-inline .tier.on.b-yellow{fill:var(--rb-yellow)}.pyr-inline .tier.on.b-blue{fill:var(--rb-blue)}
 .pyr-inline text{font-family:"Red Hat Mono",ui-monospace,monospace;font-size:6.6px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3);font-weight:600}
-.pyr-inline text.on{fill:var(--ink);font-weight:800}
+.pyr-inline text.on{font-weight:800}
+.pyr-inline text.on.judgement{fill:var(--r-judge)}.pyr-inline text.on.knowledge{fill:var(--r-know)}.pyr-inline text.on.information{fill:var(--r-info)}.pyr-inline text.on.data{fill:var(--r-data)}
 .ros .ladder .head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ros .ladder .pyr-legend{width:180px;height:46px;margin-left:0}
 .ros .ladder{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
@@ -258,7 +258,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <p class="tip"><b>Running long?</b> Slide 6 (predictive vs generative) is a deep dive on two of slide 2’s four cards — drop it first and let its table stand as the leave-behind, pulling it up only if the room asks how the two are governed differently. That buys back the slack the planted questions and pauses need.</p>
     <p class="tip"><b>On a projector:</b> <code>LAB_SPEED=0.08 LAB_PACE=step ./labs/lab01-rhel-ai/run.sh</code> — and <code>NO_COLOR=1</code> if the room washes out color.</p>
     <p class="tip"><b>Main screen:</b> open <code>slides/deck.html</code>. This console mirrors it one-for-one: when the deck goes next, press <kbd>→</kbd> here.</p>
-    <p class="tip"><b>Graphics:</b> on eight slides (Title, Data to judgement, Where AI lands, Five outcomes, Architecture, Why one platform, Labs preview, Next steps) press <kbd>G</kbd> on the deck to pop out the illustrated graphic. The matching <b>Graphic (G)</b> block in that step carries its caption and the points to talk to; <kbd>G</kbd> or <kbd>Esc</kbd> closes it.</p>
+    <p class="tip"><b>Graphics:</b> on eight slides (Title, Data to judgement, Where AI lands, Five outcomes, Architecture, Why one platform, Labs preview, Next steps) press <kbd>G</kbd> on the deck to pop out the illustrated graphic. The pop-out is picture-only: click it or press <kbd>Z</kbd> to zoom to 1:1, and <kbd>G</kbd> or <kbd>Esc</kbd> closes it. The words live here and in the deck's notes: the matching <b>Graphic (G)</b> block in that step carries the caption and the points to talk to, and the same text sits at the end of that slide's speaker notes as "GRAPHIC (G)".</p>
     <p class="tip"><b>Delivery:</b> Brad drives, Jon color-commentates — interrupt, add commentary, be a little annoying, call out misspeaks live (“wait a minute, Brad… have another cup of coffee”), and take over if the driver flounders. <b>Goal number one is to entertain</b> — learning is second, because a tuned-out audience learns nothing. Keep it light; they know it is work, but there is no need to be boring. If humor lands on anyone, self-deprecate first — never accuse first. Plan deliberate pauses to engage the room (open question for the organizers: can attendees unmute?). Planted questions are marked <b>PLANTED</b> in the steps below.</p>
   </details>
 </div>
@@ -424,21 +424,29 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     <span class="kind slide">SLIDE 07 · WHERE AI LANDS</span>
     <h2>Where AI actually lands in the filing lifecycle</h2>
     <div class="time">11–17 min block begins</div>
-    <div class="rungs"><span class="rung r-judge">Judgement</span><span class="why">Human in the loop at every highlighted stage; the pills are judgement-green.</span></div>
+    <div class="rungs"><span class="rung r-judge">Judgement</span><span class="why">The rail's top bars follow the ladder: information orange on 01–02, knowledge green on 03–04 and 08, judgement violet on 05–07. Review and decision stay with a person.</span></div>
   </div>
-  <div class="onscreen"><b>On screen</b>Six lifecycle stages. Five carry a red "human in the loop" pill; exam selection is greyed with "governance first."</div>
+  <div class="onscreen"><b>On screen</b>An eight-station rail, left to right, each card with a number, a one-line job and a pill: 01 Intake (Capture correspondence from any channel; AI reads it). 02 Classification (Understand intent, route to the case type; AI classifies). 03 Guidance (Rules, policy and precedent; AI grounds and cites). 04 Drafting (Letters, responses, memos, with citations; AI drafts). 05 Review (Check accuracy, add judgment, approve; human in the loop). 06 Decision (Finalize and issue the outcome; a person signs). 07 Notice (Send letters and update records; automation executes). 08 Operations (Track performance, learn and improve; the loop closes). Lede: "AI lands on the first four stages, where a reviewer already checks the output; the decision stays with a person; operations close the loop." Two rule-of-thumb cards underneath. Exam selection is not on the rail.</div>
   <div class="talk">
-    <p>Walk left to right. The highlighted stages are where language models earn their keep first — high-volume, text-heavy, and a human reviewer is already in the loop.</p>
-    <p><b>Exam selection is deliberately NOT highlighted.</b> That is a determination affecting a taxpayer, and it needs a much heavier governance conversation. Saying this unprompted buys enormous credibility.</p>
+    <p>Walk the eight stations left to right, the same eight as the graphic (G): AI reads, classifies, grounds and drafts on the first four; a person reviews and signs on five and six; automation sends the notice; operations close the loop.</p>
+    <p>The first four are where language models earn their keep first: high-volume, text-heavy, and a human reviewer is already in the loop, which makes them the honest places to start.</p>
+    <p><b>Exam selection is not on the rail. Say so unprompted, and say why</b> (beat below).</p>
     <p>Two rules of thumb: start where a human already reviews the output; and automate the toil around the model, not just the model.</p>
   </div>
   <div class="beat ladder"><b>On the ladder</b>
     <div class="rungmap">
+      <div><span class="what">01 Intake · 02 Classification</span><span class="to"><span class="rung r-info">Information</span></span></div>
+      <div><span class="what">03 Guidance · 04 Drafting</span><span class="to"><span class="rung r-know">Knowledge</span></span></div>
+      <div><span class="what">05 Review · 06 Decision</span><span class="to"><span class="rung r-judge">judgement stays human</span></span></div>
+      <div><span class="what">07 Notice</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
+      <div><span class="what">08 Operations</span><span class="to"><span class="rung r-know">the loop closes</span></span></div>
       <div><span class="what">Start where a human already reviews</span><span class="to"><span class="rung r-judge">judgement stays human</span></span></div>
       <div><span class="what">Automate the toil around the model</span><span class="to"><span class="rung r-judge">executes judgement</span></span></div>
-      <div><span class="what">Exam selection</span><span class="to"><span class="rung r-judge">governance first — a determination</span></span></div>
+      <div><span class="what">Exam selection</span><span class="to"><span class="rung r-judge">not on the rail: governance first</span></span></div>
     </div>
   </div>
+  <div class="beat"><b>Exam selection: not on the rail, and say why</b>An earlier version of this slide showed exam selection held back in grey; now it is simply absent, and that is deliberate. Selecting a return for examination is a determination affecting a taxpayer, and it needs a much heavier governance conversation before a model goes anywhere near it. Saying this unprompted buys enormous credibility with the room.</div>
+  <div class="beat"><b>Worth naming</b>Most of the effort in production AI is provisioning, patching, scaling and data collection: an automation problem, already solved. That is the second rule of thumb in one sentence.</div>
   <div class="beat gfx"><b>Graphic (G) · Where AI actually lands in the filing lifecycle</b><span class="cap">An eight-station rail, Intake, Classification, Guidance, Drafting, Review, Decision, Notice and Operations, with five red call-outs over the first five stations; notice that the fifth call-out is a human reviewer and Decision has no call-out at all.</span><span class="eyebrow">Talk to this</span>
     <ol>
       <li>Read the rail against the ladder: Intake through Drafting turn data into information and knowledge; Review and Decision are where a person supplies the judgement that stays human.</li>
@@ -1230,11 +1238,13 @@ Model: outage-risk v14  trained 2026-09-01 on 180d of estate features  AUC 0.93 
       var lit = t[0] ? on.indexOf(t[0]) >= 0
         : (t[1] === 'b-blue' ? (on.indexOf('judgement') >= 0 && on.indexOf('knowledge') >= 0)
                               : (on.indexOf('knowledge') >= 0 && on.indexOf('information') >= 0));
-      h += '<rect class="tier ' + t[1] + (lit ? ' on' : '') + '" x="0" y="' + t[2] + '" width="48" height="' + (t[3] - t[2]) + '"/>';
+      var gap = (t[3] - t[2] > 3) ? 0.7 : 0.35;
+      h += '<rect class="tier ' + t[1] + (lit ? ' on' : '') + '" x="0" y="' + (t[2] + gap) + '" width="48" height="' + (t[3] - t[2] - 2*gap) + '"/>';
     });
-    h += '</g><polygon class="edge" points="24,1 47,37 1,37"/>';
+    h += '</g>';
     [['judgement', 8], ['knowledge', 17.5], ['information', 26.5], ['data', 35]].forEach(function(l){
-      h += '<text class="' + (on.indexOf(l[0]) >= 0 ? 'on' : '') + '" x="54" y="' + l[1] + '">' + l[0].toUpperCase() + '</text>';
+      var lit = on.indexOf(l[0]) >= 0;
+      h += '<text class="' + l[0] + (lit ? ' on' : '') + '" x="58" y="' + l[1] + '"><tspan x="52">' + (lit ? '\u25A0' : '\u25A1') + '</tspan><tspan x="60">' + l[0].toUpperCase() + '</tspan></text>';
     });
     return h + '</svg>';
   }

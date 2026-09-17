@@ -452,20 +452,19 @@ kbd{
 .po-head > div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .po-head h3{font-size:1.05rem}
 .po-head .ghost{flex:none}
-.po-body{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(280px,.85fr);min-height:0;overflow:auto}
-.po-figure{margin:0;background:var(--surface-2);display:flex;align-items:center;justify-content:center;padding:14px;min-height:240px}
-.po-figure img,.po-figure svg,.po-figure .po-html{max-width:100%;max-height:calc(100vh - 150px);height:auto;display:block;border-radius:6px}
-.po-figure .po-html{width:100%}
-.po-side{padding:16px 20px 18px;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:10px;overflow:auto}
-.po-caption{font-size:.92rem;color:var(--ink);line-height:1.5}
-.po-h5{margin:4px 0 0;font-family:"Red Hat Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.po-points{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
-.po-points li{font-size:.88rem;color:var(--ink-2);line-height:1.48}
-.po-points li::marker{color:var(--accent);font-weight:700}
-.po-foot{margin-top:auto;font-size:.7rem;color:var(--ink-3);line-height:1.4;padding-top:10px;border-top:1px dashed var(--border)}
-.po-foot code{font-size:.66rem}
+.po-body{display:flex;flex-direction:column;min-height:0;overflow:auto;background:var(--surface-2)}
+.po-figure{margin:0;display:flex;align-items:flex-start;justify-content:center;padding:12px;min-height:240px;flex:1}
+.po-figure img,.po-figure svg,.po-figure .po-html{max-width:100%;max-height:calc(100vh - 140px);height:auto;display:block;border-radius:6px;cursor:zoom-in}
+.po-figure svg{width:100%}
+.popout.zoomed .po-body{overflow:auto}
+.popout.zoomed .po-figure{display:block;padding:12px}
+.popout.zoomed .po-figure img,.popout.zoomed .po-figure svg{max-width:none;max-height:none;width:1672px;height:auto;cursor:zoom-out}
+.po-head .hint{font-family:"Red Hat Mono",monospace;font-size:.62rem;color:var(--ink-3);letter-spacing:.06em}
+.po-foot{margin:0;padding:6px 14px 10px;border-top:1px dashed var(--border)}
+.po-foot{font-size:.68rem;color:var(--ink-3);line-height:1.4}
+.po-foot code{font-size:.64rem}
 .labs-intro .gfxpill{position:static;margin-left:10px;vertical-align:middle}
-@media (max-width:900px){.po-body{grid-template-columns:1fr}.po-side{border-left:0;border-top:1px solid var(--border)}.po-figure img,.po-figure svg{max-height:50vh}}
+@media (max-width:900px){.po-figure img,.po-figure svg{max-height:60vh}}
 
 /* stage map — where each step of a lab runs, lit as it runs */
 .stagemap{margin:0 0 16px;border:1px solid var(--border);border-radius:9px;background:var(--surface);padding:10px 12px 6px}
@@ -641,25 +640,28 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 /* the ladder, stacked: a small pyramid in the corner of every slide, the four
    rungs read top-down (judgement at the apex), with the rainbow's yellow and
    blue kept as thin bands between them */
-.spine{position:absolute;right:calc(clamp(28px,3.4vw,54px) + 56px);top:calc(clamp(28px,3.4vw,54px) - 20px);width:150px;height:38px}
+.spine{position:absolute;right:calc(clamp(28px,3.4vw,54px) + 52px);top:calc(clamp(28px,3.4vw,54px) - 22px);width:168px;height:42px}
 .spine svg{display:block;width:100%;height:100%;overflow:visible}
-.spine .tier{opacity:.2;transition:opacity .25s}
-.spine .tier.on{opacity:1}
-.spine .t-data{fill:var(--r-data)}.spine .t-info{fill:var(--r-info)}.spine .t-know{fill:var(--r-know)}.spine .t-judge{fill:var(--r-judge)}
-.spine .b-yellow{fill:var(--rb-yellow)}.spine .b-blue{fill:var(--rb-blue)}
-.spine .edge{fill:none;stroke:var(--border-strong);stroke-width:.6}
-.spine text{font-family:"Red Hat Mono",ui-monospace,monospace;font-size:6.6px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3);font-weight:600}
-.spine text.on{fill:var(--ink);font-weight:800}
+.spine .tier,.pyr-inline .tier{fill:var(--border-strong);opacity:.75;transition:fill .25s,opacity .25s}
+.spine .tier.on,.pyr-inline .tier.on{opacity:1}
+.spine .tier.on.t-data,.pyr-inline .tier.on.t-data{fill:var(--r-data)}
+.spine .tier.on.t-info,.pyr-inline .tier.on.t-info{fill:var(--r-info)}
+.spine .tier.on.t-know,.pyr-inline .tier.on.t-know{fill:var(--r-know)}
+.spine .tier.on.t-judge,.pyr-inline .tier.on.t-judge{fill:var(--r-judge)}
+.spine .tier.on.b-yellow,.pyr-inline .tier.on.b-yellow{fill:var(--rb-yellow)}
+.spine .tier.on.b-blue,.pyr-inline .tier.on.b-blue{fill:var(--rb-blue)}
+.spine .edge,.pyr-inline .edge{fill:none;stroke:var(--surface);stroke-width:0}
+.spine text,.pyr-inline text{font-family:"Red Hat Mono",ui-monospace,monospace;font-size:6.6px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3);font-weight:600}
+.spine text.on,.pyr-inline text.on{font-weight:800}
+.spine text.on.judgement,.pyr-inline text.on.judgement{fill:var(--r-judge)}
+.spine text.on.knowledge,.pyr-inline text.on.knowledge{fill:var(--r-know)}
+.spine text.on.information,.pyr-inline text.on.information{fill:var(--r-info)}
+.spine text.on.data,.pyr-inline text.on.data{fill:var(--r-data)}
+.spine .dot,.pyr-inline .dot{fill:var(--border-strong)}
+.spine .dot.on,.pyr-inline .dot.on{fill:currentColor}
 .pyr-inline{display:inline-block;width:126px;height:32px;vertical-align:middle;margin-left:6px}
 .pyr-inline svg{width:100%;height:100%;overflow:visible}
-.pyr-inline .tier{opacity:.2}.pyr-inline .tier.on{opacity:1}
-.pyr-inline .t-data{fill:var(--r-data)}.pyr-inline .t-info{fill:var(--r-info)}.pyr-inline .t-know{fill:var(--r-know)}.pyr-inline .t-judge{fill:var(--r-judge)}
-.pyr-inline .b-yellow{fill:var(--rb-yellow)}.pyr-inline .b-blue{fill:var(--rb-blue)}
-.pyr-inline .edge{fill:none;stroke:var(--border-strong);stroke-width:.6}
-.pyr-inline text{font-family:"Red Hat Mono",ui-monospace,monospace;font-size:6.6px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3);font-weight:600}
-.pyr-inline text.on{fill:var(--ink);font-weight:800}
 .lab-head .meta .pyr-inline{margin-left:auto}
-.navitem{grid-template-columns:26px 1fr auto}
 .rdots{display:flex;gap:3px;align-self:center}
 .rdots i{display:block;width:6px;height:6px;border-radius:50%;background:var(--border)}
 .rdots i.r-data{background:var(--r-data)}.rdots i.r-info{background:var(--r-info)}.rdots i.r-know{background:var(--r-know)}.rdots i.r-judge{background:var(--r-judge)}
@@ -729,6 +731,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
 .slide[data-title="AI for operations"] .card{padding:clamp(10px,1vw,14px);gap:5px}
 .slide-head .eyebrow{align-self:flex-start;max-width:calc(100% - 300px)}
 .slide[data-title="Why now"] .slide-body{padding-top:14px}
+.slide[data-title="Where AI lands"] .cols.c2{margin-top:14px!important}
 .slide[data-title="Why now"] .slide-body > div{gap:10px}
 .slide[data-title="Why now"] .card{padding-top:4px;padding-bottom:2px;gap:5px}
 .slide[data-title="Why now"] .card p{font-size:clamp(.76rem,.82vw,.88rem)}
@@ -768,16 +771,12 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   <div class="po-panel">
     <header class="po-head">
       <div><span class="eyebrow" id="popout-kicker"></span><h3 id="popout-title"></h3></div>
+      <button class="ghost" id="popout-zoom" aria-pressed="false">1:1</button>
       <button class="ghost" id="popout-close" aria-label="Close">✕</button>
     </header>
     <div class="po-body">
       <figure class="po-figure" id="popout-figure"></figure>
-      <aside class="po-side">
-        <p class="po-caption" id="popout-caption"></p>
-        <h5 class="po-h5" id="popout-points-head"></h5>
-        <ol class="po-points" id="popout-points"></ol>
-        <p class="po-foot" id="popout-foot"></p>
-      </aside>
+      <p class="po-foot" id="popout-foot"></p>
     </div>
   </div>
 </div>
@@ -830,7 +829,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       <div class="stage" id="stage" tabindex="-1">
 
         <!-- 1 -->
-        <article class="slide title-slide" data-title="Title" data-rungs="data,information,knowledge,judgement" data-notes="Brad drives, Jon adds color commentary — objective one is to keep the room engaged; entertainment precedes learning. Open by naming the room: Red Hat, Four Inc. and Carahsoft. Say the color code once. It is the rainbow: red on the far left is data — the least structured thing we have; purple on the far right is judgement — the most structured. Every slide carries its colors in the corner, so you always know which rung we are on. Assume a cold room — about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each — Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host — and say why the three of us are here together. Frame the hour — terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway. The promise: every claim we make today, we run in a shell before you leave. Security lives in the appendix — pull it up the moment an ISSO engages. Tell the room: security is at the very end, and it is a broad conversation — anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on.">
+        <article class="slide title-slide" data-title="Title" data-rungs="data,information,knowledge,judgement" data-notes="Brad drives, Jon adds color commentary — objective one is to keep the room engaged; entertainment precedes learning. Open by naming the room: Red Hat, Four Inc. and Carahsoft. Say the color code once. It is the rainbow: red on the far left is data — the least structured thing we have; purple on the far right is judgement — the most structured. Every slide carries its colors in the corner, so you always know which rung we are on. Assume a cold room — about 56 registrants, and most are people we have not worked with. Introduce the three names on the slide in one line each — Red Hat builds the platform, Four Inc. is the federal distributor, Carahsoft is the reseller partner and today’s host — and say why the three of us are here together. Frame the hour — terminology first so everyone shares a vocabulary, then the platform story, then the labs as the takeaway. The promise: every claim we make today, we run in a shell before you leave. Security lives in the appendix — pull it up the moment an ISSO engages. Tell the room: security is at the very end, and it is a broad conversation — anyone who wants to go deeper gets a separate session, and any security question we cannot answer live, we get back to you on. GRAPHIC (G) — AI foundations for intelligent tax administration: An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination. Talk to it: (1) Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs. (2) The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge. (3) The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding. (4) Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.">
           <div class="rule"></div>
           <span class="eyebrow">Red Hat · Four Inc. · Carahsoft — Virtual Event · September 17, 2026</span>
           <h2>AI foundations for intelligent tax administration</h2>
@@ -941,7 +940,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 5 -->
-        <article class="slide" data-title="Data to judgement" data-rungs="data,information,knowledge,judgement" data-notes="The masterpiece slide — Jon’s word. Say it out loud — anyone with ten or twenty years in tech will recognize the classic data-information-knowledge-insight progression. We replaced insight with judgement for the AI age, and judgement is the rung that matters most: it is the one a person signs. Walk the stairs left to right: data, information, knowledge, judgement. Brad’s line, said out loud: we are really good at creating data and information and pretending it is knowledge — if it is not informing anything we need, it is not knowledge. Knowledge has to drive action, not check a box. Each rung is worth more to the mission. Predictive climbs the first riser, generative with retrieval the second, and judgement is deliberately never automated — that is where people come in and always will. Make it concrete. Knowledge can be automated: reboot the mail server every Friday, patch the Windows devices every Tuesday — a directive, a mandate or an AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS GovCloud region is down is not the time to run it. AI is not replacing that person; their call feeds back into the loop as the next piece of knowledge. PLANTED QUESTION: Jon asks ‘so is AI taking jobs?’ — Brad answers: it is not coming for your job, because right now it does not have judgement. The make-the-tests-pass example: ask an AI to make all the tests pass and it edits the code so they pass — it did exactly what you asked. That is information, not knowledge and judgement. Optional garnish, correctly attributed: Karpathy’s ‘you can outsource intelligence but you cannot outsource understanding.’">
+        <article class="slide" data-title="Data to judgement" data-rungs="data,information,knowledge,judgement" data-notes="The masterpiece slide — Jon’s word. Say it out loud — anyone with ten or twenty years in tech will recognize the classic data-information-knowledge-insight progression. We replaced insight with judgement for the AI age, and judgement is the rung that matters most: it is the one a person signs. Walk the stairs left to right: data, information, knowledge, judgement. Brad’s line, said out loud: we are really good at creating data and information and pretending it is knowledge — if it is not informing anything we need, it is not knowledge. Knowledge has to drive action, not check a box. Each rung is worth more to the mission. Predictive climbs the first riser, generative with retrieval the second, and judgement is deliberately never automated — that is where people come in and always will. Make it concrete. Knowledge can be automated: reboot the mail server every Friday, patch the Windows devices every Tuesday — a directive, a mandate or an AO memo turned into a job. Judgement is knowing that a Tuesday when an AWS GovCloud region is down is not the time to run it. AI is not replacing that person; their call feeds back into the loop as the next piece of knowledge. PLANTED QUESTION: Jon asks ‘so is AI taking jobs?’ — Brad answers: it is not coming for your job, because right now it does not have judgement. The make-the-tests-pass example: ask an AI to make all the tests pass and it edits the code so they pass — it did exactly what you asked. That is information, not knowledge and judgement. Optional garnish, correctly attributed: Karpathy’s ‘you can outsource intelligence but you cannot outsource understanding.’ GRAPHIC (G) — AI foundations for intelligent tax administration: An isometric staircase of four platforms, 01 Data, 02 Information, 03 Knowledge and 04 Judgement, joined by red arrows; notice that the only person in the picture stands on the top step, signing the tax determination. Talk to it: (1) Predictive AI climbs the first riser, scoring and classifying; generative AI with cited retrieval climbs the second; the top step is never automated, a named person decides and signs. (2) The test for step three: we are good at producing data and information and calling it knowledge; if it informs no decision you need, it is not knowledge. (3) The backlog lives at the bottom of the ladder: transcribing, matching and routing through the 6× April surge. Every hour a machine absorbs there, an examiner spends deciding. (4) Step one is federal tax information, so the model comes to the data; every station runs on the same platform, so you accredit once and later workflows inherit it.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Why it matters</span>
@@ -1084,96 +1083,79 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 7 -->
-        <article class="slide" data-title="Where AI lands" data-rungs="judgement" data-notes="Walk left to right. The highlighted stages are where language models earn their keep first — high-volume, text-heavy, and a human reviewer is already in the loop, which makes them the honest places to start. Exam selection is deliberately NOT highlighted: that is a determination affecting a taxpayer and needs a much heavier governance conversation — saying so unprompted buys enormous credibility. Two rules of thumb: start where a human already reviews the output; and automate the toil around the model, not just the model. Worth naming: most of the effort in production AI is provisioning, patching, scaling and data collection — an automation problem, already solved.">
+        <article class="slide" data-title="Where AI lands" data-rungs="judgement" data-notes="Walk the eight stations left to right, the same eight as the graphic (G): AI reads, classifies, grounds and drafts on the first four; a person reviews and signs on five and six; automation sends the notice; operations close the loop. The first four are where language models earn their keep first — high-volume, text-heavy, and a human reviewer is already in the loop, which makes them the honest places to start. Exam selection is deliberately NOT on this rail (an earlier version of the slide showed it held back): that is a determination affecting a taxpayer and needs a much heavier governance conversation — saying so unprompted buys enormous credibility. Two rules of thumb: start where a human already reviews the output; and automate the toil around the model, not just the model. Worth naming: most of the effort in production AI is provisioning, patching, scaling and data collection — an automation problem, already solved. GRAPHIC (G) — Where AI actually lands in the filing lifecycle: An eight-station rail, Intake, Classification, Guidance, Drafting, Review, Decision, Notice and Operations, with five red call-outs over the first five stations; notice that the fifth call-out is a human reviewer and Decision has no call-out at all. Talk to it: (1) Read the rail against the ladder: Intake through Drafting turn data into information and knowledge; Review and Decision are where a person supplies the judgement that stays human. (2) The four AI cards sit where a reviewer already checks the output; neither this graphic nor the slide puts AI on exam selection, because a taxpayer determination needs governance first. (3) Operations closes the loop: what Review corrects and Notice sends goes back into the knowledge base between seasons, and pooled GPUs absorb the 6× April surge on a fixed workforce. (4) One platform under all eight stations: the model comes to the data, the seams stay boring, and controls accredited once for Intake are inherited all the way to Operations.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Workflow map</span>
             <h2>Where AI actually lands in the filing lifecycle</h2>
-            <p class="lede">Highlighted stages already have a human reviewer in the loop — which makes them the honest places to start.</p>
+            <p class="lede">AI lands on the first four stages, where a reviewer already checks the output; the decision stays with a person; operations close the loop.</p>
           </div>
           <div class="slide-body">
-            <svg viewBox="0 0 960 208" role="img" style="width:100%;height:auto" aria-label="Six-stage filing lifecycle flow. Intake, validation, correspondence, collections support and taxpayer service are highlighted as AI-assisted with a human in the loop; exam selection is deliberately held back for governance first.">
-                <defs>
-                  <marker id="s3ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker>
-                  <filter id="s3sh" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1B1211" flood-opacity=".13"/></filter>
-                </defs>
-                <line x1="149" y1="101" x2="171" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="309" y1="101" x2="331" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="469" y1="101" x2="491" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="629" y1="101" x2="651" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/><line x1="789" y1="101" x2="811" y2="101" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
-                <g filter="url(#s3sh)">
-                  <rect x="8" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
-                </g>
-                <rect x="8" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
-                <circle cx="34" cy="44" r="13" fill="var(--r-info)"/>
-                <rect x="27" y="39" width="14" height="10" rx="1.5" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="27,40 34,45 41,40" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
-                <text x="136" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">01</text>
-                <text x="20" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Intake &amp;</text>
-                <text x="20" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">classification</text>
-                <text x="20" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Route by intent,</text>
-                <text x="20" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">not by keyword</text>
-                <rect x="20" y="152" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/>
-                <text x="77" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">human in the loop</text>
-                <g filter="url(#s3sh)">
-                  <rect x="168" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
-                </g>
-                <rect x="168" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
-                <circle cx="194" cy="44" r="13" fill="var(--r-info)"/>
-                <rect x="188" y="37" width="12" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><polyline points="191,44 193.5,46.5 198,41" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-                <text x="296" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">02</text>
-                <text x="180" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Validation</text>
-                <text x="180" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Catch gaps before</text>
-                <text x="180" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">a case is opened</text>
-                <rect x="180" y="152" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/>
-                <text x="237" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">human in the loop</text>
-                <g filter="url(#s3sh)">
-                  <rect x="328" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
-                </g>
-                <rect x="328" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
-                <circle cx="354" cy="44" r="13" fill="var(--r-info)"/>
-                <path d="M349,37 h7 l3,3 v11 h-10 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><line x1="351.5" y1="44" x2="356.5" y2="44" stroke="#fff" stroke-width="1.6"/><line x1="351.5" y1="47.5" x2="356.5" y2="47.5" stroke="#fff" stroke-width="1.6"/>
-                <text x="456" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">03</text>
-                <text x="340" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Correspondence</text>
-                <text x="340" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Draft; a reviewer</text>
-                <text x="340" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">edits and signs</text>
-                <rect x="340" y="152" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/>
-                <text x="397" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">human in the loop</text>
-                <g filter="url(#s3sh)">
-                  <rect x="488" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-dasharray="5 4"/>
-                </g>
-                <rect x="488" y="12" width="138" height="4" rx="2" fill="#CFC2BE"/>
-                <circle cx="514" cy="44" r="13" fill="var(--ink-3)"/>
-                <rect x="508" y="43" width="12" height="9" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M510.5,43 v-2.5 a3.5,3.5 0 0 1 7,0 v2.5" fill="none" stroke="#fff" stroke-width="1.8"/>
-                <text x="616" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">04</text>
-                <text x="500" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Exam</text>
-                <text x="500" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">selection</text>
-                <text x="500" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Taxpayer</text>
-                <text x="500" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">determinations</text>
-                <rect x="500" y="152" width="114" height="21" rx="10.5" fill="var(--surface-2)"/>
-                <text x="557" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--ink-3)">governance first</text>
-                <g filter="url(#s3sh)">
-                  <rect x="648" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
-                </g>
-                <rect x="648" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
-                <circle cx="674" cy="44" r="13" fill="var(--r-info)"/>
-                <path d="M667,49 v-8 h5 l2,2 h7 v6 z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
-                <text x="776" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">05</text>
-                <text x="660" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Collections</text>
-                <text x="660" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">support</text>
-                <text x="660" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Brief the officer</text>
-                <text x="660" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">before the case</text>
-                <rect x="660" y="152" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/>
-                <text x="717" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">human in the loop</text>
-                <g filter="url(#s3sh)">
-                  <rect x="808" y="12" width="138" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
-                </g>
-                <rect x="808" y="12" width="138" height="4" rx="2" fill="var(--r-info)"/>
-                <circle cx="834" cy="44" r="13" fill="var(--r-info)"/>
-                <rect x="827" y="38" width="14" height="10" rx="3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M831,48 L829,52 L835,48" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
-                <text x="936" y="41" text-anchor="end" font-family="Red Hat Mono" font-size="10" fill="var(--ink-3)">06</text>
-                <text x="820" y="80" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Taxpayer</text>
-                <text x="820" y="96" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">service</text>
-                <text x="820" y="118" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">Answers carry</text>
-                <text x="820" y="132" font-family="Red Hat Text" font-size="11" fill="var(--ink-2)">their citation</text>
-                <rect x="820" y="152" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/>
-                <text x="877" y="166" text-anchor="middle" font-family="Red Hat Mono" font-size="9.5" font-weight="600" fill="var(--r-judge)">human in the loop</text>
+            <svg viewBox="0 0 1180 200" role="img" style="width:100%;height:auto" aria-label="Eight-stage filing lifecycle rail: Intake, Classification, Guidance, Drafting, Review, Decision, Notice, Operations. AI assists the first four, where a reviewer already checks the output; a person reviews and signs; automation sends the notice and operations close the loop.">
+            <defs><marker id="s3ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker><filter id="s3sh" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#1B1211" flood-opacity=".13"/></filter></defs>
+            <line x1="140" y1="96" x2="152" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="5" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="5" y="10" width="134" height="4" rx="2" fill="var(--r-info)"/>
+            <circle cx="30" cy="40" r="13" fill="var(--r-info)"/><text x="30" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">01</text>
+            <text x="17" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Intake</text>
+            <text x="17" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Capture correspondence</text>
+            <text x="17" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">from any channel</text>
+            <rect x="15" y="150" width="114" height="21" rx="10.5" fill="var(--r-info-wash)"/><text x="72" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-info)">AI reads it</text>
+            <line x1="288" y1="96" x2="300" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="153" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="153" y="10" width="134" height="4" rx="2" fill="var(--r-info)"/>
+            <circle cx="178" cy="40" r="13" fill="var(--r-info)"/><text x="178" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">02</text>
+            <text x="165" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Classification</text>
+            <text x="165" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Understand intent,</text>
+            <text x="165" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">route to the case type</text>
+            <rect x="163" y="150" width="114" height="21" rx="10.5" fill="var(--r-info-wash)"/><text x="220" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-info)">AI classifies</text>
+            <line x1="436" y1="96" x2="448" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="301" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="301" y="10" width="134" height="4" rx="2" fill="var(--r-know)"/>
+            <circle cx="326" cy="40" r="13" fill="var(--r-know)"/><text x="326" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">03</text>
+            <text x="313" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Guidance</text>
+            <text x="313" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Rules, policy</text>
+            <text x="313" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">and precedent</text>
+            <rect x="311" y="150" width="114" height="21" rx="10.5" fill="var(--r-know-wash)"/><text x="368" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-know)">AI grounds and cites</text>
+            <line x1="584" y1="96" x2="596" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="449" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="449" y="10" width="134" height="4" rx="2" fill="var(--r-know)"/>
+            <circle cx="474" cy="40" r="13" fill="var(--r-know)"/><text x="474" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">04</text>
+            <text x="461" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Drafting</text>
+            <text x="461" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Letters, responses,</text>
+            <text x="461" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">memos, with citations</text>
+            <rect x="459" y="150" width="114" height="21" rx="10.5" fill="var(--r-know-wash)"/><text x="516" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-know)">AI drafts</text>
+            <line x1="732" y1="96" x2="744" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="597" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="597" y="10" width="134" height="4" rx="2" fill="var(--r-judge)"/>
+            <circle cx="622" cy="40" r="13" fill="var(--r-judge)"/><text x="622" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">05</text>
+            <text x="609" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Review</text>
+            <text x="609" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Check accuracy, add</text>
+            <text x="609" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">judgment, approve</text>
+            <rect x="607" y="150" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/><text x="664" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-judge)">human in the loop</text>
+            <line x1="880" y1="96" x2="892" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="745" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="745" y="10" width="134" height="4" rx="2" fill="var(--r-judge)"/>
+            <circle cx="770" cy="40" r="13" fill="var(--r-judge)"/><text x="770" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">06</text>
+            <text x="757" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Decision</text>
+            <text x="757" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Finalize and issue</text>
+            <text x="757" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">the outcome</text>
+            <rect x="755" y="150" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/><text x="812" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-judge)">a person signs</text>
+            <line x1="1028" y1="96" x2="1040" y2="96" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#s3ar)"/>
+            <g filter="url(#s3sh)"><rect x="893" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="893" y="10" width="134" height="4" rx="2" fill="var(--r-judge)"/>
+            <circle cx="918" cy="40" r="13" fill="var(--r-judge)"/><text x="918" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">07</text>
+            <text x="905" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Notice</text>
+            <text x="905" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Send letters and</text>
+            <text x="905" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">update records</text>
+            <rect x="903" y="150" width="114" height="21" rx="10.5" fill="var(--r-judge-wash)"/><text x="960" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-judge)">automation executes</text>
+            <g filter="url(#s3sh)"><rect x="1041" y="10" width="134" height="178" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/></g>
+            <rect x="1041" y="10" width="134" height="4" rx="2" fill="var(--r-know)"/>
+            <circle cx="1066" cy="40" r="13" fill="var(--r-know)"/><text x="1066" y="44.5" text-anchor="middle" font-family="Red Hat Mono" font-size="11" font-weight="700" fill="#fff">08</text>
+            <text x="1053" y="78" font-family="Red Hat Display" font-size="13.5" font-weight="800" fill="var(--ink)">Operations</text>
+            <text x="1053" y="104" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Track performance,</text>
+            <text x="1053" y="118" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">learn and improve</text>
+            <rect x="1051" y="150" width="114" height="21" rx="10.5" fill="var(--r-know-wash)"/><text x="1108" y="164" text-anchor="middle" font-family="Red Hat Mono" font-size="9" font-weight="600" fill="var(--r-know)">the loop closes</text>
             </svg>
             <div class="cols c2" style="margin-top:20px">
               <div class="card"><span class="tag">Rule of thumb</span><h4>Start where a human already reviews the output</h4><p>If a person signs the letter today, a model that drafts it changes throughput without changing accountability. That is a defensible first deployment.</p><span class="rung r-judge">judgement stays human</span></div>
@@ -1184,7 +1166,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 8 -->
-        <article class="slide" data-title="Five outcomes" data-rungs="data,information,knowledge,judgement" data-notes="These five come straight from the Carahsoft event description, and each one names the product that delivers it and the lab where the audience runs it. Call outcome 01 the easy first outcome — it needs no AI strategy, only the IT operations automation you already run today: an error string in a log fires an Event-Driven Ansible rule, a playbook runs on the right hosts, an email goes out, a ticket opens and closes in ServiceNow or Remedy. The point to make: this is how buzzword bingo ties to specific, actual outcomes — things you can start on a laptop today, so you can convince yourself before you try to convince an authorizing official and a CIO. The lab tags here match the tags Brad already uses in the IRS bi-weekly, so people can find things later. Do not linger — this slide exists so people can map the rest of the hour.">
+        <article class="slide" data-title="Five outcomes" data-rungs="data,information,knowledge,judgement" data-notes="These five come straight from the Carahsoft event description, and each one names the product that delivers it and the lab where the audience runs it. Call outcome 01 the easy first outcome — it needs no AI strategy, only the IT operations automation you already run today: an error string in a log fires an Event-Driven Ansible rule, a playbook runs on the right hosts, an email goes out, a ticket opens and closes in ServiceNow or Remedy. The point to make: this is how buzzword bingo ties to specific, actual outcomes — things you can start on a laptop today, so you can convince yourself before you try to convince an authorizing official and a CIO. The lab tags here match the tags Brad already uses in the IRS bi-weekly, so people can find things later. Do not linger — this slide exists so people can map the rest of the hour. GRAPHIC (G) — Where AI actually lands in the filing lifecycle: An eight-station rail, Intake, Classification, Guidance, Drafting, Review, Decision, Notice and Operations, with five red call-outs over the first five stations; notice that the fifth call-out is a human reviewer and Decision has no call-out at all. Talk to it: (1) Read the rail against the ladder: Intake through Drafting turn data into information and knowledge; Review and Decision are where a person supplies the judgement that stays human. (2) The four AI cards sit where a reviewer already checks the output; neither this graphic nor the slide puts AI on exam selection, because a taxpayer determination needs governance first. (3) Operations closes the loop: what Review corrects and Notice sends goes back into the knowledge base between seasons, and pooled GPUs absorb the 6× April surge on a fixed workforce. (4) One platform under all eight stations: the model comes to the data, the seams stay boring, and controls accredited once for Intake are inherited all the way to Operations.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">What teams get</span>
@@ -1216,7 +1198,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 9 -->
-        <article class="slide" data-title="Architecture" data-rungs="data,information,knowledge,judgement" data-notes="Seams riff first (Jon’s request). Failures happen at the seams between systems, not inside. Pants: gain weight and they split at the seams, never where the fabric is strongest. Boring seams is more than fewer: know where each is, operationalize them, have people ready to repair — and do each right, where cyber comes in; the AO’s question, the bridge to the appendix. Any decision is a lock-in — pizza tonight eliminates spaghetti; Red Hat keeps tomorrow’s spaghetti open. RHEL and OpenShift interoperating layer to layer eases integration — not the only ones, but uniquely placed. Ansible and OpenShift: heterogeneous platforms, homogeneous interface. Estates are diverse; nobody chose that to spite you. The old system is not legacy to modernize — it joins the same back plane, no snowflakes. Hardware: mainframes, TPMs, PIV/CAC crypto — it extracts data and creates the information everything above turns into knowledge or judgement; Red Hat tests with vendors so it does what our software expects. Read bottom to top; the point is the two vertical bands — automation and trust are not a layer added last. Training box: SDG Hub and Training Hub beside serving, pipelines, registry, retrieval. Naming trap: OpenShift versus OpenShift AI is a product-vs-value tangent — a value room sees serving and retrieval as one (‘I want my data out of it’); split only for a technical room. Jon’s core: one foundation from bare metal to the taxpayer — but how do you turn information into actionable knowledge? PLANTED: Jon plays the foil — ‘what’s a seam?’ — Brad answers with the pants; then Brad cold-asks Jon ‘what is fine-tuning to you?’ — Jon is fine with it. HAND-OFF: after seams and hardware, Brad throws to Jon for the platform boxes — serving, retrieval, registry; Jon closes on why one foundation matters; Brad takes it back: bring the model to the mission, not the data to someone else’s model.">
+        <article class="slide" data-title="Architecture" data-rungs="data,information,knowledge,judgement" data-notes="Seams riff first (Jon’s request). Failures happen at the seams between systems, not inside. Pants: gain weight and they split at the seams, never where the fabric is strongest. Boring seams is more than fewer: know where each is, operationalize them, have people ready to repair — and do each right, where cyber comes in; the AO’s question, the bridge to the appendix. Any decision is a lock-in — pizza tonight eliminates spaghetti; Red Hat keeps tomorrow’s spaghetti open. RHEL and OpenShift interoperating layer to layer eases integration — not the only ones, but uniquely placed. Ansible and OpenShift: heterogeneous platforms, homogeneous interface. Estates are diverse; nobody chose that to spite you. The old system is not legacy to modernize — it joins the same back plane, no snowflakes. Hardware: mainframes, TPMs, PIV/CAC crypto — it extracts data and creates the information everything above turns into knowledge or judgement; Red Hat tests with vendors so it does what our software expects. Read bottom to top; the point is the two vertical bands — automation and trust are not a layer added last. Training box: SDG Hub and Training Hub beside serving, pipelines, registry, retrieval. Naming trap: OpenShift versus OpenShift AI is a product-vs-value tangent — a value room sees serving and retrieval as one (‘I want my data out of it’); split only for a technical room. Jon’s core: one foundation from bare metal to the taxpayer — but how do you turn information into actionable knowledge? PLANTED: Jon plays the foil — ‘what’s a seam?’ — Brad answers with the pants; then Brad cold-asks Jon ‘what is fine-tuning to you?’ — Jon is fine with it. HAND-OFF: after seams and hardware, Brad throws to Jon for the platform boxes — serving, retrieval, registry; Jon closes on why one foundation matters; Brad takes it back: bring the model to the mission, not the data to someone else’s model. GRAPHIC (G) — One foundation, from bare metal to the taxpayer: One Red Hat platform inside one security enclosure, with a case moving left to right through six stations, from agency case files through model inference, retrieval, automation and compliance checks to a reviewer at a screen; notice that the model cube sits inside the same enclosure as the data. Talk to it: (1) Read the colors as the ladder: red case files are data, the orange cube makes information, green retrieval adds knowledge, and a person at the purple desk signs the judgement. (2) The model comes to the data, and FIPS, signing and compliance scanning attach to the platform, not the project: accredit once, inherit everywhere; workflow two starts with workflow one's evidence. (3) Six stations, one plinth: the seven words below are capabilities, not seven labs; one foundation keeps the seams boring, and like pizza tonight it never rules out spaghetti tomorrow. (4) The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Reference architecture</span>
@@ -1392,7 +1374,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 11 -->
-        <article class="slide" data-title="Why one platform" data-rungs="data,information,judgement" data-notes="The left box is the definition of the service — infrastructure as code: a manifest, a signed model, a GitOps repo. The three on the right are where it runs, unchanged: cloud burst, air-gapped enclave, dev and research. Infrastructure as code decouples the placement so it becomes a policy, not a re-architecture — this is the hybrid multicloud value prop. The lock-in riff: modern lock-in is far more dangerous than the old kind, because it limits your FUTURE decisions without you even knowing. The Mexico phone-plan analogy — a plan where you cannot call Pizza Hut, only Domino's. Real lock-in is tying into bespoke hyperscaler-unique services. Honesty caveat, say it out loud: this is not easy and not right for every situation — sometimes you legitimately need a native service. The ask is only that you define infrastructure and services as code, so placement is policy rather than a rewrite. Fine to spin up fast — then ground it after you prove it. PLANTED QUESTION: Jon plays the foil — 'what do you actually mean by lock-in? I thought we already bought the software' — and Brad answers with the phone-plan analogy.">
+        <article class="slide" data-title="Why one platform" data-rungs="data,information,judgement" data-notes="The left box is the definition of the service — infrastructure as code: a manifest, a signed model, a GitOps repo. The three on the right are where it runs, unchanged: cloud burst, air-gapped enclave, dev and research. Infrastructure as code decouples the placement so it becomes a policy, not a re-architecture — this is the hybrid multicloud value prop. The lock-in riff: modern lock-in is far more dangerous than the old kind, because it limits your FUTURE decisions without you even knowing. The Mexico phone-plan analogy — a plan where you cannot call Pizza Hut, only Domino's. Real lock-in is tying into bespoke hyperscaler-unique services. Honesty caveat, say it out loud: this is not easy and not right for every situation — sometimes you legitimately need a native service. The ask is only that you define infrastructure and services as code, so placement is policy rather than a rewrite. Fine to spin up fast — then ground it after you prove it. PLANTED QUESTION: Jon plays the foil — 'what do you actually mean by lock-in? I thought we already bought the software' — and Brad answers with the phone-plan analogy. GRAPHIC (G) — One foundation, from bare metal to the taxpayer: One Red Hat platform inside one security enclosure, with a case moving left to right through six stations, from agency case files through model inference, retrieval, automation and compliance checks to a reviewer at a screen; notice that the model cube sits inside the same enclosure as the data. Talk to it: (1) Read the colors as the ladder: red case files are data, the orange cube makes information, green retrieval adds knowledge, and a person at the purple desk signs the judgement. (2) The model comes to the data, and FIPS, signing and compliance scanning attach to the platform, not the project: accredit once, inherit everywhere; workflow two starts with workflow one's evidence. (3) Six stations, one plinth: the seven words below are capabilities, not seven labs; one foundation keeps the seams boring, and like pizza tonight it never rules out spaghetti tomorrow. (4) The gears are Ansible closing the loop into the system of record: classify, draft, route, capture evidence, a person reviewing; the same platform absorbs April's 6× surge on pooled GPUs.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Why Red Hat</span>
@@ -1423,19 +1405,19 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
                 <rect x="560" y="12" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
                 <circle cx="586" cy="46" r="5" fill="var(--r-data)"/>
                 <text x="602" y="38" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Datacenter — bare-metal GPU nodes</text>
-                <text x="602" y="58" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)">Your floor, your hardware, shortest path to the systems of record</text>
+                <text x="602" y="58" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Your floor, your hardware, shortest path to the systems of record</text>
                 <text x="1140" y="38" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: the iron</text>
                 <!-- env 2 -->
                 <rect x="560" y="92" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
                 <circle cx="586" cy="126" r="5" fill="var(--r-data)"/>
                 <text x="602" y="118" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Accredited cloud region</text>
-                <text x="602" y="138" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)">FedRAMP boundary; surge capacity rented for the season, released after</text>
+                <text x="602" y="138" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">FedRAMP boundary; surge capacity rented for the season, released after</text>
                 <text x="1140" y="118" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: the boundary</text>
                 <!-- env 3 -->
                 <rect x="560" y="172" width="600" height="68" rx="8" fill="url(#sPbox)" stroke="var(--border-strong)" filter="url(#sPsh)"/>
                 <circle cx="586" cy="206" r="5" fill="var(--r-data)"/>
                 <text x="602" y="198" font-family="Red Hat Display" font-size="12.5" font-weight="800" fill="var(--ink)">Air-gapped enclave</text>
-                <text x="602" y="218" font-family="Red Hat Text" font-size="10.5" fill="var(--ink-2)">Mirrored registry and models; no internet at inference or update time</text>
+                <text x="602" y="218" font-family="Red Hat Text" font-size="10" fill="var(--ink-2)">Mirrored registry and models; no internet at inference or update time</text>
                 <text x="1140" y="198" text-anchor="end" font-family="Red Hat Mono" font-size="9.5" fill="var(--ink-3)">differs: no internet</text>
               </svg>
               <div class="cols c3">
@@ -1610,7 +1592,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 15 -->
-        <article class="slide" data-title="Next steps" data-rungs="judgement" data-notes="Close with a specific ask, not a thank-you. Step zero, said first: for a PoC we set a time and run the seven labs together — show and tell — to find where in the stack you want to prove value; that scopes the pilot; if it gets serious Brad brings in more people. Then workshop, guided pilot, acquisition path — engage solution architects early; unanswered foundational questions get reworked later. No stupid questions. Say the line: not seeing it here does not mean it does not exist or is not a feature or product — name Models-as-a-Service for the platform people. Point at the contact panel — Brad’s Red Hat email is there deliberately: reach out and, if nothing else, I connect you to the right person, not stick you on somebody else. Point at Ted — say hi, Ted — Red Hat’s AE for the IRS. Do not know your AE, or not a customer yet? Email me; I connect you with your equivalent of Ted, and pilots route through the AE. Closer if it fits: that is why we get paid as solution architects — I would rather talk to you than my manager. Never end with nothing happening after. Then the labs, as the takeaway. Then the four moves, out loud: already a customer, ask for your Solution Architect — if you do not know who that is, email Brad, open a Customer Portal ticket, or ask up the management line; start a community of practice across platform, security and mission teams; bring your hardest question; bring your cyber team — nobody from IRS cyber today? Refer us to your ISSO or security lead; we run the appendix in depth for them. Spoken, not on the slide: not IRS or financial services? Reach out anyway — we rebuild this around your mission with your account team. CLOSING QUESTION, always: anybody on from cyber? Yes — pull up the appendix. No — cyber has had opinions before and deserves a fighting chance to hear it early: can anyone refer us to IRS cyber? We run it for them separately.">
+        <article class="slide" data-title="Next steps" data-rungs="judgement" data-notes="Close with a specific ask, not a thank-you. Step zero, said first: for a PoC we set a time and run the seven labs together — show and tell — to find where in the stack you want to prove value; that scopes the pilot; if it gets serious Brad brings in more people. Then workshop, guided pilot, acquisition path — engage solution architects early; unanswered foundational questions get reworked later. No stupid questions. Say the line: not seeing it here does not mean it does not exist or is not a feature or product — name Models-as-a-Service for the platform people. Point at the contact panel — Brad’s Red Hat email is there deliberately: reach out and, if nothing else, I connect you to the right person, not stick you on somebody else. Point at Ted — say hi, Ted — Red Hat’s AE for the IRS. Do not know your AE, or not a customer yet? Email me; I connect you with your equivalent of Ted, and pilots route through the AE. Closer if it fits: that is why we get paid as solution architects — I would rather talk to you than my manager. Never end with nothing happening after. Then the labs, as the takeaway. Then the four moves, out loud: already a customer, ask for your Solution Architect — if you do not know who that is, email Brad, open a Customer Portal ticket, or ask up the management line; start a community of practice across platform, security and mission teams; bring your hardest question; bring your cyber team — nobody from IRS cyber today? Refer us to your ISSO or security lead; we run the appendix in depth for them. Spoken, not on the slide: not IRS or financial services? Reach out anyway — we rebuild this around your mission with your account team. CLOSING QUESTION, always: anybody on from cyber? Yes — pull up the appendix. No — cyber has had opinions before and deserves a fighting chance to hear it early: can anyone refer us to IRS cyber? We run it for them separately. GRAPHIC (G) — AI for Federal Financial Services: Eight cards on a dark grid under the title AI for Federal Financial Services, one for each thing published for this event: the deck, its reveal.js slides, the role-based adventure guide, the hands-free demo view, the docs, the GitHub repository, the seven labs and the exports; the thing to notice is that every red arrow lands on the same public site or repository, free, with nothing to buy. Talk to it: (1) This is the leave-behind for the Next steps slide: everything from today lives at nommsweymx.github.io/redhat-ai-tax-labs, free, public and open source, and Carahsoft's follow-up to every registrant carries the same links. (2) Only one card is the seven labs. Adventure is the choose-your-path guide by role, not the labs one-to-one; Slides is this deck in reveal.js; Demo View runs the labs hands-free. (3) The labs are the opinionated path, personal laptop only, never production: the model comes to the data on 127.0.0.1, the 6× April surge is rehearsed, the ISSO gets evidence. (4) Then crawl, walk, run: one workflow where a person already decides, proven here before any pilot; pilot requests go through your account executive, and Brad connects anyone without one.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Next steps</span>
@@ -1648,7 +1630,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
         </article>
 
         <!-- 16 -->
-        <article class="slide" data-title="Labs preview" data-rungs="data,information,knowledge,judgement" data-notes="The concluding takeaway — the deck ends hands-on. Frame it as an opinionated approach: we lead with one path so you do not drown in options. The line Brad credits, with a hedge, to Danny Mack from the OpenStack days: people hand you the bits and tell you to build something; sometimes you just want the pot to put the plant in. These labs are the pot — the Red Hat opinionated way to get going on a personal laptop, using the upstream community tool chain that is used and secured inside a Red Hat solution. Say that distinction so nobody leaves thinking the laptop stack is the one that goes in an authorization package: the labs run the community bits on a laptop; the supported Red Hat product built from the same tool chain is what an agency accredits. Disclaimer, say it: an opinionated path on a personal laptop — not an MVP, never production, and never on a government computer. Answer the two questions before they are asked: who can take it — anyone; what does it cost — nothing. It is a single self-contained HTML on the Carahsoft event page, with the source in the public repo. The point is to prove it to YOURSELF — you will watch the model serve on 127.0.0.1 with no egress — because if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal is the selling point: type each command step by step without installing anything, and off-script commands are refused, which is what makes it a prescriptive, defensible path for a pilot. And the punchline for the AO: your installation and scripting become the artifact you hand them. The full labs live in the repo — that is where people actually run them, not inside this page. Close the labs with the offer: if you want us to go deeper on any of these, or run them for a larger audience, reach out — we will do it.">
+        <article class="slide" data-title="Labs preview" data-rungs="data,information,knowledge,judgement" data-notes="The concluding takeaway — the deck ends hands-on. Frame it as an opinionated approach: we lead with one path so you do not drown in options. The line Brad credits, with a hedge, to Danny Mack from the OpenStack days: people hand you the bits and tell you to build something; sometimes you just want the pot to put the plant in. These labs are the pot — the Red Hat opinionated way to get going on a personal laptop, using the upstream community tool chain that is used and secured inside a Red Hat solution. Say that distinction so nobody leaves thinking the laptop stack is the one that goes in an authorization package: the labs run the community bits on a laptop; the supported Red Hat product built from the same tool chain is what an agency accredits. Disclaimer, say it: an opinionated path on a personal laptop — not an MVP, never production, and never on a government computer. Answer the two questions before they are asked: who can take it — anyone; what does it cost — nothing. It is a single self-contained HTML on the Carahsoft event page, with the source in the public repo. The point is to prove it to YOURSELF — you will watch the model serve on 127.0.0.1 with no egress — because if you do not believe it, an authorizing official will hear that in your voice. The simulated terminal is the selling point: type each command step by step without installing anything, and off-script commands are refused, which is what makes it a prescriptive, defensible path for a pilot. And the punchline for the AO: your installation and scripting become the artifact you hand them. The full labs live in the repo — that is where people actually run them, not inside this page. Close the labs with the offer: if you want us to go deeper on any of these, or run them for a larger audience, reach out — we will do it. GRAPHIC (G) — Choose your path.: A map of the labs site: red roads run from the RED HAT AI TAX LABS hub to seven role paths (Leadership, Platform Operations, AI / Data Team, Security and Compliance, Mission Workflow, Live Demo, Explore More); notice they are entry points by role, not the seven labs one to one. Talk to it: (1) Seven roads into the same seven labs, Leadership through Explore More: pick yours by role, and notice every lab is tagged with the ladder rung it serves, data to judgement. (2) Take the Live Demo road to prove it yourself: Lab 01 serves the model on 127.0.0.1 with no egress. Tax data stays inside; the model comes to the data. (3) Platform Operations and Security and Compliance share one platform with no seams: FIPS and OS controls inherit up the stack, so you accredit once and inherit everywhere. (4) Mission Workflow wraps the system of record instead of rewriting it: automation absorbs the 6× April surge and closes the loop, while a person signs the determination. Crawl, walk, run.">
           <div class="rule"></div>
           <div class="slide-head">
             <span class="eyebrow">Hands on · the takeaway</span>
@@ -1888,13 +1870,11 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     var g = GRAPHICS[key];
     if(!g) return;
     gfxKeyOpen = key; gfxOpener = opener || document.activeElement;
-    document.getElementById('popout-kicker').textContent = C('gfxKicker');
+    document.getElementById('popout-kicker').textContent = C('gfxKicker') + ' · ' + C('gfxHint');
     document.getElementById('popout-title').textContent = gfxText(g, 'title');
-    document.getElementById('popout-caption').textContent = gfxText(g, 'caption');
-    document.getElementById('popout-points-head').textContent = C('gfxPoints');
-    var ol = document.getElementById('popout-points');
-    ol.innerHTML = '';
-    (gfxText(g, 'points') || []).forEach(function(p){ var li = document.createElement('li'); li.textContent = p; ol.appendChild(li); });
+    popout.classList.remove('zoomed');
+    document.getElementById('popout-zoom').setAttribute('aria-pressed', 'false');
+    document.getElementById('popout-zoom').textContent = '1:1';
     var fig = document.getElementById('popout-figure');
     var foot = document.getElementById('popout-foot');
     fig.innerHTML = g.fallback ? g.fallback() : '';
@@ -1921,8 +1901,17 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     if(gfxOpener && gfxOpener.focus){ try { gfxOpener.focus(); } catch(err){} }
     gfxOpener = null;
   }
+  function toggleZoom(){
+    var z = !popout.classList.contains('zoomed');
+    popout.classList.toggle('zoomed', z);
+    var b = document.getElementById('popout-zoom');
+    b.setAttribute('aria-pressed', String(z));
+    b.textContent = z ? C('gfxFit') : '1:1';
+    if(!z){ var body = popout.querySelector('.po-body'); body.scrollTop = 0; body.scrollLeft = 0; }
+  }
   popout.addEventListener('click', function(e){
-    if(e.target.closest('#popout-close') || e.target.hasAttribute('data-close')) closeGraphic();
+    if(e.target.closest('#popout-close') || e.target.hasAttribute('data-close')){ closeGraphic(); return; }
+    if(e.target.closest('#popout-zoom') || e.target.closest('#popout-figure')) toggleZoom();
   });
   var gfxBtn = document.getElementById('gfxbtn');
   document.getElementById('labs-map-btn').addEventListener('click', function(){ openGraphic('choose-your-path', this); });
@@ -1984,13 +1973,14 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       var lit = t[0] ? on.indexOf(t[0]) >= 0
         : (t[1] === 'b-blue' ? (on.indexOf('judgement') >= 0 && on.indexOf('knowledge') >= 0)
                               : (on.indexOf('knowledge') >= 0 && on.indexOf('information') >= 0));
-      h += '<rect class="tier ' + t[1] + (lit ? ' on' : '') + '" x="0" y="' + t[2] + '" width="48" height="' + (t[3] - t[2]) + '"/>';
+      var gap = (t[3] - t[2] > 3) ? 0.7 : 0.35;
+      h += '<rect class="tier ' + t[1] + (lit ? ' on' : '') + '" x="0" y="' + (t[2] + gap) + '" width="48" height="' + (t[3] - t[2] - 2*gap) + '"/>';
     });
-    h += '</g><polygon class="edge" points="24,1 47,37 1,37"/>';
+    h += '</g>';
     var labels = [['judgement', 8], ['knowledge', 17.5], ['information', 26.5], ['data', 35]];
     labels.forEach(function(l){
       var lit = on.indexOf(l[0]) >= 0;
-      h += '<text class="' + (lit ? 'on' : '') + '" x="54" y="' + l[1] + '">' + esc(RUNGN[l[0]][lang === 'es' ? 1 : 0]) + '</text>';
+      h += '<text class="' + l[0] + (lit ? ' on' : '') + '" x="58" y="' + l[1] + '"><tspan class="dot' + (lit ? ' on' : '') + '" x="52" dy="0">' + (lit ? '\u25A0' : '\u25A1') + '</tspan><tspan x="60">' + esc(RUNGN[l[0]][lang === 'es' ? 1 : 0]) + '</tspan></text>';
     });
     return h + '</svg>';
   }
@@ -2010,8 +2000,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       slides.forEach(function(s,i){
         var b = document.createElement('button');
         b.className = 'navitem';
-        b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span><span class="rdots">' +
-          rungsOf(s).map(function(k){ return '<i class="' + RUNG[k][0] + '"></i>'; }).join('') + '</span>';
+        b.innerHTML = '<span class="n">' + String(i+1).padStart(2,'0') + '</span><span></span>';
         b.children[1].textContent = slideTitleLocal(s.dataset.title);
         b.setAttribute('aria-current', i === cur ? 'true' : 'false');
         b.addEventListener('click', function(){ go(i); });
@@ -2112,6 +2101,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
     if(!popout.hidden){
       if(e.key === 'Escape' || e.key === 'g' || e.key === 'G'){ e.preventDefault(); closeGraphic(); }
+      else if(e.key === 'z' || e.key === 'Z' || e.key === '+' || e.key === '='){ e.preventDefault(); toggleZoom(); }
       return;
     }
     if(mode === 'demo'){
@@ -2157,7 +2147,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       cardWhat:'What is happening', cardWhatDid:'What you did',
       cardWhy:'Why it matters to this talk', cardValue:'Red Hat — one platform, no seams',
       gfxBtn:'Graphic ⤢', gfxPill:'graphic', gfxPoints:'Talk to this', gfxClose:'Close',
-      gfxKicker:'Graphic — discussion points', gfxVector:'Vector rendition. The illustrated render loads from',
+      gfxKicker:'Graphic', gfxHint:'click or Z to zoom · Esc closes · the talking points are in the presenter notes', gfxFit:'Fit', gfxVector:'Vector rendition. The illustrated render loads from',
       gfxVector2:'when that file is present in the repository.', gfxMap:'See the map',
       allow:'allowlist', allowTitle:'Only this lab\'s commands run here; anything else is refused with a hint.',
       mapCap:'Where each step runs — lit as it runs, checked when done'
@@ -2183,7 +2173,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
       cardWhat:'Qué está pasando', cardWhatDid:'Qué hiciste',
       cardWhy:'Por qué importa en esta charla', cardValue:'Red Hat — una plataforma, sin costuras',
       gfxBtn:'Gráfico ⤢', gfxPill:'gráfico', gfxPoints:'Qué comentar', gfxClose:'Cerrar',
-      gfxKicker:'Gráfico — puntos de conversación', gfxVector:'Versión vectorial. La ilustración se carga desde',
+      gfxKicker:'Gráfico', gfxHint:'clic o Z para ampliar · Esc cierra · los puntos de conversación están en las notas', gfxFit:'Ajustar', gfxVector:'Versión vectorial. La ilustración se carga desde',
       gfxVector2:'cuando ese archivo está en el repositorio.', gfxMap:'Ver el mapa',
       allow:'lista permitida', allowTitle:'Aquí solo corren los comandos de este lab; cualquier otro se rechaza con una pista.',
       mapCap:'Dónde corre cada paso — se enciende al correr, se marca al terminar'
@@ -2221,6 +2211,41 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   var ES_TEXT = {
     /* ---- chrome ---- */
     "Notes":"Notas",
+    "update records":"actualiza registros",
+    "Send letters and":"Envía cartas y",
+    "Rules, policy":"Reglas, política",
+    "from any channel":"por cualquier canal",
+    "Capture correspondence":"Captura correspondencia",
+    "Intake":"Recepción",
+    "Capture taxpayer":"Captura la correspondencia",
+    "correspondence, any channel":"del contribuyente, por cualquier canal",
+    "AI reads it":"la IA la lee",
+    "Classification":"Clasificación",
+    "Understand intent,":"Entiende la intención,",
+    "route to the case type":"enruta al tipo de caso",
+    "AI classifies":"la IA clasifica",
+    "Guidance":"Normativa",
+    "Surface rules, policy":"Muestra reglas, política",
+    "and precedent":"y precedentes",
+    "AI grounds and cites":"la IA ancla y cita",
+    "Drafting":"Redacción",
+    "Letters, responses,":"Cartas, respuestas,",
+    "memos, with citations":"memos, con citas",
+    "AI drafts":"la IA redacta",
+    "Review":"Revisión",
+    "Check accuracy, add":"Verifica exactitud,",
+    "judgment, approve":"aporta juicio, aprueba",
+    "Decision":"Decisión",
+    "Finalize and issue":"Finaliza y emite",
+    "the outcome":"el resultado",
+    "a person signs":"una persona firma",
+    "Notice":"Aviso",
+    "Send letters, update":"Envía cartas, actualiza",
+    "taxpayer records":"registros del contribuyente",
+    "automation executes":"automatización",
+    "Track performance,":"Mide el desempeño,",
+    "learn and improve":"aprende y mejora",
+    "the loop closes":"el bucle se cierra",
     "Lab 08 · the whole loop":"Lab 08 · el bucle completo",
     "One loop, end to end: from mainframe logs to an assistant that probes":"Un solo bucle, de punta a punta: de los logs del mainframe a un asistente que sondea",
     "Logs in, risk scored, fix drafted by Lightspeed, merged by a person, run by Event-Driven Ansible, remembered by the platform, so you can ask.":"Entran los logs, se puntúa el riesgo, Lightspeed redacta el arreglo, una persona lo fusiona, Event-Driven Ansible lo ejecuta, la plataforma lo recuerda, así que puedes preguntar.",
@@ -2472,7 +2497,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     /* ---- slide 7: where AI lands ---- */
     "Workflow map":"Mapa del flujo",
     "Where AI actually lands in the filing lifecycle":"Dónde entra realmente la IA en el ciclo de declaraciones",
-    "Highlighted stages already have a human reviewer in the loop — which makes them the honest places to start.":"Las etapas resaltadas ya tienen a un revisor humano en el circuito — por eso son los puntos honestos para empezar.",
+    "AI lands on the first four stages, where a reviewer already checks the output; the decision stays with a person; operations close the loop.":"La IA aterriza en las cuatro primeras etapas, donde un revisor ya verifica la salida; la decisión queda con una persona; operaciones cierra el bucle.",
     "Intake &amp;":"Recepción y",
     "classification":"clasificación",
     "Validation":"Validación",
@@ -2494,7 +2519,7 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     "before the case":"antes del caso",
     "Answers carry":"Respuestas con",
     "their citation":"su cita",
-    "human in the loop":"humano en el circuito",
+    "human in the loop":"humano en el bucle",
     "governance first":"gobernanza primero",
     "Rule of thumb":"Regla práctica",
     "Start where a human already reviews the output":"Empieza donde un humano ya revisa el resultado",

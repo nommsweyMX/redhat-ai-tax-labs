@@ -308,19 +308,21 @@ differently.
 
 `Rung: judgement`
 
-Highlighted stages already have a human reviewer in the loop — which makes them
-the honest places to start.
+AI lands on the first four stages, where a reviewer already checks the output;
+the decision stays with a person; operations close the loop.
 
-[cols="2,3,2", options="header"]
+[cols="1,3,5,3", options="header"]
 |===
-| Stage | What the model does | Start here?
+| # | Station | What happens | Who acts
 
-| 01 Intake and classification | Route by intent, not by keyword | Yes — human in the loop
-| 02 Validation | Catch gaps before a case is opened | Yes — human in the loop
-| 03 Correspondence | Draft; a reviewer edits and signs | Yes — human in the loop
-| 04 *Exam selection* | Taxpayer determinations | *No — governance first*
-| 05 Collections support | Brief the officer before the case | Yes — human in the loop
-| 06 Taxpayer service | Answers carry their citation | Yes — human in the loop
+| 01 | Intake | Capture correspondence from any channel | AI reads it
+| 02 | Classification | Understand intent, route to the case type | AI classifies
+| 03 | Guidance | Rules, policy and precedent | AI grounds and cites
+| 04 | Drafting | Letters, responses, memos, with citations | AI drafts
+| 05 | Review | Check accuracy, add judgment, approve | Human in the loop
+| 06 | Decision | Finalize and issue the outcome | A person signs
+| 07 | Notice | Send letters and update records | Automation executes
+| 08 | Operations | Track performance, learn and improve | The loop closes
 |===
 
 . *Start where a human already reviews the output* (judgement stays human). If a
@@ -332,18 +334,37 @@ the honest places to start.
 
 [.notes]
 --
-Walk left to right. The highlighted stages are where language models earn
-their keep first — high-volume, text-heavy, and a human reviewer is already in
-the loop, which makes them the honest places to start.
+Walk the eight stations left to right, the same eight as the graphic (G): AI
+reads, classifies, grounds and drafts on the first four; a person reviews and
+signs on five and six; automation sends the notice; operations close the loop.
+The first four are where language models earn their keep first — high-volume,
+text-heavy, and a human reviewer is already in the loop, which makes them the
+honest places to start.
 
-Exam selection is deliberately NOT highlighted: that is a determination
-affecting a taxpayer and needs a much heavier governance conversation — saying
-so unprompted buys enormous credibility.
+Exam selection is deliberately NOT on this rail (an earlier version of the
+slide showed it held back): that is a determination affecting a taxpayer and
+needs a much heavier governance conversation — saying so unprompted buys
+enormous credibility.
 
 Two rules of thumb: start where a human already reviews the output; and
 automate the toil around the model, not just the model. Worth naming: most of
 the effort in production AI is provisioning, patching, scaling and data
 collection — an automation problem, already solved.
+
+GRAPHIC (G) — Where AI actually lands in the filing lifecycle: An eight-
+station rail, Intake, Classification, Guidance, Drafting, Review, Decision,
+Notice and Operations, with five red call-outs over the first five stations;
+notice that the fifth call-out is a human reviewer and Decision has no call-
+out at all. Talk to it: (1) Read the rail against the ladder: Intake through
+Drafting turn data into information and knowledge; Review and Decision are
+where a person supplies the judgement that stays human. (2) The four AI cards
+sit where a reviewer already checks the output; neither this graphic nor the
+slide puts AI on exam selection, because a taxpayer determination needs
+governance first. (3) Operations closes the loop: what Review corrects and
+Notice sends goes back into the knowledge base between seasons, and pooled
+GPUs absorb the 6× April surge on a fixed workforce. (4) One platform under
+all eight stations: the model comes to the data, the seams stay boring, and
+controls accredited once for Intake are inherited all the way to Operations.
 --
 
 == Five outcomes, and where each one is proven
