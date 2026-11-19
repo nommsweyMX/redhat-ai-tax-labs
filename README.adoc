@@ -74,7 +74,7 @@ Nothing above needs a cluster, a GPU, or credentials.
 | The event deck as asciidoctor-revealjs source, with speaker notes.
 
 | `slides/deck.html`
-| A self-contained interactive deck: seventeen slides plus eight virtual
+| A self-contained interactive deck: eighteen slides plus eight virtual
   terminals you type into, a pop-up card on every step (what is happening,
   why it matters, the seam one platform removes), a theory panel in every
   lab, a glossary, and a Demo view that plays all eight labs hands-free.

@@ -228,7 +228,7 @@ def build(out: Path, base: str = "./") -> None:
             "why": "Everything you need to re-run the hour: the run of show, the talk track, the labs that demo well live, and the files people ask for afterwards.",
             "steps": [
                 ("facilitator-guide", "Minute-by-minute timing, which labs to run live, projector settings, the honesty checklist."),
-                ("page-presenter-console", "The console: 24 steps in lockstep with the deck, planted questions and 'on the ladder' beats."),
+                ("page-presenter-console", "The console: 26 steps in lockstep with the deck, planted questions and 'on the ladder' beats."),
                 ("run-all-labs", "Rehearse all eight labs in one command; CI runs the same thing."),
                 ("deck-demo", "The Demo view plays every lab hands-free — a holding screen before you start."),
                 ("reveal-slides", "The reveal.js cut of the deck, with speaker notes on S."),
@@ -470,7 +470,7 @@ footer a{{color:var(--ink-2)}}
 <section id="slides"><div class="wrap">
   <span class="tag">The narrative</span>
   <h2>The deck, slide by slide</h2>
-  <p class="lede">Seventeen slides, each with the rung it serves and the line to remember. Links open the interactive deck at that slide; press <kbd>N</kbd> there for the presenter notes.</p>
+  <p class="lede">Eighteen slides, each with the rung it serves and the line to remember. Links open the interactive deck at that slide; press <kbd>N</kbd> there for the presenter notes.</p>
   <div class="tablewrap"><table><thead><tr><th>#</th><th>Slide</th><th>Rungs</th><th>The line to remember</th></tr></thead><tbody>{slide_rows}</tbody></table></div>
 </div></section>
 
