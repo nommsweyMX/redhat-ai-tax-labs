@@ -19,7 +19,7 @@
    "pullquote": "The last merge landed 38 minutes before the start.",
    "paragraphs": [
     "On 17 September 2026, the day of the IRS event, the repository behind it was still moving. The event, \"AI foundations for intelligent tax administration\", was due to start at 1:00 PM Eastern, 17:00 UTC, with about 56 registrants from the IRS and adjacent agencies, most of whom had never worked with Red Hat.",
-    "The first commit of the day is not the agent's: the presenter uploading five illustrated graphics at 13:51 UTC, 07:51 on the uploader's own clock, under the message \"Add files via upload\", 23 minutes before Lab 08 merged. Everything after that is the agent's work, each commit authored Claude with a session trailer, and each round merged to main before the next began.",
+    "The first commit of the day is not the agent's: the presenter uploading five illustrated graphics at 13:51 UTC, 07:51 on the uploader's own clock, under the message \"Add files via upload\", 23 minutes before Lab 08 merged. Everything after that is the agent's work, each commit authored as Claude with a session trailer, and each round merged to main before the next began.",
     "At 14:14 UTC Lab 08 landed: one loop end to end, from mainframe logs through a risk model, a Lightspeed draft, a human merge and Event-Driven Ansible to an assistant that probes servers. At 14:48 slide 7 was rebuilt around eight lifecycle stations. At 15:13 every slide got a Show face and a Tell face, and the presenter window opened on the P key. At 16:22 the title slide became a layered pyramid, 38 minutes before the start.",
     "That is the ending. The beginning is 26 August."
    ]
@@ -80,7 +80,7 @@
    "id": "an_ordinary_round",
    "heading": "An ordinary round, step by step",
    "graphic": "trace",
-   "graphic_caption": "One round's tool calls in order, from the grep that finds the slide to the artifact republish; the shaded calls are the ones that leave a trace in git.",
+   "graphic_caption": "One round's tool calls in order, from the grep that finds the slide to the artifact republish; the colour of each number marks the kind of tool, and only steps nine to eleven leave a trace outside the session.",
    "pullquote": "The commits you can see are three steps near the end.",
    "paragraphs": [
     "The builder recalls a typical round. The request arrives as a sentence or two. The agent does not read the deck whole: by mid-September it was a 650 to 720 KB single file, and reading it all would have filled the model's window with unrelated text. Instead it greps for the markers around the slide or lab in question and reads excerpts of 40 to 80 lines.",
