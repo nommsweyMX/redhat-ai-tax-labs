@@ -71,7 +71,7 @@ Six faces stay consistent only with one owner per fact. ladder-map.json owns the
 
 The pipeline is three GitHub Actions jobs. Test checks shell and Python syntax and runs every lab in simulate mode. Build needs test, runs in the official Asciidoctor container, and renders the docs, the reveal.js slides and the PDF. Publish needs build and deploys to GitHub Pages only on a push to main. A broken lab blocks the site. The agent's job was to run this loop, not to replace it.
 
-.Sources of truth on the left, generators in the middle, the three Actions jobs on the right, and GitHub Pages at the end; fixes flow back to a source file, never to an output
+.Inputs and sources of truth at the top, the generators and their outputs beside them, the render-and-measure loop in the middle, and GitHub Actions publishing to Pages at the bottom; fixes flow back to a source file, never to an output
 image::built/pipeline.png[pipeline, pdfwidth=100%]
 
 [quote]
@@ -151,7 +151,7 @@ Windows fill up. The builder recalls the conversation being compacted twice: sum
 
 Two things kept the cost down: prompt caching made the repeated prefix cheap, and reading excerpts kept the whole deck out of the window.
 
-.What sits in the window on one call: system prompt, tool descriptions, skills, the compacted conversation, and the excerpts, outputs and screenshots added this turn
+.What sits in the window on one call: the system prompt and tool definitions, the standing rules, the conversation so far, and the excerpts, outputs and screenshots added this turn; the first parts repeat every turn and are cached
 image::built/context.png[context, pdfwidth=100%]
 
 [quote]

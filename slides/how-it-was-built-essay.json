@@ -54,7 +54,7 @@
    "id": "six_faces_one_owner",
    "heading": "Six faces, one owner per fact, one pipeline",
    "graphic": "pipeline",
-   "graphic_caption": "Sources of truth on the left, generators in the middle, the three Actions jobs on the right, and GitHub Pages at the end; fixes flow back to a source file, never to an output.",
+   "graphic_caption": "Inputs and sources of truth at the top, the generators and their outputs beside them, the render-and-measure loop in the middle, and GitHub Actions publishing to Pages at the bottom; fixes flow back to a source file, never to an output.",
    "pullquote": "A broken lab blocks the site.",
    "paragraphs": [
     "The rounds produced not one deck but six faces of the same hour, all from one MIT-licensed repository: the interactive deck, 18 slides in one HTML file with no framework and no build step; the eight labs, 43 real commands with their expected output as the acceptance criterion; the presenter console, 26 sections; a docs book rendered to HTML and PDF; a reveal.js cut and an 11-slide native PowerPoint drawn from code; and the adventure catalogue, 57 items in six reading paths by job.",
@@ -108,7 +108,7 @@
    "id": "what_the_model_sees",
    "heading": "What the model sees, and what it forgets",
    "graphic": "context",
-   "graphic_caption": "What sits in the window on one call: system prompt, tool descriptions, skills, the compacted conversation, and the excerpts, outputs and screenshots added this turn.",
+   "graphic_caption": "What sits in the window on one call: the system prompt and tool definitions, the standing rules, the conversation so far, and the excerpts, outputs and screenshots added this turn; the first parts repeat every turn and are cached.",
    "pullquote": "The long commit messages are not decoration. They are the memory.",
    "paragraphs": [
     "The model does not see the repository. It sees a window: the system prompt, the tool descriptions, any matching skills, and the conversation so far, with every excerpt, command output and screenshot added to it. This kit had no CLAUDE.md, so the standing rules lived in the conversation.",
