@@ -28,7 +28,7 @@
    ],
    "bullets": [],
    "graphic": "",
-   "notes": "About twenty-eight minutes: eighteen slides and an appendix you do not present. The first third is the story: the ask, the rounds, the growth, the machines it ran on. The middle third is the machinery: one round traced call by call, the context window, the fan-out of subagents and workflows, and the gates. The last third is the briefing material: the toolchain, the architecture, the federal fit, the gaps and the rule. Everything on the federal slides is limited to what was read on an Anthropic page on 19 November 2026; the appendix lists what could not be read. The companion essay carries the long form and the table of numbers behind the growth charts.",
+   "notes": "About twenty-eight minutes: eighteen slides and an appendix you do not present. The first third is the story: the ask, the rounds, the growth, the machines it ran on. The middle third is the machinery: one round traced call by call, the context window, the fan-out of subagents and workflows, and the gates. The last third is the briefing material: the toolchain, the architecture, the federal fit, the gaps and the rule. Everything on the federal slides is limited to what was read on one of the model vendor's own pages (Anthropic's) on 19 November 2026; the appendix lists what could not be read. The companion essay carries the long form and the table of numbers behind the growth charts.",
    "sources": [
     "https://nommsweymx.github.io/redhat-ai-tax-labs/",
     "https://github.com/nommsweyMX/redhat-ai-tax-labs"
@@ -60,7 +60,7 @@
    "minutes": 2,
    "eyebrow": "02 · Origins",
    "title": "Twenty-three days, forty-four commits, nine requests in plain language",
-   "lede": "Each round was a request typed into Claude Code on the web, sometimes with a file attached; each landed on main the same day. The last merge was 38 minutes before the event opened; all times here are UTC.",
+   "lede": "Each round was one request to the vendor's hosted agent sessions (Claude Code on the web), merged the same day; the last merge was 38 minutes before the event opened.",
    "bullets": [
     "**26 Aug:** the first commit, made by the presenter at 17:19 UTC, already carried a deck, six labs, docs, a Makefile and the CI workflow; the builder's account is that it came from one round on the abstract",
     "**2 to 3 Sep:** the current Red Hat AI stack replaced a retired product name; two planning calls were folded in from notes; an audit against the notes found six gaps, fixed the same evening",
@@ -110,7 +110,7 @@
     "**The deck is one file:** 731 KB of HTML, CSS, JavaScript and inline SVG, no framework, no build step, no server",
     "**Eight virtual terminals** play the labs hands-free or let the room type the commands; a card explains every step",
     "**A presenter console** follows the deck window to window; nothing on the shared screen changes",
-    "**44 commits in three weeks,** every push tested and published by GitHub Actions to Pages"
+    "**44 commits in three weeks,** every push tested and published by the host's CI runners (GitHub Actions) to the host's static site (GitHub Pages)"
    ],
    "graphic": "faces",
    "graphic_key": "faces",
@@ -126,17 +126,17 @@
    "minutes": 2,
    "eyebrow": "05 · Where it ran",
    "title": "Six places, one of them ephemeral, none of them yours",
-   "lede": "The person worked from a browser. The agent worked in a managed container that was thrown away. The model ran at an API endpoint. GitHub tested and published. The audience saw Pages.",
+   "lede": "Person in a browser, agent in a throwaway container, model at an API endpoint; git host (GitHub) tested and published; audience on its static site (GitHub Pages).",
    "bullets": [
-    "**The person:** Claude Code on the web, from a laptop and a phone; plain-language requests, uploaded notes, a transcript, a script and five graphics; every diff read before it merged",
-    "**The container:** Anthropic-managed Linux, a fresh clone each session; bash, git, Python, node, Playwright with Chromium, LibreOffice; a scratch directory that did not survive; egress through an allow-list",
+    "**The person:** the vendor's hosted agent sessions (Claude Code on the web) on a laptop and a phone; plain requests, uploaded notes, a transcript, a script and five graphics; every diff read before merge",
+    "**The container:** vendor-managed (Anthropic) Linux, fresh clone each session; bash, git, Python, node, Playwright with Chromium, LibreOffice; a scratch directory that did not survive; allow-listed egress",
     "**The model:** an API endpoint; every excerpt read, every command output and every screenshot went there as context, and tokens came back",
-    "**GitHub:** the repository; Actions runners that lint, run all eight labs in simulate mode, build docs, slides and PDF, and publish to Pages; a hosted artifact copy on claude.ai for review",
+    "**The git host:** the repo; CI runners (GitHub Actions) lint, run all eight labs in simulate mode, build docs, slides and PDF, publish to the static site; a vendor-hosted review page (a claude.ai artifact)",
     "**The labs run elsewhere:** on the attendee's laptop in simulate mode, or on OpenShift AI, RHEL AI, Ansible Automation Platform and pgvector in live mode"
    ],
    "graphic": "where",
    "graphic_key": "where",
-   "notes": "This is the slide the security people in your account will want. Name each box and say what crossed each arrow. Requests and uploads crossed from the person to the container. File excerpts, command output and screenshots crossed from the container to the model, and tokens came back. Commits crossed to GitHub over HTTPS through the proxy. Pages served the audience. Two negatives matter as much: the agent never ran on a laptop, and it never ran inside an agency. That is why this shape was acceptable here: the content was public and open source from the first commit. The same shape would not be acceptable for CUI or FTI, which is where the deployment slides later in the talk pick up. One more detail from the builder: when the session resumed two months later the container was new and the scratch directory was empty. Only what was committed survived.",
+   "notes": "This is the slide the security people in your account will want. Name each box and say what crossed each arrow. Requests and uploads crossed from the person to the container. File excerpts, command output and screenshots crossed from the container to the model, and tokens came back. Commits crossed to the git host (GitHub) over HTTPS through the proxy. The host's static site (GitHub Pages) served the audience. Two negatives matter as much: the agent never ran on a laptop, and it never ran inside an agency. That is why this shape was acceptable here: the content was public and open source from the first commit. The same shape would not be acceptable for CUI or FTI, which is where the deployment slides later in the talk pick up. One more detail from the builder: when the session resumed two months later the container was new and the scratch directory was empty. Only what was committed survived.",
    "sources": [
     "session notes: where it ran",
     ".github/workflows/docs.yml",
@@ -155,7 +155,7 @@
     "**Labs:** a 120-line bash runtime, Python retrieval helpers, Ansible rulebooks and playbooks, KServe manifests, a seed taxonomy in YAML",
     "**Docs and exports:** Asciidoctor in its official container for HTML, reveal.js and PDF; python-pptx drawing native, editable shapes",
     "**Verification:** make lint and make test, Playwright with Chromium measuring every slide, LibreOffice and pdftoppm to eyeball the pptx",
-    "**Publishing:** Git, GitHub Actions, GitHub Pages, an MIT licence; the licences of every tool are in the handout"
+    "**Publishing:** Git, the host's CI runners (GitHub Actions), the host's static site (GitHub Pages), an MIT licence; the licences of every tool are in the handout"
    ],
    "graphic": "toolchain",
    "graphic_key": "toolchain",
@@ -180,7 +180,7 @@
     "**One file owns each fact:** the ladder map, the run scripts, the narrative source, the catalogue inventory, the product-name attributes, the deck tokens",
     "**Generators read them and fail loudly** on an unknown id: the catalogue page, the PowerPoint, the title pyramid SVG",
     "**After every change:** all eight labs run, all 18 slides are screenshotted and measured in both languages and both faces",
-    "**The CI gate:** a broken lab blocks the docs build and the Pages publish; the labs gate the story"
+    "**The CI gate:** a broken lab blocks the docs build and the publish to the host's static site (GitHub Pages); the labs gate the story"
    ],
    "graphic": "pipeline",
    "graphic_key": "pipeline",
@@ -199,9 +199,9 @@
    "minutes": 1.5,
    "eyebrow": "08 · How an agent works",
    "title": "The model proposes; the harness decides, executes and records",
-   "lede": "Strip the branding away and Claude Code is a loop: assemble context, call the model, gate the tool call, run it, append the result, repeat until the model stops asking for tools.",
+   "lede": "Branding aside, the agent harness (Claude Code) is a loop: assemble context, call the model, gate the tool call, run it, append the result, repeat until the model stops.",
    "bullets": [
-    "**The request** is the system prompt, every CLAUDE.md and rules file, the tool descriptions, any matching skills, and the conversation so far, already compacted if long",
+    "**The request** is the system prompt, every project memory file (CLAUDE.md) and rules file, the tool descriptions, any matching skills, and the conversation so far, already compacted if long",
     "**The model returns text or a tool call.** It never runs anything itself; the harness does, locally or in a cloud sandbox",
     "**The gate** runs before execution: deny rules win in every mode, then allow rules, then the mode: ask a person, plan only, a classifier model, or bypass",
     "**Hooks** run before and after each tool; the result is appended and the whole transcript goes back, often dozens of times per turn",
@@ -209,7 +209,7 @@
    ],
    "graphic": "agent-loop",
    "graphic_key": "agent-loop",
-   "notes": "This is the whole product once the vocabulary is removed. Claude Code assembles a request and sends it to whichever endpoint the environment variables select: Anthropic's API by default, or Amazon Bedrock, Google's Vertex AI, or Microsoft Foundry. The model replies with text or a structured tool call: read this file, run this command, edit that line, ask a subagent. The harness decides whether the call runs. Deny rules always win; allow rules come next; then the mode. In the default mode a person is asked; plan mode refuses writes; auto mode sends the action to a classifier model; bypass just runs. A pre-tool hook can veto with an exit code. The result is appended and the loop continues. Prompt caching makes the repeated prefix cheap; compaction summarises old steps and is lossy. Subagents are the same loop with a fresh context window and a narrower tool list, returning a summary. The sentence to leave with the room is the last bullet: everything the agent reads goes to the endpoint. The endpoint is the boundary, not the model.",
+   "notes": "This is the whole product once the vocabulary is removed. The agent harness (Claude Code) assembles a request and sends it to whichever endpoint the environment variables select: the vendor's API endpoint (Anthropic's) by default, or one of the hyperscalers' endpoints (Amazon Bedrock, Google's Vertex AI, Microsoft Foundry). The model replies with text or a structured tool call: read this file, run this command, edit that line, ask a subagent. The harness decides whether the call runs. Deny rules always win; allow rules come next; then the mode. In the default mode a person is asked; plan mode refuses writes; auto mode sends the action to a classifier model; bypass just runs. A pre-tool hook can veto with an exit code. The result is appended and the loop continues. Prompt caching makes the repeated prefix cheap; compaction summarises old steps and is lossy. Subagents are the same loop with a fresh context window and a narrower tool list, returning a summary. The sentence to leave with the room is the last bullet: everything the agent reads goes to the endpoint. The endpoint is the boundary, not the model.",
    "sources": [
     "https://code.claude.com/docs/en/how-claude-code-works",
     "https://code.claude.com/docs/en/permission-modes",
@@ -226,7 +226,7 @@
     "**Find, do not read:** the agent searched the 700 KB deck for markers and read 40 to 80 line excerpts; whole-file reads would have filled the window in two rounds",
     "**Patch scripts over hand edits:** a Python script with one assertion per replacement; a mismatch stopped the round instead of corrupting the file",
     "**Render and measure:** Playwright screenshots of the touched slides in English and Spanish, Show and Tell; text extents measured against their boxes; the model read the screenshots as images",
-    "**The same gates every round:** the full overflow check, every lab in simulate mode, bash -n, py_compile; then commit, merge, push, watch the Pages run, republish the review copy",
+    "**The same gates every round:** the full overflow check, every lab in simulate mode, bash -n, py_compile; then commit, merge, push, watch the static-site run (GitHub Pages), republish the review copy",
     "**A person reads the diff** before the merge, and the reply says what was verified and what was not"
    ],
    "graphic": "trace",
@@ -290,8 +290,8 @@
     "**The gate:** a permission mode, allow and deny rules, hooks before and after tool calls, and in auto mode a classifier model; it refused an ordinary push and a force-with-lease as destructive, then allowed the same push later",
     "**Usage limits** stopped agents and a workflow mid-round; their file edits had landed, so verification was re-run by hand",
     "**Compaction twice, and a scratch directory cleared between containers:** fonts, verification scripts and patch scripts were gone two months later",
-    "**Egress policy** blocked the published site, so deploys were checked through the GitHub API; **account-level actions** such as creating a public repository were not possible for the agent at all",
-    "**What the repository can prove:** commit trailers with a session link, a claude/ branch, two merged pull requests; no CLAUDE.md and, until this branch, no committed verification scripts. That gap is the lesson"
+    "**Egress policy** blocked the published site, so deploys were checked through the git host's API (GitHub's); **account-level actions** such as creating a public repository were not possible for the agent",
+    "**What the repo can prove:** session-linked commit trailers, a branch (claude/), two merged PRs; no project memory file (CLAUDE.md) and, until now, no committed verification scripts. That gap is the lesson"
    ],
    "graphic": "hurt",
    "graphic_key": "hurt",
@@ -308,17 +308,17 @@
    "minutes": 1.5,
    "eyebrow": "13 · The architecture in one picture",
    "title": "Three layers enforce; the rest advise, extend or host",
-   "lede": "Permission rules, hooks and a sandbox are the only parts the model cannot talk its way around. CLAUDE.md, skills, subagents, MCP servers and plugins are context, delegation and distribution.",
+   "lede": "Permission rules, hooks and a sandbox bind the model; the project memory file (CLAUDE.md), skills, subagents, MCP servers and plugins advise, delegate or distribute.",
    "bullets": [
     "**Enforce:** allow, ask and deny rules (deny wins in every mode); hooks on tool events; whatever OS sandbox or container you add",
-    "**Advise:** CLAUDE.md and rules files are context, not configuration; skills are procedures the model may follow and scripts it may run",
+    "**Advise:** the project memory file and rules files are context, not configuration; skills are procedures the model may follow and scripts it may run",
     "**Extend:** subagents with their own context window and tool list; MCP servers; plugins bundle skills, agents, hooks and MCP into one install",
-    "**Hosted surfaces need a claude.ai login:** cloud sessions, artifacts, routines; none of them exist when the CLI points at Bedrock, Vertex or Foundry",
-    "**Providers are environment variables;** the Agent SDK runs the same binary inside your own container behind your own API"
+    "**Hosted surfaces need the vendor's web app login (claude.ai):** vendor-hosted sessions, review pages (artifacts), scheduled runs (Routines); none exist on the hyperscaler paths (Bedrock, Vertex, Foundry)",
+    "**Providers are environment variables;** the vendor's agent SDK (Agent SDK) runs the same binary inside your own container behind your own API"
    ],
    "graphic": "architecture",
    "graphic_key": "architecture",
-   "notes": "One picture for the suite. Three layers enforce: permission rules, hooks and whatever sandbox you add. Everything else advises or extends. CLAUDE.md is context, not configuration, and the documentation says so; a model can and occasionally will deviate, so anything that must be guaranteed belongs in a rule or a hook. Skills are directories with a SKILL.md and optional scripts; slash commands are skills now. Subagents are files in .claude/agents with their own window, tool list and mode, and they cannot nest. MCP servers are registered per user, per project in .mcp.json, or by enterprise managed configuration, which can take exclusive control. Plugins bundle skills, agents, hooks and MCP servers and install from marketplaces, Anthropic's own among them. All of these are files in a repository, which is why they version well and why a cloned repository is a supply-chain event: a project-level hook is arbitrary code execution with the user's privileges. The hosted surfaces on the right all need a claude.ai login and none exist on the Bedrock, Vertex or Foundry paths. The Agent SDK is the platform story: the same binary, spawned as a subprocess in your container, behind your own HTTP or WebSocket API.",
+   "notes": "One picture for the suite. Three layers enforce: permission rules, hooks and whatever sandbox you add. Everything else advises or extends. The project memory file (CLAUDE.md) is context, not configuration, and the documentation says so; a model can and occasionally will deviate, so anything that must be guaranteed belongs in a rule or a hook. Skills are directories with a SKILL.md and optional scripts; slash commands are skills now. Subagents are files in .claude/agents with their own window, tool list and mode, and they cannot nest. MCP servers are registered per user, per project in .mcp.json, or by enterprise managed configuration, which can take exclusive control. Plugins bundle skills, agents, hooks and MCP servers and install from marketplaces, the model vendor's own (Anthropic's) among them. All of these are files in a repository, which is why they version well and why a cloned repository is a supply-chain event: a project-level hook is arbitrary code execution with the user's privileges. The hosted surfaces on the right all need a login to the vendor's web app (claude.ai) and none exist on the hyperscaler paths (Bedrock, Vertex or Foundry). The vendor's agent SDK (Agent SDK) is the platform story: the same binary, spawned as a subprocess in your container, behind your own HTTP or WebSocket API.",
    "sources": [
     "https://code.claude.com/docs/en/feature-availability",
     "https://code.claude.com/docs/en/memory",
@@ -339,11 +339,11 @@
     "**The kit already runs the open core:** OpenShift AI, vLLM through Red Hat AI Inference, Granite, pgvector, Ansible, Sigstore; it is not a validated design and should not be called one",
     "**The agent layer maps one to one:** Llama Stack (OGX in OpenShift AI 3.5) for the API, MCP as the tool seam with the Connectivity Link gateway and the AAP MCP server, OpenShell as the sandbox",
     "**Harnesses that take an OpenAI-compatible endpoint and no vendor account:** goose, OpenHands, Aider, Cline, Qwen Code, Codex CLI; Gemini CLI does not",
-    "**MCP is neutral ground:** donated to the Agentic AI Foundation under the Linux Foundation on 9 December 2025 by Anthropic, Block and OpenAI; Red Hat polices it at the gateway"
+    "**MCP is neutral ground:** donated to the Agentic AI Foundation under the Linux Foundation on 9 December 2025 by the model vendor (Anthropic), Block and OpenAI; Red Hat polices it at the gateway"
    ],
    "graphic": "boundary",
    "graphic_key": "boundary",
-   "notes": "Two things are called AI Factory, and the Red Hat press release was not reachable from the session this week, so give both with that caveat: NVIDIA's Enterprise AI Factory validated design, where OpenShift AI is a verified platform layer, and the Red Hat AI Factory with NVIDIA bundle of Red Hat AI Enterprise and NVIDIA AI Enterprise on partner hardware. What matters for us is that the kit already runs the open core of the same pattern on the same platform: vLLM through Red Hat AI Inference, Granite from the validated-models collections, pgvector, Ansible and Event-Driven Ansible, Sigstore. No NVIDIA entitlement, no validated rack design, and we must not describe it as one. The agent layer maps cleanly. Llama Stack, now OGX in OpenShift AI 3.5, is the API server for inference, vector stores, safety, tools and agents. MCP is the tool seam, and Red Hat polices it: the Connectivity Link MCP gateway enforcing guardrails on tool calls, and the Ansible Automation Platform MCP server so an agent can only launch pre-approved job templates under AAP role-based access, with Event-Driven Ansible for approvals and audit. OpenShell is the sandbox: default-deny egress, policy at the network and application layer, denial logs. The harness list is the point: goose, OpenHands, Aider, Cline, Qwen Code and Codex CLI all take an OpenAI-compatible base URL, so they run against vLLM in the enclave with no vendor account. Gemini CLI does not. Red Hat has also documented pointing Claude Code itself at Red Hat AI Inference on OpenShift; check the current article before quoting it. Product statuses in this paragraph move; the appendix lists which ones were not verdict-checked.",
+   "notes": "Two things are called AI Factory, and the Red Hat press release was not reachable from the session this week, so give both with that caveat: NVIDIA's Enterprise AI Factory validated design, where OpenShift AI is a verified platform layer, and the Red Hat AI Factory with NVIDIA bundle of Red Hat AI Enterprise and NVIDIA AI Enterprise on partner hardware. What matters for us is that the kit already runs the open core of the same pattern on the same platform: vLLM through Red Hat AI Inference, Granite from the validated-models collections, pgvector, Ansible and Event-Driven Ansible, Sigstore. No NVIDIA entitlement, no validated rack design, and we must not describe it as one. The agent layer maps cleanly. Llama Stack, now OGX in OpenShift AI 3.5, is the API server for inference, vector stores, safety, tools and agents. MCP is the tool seam, and Red Hat polices it: the Connectivity Link MCP gateway enforcing guardrails on tool calls, and the Ansible Automation Platform MCP server so an agent can only launch pre-approved job templates under AAP role-based access, with Event-Driven Ansible for approvals and audit. OpenShell is the sandbox: default-deny egress, policy at the network and application layer, denial logs. The harness list is the point: goose, OpenHands, Aider, Cline, Qwen Code and Codex CLI all take an OpenAI-compatible base URL, so they run against vLLM in the enclave with no vendor account. Gemini CLI does not. Red Hat has also documented pointing the agent harness itself (Claude Code) at Red Hat AI Inference on OpenShift; check the current article before quoting it. Product statuses in this paragraph move; the appendix lists which ones were not verdict-checked.",
    "sources": [
     "https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/overview-of-ogx_rag",
     "https://www.redhat.com/en/blog/model-context-protocol-gateway-red-hat-openshift-now-generally-available",
@@ -356,20 +356,20 @@
   {
    "n": 16,
    "minutes": 1.5,
-   "eyebrow": "15 · Where Claude Code fits today",
-   "title": "Fed Civ and DoD paths, limited to what Anthropic's own pages said on 19 November 2026",
-   "lede": "Two cloud inference paths with federal authorizations, one Anthropic-sold government environment, a classified path through AWS, and a stop sign for DoD work.",
+   "eyebrow": "15 · Where the agent harness fits today",
+   "title": "Fed Civ and DoD paths, limited to what the model vendor's own pages (Anthropic's) said on 19 November 2026",
+   "lede": "Two cloud inference paths with federal authorizations, one vendor-sold government environment, a classified path via a hyperscaler (AWS), and a stop sign for DoD work.",
    "bullets": [
-    "**Bedrock in AWS GovCloud:** FedRAMP High and DoD IL4/5 announced June 2025; AWS authorizes each model separately, so pin the model; the CLI switch is one environment variable",
-    "**Vertex AI with Assured Workloads:** FedRAMP High and IL2 announced April 2025; IL5 is not confirmed on any page we read",
-    "**Claude for Government:** GA on 30 September 2026 in a FedRAMP High environment; Code runs on the workstation and inference is proxied inside the boundary; no body logging, no DLP, Code in early access",
-    "**Classified:** the government page says Claude is in the AWS Secret region (IL6) and Top Secret regions via Bedrock, arranged through AWS; nothing public says the Claude Code harness runs there",
-    "**DoD:** the same page carries a supply-chain-risk note that the designation applies to Claude used as a direct part of DoW contracts and subcontracts; the commercial API, claude.ai surfaces and Foundry carry no federal authorization on any page read"
+    "**Hyperscaler government region (Claude on Amazon Bedrock, AWS GovCloud):** FedRAMP High, DoD IL4/5 announced June 2025; models are authorized one by one, so pin it; the switch is one environment variable",
+    "**A second hyperscaler's assured region (Vertex AI with Assured Workloads):** FedRAMP High and IL2 announced April 2025; IL5 is not confirmed on any page we read",
+    "**Vendor government offering (Claude for Government):** GA 30 September 2026 at FedRAMP High; harness on the workstation (early access), inference proxied inside the boundary; no body logging, no DLP",
+    "**Classified:** the government page puts the model in the hyperscaler's classified regions (AWS Secret at IL6 and Top Secret, via Bedrock), arranged with it; nothing public says the harness runs there",
+    "**DoD:** supply-chain-risk note: the designation covers the model as a direct part of DoW contracts and subcontracts; commercial API, web app (claude.ai), third cloud (Foundry): no federal authorization"
    ],
    "graphic": "matrix",
    "graphic_key": "matrix",
    "verify": "the litigation behind the DoD note, the GSA OneGov terms, the IRS Publication 1075 specifics and the DoD contract history could not be read from primary pages this week. The appendix lists them.",
-   "notes": "Everything on this slide was read on an Anthropic page on the nineteenth of November and the date is on the slide. Bedrock in AWS GovCloud is the workhorse path for FedRAMP High and IL4 and IL5, with the caveat that AWS authorizes models one at a time and the 2025 announcement named 2025 models; pin the model you demo to the authorized list. Vertex with Assured Workloads is FedRAMP High and IL2; IL5 is not confirmed. Claude for Government reached general availability on the thirtieth of September in a FedRAMP High environment; Claude Code sessions run on the workstation, model requests are proxied to an endpoint inside the boundary, the service does not log request or response bodies, Anthropic telemetry endpoints are not contacted, and there is no inline DLP; the Code client is early access. For classified work the page says Claude is available in the AWS Secret region at IL6 and in Top Secret regions through Bedrock, arranged with the AWS account team; nothing public says the Claude Code harness is offered there. The DoD line matters most for this room: Anthropic's own government page carries a supply-chain-risk note that the Department of War designation applies to the use of Claude as a direct part of DoW contracts and subcontracts, and it cites a September 2026 court ruling. Treat DoD programs and defence-contract work as closed to Claude proposals until counsel says otherwise, and position vendor-neutral architecture there. The commercial API, claude.ai surfaces and Microsoft Foundry: no federal authorization on any page read.",
+   "notes": "Everything on this slide was read on one of the model vendor's own pages (Anthropic's) on the nineteenth of November and the date is on the slide. The hyperscaler's authorized government region (Claude on Amazon Bedrock, AWS GovCloud) is the workhorse path for FedRAMP High and IL4 and IL5, with the caveat that the hyperscaler authorizes models one at a time and the 2025 announcement named 2025 models; pin the model you demo to the authorized list. The second hyperscaler's assured region (Vertex AI with Assured Workloads) is FedRAMP High and IL2; IL5 is not confirmed. The vendor's government offering (Claude for Government) reached general availability on the thirtieth of September in a FedRAMP High environment; agent harness (Claude Code) sessions run on the workstation, model requests are proxied to an endpoint inside the boundary, the service does not log request or response bodies, the vendor's telemetry endpoints are not contacted, and there is no inline DLP; the harness client is early access. For classified work the page says the model is available in the hyperscaler's classified regions (AWS Secret at IL6 and Top Secret, via Bedrock), arranged with the hyperscaler's account team; nothing public says the agent harness is offered there. The DoD line matters most for this room: the vendor's own government page carries a supply-chain-risk note that the Department of War designation applies to the use of the vendor's model (Claude) as a direct part of DoW contracts and subcontracts, and it cites a September 2026 court ruling. Treat DoD programs and defence-contract work as closed to proposals built on the vendor's model until counsel says otherwise, and position the AI Factory pattern there. The commercial API, the vendor's web app surfaces (claude.ai) and the third hyperscaler (Microsoft Foundry): no federal authorization on any page read.",
    "sources": [
     "https://www.anthropic.com/news/claude-in-amazon-bedrock-fedramp-high",
     "https://claude.com/blog/claude-on-google-cloud-fedramp-high",
@@ -386,14 +386,14 @@
    "title": "Eight gaps for Fed Civ and DoD, and a mitigation for each",
    "lede": "None of the mitigations is to wait for a better model. Each is a configuration, a procurement decision, or an open-source substitute you already know how to sell.",
    "bullets": [
-    "**Structural:** no on-premises or air-gapped Claude was found on any page; the classified paths are AWS regions; the DoD designation blocks regardless of technology",
-    "**Boundary:** cloud sessions, artifacts, connectors and routines are commercial claude.ai; deny them in managed settings and sign in with cloud IAM, which cannot publish artifacts at all",
-    "**Supply chain and injection:** the npm CLI, plugins, skills and MCP servers are code you run; Anthropic's own page says no system is immune; pin, mirror, sandbox, and treat every tool result as untrusted",
-    "**Control and audit:** the auto-mode classifier is a model with a 17% miss rate in Anthropic's own test; OpenTelemetry export is opt-in; the only transcript may be on a laptop; no PIV/CAC; accessibility reports cover the tool, not what it generates"
+    "**Structural:** no on-premises or air-gapped copy of the model (Claude) was found on any page; the classified paths are hyperscaler regions (AWS); the DoD designation blocks regardless of technology",
+    "**Boundary:** hosted sessions, review pages (artifacts), connectors, scheduled runs (Routines) are the commercial web app (claude.ai); deny them in managed settings; cloud IAM cannot publish review pages",
+    "**Supply chain and injection:** npm CLI, plugins, skills and MCP servers are code you run; the vendor's page (Anthropic's) says no system is immune; pin, mirror, sandbox; treat tool results as untrusted",
+    "**Control and audit:** the auto-mode classifier is a model (17% misses in the vendor's test); OpenTelemetry is opt-in; transcripts may sit on a laptop; no PIV/CAC; accessibility reports cover the tool only"
    ],
    "graphic": "gaps",
    "graphic_key": "gaps",
-   "notes": "Read this as a ledger. The air gap is structural: no page offers model weights or a disconnected deployment, so the honest answer for an enclave is an open harness against vLLM in OpenShell, with the capability loss that implies. The DoD designation blocks regardless of technology. The boundary leaks are configuration: deny the claude.ai-tied surfaces in managed settings and authenticate with cloud IAM, which cannot publish artifacts; put DLP at your proxy because Claude for Government has none. Supply chain and injection are the posture you already preach for Ansible collections and IDE extensions: install from a mirrored, pinned source, allow only reviewed marketplaces, run MCP servers from agency-built containers, deny-by-default egress, and treat tickets, pull-request comments, web pages and documents as untrusted input to a privileged agent. The classifier is a model-based control; Anthropic's March 2026 post reports a 17% false-negative rate on real over-eager actions and a stop after three consecutive or twenty total denials. Encode allow, deny and ask rules and pre-tool hooks the binary enforces, and disable auto mode where policy requires. For audit, turn on OpenTelemetry org-wide to an agency collector; the raw-bodies option exports the whole conversation to your collector and never to Anthropic, and events carry the user's email and session id. Records officers will tell you NARA now treats prompts, outputs and agent logs as potential federal records. Identity goes through your IdP with PIV enforced there. And Section 508: the vendor's conformance reports cover the tool; the HTML pages, slides and documents it generates are yours to test.",
+   "notes": "Read this as a ledger. The air gap is structural: no page offers model weights or a disconnected deployment, so the honest answer for an enclave is an open harness against vLLM in OpenShell, with the capability loss that implies. The DoD designation blocks regardless of technology. The boundary leaks are configuration: deny the surfaces tied to the vendor's web app (claude.ai) in managed settings and authenticate with cloud IAM, which cannot publish review pages; put DLP at your proxy because the vendor's government offering (Claude for Government) has none. Supply chain and injection are the posture you already preach for Ansible collections and IDE extensions: install from a mirrored, pinned source, allow only reviewed marketplaces, run MCP servers from agency-built containers, deny-by-default egress, and treat tickets, pull-request comments, web pages and documents as untrusted input to a privileged agent. The classifier is a model-based control; the vendor's own March 2026 post (Anthropic's) reports a 17% false-negative rate on real over-eager actions and a stop after three consecutive or twenty total denials. Encode allow, deny and ask rules and pre-tool hooks the binary enforces, and disable auto mode where policy requires. For audit, turn on OpenTelemetry org-wide to an agency collector; the raw-bodies option exports the whole conversation to your collector and never to the vendor, and events carry the user's email and session id. Records officers will tell you NARA now treats prompts, outputs and agent logs as potential federal records. Identity goes through your IdP with PIV enforced there. And Section 508: the vendor's conformance reports cover the tool; the HTML pages, slides and documents it generates are yours to test.",
    "sources": [
     "https://code.claude.com/docs/en/security",
     "https://code.claude.com/docs/en/monitoring-usage",
@@ -556,14 +556,14 @@
     "One file owns each fact; generate the catalogue, the pptx and the diagrams from it, and fail on unknown ids",
     "Keep a headless browser in the loop: screenshot and measure after every change; render the pptx to PNG",
     "Commit the verification scripts beside the deliverable; a scratch space is not a repository",
-    "Write a CLAUDE.md with the build and test commands and mirror it as AGENTS.md so any harness can read it",
+    "Write a project memory file (CLAUDE.md) with the build and test commands and mirror it as AGENTS.md so any harness can read it",
     "Subagents for parallel writing; independent refuters for every external claim; quote only what came back confirmed",
     "Deny rules and hooks before auto mode for anything that pushes, deletes or spends",
     "Checkpoint to git before limits or compaction hit; files are the memory, the conversation is not",
     "Map the customer's data category to a model path before anyone buys; the endpoint is the boundary"
    ],
    "graphic": "",
-   "notes": "Ten things to lift. The Makefile and the workflow are a copy-and-paste template: test gates build, build runs in one container, publish only from main. The lab runtime plus one run.sh gives you the step-script pattern in an hour, and preflight.sh tells attendees what they can run live; NO_COLOR for screen shares and LAB_PACE=step on a projector. Put facts in one file each and generate the rest; make generators fail on unknown ids and grep for drift before you present. Keep a headless browser in the loop and commit those scripts; this kit did not, and lost them. On the agent side: a CLAUDE.md with the build and test commands, mirrored as AGENTS.md because Codex, Gemini CLI and goose read that; subagents for the embarrassingly parallel writing and independent refuters for every external claim; deterministic rules and hooks before auto mode for anything that pushes; checkpoints before limits or compaction; and a verdict table with an as-of date so you only quote verified wording. The last item is the whole federal conversation in one line: map the data category to a path before anyone buys.",
+   "notes": "Ten things to lift. The Makefile and the workflow are a copy-and-paste template: test gates build, build runs in one container, publish only from main. The lab runtime plus one run.sh gives you the step-script pattern in an hour, and preflight.sh tells attendees what they can run live; NO_COLOR for screen shares and LAB_PACE=step on a projector. Put facts in one file each and generate the rest; make generators fail on unknown ids and grep for drift before you present. Keep a headless browser in the loop and commit those scripts; this kit did not, and lost them. On the agent side: a project memory file (CLAUDE.md) with the build and test commands, mirrored as AGENTS.md because Codex, Gemini CLI and goose read that; subagents for the embarrassingly parallel writing and independent refuters for every external claim; deterministic rules and hooks before auto mode for anything that pushes; checkpoints before limits or compaction; and a verdict table with an as-of date so you only quote verified wording. The last item is the whole federal conversation in one line: map the data category to a path before anyone buys.",
    "sources": [
     "Makefile",
     ".github/workflows/docs.yml",
@@ -579,12 +579,12 @@
    "title": "Claims that could not be read from a primary page this week",
    "lede": "Thirty-three high-stakes claims were sent to independent verifiers with orders to read the source. Thirty-one came back unclear (pages unreachable, redirected or silent) and two refuted. Only sentences confirmed from page text appear on slides 9 and 10. These did not make it.",
    "bullets": [
-    "FedRAMP status of Claude Enterprise and the Anthropic API bought directly (reported as not authorized, in process): the FAQ page redirected and was not read; check the FedRAMP Marketplace",
+    "FedRAMP status of the vendor's enterprise plan and API bought direct (Claude Enterprise, Anthropic's API), reported not authorized, in process: the FAQ page redirected unread; check the FedRAMP Marketplace",
     "The litigation behind the DoD note: a D.C. Circuit ruling of 25 September 2026, a presidential directive, GSA schedule removal and restoration, the CDAO contract history, migration of classified workloads: court, CRS and press pages were unreachable",
     "GSA OneGov terms: the 2025 one-dollar offer and the October 2026 consumption discount: the GSA release was unreachable; say only that an arrangement exists and confirm terms with GSA or the reseller",
     "IRS Publication 1075 cloud conditions for Federal Tax Information: the IRS page was unreachable; say FTI in the cloud is governed by Pub 1075 and the Office of Safeguards",
-    "Bedrock GovCloud current model list and per-model IL4/5 status; Vertex IL5; Foundry in Azure Government: none stated on the pages read",
-    "Claude Code supply-chain incidents reported in the press (npm packaging, a dependency window, typosquats): not checked against primary statements",
+    "Current model list and per-model IL4/5 status in one hyperscaler's region (Bedrock GovCloud); IL5 in another (Vertex); a third's government cloud (Foundry in Azure Government): none stated on pages read",
+    "Agent harness (Claude Code) supply-chain incidents reported in the press (npm packaging, a dependency window, typosquats): not checked against primary statements",
     "Red Hat AI Factory with NVIDIA dates and partner list; OGX, llm-d, MCP gateway and AAP MCP server statuses; OpenShell and several harness licences: in the material at stated confidence, not verdict-checked",
     "A2A governance, AGENTS.md dates and adoption figures, Section 508 conformance reports, PIV/CAC support (absence inferred, not stated), compaction thresholds and usage-limit numbers: unverified or fast-moving"
    ],

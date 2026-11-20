@@ -19,7 +19,7 @@
 <text x="348" y="196" font-size="11">The agent drafted, measured and proposed;</text><text x="348" y="214" font-size="11">a person read every diff and signed off.</text>
 <rect x="330" y="252" width="296" height="90" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
 <text x="348" y="280" font-size="14" font-weight="800" fill="var(--ink)">Right tool, right time</text>
-<text x="348" y="302" font-size="11">A frontier model in the cloud for public content;</text><text x="348" y="320" font-size="11">an open model inside the enclave for the data.</text>
+<text x="348" y="302" font-size="11">A frontier model in the cloud for public content;</text><text x="348" y="320" font-size="11">the AI Factory pattern inside the enclave for the data.</text>
 </g>
 <text x="320" y="384" text-anchor="middle" font-size="11" fill="var(--ink-3)">the same rules that run the deck ran the making of it</text>
 </svg>

@@ -10,7 +10,7 @@ Between 26 August and 17 September 2026 one repository grew from nine slides and
 
 On 17 September 2026, the day of the IRS event, the repository behind it was still moving. The event, "AI foundations for intelligent tax administration", was due to start at 1:00 PM Eastern, 17:00 UTC, with about 56 registrants from the IRS and adjacent agencies, most of whom had never worked with Red Hat.
 
-The first commit of the day is not the agent's: the presenter uploading five illustrated graphics at 13:51 UTC, 07:51 on the uploader's own clock, under the message "Add files via upload", 23 minutes before Lab 08 merged. Everything after that is the agent's work, each commit authored as Claude with a session trailer, and each round merged to main before the next began.
+The first commit of the day is not the agent's: the presenter uploading five illustrated graphics at 13:51 UTC, 07:51 on the uploader's own clock, under the message "Add files via upload", 23 minutes before Lab 08 merged. Everything after that is the agent's work, each commit authored by the agent (as Claude) with a session trailer, and each round merged to main before the next began.
 
 .The 44 commits on main, 26 August to 17 September 2026, grouped into the rounds that produced them; the final eleven, one upload and five agent rounds with their merges, sit on the day of the event, and the November briefing follows a break in the axis
 image::built/timeline.png[timeline, pdfwidth=100%]
@@ -69,9 +69,9 @@ The rounds produced not one deck but six faces of the same hour, all from one MI
 
 Six faces stay consistent only with one owner per fact. ladder-map.json owns the rungs, the chapters and 23 technology mappings. Each lab's run.sh owns its commands and expected output. The deck's own tokens own the palette and pyramid geometry that the PowerPoint builder copies. Generators read those files; the catalogue builder stops on an unknown inventory id, and the PowerPoint builder keys its rungs by the deck's own titles. Two surfaces were still hand-copied, the deck's own lab table and the docs technology table, and that is where the drift came from.
 
-The pipeline is three GitHub Actions jobs. Test checks shell and Python syntax and runs every lab in simulate mode. Build needs test, runs in the official Asciidoctor container, and renders the docs, the reveal.js slides and the PDF. Publish needs build and deploys to GitHub Pages only on a push to main. A broken lab blocks the site. The agent's job was to run this loop, not to replace it.
+The pipeline is three jobs on the git host's CI runners (GitHub Actions). Test checks shell and Python syntax and runs every lab in simulate mode. Build needs test, runs in the official Asciidoctor container, and renders the docs, the reveal.js slides and the PDF. Publish needs build and deploys to the host's static site (GitHub Pages) only on a push to main. A broken lab blocks the site. The agent's job was to run this loop, not to replace it.
 
-.Inputs and sources of truth at the top, the generators and their outputs beside them, the render-and-measure loop in the middle, and GitHub Actions publishing to Pages at the bottom; fixes flow back to a source file, never to an output
+.Inputs and sources of truth at the top, the generators and their outputs beside them, the render-and-measure loop in the middle, and the git host's CI runners publishing to its static site at the bottom; fixes flow back to a source file, never to an output
 image::built/pipeline.png[pipeline, pdfwidth=100%]
 
 [quote]
@@ -82,23 +82,23 @@ ____
 [#where_everything_ran]
 == Where everything ran: eight places, none of them the same machine
 
-What follows is the builder's account; the repository does not record it. The person sat at a laptop, and sometimes a phone, with Claude Code on the web at claude.ai/code, reviewing each round on a hosted copy of the deck republished to claude.ai, readable on any device. Requests went in as plain language; meeting notes, a review transcript, a presenter script and five graphics went in as uploads.
+What follows is the builder's account; the repository does not record it. The person sat at a laptop, and sometimes a phone, with the model vendor's hosted agent sessions (Claude Code on the web) at claude.ai/code, reviewing each round on a hosted copy of the deck republished to the vendor's web app (claude.ai), readable on any device. Requests went in as plain language; meeting notes, a review transcript, a presenter script and five graphics went in as uploads.
 
-Each session ran in an ephemeral Linux container managed by Anthropic, with the repository cloned fresh into it. Outbound network went through an allow-listed proxy: GitHub and Google Fonts were reachable, the published GitHub Pages site and google.com were not. A scratch directory held scripts and screenshots and was not kept between containers.
+Each session ran in an ephemeral Linux container managed by the model vendor (Anthropic), with the repository cloned fresh into it. Outbound network went through an allow-listed proxy: the git host (GitHub) and Google Fonts were reachable, the published static site (GitHub Pages) and google.com were not. A scratch directory held scripts and screenshots and was not kept between containers.
 
-.The map of eight places: laptop and phone at the top, the ephemeral container and the model endpoint in the middle, GitHub, its runners and Pages below, and the audience's browser and the lab targets at the edges
+.The map of eight places: laptop and phone at the top, the ephemeral container and the model endpoint in the middle, the git host, its runners and static site below, and the audience's browser and the lab targets at the edges
 image::built/where.png[where, pdfwidth=100%]
 
-The model itself ran at Anthropic's API endpoint, not in the container. This is the sentence to hold on to. Every excerpt, command output and screenshot the agent looked at was sent there as context. The container ran the tools. The endpoint did the thinking. The two are different places, and in this build the boundary was Anthropic's: its endpoint, and an allow-list the builder did not control.
+The model itself ran at the vendor's API endpoint, not in the container. This is the sentence to hold on to. Every excerpt, command output and screenshot the agent looked at was sent there as context. The container ran the tools. The endpoint did the thinking. The two are different places, and in this build the boundary was the vendor's: its endpoint, and an allow-list the builder did not control.
 
-Inside the container the tools were ordinary: a shell with bash, git, Python and node; file read, edit and search; Playwright with Chromium; LibreOffice and pdftoppm to render the PowerPoint; asciidoctor, until a container reset removed it. Two MCP servers were attached: a GitHub server for checking Actions runs, and the Claude Code Remote server.
+Inside the container the tools were ordinary: a shell with bash, git, Python and node; file read, edit and search; Playwright with Chromium; LibreOffice and pdftoppm to render the PowerPoint; asciidoctor, until a container reset removed it. Two MCP servers were attached: the git host's MCP server for checking CI runs, and the vendor's own hosted-session server (Claude Code Remote).
 
 [quote]
 ____
 The container ran the tools. The endpoint did the thinking. The two are different places.
 ____
 
-GitHub held the repository and ran the Actions workflow on ubuntu-latest runners plus the asciidoctor container. The audience's browsers loaded the deck from Pages; the presenter's second window loaded the console from the same site. The labs ran on an attendee's own laptop in simulate mode, or in live mode against OpenShift AI, RHEL AI, Ansible Automation Platform and a pgvector database. Laptop and phone, container, endpoint, GitHub, its runners, Pages, the audience's browsers, the lab targets: eight places.
+The git host held the repository and ran the CI workflow (GitHub Actions) on ubuntu-latest runners plus the asciidoctor container. The audience's browsers loaded the deck from the static site; the presenter's second window loaded the console from the same site. The labs ran on an attendee's own laptop in simulate mode, or in live mode against OpenShift AI, RHEL AI, Ansible Automation Platform and a pgvector database. Laptop and phone, container, endpoint, the git host, its runners, the static site, the audience's browsers, the lab targets: eight places.
 
 [#an_ordinary_round]
 == An ordinary round, step by step
@@ -107,12 +107,12 @@ The builder recalls a typical round. The request arrives as a sentence or two. T
 
 Next it writes a patch: not a hand edit but a Python script in the scratch directory, where every replacement asserts that its search string matches exactly once; zero matches or two, and the script stops instead of editing the wrong place. Then it runs it.
 
-.One round's tool calls in order, from the grep that finds the slide to the artifact republish; the colour of each number marks the kind of tool, and only steps nine to eleven leave a trace outside the session
+.One round's tool calls in order, from the grep that finds the slide to the republish of the vendor-hosted review page (a claude.ai artifact); the colour of each number marks the kind of tool, and only steps nine to eleven leave a trace outside the session
 image::built/trace.png[trace, pdfwidth=100%]
 
 Then it looks. A Playwright script opens the deck in headless Chromium, screenshots the affected slides, by the end in English and Spanish and in both Show and Tell faces, and measures the text extents against their boxes. The agent reads the screenshots as images; if a Spanish string overflows its card, it fixes the source and runs again. Then the overflow check on every slide, every lab in simulate mode, and the syntax checks.
 
-Then it ships: a commit on the branch whose message names the notes or review it worked from, with a trailer carrying the session link; a merge to main; a push. The sandbox cannot reach the published site, so it watches the Pages run through the GitHub API, and when the run is green it republishes the hosted artifact so the presenter can review it on any device.
+Then it ships: a commit on the branch whose message names the notes or review it worked from, with a trailer carrying the session link; a merge to main; a push. The sandbox cannot reach the published site, so it watches the deploy to the static site (GitHub Pages) through the git host's API, and when the run is green it republishes the hosted review page so the presenter can review it on any device.
 
 [quote]
 ____
@@ -131,9 +131,9 @@ Before a tool call runs, a gate decides: allow, ask and deny rules and pre-tool 
 .The agentic turn: assemble context, call the endpoint, gate the tool call, run it, append the result, repeat; the permission classifier sits on the arrow where this session was hurt
 image::built/agent-loop.png[agent loop, pdfwidth=100%]
 
-This session ran in auto permission mode, where a classifier model judged each shell or git action. The builder recalls it refusing an ordinary push and a force-with-lease as destructive, then allowing the same push later. Anthropic's own March 2026 post, as read on 19 November, reports a 17% false-negative rate for it. Account-level actions, such as creating a public repository, were beyond the agent entirely.
+This session ran in auto permission mode, where a classifier model judged each shell or git action. The builder recalls it refusing an ordinary push and a force-with-lease as destructive, then allowing the same push later. The model vendor's own March 2026 post (Anthropic's), as read on 19 November, reports a 17% false-negative rate for it. Account-level actions, such as creating a public repository, were beyond the agent entirely.
 
-The hosted conveniences had their own control planes too: the artifact service refused to republish the deck until the live version had been read in full.
+The hosted conveniences had their own control planes too: the vendor's review-page service (claude.ai artifacts) refused to republish the deck until the live version had been read in full.
 
 [quote]
 ____
@@ -145,7 +145,7 @@ Deny rules, hooks the binary enforces and a sandbox are the parts the model cann
 [#what_the_model_sees]
 == What the model sees, and what it forgets
 
-The model does not see the repository. It sees a window: the system prompt, the tool descriptions, any matching skills, and the conversation so far, with every excerpt, command output and screenshot added to it. This kit had no CLAUDE.md, so the standing rules lived in the conversation.
+The model does not see the repository. It sees a window: the system prompt, the tool descriptions, any matching skills, and the conversation so far, with every excerpt, command output and screenshot added to it. This kit had no project memory file (CLAUDE.md), so the standing rules lived in the conversation.
 
 Windows fill up. The builder recalls the conversation being compacted twice: summarised by the model to fit. A commit message that says "Fix six gaps found auditing the deck against the meeting notes" is memory the next container can read; a conversation summary keeps the gist and drops the detail.
 
@@ -201,25 +201,25 @@ ____
 
 The scratch directory was cleared between containers; two months later the fonts, the verification scripts and the patch scripts were gone. Lesson: commit the verification harness, not just the deliverable.
 
-Egress policy blocked the published site, so deploys were verified through the GitHub API. Lesson: design verification around the network you have.
+Egress policy blocked the published site, so deploys were verified through the git host's API (GitHub's). Lesson: design verification around the network you have.
 
-The GitHub integration could not create the public repository the presenter asked for. Lesson: people create, agents prepare.
+The git host integration could not create the public repository the presenter asked for. Lesson: people create, agents prepare.
 
-Only one of these, the classifier, is a model problem; the rest are properties of where the agent ran and what it was allowed to keep. And what the repository can prove is thin: commit trailers with a session link, a branch named claude/, two pull requests merged on 2 September, commit messages naming the notes and the review. No CLAUDE.md, and, until this briefing's build-brief.py, no committed render or coverage script. The discipline lived in the conversation and the scratch space.
+Only one of these, the classifier, is a model problem; the rest are properties of where the agent ran and what it was allowed to keep. And what the repository can prove is thin: commit trailers with a session link, a branch prefixed with the agent's name (claude/), two pull requests merged on 2 September, commit messages naming the notes and the review. No project memory file (CLAUDE.md), and, until this briefing's build-brief.py, no committed render or coverage script. The discipline lived in the conversation and the scratch space.
 
 [#what_to_copy_and_the_rule]
 == What to copy, and the rule
 
-None of this needs the tools we used. One repository, one Makefile, CI that runs the labs before it builds anything and publishes only from main. Labs as step scripts with the expected output as the acceptance criterion, simulate by default, live on demand. One owner per fact, generators that fail on an unknown id, a headless browser in the loop. And what we did not do: commit the verification scripts beside the deliverable, and write a CLAUDE.md.
+None of this needs the tools we used. One repository, one Makefile, CI that runs the labs before it builds anything and publishes only from main. Labs as step scripts with the expected output as the acceptance criterion, simulate by default, live on demand. One owner per fact, generators that fail on an unknown id, a headless browser in the loop. And what we did not do: commit the verification scripts beside the deliverable, and write a project memory file (CLAUDE.md).
 
 On the agent side: parallel writers, independent refuters, and quote only what came back confirmed. Deny rules and hooks in front of anything that pushes, deletes or spends, before any classifier; a classifier where a deny rule would do is a tool looking for a mission. Checkpoint to git before limits or compaction hit.
 
 .The rule as the kit draws it: data, information, knowledge, judgement, read as solve a problem someone has, keep judgement human, right tool at the right time
 image::built/pyramid.png[pyramid, pdfwidth=100%]
 
-Before anyone buys anything, map the customer's data category to a model path. On the Anthropic pages read on 19 November 2026, the commercial API and the claude.ai surfaces, cloud sessions and artifacts among them, were not authorised on any page read; Bedrock in AWS GovCloud had Claude models approved for FedRAMP High and DoD IL4/5 workloads, with AWS authorising each model separately and the June 2025 announcement naming 2025 models, so pin the model; Vertex AI with Assured Workloads FedRAMP High and IL2; and Claude for Government, generally available on 30 September 2026 through a FedRAMP High authorised environment. Anthropic's government page carried a supply-chain-risk note that the designation applies to the use of Claude as a direct part of DoW contracts and subcontracts, citing a September 2026 court ruling. Re-check all of it before repeating it.
+Before anyone buys anything, map the customer's data category to a model path. On the model vendor's own pages (Anthropic's) read on 19 November 2026, the commercial API and the vendor's web app surfaces (claude.ai), vendor-hosted sessions and review pages among them, were not authorised on any page read; a hyperscaler's authorised government region (Claude on Amazon Bedrock, AWS GovCloud) had the vendor's models approved for FedRAMP High and DoD IL4/5 workloads, with the hyperscaler authorising each model separately and the June 2025 announcement naming 2025 models, so pin the model; a second hyperscaler's assured environment (Vertex AI with Assured Workloads) FedRAMP High and IL2; and the vendor's government offering (Claude for Government), generally available on 30 September 2026 through a FedRAMP High authorised environment. The vendor's government page carried a supply-chain-risk note that the designation applies to the use of the vendor's model as a direct part of DoW contracts and subcontracts, citing a September 2026 court ruling. Re-check all of it before repeating it.
 
-Then the rule. The kit's title slide is a pyramid: data, information, knowledge, judgement. Read it as three tests. Solve a problem someone has. Keep judgement human: Lab 05 escalates a provenance mismatch instead of fixing it, and Lab 08 ships a Lightspeed draft with two human review edits visible in the file. Right tool, right time: a frontier model in a commercial cloud built this public content, with a classifier gating each action and a person reviewing the published deck after every round; an open model inside the enclave is the answer for the customer's data.
+Then the rule. The kit's title slide is a pyramid: data, information, knowledge, judgement. Read it as three tests. Solve a problem someone has. Keep judgement human: Lab 05 escalates a provenance mismatch instead of fixing it, and Lab 08 ships a Lightspeed draft with two human review edits visible in the file. Right tool, right time: a frontier model in a commercial cloud built this public content, with a classifier gating each action and a person reviewing the published deck after every round; the AI Factory pattern, an open harness and an open model on OpenShift AI inside the agency boundary, is the answer for the customer's data.
 
 [quote]
 ____
@@ -268,4 +268,4 @@ The state of the main branch after each of its 26 commits, read from the git tre
 
 == What this essay rests on
 
-Dates, counts and sizes come from the repository and can be re-derived. The account of what the agent did, where it ran and what hurt is the builder's recollection of the session, written down the same week. Where the essay repeats a federal or product claim it uses only the wording of the methods briefing in the previous chapter, which was limited to what was read on an Anthropic page on 19 November 2026; re-check anything in that chapter's verify-before-quoting list before repeating it to a customer.
+Dates, counts and sizes come from the repository and can be re-derived. The account of what the agent did, where it ran and what hurt is the builder's recollection of the session, written down the same week. Where the essay repeats a federal or product claim it uses only the wording of the methods briefing in the previous chapter, which was limited to what was read on the model vendor's own pages (Anthropic's) on 19 November 2026; re-check anything in that chapter's verify-before-quoting list before repeating it to a customer.

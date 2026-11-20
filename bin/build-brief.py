@@ -118,15 +118,15 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 
 def g_agent_loop() -> str:
     """One agentic turn: prompt → model → tool call → permission → tool result → model, repeated."""
-    return """<svg viewBox="0 0 640 400" role="img" aria-label="One agentic turn: a prompt and context go to the model; the model either answers or calls a tool; a permission gate sits in front of every tool call; the tool result returns to the model; the loop repeats until the model answers. Hooks observe before and after each tool call.">
+    return """<svg viewBox="0 0 640 400" role="img" aria-label="One agentic turn: a prompt and context go to the model at the vendor API or a hyperscaler region; the model either answers or calls a tool; a permission gate sits in front of every tool call; the tool result returns to the model; the loop repeats until the model answers. Hooks observe before and after each tool call.">
 <defs><marker id="al" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
 <rect x="20" y="30" width="190" height="78" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
 <text x="115" y="60" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)">Prompt + context</text>
-<text x="115" y="82" text-anchor="middle" font-size="11" fill="var(--ink-2)">CLAUDE.md · files · skills · history</text>
+<text x="115" y="82" text-anchor="middle" font-size="11" fill="var(--ink-2)">memory file · files · skills · history</text>
 <rect x="250" y="20" width="200" height="98" rx="12" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.6"/>
 <text x="350" y="56" text-anchor="middle" font-size="16" font-weight="900" fill="var(--ink)">Model</text>
 <text x="350" y="78" text-anchor="middle" font-size="11" fill="var(--ink-2)">answer, or ask for a tool</text>
-<text x="350" y="96" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">Anthropic API · Bedrock · Vertex · Foundry</text>
+<text x="350" y="96" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">the vendor API, or a hyperscaler region</text>
 <rect x="490" y="40" width="130" height="58" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
 <text x="555" y="64" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">Final answer</text>
 <text x="555" y="84" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">text, files, a commit</text>
@@ -149,16 +149,16 @@ def g_agent_loop() -> str:
 
 
 def g_architecture() -> str:
-    """The Claude Code suite in one picture."""
-    return """<svg viewBox="0 0 640 420" role="img" aria-label="The Claude Code suite: surfaces on top (CLI, IDE, web and cloud sessions, GitHub Actions, Agent SDK); the harness in the middle (tools, subagents, workflows, permissions, compaction, hooks); the extension layer (CLAUDE.md, skills, MCP servers, plugins, artifacts, routines); and model providers at the base.">
+    """The agent harness suite (Claude Code) in one picture."""
+    return """<svg viewBox="0 0 640 420" role="img" aria-label="The agent harness suite (Claude Code): surfaces on top (CLI, IDE, hosted web sessions, CI runners, an SDK); the harness in the middle (tools, subagents, workflows, permissions, compaction, hooks); the extension layer (a project memory file, skills, MCP servers, plugins, hosted pages, schedules); and model providers at the base.">
 <rect x="14" y="14" width="612" height="66" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
 <text x="28" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">SURFACES</text>
 <g font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">
 <rect x="28" y="44" width="104" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="80" y="62">Terminal CLI</text>
 <rect x="142" y="44" width="104" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="194" y="62">IDE extension</text>
-<rect x="256" y="44" width="134" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="323" y="62">Web + cloud sessions</text>
-<rect x="400" y="44" width="110" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="455" y="62">GitHub Actions</text>
-<rect x="520" y="44" width="92" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="566" y="62">Agent SDK</text>
+<rect x="256" y="44" width="134" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="323" y="62">Hosted web sessions</text>
+<rect x="400" y="44" width="110" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="455" y="62">CI runners</text>
+<rect x="520" y="44" width="92" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="566" y="62">An SDK</text>
 </g>
 <rect x="14" y="96" width="612" height="118" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>
 <text x="28" y="118" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">THE HARNESS — THE AGENTIC LOOP</text>
@@ -174,37 +174,37 @@ def g_architecture() -> str:
 <rect x="14" y="230" width="612" height="92" rx="10" fill="var(--steel-wash)" stroke="var(--steel)"/>
 <text x="28" y="252" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">EXTENSION LAYER — WHAT YOU ADD</text>
 <g font-size="11.5" font-weight="700" fill="var(--ink)" text-anchor="middle">
-<rect x="28" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="74" y="281">CLAUDE.md</text><text x="74" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">project memory</text>
+<rect x="28" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="74" y="281">Memory file</text><text x="74" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">(CLAUDE.md)</text>
 <rect x="128" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="174" y="281">Skills</text><text x="174" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">SKILL.md · /slash</text>
-<rect x="228" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="274" y="281">MCP servers</text><text x="274" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">GitHub, Drive, yours</text>
+<rect x="228" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="274" y="281">MCP servers</text><text x="274" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">git host, drive, yours</text>
 <rect x="328" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="374" y="281">Plugins</text><text x="374" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">bundles of the above</text>
-<rect x="428" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="474" y="281">Artifacts</text><text x="474" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">hosted pages</text>
-<rect x="528" y="262" width="84" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="570" y="281">Routines</text><text x="570" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">schedules</text>
+<rect x="428" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="474" y="281">Hosted pages</text><text x="474" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">(Artifacts)</text>
+<rect x="528" y="262" width="84" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="570" y="281">Schedules</text><text x="570" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">(Routines)</text>
 </g>
 <rect x="14" y="338" width="612" height="68" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
 <text x="28" y="360" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">MODEL PROVIDERS — WHERE THE TOKENS GO</text>
 <g font-size="11.5" font-weight="700" fill="var(--ink)" text-anchor="middle">
-<rect x="28" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="98" y="388" font-size="11">Anthropic API</text>
-<rect x="176" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--good)" stroke-width="1.6"/><text x="246" y="388" font-size="11">Bedrock · GovCloud</text>
-<rect x="324" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="394" y="388" font-size="11">Google Vertex AI</text>
-<rect x="472" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="542" y="388" font-size="11">Microsoft Foundry</text>
+<rect x="28" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="98" y="388" font-size="10.5">Vendor API (Anthropic)</text>
+<rect x="176" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--good)" stroke-width="1.6"/><text x="246" y="388" font-size="10.5">Gov region (Bedrock)</text>
+<rect x="324" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="394" y="388" font-size="10.5">Cloud region (Vertex AI)</text>
+<rect x="472" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="542" y="388" font-size="10.5">Cloud region (Foundry)</text>
 </g>
 </svg>"""
 
 
 def g_boundary() -> str:
     """Three ways to run an agent, by where the data and the model sit."""
-    return """<svg viewBox="0 0 640 400" role="img" aria-label="Three deployment shapes. Left: Anthropic commercial SaaS — claude.ai web sessions, Artifacts and connectors — data and model both outside the agency boundary. Middle: the Claude Code CLI on an agency workstation calling Claude through Amazon Bedrock in AWS GovCloud — the model inside an authorized boundary, the harness on your machine. Right: an open-source harness and an open model on OpenShift AI inside the agency's own enclave, including air-gapped.">
+    return """<svg viewBox="0 0 640 400" role="img" aria-label="Three deployment shapes. Left: the vendor's commercial SaaS (claude.ai web sessions, hosted pages and connectors), data and model both outside the agency boundary. Middle: the harness CLI (Claude Code) on an agency workstation calling the model through a hyperscaler's authorized region (Amazon Bedrock in AWS GovCloud), the model inside an authorized boundary, the harness on your machine. Right: the AI Factory pattern, an open-source harness and an open model on OpenShift AI inside the agency's own enclave, including air-gapped.">
 <defs><marker id="bl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
 <g>
 <rect x="14" y="14" width="196" height="330" rx="12" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4"/>
 <rect x="14" y="14" width="196" height="40" rx="12" fill="var(--amber-wash)"/><rect x="14" y="40" width="196" height="14" fill="var(--amber-wash)"/>
-<text x="112" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Commercial SaaS</text>
-<text x="112" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">claude.ai web + cloud sessions</text>
-<text x="112" y="94" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">Artifacts · connectors · Routines</text>
+<text x="112" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Vendor SaaS</text>
+<text x="112" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">vendor web app (claude.ai)</text>
+<text x="112" y="94" text-anchor="middle" font-size="10" fill="var(--ink-2)">hosted sessions, pages, schedules</text>
 <rect x="34" y="112" width="156" height="60" rx="8" fill="var(--amber-wash)" stroke="var(--amber)"/>
 <text x="112" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">model + sandbox</text>
-<text x="112" y="154" text-anchor="middle" font-size="10" fill="var(--ink-2)">Anthropic-managed, commercial</text>
+<text x="112" y="154" text-anchor="middle" font-size="10" fill="var(--ink-2)">vendor-managed (Anthropic)</text>
 <rect x="34" y="186" width="156" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
 <text x="112" y="210" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">your repo is cloned in</text>
 <text x="112" y="258" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">built THIS kit</text>
@@ -216,22 +216,22 @@ def g_boundary() -> str:
 <rect x="222" y="14" width="196" height="330" rx="12" fill="var(--surface)" stroke="var(--good)" stroke-width="1.6"/>
 <rect x="222" y="14" width="196" height="40" rx="12" fill="var(--good-wash)"/><rect x="222" y="40" width="196" height="14" fill="var(--good-wash)"/>
 <text x="320" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Authorized cloud</text>
-<text x="320" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">Claude Code CLI on your workstation</text>
-<text x="320" y="94" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">pointed at Bedrock or Vertex</text>
+<text x="320" y="78" text-anchor="middle" font-size="10" fill="var(--ink-2)">the harness CLI on your workstation</text>
+<text x="320" y="94" text-anchor="middle" font-size="10" fill="var(--ink-2)">to a cloud region (Bedrock, Vertex)</text>
 <rect x="242" y="112" width="156" height="60" rx="8" fill="var(--good-wash)" stroke="var(--good)"/>
-<text x="320" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">model in GovCloud</text>
+<text x="320" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">model in an authorized region</text>
 <text x="320" y="154" text-anchor="middle" font-size="10" fill="var(--ink-2)">FedRAMP High · IL4/IL5 as authorized</text>
 <rect x="242" y="186" width="156" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
 <text x="320" y="210" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">harness + files stay with you</text>
 <text x="320" y="258" text-anchor="middle" font-size="11" font-weight="700" fill="var(--good)">the usable federal shape</text>
-<text x="320" y="276" text-anchor="middle" font-size="10" fill="var(--ink-2)">no web sessions, no Artifacts</text>
+<text x="320" y="276" text-anchor="middle" font-size="10" fill="var(--ink-2)">no web sessions, no hosted pages</text>
 <text x="320" y="306" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent-ink)">verify the IL for your data</text>
 <text x="320" y="324" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">still no air gap, still a vendor model</text>
 </g>
 <g>
 <rect x="430" y="14" width="196" height="330" rx="12" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.6"/>
 <rect x="430" y="14" width="196" height="40" rx="12" fill="var(--steel-wash)"/><rect x="430" y="40" width="196" height="14" fill="var(--steel-wash)"/>
-<text x="528" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Inside the enclave</text>
+<text x="528" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">AI Factory, in the enclave</text>
 <text x="528" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">open harness: goose, OpenHands, Aider</text>
 <text x="528" y="94" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">open model on OpenShift AI · vLLM</text>
 <rect x="450" y="112" width="156" height="60" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
@@ -251,7 +251,7 @@ def g_boundary() -> str:
 
 def g_pipeline() -> str:
     """How the kit was synthesized: inputs → sources of truth → generators → verify → CI → site."""
-    return """<svg viewBox="0 0 640 400" role="img" aria-label="The build pipeline: inputs (the event abstract, two planning calls, a review transcript, the presenter's script, five graphics) flow into single sources of truth (the deck HTML, the lab run scripts, a ladder map, an inventory JSON), which generators turn into the console, reveal slides, PowerPoint, docs and the adventure page; a render-and-measure loop with Playwright checks every output and feeds fixes back to the sources; GitHub Actions runs the labs in simulate mode and publishes to Pages.">
+    return """<svg viewBox="0 0 640 400" role="img" aria-label="The build pipeline: inputs (the event abstract, two planning calls, a review transcript, the presenter's script, five graphics) flow into single sources of truth (the deck HTML, the lab run scripts, a ladder map, an inventory JSON), which generators turn into the console, reveal slides, PowerPoint, docs and the adventure page; a render-and-measure loop with Playwright checks every output and feeds fixes back to the sources; the host\'s CI runners (GitHub Actions) run the labs in simulate mode and publish the static site.">
 <defs><marker id="pl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker><marker id="plr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
 <g font-size="10.5" fill="var(--ink-2)">
 <rect x="14" y="20" width="150" height="130" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
@@ -275,9 +275,9 @@ def g_pipeline() -> str:
 <text x="408" y="262" text-anchor="middle" font-size="10" fill="var(--ink-2)">LibreOffice + pdftoppm to eyeball the pptx · every lab runs in simulate mode, end to end</text>
 <path d="M408 276 V302" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
 <rect x="14" y="306" width="612" height="76" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.4"/>
-<text x="320" y="330" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">GitHub Actions: lint → run every lab (simulate) → build → publish to Pages</text>
+<text x="320" y="330" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">CI (GitHub Actions): lint → every lab in simulate → build → publish (Pages)</text>
 <text x="320" y="352" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">The labs gate the docs. A broken lab blocks the site. Everything public, MIT, one URL.</text>
-<text x="320" y="370" text-anchor="middle" font-size="10" fill="var(--ink-3)">plus a hosted artifact for review, and a presenter console that follows the deck window to window</text>
+<text x="320" y="370" text-anchor="middle" font-size="10" fill="var(--ink-3)">plus a vendor-hosted review page, and a presenter console that follows the deck window to window</text>
 </svg>"""
 
 
@@ -288,7 +288,7 @@ def g_toolchain() -> str:
         ('LABS', 'var(--good)', ['bash runtime · step()', 'Python · pgvector', 'Ansible · EDA rulebooks', 'KServe · qna.yaml']),
         ('DOCS + EXPORTS', 'var(--steel)', ['AsciiDoc · Asciidoctor', 'revealjs · pdf backends', 'python-pptx', 'Makefile · container']),
         ('VERIFY', 'var(--violet)', ['Playwright · Chromium', 'measurement scripts', 'LibreOffice · pdftoppm', 'bash -n · py_compile']),
-        ('PUBLISH', 'var(--amber)', ['Git · GitHub', 'GitHub Actions', 'GitHub Pages', 'MIT licence']),
+        ('PUBLISH', 'var(--amber)', ['Git · a git host (GitHub)', 'CI runners (Actions)', 'static site (Pages)', 'MIT licence']),
     ]
     out = ['<svg viewBox="0 0 640 400" role="img" aria-label="The toolchain in five shelves: authoring, labs, docs and exports, verification, publishing; every item open source.">']
     y = 14
@@ -309,15 +309,15 @@ def g_toolchain() -> str:
 
 def g_gaps() -> str:
     return _tiles([
-        ('Air gap · IL6 outside AWS', 'no on-prem or weights offer found; AWS Secret/TS only'),
+        ('Air gap · IL6 outside one cloud', 'no on-prem or weights offer; AWS classified regions only'),
         ('The DoD designation', 'blocks DoW contract work regardless of technology'),
-        ('CUI / FTI boundary', 'web sessions and artifacts are commercial SaaS'),
+        ('CUI / FTI boundary', 'hosted sessions and pages are vendor SaaS'),
         ('Supply chain', 'plugins, skills, MCP servers: pin, mirror, sign'),
         ('Prompt injection', 'tool results are untrusted; no system is immune'),
         ('Classifier as control', 'a model decides (17% misses); keep deny rules'),
         ('Limits and compaction', 'work stops or is summarised; checkpoint to git'),
         ('Audit, identity, 508', 'OTel opt-in; no PIV/CAC; ACRs cover the tool only'),
-    ], 'var(--accent)', 'Eight places Claude Code fails to perform for federal customers, each with the mitigation: air gap and classified networks outside AWS, the DoD designation, the CUI and FTI boundary, supply chain, prompt injection, the classifier as a control, limits and compaction, and audit, identity and Section 508.')
+    ], 'var(--accent)', 'Eight places the agent harness (Claude Code) fails to perform for federal customers, each with the mitigation: air gap and classified networks outside one cloud, the DoD designation, the CUI and FTI boundary, supply chain, prompt injection, the classifier as a control, limits and compaction, and audit, identity and Section 508.')
 
 
 def g_pyramid() -> str:
@@ -343,7 +343,7 @@ def g_pyramid() -> str:
 <text x="348" y="196" font-size="11">The agent drafted, measured and proposed;</text><text x="348" y="214" font-size="11">a person read every diff and signed off.</text>
 <rect x="330" y="252" width="296" height="90" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
 <text x="348" y="280" font-size="14" font-weight="800" fill="var(--ink)">Right tool, right time</text>
-<text x="348" y="302" font-size="11">A frontier model in the cloud for public content;</text><text x="348" y="320" font-size="11">an open model inside the enclave for the data.</text>
+<text x="348" y="302" font-size="11">A frontier model in the cloud for public content;</text><text x="348" y="320" font-size="11">the AI Factory pattern inside the enclave for the data.</text>
 </g>
 <text x="320" y="384" text-anchor="middle" font-size="11" fill="var(--ink-3)">the same rules that run the deck ran the making of it</text>
 </svg>"""
@@ -386,7 +386,7 @@ def g_faces() -> str:
         (14, 182, 'reveal.js + PowerPoint', '18 slides with notes · 11 native pptx slides'),
         (330, 182, 'Adventure catalogue', '57 items · 6 reading paths by job'),
     ]
-    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="One git repository renders six faces: the interactive deck, eight labs, the presenter console, the docs book, reveal.js and PowerPoint cuts, and the adventure catalogue; GitHub Actions tests the labs and publishes to Pages.">']
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="One git repository renders six faces: the interactive deck, eight labs, the presenter console, the docs book, reveal.js and PowerPoint cuts, and the adventure catalogue; the host\'s CI runners (GitHub Actions) test the labs and publish the static site.">']
     for x, y, t, m in tiles:
         out.append(f'<rect x="{x}" y="{y}" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>')
         out.append(f'<text x="{x + 16}" y="{y + 29}" font-size="14" font-weight="800" fill="var(--ink)">{E(t)}</text>')
@@ -395,25 +395,25 @@ def g_faces() -> str:
     out.append('<text x="320" y="291" text-anchor="middle" font-size="14" font-weight="900" fill="var(--ink)">one git repository · MIT · no framework, no build step for the deck</text>')
     out.append('<text x="320" y="309" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">sources of truth: deck.html · labs/*/run.sh · ladder-map.json · adventure-inventory.json · docs/*.adoc</text>')
     out.append('<rect x="14" y="334" width="612" height="52" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.4"/>')
-    out.append('<text x="320" y="357" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">GitHub Actions: lint → run all eight labs → build → publish to GitHub Pages</text>')
-    out.append('<text x="320" y="375" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">nommsweymx.github.io/redhat-ai-tax-labs · a hosted artifact for review after every round</text>')
+    out.append('<text x="320" y="357" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">CI (GitHub Actions): lint → run all eight labs → build → publish (Pages)</text>')
+    out.append('<text x="320" y="375" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">nommsweymx.github.io/redhat-ai-tax-labs · a vendor-hosted review page after every round</text>')
     out.append('</svg>')
     return '\n'.join(out)
 
 
 def g_matrix() -> str:
-    """Where Claude Code fits by data category, limited to what was read on Anthropic pages on 2026-11-19."""
+    """Where the agent harness (Claude Code) fits by data category, limited to what was read on the vendor's pages (Anthropic) on 2026-11-19."""
     cols = ['Public content', 'CUI · FTI', 'IL4 · IL5', 'IL6 · TS']
     rows = [
-        ('Anthropic API · claude.ai surfaces', ['Y', 'N', 'N', 'N'], 'cloud sessions, artifacts, connectors, routines'),
-        ('Bedrock · AWS GovCloud', ['Y', 'Y', 'Y', 'N'], 'FedRAMP High · IL4/5 announced Jun 2025 · per model'),
-        ('Vertex AI · Assured Workloads', ['Y', 'Y', 'D', 'N'], 'FedRAMP High · IL2 announced Apr 2025 · IL5 unconfirmed'),
-        ('Claude for Government', ['Y', 'Y', 'D', 'N'], 'GA 30 Sep 2026 · FedRAMP High environment · Code early access'),
-        ('Bedrock · AWS Secret / Top Secret', ['D', 'D', 'D', 'Y'], 'stated on the page · arrange through AWS · Code not stated'),
-        ('Microsoft Foundry', ['Y', 'D', 'D', 'N'], 'no federal authorization read'),
+        ('Vendor API and web app (Anthropic)', ['Y', 'N', 'N', 'N'], 'hosted sessions, pages, connectors, schedules'),
+        ('Hyperscaler gov region (Bedrock)', ['Y', 'Y', 'Y', 'N'], 'AWS GovCloud · FedRAMP High · IL4/5 announced Jun 2025 · per model'),
+        ('Hyperscaler gov region (Vertex AI)', ['Y', 'Y', 'D', 'N'], 'Assured Workloads · FedRAMP High · IL2 announced Apr 2025'),
+        ('Vendor gov offering (Claude for Gov)', ['Y', 'Y', 'D', 'N'], 'GA 30 Sep 2026 · FedRAMP High environment · harness in early access'),
+        ('Classified regions (AWS Secret, TS)', ['D', 'D', 'D', 'Y'], 'via the hyperscaler (Bedrock) · harness not stated'),
+        ('Hyperscaler cloud (Microsoft Foundry)', ['Y', 'D', 'D', 'N'], 'no federal authorization read'),
     ]
     sym = {'Y': ('✓', 'var(--good)', 'var(--good-wash)'), 'N': ('✗', 'var(--accent-ink)', 'var(--accent-wash)'), 'D': ('—', 'var(--ink-3)', 'var(--surface-2)')}
-    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="Where Claude Code fits by data category, as read on Anthropic pages on 19 November 2026: the commercial API and claude.ai surfaces for public content only; Bedrock in AWS GovCloud for FedRAMP High and IL4 and IL5 workloads; Vertex AI with Assured Workloads for FedRAMP High and IL2; Claude for Government in a FedRAMP High environment; AWS Secret and Top Secret regions via Bedrock for classified; Microsoft Foundry with no federal authorization read. The DoD designation note on Anthropic\'s page is shown separately.">']
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="Where the agent harness (Claude Code) fits by data category, as read on the vendor\'s pages (Anthropic) on 19 November 2026: the vendor API and web app for public content only; a hyperscaler gov region (Bedrock in AWS GovCloud) for FedRAMP High and IL4 and IL5 workloads; another (Vertex AI with Assured Workloads) for FedRAMP High and IL2; the vendor\'s government offering (Claude for Government) in a FedRAMP High environment; classified regions (AWS Secret and Top Secret via Bedrock); a third hyperscaler cloud (Microsoft Foundry) with no federal authorization read. The DoD note on the vendor\'s page is shown separately.">']
     x0, y0, lw, cw, rh = 14, 14, 262, 90, 44
     out.append(f'<text x="{x0}" y="{y0 + 20}" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">PATH</text>')
     for j, c in enumerate(cols):
@@ -430,9 +430,9 @@ def g_matrix() -> str:
             out.append(f'<text x="{cx}" y="{y + 29}" text-anchor="middle" font-size="16" font-weight="800" fill="{fg}">{ch}</text>')
         y += rh + 5
     out.append(f'<rect x="{x0}" y="{y + 2}" width="{lw + cw * 4}" height="40" rx="8" fill="var(--accent-wash)" stroke="var(--accent)"/>')
-    out.append(f'<text x="{x0 + 12}" y="{y + 19}" font-size="11" font-weight="800" fill="var(--accent-ink)">DoD: a supply-chain-risk note on Anthropic\'s own government page (read 2026-11-19)</text>')
+    out.append(f'<text x="{x0 + 12}" y="{y + 19}" font-size="11" font-weight="800" fill="var(--accent-ink)">DoD: a supply-chain-risk note on the vendor\'s own government page (Anthropic, read 2026-11-19)</text>')
     out.append(f'<text x="{x0 + 12}" y="{y + 34}" font-size="9.5" fill="var(--ink-2)">"applies to the use of Claude as a direct part of DoW contracts and subcontracts"</text>')
-    out.append(f'<text x="{x0}" y="396" font-size="9.5" fill="var(--ink-3)">✓ stated on an Anthropic page we read on 2026-11-19 · — not stated there · ✗ no authorization found · AWS authorizes each model separately</text>')
+    out.append(f'<text x="{x0}" y="396" font-size="9.5" fill="var(--ink-3)">✓ stated on a vendor page (Anthropic) read on 2026-11-19 · — not stated · ✗ no authorization found · each model is authorized separately</text>')
     out.append('</svg>')
     return '\n'.join(out)
 
@@ -615,47 +615,47 @@ def g_growth() -> str:
 
 
 def g_where() -> str:
-    """Where everything ran: the person, the managed container and model, GitHub, the audience, the labs."""
-    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="Where it ran. A person on a laptop and a phone used Claude Code on the web. Each session ran in an Anthropic-managed ephemeral container with a fresh clone, a shell, Python, node, Playwright with Chromium and LibreOffice, behind an allow-listed egress proxy, talking to the model at the API endpoint. The container pushed to GitHub, whose Actions runners ran the labs, built the docs and published to Pages; the audience loaded the deck from Pages. A hosted artifact copy lived on claude.ai. The labs ran on attendee laptops in simulate mode or on OpenShift AI, RHEL AI, Ansible Automation Platform and pgvector in live mode.">',
+    """Where everything ran: the person, the managed container and model, the git host, the audience, the labs."""
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="Where it ran. A person on a laptop and a phone used the vendor\'s hosted agent sessions (Claude Code on the web). Each session ran in a vendor-managed (Anthropic) ephemeral container with a fresh clone, a shell, Python, node, Playwright with Chromium and LibreOffice, behind an allow-listed egress proxy, talking to the model at the API endpoint. The container pushed to GitHub, whose Actions runners ran the labs, built the docs and published to Pages; the audience loaded the deck from Pages. A hosted artifact copy lived on claude.ai. The labs ran on attendee laptops in simulate mode or on OpenShift AI, RHEL AI, Ansible Automation Platform and pgvector in live mode.">',
            '<defs><marker id="wl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>']
     # people
     out.append('<rect x="14" y="14" width="164" height="226" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>')
     out.append('<text x="28" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">THE PERSON</text>')
     out.append('<rect x="28" y="48" width="64" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border-strong)"/><rect x="22" y="88" width="76" height="5" rx="2" fill="var(--border-strong)"/>')
     out.append('<rect x="108" y="46" width="26" height="46" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><circle cx="121" cy="86" r="2" fill="var(--border-strong)"/>')
-    out.append(_lines(28, 116, ['Claude Code on the web', 'laptop and phone'], 11, 'var(--ink)', 14, weight='800'))
-    out.append(_lines(28, 150, ['requests in plain language', 'meeting notes, a transcript,', 'a script, five graphics', 'every diff read by a person', 'before it merged'], 10, 'var(--ink-2)', 14))
+    out.append(_lines(28, 116, ['hosted agent sessions', '(Claude Code on the web)', 'laptop and phone'], 11, 'var(--ink)', 14, weight='800'))
+    out.append(_lines(28, 164, ['requests in plain language', 'notes, a transcript, graphics', 'every diff read by a person', 'before it merged'], 10, 'var(--ink-2)', 14))
     # anthropic boundary
     out.append('<rect x="194" y="14" width="300" height="226" rx="12" fill="none" stroke="var(--amber)" stroke-width="1.4" stroke-dasharray="6 4"/>')
-    out.append('<text x="208" y="34" font-size="10" font-weight="700" letter-spacing="1.2" fill="var(--amber)">ANTHROPIC-MANAGED · EPHEMERAL</text>')
+    out.append('<text x="208" y="34" font-size="10" font-weight="700" letter-spacing="1.2" fill="var(--amber)">VENDOR-MANAGED (ANTHROPIC) · EPHEMERAL</text>')
     out.append('<rect x="206" y="44" width="172" height="148" rx="8" fill="var(--amber-wash)" stroke="var(--amber)"/>')
     out.append('<text x="216" y="62" font-size="11.5" font-weight="800" fill="var(--ink)">Session container</text>')
-    out.append(_lines(216, 80, ['fresh clone of the repo', 'bash · git · Python · node', 'Playwright + Chromium', 'LibreOffice · pdftoppm', 'scratch dir, not kept', 'MCP: GitHub, session tools'], 9.8, 'var(--ink-2)', 13.5))
+    out.append(_lines(216, 80, ['fresh clone of the repo', 'bash · git · Python · node', 'Playwright + Chromium', 'LibreOffice · pdftoppm', 'scratch dir, not kept', 'MCP: git host, session tools'], 9.8, 'var(--ink-2)', 13.5))
     out.append('<rect x="390" y="44" width="92" height="148" rx="8" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>')
     out.append('<text x="436" y="64" text-anchor="middle" font-size="12" font-weight="900" fill="var(--ink)">Model</text>')
-    out.append(_lines(436, 84, ['API endpoint', 'context in,', 'tokens out', '', 'every excerpt,', 'output and', 'screenshot', 'goes here'], 9.5, 'var(--ink-2)', 13, anchor='middle'))
+    out.append(_lines(436, 84, ['vendor API', 'context in,', 'tokens out', '', 'every excerpt,', 'output and', 'screenshot', 'goes here'], 9.5, 'var(--ink-2)', 13, anchor='middle'))
     out.append('<line x1="378" y1="100" x2="386" y2="100" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/><line x1="390" y1="130" x2="382" y2="130" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/>')
     out.append('<rect x="206" y="202" width="276" height="30" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>')
     out.append('<text x="344" y="215" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">egress proxy, allow-list</text>')
-    out.append('<text x="344" y="227" text-anchor="middle" font-size="9" fill="var(--ink-2)">GitHub and fonts: yes · the published site, google.com: no</text>')
+    out.append('<text x="344" y="227" text-anchor="middle" font-size="9" fill="var(--ink-2)">the git host and fonts: yes · the published site, google.com: no</text>')
     # github
     out.append('<rect x="510" y="14" width="116" height="226" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.3"/>')
-    out.append('<text x="524" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">GITHUB</text>')
-    out.append(_lines(524, 58, ['repository', 'two PRs, 44 merges'], 10, 'var(--ink)', 13, weight='700'))
-    out.append(_lines(524, 96, ['Actions runners', 'ubuntu-latest and the', 'asciidoctor container:', 'lint · 8 labs simulate', '· docs · slides · PDF'], 9.8, 'var(--ink-2)', 13))
-    out.append(_lines(524, 176, ['GitHub Pages', 'one public URL', 'for everything'], 10, 'var(--ink)', 13, weight='700'))
+    out.append('<text x="524" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">GIT HOST</text>')
+    out.append(_lines(524, 58, ['repo (GitHub)', 'two PRs, 44 merges'], 10, 'var(--ink)', 13, weight='700'))
+    out.append(_lines(524, 96, ['CI runners (Actions)', 'ubuntu and the', 'asciidoctor image:', 'lint · 8 labs simulate', '· docs · slides · PDF'], 9.6, 'var(--ink-2)', 13))
+    out.append(_lines(524, 176, ['static site (Pages)', 'one public URL', 'for everything'], 9.8, 'var(--ink)', 13, weight='700'))
     # arrows top row
     out.append('<line x1="178" y1="120" x2="190" y2="120" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/>')
     out.append('<line x1="494" y1="120" x2="506" y2="120" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/>')
     out.append('<text x="500" y="112" text-anchor="middle" font-size="8" fill="var(--ink-3)">push</text>')
     # bottom row
-    boxes = [(14, 'HOSTED COPY', 'var(--amber)', 'var(--surface)', ['a claude.ai artifact republished', 'after every round, so the presenter', 'could review on any device']),
-             (218, 'THE AUDIENCE', 'var(--good)', 'var(--surface)', ['browsers load the deck from Pages;', 'the presenter opens a second window,', 'the console, from the same site']),
+    boxes = [(14, 'HOSTED COPY', 'var(--amber)', 'var(--surface)', ['a vendor-hosted review page', '(a claude.ai artifact), republished', 'after every round, on any device']),
+             (218, 'THE AUDIENCE', 'var(--good)', 'var(--surface)', ['browsers load the deck from the', 'static site; the presenter opens a', 'second window, the console']),
              (422, 'THE LABS', 'var(--steel)', 'var(--steel-wash)', ['attendee laptop: simulate mode,', 'nothing installed · live mode:', 'OpenShift AI, RHEL AI, Ansible', 'Automation Platform, pgvector'])]
     for x, t, colour, fill, lines in boxes:
         out.append(f'<rect x="{x}" y="262" width="204" height="98" rx="10" fill="{fill}" stroke="{colour}" stroke-width="1.3"/>')
         out.append(f'<text x="{x + 14}" y="{284}" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="{colour}">{E(t)}</text>')
-        out.append(_lines(x + 14, 304, lines, 9.8, 'var(--ink-2)', 14))
+        out.append(_lines(x + 14, 304, lines, 9.5, 'var(--ink-2)', 14))
     out.append('<path d="M300 240 V258" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M116 240 V258" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M568 240 V250 H320 V258" fill="none" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#wl)"/>')
     out.append('<text x="320" y="376" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">The agent never ran on a laptop and never inside an agency. Public content only, which is why this shape was acceptable.</text>')
     out.append('<text x="320" y="392" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">two months later the container was new and the scratch directory was empty; only what was committed survived</text>')
@@ -675,11 +675,11 @@ def g_trace() -> str:
         ('image', 'var(--good)', 'Look', 'The model reads the screenshots as images and fixes what overflows. Repeat.'),
         ('shell', 'var(--violet)', 'Bash', 'Overflow check on all 18 slides; every lab in simulate mode; bash -n; py_compile.'),
         ('git', 'var(--accent)', 'git', 'Commit on the branch with the fixed trailer; merge to main; push through the proxy.'),
-        ('api', 'var(--amber)', 'GitHub MCP', 'Watch the Pages run finish. The site itself is unreachable from the sandbox.'),
-        ('host', 'var(--amber)', 'Artifact', 'Republish the hosted copy so the presenter can review on any device.'),
+        ('api', 'var(--amber)', 'Git host MCP', "Watch the CI run finish (GitHub's MCP server); the site is unreachable from the sandbox."),
+        ('host', 'var(--amber)', 'Hosted page', 'Republish the vendor-hosted review page (artifact) so the presenter can check it anywhere.'),
         ('person', 'var(--ink-3)', 'Reply', 'What changed, what was verified, what was not. A person reads the diff.'),
     ]
-    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="One ordinary round as twelve steps: request, grep the deck, read excerpts, write a patch script, run it behind the permission gate, screenshot and measure with Playwright, look at the screenshots and fix, run the overflow check and the labs, commit merge and push, watch the Pages run through the GitHub MCP server, republish the hosted artifact, reply.">']
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="One ordinary round as twelve steps: request, grep the deck, read excerpts, write a patch script, run it behind the permission gate, screenshot and measure with Playwright, look at the screenshots and fix, run the overflow check and the labs, commit merge and push, watch the CI run through the git host\'s MCP server, republish the vendor-hosted review page, reply.">']
     for i, (kind, colour, tool, text) in enumerate(steps):
         col, row = i // 6, i % 6
         x, y = 14 + col * 312, 14 + row * 58
@@ -1167,7 +1167,7 @@ def build_essay(essay: dict, links: dict) -> str:
     </section>
     <section class="appendix" id="appendix-sources">
       <h2><small>Appendix B</small>What this essay rests on</h2>
-      <p>Dates, counts and sizes come from the repository and can be re-derived. The account of what the agent did, where it ran and what hurt is the builder's recollection of the session, written down the same week. Where the essay repeats a federal or product claim it uses only the wording of the 15-minute briefing and its handout, which were limited to what was read on an Anthropic page on 19 November 2026.</p>
+      <p>Dates, counts and sizes come from the repository and can be re-derived. The account of what the agent did, where it ran and what hurt is the builder's recollection of the session, written down the same week. Where the essay repeats a federal or product claim it uses only the wording of the 15-minute briefing and its handout, which were limited to what was read on the model vendor's own pages (Anthropic's) on 19 November 2026.</p>
       <div class="verifybox"><b>Verify before quoting</b>The briefing's appendix lists the claims that could not be read from a primary page that week. Re-check them from a workstation with normal egress before repeating them to a customer.</div>
     </section>'''
     return f'''<!doctype html>
@@ -1243,7 +1243,7 @@ def build_essay_adoc(essay: dict, image_prefix: str) -> str:
     for c in states:
         out.append(f'| {c["date"][5:]} | {c["time"]} | {c["subject"].replace("|", "¦")} | {c["deck_kb"]} | {c["slides"]} | {c["labs"]} | {c["es_keys"]} | {c["svgs"]} | {c["console_sections"]}')
     out += ['|===', '', '== What this essay rests on', '',
-            'Dates, counts and sizes come from the repository and can be re-derived. The account of what the agent did, where it ran and what hurt is the builder\'s recollection of the session, written down the same week. Where the essay repeats a federal or product claim it uses only the wording of the methods briefing in the previous chapter, which was limited to what was read on an Anthropic page on 19 November 2026; re-check anything in that chapter\'s verify-before-quoting list before repeating it to a customer.', '']
+            'Dates, counts and sizes come from the repository and can be re-derived. The account of what the agent did, where it ran and what hurt is the builder\'s recollection of the session, written down the same week. Where the essay repeats a federal or product claim it uses only the wording of the methods briefing in the previous chapter, which was limited to what was read on the model vendor\'s own pages (Anthropic\'s) on 19 November 2026; re-check anything in that chapter\'s verify-before-quoting list before repeating it to a customer.', '']
     return '\n'.join(out)
 
 

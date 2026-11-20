@@ -46,12 +46,12 @@
 <rect x="14" y="318" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
 <rect x="14" y="318" width="8" height="68" rx="4" fill="var(--amber)"/>
 <text x="34" y="344" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--amber)">PUBLISH</text>
-<rect x="34" y="354" width="87" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
-<text x="77.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Git · GitHub</text>
-<rect x="129" y="354" width="99" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
-<text x="178.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">GitHub Actions</text>
-<rect x="236" y="354" width="87" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
-<text x="279.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">GitHub Pages</text>
-<rect x="331" y="354" width="81" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
-<text x="371.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">MIT licence</text>
+<rect x="34" y="354" width="166" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="117.0" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Git · a git host (GitHub)</text>
+<rect x="208" y="354" width="136" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="276.0" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">CI runners (Actions)</text>
+<rect x="352" y="354" width="129" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="416.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">static site (Pages)</text>
+<rect x="489" y="354" width="81" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="529.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">MIT licence</text>
 <text x="320" y="396" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">no framework, no build step for the deck itself: open the file, present</text></svg>

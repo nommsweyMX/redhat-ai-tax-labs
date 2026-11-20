@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Eight places Claude Code fails to perform for federal customers, each with the mitigation: air gap and classified networks outside AWS, the DoD designation, the CUI and FTI boundary, supply chain, prompt injection, the classifier as a control, limits and compaction, and audit, identity and Section 508."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Eight places the agent harness (Claude Code) fails to perform for federal customers, each with the mitigation: air gap and classified networks outside one cloud, the DoD designation, the CUI and FTI boundary, supply chain, prompt injection, the classifier as a control, limits and compaction, and audit, identity and Section 508."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
 <rect x="14" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
 <rect x="14" y="26" width="6" height="56" rx="3" fill="var(--accent)"/>
-<text x="34" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Air gap · IL6 outside AWS</text>
-<text x="34" y="68" font-size="10" fill="var(--ink-2)">→ no on-prem or weights offer found; AWS Secret/TS only</text>
+<text x="34" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Air gap · IL6 outside one cloud</text>
+<text x="34" y="68" font-size="10" fill="var(--ink-2)">→ no on-prem or weights offer; AWS classified regions only</text>
 <rect x="324" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
 <rect x="324" y="26" width="6" height="56" rx="3" fill="var(--accent)"/>
 <text x="344" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">The DoD designation</text>
@@ -10,7 +10,7 @@
 <rect x="14" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
 <rect x="14" y="118" width="6" height="56" rx="3" fill="var(--accent)"/>
 <text x="34" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">CUI / FTI boundary</text>
-<text x="34" y="160" font-size="10" fill="var(--ink-2)">→ web sessions and artifacts are commercial SaaS</text>
+<text x="34" y="160" font-size="10" fill="var(--ink-2)">→ hosted sessions and pages are vendor SaaS</text>
 <rect x="324" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
 <rect x="324" y="118" width="6" height="56" rx="3" fill="var(--accent)"/>
 <text x="344" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">Supply chain</text>
