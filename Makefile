@@ -73,7 +73,7 @@ history:
 	python3 bin/mine-history.py --ref origin/main --out slides/how-it-was-built-history.json
 
 graphics:
-	python3 bin/build-brief.py --svg-dir slides/assets/graphics/built
+	python3 bin/build-brief.py --svg-dir slides/assets/graphics/built --outline slides/how-it-was-built-talk.json --out /tmp/talk-for-svgs.html
 	node bin/render-graphics.js slides/assets/graphics/built docs/images/built
 
 lint:

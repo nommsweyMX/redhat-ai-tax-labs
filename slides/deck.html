@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Intelligent Tax Administration</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -827,12 +828,48 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
   .lab-grid,.c2{grid-template-columns:1fr}
   .contactgrid{grid-template-columns:1fr}
 }
+/* Small screens (phones, narrow tablets): the rail stacks on top with the slide list folded away,
+   the 16:9 stage becomes a card that grows with its slide, grids collapse to one column, wide
+   things pan sideways, and a swipe moves between slides. */
 @media (max-width:900px){
   .shell{grid-template-columns:1fr}
-  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}
-  .railscroll{max-height:190px}
-  .c3,.c4,.phases{grid-template-columns:1fr}
-  .stage{aspect-ratio:auto;min-height:78vh}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border);overflow:visible}
+  .brandmark{padding:12px 14px 10px}
+  .brandmark .sub{display:none}
+  .brandmark h1{font-size:1.05rem}
+  .railscroll{max-height:none;overflow:visible}
+  #rail-label{cursor:pointer;padding:8px 14px;user-select:none}
+  #rail-label::after{content:" ▾";color:var(--accent-ink)}
+  .railscroll.open #rail-label::after{content:" ▴"}
+  #railnav{display:none}
+  .railscroll.open #railnav{display:block;max-height:240px;overflow:auto;border-top:1px solid var(--border)}
+  .deckwrap{padding:10px 10px 18px;gap:8px}
+  .deckbar{flex-wrap:wrap;gap:8px}
+  .deckbar .hint{display:none}
+  .deckbar .grp{flex-wrap:wrap;justify-content:center;width:100%}
+  .stage{aspect-ratio:auto;height:auto;min-height:0;overflow:visible}
+  .slide{position:relative;inset:auto;overflow:visible;padding:16px 14px 72px;min-height:60vh}
+  .slide[data-active="true"]{animation:none}
+  .spine{position:static;width:150px;height:38px;margin:0 0 8px}
+  .slidenum{top:10px;right:12px}
+  .chapstrip{left:14px;right:14px;bottom:14px;flex-wrap:wrap;row-gap:6px}
+  .slide h2{font-size:clamp(1.3rem,5.4vw,1.9rem)}
+  .slide .lede{font-size:.95rem}
+  .slide-head{padding-bottom:12px}
+  .slide-head .eyebrow{max-width:none}
+  .slide-body{padding-top:14px}
+  .slide-body > *{min-width:0}
+  .slide img,.slide svg{max-width:100%;height:auto}
+  .slide [style*="grid-template-columns"]{grid-template-columns:1fr !important} /* inline column counts written in the markup */
+  .c2,.c3,.c4,.cols,.phases,.lab-grid,.contactgrid,.rhgrid,.why-rh2 .rhgrid,.ai-spectrum,.portfolio-strip,.title-grid,.glossgrid,.llm-stack,.why-rh,.flywheel,.knowledgebar,.loopgrid,.contact{grid-template-columns:1fr}
+  .slide table{display:block;max-width:100%;overflow-x:auto}
+  .slide pre,.slide .screen,.slide .code-card{max-width:100%;overflow-x:auto}
+  .labs{padding:14px 12px 60px}
+  .demo .screen{min-height:40vh}
+  .notes{max-height:none}
+  :root[data-view="show"] .slide[data-title="Five outcomes"] .slide-body{grid-template-columns:1fr}
+  :root[data-view="show"] .slide[data-title="Five outcomes"] .pillar{min-height:0}
+  .slide .stacklayers{width:100%}
 }
 </style>
 
@@ -2347,8 +2384,35 @@ html[lang="es"] .slide[data-title="Labs preview"] .card{padding:clamp(9px,.9vw,1
     });
   }
 
-  document.getElementById('prev').addEventListener('click', function(){ go(cur-1); });
-  document.getElementById('next').addEventListener('click', function(){ go(cur+1); });
+  var smallScreen = function(){ return window.matchMedia && window.matchMedia('(max-width:900px)').matches; };
+  function goAndShow(i){ go(i); if(smallScreen()) window.scrollTo(0, Math.max(0, stage.getBoundingClientRect().top + window.scrollY - 8)); }
+  document.getElementById('prev').addEventListener('click', function(){ goAndShow(cur-1); });
+  document.getElementById('next').addEventListener('click', function(){ goAndShow(cur+1); });
+  // Touch: swipe left or right to move between slides. A drag that starts on something that
+  // scrolls sideways (a terminal, a table, a graphic) pans it instead.
+  (function(){
+    var sx = null, sy = null, pans = false;
+    function scrollsSideways(el){
+      while(el && el !== stage){
+        if(el.scrollWidth > el.clientWidth + 2) return true;
+        el = el.parentElement;
+      }
+      return false;
+    }
+    stage.addEventListener('touchstart', function(e){
+      var t = e.touches[0]; sx = t.clientX; sy = t.clientY; pans = scrollsSideways(e.target);
+    }, {passive:true});
+    stage.addEventListener('touchend', function(e){
+      if(sx === null || pans || mode !== 'deck' || !popout.hidden){ sx = null; return; }
+      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+      if(Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) goAndShow(cur + (dx < 0 ? 1 : -1));
+    }, {passive:true});
+  })();
+  // On small screens the slide list folds behind its label; tapping the label opens it.
+  document.getElementById('rail-label').addEventListener('click', function(){
+    if(smallScreen()) this.parentElement.classList.toggle('open');
+  });
+  railnav.addEventListener('click', function(){ if(smallScreen()) railnav.parentElement.classList.remove('open'); });
   function toggleFS(){
     if(document.fullscreenElement){ document.exitFullscreen(); return; }
     if(stage.requestFullscreen){

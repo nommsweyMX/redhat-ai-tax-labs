@@ -54,6 +54,7 @@ ul.pts li b{color:var(--ink)}
 .agenda div{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:baseline;font-size:.78rem;color:var(--ink-2);border-bottom:1px solid var(--border);padding:4px 0}
 .agenda i{font-style:normal;font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--accent)}
 .agenda span.m{font-family:"Red Hat Mono",monospace;font-size:.64rem;color:var(--ink-3)}
+.agenda.four{grid-template-columns:repeat(4,1fr);max-width:none;gap:2px 14px}.agenda.four div{font-size:.72rem;padding:3px 0}
 .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .checklist div{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface-2);font-size:.84rem;color:var(--ink-2);display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start}
 .checklist div::before{content:"✓";font-family:"Red Hat Mono",monospace;font-weight:700;color:var(--good)}
@@ -70,7 +71,32 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 :root[data-theme="dark"] .stage::backdrop{background:#141010}
 .verify{margin-top:10px;border:1px dashed var(--border-strong);border-radius:8px;padding:8px 12px;font-size:.76rem;color:var(--ink-3);background:var(--surface-2)}
 .verify b{color:var(--amber);font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
-@media (max-width:900px){.body,.body.wide{grid-template-columns:1fr}.gfx{display:none}.agenda,.checklist{grid-template-columns:1fr}}
+/* Small or short screens: the 16:9 stage becomes a scrolling card, graphics pan sideways, swipe moves between slides. */
+@media (max-width:900px),(max-height:560px){
+.wrap{padding:10px 10px 8px;gap:8px}
+.stage{aspect-ratio:auto;height:auto;min-height:calc(100vh - 70px)}
+.slide{position:relative;inset:auto;padding:18px 16px 24px;overflow:visible;min-height:calc(100vh - 70px)}
+.slide h2{max-width:none;font-size:clamp(1.25rem,5.2vw,1.9rem)}
+.lede{font-size:.95rem;max-width:none}
+.head{padding-right:54px}
+.body,.body.wide{display:flex;flex-direction:column;gap:14px;padding-top:12px}
+ul.pts li{font-size:.93rem}
+.gfx{display:block;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:6px 6px 2px}
+.gfx svg{width:620px;min-width:620px;max-height:none}
+.gfx::after{content:"drag sideways to pan the graphic";display:block;position:sticky;left:0;text-align:center;font-family:"Red Hat Mono",monospace;font-size:.6rem;letter-spacing:.08em;color:var(--ink-3);padding:4px 0 2px}
+.title-slide{justify-content:flex-start}
+.title-slide h2{font-size:clamp(1.45rem,6.6vw,2.4rem);max-width:none}
+.title-slide .kicker{font-size:.95rem}
+.agenda,.agenda.four{grid-template-columns:1fr;gap:0;max-width:none}
+.agenda div,.agenda.four div{font-size:.8rem;padding:6px 0}
+.checklist{grid-template-columns:1fr}
+.slidenum{top:12px;right:14px}
+.notes{max-height:none}
+.verify{font-size:.8rem}
+.bar{flex-wrap:wrap;justify-content:center;gap:8px}.bar .hint{display:none}
+button.ghost{padding:10px 16px;font-size:.8rem}
+}
+@media (max-width:420px){.gfx svg{width:560px;min-width:560px}}
 </style>
 </head>
 <body>
@@ -1202,6 +1228,7 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
     ns.textContent = slides[cur].dataset.sources ? 'Sources: ' + slides[cur].dataset.sources : '';
     pos.textContent = String(cur + 1).padStart(2, '0') + ' / ' + slides.length;
     try { history.replaceState(null, '', '#slide-' + (cur + 1)); } catch (e) {}
+    if (window.innerWidth <= 900 || window.innerHeight <= 560) window.scrollTo(0, 0);
   }
   document.getElementById('prev').addEventListener('click', function(){ go(cur - 1); });
   document.getElementById('next').addEventListener('click', function(){ go(cur + 1); });
@@ -1215,6 +1242,15 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
   });
   var m = /^#slide-(\d+)$/.exec(location.hash || '');
   go(m ? parseInt(m[1], 10) - 1 : 0);
+  window.__go = go;
+  // Swipe left or right to move; a drag that starts on a graphic pans it instead.
+  var st = document.getElementById('stage'), sx = null, sy = null, onGfx = false;
+  st.addEventListener('touchstart', function(e){ var t = e.touches[0]; sx = t.clientX; sy = t.clientY; onGfx = !!(e.target.closest && e.target.closest('.gfx')); }, {passive: true});
+  st.addEventListener('touchend', function(e){
+    if (sx === null || onGfx) { sx = null; return; }
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) { go(cur + (dx < 0 ? 1 : -1)); window.scrollTo(0, 0); }
+  }, {passive: true});
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
 })();
 </script>

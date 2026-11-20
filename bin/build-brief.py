@@ -68,6 +68,7 @@ ul.pts li b{color:var(--ink)}
 .agenda div{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:baseline;font-size:.78rem;color:var(--ink-2);border-bottom:1px solid var(--border);padding:4px 0}
 .agenda i{font-style:normal;font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--accent)}
 .agenda span.m{font-family:"Red Hat Mono",monospace;font-size:.64rem;color:var(--ink-3)}
+.agenda.four{grid-template-columns:repeat(4,1fr);max-width:none;gap:2px 14px}.agenda.four div{font-size:.72rem;padding:3px 0}
 .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .checklist div{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface-2);font-size:.84rem;color:var(--ink-2);display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start}
 .checklist div::before{content:"✓";font-family:"Red Hat Mono",monospace;font-weight:700;color:var(--good)}
@@ -84,7 +85,32 @@ kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:
 :root[data-theme="dark"] .stage::backdrop{background:#141010}
 .verify{margin-top:10px;border:1px dashed var(--border-strong);border-radius:8px;padding:8px 12px;font-size:.76rem;color:var(--ink-3);background:var(--surface-2)}
 .verify b{color:var(--amber);font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
-@media (max-width:900px){.body,.body.wide{grid-template-columns:1fr}.gfx{display:none}.agenda,.checklist{grid-template-columns:1fr}}
+/* Small or short screens: the 16:9 stage becomes a scrolling card, graphics pan sideways, swipe moves between slides. */
+@media (max-width:900px),(max-height:560px){
+.wrap{padding:10px 10px 8px;gap:8px}
+.stage{aspect-ratio:auto;height:auto;min-height:calc(100vh - 70px)}
+.slide{position:relative;inset:auto;padding:18px 16px 24px;overflow:visible;min-height:calc(100vh - 70px)}
+.slide h2{max-width:none;font-size:clamp(1.25rem,5.2vw,1.9rem)}
+.lede{font-size:.95rem;max-width:none}
+.head{padding-right:54px}
+.body,.body.wide{display:flex;flex-direction:column;gap:14px;padding-top:12px}
+ul.pts li{font-size:.93rem}
+.gfx{display:block;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:6px 6px 2px}
+.gfx svg{width:620px;min-width:620px;max-height:none}
+.gfx::after{content:"drag sideways to pan the graphic";display:block;position:sticky;left:0;text-align:center;font-family:"Red Hat Mono",monospace;font-size:.6rem;letter-spacing:.08em;color:var(--ink-3);padding:4px 0 2px}
+.title-slide{justify-content:flex-start}
+.title-slide h2{font-size:clamp(1.45rem,6.6vw,2.4rem);max-width:none}
+.title-slide .kicker{font-size:.95rem}
+.agenda,.agenda.four{grid-template-columns:1fr;gap:0;max-width:none}
+.agenda div,.agenda.four div{font-size:.8rem;padding:6px 0}
+.checklist{grid-template-columns:1fr}
+.slidenum{top:12px;right:14px}
+.notes{max-height:none}
+.verify{font-size:.8rem}
+.bar{flex-wrap:wrap;justify-content:center;gap:8px}.bar .hint{display:none}
+button.ghost{padding:10px 16px;font-size:.8rem}
+}
+@media (max-width:420px){.gfx svg{width:560px;min-width:560px}}
 """
 
 # --------------------------------------------------------------------------- graphics
@@ -755,12 +781,137 @@ def g_fanout() -> str:
     return '\n'.join(out)
 
 
+# --------------------------------------------------------------------------- data-driven graphics for the adaptation slides
+# These read `graphic_data` from the outline (or essay) JSON, so the chapter's verified
+# recipes and the pictures share one source.
+
+DATA: dict = {}
+
+RUNG_COLOUR = {'data': 'var(--accent)', 'information': '#C2410C', 'knowledge': 'var(--good)', 'judgement': 'var(--violet)'}
+
+
+def _rung_colour(rung: str) -> str:
+    r = rung.lower()
+    for name in ('judgement', 'knowledge', 'information', 'data'):
+        if r.rstrip().endswith(name) or (name in r and '→' not in r):
+            return RUNG_COLOUR[name]
+    for name in ('judgement', 'knowledge', 'information', 'data'):
+        if name in r:
+            return RUNG_COLOUR[name]
+    return 'var(--ink-3)'
+
+
+def g_knobs() -> str:
+    """The extension points: area, file, what you change."""
+    rows = DATA.get('knobs') or [
+        {'area': 'Slides', 'file': 'slides/deck.html', 'change': 'one <section class="slide"> each'},
+        {'area': 'Spanish', 'file': 'slides/deck.html ES_TEXT', 'change': 'one entry per string'},
+        {'area': 'Labs', 'file': 'labs/labNN/run.sh', 'change': 'step() + expected output'},
+        {'area': 'Docs', 'file': 'docs/NN-lab-*.adoc', 'change': 'header table + sections'},
+        {'area': 'Catalogue', 'file': 'bin/adventure-inventory.json', 'change': 'one item per thing'},
+        {'area': 'Ladder', 'file': 'slides/ladder-map.json', 'change': 'rung per slide and lab'},
+        {'area': 'Console', 'file': 'slides/presenter-notes.html', 'change': 'a section per slide'},
+        {'area': 'PowerPoint', 'file': 'bin/build-pptx.py', 'change': 'slide list, block order'},
+        {'area': 'Graphics', 'file': 'slides/assets/graphics/', 'change': 'drop in by filename'},
+        {'area': 'Gates', 'file': '.github/workflows/docs.yml', 'change': 'labs run before docs build'},
+    ]
+    rows = rows[:10]
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="The kit\'s extension points: for each area, the file that owns it and what you change there.">']
+    n = (len(rows) + 1) // 2
+    h = min(66, int((376 - (n - 1) * 8) / n))
+    for i, r in enumerate(rows):
+        col, row = i % 2, i // 2
+        x, y = 14 + col * 310, 14 + row * (h + 8)
+        out.append(f'<rect x="{x}" y="{y}" width="298" height="{h}" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>')
+        out.append(f'<rect x="{x}" y="{y + 10}" width="5" height="{h - 20}" rx="2.5" fill="var(--steel)"/>')
+        out.append(f'<text x="{x + 16}" y="{y + 20}" font-size="12" font-weight="800" fill="var(--ink)">{E(r["area"])}</text>')
+        out.append(f'<text x="{x + 16}" y="{y + 36}" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">{E(r["file"])}</text>')
+        out.append(f'<text x="{x + 16}" y="{y + 52}" font-size="9.5" fill="var(--ink-2)">{E(r["change"])}</text>')
+    out.append('</svg>')
+    return '\n'.join(out)
+
+
+def g_newlab() -> str:
+    """A new use case as a lab, as an ordered flow of up to ten steps."""
+    steps = (DATA.get('newlab') or [
+        'Name the problem owner and the queue', 'Place it on a rung of the ladder', 'Pick the product that serves that rung',
+        'Write the expected output first', 'Write run.sh with one step() per command', 'Run it in simulate mode on a laptop',
+        'Add the docs chapter and the catalogue entry', 'Add the ladder-map rung and the deck preview', 'Let CI run every lab before the docs build',
+        'Run it live; a divergence is the finding'])[:10]
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="A new use case becomes a lab in ordered steps: from naming the problem owner and the rung, through writing the expected output and the run script, to the docs, catalogue, deck, CI and a live run.">',
+           '<defs><marker id="nl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>']
+    per_row = 5
+    bw, bh, gap = 112, 112, 13
+    for i, s in enumerate(steps):
+        row, col = i // per_row, i % per_row
+        if row % 2 == 1:
+            col = per_row - 1 - col  # snake back so the arrows stay short
+        x, y = 14 + col * (bw + gap), 24 + row * (bh + 56)
+        colour = 'var(--steel)' if i < 4 else ('var(--good)' if i < 7 else 'var(--violet)')
+        out.append(f'<rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="10" fill="var(--surface)" stroke="{colour}" stroke-width="1.4"/>')
+        out.append(f'<circle cx="{x + 18}" cy="{y + 18}" r="11" fill="{colour}"/>')
+        out.append(f'<text x="{x + 18}" y="{y + 22}" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">{i + 1}</text>')
+        out.append(_lines(x + 10, y + 46, _wrap(s, 19)[:4], 9.8, 'var(--ink)', 13.5, weight='600'))
+        nxt = i + 1
+        if nxt < len(steps):
+            nrow = nxt // per_row
+            if nrow == row:
+                dx = 1 if row % 2 == 0 else -1
+                x1 = x + bw if dx == 1 else x
+                x2 = x1 + dx * (gap - 2)
+                out.append(f'<line x1="{x1}" y1="{y + bh / 2}" x2="{x2}" y2="{y + bh / 2}" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>')
+            else:
+                out.append(f'<line x1="{x + bw / 2}" y1="{y + bh}" x2="{x + bw / 2}" y2="{y + bh + 52}" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>')
+    labels = [('var(--steel)', 'decide'), ('var(--good)', 'build and check'), ('var(--violet)', 'ship and run live')]
+    x = 14
+    for colour, text in labels:
+        out.append(f'<rect x="{x}" y="372" width="10" height="10" rx="3" fill="{colour}"/><text x="{x + 16}" y="381" font-size="9.5" fill="var(--ink-2)">{E(text)}</text>')
+        x += 20 + len(text) * 5.6 + 18
+    out.append('<text x="626" y="381" text-anchor="end" font-size="9.5" fill="var(--ink-3)">the expected output is the acceptance criterion</text>')
+    out.append('</svg>')
+    return '\n'.join(out)
+
+
+def g_usecases() -> str:
+    """Eight specific use cases against the labs that already cover them."""
+    rows = (DATA.get('usecases') or [
+        {'use_case': 'Correspondence triage', 'agency': 'IRS', 'rung': 'information', 'labs': 'Lab 04 + 02', 'change': 'new lab from the RAG pattern'},
+        {'use_case': 'Refund fraud scoring', 'agency': 'State revenue', 'rung': 'information', 'labs': 'Lab 03 + 06', 'change': 'serve a scorer, prove it'},
+        {'use_case': 'Claims backlog assist', 'agency': 'SSA / VA', 'rung': 'knowledge', 'labs': 'Lab 04', 'change': 'swap corpus and threshold'},
+        {'use_case': 'Call-centre answer drafts', 'agency': 'CMS', 'rung': 'knowledge', 'labs': 'Lab 04 + 06', 'change': 'cite guidance, human send'},
+        {'use_case': 'Batch-window incidents', 'agency': 'IRS mainframe', 'rung': 'data → info', 'labs': 'Lab 07 + 08', 'change': 'point at your logs'},
+        {'use_case': 'Entry classification', 'agency': 'CBP', 'rung': 'information', 'labs': 'Lab 02 + 03', 'change': 'tune on your taxonomy'},
+        {'use_case': 'Readiness reporting', 'agency': 'DoD logistics', 'rung': 'data → info', 'labs': 'Lab 05 + 07', 'change': 'rulebooks, your telemetry'},
+        {'use_case': 'Audit evidence packs', 'agency': 'DoD finance', 'rung': 'knowledge', 'labs': 'Lab 04 + 06', 'change': 'TrustyAI reports per run'},
+    ])[:8]
+    cols = [('USE CASE', 14, 158), ('AGENCY', 172, 96), ('RUNG', 268, 104), ('LABS', 372, 92), ('WHAT CHANGES', 464, 162)]
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="Eight specific use cases across the IRS, other federal civilian agencies, state revenue and DoD business systems, each with its rung, the closest existing labs and what changes.">']
+    for name, x, w in cols:
+        out.append(f'<text x="{x + 8}" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">{name}</text>')
+    y = 36
+    rh = 41
+    for r in rows:
+        out.append(f'<rect x="14" y="{y}" width="612" height="{rh - 4}" rx="7" fill="var(--surface)" stroke="var(--border)"/>')
+        out.append(f'<text x="22" y="{y + 23}" font-size="11" font-weight="800" fill="var(--ink)">{E(r["use_case"])}</text>')
+        out.append(f'<text x="180" y="{y + 23}" font-size="10" fill="var(--ink-2)">{E(r["agency"])}</text>')
+        rc = _rung_colour(r['rung'])
+        out.append(f'<rect x="276" y="{y + 10}" width="88" height="18" rx="9" fill="{rc}" opacity=".14"/>')
+        out.append(f'<circle cx="286" cy="{y + 19}" r="3.5" fill="{rc}"/>')
+        out.append(f'<text x="294" y="{y + 23}" font-size="9.5" font-weight="700" fill="var(--ink)">{E(r["rung"])}</text>')
+        out.append(f'<text x="380" y="{y + 23}" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">{E(r["labs"])}</text>')
+        out.append(f'<text x="472" y="{y + 23}" font-size="9.8" fill="var(--ink-2)">{E(r["change"])}</text>')
+        y += rh
+    out.append(f'<text x="320" y="392" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">the full catalogue is in the docs chapter · in every row the determination stays with a person</text>')
+    out.append('</svg>')
+    return '\n'.join(out)
+
 GRAPHICS = {
     'agent-loop': g_agent_loop, 'architecture': g_architecture, 'boundary': g_boundary,
     'pipeline': g_pipeline, 'toolchain': g_toolchain, 'gaps': g_gaps, 'pyramid': g_pyramid,
     'hurt': g_hurt, 'faces': g_faces, 'matrix': g_matrix,
     'brief': g_brief, 'timeline': g_timeline, 'growth': g_growth, 'where': g_where,
     'trace': g_trace, 'context': g_context, 'fanout': g_fanout,
+    'knobs': g_knobs, 'newlab': g_newlab, 'usecases': g_usecases,
 }
 
 # --------------------------------------------------------------------------- page
@@ -790,7 +941,7 @@ def render_slide(s: dict, i: int, total: int, outline: dict) -> str:
           <h2>{E(s['title'])}</h2>
           <p class="kicker">{E(s.get('lede', ''))}</p>
           <div class="hosts">{''.join(f'<span class="host">{E(h)}</span>' for h in s.get('hosts', []))}</div>
-          <div class="agenda">{agenda}</div>'''
+          <div class="agenda{' four' if len(timed) > 18 else ''}">{agenda}</div>'''
         return f'''<article class="slide title-slide" data-title="{E(s['title'])}" data-notes="{notes}" data-sources="{E(" ".join(s.get('sources', [])))}">
           <div class="rule"></div>{body}
           <span class="slidenum">{n:02d} / {total}</span>
@@ -821,6 +972,8 @@ def render_slide(s: dict, i: int, total: int, outline: dict) -> str:
 
 
 def build(outline: dict) -> str:
+    global DATA
+    DATA = outline.get('graphic_data', {}) or {}
     slides = outline['slides']
     total = len(slides)
     arts = '\n'.join(render_slide(s, i, total, outline) for i, s in enumerate(slides))
@@ -858,6 +1011,7 @@ def build(outline: dict) -> str:
     ns.textContent = slides[cur].dataset.sources ? 'Sources: ' + slides[cur].dataset.sources : '';
     pos.textContent = String(cur + 1).padStart(2, '0') + ' / ' + slides.length;
     try {{ history.replaceState(null, '', '#slide-' + (cur + 1)); }} catch (e) {{}}
+    if (window.innerWidth <= 900 || window.innerHeight <= 560) window.scrollTo(0, 0);
   }}
   document.getElementById('prev').addEventListener('click', function(){{ go(cur - 1); }});
   document.getElementById('next').addEventListener('click', function(){{ go(cur + 1); }});
@@ -871,6 +1025,15 @@ def build(outline: dict) -> str:
   }});
   var m = /^#slide-(\\d+)$/.exec(location.hash || '');
   go(m ? parseInt(m[1], 10) - 1 : 0);
+  window.__go = go;
+  // Swipe left or right to move; a drag that starts on a graphic pans it instead.
+  var st = document.getElementById('stage'), sx = null, sy = null, onGfx = false;
+  st.addEventListener('touchstart', function(e){{ var t = e.touches[0]; sx = t.clientX; sy = t.clientY; onGfx = !!(e.target.closest && e.target.closest('.gfx')); }}, {{passive: true}});
+  st.addEventListener('touchend', function(e){{
+    if (sx === null || onGfx) {{ sx = null; return; }}
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) {{ go(cur + (dx < 0 ? 1 : -1)); window.scrollTo(0, 0); }}
+  }}, {{passive: true}});
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
 }})();
 </script>
@@ -1078,13 +1241,17 @@ def main() -> int:
     if a.history:
         HISTORY_PATH = a.history
     did = False
+    global DATA
     if a.svg_dir:
+        if a.outline and a.outline.exists():
+            DATA = json.loads(a.outline.read_text(encoding='utf-8')).get('graphic_data', {}) or {}
         for p in write_svgs(a.svg_dir):
             print(f'Wrote {p}')
         did = True
     if a.essay:
         essay = json.loads(a.essay.read_text(encoding='utf-8'))
         out = a.out or Path('slides/how-it-was-built-essay.html')
+        DATA = essay.get('graphic_data', {}) or {}
         out.write_text(build_essay(essay, essay.get('links', {})), encoding='utf-8')
         print(f'Wrote {out} ({out.stat().st_size:,} bytes, {len(essay["slides"]) if "slides" in essay else len(essay["sections"])} sections, {essay.get("word_count") or _word_count(essay):,} words)')
         if a.adoc:

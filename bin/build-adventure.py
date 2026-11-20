@@ -432,7 +432,7 @@ footer a{{color:var(--ink-2)}}
 .hint{{font-size:.78rem;color:var(--ink-3);margin-top:8px}}
 [hidden]{{display:none!important}}
 @media (max-width:1000px){{.g3,.g4{{grid-template-columns:1fr 1fr}}}}
-@media (max-width:700px){{.g2,.g3,.g4,.moves{{grid-template-columns:1fr}}.hero h1{{max-width:none}}}}
+@media (max-width:700px){{.g2,.g3,.g4,.moves{{grid-template-columns:1fr}}.hero h1{{max-width:none}}.labcard header>*{{min-width:0}}.labcard header>div{{flex:1 1 0}}.labcard header h3{{overflow-wrap:anywhere}}.tablewrap{{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}}.tablewrap table{{min-width:560px}}img,svg{{max-width:100%;height:auto}}}}
 </style>
 
 <header class="hero"><div class="wrap">
