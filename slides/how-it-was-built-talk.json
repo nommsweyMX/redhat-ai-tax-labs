@@ -59,17 +59,17 @@
    "minutes": 2,
    "eyebrow": "02 · Origins",
    "title": "Twenty-three days, forty-four commits, nine requests in plain language",
-   "lede": "Each round was a request typed into Claude Code on the web, sometimes with a file attached; each landed on main the same day. The last merge was 38 minutes before the event opened.",
+   "lede": "Each round was a request typed into Claude Code on the web, sometimes with a file attached; each landed on main the same day. The last merge was 38 minutes before the event opened; all times here are UTC.",
    "bullets": [
-    "**26 Aug:** the first commit carried a deck, six labs, docs, a Makefile and the CI workflow, generated in one round from the abstract",
+    "**26 Aug:** the first commit, made by the presenter at 17:19 UTC, already carried a deck, six labs, docs, a Makefile and the CI workflow; the builder's account is that it came from one round on the abstract",
     "**2 to 3 Sep:** the current Red Hat AI stack replaced a retired product name; two planning calls were folded in from notes; an audit against the notes found six gaps, fixed the same evening",
     "**8 to 16 Sep:** the data-to-judgement ladder became the theme and a JSON source of truth; English and Spanish; step cards on every lab step; a review transcript mined and its suggestions verified before use",
-    "**17 Sep, 07:51 to 16:22 UTC:** five renders uploaded, Lab 08 end to end, slide 7, Show and Tell faces, the title pyramid; the event opened at 17:00 UTC",
+    "**17 Sep, 13:51 to 16:22 UTC:** five renders uploaded, then Lab 08 end to end, slide 7, Show and Tell faces and the title pyramid in five rounds; eleven commits that day; the event opened at 17:00 UTC",
     "**Nine rounds, not nine days of work:** each round was hours, and most of each hour was verification"
    ],
    "graphic": "timeline",
    "graphic_key": "timeline",
-   "notes": "Walk the axis left to right. The ticks are the 44 commits on main; the dots are the rounds. Point out two things. First, the shape: a burst at the start, a pause, then a steady cadence of one request every day or two, each merged the same day. Second, the morning of the event: five rounds between 07:51 and 16:22 UTC, the last merge 38 minutes before the event opened at 1 PM Eastern. That is not a boast; it is a warning and a method. It was possible because every round ended with the same checks, run by scripts, so the risk of a late change was bounded. The dates and times are from the git log and anyone with a clone can reproduce the picture with bin/mine-history.py.",
+   "notes": "Walk the axis left to right. The ticks are the 44 commits on main; the dots are the rounds. Point out two things. First, the shape: a burst at the start, a pause, then a steady cadence of one request every day or two, each merged the same day. Second, the day of the event: the presenter uploaded the five renders at 13:51 UTC, then five agent rounds landed between 14:14 and 16:22 UTC, eleven commits in all, the last merge 38 minutes before the event opened at 1 PM Eastern. That is not a boast; it is a warning and a method. It was possible because every round ended with the same checks, run by scripts, so the risk of a late change was bounded. The dates and times are from the git log, normalised to UTC because the web commits were stamped in a minus-six zone, and anyone with a clone can reproduce the picture with bin/mine-history.py.",
    "sources": [
     "git log --reverse origin/main",
     "bin/mine-history.py",

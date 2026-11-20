@@ -523,17 +523,20 @@ def g_timeline() -> str:
     x0, x1, ay = 40, 520, 200
     def X(day: float) -> float:
         return x0 + day / 22 * (x1 - x0)
-    # (day, above?, level, lines); levels push alternate labels further from the axis
+    # (sha of the round's first commit, above?, level, lines); the marker sits at that commit's UTC time
+    by_sha = {c['sha']: c for c in history()}
+    def day_of(sha: str, fallback: float) -> float:
+        return _day(by_sha[sha]) if sha in by_sha else fallback
     rounds = [
-        (0.47, True, 0, ['26 Aug · first commit', 'deck, six labs, docs,', 'Makefile, CI, in one round']),
-        (1.38, False, 0, ['27 Aug · demo mode', 'labs play themselves,', 'first graphics']),
-        (7.7, True, 1, ['2 Sep · foundations', 'current AI stack, Lab 07,', 'presenter console']),
-        (8.79, False, 1, ['3 Sep · planning notes', 'folded in; audit finds', 'six gaps, fixed same day']),
-        (13.68, True, 0, ['8 Sep · the ladder', 'ladder-map.json, catalogue', 'page, portraits']),
-        (15.27, False, 0, ['10 Sep · English/Spanish', '453 strings, dark theme,', 'theory panels, glossary']),
-        (19.69, True, 1, ['14 Sep · step cards', 'what, why, the seam,', 'on every lab step']),
-        (21.29, False, 1, ['16 Sep · pyramid icon,', 'pop-outs, the review', 'transcript mined']),
-        (22.33, False, 0, ['17 Sep · event day', 'Lab 08, Show/Tell, the', 'layered title pyramid']),
+        (day_of('5d88c73', 0.72), True, 0, ['26 Aug · first commit', 'deck, six labs, docs,', 'Makefile and CI already in']),
+        (day_of('e87b5ce', 1.38), False, 0, ['27 Aug · demo mode', 'labs play themselves,', 'first graphics']),
+        (day_of('d81a33f', 7.7), True, 1, ['2 Sep · foundations', 'current AI stack, Lab 07,', 'presenter console']),
+        (day_of('ea0730a', 8.79), False, 1, ['3 Sep · planning notes', 'folded in; audit finds', 'six gaps, fixed same day']),
+        (day_of('039564c', 13.68), True, 0, ['8 Sep · the ladder', 'ladder-map.json, catalogue', 'page, portraits']),
+        (day_of('78ac752', 15.27), False, 0, ['10 Sep · English/Spanish', '453 strings, dark theme,', 'theory panels, glossary']),
+        (day_of('1a25b61', 19.69), True, 1, ['14 Sep · step cards', 'what, why, the seam,', 'on every lab step']),
+        (day_of('d2cb6d8', 21.29), False, 1, ['16 Sep · pyramid icon,', 'pop-outs, the review', 'transcript mined']),
+        (day_of('7dd52f2', 22.6), False, 0, ['17 Sep · event day', 'Lab 08, Show/Tell, the', 'layered title pyramid']),
     ]
     out = ['<svg viewBox="0 0 640 400" role="img" aria-label="A timeline of the kit from 26 August to 17 September 2026: 44 commits on main as ticks, nine rounds labelled by date, the event marker at 1 PM Eastern on 17 September with the last merge 38 minutes before, and the November briefing after a break in the axis.">']
     out.append(f'<line x1="{x0 - 12}" y1="{ay}" x2="{x1 + 14}" y2="{ay}" stroke="var(--border-strong)" stroke-width="1.5"/>')
@@ -566,7 +569,7 @@ def g_timeline() -> str:
     out.append(f'<circle cx="590" cy="{ay}" r="5.5" fill="var(--steel)" stroke="var(--surface)" stroke-width="2"/>')
     out.append(f'<line x1="590" y1="{ay}" x2="590" y2="{ay - 100}" stroke="var(--steel)" stroke-width="1" opacity=".55"/>')
     out.append(_label(626, ay - 142, ['this briefing', '39-agent research,', 'a deck, a handout,', 'this talk, an essay'], 'end'))
-    out.append('<text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">44 commits on main, each a tick · nine rounds, each a request in plain language · dates and times from the git log, UTC</text>')
+    out.append('<text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">44 commits on main, each a tick · nine rounds, each a request in plain language · times from the git log, normalised to UTC</text>')
     out.append('</svg>')
     return '\n'.join(out)
 

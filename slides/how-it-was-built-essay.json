@@ -1,0 +1,165 @@
+{
+ "_comment": "The essay-length companion to slides/how-it-was-built-talk.json. Drafted from a fact pack of session notes and the mined git history, judged, fact-checked and corrected; bin/build-brief.py renders it to slides/how-it-was-built-essay.html and docs/96-how-it-was-built-essay.adoc. Edit here, then run make brief.",
+ "title": "Five rounds before one o'clock: how the IRS AI kit was built, and what the agent was doing",
+ "standfirst": "Between 26 August and 17 September 2026 one repository grew from nine slides and six labs into an eighteen-slide bilingual deck, eight labs, a presenter console and a published site, in 44 commits, eleven of them on the day of the event and the last at 16:22 UTC, 38 minutes before the start. Most of the typing was done by an agent in a cloud container while the builder sent requests from a laptop and a phone. This is how it started and grew, where every part of it ran, what the agent did on an ordinary round, and what the method teaches.",
+ "word_count": 2997,
+ "links": {
+  "talk": "how-it-was-built-talk.html",
+  "brief": "how-it-was-built.html",
+  "handout": "docs/#_how_the_irs_ai_kit_was_built",
+  "repo": "https://github.com/nommsweyMX/redhat-ai-tax-labs",
+  "talk_minutes": 28
+ },
+ "sections": [
+  {
+   "id": "five_rounds_before_one",
+   "heading": "Five rounds before one o'clock",
+   "graphic": "timeline",
+   "graphic_caption": "The 44 commits on main, 26 August to 17 September 2026, grouped into the rounds that produced them; the final eleven, one upload and five agent rounds with their merges, sit on the day of the event, and the November briefing follows a break in the axis.",
+   "pullquote": "The last merge landed 38 minutes before the start.",
+   "paragraphs": [
+    "On 17 September 2026, the day of the IRS event, the repository behind it was still moving. The event, \"AI foundations for intelligent tax administration\", was due to start at 1:00 PM Eastern, 17:00 UTC, with about 56 registrants from the IRS and adjacent agencies, most of whom had never worked with Red Hat.",
+    "The first commit of the day is not the agent's: the presenter uploading five illustrated graphics at 13:51 UTC, 07:51 on the uploader's own clock, under the message \"Add files via upload\", 23 minutes before Lab 08 merged. Everything after that is the agent's work, each commit authored Claude with a session trailer, and each round merged to main before the next began.",
+    "At 14:14 UTC Lab 08 landed: one loop end to end, from mainframe logs through a risk model, a Lightspeed draft, a human merge and Event-Driven Ansible to an assistant that probes servers. At 14:48 slide 7 was rebuilt around eight lifecycle stations. At 15:13 every slide got a Show face and a Tell face, and the presenter window opened on the P key. At 16:22 the title slide became a layered pyramid, 38 minutes before the start.",
+    "That is the ending. The beginning is 26 August."
+   ]
+  },
+  {
+   "id": "the_ask",
+   "heading": "The ask: an abstract and five standing rules",
+   "graphic": "brief",
+   "graphic_caption": "The original ask: five outcomes from the abstract, one wish about the ending, and the standing rules the builder recalls setting.",
+   "pullquote": "Every claim on a slide had to be something the labs could run in a shell.",
+   "paragraphs": [
+    "The brief was the abstract for a one-hour virtual session hosted by Carahsoft, with Four Inc. as federal distributor and Red Hat presenting through Brad Scalio and Jon Keam. It named five outcomes: modernise operations, serve a model inside the boundary, ground answers in agency guidance, prove it to the security office, and survive filing season. It also carried a wish: end the hour hands-on rather than with a thank-you slide.",
+    "The builder recalls setting five standing rules. Everything public and open source. No model names in the files. Every claim on a slide had to be something the labs could run in a shell. The labs had to run on a personal laptop with nothing installed, simulate mode, and against a real cluster when one existed, live mode. And a presenter console the audience never sees.",
+    "The first commit landed on 26 August at 17:19 UTC, 11:19 on the committer's own clock: nine slides in one 84 KB HTML file, six labs, the docs, a Makefile and a CI workflow, 40 files, which the builder recalls producing in one round from the abstract. Two small commits followed within three minutes, fixing line endings, script permissions and the clone URL."
+   ]
+  },
+  {
+   "id": "from_nine_slides_to_eighteen",
+   "heading": "From nine slides to eighteen in three weeks",
+   "graphic": "growth",
+   "graphic_caption": "Deck size, slide count, lab count, Spanish strings, inline graphics and console sections per commit on main; the two steep steps are the language toggle on 10 September and the graphics on 16 September.",
+   "pullquote": "84 KB to 718 KB; 9 to 18 slides; 0 to 575 Spanish strings; in 22 days.",
+   "paragraphs": [
+    "The 44 commits cluster on ten days. 27 August brought demo mode, in which the labs play themselves, and the first graphics. 2 September was the biggest day for the deck, 9 slides to 17: why-it-matters slides and a slide for Lab 07 took it to 13; then a retired product name was replaced across the kit by the current Red Hat AI stack, AI Inference Server, SDG Hub and Training Hub, Lab 07's own directory landed, the deck reached 17 slides, and the presenter console appeared with 24 sections.",
+    "3 September reworked the deck and console from the planning-call notes of 2 and 3 September; then the agent audited the deck against those notes, found six gaps, and fixed them in a commit stamped 24 minutes after the rework. 8 September gave the kit its spine: the data-to-judgement ladder applied to everything, with ladder-map.json as the source of truth for rungs, chapters and technology mappings, then a rainbow rung palette and the choose-your-own-adventure catalogue page, four rounds in under two hours.",
+    "10 September added the English and Spanish toggle with 453 translated strings, a dark theme, theory panels and a glossary, 86 KB in one commit. 14 September put a pop-up step card on every lab step: what, why it matters, the seam one platform removes. 16 September put the pyramid ladder icon on every slide and wired five zoomable graphic pop-outs with vector fallbacks, ready for the illustrated renders uploaded the next morning, after the 15 September review transcript had been mined and its suggestions verified. The deck nearly doubled, from 344 KB to 645 KB.",
+    "In one line, 26 August to 17 September: 84 KB to 718 KB; 9 to 18 slides; 6 to 8 labs; 0 to 575 Spanish strings; 1 to 19 inline SVG graphics; 0 to 26 presenter-console sections; 40 to 62 files.",
+    "Those numbers were not typed in: a script walks every commit on main and reads the tree at each one, so anyone with a clone can regenerate them. Hand-typed numbers drift; generated ones do not."
+   ]
+  },
+  {
+   "id": "six_faces_one_owner",
+   "heading": "Six faces, one owner per fact, one pipeline",
+   "graphic": "pipeline",
+   "graphic_caption": "Sources of truth on the left, generators in the middle, the three Actions jobs on the right, and GitHub Pages at the end; fixes flow back to a source file, never to an output.",
+   "pullquote": "A broken lab blocks the site.",
+   "paragraphs": [
+    "The rounds produced not one deck but six faces of the same hour, all from one MIT-licensed repository: the interactive deck, 18 slides in one HTML file with no framework and no build step; the eight labs, 43 real commands with their expected output as the acceptance criterion; the presenter console, 26 sections; a docs book rendered to HTML and PDF; a reveal.js cut and an 11-slide native PowerPoint drawn from code; and the adventure catalogue, 57 items in six reading paths by job.",
+    "Six faces stay consistent only with one owner per fact. ladder-map.json owns the rungs, the chapters and 23 technology mappings. Each lab's run.sh owns its commands and expected output. The deck's own tokens own the palette and pyramid geometry that the PowerPoint builder copies. Generators read those files; the catalogue builder stops on an unknown inventory id, and the PowerPoint builder keys its rungs by the deck's own titles. Two surfaces were still hand-copied, the deck's own lab table and the docs technology table, and that is where the drift came from.",
+    "The pipeline is three GitHub Actions jobs. Test checks shell and Python syntax and runs every lab in simulate mode. Build needs test, runs in the official Asciidoctor container, and renders the docs, the reveal.js slides and the PDF. Publish needs build and deploys to GitHub Pages only on a push to main. A broken lab blocks the site. The agent's job was to run this loop, not to replace it."
+   ]
+  },
+  {
+   "id": "where_everything_ran",
+   "heading": "Where everything ran: eight places, none of them the same machine",
+   "graphic": "where",
+   "graphic_caption": "The map of eight places: laptop and phone at the top, the ephemeral container and the model endpoint in the middle, GitHub, its runners and Pages below, and the audience's browser and the lab targets at the edges.",
+   "pullquote": "The container ran the tools. The endpoint did the thinking. The two are different places.",
+   "paragraphs": [
+    "What follows is the builder's account; the repository does not record it. The person sat at a laptop, and sometimes a phone, with Claude Code on the web at claude.ai/code, reviewing each round on a hosted copy of the deck republished to claude.ai, readable on any device. Requests went in as plain language; meeting notes, a review transcript, a presenter script and five graphics went in as uploads.",
+    "Each session ran in an ephemeral Linux container managed by Anthropic, with the repository cloned fresh into it. Outbound network went through an allow-listed proxy: GitHub and Google Fonts were reachable, the published GitHub Pages site and google.com were not. A scratch directory held scripts and screenshots and was not kept between containers.",
+    "The model itself ran at Anthropic's API endpoint, not in the container. This is the sentence to hold on to. Every excerpt, command output and screenshot the agent looked at was sent there as context. The container ran the tools. The endpoint did the thinking. The two are different places, and in this build the boundary was Anthropic's: its endpoint, and an allow-list the builder did not control.",
+    "Inside the container the tools were ordinary: a shell with bash, git, Python and node; file read, edit and search; Playwright with Chromium; LibreOffice and pdftoppm to render the PowerPoint; asciidoctor, until a container reset removed it. Two MCP servers were attached: a GitHub server for checking Actions runs, and the Claude Code Remote server.",
+    "GitHub held the repository and ran the Actions workflow on ubuntu-latest runners plus the asciidoctor container. The audience's browsers loaded the deck from Pages; the presenter's second window loaded the console from the same site. The labs ran on an attendee's own laptop in simulate mode, or in live mode against OpenShift AI, RHEL AI, Ansible Automation Platform and a pgvector database. Laptop and phone, container, endpoint, GitHub, its runners, Pages, the audience's browsers, the lab targets: eight places."
+   ]
+  },
+  {
+   "id": "an_ordinary_round",
+   "heading": "An ordinary round, step by step",
+   "graphic": "trace",
+   "graphic_caption": "One round's tool calls in order, from the grep that finds the slide to the artifact republish; the shaded calls are the ones that leave a trace in git.",
+   "pullquote": "The commits you can see are three steps near the end.",
+   "paragraphs": [
+    "The builder recalls a typical round. The request arrives as a sentence or two. The agent does not read the deck whole: by mid-September it was a 650 to 720 KB single file, and reading it all would have filled the model's window with unrelated text. Instead it greps for the markers around the slide or lab in question and reads excerpts of 40 to 80 lines.",
+    "Next it writes a patch: not a hand edit but a Python script in the scratch directory, where every replacement asserts that its search string matches exactly once; zero matches or two, and the script stops instead of editing the wrong place. Then it runs it.",
+    "Then it looks. A Playwright script opens the deck in headless Chromium, screenshots the affected slides, by the end in English and Spanish and in both Show and Tell faces, and measures the text extents against their boxes. The agent reads the screenshots as images; if a Spanish string overflows its card, it fixes the source and runs again. Then the overflow check on every slide, every lab in simulate mode, and the syntax checks.",
+    "Then it ships: a commit on the branch whose message names the notes or review it worked from, with a trailer carrying the session link; a merge to main; a push. The sandbox cannot reach the published site, so it watches the Pages run through the GitHub API, and when the run is green it republishes the hosted artifact so the presenter can review it on any device.",
+    "The whole round: grep, excerpt, patch, render, measure, look, fix, test, commit, merge, push, watch, publish. Each step is a tool call the model asked for and the harness ran, dozens per round."
+   ]
+  },
+  {
+   "id": "the_loop_underneath",
+   "heading": "The loop underneath: the model proposes, the harness decides",
+   "graphic": "agent-loop",
+   "graphic_caption": "The agentic turn: assemble context, call the endpoint, gate the tool call, run it, append the result, repeat; the permission classifier sits on the arrow where this session was hurt.",
+   "pullquote": "The model never runs anything itself. The harness does.",
+   "paragraphs": [
+    "Strip the product names away and what remains is a loop. The harness assembles a request, the system prompt, the tool descriptions and the conversation so far, and sends it to the model endpoint. The model answers with text or with a tool call: read this file, run this command, start a subagent. The model never runs anything itself. The harness does, in the container.",
+    "Before a tool call runs, a gate decides: allow, ask and deny rules and pre-tool hooks that the binary enforces, then the permission mode, which may ask a person, consult a classifier model, or bypass. The result is appended and the whole transcript goes back to the model, often dozens of times per turn.",
+    "This session ran in auto permission mode, where a classifier model judged each shell or git action. The builder recalls it refusing an ordinary push and a force-with-lease as destructive, then allowing the same push later. Anthropic's own March 2026 post, as read on 19 November, reports a 17% false-negative rate for it. Account-level actions, such as creating a public repository, were beyond the agent entirely.",
+    "The hosted conveniences had their own control planes too: the artifact service refused to republish the deck until the live version had been read in full.",
+    "Deny rules, hooks the binary enforces and a sandbox are the parts the model cannot talk its way around; a classifier is a model, and can be wrong in both directions."
+   ]
+  },
+  {
+   "id": "what_the_model_sees",
+   "heading": "What the model sees, and what it forgets",
+   "graphic": "context",
+   "graphic_caption": "What sits in the window on one call: system prompt, tool descriptions, skills, the compacted conversation, and the excerpts, outputs and screenshots added this turn.",
+   "pullquote": "The long commit messages are not decoration. They are the memory.",
+   "paragraphs": [
+    "The model does not see the repository. It sees a window: the system prompt, the tool descriptions, any matching skills, and the conversation so far, with every excerpt, command output and screenshot added to it. This kit had no CLAUDE.md, so the standing rules lived in the conversation.",
+    "Windows fill up. The builder recalls the conversation being compacted twice: summarised by the model to fit. A commit message that says \"Fix six gaps found auditing the deck against the meeting notes\" is memory the next container can read; a conversation summary keeps the gist and drops the detail.",
+    "Two things kept the cost down: prompt caching made the repeated prefix cheap, and reading excerpts kept the whole deck out of the window."
+   ]
+  },
+  {
+   "id": "many_hands",
+   "heading": "Many hands: subagents and workflows",
+   "graphic": "fanout",
+   "graphic_caption": "The 39-agent research workflow: four researchers fan out, 33 verifiers each take one claim, a synthesiser and a critic close; 31 verdicts unclear, 2 refuted.",
+   "pullquote": "A suggestion that survived had been attacked three times by independent agents.",
+   "paragraphs": [
+    "A subagent is the same loop with a fresh context window and a narrower tool list, returning a summary. A workflow is a script that arranges many such agents in stages. The builder's account has both.",
+    "The step cards are the clean subagent example. Every lab step needed a card with three parts, and the writing is independent per lab, so the builder recalls subagents running in parallel, one per lab, with a merge script assembling their output; the cards were committed on 14 September, when the kit had seven labs. The merge script's word budget refused any card that ran long.",
+    "Other work needs an adversary. When the 15 September review transcript arrived, a workflow mined it into candidate suggestions and set three independent refuters on each. Refuted suggestions never shipped.",
+    "This briefing used the same shape at a larger scale. On 19 November a research workflow ran 39 agents: 4 researchers in parallel, 33 verifiers, 1 synthesiser and 1 completeness critic, in 301 tool calls, 36.7 minutes and 1.71 million tokens; the deck, handout, talk and this essay followed over 19 and 20 November. Each verifier took one high-stakes claim and was told to read the source page. Thirty-one came back unclear, because the page was unreachable from the sandbox, redirected across hosts, or silent on the point; two came back refuted; and only sentences confirmed from page text reached the federal slides, while the rest sit in a verify-before-quoting appendix.",
+    "Thirty-one unclear out of 33 is not a failure of the verifiers. Most of it is the network the session had, and the workflow reported it rather than hiding it. The verdict table, with its as-of date, is the deliverable."
+   ]
+  },
+  {
+   "id": "what_hurt",
+   "heading": "What hurt, and what each pain taught",
+   "graphic": "hurt",
+   "graphic_caption": "Six pains and six lessons: limits, compaction, the classifier, the cleared scratch space, egress, and account-level actions.",
+   "pullquote": "Commit the harness, not just the deliverable.",
+   "paragraphs": [
+    "The builder lists six things that hurt, each with a lesson.",
+    "Usage limits hit mid-task and killed agents and a workflow; their file edits had landed, so verification was re-run by hand. Lesson: checkpoint early, and make every agent's output a file rather than a message.",
+    "Compaction, twice. Lesson: the repository and the scratch files are the memory, not the conversation.",
+    "The permission classifier refused ordinary pushes it later allowed. Lesson: a non-deterministic gate needs a deterministic fallback, a person with the command and the reason.",
+    "The scratch directory was cleared between containers; two months later the fonts, the verification scripts and the patch scripts were gone. Lesson: commit the verification harness, not just the deliverable.",
+    "Egress policy blocked the published site, so deploys were verified through the GitHub API. Lesson: design verification around the network you have.",
+    "The GitHub integration could not create the public repository the presenter asked for. Lesson: people create, agents prepare.",
+    "Only one of these, the classifier, is a model problem; the rest are properties of where the agent ran and what it was allowed to keep. And what the repository can prove is thin: commit trailers with a session link, a branch named claude/, two pull requests merged on 2 September, commit messages naming the notes and the review. No CLAUDE.md, and, until this briefing's build-brief.py, no committed render or coverage script. The discipline lived in the conversation and the scratch space."
+   ]
+  },
+  {
+   "id": "what_to_copy_and_the_rule",
+   "heading": "What to copy, and the rule",
+   "graphic": "pyramid",
+   "graphic_caption": "The rule as the kit draws it: data, information, knowledge, judgement, read as solve a problem someone has, keep judgement human, right tool at the right time.",
+   "pullquote": "The model proposed, the harness decided, and the people kept the judgement.",
+   "paragraphs": [
+    "None of this needs the tools we used. One repository, one Makefile, CI that runs the labs before it builds anything and publishes only from main. Labs as step scripts with the expected output as the acceptance criterion, simulate by default, live on demand. One owner per fact, generators that fail on an unknown id, a headless browser in the loop. And what we did not do: commit the verification scripts beside the deliverable, and write a CLAUDE.md.",
+    "On the agent side: parallel writers, independent refuters, and quote only what came back confirmed. Deny rules and hooks in front of anything that pushes, deletes or spends, before any classifier; a classifier where a deny rule would do is a tool looking for a mission. Checkpoint to git before limits or compaction hit.",
+    "Before anyone buys anything, map the customer's data category to a model path. On the Anthropic pages read on 19 November 2026, the commercial API and the claude.ai surfaces, cloud sessions and artifacts among them, were not authorised on any page read; Bedrock in AWS GovCloud had Claude models approved for FedRAMP High and DoD IL4/5 workloads, with AWS authorising each model separately and the June 2025 announcement naming 2025 models, so pin the model; Vertex AI with Assured Workloads FedRAMP High and IL2; and Claude for Government, generally available on 30 September 2026 through a FedRAMP High authorised environment. Anthropic's government page carried a supply-chain-risk note that the designation applies to the use of Claude as a direct part of DoW contracts and subcontracts, citing a September 2026 court ruling. Re-check all of it before repeating it.",
+    "Then the rule. The kit's title slide is a pyramid: data, information, knowledge, judgement. Read it as three tests. Solve a problem someone has. Keep judgement human: Lab 05 escalates a provenance mismatch instead of fixing it, and Lab 08 ships a Lightspeed draft with two human review edits visible in the file. Right tool, right time: a frontier model in a commercial cloud built this public content, with a classifier gating each action and a person reviewing the published deck after every round; an open model inside the enclave is the answer for the customer's data.",
+    "Three weeks, 44 commits, five rounds in the hours before the event, and the whole time the model proposed and the harness decided. The people kept the judgement. That is the part to copy first."
+   ]
+  }
+ ]
+}
