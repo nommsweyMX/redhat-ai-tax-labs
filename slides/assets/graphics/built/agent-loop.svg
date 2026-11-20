@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="One agentic turn: a prompt and context go to the model; the model either answers or calls a tool; a permission gate sits in front of every tool call; the tool result returns to the model; the loop repeats until the model answers. Hooks observe before and after each tool call."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<defs><marker id="al" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<rect x="20" y="30" width="190" height="78" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="115" y="60" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)">Prompt + context</text>
+<text x="115" y="82" text-anchor="middle" font-size="11" fill="var(--ink-2)">CLAUDE.md · files · skills · history</text>
+<rect x="250" y="20" width="200" height="98" rx="12" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.6"/>
+<text x="350" y="56" text-anchor="middle" font-size="16" font-weight="900" fill="var(--ink)">Model</text>
+<text x="350" y="78" text-anchor="middle" font-size="11" fill="var(--ink-2)">answer, or ask for a tool</text>
+<text x="350" y="96" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">Anthropic API · Bedrock · Vertex · Foundry</text>
+<rect x="490" y="40" width="130" height="58" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="555" y="64" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">Final answer</text>
+<text x="555" y="84" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">text, files, a commit</text>
+<line x1="210" y1="69" x2="246" y2="69" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<line x1="450" y1="69" x2="486" y2="69" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<path d="M350 118 V150" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<rect x="240" y="154" width="220" height="56" rx="28" fill="var(--violet-wash)" stroke="var(--violet)" stroke-width="1.6"/>
+<text x="350" y="178" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">Permission gate</text>
+<text x="350" y="196" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">mode · allow rules · classifier · a person</text>
+<path d="M350 210 V242" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<rect x="190" y="246" width="320" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4"/>
+<text x="350" y="272" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)">Tool call</text>
+<text x="350" y="292" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">Read · Edit · Bash · Grep · MCP server · subagent · browser</text>
+<text x="350" y="308" text-anchor="middle" font-size="10" fill="var(--ink-3)">hooks run before and after; results are untrusted data</text>
+<path d="M190 281 H120 V118 H250" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-dasharray="6 5" marker-end="url(#al)"/>
+<text x="110" y="200" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent-ink)" transform="rotate(-90 110 200)">tool result back to the model</text>
+<rect x="20" y="340" width="600" height="44" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="320" y="367" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink)">The loop repeats until the model stops asking for tools. Every arrow is a seam you can log, gate or cut.</text>
+</svg>

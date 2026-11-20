@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How the IRS AI kit was built, and what the AI was doing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800;900&family=Red+Hat+Mono:wght@400;500;600;700&family=Red+Hat+Text:wght@400;500;700&display=swap">
+<style>
+:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}
+:root[data-theme="dark"]{--ground:#141010;--surface:#1E1817;--surface-2:#271F1D;--border:#382B28;--border-strong:#4E3C38;--ink:#F1E9E7;--ink-2:#C4B1AC;--ink-3:#A08E88;--accent:#FF5747;--accent-ink:#FF7A6B;--accent-wash:#3A1613;--steel:#6FBCD8;--steel-wash:#132A34;--amber:#E5AB4B;--amber-wash:#33260F;--good:#4FC1A0;--good-wash:#12352A;--violet:#A78BDA;--violet-wash:#251438;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 28px -14px rgba(0,0,0,.8)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Red Hat Text","Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+h1,h2,h3,h4{font-family:"Red Hat Display","Red Hat Text",system-ui,sans-serif;margin:0;line-height:1.08;letter-spacing:-.018em;text-wrap:balance}
+p{margin:0}a{color:var(--accent-ink)}
+.mono,code,kbd{font-family:"Red Hat Mono",ui-monospace,monospace}
+.eyebrow{font-family:"Red Hat Mono",ui-monospace,monospace;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-3)}
+.wrap{flex:1;display:flex;flex-direction:column;padding:22px 28px 12px;gap:12px;max-width:1260px;margin:0 auto;width:100%}
+.stage{width:100%;aspect-ratio:16/9;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;padding:clamp(26px,3.2vw,50px);display:none;flex-direction:column;overflow:hidden}
+.slide[data-active="true"]{display:flex}
+.rule{position:absolute;left:0;top:0;height:4px;width:100%;background:var(--accent)}
+.head{display:flex;flex-direction:column;gap:7px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.head .meta{display:flex;align-items:center;gap:12px}
+.head .min{font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;color:var(--accent-ink);border:1px solid var(--accent);border-radius:100px;padding:1px 8px}
+.slide h2{font-size:clamp(1.35rem,2.3vw,2.2rem);font-weight:800;max-width:30ch}
+.lede{color:var(--ink-2);font-size:clamp(.88rem,1vw,1.05rem);max-width:84ch;margin-top:2px}
+.body{flex:1;min-height:0;padding-top:14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(14px,1.8vw,30px);align-items:stretch}
+.body.nogfx{grid-template-columns:1fr}
+.body.wide{grid-template-columns:minmax(0,.85fr) minmax(0,1.5fr)}
+ul.pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+ul.pts li{position:relative;padding-left:18px;font-size:clamp(.8rem,.92vw,.98rem);color:var(--ink-2);line-height:1.42}
+ul.pts li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:2px;background:var(--accent)}
+ul.pts li b{color:var(--ink)}
+.gfx{min-width:0;min-height:0;display:flex;align-items:center;justify-content:center}
+.gfx svg{width:100%;height:auto;max-height:100%;display:block}
+.gfx svg text{font-family:"Red Hat Text",system-ui,sans-serif}
+.slidenum{position:absolute;right:clamp(26px,3.2vw,50px);top:calc(clamp(26px,3.2vw,50px) + 2px);font-family:"Red Hat Mono",monospace;font-size:.62rem;color:var(--ink-3);letter-spacing:.06em}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:"Red Hat Mono",monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:1px solid;border-radius:100px;padding:2px 9px 2px 7px;white-space:nowrap;line-height:1.5}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.red{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-wash)}
+.chip.green{color:var(--good);border-color:var(--good);background:var(--good-wash)}
+.chip.violet{color:var(--violet);border-color:var(--violet);background:var(--violet-wash)}
+.chip.steel{color:var(--steel);border-color:var(--steel);background:var(--steel-wash)}
+.title-slide{justify-content:center;background:radial-gradient(120% 90% at 88% 8%,var(--accent-wash) 0%,transparent 56%)}
+.title-slide h2{font-size:clamp(1.6rem,3.1vw,2.8rem);font-weight:900;letter-spacing:-.03em;max-width:22ch}
+.title-slide .kicker{color:var(--ink-2);font-size:clamp(.9rem,1.1vw,1.05rem);max-width:70ch;margin-top:12px}
+.title-slide .hosts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.title-slide .host{border:1px solid var(--border-strong);border-radius:100px;padding:5px 14px;font-family:"Red Hat Mono",monospace;font-size:.72rem;font-weight:600;color:var(--ink-2)}
+.title-slide .host:first-child{border-color:var(--accent);color:var(--accent-ink)}
+.agenda{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 18px;margin-top:18px;max-width:1000px}
+.agenda div{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:baseline;font-size:.78rem;color:var(--ink-2);border-bottom:1px solid var(--border);padding:4px 0}
+.agenda i{font-style:normal;font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--accent)}
+.agenda span.m{font-family:"Red Hat Mono",monospace;font-size:.64rem;color:var(--ink-3)}
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.checklist div{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface-2);font-size:.84rem;color:var(--ink-2);display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start}
+.checklist div::before{content:"✓";font-family:"Red Hat Mono",monospace;font-weight:700;color:var(--good)}
+.notes{border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:6px;background:var(--surface);padding:12px 16px;font-size:.86rem;color:var(--ink-2);max-height:28vh;overflow:auto}
+.notes b{font-family:"Red Hat Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:5px}
+.notes .src{display:block;margin-top:8px;font-family:"Red Hat Mono",monospace;font-size:.66rem;color:var(--ink-3);word-break:break-all}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--ink-3)}
+.bar .grp{display:flex;gap:6px;align-items:center}
+button.ghost{appearance:none;background:transparent;border:1px solid var(--border);color:var(--ink-2);border-radius:5px;padding:5px 9px;font-family:"Red Hat Mono",monospace;font-size:.68rem;cursor:pointer}
+button.ghost:hover{border-color:var(--border-strong);color:var(--ink)}
+kbd{border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;padding:1px 5px;font-size:.66rem;color:var(--ink-2);background:var(--surface)}
+.stage:fullscreen{border:0;border-radius:0}
+.stage::backdrop{background:#FBF9F8}
+:root[data-theme="dark"] .stage::backdrop{background:#141010}
+.verify{margin-top:10px;border:1px dashed var(--border-strong);border-radius:8px;padding:8px 12px;font-size:.76rem;color:var(--ink-3);background:var(--surface-2)}
+.verify b{color:var(--amber);font-family:"Red Hat Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:900px){.body,.body.wide{grid-template-columns:1fr}.gfx{display:none}.agenda,.checklist{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage" id="stage" tabindex="0">
+<article class="slide title-slide" data-title="How the IRS AI kit was built, and what the AI was doing" data-notes="About twenty-eight minutes: eighteen slides and an appendix you do not present. The first third is the story: the ask, the rounds, the growth, the machines it ran on. The middle third is the machinery: one round traced call by call, the context window, the fan-out of subagents and workflows, and the gates. The last third is the briefing material: the toolchain, the architecture, the federal fit, the gaps and the rule. Everything on the federal slides is limited to what was read on an Anthropic page on 19 November 2026; the appendix lists what could not be read. The companion essay carries the long form and the table of numbers behind the growth charts." data-sources="https://nommsweymx.github.io/redhat-ai-tax-labs/ https://github.com/nommsweyMX/redhat-ai-tax-labs">
+          <div class="rule"></div>
+          <span class="eyebrow">Red Hat · account solution architects · how it was built · November 2026</span>
+          <h2>How the IRS AI kit was built, and what the AI was doing</h2>
+          <p class="kicker">Twenty-three days, forty-four commits, nine requests in plain language. Where it ran, what the agent did in the background, what the tools were, and where this way of working fits and fails for federal customers.</p>
+          <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
+          <div class="agenda"><div><i>01</i><span>A one-hour event, an abstract, and six rules set on day one</span><span class="m">1.5 min</span></div><div><i>02</i><span>Twenty-three days, forty-four commits, nine requests in plain language</span><span class="m">2 min</span></div><div><i>03</i><span>What the rounds added, read from the git tree</span><span class="m">1.5 min</span></div><div><i>04</i><span>One repository, six faces of the same hour</span><span class="m">1 min</span></div><div><i>05</i><span>Six places, one of them ephemeral, none of them yours</span><span class="m">2 min</span></div><div><i>06</i><span>Every tool in the chain is open source, and most of it is boring on purpose</span><span class="m">1.5 min</span></div><div><i>07</i><span>Messy inputs, one owner per fact, generate the rest, measure every round</span><span class="m">1.5 min</span></div><div><i>08</i><span>The model proposes; the harness decides, executes and records</span><span class="m">1.5 min</span></div><div><i>09</i><span>One ordinary round, call by call</span><span class="m">2 min</span></div><div><i>10</i><span>The context window is the whole world, and it is small</span><span class="m">1.5 min</span></div><div><i>11</i><span>Subagents and workflows: many hands, one rule for what ships</span><span class="m">1.5 min</span></div><div><i>12</i><span>Gates, limits and what hurt</span><span class="m">1.5 min</span></div><div><i>13</i><span>Three layers enforce; the rest advise, extend or host</span><span class="m">1.5 min</span></div><div><i>14</i><span>The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary</span><span class="m">1.5 min</span></div><div><i>15</i><span>Fed Civ and DoD paths, limited to what Anthropic&#x27;s own pages said on 19 November 2026</span><span class="m">1.5 min</span></div><div><i>16</i><span>Eight gaps for Fed Civ and DoD, and a mitigation for each</span><span class="m">1.5 min</span></div><div><i>17</i><span>Solve a problem someone has; keep judgement human; right tool, right time</span><span class="m">1 min</span></div><div><i>18</i><span>Ten things to lift, each an afternoon&#x27;s work</span><span class="m">1 min</span></div></div>
+          <span class="slidenum">01 / 20</span>
+        </article>
+<article class="slide" data-title="A one-hour event, an abstract, and six rules set on day one" data-notes="Start with the ask because everything that follows was shaped by it. The brief was one abstract and one wish. The abstract gave five outcomes; the wish was to end the hour hands-on rather than with a thank-you slide. The rules were the builder&#x27;s and they did the real work: public and open source meant nothing sensitive could ever enter the session; no model names meant the kit would outlive any vendor&#x27;s release; every claim must run meant the labs disciplined the slides rather than the other way round; laptop first meant the labs had to carry their own expected output; and the console rule meant two windows, one of which the audience never sees. Say plainly that the rules were written by a person before the first prompt, and that this is the part of the method that cannot be delegated." data-sources="docs/00-event-brief.adoc session notes: standing rules">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">01 · The ask</span><span class="min">1.5 min</span></div>
+            <h2>A one-hour event, an abstract, and six rules set on day one</h2>
+            <p class="lede">The brief was thin on purpose: five outcomes from the event abstract and a wish to end hands-on. The rules came from the builder and never relaxed.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>The event:</b> 17 September 2026, 1:00 to 2:00 PM Eastern, virtual; Carahsoft hosting, Four Inc. distributing, Red Hat presenting; about 56 registrants from the IRS and adjacent agencies</li>
+<li><b>The abstract named five outcomes:</b> modernize operations, serve a model inside the boundary, ground answers in agency guidance, prove it to the security office, survive filing season</li>
+<li><b>The rules:</b> everything public and open source; no model names in the files; every claim on a slide is a command a lab runs; laptop first, cluster when real; a console the audience never sees</li>
+<li><b>Solve a problem someone has.</b> Every lab started from a queue, a pager or an accreditation question; nothing else got in</li>
+<li><b>Why it matters for the method:</b> a thin brief with hard rules is what an agent can work from, and the rules are the part a person must write</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The original ask: a one-hour virtual event on 17 September 2026 for about 56 IRS and adjacent-agency registrants, hosted by Carahsoft with Four Inc. and presented by Red Hat; an abstract naming five outcomes; and six standing rules the builder set on day one.">
+<rect x="14" y="14" width="300" height="196" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="30" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">THE EVENT</text>
+<text x="30" y="62.0" text-anchor="start" font-size="15" font-weight="800" fill="var(--ink)">AI foundations for intelligent</text><text x="30" y="81.0" text-anchor="start" font-size="15" font-weight="800" fill="var(--ink)">tax administration</text>
+<text x="30" y="108.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">17 September 2026 · 1:00 to 2:00 PM Eastern · virtual</text><text x="30" y="124.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">Carahsoft hosting · Four Inc. distributing</text><text x="30" y="140.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">Red Hat presenting: two solution architects</text><text x="30" y="156.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">about 56 registrants, IRS and adjacent agencies,</text><text x="30" y="172.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">most of them new to Red Hat</text>
+<text x="30" y="198" font-size="10" font-style="italic" fill="var(--ink-3)">the brief was one abstract and one wish</text>
+<rect x="330" y="14" width="296" height="196" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.3"/>
+<text x="346" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">FIVE OUTCOMES IN THE ABSTRACT</text>
+<rect x="346" y="52" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="68" font-size="10.5" font-weight="700" fill="var(--accent-ink)">01</text>
+<text x="382" y="68" font-size="11" font-weight="600" fill="var(--ink)">Modernize operations</text>
+<rect x="346" y="82" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="98" font-size="10.5" font-weight="700" fill="var(--accent-ink)">02</text>
+<text x="382" y="98" font-size="11" font-weight="600" fill="var(--ink)">Serve a model inside the boundary</text>
+<rect x="346" y="112" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="128" font-size="10.5" font-weight="700" fill="var(--accent-ink)">03</text>
+<text x="382" y="128" font-size="11" font-weight="600" fill="var(--ink)">Ground answers in agency guidance</text>
+<rect x="346" y="142" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="158" font-size="10.5" font-weight="700" fill="var(--accent-ink)">04</text>
+<text x="382" y="158" font-size="11" font-weight="600" fill="var(--ink)">Prove it to the security office</text>
+<rect x="346" y="172" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="188" font-size="10.5" font-weight="700" fill="var(--accent-ink)">05</text>
+<text x="382" y="188" font-size="11" font-weight="600" fill="var(--ink)">Survive filing season</text>
+<rect x="14" y="224" width="612" height="162" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="30" y="248" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">STANDING RULES, SET ON DAY ONE AND NEVER RELAXED</text>
+<rect x="30" y="262" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="30" y="272" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="44" y="283" font-size="10.5" font-weight="800" fill="var(--ink)">Everything public, open source</text>
+<text x="44" y="300" font-size="9.5" fill="var(--ink-2)">one repo, MIT, no secrets</text>
+<rect x="230" y="262" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="230" y="272" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="244" y="283" font-size="10.5" font-weight="800" fill="var(--ink)">No model names in the files</text>
+<text x="244" y="300" font-size="9.5" fill="var(--ink-2)">the kit outlives any model</text>
+<rect x="430" y="262" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="430" y="272" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="444" y="283" font-size="10.5" font-weight="800" fill="var(--ink)">Every claim runs in a shell</text>
+<text x="444" y="300" font-size="9.5" fill="var(--ink-2)">a slide line is a lab step</text>
+<rect x="30" y="320" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="30" y="330" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="44" y="341" font-size="10.5" font-weight="800" fill="var(--ink)">Laptop first, cluster when real</text>
+<text x="44" y="358" font-size="9.5" fill="var(--ink-2)">simulate mode, then live mode</text>
+<rect x="230" y="320" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="230" y="330" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="244" y="341" font-size="10.5" font-weight="800" fill="var(--ink)">A console the audience never sees</text>
+<text x="244" y="358" font-size="9.5" fill="var(--ink-2)">notes follow the deck window to window</text>
+<rect x="430" y="320" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="430" y="330" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="444" y="341" font-size="10.5" font-weight="800" fill="var(--ink)">End hands-on</text>
+<text x="444" y="358" font-size="9.5" fill="var(--ink-2)">not with a thank-you slide</text>
+</svg></div></div>
+          
+          <span class="slidenum">02 / 20</span>
+        </article>
+<article class="slide" data-title="Twenty-three days, forty-four commits, nine requests in plain language" data-notes="Walk the axis left to right. The ticks are the 44 commits on main; the dots are the rounds. Point out two things. First, the shape: a burst at the start, a pause, then a steady cadence of one request every day or two, each merged the same day. Second, the morning of the event: five rounds between 07:51 and 16:22 UTC, the last merge 38 minutes before the event opened at 1 PM Eastern. That is not a boast; it is a warning and a method. It was possible because every round ended with the same checks, run by scripts, so the risk of a late change was bounded. The dates and times are from the git log and anyone with a clone can reproduce the picture with bin/mine-history.py." data-sources="git log --reverse origin/main bin/mine-history.py slides/how-it-was-built-history.json">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">02 · Origins</span><span class="min">2 min</span></div>
+            <h2>Twenty-three days, forty-four commits, nine requests in plain language</h2>
+            <p class="lede">Each round was a request typed into Claude Code on the web, sometimes with a file attached; each landed on main the same day. The last merge was 38 minutes before the event opened.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>26 Aug:</b> the first commit carried a deck, six labs, docs, a Makefile and the CI workflow, generated in one round from the abstract</li>
+<li><b>2 to 3 Sep:</b> the current Red Hat AI stack replaced a retired product name; two planning calls were folded in from notes; an audit against the notes found six gaps, fixed the same evening</li>
+<li><b>8 to 16 Sep:</b> the data-to-judgement ladder became the theme and a JSON source of truth; English and Spanish; step cards on every lab step; a review transcript mined and its suggestions verified before use</li>
+<li><b>17 Sep, 07:51 to 16:22 UTC:</b> five renders uploaded, Lab 08 end to end, slide 7, Show and Tell faces, the title pyramid; the event opened at 17:00 UTC</li>
+<li><b>Nine rounds, not nine days of work:</b> each round was hours, and most of each hour was verification</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="A timeline of the kit from 26 August to 17 September 2026: 44 commits on main as ticks, nine rounds labelled by date, the event marker at 1 PM Eastern on 17 September with the last merge 38 minutes before, and the November briefing after a break in the axis.">
+<line x1="28" y1="200" x2="534" y2="200" stroke="var(--border-strong)" stroke-width="1.5"/>
+<line x1="550" y1="200" x2="626" y2="200" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M536 194 l6 12 M544 194 l6 12" stroke="var(--border-strong)" stroke-width="1.5" fill="none"/>
+<line x1="50.3" y1="193" x2="50.3" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-08-26 11:19 UTC · Red Hat AI tax administration event: deck, six labs, docs</title></line>
+<line x1="50.3" y1="193" x2="50.3" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-08-26 11:20 UTC · Normalize line endings to LF and mark scripts executable</title></line>
+<line x1="50.3" y1="193" x2="50.3" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-08-26 11:22 UTC · Point clone URL and repo-url attribute at the real repository</title></line>
+<line x1="70.1" y1="193" x2="70.1" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-08-27 09:06 UTC · Demo mode, marketing-grade graphics, light theme, Present mode</title></line>
+<line x1="70.2" y1="193" x2="70.2" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-08-27 09:16 UTC · Keep keyboard focus in the stage when presenting; drop dead CSS</title></line>
+<line x1="207.9" y1="193" x2="207.9" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-02 16:43 UTC · Add why-it-matters slides and ops-notebook Lab 07 to the event deck</title></line>
+<line x1="203.2" y1="193" x2="203.2" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-02 11:28 UTC · Merge pull request #1 from nommsweyMX/claude/intelligent-taxpayer-ai-artifact-w0kt5h</title></line>
+<line x1="208.8" y1="193" x2="208.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-02 17:38 UTC · Replace retired ilab with current Red Hat AI stack; add foundations slides</title></line>
+<line x1="203.4" y1="193" x2="203.4" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-02 11:44 UTC · Merge pull request #2 from nommsweyMX/claude/intelligent-taxpayer-ai-artifact-w0kt5h</title></line>
+<line x1="209.1" y1="193" x2="209.1" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-02 18:02 UTC · Add presenter console — step-synced notes for the interactive deck</title></line>
+<line x1="209.1" y1="193" x2="209.1" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-02 18:02 UTC · Merge intelligent-taxpayer AI updates: new AI stack, foundations slides, Lab 07, presenter console</title></line>
+<line x1="231.5" y1="193" x2="231.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-03 18:37 UTC · Rework deck and console from the Sept 2 and Sept 3 meeting notes</title></line>
+<line x1="231.5" y1="193" x2="231.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-03 18:38 UTC · Merge deck rework from the Sept 2 and Sept 3 meeting notes</title></line>
+<line x1="231.8" y1="193" x2="231.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-03 19:01 UTC · Fix six gaps found auditing the deck against the meeting notes</title></line>
+<line x1="231.8" y1="193" x2="231.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-03 19:02 UTC · Merge audit fixes: SDG Hub naming, MTTR wording, foil questions, stale slide ref</title></line>
+<line x1="249.4" y1="193" x2="249.4" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-04 14:21 UTC · Clean up character noise in the deck and presenter console</title></line>
+<line x1="249.4" y1="193" x2="249.4" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-04 14:22 UTC · Merge character cleanup in deck and presenter console</title></line>
+<line x1="336.8" y1="193" x2="336.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 14:31 UTC · Theme the whole kit around the data-to-judgement ladder</title></line>
+<line x1="336.8" y1="193" x2="336.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 14:32 UTC · Merge the data-to-judgement ladder theme into main</title></line>
+<line x1="337.5" y1="193" x2="337.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 15:16 UTC · Rainbow rung palette, richer contact slide, site links and deep links</title></line>
+<line x1="337.5" y1="193" x2="337.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 15:16 UTC · Merge rainbow rung palette, contact panel and GitHub Pages landing page</title></line>
+<line x1="337.6" y1="193" x2="337.6" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 15:24 UTC · Add the choose-your-own-adventure catalogue page</title></line>
+<line x1="337.6" y1="193" x2="337.6" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 15:24 UTC · Merge the choose-your-own-adventure catalogue page</title></line>
+<line x1="338.4" y1="193" x2="338.4" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 16:17 UTC · Fedora-framed presenter portraits on the cover and contact slide</title></line>
+<line x1="338.5" y1="193" x2="338.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-08 16:18 UTC · Merge fedora-framed presenter portraits and contact details</title></line>
+<line x1="373.3" y1="193" x2="373.3" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-10 06:37 UTC · EN/ES language tab, dark theme, theory panels and glossary for the deck</title></line>
+<line x1="469.4" y1="193" x2="469.4" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-14 16:20 UTC · Remove the presenter portraits from the title slide</title></line>
+<line x1="469.5" y1="193" x2="469.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-14 16:24 UTC · Title slide without portraits; contact slide with one point of contact and partner logos</title></line>
+<line x1="469.5" y1="193" x2="469.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-14 16:24 UTC · Merge cover cleanup and single point of contact with partner logos</title></line>
+<line x1="469.7" y1="193" x2="469.7" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-14 16:40 UTC · Pop-up step cards in the Labs and Demo views</title></line>
+<line x1="469.7" y1="193" x2="469.7" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-14 16:40 UTC · Merge pop-up step cards for the Labs and Demo views</title></line>
+<line x1="504.5" y1="193" x2="504.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-16 06:57 UTC · Pyramid ladder icon, graphic pop-outs and the September 15 review changes</title></line>
+<line x1="504.5" y1="193" x2="504.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-16 06:57 UTC · Merge pyramid ladder icon, graphic pop-outs and the September 15 review changes</title></line>
+<line x1="527.1" y1="193" x2="527.1" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 07:51 UTC · Add files via upload</title></line>
+<line x1="532.9" y1="193" x2="532.9" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 14:14 UTC · Lab 08: one loop, end to end, with a stage map and a new deck slide</title></line>
+<line x1="532.9" y1="193" x2="532.9" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 14:14 UTC · Merge Lab 08, the whole loop, with its stage map and deck slide</title></line>
+<line x1="533.0" y1="193" x2="533.0" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 14:16 UTC · Name the illustrated renders so the deck pop-outs pick them up</title></line>
+<line x1="533.5" y1="193" x2="533.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 14:48 UTC · Slide 7 on the graphic&#x27;s eight stations, picture-only pop-outs, clearer pyramid</title></line>
+<line x1="533.5" y1="193" x2="533.5" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 14:48 UTC · Merge slide 7 eight stations, picture-only pop-outs and the clearer pyramid</title></line>
+<line x1="533.8" y1="193" x2="533.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 15:13 UTC · Show/Tell faces for every slide, presenter view on P, notes key hidden, console script</title></line>
+<line x1="533.8" y1="193" x2="533.8" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 15:13 UTC · Merge Show/Tell faces, presenter view on P and the console script</title></line>
+<line x1="534.4" y1="193" x2="534.4" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 15:51 UTC · Merge the earlier branch tip; main already carries the title slide without portraits</title></line>
+<line x1="534.9" y1="193" x2="534.9" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 16:22 UTC · Title slide: the ladder as a layered pyramid, with notes on the layers and why we are here</title></line>
+<line x1="534.9" y1="193" x2="534.9" y2="207" stroke="var(--ink-3)" stroke-width="1" opacity=".8"><title>2026-09-17 16:22 UTC · Merge the title pyramid, its layer notes and the eighteen-slide catalogue</title></line>
+<text x="40.0" y="222" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">26 Aug</text>
+<text x="192.7" y="222" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">2 Sep</text>
+<text x="345.5" y="222" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">9 Sep</text>
+<text x="498.2" y="222" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">16 Sep</text>
+<text x="590" y="222" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">19 to 20 Nov</text>
+<line x1="50.3" y1="200" x2="50.3" y2="150.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="50.3" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="24.3" y="120.0" text-anchor="start" font-size="9.5" font-weight="800" fill="var(--ink)">26 Aug · first commit</text><text x="24.25454545454545" y="132.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">deck, six labs, docs,</text><text x="24.25454545454545" y="144.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">Makefile, CI, in one round</text>
+<line x1="70.1" y1="200" x2="70.1" y2="252.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="70.1" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="70.1" y="264.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">27 Aug · demo mode</text><text x="70.10909090909091" y="276.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">labs play themselves,</text><text x="70.10909090909091" y="288.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">first graphics</text>
+<line x1="208.0" y1="200" x2="208.0" y2="100.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="208.0" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="208.0" y="70.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">2 Sep · foundations</text><text x="208.00000000000003" y="82.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">current AI stack, Lab 07,</text><text x="208.00000000000003" y="94.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">presenter console</text>
+<line x1="231.8" y1="200" x2="231.8" y2="302.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="231.8" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="231.8" y="314.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">3 Sep · planning notes</text><text x="231.78181818181815" y="326.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">folded in; audit finds</text><text x="231.78181818181815" y="338.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">six gaps, fixed same day</text>
+<line x1="338.5" y1="200" x2="338.5" y2="150.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="338.5" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="338.5" y="120.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">8 Sep · the ladder</text><text x="338.4727272727273" y="132.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">ladder-map.json, catalogue</text><text x="338.4727272727273" y="144.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">page, portraits</text>
+<line x1="373.2" y1="200" x2="373.2" y2="252.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="373.2" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="373.2" y="264.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">10 Sep · English/Spanish</text><text x="373.1636363636364" y="276.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">453 strings, dark theme,</text><text x="373.1636363636364" y="288.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">theory panels, glossary</text>
+<line x1="469.6" y1="200" x2="469.6" y2="100.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="469.6" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="469.6" y="70.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">14 Sep · step cards</text><text x="469.6" y="82.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">what, why, the seam,</text><text x="469.6" y="94.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">on every lab step</text>
+<line x1="504.5" y1="200" x2="504.5" y2="302.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="504.5" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="504.5" y="314.0" text-anchor="middle" font-size="9.5" font-weight="800" fill="var(--ink)">16 Sep · pyramid icon,</text><text x="504.5090909090909" y="326.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">pop-outs, the review</text><text x="504.5090909090909" y="338.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">transcript mined</text>
+<line x1="527.2" y1="200" x2="527.2" y2="252.0" stroke="var(--accent)" stroke-width="1" opacity=".55"/>
+<circle cx="527.2" cy="200" r="5.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>
+<text x="535.2" y="264.0" text-anchor="start" font-size="9.5" font-weight="800" fill="var(--ink)">17 Sep · event day</text><text x="535.1999999999999" y="276.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">Lab 08, Show/Tell, the</text><text x="535.1999999999999" y="288.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">layered title pyramid</text>
+<line x1="535.5" y1="200" x2="535.5" y2="114" stroke="var(--good)" stroke-width="1.5" stroke-dasharray="4 3"/>
+<path d="M535.5 192 l7 8 l-7 8 l-7 -8 z" fill="var(--surface)" stroke="var(--good)" stroke-width="2"><title>Event opens: 17 Sep 2026, 1:00 PM Eastern (17:00 UTC)</title></path>
+<text x="541.5" y="122" font-size="9.5" font-weight="800" fill="var(--good)">event opens</text>
+<text x="541.4545454545455" y="134.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">1:00 PM Eastern</text><text x="541.4545454545455" y="146.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">last merge to main</text><text x="541.4545454545455" y="158.0" text-anchor="start" font-size="9.5" font-weight="400" fill="var(--ink-2)">38 minutes before</text>
+<circle cx="590" cy="200" r="5.5" fill="var(--steel)" stroke="var(--surface)" stroke-width="2"/>
+<line x1="590" y1="200" x2="590" y2="100" stroke="var(--steel)" stroke-width="1" opacity=".55"/>
+<text x="626.0" y="58.0" text-anchor="end" font-size="9.5" font-weight="800" fill="var(--ink)">this briefing</text><text x="626" y="70.0" text-anchor="end" font-size="9.5" font-weight="400" fill="var(--ink-2)">39-agent research,</text><text x="626" y="82.0" text-anchor="end" font-size="9.5" font-weight="400" fill="var(--ink-2)">a deck, a handout,</text><text x="626" y="94.0" text-anchor="end" font-size="9.5" font-weight="400" fill="var(--ink-2)">this talk, an essay</text>
+<text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">44 commits on main, each a tick · nine rounds, each a request in plain language · dates and times from the git log, UTC</text>
+</svg></div></div>
+          
+          <span class="slidenum">03 / 20</span>
+        </article>
+<article class="slide" data-title="What the rounds added, read from the git tree" data-notes="Read the shapes, not the numbers. The deck grew eight and a half times, but the slide count only doubled; what grew was the apparatus around each slide: a second language, a second face, a card for every lab step, a vector fallback for every picture. The labs went from six to eight; the structure was right early and the rounds deepened it. One honest note: these are the first-parent states of main, so a side branch that was behind main for a day does not show as a dip. The data file in the repository carries every commit, with a flag for which ones are states of main, and the essay prints the table." data-sources="slides/how-it-was-built-history.json bin/mine-history.py">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">03 · How it grew</span><span class="min">1.5 min</span></div>
+            <h2>What the rounds added, read from the git tree</h2>
+            <p class="lede">Six measures of the kit after every commit on main. Each panel has its own scale; the shape is the point.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Deck size</b> 84 to 718 KB: the jumps are Spanish (10 Sep), step cards (14 Sep) and the illustrated pop-outs with vector fallbacks (16 Sep)</li>
+<li><b>Slides</b> 9 to 18 and <b>labs</b> 6 to 8: most of the structure existed on day one; later rounds deepened rather than widened</li>
+<li><b>Spanish strings</b> 0 to 575, <b>inline SVG graphics</b> 1 to 19, <b>presenter-console sections</b> 0 to 26</li>
+<li><b>Files</b> 40 to 62, across 26 states of main; every number here is re-derived by a script, not typed</li>
+<li><b>The lesson:</b> growth went into verification and explanation, not features; that is where the agent&#x27;s time went too</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Six small charts of growth from 26 August to 17 September 2026, each with its own scale: deck size 84 to 718 KB, slides 9 to 18, labs 6 to 8, Spanish strings 0 to 575, inline SVG graphics 1 to 19, presenter-console sections 0 to 26.">
+<defs><clipPath id="gclip"><rect x="0" y="0" width="640" height="400"/></clipPath></defs>
+<rect x="14" y="14" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="34" font-size="11.5" font-weight="800" fill="var(--ink)">Deck size, KB</text>
+<line x1="26" y1="156" x2="176" y2="156" stroke="var(--border)" stroke-width="1"/>
+<path d="M29.0 144.5 H29.0 V144.5 H29.0 V144.5 H34.7 V140.4 H34.8 V140.6 H73.3 V136.6 H73.4 V134.3 H75.1 V134.3 H81.6 V132.5 H81.7 V132.5 H86.8 V132.5 H112.1 V130.8 H112.3 V130.3 H112.3 V130.2 H112.6 V129.6 H122.7 V117.9 H150.6 V118.3 H150.7 V109.0 H160.8 V67.8 H167.3 V67.8 H169.0 V62.1 H169.0 V62.1 H169.2 V60.6 H169.3 V58.8 H169.4 V58.8 H169.6 V57.9 H176.0 V156 H26 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M29.0 144.5 H29.0 V144.5 H29.0 V144.5 H34.7 V140.4 H34.8 V140.6 H73.3 V136.6 H73.4 V134.3 H75.1 V134.3 H81.6 V132.5 H81.7 V132.5 H86.8 V132.5 H112.1 V130.8 H112.3 V130.3 H112.3 V130.2 H112.6 V129.6 H122.7 V117.9 H150.6 V118.3 H150.7 V109.0 H160.8 V67.8 H167.3 V67.8 H169.0 V62.1 H169.0 V62.1 H169.2 V60.6 H169.3 V58.8 H169.4 V58.8 H169.6 V57.9 H176.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="176" cy="57.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>718 on 2026-09-17</title></circle>
+<text x="184" y="61.9" font-size="11" font-weight="800" fill="var(--ink)">718</text>
+<text x="26" y="138.5" font-size="9.5" fill="var(--ink-3)">84</text>
+<text x="26" y="170" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="176" y="170" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="222" y="14" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="234" y="34" font-size="11.5" font-weight="800" fill="var(--ink)">Slides</text>
+<line x1="234" y1="156" x2="384" y2="156" stroke="var(--border)" stroke-width="1"/>
+<path d="M237.0 106.9 H237.0 V106.9 H237.0 V106.9 H242.7 V106.9 H242.8 V106.9 H281.3 V85.1 H281.4 V63.3 H283.1 V63.3 H289.6 V63.3 H289.7 V63.3 H294.8 V63.3 H320.1 V63.3 H320.3 V63.3 H320.3 V63.3 H320.6 V63.3 H330.7 V63.3 H358.6 V63.3 H358.7 V63.3 H368.8 V63.3 H375.3 V63.3 H377.0 V57.9 H377.0 V57.9 H377.2 V57.9 H377.3 V57.9 H377.4 V57.9 H377.6 V57.9 H384.0 V156 H234 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M237.0 106.9 H237.0 V106.9 H237.0 V106.9 H242.7 V106.9 H242.8 V106.9 H281.3 V85.1 H281.4 V63.3 H283.1 V63.3 H289.6 V63.3 H289.7 V63.3 H294.8 V63.3 H320.1 V63.3 H320.3 V63.3 H320.3 V63.3 H320.6 V63.3 H330.7 V63.3 H358.6 V63.3 H358.7 V63.3 H368.8 V63.3 H375.3 V63.3 H377.0 V57.9 H377.0 V57.9 H377.2 V57.9 H377.3 V57.9 H377.4 V57.9 H377.6 V57.9 H384.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="384" cy="57.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>18 on 2026-09-17</title></circle>
+<text x="392" y="61.9" font-size="11" font-weight="800" fill="var(--ink)">18</text>
+<text x="234" y="100.9" font-size="9.5" fill="var(--ink-3)">9</text>
+<text x="234" y="170" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="384" y="170" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="430" y="14" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="442" y="34" font-size="11.5" font-weight="800" fill="var(--ink)">Labs</text>
+<line x1="442" y1="156" x2="592" y2="156" stroke="var(--border)" stroke-width="1"/>
+<path d="M445.0 82.4 H445.0 V82.4 H445.0 V82.4 H450.7 V82.4 H450.8 V82.4 H489.3 V82.4 H489.4 V70.1 H491.1 V70.1 H497.6 V70.1 H497.7 V70.1 H502.8 V70.1 H528.1 V70.1 H528.3 V70.1 H528.3 V70.1 H528.6 V70.1 H538.7 V70.1 H566.6 V70.1 H566.7 V70.1 H576.8 V70.1 H583.3 V70.1 H585.0 V57.9 H585.0 V57.9 H585.2 V57.9 H585.3 V57.9 H585.4 V57.9 H585.6 V57.9 H592.0 V156 H442 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M445.0 82.4 H445.0 V82.4 H445.0 V82.4 H450.7 V82.4 H450.8 V82.4 H489.3 V82.4 H489.4 V70.1 H491.1 V70.1 H497.6 V70.1 H497.7 V70.1 H502.8 V70.1 H528.1 V70.1 H528.3 V70.1 H528.3 V70.1 H528.6 V70.1 H538.7 V70.1 H566.6 V70.1 H566.7 V70.1 H576.8 V70.1 H583.3 V70.1 H585.0 V57.9 H585.0 V57.9 H585.2 V57.9 H585.3 V57.9 H585.4 V57.9 H585.6 V57.9 H592.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="592" cy="57.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>8 on 2026-09-17</title></circle>
+<text x="600" y="61.9" font-size="11" font-weight="800" fill="var(--ink)">8</text>
+<text x="442" y="76.4" font-size="9.5" fill="var(--ink-3)">6</text>
+<text x="442" y="170" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="592" y="170" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="14" y="198" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="218" font-size="11.5" font-weight="800" fill="var(--ink)">Spanish strings</text>
+<line x1="26" y1="340" x2="176" y2="340" stroke="var(--border)" stroke-width="1"/>
+<path d="M29.0 340.0 H29.0 V340.0 H29.0 V340.0 H34.7 V340.0 H34.8 V340.0 H73.3 V340.0 H73.4 V340.0 H75.1 V340.0 H81.6 V340.0 H81.7 V340.0 H86.8 V340.0 H112.1 V340.0 H112.3 V340.0 H112.3 V340.0 H112.6 V340.0 H122.7 V262.7 H150.6 V262.5 H150.7 V262.5 H160.8 V250.6 H167.3 V250.6 H169.0 V248.5 H169.0 V248.5 H169.2 V242.5 H169.3 V241.9 H169.4 V241.9 H169.6 V241.9 H176.0 V340 H26 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M29.0 340.0 H29.0 V340.0 H29.0 V340.0 H34.7 V340.0 H34.8 V340.0 H73.3 V340.0 H73.4 V340.0 H75.1 V340.0 H81.6 V340.0 H81.7 V340.0 H86.8 V340.0 H112.1 V340.0 H112.3 V340.0 H112.3 V340.0 H112.6 V340.0 H122.7 V262.7 H150.6 V262.5 H150.7 V262.5 H160.8 V250.6 H167.3 V250.6 H169.0 V248.5 H169.0 V248.5 H169.2 V242.5 H169.3 V241.9 H169.4 V241.9 H169.6 V241.9 H176.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="176" cy="241.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>575 on 2026-09-17</title></circle>
+<text x="184" y="245.9" font-size="11" font-weight="800" fill="var(--ink)">575</text>
+<text x="26" y="334.0" font-size="9.5" fill="var(--ink-3)">0</text>
+<text x="26" y="354" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="176" y="354" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="222" y="198" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="234" y="218" font-size="11.5" font-weight="800" fill="var(--ink)">Inline SVG graphics</text>
+<line x1="234" y1="340" x2="384" y2="340" stroke="var(--border)" stroke-width="1"/>
+<path d="M237.0 334.8 H237.0 V334.8 H237.0 V334.8 H242.7 V319.3 H242.8 V319.3 H281.3 V303.8 H281.4 V303.8 H283.1 V303.8 H289.6 V298.7 H289.7 V298.7 H294.8 V298.7 H320.1 V298.7 H320.3 V298.7 H320.3 V298.7 H320.6 V278.0 H330.7 V278.0 H358.6 V293.5 H358.7 V293.5 H368.8 V257.3 H375.3 V257.3 H377.0 V252.2 H377.0 V252.2 H377.2 V252.2 H377.3 V247.0 H377.4 V247.0 H377.6 V241.9 H384.0 V340 H234 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M237.0 334.8 H237.0 V334.8 H237.0 V334.8 H242.7 V319.3 H242.8 V319.3 H281.3 V303.8 H281.4 V303.8 H283.1 V303.8 H289.6 V298.7 H289.7 V298.7 H294.8 V298.7 H320.1 V298.7 H320.3 V298.7 H320.3 V298.7 H320.6 V278.0 H330.7 V278.0 H358.6 V293.5 H358.7 V293.5 H368.8 V257.3 H375.3 V257.3 H377.0 V252.2 H377.0 V252.2 H377.2 V252.2 H377.3 V247.0 H377.4 V247.0 H377.6 V241.9 H384.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="384" cy="241.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>19 on 2026-09-17</title></circle>
+<text x="392" y="245.9" font-size="11" font-weight="800" fill="var(--ink)">19</text>
+<text x="234" y="328.8" font-size="9.5" fill="var(--ink-3)">1</text>
+<text x="234" y="354" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="384" y="354" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="430" y="198" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="442" y="218" font-size="11.5" font-weight="800" fill="var(--ink)">Presenter-console sections</text>
+<line x1="442" y1="340" x2="592" y2="340" stroke="var(--border)" stroke-width="1"/>
+<path d="M445.0 340.0 H445.0 V340.0 H445.0 V340.0 H450.7 V340.0 H450.8 V340.0 H489.3 V340.0 H489.4 V340.0 H491.1 V249.4 H497.6 V249.4 H497.7 V249.4 H502.8 V249.4 H528.1 V249.4 H528.3 V249.4 H528.3 V249.4 H528.6 V249.4 H538.7 V249.4 H566.6 V249.4 H566.7 V249.4 H576.8 V249.4 H583.3 V249.4 H585.0 V241.9 H585.0 V241.9 H585.2 V241.9 H585.3 V241.9 H585.4 V241.9 H585.6 V241.9 H592.0 V340 H442 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M445.0 340.0 H445.0 V340.0 H445.0 V340.0 H450.7 V340.0 H450.8 V340.0 H489.3 V340.0 H489.4 V340.0 H491.1 V249.4 H497.6 V249.4 H497.7 V249.4 H502.8 V249.4 H528.1 V249.4 H528.3 V249.4 H528.3 V249.4 H528.6 V249.4 H538.7 V249.4 H566.6 V249.4 H566.7 V249.4 H576.8 V249.4 H583.3 V249.4 H585.0 V241.9 H585.0 V241.9 H585.2 V241.9 H585.3 V241.9 H585.4 V241.9 H585.6 V241.9 H592.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="592" cy="241.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>26 on 2026-09-17</title></circle>
+<text x="600" y="245.9" font-size="11" font-weight="800" fill="var(--ink)">26</text>
+<text x="442" y="334.0" font-size="9.5" fill="var(--ink-3)">0</text>
+<text x="442" y="354" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="592" y="354" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">one scale per panel · the state of main after each of its commits, read from the git tree · bin/mine-history.py regenerates the data</text>
+</svg></div></div>
+          
+          <span class="slidenum">04 / 20</span>
+        </article>
+<article class="slide" data-title="One repository, six faces of the same hour" data-notes="Start with what exists so the methods have something to point at. The deck is a single HTML file: an attendee can open it from a USB stick, and the only network dependency is the Red Hat fonts. The eight labs are bash scripts that pair every real product command with its expected output, so they run on any laptop in simulate mode and against RHEL AI, OpenShift AI, Ansible Automation Platform, TrustyAI and pgvector in live mode. The console, the docs book, the reveal.js cut, the PDF, the PowerPoint and the adventure catalogue are all generated beside them. One honest note: the README said seventeen slides for two months after the eighteenth was added; this branch fixes it. Hand-typed numbers drift; generated ones do not. That is the first lesson of the method." data-sources="slides/deck.html labs/*/run.sh slides/presenter-notes.html .github/workflows/docs.yml">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">04 · What was built</span><span class="min">1 min</span></div>
+            <h2>One repository, six faces of the same hour</h2>
+            <p class="lede">Everything renders from one git repository: the deck you open from disk, the labs you run in a shell, and the console, docs, slides and PowerPoint generated beside them.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>18 slides, 8 labs, 43 real commands</b> with their expected output, English and Spanish, Show and Tell faces, light and dark</li>
+<li><b>The deck is one file:</b> 731 KB of HTML, CSS, JavaScript and inline SVG, no framework, no build step, no server</li>
+<li><b>Eight virtual terminals</b> play the labs hands-free or let the room type the commands; a card explains every step</li>
+<li><b>A presenter console</b> follows the deck window to window; nothing on the shared screen changes</li>
+<li><b>44 commits in three weeks,</b> every push tested and published by GitHub Actions to Pages</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="One git repository renders six faces: the interactive deck, eight labs, the presenter console, the docs book, reveal.js and PowerPoint cuts, and the adventure catalogue; GitHub Actions tests the labs and publishes to Pages.">
+<rect x="14" y="14" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="30" y="43" font-size="14" font-weight="800" fill="var(--ink)">Interactive deck</text>
+<text x="30" y="65" font-size="10.5" fill="var(--ink-2)">18 slides · EN/ES · Show/Tell · one 731 KB file</text>
+<rect x="330" y="14" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="346" y="43" font-size="14" font-weight="800" fill="var(--ink)">Eight labs</text>
+<text x="346" y="65" font-size="10.5" fill="var(--ink-2)">43 real commands with expected output · simulate or live</text>
+<rect x="14" y="98" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="30" y="127" font-size="14" font-weight="800" fill="var(--ink)">Presenter console</text>
+<text x="30" y="149" font-size="10.5" fill="var(--ink-2)">26 sections that follow the deck window to window</text>
+<rect x="330" y="98" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="346" y="127" font-size="14" font-weight="800" fill="var(--ink)">Docs book</text>
+<text x="346" y="149" font-size="10.5" fill="var(--ink-2)">11 AsciiDoc modules · HTML and PDF</text>
+<rect x="14" y="182" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="30" y="211" font-size="14" font-weight="800" fill="var(--ink)">reveal.js + PowerPoint</text>
+<text x="30" y="233" font-size="10.5" fill="var(--ink-2)">18 slides with notes · 11 native pptx slides</text>
+<rect x="330" y="182" width="296" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="346" y="211" font-size="14" font-weight="800" fill="var(--ink)">Adventure catalogue</text>
+<text x="346" y="233" font-size="10.5" fill="var(--ink-2)">57 items · 6 reading paths by job</text>
+<rect x="14" y="268" width="612" height="52" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>
+<text x="320" y="291" text-anchor="middle" font-size="14" font-weight="900" fill="var(--ink)">one git repository · MIT · no framework, no build step for the deck</text>
+<text x="320" y="309" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">sources of truth: deck.html · labs/*/run.sh · ladder-map.json · adventure-inventory.json · docs/*.adoc</text>
+<rect x="14" y="334" width="612" height="52" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.4"/>
+<text x="320" y="357" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">GitHub Actions: lint → run all eight labs → build → publish to GitHub Pages</text>
+<text x="320" y="375" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">nommsweymx.github.io/redhat-ai-tax-labs · a hosted artifact for review after every round</text>
+</svg></div></div>
+          
+          <span class="slidenum">05 / 20</span>
+        </article>
+<article class="slide" data-title="Six places, one of them ephemeral, none of them yours" data-notes="This is the slide the security people in your account will want. Name each box and say what crossed each arrow. Requests and uploads crossed from the person to the container. File excerpts, command output and screenshots crossed from the container to the model, and tokens came back. Commits crossed to GitHub over HTTPS through the proxy. Pages served the audience. Two negatives matter as much: the agent never ran on a laptop, and it never ran inside an agency. That is why this shape was acceptable here: the content was public and open source from the first commit. The same shape would not be acceptable for CUI or FTI, which is where the deployment slides later in the talk pick up. One more detail from the builder: when the session resumed two months later the container was new and the scratch directory was empty. Only what was committed survived." data-sources="session notes: where it ran .github/workflows/docs.yml https://code.claude.com/docs/en/claude-code-on-the-web">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">05 · Where it ran</span><span class="min">2 min</span></div>
+            <h2>Six places, one of them ephemeral, none of them yours</h2>
+            <p class="lede">The person worked from a browser. The agent worked in a managed container that was thrown away. The model ran at an API endpoint. GitHub tested and published. The audience saw Pages.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>The person:</b> Claude Code on the web, from a laptop and a phone; plain-language requests, uploaded notes, a transcript, a script and five graphics; every diff read before it merged</li>
+<li><b>The container:</b> Anthropic-managed Linux, a fresh clone each session; bash, git, Python, node, Playwright with Chromium, LibreOffice; a scratch directory that did not survive; egress through an allow-list</li>
+<li><b>The model:</b> an API endpoint; every excerpt read, every command output and every screenshot went there as context, and tokens came back</li>
+<li><b>GitHub:</b> the repository; Actions runners that lint, run all eight labs in simulate mode, build docs, slides and PDF, and publish to Pages; a hosted artifact copy on claude.ai for review</li>
+<li><b>The labs run elsewhere:</b> on the attendee&#x27;s laptop in simulate mode, or on OpenShift AI, RHEL AI, Ansible Automation Platform and pgvector in live mode</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Where it ran. A person on a laptop and a phone used Claude Code on the web. Each session ran in an Anthropic-managed ephemeral container with a fresh clone, a shell, Python, node, Playwright with Chromium and LibreOffice, behind an allow-listed egress proxy, talking to the model at the API endpoint. The container pushed to GitHub, whose Actions runners ran the labs, built the docs and published to Pages; the audience loaded the deck from Pages. A hosted artifact copy lived on claude.ai. The labs ran on attendee laptops in simulate mode or on OpenShift AI, RHEL AI, Ansible Automation Platform and pgvector in live mode.">
+<defs><marker id="wl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<rect x="14" y="14" width="164" height="226" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="28" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">THE PERSON</text>
+<rect x="28" y="48" width="64" height="40" rx="4" fill="var(--surface-2)" stroke="var(--border-strong)"/><rect x="22" y="88" width="76" height="5" rx="2" fill="var(--border-strong)"/>
+<rect x="108" y="46" width="26" height="46" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><circle cx="121" cy="86" r="2" fill="var(--border-strong)"/>
+<text x="28" y="116.0" text-anchor="start" font-size="11" font-weight="800" fill="var(--ink)">Claude Code on the web</text><text x="28" y="130.0" text-anchor="start" font-size="11" font-weight="800" fill="var(--ink)">laptop and phone</text>
+<text x="28" y="150.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">requests in plain language</text><text x="28" y="164.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">meeting notes, a transcript,</text><text x="28" y="178.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">a script, five graphics</text><text x="28" y="192.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">every diff read by a person</text><text x="28" y="206.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">before it merged</text>
+<rect x="194" y="14" width="300" height="226" rx="12" fill="none" stroke="var(--amber)" stroke-width="1.4" stroke-dasharray="6 4"/>
+<text x="208" y="34" font-size="10" font-weight="700" letter-spacing="1.2" fill="var(--amber)">ANTHROPIC-MANAGED · EPHEMERAL</text>
+<rect x="206" y="44" width="172" height="148" rx="8" fill="var(--amber-wash)" stroke="var(--amber)"/>
+<text x="216" y="62" font-size="11.5" font-weight="800" fill="var(--ink)">Session container</text>
+<text x="216" y="80.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">fresh clone of the repo</text><text x="216" y="93.5" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">bash · git · Python · node</text><text x="216" y="107.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">Playwright + Chromium</text><text x="216" y="120.5" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">LibreOffice · pdftoppm</text><text x="216" y="134.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">scratch dir, not kept</text><text x="216" y="147.5" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">MCP: GitHub, session tools</text>
+<rect x="390" y="44" width="92" height="148" rx="8" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>
+<text x="436" y="64" text-anchor="middle" font-size="12" font-weight="900" fill="var(--ink)">Model</text>
+<text x="436" y="84.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">API endpoint</text><text x="436" y="97.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">context in,</text><text x="436" y="110.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">tokens out</text><text x="436" y="123.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)"></text><text x="436" y="136.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">every excerpt,</text><text x="436" y="149.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">output and</text><text x="436" y="162.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">screenshot</text><text x="436" y="175.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">goes here</text>
+<line x1="378" y1="100" x2="386" y2="100" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/><line x1="390" y1="130" x2="382" y2="130" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/>
+<rect x="206" y="202" width="276" height="30" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+<text x="344" y="215" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink)">egress proxy, allow-list</text>
+<text x="344" y="227" text-anchor="middle" font-size="9" fill="var(--ink-2)">GitHub and fonts: yes · the published site, google.com: no</text>
+<rect x="510" y="14" width="116" height="226" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.3"/>
+<text x="524" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">GITHUB</text>
+<text x="524" y="58.0" text-anchor="start" font-size="10" font-weight="700" fill="var(--ink)">repository</text><text x="524" y="71.0" text-anchor="start" font-size="10" font-weight="700" fill="var(--ink)">two PRs, 44 merges</text>
+<text x="524" y="96.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">Actions runners</text><text x="524" y="109.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">ubuntu-latest and the</text><text x="524" y="122.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">asciidoctor container:</text><text x="524" y="135.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">lint · 8 labs simulate</text><text x="524" y="148.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">· docs · slides · PDF</text>
+<text x="524" y="176.0" text-anchor="start" font-size="10" font-weight="700" fill="var(--ink)">GitHub Pages</text><text x="524" y="189.0" text-anchor="start" font-size="10" font-weight="700" fill="var(--ink)">one public URL</text><text x="524" y="202.0" text-anchor="start" font-size="10" font-weight="700" fill="var(--ink)">for everything</text>
+<line x1="178" y1="120" x2="190" y2="120" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/>
+<line x1="494" y1="120" x2="506" y2="120" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#wl)"/>
+<text x="500" y="112" text-anchor="middle" font-size="8" fill="var(--ink-3)">push</text>
+<rect x="14" y="262" width="204" height="98" rx="10" fill="var(--surface)" stroke="var(--amber)" stroke-width="1.3"/>
+<text x="28" y="284" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--amber)">HOSTED COPY</text>
+<text x="28" y="304.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">a claude.ai artifact republished</text><text x="28" y="318.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">after every round, so the presenter</text><text x="28" y="332.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">could review on any device</text>
+<rect x="218" y="262" width="204" height="98" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.3"/>
+<text x="232" y="284" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">THE AUDIENCE</text>
+<text x="232" y="304.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">browsers load the deck from Pages;</text><text x="232" y="318.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">the presenter opens a second window,</text><text x="232" y="332.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">the console, from the same site</text>
+<rect x="422" y="262" width="204" height="98" rx="10" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1.3"/>
+<text x="436" y="284" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">THE LABS</text>
+<text x="436" y="304.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">attendee laptop: simulate mode,</text><text x="436" y="318.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">nothing installed · live mode:</text><text x="436" y="332.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">OpenShift AI, RHEL AI, Ansible</text><text x="436" y="346.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">Automation Platform, pgvector</text>
+<path d="M300 240 V258" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M116 240 V258" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M568 240 V250 H320 V258" fill="none" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#wl)"/>
+<text x="320" y="376" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">The agent never ran on a laptop and never inside an agency. Public content only, which is why this shape was acceptable.</text>
+<text x="320" y="392" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">two months later the container was new and the scratch directory was empty; only what was committed survived</text>
+</svg></div></div>
+          
+          <span class="slidenum">06 / 20</span>
+        </article>
+<article class="slide" data-title="Every tool in the chain is open source, and most of it is boring on purpose" data-notes="Group one is what a person types. The deck is deliberately framework-free, so there is nothing to install and nothing to break. The narrative deck is AsciiDoc with notes blocks, built by asciidoctor-revealjs. Group two is the lab engine: bin/lib.sh gives you lab_header, lab_section, lab_note, step and lab_footer; each step pairs a real command with a heredoc of expected output; in simulate mode the heredoc streams, in live mode the command runs and the heredoc is what you compare against. The header comment says it plainly: the simulated output is not decoration, it is the acceptance criterion. What the 43 steps call is the Red Hat stack itself: podman, vLLM through the AI Inference Server image, KServe, oc, ansible-navigator and ansible-rulebook, cosign, the Compliance Operator, TrustyAI, Loki, pgvector, SDG Hub and Training Hub. Group three generates: Asciidoctor runs in the official container so nobody installs Ruby; python-pptx draws native shapes with the palette and pyramid geometry copied from the deck tokens, so a customer can edit the PowerPoint. Group four checks: make lint is bash -n plus py_compile, make test runs all eight labs; a headless browser screenshots and measures every slide; LibreOffice renders the pptx to PNG. Group five publishes. Be straight with the room about the verify note on the slide." data-sources="bin/lib.sh Makefile bin/build-pptx.py bin/build-adventure.py .gitattributes">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">06 · The toolchain</span><span class="min">1.5 min</span></div>
+            <h2>Every tool in the chain is open source, and most of it is boring on purpose</h2>
+            <p class="lede">Five shelves: what we authored by hand, what the labs call, what generates the derived outputs, what checks them, and what publishes.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Authoring:</b> hand-written HTML, CSS and JavaScript with inline SVG; AsciiDoc with speaker notes; Python standard-library generators</li>
+<li><b>Labs:</b> a 120-line bash runtime, Python retrieval helpers, Ansible rulebooks and playbooks, KServe manifests, a seed taxonomy in YAML</li>
+<li><b>Docs and exports:</b> Asciidoctor in its official container for HTML, reveal.js and PDF; python-pptx drawing native, editable shapes</li>
+<li><b>Verification:</b> make lint and make test, Playwright with Chromium measuring every slide, LibreOffice and pdftoppm to eyeball the pptx</li>
+<li><b>Publishing:</b> Git, GitHub Actions, GitHub Pages, an MIT licence; the licences of every tool are in the handout</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The toolchain in five shelves: authoring, labs, docs and exports, verification, publishing; every item open source.">
+<rect x="14" y="14" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="14" width="8" height="68" rx="4" fill="var(--accent)"/>
+<text x="34" y="40" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent)">AUTHORING</text>
+<rect x="34" y="50" width="166" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="117.0" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">HTML · CSS · JS, one file</text>
+<rect x="208" y="50" width="129" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="272.5" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">inline SVG graphics</text>
+<rect x="345" y="50" width="93" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="391.5" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Red Hat fonts</text>
+<rect x="446" y="50" width="111" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="501.5" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">EN/ES text table</text>
+<rect x="14" y="90" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="90" width="8" height="68" rx="4" fill="var(--good)"/>
+<text x="34" y="116" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">LABS</text>
+<rect x="34" y="126" width="142" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="105.0" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">bash runtime · step()</text>
+<rect x="184" y="126" width="117" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="242.5" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Python · pgvector</text>
+<rect x="309" y="126" width="154" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="386.0" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Ansible · EDA rulebooks</text>
+<rect x="471" y="126" width="117" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="529.5" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">KServe · qna.yaml</text>
+<rect x="14" y="166" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="166" width="8" height="68" rx="4" fill="var(--steel)"/>
+<text x="34" y="192" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">DOCS + EXPORTS</text>
+<rect x="34" y="202" width="148" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="108.0" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">AsciiDoc · Asciidoctor</text>
+<rect x="190" y="202" width="154" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="267.0" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">revealjs · pdf backends</text>
+<rect x="352" y="202" width="81" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="392.5" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">python-pptx</text>
+<rect x="441" y="202" width="136" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="509.0" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Makefile · container</text>
+<rect x="14" y="242" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="242" width="8" height="68" rx="4" fill="var(--violet)"/>
+<text x="34" y="268" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--violet)">VERIFY</text>
+<rect x="34" y="278" width="142" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="105.0" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Playwright · Chromium</text>
+<rect x="184" y="278" width="129" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="248.5" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">measurement scripts</text>
+<rect x="321" y="278" width="148" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="395.0" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">LibreOffice · pdftoppm</text>
+<rect x="477" y="278" width="136" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="545.0" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">bash -n · py_compile</text>
+<rect x="14" y="318" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="318" width="8" height="68" rx="4" fill="var(--amber)"/>
+<text x="34" y="344" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--amber)">PUBLISH</text>
+<rect x="34" y="354" width="87" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="77.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Git · GitHub</text>
+<rect x="129" y="354" width="99" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="178.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">GitHub Actions</text>
+<rect x="236" y="354" width="87" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="279.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">GitHub Pages</text>
+<rect x="331" y="354" width="81" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="371.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">MIT licence</text>
+<text x="320" y="396" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">no framework, no build step for the deck itself: open the file, present</text></svg></div></div>
+          <div class="verify"><b>Verify before quoting</b> · the Playwright, Spanish-coverage and patch scripts lived in the session&#x27;s scratch space and were never committed; two months later that space had been cleared and they were gone. Commit the harness, not just the deliverable.</div>
+          <span class="slidenum">07 / 20</span>
+        </article>
+<article class="slide" data-title="Messy inputs, one owner per fact, generate the rest, measure every round" data-notes="This is the slide to spend time on. The inputs were messy: an abstract, two planning calls whose notes arrived as files, a review transcript, the presenter&#x27;s own script and console additions, and five renders he had made elsewhere. The discipline was to give each fact one owner. Rungs and chapters live in ladder-map.json; commands and expected output live in run.sh; the spoken narrative in slides.adoc; the catalogue in adventure-inventory.json; product names in attributes.adoc; colours and the pyramid geometry in the deck tokens, which the PowerPoint builder copies. Generators read those files and stop on anything they do not recognise. Two surfaces are still hand-copied: the deck&#x27;s own lab table and the docs technology table, and that is exactly where the surviving drift came from. The loop after every change was: run every lab in simulate mode, screenshot all eighteen slides in English and Spanish, Show and Tell, measure text extents against their containers, check Spanish coverage, render the pptx to PNG. Fixes went back to the source file, never to the output. Then CI repeated the cheap half of that on every push, and only a green run published." data-sources="slides/ladder-map.json bin/adventure-inventory.json bin/build-adventure.py bin/build-pptx.py docs/attributes.adoc .github/workflows/docs.yml">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">07 · How it was synthesized</span><span class="min">1.5 min</span></div>
+            <h2>Messy inputs, one owner per fact, generate the rest, measure every round</h2>
+            <p class="lede">The discipline that held nine rounds of changes together: push each fact into exactly one file, let generators and a render-and-measure loop do everything after that.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Inputs:</b> the event abstract, two planning calls, a review transcript, the presenter&#x27;s own script, five illustrated renders, eight real workflows</li>
+<li><b>One file owns each fact:</b> the ladder map, the run scripts, the narrative source, the catalogue inventory, the product-name attributes, the deck tokens</li>
+<li><b>Generators read them and fail loudly</b> on an unknown id: the catalogue page, the PowerPoint, the title pyramid SVG</li>
+<li><b>After every change:</b> all eight labs run, all 18 slides are screenshotted and measured in both languages and both faces</li>
+<li><b>The CI gate:</b> a broken lab blocks the docs build and the Pages publish; the labs gate the story</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The build pipeline: inputs (the event abstract, two planning calls, a review transcript, the presenter's script, five graphics) flow into single sources of truth (the deck HTML, the lab run scripts, a ladder map, an inventory JSON), which generators turn into the console, reveal slides, PowerPoint, docs and the adventure page; a render-and-measure loop with Playwright checks every output and feeds fixes back to the sources; GitHub Actions runs the labs in simulate mode and publishes to Pages.">
+<defs><marker id="pl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker><marker id="plr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+<g font-size="10.5" fill="var(--ink-2)">
+<rect x="14" y="20" width="150" height="130" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="89" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Inputs</text>
+<text x="26" y="64">event abstract</text><text x="26" y="80">two planning calls</text><text x="26" y="96">review transcript</text><text x="26" y="112">presenter's own script</text><text x="26" y="128">five graphics (renders)</text><text x="26" y="144">eight real workflows</text>
+<rect x="190" y="20" width="160" height="130" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>
+<text x="270" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Sources of truth</text>
+<text x="202" y="64" font-family="Red Hat Mono" font-size="9.5">slides/deck.html</text><text x="202" y="80" font-family="Red Hat Mono" font-size="9.5">labs/*/run.sh</text><text x="202" y="96" font-family="Red Hat Mono" font-size="9.5">slides/ladder-map.json</text><text x="202" y="112" font-family="Red Hat Mono" font-size="9.5">adventure-inventory.json</text><text x="202" y="128" font-family="Red Hat Mono" font-size="9.5">docs/*.adoc</text><text x="202" y="144" font-size="9.5" fill="var(--ink-3)">change once, regenerate the rest</text>
+<rect x="376" y="20" width="250" height="130" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<text x="501" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Generators and outputs</text>
+<text x="388" y="64">presenter console · patch scripts</text><text x="388" y="80">asciidoctor → docs HTML · PDF</text><text x="388" y="96">asciidoctor-revealjs → reveal deck</text><text x="388" y="112">python-pptx → native PowerPoint</text><text x="388" y="128">build-adventure.py → catalogue page</text><text x="388" y="144">EN/ES text table → one deck, two languages</text>
+</g>
+<line x1="164" y1="85" x2="186" y2="85" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<line x1="350" y1="85" x2="372" y2="85" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<path d="M501 150 V192" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<path d="M270 196 V156" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-dasharray="5 4" marker-end="url(#plr)"/>
+<text x="282" y="179" font-size="10" font-weight="700" fill="var(--accent-ink)">fixes go back to the source</text>
+<rect x="190" y="196" width="436" height="80" rx="10" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1.4"/>
+<text x="408" y="220" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Render, measure, fix — every round, both languages, both views</text>
+<text x="408" y="242" text-anchor="middle" font-size="10" fill="var(--ink-2)">Playwright + Chromium screenshots · overflow and text-extent checks · Spanish coverage</text>
+<text x="408" y="262" text-anchor="middle" font-size="10" fill="var(--ink-2)">LibreOffice + pdftoppm to eyeball the pptx · every lab runs in simulate mode, end to end</text>
+<path d="M408 276 V302" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<rect x="14" y="306" width="612" height="76" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.4"/>
+<text x="320" y="330" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">GitHub Actions: lint → run every lab (simulate) → build → publish to Pages</text>
+<text x="320" y="352" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">The labs gate the docs. A broken lab blocks the site. Everything public, MIT, one URL.</text>
+<text x="320" y="370" text-anchor="middle" font-size="10" fill="var(--ink-3)">plus a hosted artifact for review, and a presenter console that follows the deck window to window</text>
+</svg></div></div>
+          
+          <span class="slidenum">08 / 20</span>
+        </article>
+<article class="slide" data-title="The model proposes; the harness decides, executes and records" data-notes="This is the whole product once the vocabulary is removed. Claude Code assembles a request and sends it to whichever endpoint the environment variables select: Anthropic&#x27;s API by default, or Amazon Bedrock, Google&#x27;s Vertex AI, or Microsoft Foundry. The model replies with text or a structured tool call: read this file, run this command, edit that line, ask a subagent. The harness decides whether the call runs. Deny rules always win; allow rules come next; then the mode. In the default mode a person is asked; plan mode refuses writes; auto mode sends the action to a classifier model; bypass just runs. A pre-tool hook can veto with an exit code. The result is appended and the loop continues. Prompt caching makes the repeated prefix cheap; compaction summarises old steps and is lossy. Subagents are the same loop with a fresh context window and a narrower tool list, returning a summary. The sentence to leave with the room is the last bullet: everything the agent reads goes to the endpoint. The endpoint is the boundary, not the model." data-sources="https://code.claude.com/docs/en/how-claude-code-works https://code.claude.com/docs/en/permission-modes https://code.claude.com/docs/en/hooks https://code.claude.com/docs/en/context-window">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">08 · How an agent works</span><span class="min">1.5 min</span></div>
+            <h2>The model proposes; the harness decides, executes and records</h2>
+            <p class="lede">Strip the branding away and Claude Code is a loop: assemble context, call the model, gate the tool call, run it, append the result, repeat until the model stops asking for tools.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>The request</b> is the system prompt, every CLAUDE.md and rules file, the tool descriptions, any matching skills, and the conversation so far, already compacted if long</li>
+<li><b>The model returns text or a tool call.</b> It never runs anything itself; the harness does, locally or in a cloud sandbox</li>
+<li><b>The gate</b> runs before execution: deny rules win in every mode, then allow rules, then the mode: ask a person, plan only, a classifier model, or bypass</li>
+<li><b>Hooks</b> run before and after each tool; the result is appended and the whole transcript goes back, often dozens of times per turn</li>
+<li><b>Federal consequence:</b> every file read, command output and fetched page is sent to the model endpoint; the endpoint and your egress rules are the boundary</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="One agentic turn: a prompt and context go to the model; the model either answers or calls a tool; a permission gate sits in front of every tool call; the tool result returns to the model; the loop repeats until the model answers. Hooks observe before and after each tool call.">
+<defs><marker id="al" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<rect x="20" y="30" width="190" height="78" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="115" y="60" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)">Prompt + context</text>
+<text x="115" y="82" text-anchor="middle" font-size="11" fill="var(--ink-2)">CLAUDE.md · files · skills · history</text>
+<rect x="250" y="20" width="200" height="98" rx="12" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.6"/>
+<text x="350" y="56" text-anchor="middle" font-size="16" font-weight="900" fill="var(--ink)">Model</text>
+<text x="350" y="78" text-anchor="middle" font-size="11" fill="var(--ink-2)">answer, or ask for a tool</text>
+<text x="350" y="96" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">Anthropic API · Bedrock · Vertex · Foundry</text>
+<rect x="490" y="40" width="130" height="58" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="555" y="64" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">Final answer</text>
+<text x="555" y="84" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">text, files, a commit</text>
+<line x1="210" y1="69" x2="246" y2="69" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<line x1="450" y1="69" x2="486" y2="69" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<path d="M350 118 V150" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<rect x="240" y="154" width="220" height="56" rx="28" fill="var(--violet-wash)" stroke="var(--violet)" stroke-width="1.6"/>
+<text x="350" y="178" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">Permission gate</text>
+<text x="350" y="196" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">mode · allow rules · classifier · a person</text>
+<path d="M350 210 V242" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#al)"/>
+<rect x="190" y="246" width="320" height="70" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4"/>
+<text x="350" y="272" text-anchor="middle" font-size="14" font-weight="800" fill="var(--ink)">Tool call</text>
+<text x="350" y="292" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">Read · Edit · Bash · Grep · MCP server · subagent · browser</text>
+<text x="350" y="308" text-anchor="middle" font-size="10" fill="var(--ink-3)">hooks run before and after; results are untrusted data</text>
+<path d="M190 281 H120 V118 H250" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-dasharray="6 5" marker-end="url(#al)"/>
+<text x="110" y="200" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent-ink)" transform="rotate(-90 110 200)">tool result back to the model</text>
+<rect x="20" y="340" width="600" height="44" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="320" y="367" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink)">The loop repeats until the model stops asking for tools. Every arrow is a seam you can log, gate or cut.</text>
+</svg></div></div>
+          
+          <span class="slidenum">09 / 20</span>
+        </article>
+<article class="slide" data-title="One ordinary round, call by call" data-notes="Slow down here; this is the slide that answers &quot;what is it actually doing&quot;. Walk the twelve steps. Emphasise three. Step two: it searched rather than read, because the context window is finite and a 700 KB file would consume it; choosing what to read is most of the agent&#x27;s skill. Step four: it wrote a patch script rather than editing by hand, and each replacement asserted exactly one match, so a drifted file stopped the round rather than being silently damaged. Steps six and seven: it screenshotted its own work and looked at the pictures, then measured text against boxes with code, because its own reading of a picture is not a measurement. The gates in step eight ran whether or not the round touched the labs. Nothing in this list is clever; what made it work is that it ran every time." data-sources="session notes: a typical round bin/render-graphics.js and bin/mine-history.py (the two verification scripts now committed)">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">09 · One round, concretely</span><span class="min">2 min</span></div>
+            <h2>One ordinary round, call by call</h2>
+            <p class="lede">A request like &quot;make the YAML graphic more solid&quot; became twenty to sixty tool calls. This is the shape of nearly every round.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Find, do not read:</b> the agent searched the 700 KB deck for markers and read 40 to 80 line excerpts; whole-file reads would have filled the window in two rounds</li>
+<li><b>Patch scripts over hand edits:</b> a Python script with one assertion per replacement; a mismatch stopped the round instead of corrupting the file</li>
+<li><b>Render and measure:</b> Playwright screenshots of the touched slides in English and Spanish, Show and Tell; text extents measured against their boxes; the model read the screenshots as images</li>
+<li><b>The same gates every round:</b> the full overflow check, every lab in simulate mode, bash -n, py_compile; then commit, merge, push, watch the Pages run, republish the review copy</li>
+<li><b>A person reads the diff</b> before the merge, and the reply says what was verified and what was not</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="One ordinary round as twelve steps: request, grep the deck, read excerpts, write a patch script, run it behind the permission gate, screenshot and measure with Playwright, look at the screenshots and fix, run the overflow check and the labs, commit merge and push, watch the Pages run through the GitHub MCP server, republish the hosted artifact, reply.">
+<rect x="14" y="14" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="39" r="12" fill="var(--ink-3)"/>
+<text x="34" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">1</text>
+<text x="54" y="33" font-size="11" font-weight="800" fill="var(--ink)">Request</text>
+<text x="111" y="33" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">PERSON</text>
+<text x="54" y="47.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">A sentence or two in plain language, sometimes</text><text x="54" y="58.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">with a file attached.</text>
+<rect x="14" y="72" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="97" r="12" fill="var(--steel)"/>
+<text x="34" y="101" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">2</text>
+<text x="54" y="91" font-size="11" font-weight="800" fill="var(--ink)">Grep</text>
+<text x="90" y="91" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--steel)">SEARCH</text>
+<text x="54" y="105.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Search the 700 KB deck for the markers to change</text><text x="54" y="116.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">instead of reading it whole.</text>
+<rect x="14" y="130" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="155" r="12" fill="var(--steel)"/>
+<text x="34" y="159" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">3</text>
+<text x="54" y="149" font-size="11" font-weight="800" fill="var(--ink)">Read</text>
+<text x="90" y="149" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--steel)">READ</text>
+<text x="54" y="163.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Read 40 to 80 line excerpts around each match.</text><text x="54" y="174.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Each excerpt enters the context.</text>
+<rect x="14" y="188" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="213" r="12" fill="var(--violet)"/>
+<text x="34" y="217" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">4</text>
+<text x="54" y="207" font-size="11" font-weight="800" fill="var(--ink)">Write</text>
+<text x="97" y="207" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--violet)">WRITE</text>
+<text x="54" y="221.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Write a Python patch script. Every replacement</text><text x="54" y="232.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">asserts exactly one match first.</text>
+<rect x="14" y="246" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="271" r="12" fill="var(--violet)"/>
+<text x="34" y="275" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">5</text>
+<text x="54" y="265" font-size="11" font-weight="800" fill="var(--ink)">Bash</text>
+<text x="90" y="265" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--violet)">SHELL</text>
+<text x="54" y="279.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Run it. A permission gate sits in front of every</text><text x="54" y="290.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">shell command.</text>
+<rect x="14" y="304" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="329" r="12" fill="var(--good)"/>
+<text x="34" y="333" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">6</text>
+<text x="54" y="323" font-size="11" font-weight="800" fill="var(--ink)">Playwright</text>
+<text x="132" y="323" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--good)">BROWSER</text>
+<text x="54" y="337.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Screenshot the touched slides in EN and ES, Show</text><text x="54" y="348.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">and Tell; measure text against its box.</text>
+<rect x="326" y="14" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="39" r="12" fill="var(--good)"/>
+<text x="346" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">7</text>
+<text x="366" y="33" font-size="11" font-weight="800" fill="var(--ink)">Look</text>
+<text x="402" y="33" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--good)">IMAGE</text>
+<text x="366" y="47.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">The model reads the screenshots as images and</text><text x="366" y="58.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">fixes what overflows. Repeat.</text>
+<rect x="326" y="72" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="97" r="12" fill="var(--violet)"/>
+<text x="346" y="101" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">8</text>
+<text x="366" y="91" font-size="11" font-weight="800" fill="var(--ink)">Bash</text>
+<text x="402" y="91" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--violet)">SHELL</text>
+<text x="366" y="105.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Overflow check on all 18 slides; every lab in</text><text x="366" y="116.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">simulate mode; bash -n; py_compile.</text>
+<rect x="326" y="130" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="155" r="12" fill="var(--accent)"/>
+<text x="346" y="159" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">9</text>
+<text x="366" y="149" font-size="11" font-weight="800" fill="var(--ink)">git</text>
+<text x="395" y="149" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--accent)">GIT</text>
+<text x="366" y="163.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Commit on the branch with the fixed trailer; merge</text><text x="366" y="174.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">to main; push through the proxy.</text>
+<rect x="326" y="188" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="213" r="12" fill="var(--amber)"/>
+<text x="346" y="217" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">10</text>
+<text x="366" y="207" font-size="11" font-weight="800" fill="var(--ink)">GitHub MCP</text>
+<text x="444" y="207" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--amber)">API</text>
+<text x="366" y="221.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Watch the Pages run finish. The site itself is</text><text x="366" y="232.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">unreachable from the sandbox.</text>
+<rect x="326" y="246" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="271" r="12" fill="var(--amber)"/>
+<text x="346" y="275" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">11</text>
+<text x="366" y="265" font-size="11" font-weight="800" fill="var(--ink)">Artifact</text>
+<text x="430" y="265" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--amber)">HOST</text>
+<text x="366" y="279.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Republish the hosted copy so the presenter can</text><text x="366" y="290.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">review on any device.</text>
+<rect x="326" y="304" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="329" r="12" fill="var(--ink-3)"/>
+<text x="346" y="333" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">12</text>
+<text x="366" y="323" font-size="11" font-weight="800" fill="var(--ink)">Reply</text>
+<text x="409" y="323" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">PERSON</text>
+<text x="366" y="337.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">What changed, what was verified, what was not. A</text><text x="366" y="348.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">person reads the diff.</text>
+<rect x="14" y="366" width="612" height="24" rx="6" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="320" y="382" text-anchor="middle" font-size="10" fill="var(--ink-2)">a typical round: 20 to 60 tool calls · every result returns to the model as text or an image · nothing runs without the gate</text>
+</svg></div></div>
+          
+          <span class="slidenum">10 / 20</span>
+        </article>
+<article class="slide" data-title="The context window is the whole world, and it is small" data-notes="Most misunderstandings about agents come from imagining a memory that is not there. The model has no state between turns except this text. Three consequences. First, standing rules work because they are literally re-read every turn; the trailer on every commit and the rule never to push to the wrong repository were held that way. Second, the agent reads excerpts because the window is the budget. Third, compaction: the builder watched the conversation summarised twice, and what survived was what had been written to files. Say the last bullet twice if you need to; it is the operational lesson of the whole talk." data-sources="https://code.claude.com/docs/en/context-window session notes: compaction">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">10 · What the model sees</span><span class="min">1.5 min</span></div>
+            <h2>The context window is the whole world, and it is small</h2>
+            <p class="lede">On every turn the model receives one long text: its instructions, the conversation, and whatever the tools returned. Nothing else exists for it.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Repeated every turn:</b> the system prompt, the tool definitions and the standing rules; prompt caching makes that prefix cheap, which is why the rules can be long</li>
+<li><b>New every turn:</b> the tool results; file excerpts, command output and screenshots take most of the room, which is why the agent reads excerpts</li>
+<li><b>Compaction:</b> when the window fills, the model writes a summary and continues from it; this session was compacted twice, and details survived only where they were in files and commit messages</li>
+<li><b>Not in the window:</b> the rest of the repository, last round&#x27;s screenshots, a cleared scratch directory, and your intent unless you said it</li>
+<li><b>The method follows from the limit:</b> write it down, keep it in the repo, make every check a script</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The context window on one turn: a bar split into the system prompt and tool definitions, the standing rules, the conversation so far, tool results which take most of the room, the reply, and free space. The first parts repeat every turn and are cached. When the window fills, the model writes a summary and continues from it; this session was compacted twice. Below: what is in the window versus what is not.">
+<text x="14" y="22" font-size="12.5" font-weight="800" fill="var(--ink)">One turn, as the model sees it</text>
+<text x="626" y="22" text-anchor="end" font-size="9.5" fill="var(--ink-3)">proportions illustrative; they change every turn</text>
+<path d="M14 52 V46 H216.0 V52" fill="none" stroke="var(--violet)" stroke-width="1.5"/>
+<text x="115.0" y="42" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--violet)">repeated every turn, cached, cheap</text>
+<path d="M220.0 52 V46 H626 V52" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+<text x="423.0" y="42" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--amber)">new this turn: what the tools returned</text>
+<rect x="14.0" y="60" width="89.8" height="44" rx="6" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="58.9" y="80.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-2)">System prompt</text><text x="58.9" y="92.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-2)">and tool</text>
+<rect x="105.8" y="60" width="28.6" height="44" rx="6" fill="var(--accent-wash)" stroke="var(--border-strong)"/>
+<line x1="120.1" y1="104" x2="120.1" y2="130" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="120.1" y="140" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--accent-ink)">Standing rules</text>
+<rect x="136.4" y="60" width="77.6" height="44" rx="6" fill="var(--steel-wash)" stroke="var(--border-strong)"/>
+<text x="175.18" y="80.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--steel)">Conversation</text><text x="175.18" y="92.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--steel)">so far</text>
+<rect x="216.0" y="60" width="334.6" height="44" rx="6" fill="var(--amber-wash)" stroke="var(--border-strong)"/>
+<text x="383.26" y="86.0" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--amber)">Tool results: file excerpts, command output, screenshots</text>
+<rect x="552.6" y="60" width="28.6" height="44" rx="6" fill="var(--good-wash)" stroke="var(--border-strong)"/>
+<line x1="566.9" y1="104" x2="566.9" y2="116" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="566.9" y="126" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--good)">Reply</text>
+<rect x="583.2" y="60" width="40.8" height="44" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+<line x1="603.6" y1="104" x2="603.6" y2="130" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="603.6" y="140" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-3)">free</text>
+<rect x="14" y="152" width="612" height="62" rx="8" fill="var(--surface)" stroke="var(--border-strong)"/>
+<text x="28" y="173" font-size="11" font-weight="800" fill="var(--ink)">When the window fills: compaction</text>
+<text x="28" y="190.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">The model writes a summary of the conversation and continues from it. This session was compacted twice.</text><text x="28" y="203.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">Details survived because they were in files and commit messages, not because the model remembered them.</text>
+<rect x="14" y="228" width="300" height="148" rx="8" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="28" y="250" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--good)">IN THE WINDOW</text>
+<text x="28" y="270.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the rules it was given, every turn</text><text x="28" y="288.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the excerpts it chose to read</text><text x="28" y="306.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the output of the commands it ran</text><text x="28" y="324.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the screenshots it asked for</text><text x="28" y="342.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the summary of what came before</text>
+<rect x="326" y="228" width="300" height="148" rx="8" fill="var(--accent-wash)" stroke="var(--accent)"/>
+<text x="340" y="250" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--accent-ink)">NOT IN THE WINDOW</text>
+<text x="340" y="270.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the rest of the repository</text><text x="340" y="288.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">last round&#x27;s screenshots</text><text x="340" y="306.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the scratch directory after a reset</text><text x="340" y="324.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">anything nobody wrote down</text><text x="340" y="342.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">your intent, unless you said it</text>
+<text x="320" y="394" text-anchor="middle" font-size="10" fill="var(--ink-3)">so the method follows: write it down, keep it in the repo, make every check a script</text>
+</svg></div></div>
+          
+          <span class="slidenum">11 / 20</span>
+        </article>
+<article class="slide" data-title="Subagents and workflows: many hands, one rule for what ships" data-notes="Two mechanisms, one rule. A subagent is a fresh context given a brief; it cannot see the parent&#x27;s conversation, so it has to be told everything in the brief, and it hands back a file. That is why eight could write step cards at once and why a merge script, not a conversation, enforced the word budget. A workflow is a script: the fan-out and fan-in are code, and the agents fill in the leaves. For this briefing the workflow ran four researchers, then sent thirty-three high-stakes claims to verifiers told to refute them, then a synthesizer and a critic asking what was missing. Be candid about the outcome: thirty-one came back unclear because the sandbox could not reach the pages, two were refuted, none were confirmed by the verifiers. The verified federal wording came from pages the main session read itself, and anything it could not read is in the appendix. Parallel agents buy coverage; they do not buy truth." data-sources="workflow wf_6709034d-006 result, 2026-11-19 session notes: step cards, review transcript">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">11 · Many hands</span><span class="min">1.5 min</span></div>
+            <h2>Subagents and workflows: many hands, one rule for what ships</h2>
+            <p class="lede">When a job split cleanly, it was split. Eight subagents wrote step cards for eight labs. For this briefing, a scripted workflow ran 39 agents: research, verify, synthesize.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Subagents</b> are fresh contexts given a brief; they return a file, not a memory; a merge script with a word budget refused step cards that ran long</li>
+<li><b>Workflows</b> are scripts that fan agents out and back in deterministically; the September one mined a review transcript and set three refuters on each suggestion</li>
+<li><b>This briefing&#x27;s workflow:</b> 4 researchers in parallel, 33 verifiers with one claim each, a synthesizer and a completeness critic; 301 tool calls, 36.7 minutes, 1.71 million tokens</li>
+<li><b>The result was mostly &quot;unclear&quot;:</b> 31 pages unreachable from the sandbox, 2 claims refuted, 0 confirmed; so only sentences confirmed from page text went on the federal slides</li>
+<li><b>The rule:</b> parallelism buys coverage, not truth; the verifiers&#x27; job was to refute, and what they could not check went to an appendix</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The research workflow behind this briefing: the brief fans out to four researchers in parallel (architecture, federal, open source, inventory); their high-stakes claims fan out to 33 verifiers, one claim each, of which 31 came back unclear because pages were unreachable and 2 refuted; a synthesizer and a completeness critic produce the outline. 39 agents, 301 tool calls, 36.7 minutes, 1.71 million tokens.">
+<defs><marker id="fl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<text x="150" y="24" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">RESEARCH · 4 IN PARALLEL</text>
+<text x="352" y="24" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">VERIFY · 33, ONE CLAIM EACH</text>
+<text x="546" y="24" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">SYNTHESIZE · 1 + A CRITIC</text>
+<rect x="14" y="124" width="70" height="56" rx="8" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="49" y="148.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">the brief</text><text x="49" y="161.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">in a script</text>
+<rect x="100" y="36" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="56" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">architecture</text>
+<text x="150" y="71" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 59, 98 59" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 59 C218 59, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<rect x="100" y="94" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="114" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">federal fit</text>
+<text x="150" y="129" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 117, 98 117" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 117 C218 117, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<rect x="100" y="152" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="172" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">open source</text>
+<text x="150" y="187" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 175, 98 175" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 175 C218 175, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<rect x="100" y="210" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="230" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">kit inventory</text>
+<text x="150" y="245" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 233, 98 233" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 233 C218 233, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<circle cx="244" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="265" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="286" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="307" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="328" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="349" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="370" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="391" cy="118" r="7" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>refuted by page text</title></circle>
+<circle cx="412" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="433" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="454" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="244" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="265" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="286" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="307" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="328" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="349" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="370" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="391" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="412" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="433" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="454" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="244" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="265" cy="186" r="7" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>refuted by page text</title></circle>
+<circle cx="286" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="307" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="328" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="349" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="370" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="391" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="412" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="433" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="454" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<text x="352" y="212.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">each verifier reads the primary page</text><text x="352" y="224.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">and tries to refute its claim</text>
+<circle cx="244" cy="248" r="5" fill="var(--border-strong)"/><text x="254" y="252" font-size="9.5" fill="var(--ink-2)">31 unclear: page unreachable</text>
+<circle cx="398" cy="248" r="5" fill="var(--accent)"/><text x="408" y="252" font-size="9.5" fill="var(--ink-2)">2 refuted · 0 confirmed</text>
+<path d="M468 152 H486" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#fl)"/>
+<rect x="490" y="96" width="112" height="52" rx="8" fill="var(--violet-wash)" stroke="var(--violet)"/>
+<text x="546" y="118.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">synthesizer</text><text x="546" y="131.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">drafts the outline</text>
+<path d="M546 148 V166" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#fl)"/>
+<rect x="490" y="170" width="112" height="52" rx="8" fill="var(--violet-wash)" stroke="var(--violet)"/>
+<text x="546" y="192.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">critic</text><text x="546" y="205.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">what is missing?</text>
+<rect x="14" y="276" width="612" height="56" rx="8" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.3"/>
+<text x="320" y="298" text-anchor="middle" font-size="11.5" font-weight="800" fill="var(--ink)">Rule that fell out of it: only sentences confirmed from page text went on the federal slides.</text>
+<text x="320" y="318" text-anchor="middle" font-size="10" fill="var(--ink-2)">Everything else moved to an appendix marked verify before quoting. The refuted claims never appeared.</text>
+<rect x="14" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="24" y="366" font-size="14" font-weight="800" fill="var(--ink)">39</text>
+<text x="24" y="382" font-size="9" fill="var(--ink-3)">agents</text>
+<rect x="92" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="102" y="366" font-size="14" font-weight="800" fill="var(--ink)">301</text>
+<text x="102" y="382" font-size="9" fill="var(--ink-3)">tool calls</text>
+<rect x="170" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="180" y="366" font-size="14" font-weight="800" fill="var(--ink)">36.7</text>
+<text x="180" y="382" font-size="9" fill="var(--ink-3)">minutes</text>
+<rect x="248" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="258" y="366" font-size="14" font-weight="800" fill="var(--ink)">1.71M</text>
+<text x="258" y="382" font-size="9" fill="var(--ink-3)">tokens</text>
+<rect x="326" y="346" width="262" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="336" y="366" font-size="14" font-weight="800" fill="var(--ink)">8</text>
+<text x="336" y="382" font-size="9" fill="var(--ink-3)">subagents wrote the step cards, earlier</text>
+</svg></div></div>
+          
+          <span class="slidenum">12 / 20</span>
+        </article>
+<article class="slide" data-title="Gates, limits and what hurt" data-notes="Each tile is a pain and its lesson. Start with the gate, because it is the thing your customers will ask about: every shell command and every git action passed a permission check, and in this session&#x27;s auto mode a classifier model made the call. It refused an ordinary push and a force-with-lease as destructive, then allowed the same push a few minutes later. A non-deterministic gate needs a deterministic fallback: a person with the command and the reason. Then the limits: usage limits killed agents and a workflow mid-round, and because every agent wrote files rather than messages the work survived and only the verification had to be redone. Compaction and the cleared scratch directory are the same lesson from two sides: the repository is the memory, the conversation is not; this branch commits the two verification scripts that were lost. Egress policy and account-level actions are the boundaries of what an agent in a managed container can do: it could not load the published site and it could not create a repository. People create, agents prepare. Close on what the repository can prove without trusting anyone: trailers, a branch name, two pull requests, and until now no committed harness." data-sources="git log --format=%s on main https://support.claude.com/en/articles/15910845 https://www.anthropic.com/engineering/claude-code-auto-mode https://code.claude.com/docs/en/context-window">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">12 · Gates, limits and what hurt</span><span class="min">1.5 min</span></div>
+            <h2>Gates, limits and what hurt</h2>
+            <p class="lede">An agent that can run commands needs a gate in front of every one. This session ran in an auto mode where a classifier judged each action; it was also where most of the friction lived.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>The gate:</b> a permission mode, allow and deny rules, hooks before and after tool calls, and in auto mode a classifier model; it refused an ordinary push and a force-with-lease as destructive, then allowed the same push later</li>
+<li><b>Usage limits</b> stopped agents and a workflow mid-round; their file edits had landed, so verification was re-run by hand</li>
+<li><b>Compaction twice, and a scratch directory cleared between containers:</b> fonts, verification scripts and patch scripts were gone two months later</li>
+<li><b>Egress policy</b> blocked the published site, so deploys were checked through the GitHub API; <b>account-level actions</b> such as creating a public repository were not possible for the agent at all</li>
+<li><b>What the repository can prove:</b> commit trailers with a session link, a claude/ branch, two merged pull requests; no CLAUDE.md and, until this branch, no committed verification scripts. That gap is the lesson</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Six things that hurt while building the kit, each with the lesson: usage limits mid-task, context compaction, the permission classifier, the cleared scratchpad, the egress policy, and account-level actions the agent could not take.">
+<rect x="14" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="26" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="34" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Usage limits mid-task</text>
+<text x="34" y="68" font-size="10" fill="var(--ink-2)">→ checkpoint early; every agent output is a file</text>
+<rect x="324" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="26" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="344" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Context compaction, twice</text>
+<text x="344" y="68" font-size="10" fill="var(--ink-2)">→ the repo and commit messages are the memory</text>
+<rect x="14" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="118" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="34" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">Permission classifier</text>
+<text x="34" y="160" font-size="10" fill="var(--ink-2)">→ a push refused, then allowed; keep a human fallback</text>
+<rect x="324" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="118" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="344" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">Scratchpad cleared</text>
+<text x="344" y="160" font-size="10" fill="var(--ink-2)">→ the check scripts vanished; commit the harness</text>
+<rect x="14" y="198" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="210" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="34" y="229" font-size="13.5" font-weight="800" fill="var(--ink)">Egress policy</text>
+<text x="34" y="252" font-size="10" fill="var(--ink-2)">→ no path to the live site; verified via the API</text>
+<rect x="324" y="198" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="210" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="344" y="229" font-size="13.5" font-weight="800" fill="var(--ink)">Account-level actions</text>
+<text x="344" y="252" font-size="10" fill="var(--ink-2)">→ no repo creation; people create, agents prepare</text>
+</svg></div></div>
+          
+          <span class="slidenum">13 / 20</span>
+        </article>
+<article class="slide" data-title="Three layers enforce; the rest advise, extend or host" data-notes="One picture for the suite. Three layers enforce: permission rules, hooks and whatever sandbox you add. Everything else advises or extends. CLAUDE.md is context, not configuration, and the documentation says so; a model can and occasionally will deviate, so anything that must be guaranteed belongs in a rule or a hook. Skills are directories with a SKILL.md and optional scripts; slash commands are skills now. Subagents are files in .claude/agents with their own window, tool list and mode, and they cannot nest. MCP servers are registered per user, per project in .mcp.json, or by enterprise managed configuration, which can take exclusive control. Plugins bundle skills, agents, hooks and MCP servers and install from marketplaces, Anthropic&#x27;s own among them. All of these are files in a repository, which is why they version well and why a cloned repository is a supply-chain event: a project-level hook is arbitrary code execution with the user&#x27;s privileges. The hosted surfaces on the right all need a claude.ai login and none exist on the Bedrock, Vertex or Foundry paths. The Agent SDK is the platform story: the same binary, spawned as a subprocess in your container, behind your own HTTP or WebSocket API." data-sources="https://code.claude.com/docs/en/feature-availability https://code.claude.com/docs/en/memory https://code.claude.com/docs/en/skills https://code.claude.com/docs/en/plugins https://code.claude.com/docs/en/sub-agents https://code.claude.com/docs/en/agent-sdk/hosting">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">13 · The architecture in one picture</span><span class="min">1.5 min</span></div>
+            <h2>Three layers enforce; the rest advise, extend or host</h2>
+            <p class="lede">Permission rules, hooks and a sandbox are the only parts the model cannot talk its way around. CLAUDE.md, skills, subagents, MCP servers and plugins are context, delegation and distribution.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Enforce:</b> allow, ask and deny rules (deny wins in every mode); hooks on tool events; whatever OS sandbox or container you add</li>
+<li><b>Advise:</b> CLAUDE.md and rules files are context, not configuration; skills are procedures the model may follow and scripts it may run</li>
+<li><b>Extend:</b> subagents with their own context window and tool list; MCP servers; plugins bundle skills, agents, hooks and MCP into one install</li>
+<li><b>Hosted surfaces need a claude.ai login:</b> cloud sessions, artifacts, routines; none of them exist when the CLI points at Bedrock, Vertex or Foundry</li>
+<li><b>Providers are environment variables;</b> the Agent SDK runs the same binary inside your own container behind your own API</li></ul><div class="gfx"><svg viewBox="0 0 640 420" role="img" aria-label="The Claude Code suite: surfaces on top (CLI, IDE, web and cloud sessions, GitHub Actions, Agent SDK); the harness in the middle (tools, subagents, workflows, permissions, compaction, hooks); the extension layer (CLAUDE.md, skills, MCP servers, plugins, artifacts, routines); and model providers at the base.">
+<rect x="14" y="14" width="612" height="66" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="28" y="36" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">SURFACES</text>
+<g font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">
+<rect x="28" y="44" width="104" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="80" y="62">Terminal CLI</text>
+<rect x="142" y="44" width="104" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="194" y="62">IDE extension</text>
+<rect x="256" y="44" width="134" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="323" y="62">Web + cloud sessions</text>
+<rect x="400" y="44" width="110" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="455" y="62">GitHub Actions</text>
+<rect x="520" y="44" width="92" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="566" y="62">Agent SDK</text>
+</g>
+<rect x="14" y="96" width="612" height="118" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>
+<text x="28" y="118" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">THE HARNESS — THE AGENTIC LOOP</text>
+<g font-size="11.5" fill="var(--ink)" text-anchor="middle">
+<rect x="28" y="128" width="110" height="34" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><text x="83" y="149" font-weight="700">Built-in tools</text>
+<rect x="148" y="128" width="110" height="34" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><text x="203" y="149" font-weight="700">Subagents</text>
+<rect x="268" y="128" width="110" height="34" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><text x="323" y="149" font-weight="700">Workflows</text>
+<rect x="388" y="128" width="110" height="34" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><text x="443" y="149" font-weight="700">Permissions</text>
+<rect x="508" y="128" width="104" height="34" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/><text x="560" y="149" font-weight="700">Hooks</text>
+<rect x="28" y="170" width="286" height="32" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="171" y="190" fill="var(--ink-2)" font-size="10.5">context · compaction · prompt caching · memory</text>
+<rect x="326" y="170" width="286" height="32" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="469" y="190" fill="var(--ink-2)" font-size="10.5">sandbox: your machine, or a managed container</text>
+</g>
+<rect x="14" y="230" width="612" height="92" rx="10" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="28" y="252" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">EXTENSION LAYER — WHAT YOU ADD</text>
+<g font-size="11.5" font-weight="700" fill="var(--ink)" text-anchor="middle">
+<rect x="28" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="74" y="281">CLAUDE.md</text><text x="74" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">project memory</text>
+<rect x="128" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="174" y="281">Skills</text><text x="174" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">SKILL.md · /slash</text>
+<rect x="228" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="274" y="281">MCP servers</text><text x="274" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">GitHub, Drive, yours</text>
+<rect x="328" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="374" y="281">Plugins</text><text x="374" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">bundles of the above</text>
+<rect x="428" y="262" width="92" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="474" y="281">Artifacts</text><text x="474" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">hosted pages</text>
+<rect x="528" y="262" width="84" height="46" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="570" y="281">Routines</text><text x="570" y="297" font-size="9.5" font-weight="400" fill="var(--ink-3)">schedules</text>
+</g>
+<rect x="14" y="338" width="612" height="68" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="28" y="360" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">MODEL PROVIDERS — WHERE THE TOKENS GO</text>
+<g font-size="11.5" font-weight="700" fill="var(--ink)" text-anchor="middle">
+<rect x="28" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="98" y="388" font-size="11">Anthropic API</text>
+<rect x="176" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--good)" stroke-width="1.6"/><text x="246" y="388" font-size="11">Bedrock · GovCloud</text>
+<rect x="324" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="394" y="388" font-size="11">Google Vertex AI</text>
+<rect x="472" y="370" width="140" height="26" rx="6" fill="var(--surface)" stroke="var(--border)"/><text x="542" y="388" font-size="11">Microsoft Foundry</text>
+</g>
+</svg></div></div>
+          
+          <span class="slidenum">14 / 20</span>
+        </article>
+<article class="slide" data-title="The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary" data-notes="Two things are called AI Factory, and the Red Hat press release was not reachable from the session this week, so give both with that caveat: NVIDIA&#x27;s Enterprise AI Factory validated design, where OpenShift AI is a verified platform layer, and the Red Hat AI Factory with NVIDIA bundle of Red Hat AI Enterprise and NVIDIA AI Enterprise on partner hardware. What matters for us is that the kit already runs the open core of the same pattern on the same platform: vLLM through Red Hat AI Inference, Granite from the validated-models collections, pgvector, Ansible and Event-Driven Ansible, Sigstore. No NVIDIA entitlement, no validated rack design, and we must not describe it as one. The agent layer maps cleanly. Llama Stack, now OGX in OpenShift AI 3.5, is the API server for inference, vector stores, safety, tools and agents. MCP is the tool seam, and Red Hat polices it: the Connectivity Link MCP gateway enforcing guardrails on tool calls, and the Ansible Automation Platform MCP server so an agent can only launch pre-approved job templates under AAP role-based access, with Event-Driven Ansible for approvals and audit. OpenShell is the sandbox: default-deny egress, policy at the network and application layer, denial logs. The harness list is the point: goose, OpenHands, Aider, Cline, Qwen Code and Codex CLI all take an OpenAI-compatible base URL, so they run against vLLM in the enclave with no vendor account. Gemini CLI does not. Red Hat has also documented pointing Claude Code itself at Red Hat AI Inference on OpenShift; check the current article before quoting it. Product statuses in this paragraph move; the appendix lists which ones were not verdict-checked." data-sources="https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/overview-of-ogx_rag https://www.redhat.com/en/blog/model-context-protocol-gateway-red-hat-openshift-now-generally-available https://www.redhat.com/en/blog/beyond-container-boundaries-kernel-level-agent-security-red-hat-openshift-ai-35 https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/ https://block.github.io/goose/docs/getting-started/providers https://docs.openhands.dev/openhands/usage/llms/local-llms">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">14 · AI Factory and the open-source equivalents</span><span class="min">1.5 min</span></div>
+            <h2>The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary</h2>
+            <p class="lede">Same architecture, different packaging: OpenShift AI, vLLM and Granite underneath; Llama Stack and MCP as the agent layer; an open harness in a policy-enforced sandbox; no vendor account in the loop.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>AI Factory names two things:</b> NVIDIA&#x27;s validated design with OpenShift AI as a platform layer, and the Red Hat AI Factory with NVIDIA bundle; the press release could not be read this week, so say it with that caveat</li>
+<li><b>The kit already runs the open core:</b> OpenShift AI, vLLM through Red Hat AI Inference, Granite, pgvector, Ansible, Sigstore; it is not a validated design and should not be called one</li>
+<li><b>The agent layer maps one to one:</b> Llama Stack (OGX in OpenShift AI 3.5) for the API, MCP as the tool seam with the Connectivity Link gateway and the AAP MCP server, OpenShell as the sandbox</li>
+<li><b>Harnesses that take an OpenAI-compatible endpoint and no vendor account:</b> goose, OpenHands, Aider, Cline, Qwen Code, Codex CLI; Gemini CLI does not</li>
+<li><b>MCP is neutral ground:</b> donated to the Agentic AI Foundation under the Linux Foundation on 9 December 2025 by Anthropic, Block and OpenAI; Red Hat polices it at the gateway</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Three deployment shapes. Left: Anthropic commercial SaaS — claude.ai web sessions, Artifacts and connectors — data and model both outside the agency boundary. Middle: the Claude Code CLI on an agency workstation calling Claude through Amazon Bedrock in AWS GovCloud — the model inside an authorized boundary, the harness on your machine. Right: an open-source harness and an open model on OpenShift AI inside the agency's own enclave, including air-gapped.">
+<defs><marker id="bl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<g>
+<rect x="14" y="14" width="196" height="330" rx="12" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.4"/>
+<rect x="14" y="14" width="196" height="40" rx="12" fill="var(--amber-wash)"/><rect x="14" y="40" width="196" height="14" fill="var(--amber-wash)"/>
+<text x="112" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Commercial SaaS</text>
+<text x="112" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">claude.ai web + cloud sessions</text>
+<text x="112" y="94" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">Artifacts · connectors · Routines</text>
+<rect x="34" y="112" width="156" height="60" rx="8" fill="var(--amber-wash)" stroke="var(--amber)"/>
+<text x="112" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">model + sandbox</text>
+<text x="112" y="154" text-anchor="middle" font-size="10" fill="var(--ink-2)">Anthropic-managed, commercial</text>
+<rect x="34" y="186" width="156" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="112" y="210" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">your repo is cloned in</text>
+<text x="112" y="258" text-anchor="middle" font-size="11" font-weight="700" fill="var(--amber)">built THIS kit</text>
+<text x="112" y="276" text-anchor="middle" font-size="10" fill="var(--ink-2)">public, open-source content</text>
+<text x="112" y="306" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent-ink)">not for CUI · FTI · IL4+</text>
+<text x="112" y="324" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">data leaves the agency boundary</text>
+</g>
+<g>
+<rect x="222" y="14" width="196" height="330" rx="12" fill="var(--surface)" stroke="var(--good)" stroke-width="1.6"/>
+<rect x="222" y="14" width="196" height="40" rx="12" fill="var(--good-wash)"/><rect x="222" y="40" width="196" height="14" fill="var(--good-wash)"/>
+<text x="320" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Authorized cloud</text>
+<text x="320" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">Claude Code CLI on your workstation</text>
+<text x="320" y="94" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">pointed at Bedrock or Vertex</text>
+<rect x="242" y="112" width="156" height="60" rx="8" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="320" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">model in GovCloud</text>
+<text x="320" y="154" text-anchor="middle" font-size="10" fill="var(--ink-2)">FedRAMP High · IL4/IL5 as authorized</text>
+<rect x="242" y="186" width="156" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="320" y="210" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">harness + files stay with you</text>
+<text x="320" y="258" text-anchor="middle" font-size="11" font-weight="700" fill="var(--good)">the usable federal shape</text>
+<text x="320" y="276" text-anchor="middle" font-size="10" fill="var(--ink-2)">no web sessions, no Artifacts</text>
+<text x="320" y="306" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent-ink)">verify the IL for your data</text>
+<text x="320" y="324" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">still no air gap, still a vendor model</text>
+</g>
+<g>
+<rect x="430" y="14" width="196" height="330" rx="12" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.6"/>
+<rect x="430" y="14" width="196" height="40" rx="12" fill="var(--steel-wash)"/><rect x="430" y="40" width="196" height="14" fill="var(--steel-wash)"/>
+<text x="528" y="40" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--ink)">Inside the enclave</text>
+<text x="528" y="78" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">open harness: goose, OpenHands, Aider</text>
+<text x="528" y="94" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">open model on OpenShift AI · vLLM</text>
+<rect x="450" y="112" width="156" height="60" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="528" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">model on your metal</text>
+<text x="528" y="154" text-anchor="middle" font-size="10" fill="var(--ink-2)">Granite, Llama, Qwen, gpt-oss</text>
+<rect x="450" y="186" width="156" height="40" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="528" y="210" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">MCP · Llama Stack · Ansible</text>
+<text x="528" y="258" text-anchor="middle" font-size="11" font-weight="700" fill="var(--steel)">air gap · IL6 · sovereign</text>
+<text x="528" y="276" text-anchor="middle" font-size="10" fill="var(--ink-2)">the AI Factory pattern</text>
+<text x="528" y="306" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--accent-ink)">smaller models, more engineering</text>
+<text x="528" y="324" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">you own the evals and the accreditation</text>
+</g>
+<rect x="14" y="358" width="612" height="34" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="320" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">Same question as the pyramid: where does the data live? That decides the architecture.</text>
+</svg></div></div>
+          
+          <span class="slidenum">15 / 20</span>
+        </article>
+<article class="slide" data-title="Fed Civ and DoD paths, limited to what Anthropic&#x27;s own pages said on 19 November 2026" data-notes="Everything on this slide was read on an Anthropic page on the nineteenth of November and the date is on the slide. Bedrock in AWS GovCloud is the workhorse path for FedRAMP High and IL4 and IL5, with the caveat that AWS authorizes models one at a time and the 2025 announcement named 2025 models; pin the model you demo to the authorized list. Vertex with Assured Workloads is FedRAMP High and IL2; IL5 is not confirmed. Claude for Government reached general availability on the thirtieth of September in a FedRAMP High environment; Claude Code sessions run on the workstation, model requests are proxied to an endpoint inside the boundary, the service does not log request or response bodies, Anthropic telemetry endpoints are not contacted, and there is no inline DLP; the Code client is early access. For classified work the page says Claude is available in the AWS Secret region at IL6 and in Top Secret regions through Bedrock, arranged with the AWS account team; nothing public says the Claude Code harness is offered there. The DoD line matters most for this room: Anthropic&#x27;s own government page carries a supply-chain-risk note that the Department of War designation applies to the use of Claude as a direct part of DoW contracts and subcontracts, and it cites a September 2026 court ruling. Treat DoD programs and defence-contract work as closed to Claude proposals until counsel says otherwise, and position vendor-neutral architecture there. The commercial API, claude.ai surfaces and Microsoft Foundry: no federal authorization on any page read." data-sources="https://www.anthropic.com/news/claude-in-amazon-bedrock-fedramp-high https://claude.com/blog/claude-on-google-cloud-fedramp-high https://claude.com/blog/claude-for-government-is-now-generally-available https://claude.com/docs/government/security/security-and-data-handling https://claude.com/solutions/government https://code.claude.com/docs/en/amazon-bedrock">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">15 · Where Claude Code fits today</span><span class="min">1.5 min</span></div>
+            <h2>Fed Civ and DoD paths, limited to what Anthropic&#x27;s own pages said on 19 November 2026</h2>
+            <p class="lede">Two cloud inference paths with federal authorizations, one Anthropic-sold government environment, a classified path through AWS, and a stop sign for DoD work.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Bedrock in AWS GovCloud:</b> FedRAMP High and DoD IL4/5 announced June 2025; AWS authorizes each model separately, so pin the model; the CLI switch is one environment variable</li>
+<li><b>Vertex AI with Assured Workloads:</b> FedRAMP High and IL2 announced April 2025; IL5 is not confirmed on any page we read</li>
+<li><b>Claude for Government:</b> GA on 30 September 2026 in a FedRAMP High environment; Code runs on the workstation and inference is proxied inside the boundary; no body logging, no DLP, Code in early access</li>
+<li><b>Classified:</b> the government page says Claude is in the AWS Secret region (IL6) and Top Secret regions via Bedrock, arranged through AWS; nothing public says the Claude Code harness runs there</li>
+<li><b>DoD:</b> the same page carries a supply-chain-risk note that the designation applies to Claude used as a direct part of DoW contracts and subcontracts; the commercial API, claude.ai surfaces and Foundry carry no federal authorization on any page read</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Where Claude Code fits by data category, as read on Anthropic pages on 19 November 2026: the commercial API and claude.ai surfaces for public content only; Bedrock in AWS GovCloud for FedRAMP High and IL4 and IL5 workloads; Vertex AI with Assured Workloads for FedRAMP High and IL2; Claude for Government in a FedRAMP High environment; AWS Secret and Top Secret regions via Bedrock for classified; Microsoft Foundry with no federal authorization read. The DoD designation note on Anthropic's page is shown separately.">
+<text x="14" y="34" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">PATH</text>
+<text x="321.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">PUBLIC CONTENT</text>
+<text x="411.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">CUI · FTI</text>
+<text x="501.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">IL4 · IL5</text>
+<text x="591.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">IL6 · TS</text>
+<rect x="14" y="44" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="63" font-size="12" font-weight="800" fill="var(--ink)">Anthropic API · claude.ai surfaces</text>
+<text x="26" y="80" font-size="9.5" fill="var(--ink-3)">cloud sessions, artifacts, connectors, routines</text>
+<rect x="305.0" y="53" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="53" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="411.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="485.0" y="53" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="501.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="575.0" y="53" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="93" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="112" font-size="12" font-weight="800" fill="var(--ink)">Bedrock · AWS GovCloud</text>
+<text x="26" y="129" font-size="9.5" fill="var(--ink-3)">FedRAMP High · IL4/5 announced Jun 2025 · per model</text>
+<rect x="305.0" y="102" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="102" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="411.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="485.0" y="102" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="501.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="575.0" y="102" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="142" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="161" font-size="12" font-weight="800" fill="var(--ink)">Vertex AI · Assured Workloads</text>
+<text x="26" y="178" font-size="9.5" fill="var(--ink-3)">FedRAMP High · IL2 announced Apr 2025 · IL5 unconfirmed</text>
+<rect x="305.0" y="151" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="151" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="411.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="485.0" y="151" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="151" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="191" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="210" font-size="12" font-weight="800" fill="var(--ink)">Claude for Government</text>
+<text x="26" y="227" font-size="9.5" fill="var(--ink-3)">GA 30 Sep 2026 · FedRAMP High environment · Code early access</text>
+<rect x="305.0" y="200" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="200" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="411.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="485.0" y="200" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="200" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="240" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="259" font-size="12" font-weight="800" fill="var(--ink)">Bedrock · AWS Secret / Top Secret</text>
+<text x="26" y="276" font-size="9.5" fill="var(--ink-3)">stated on the page · arrange through AWS · Code not stated</text>
+<rect x="305.0" y="249" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="321.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="395.0" y="249" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="411.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="485.0" y="249" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="249" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="591.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="14" y="289" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="308" font-size="12" font-weight="800" fill="var(--ink)">Microsoft Foundry</text>
+<text x="26" y="325" font-size="9.5" fill="var(--ink-3)">no federal authorization read</text>
+<rect x="305.0" y="298" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="298" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="411.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="485.0" y="298" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="298" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="340" width="622" height="40" rx="8" fill="var(--accent-wash)" stroke="var(--accent)"/>
+<text x="26" y="357" font-size="11" font-weight="800" fill="var(--accent-ink)">DoD: a supply-chain-risk note on Anthropic's own government page (read 2026-11-19)</text>
+<text x="26" y="372" font-size="9.5" fill="var(--ink-2)">"applies to the use of Claude as a direct part of DoW contracts and subcontracts"</text>
+<text x="14" y="396" font-size="9.5" fill="var(--ink-3)">✓ stated on an Anthropic page we read on 2026-11-19 · — not stated there · ✗ no authorization found · AWS authorizes each model separately</text>
+</svg></div></div>
+          <div class="verify"><b>Verify before quoting</b> · the litigation behind the DoD note, the GSA OneGov terms, the IRS Publication 1075 specifics and the DoD contract history could not be read from primary pages this week. The appendix lists them.</div>
+          <span class="slidenum">16 / 20</span>
+        </article>
+<article class="slide" data-title="Eight gaps for Fed Civ and DoD, and a mitigation for each" data-notes="Read this as a ledger. The air gap is structural: no page offers model weights or a disconnected deployment, so the honest answer for an enclave is an open harness against vLLM in OpenShell, with the capability loss that implies. The DoD designation blocks regardless of technology. The boundary leaks are configuration: deny the claude.ai-tied surfaces in managed settings and authenticate with cloud IAM, which cannot publish artifacts; put DLP at your proxy because Claude for Government has none. Supply chain and injection are the posture you already preach for Ansible collections and IDE extensions: install from a mirrored, pinned source, allow only reviewed marketplaces, run MCP servers from agency-built containers, deny-by-default egress, and treat tickets, pull-request comments, web pages and documents as untrusted input to a privileged agent. The classifier is a model-based control; Anthropic&#x27;s March 2026 post reports a 17% false-negative rate on real over-eager actions and a stop after three consecutive or twenty total denials. Encode allow, deny and ask rules and pre-tool hooks the binary enforces, and disable auto mode where policy requires. For audit, turn on OpenTelemetry org-wide to an agency collector; the raw-bodies option exports the whole conversation to your collector and never to Anthropic, and events carry the user&#x27;s email and session id. Records officers will tell you NARA now treats prompts, outputs and agent logs as potential federal records. Identity goes through your IdP with PIV enforced there. And Section 508: the vendor&#x27;s conformance reports cover the tool; the HTML pages, slides and documents it generates are yours to test." data-sources="https://code.claude.com/docs/en/security https://code.claude.com/docs/en/monitoring-usage https://www.anthropic.com/engineering/claude-code-auto-mode https://code.claude.com/docs/en/artifacts https://code.claude.com/docs/en/claude-code-on-the-web https://www.archives.gov/records-mgmt/memos/ac-11-2026">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">16 · Where it fails to perform</span><span class="min">1.5 min</span></div>
+            <h2>Eight gaps for Fed Civ and DoD, and a mitigation for each</h2>
+            <p class="lede">None of the mitigations is to wait for a better model. Each is a configuration, a procurement decision, or an open-source substitute you already know how to sell.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Structural:</b> no on-premises or air-gapped Claude was found on any page; the classified paths are AWS regions; the DoD designation blocks regardless of technology</li>
+<li><b>Boundary:</b> cloud sessions, artifacts, connectors and routines are commercial claude.ai; deny them in managed settings and sign in with cloud IAM, which cannot publish artifacts at all</li>
+<li><b>Supply chain and injection:</b> the npm CLI, plugins, skills and MCP servers are code you run; Anthropic&#x27;s own page says no system is immune; pin, mirror, sandbox, and treat every tool result as untrusted</li>
+<li><b>Control and audit:</b> the auto-mode classifier is a model with a 17% miss rate in Anthropic&#x27;s own test; OpenTelemetry export is opt-in; the only transcript may be on a laptop; no PIV/CAC; accessibility reports cover the tool, not what it generates</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Eight places Claude Code fails to perform for federal customers, each with the mitigation: air gap and classified networks outside AWS, the DoD designation, the CUI and FTI boundary, supply chain, prompt injection, the classifier as a control, limits and compaction, and audit, identity and Section 508.">
+<rect x="14" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="26" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="34" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Air gap · IL6 outside AWS</text>
+<text x="34" y="68" font-size="10" fill="var(--ink-2)">→ no on-prem or weights offer found; AWS Secret/TS only</text>
+<rect x="324" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="26" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="344" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">The DoD designation</text>
+<text x="344" y="68" font-size="10" fill="var(--ink-2)">→ blocks DoW contract work regardless of technology</text>
+<rect x="14" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="118" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="34" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">CUI / FTI boundary</text>
+<text x="34" y="160" font-size="10" fill="var(--ink-2)">→ web sessions and artifacts are commercial SaaS</text>
+<rect x="324" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="118" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="344" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">Supply chain</text>
+<text x="344" y="160" font-size="10" fill="var(--ink-2)">→ plugins, skills, MCP servers: pin, mirror, sign</text>
+<rect x="14" y="198" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="210" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="34" y="229" font-size="13.5" font-weight="800" fill="var(--ink)">Prompt injection</text>
+<text x="34" y="252" font-size="10" fill="var(--ink-2)">→ tool results are untrusted; no system is immune</text>
+<rect x="324" y="198" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="210" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="344" y="229" font-size="13.5" font-weight="800" fill="var(--ink)">Classifier as control</text>
+<text x="344" y="252" font-size="10" fill="var(--ink-2)">→ a model decides (17% misses); keep deny rules</text>
+<rect x="14" y="290" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="302" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="34" y="321" font-size="13.5" font-weight="800" fill="var(--ink)">Limits and compaction</text>
+<text x="34" y="344" font-size="10" fill="var(--ink-2)">→ work stops or is summarised; checkpoint to git</text>
+<rect x="324" y="290" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="302" width="6" height="56" rx="3" fill="var(--accent)"/>
+<text x="344" y="321" font-size="13.5" font-weight="800" fill="var(--ink)">Audit, identity, 508</text>
+<text x="344" y="344" font-size="10" fill="var(--ink-2)">→ OTel opt-in; no PIV/CAC; ACRs cover the tool only</text>
+</svg></div></div>
+          
+          <span class="slidenum">17 / 20</span>
+        </article>
+<article class="slide" data-title="Solve a problem someone has; keep judgement human; right tool, right time" data-notes="This is the kit&#x27;s own argument and it is why the toolchain looks the way it does. The pyramid asks, at each layer, what the question is, what lives there and who does the work. The labs answer it. Lab 04 refuses below a relevance threshold and exits with a code a workflow can route to a person: the important behaviour is the refusal, not the answer. Lab 05&#x27;s rulebook deliberately does not self-remediate a provenance mismatch. Lab 08 ships the Lightspeed-drafted rulebook with two review edits you can see in the file, a threshold raised and a maintenance-window guard added, and records the change as a ticket and a knowledge entry. The data hygiene is in the labs too: the retrieval corpus is git-ignored, inference is bound to the loopback address, digests are asserted, FIPS mode and the compliance scan are read in Lab 06. Apply the same test to agent tooling: a classifier where a deny rule would do is a tool looking for a mission; a commercial web session holding federal tax information is the wrong tool at the wrong time; a frontier model drafting public slides with a person reading every diff is exactly right." data-sources="slides/deck.html (TITLE_LAYERS, PYR_TIERS) labs/lab04-rag/query.py labs/lab05-ansible/rulebooks/inference_saturation.yml labs/lab08-grand-demo/rulebooks/memory_pressure.yml">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">17 · The rule that ran the kit, and the making of it</span><span class="min">1 min</span></div>
+            <h2>Solve a problem someone has; keep judgement human; right tool, right time</h2>
+            <p class="lede">The title-slide pyramid, data to information to knowledge to judgement, is the test every tool choice in the repository passed, and the one to apply to agent tooling.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Solve a problem someone has:</b> every lab opens from a queue, a pager or an accreditation question; Lab 04 is about the refusal, not the answer</li>
+<li><b>Keep judgement human:</b> Lab 05 escalates a provenance mismatch instead of fixing it; Lab 08 ships a Lightspeed draft with two human review edits visible in the file</li>
+<li><b>Right tool, right time:</b> a frontier model in a commercial cloud built this public content; an open model in the enclave is the answer for the customer&#x27;s data</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The data-to-judgement pyramid beside three rules: solve a problem someone has; keep judgement human; right tool, right time.">
+<g><polygon points="160,30 300,330 20,330" fill="none" stroke="var(--border-strong)"/>
+<polygon points="160,32 221,164 99,164" fill="var(--violet)"/>
+<polygon points="97,168 223,168 231,186 89,186" fill="#1D4ED8"/>
+<polygon points="88,190 232,190 262,254 58,254" fill="var(--good)"/>
+<polygon points="56,258 264,258 271,272 49,272" fill="#D99A00"/>
+<polygon points="48,276 272,276 291,316 29,316" fill="#C2410C"/>
+<polygon points="27,320 293,320 298,330 22,330" fill="var(--accent)"/>
+<text x="160" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">04</text>
+<text x="160" y="230" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">03</text>
+<text x="160" y="302" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">02</text>
+<text x="160" y="352" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing=".8" fill="var(--ink-3)">DATA · INFORMATION · KNOWLEDGE · JUDGEMENT</text></g>
+<g font-size="12" fill="var(--ink-2)">
+<rect x="330" y="40" width="296" height="90" rx="10" fill="var(--accent-wash)" stroke="var(--accent)"/>
+<text x="348" y="68" font-size="14" font-weight="800" fill="var(--ink)">Solve a problem someone has</text>
+<text x="348" y="90" font-size="11">Every lab started from a queue, a pager or an</text><text x="348" y="108" font-size="11">accreditation question. Nothing else got in.</text>
+<rect x="330" y="146" width="296" height="90" rx="10" fill="var(--violet-wash)" stroke="var(--violet)"/>
+<text x="348" y="174" font-size="14" font-weight="800" fill="var(--ink)">Keep judgement human</text>
+<text x="348" y="196" font-size="11">The agent drafted, measured and proposed;</text><text x="348" y="214" font-size="11">a person read every diff and signed off.</text>
+<rect x="330" y="252" width="296" height="90" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="348" y="280" font-size="14" font-weight="800" fill="var(--ink)">Right tool, right time</text>
+<text x="348" y="302" font-size="11">A frontier model in the cloud for public content;</text><text x="348" y="320" font-size="11">an open model inside the enclave for the data.</text>
+</g>
+<text x="320" y="384" text-anchor="middle" font-size="11" fill="var(--ink-3)">the same rules that run the deck ran the making of it</text>
+</svg></div></div>
+          
+          <span class="slidenum">18 / 20</span>
+        </article>
+<article class="slide" data-title="Ten things to lift, each an afternoon&#x27;s work" data-notes="Ten things to lift. The Makefile and the workflow are a copy-and-paste template: test gates build, build runs in one container, publish only from main. The lab runtime plus one run.sh gives you the step-script pattern in an hour, and preflight.sh tells attendees what they can run live; NO_COLOR for screen shares and LAB_PACE=step on a projector. Put facts in one file each and generate the rest; make generators fail on unknown ids and grep for drift before you present. Keep a headless browser in the loop and commit those scripts; this kit did not, and lost them. On the agent side: a CLAUDE.md with the build and test commands, mirrored as AGENTS.md because Codex, Gemini CLI and goose read that; subagents for the embarrassingly parallel writing and independent refuters for every external claim; deterministic rules and hooks before auto mode for anything that pushes; checkpoints before limits or compaction; and a verdict table with an as-of date so you only quote verified wording. The last item is the whole federal conversation in one line: map the data category to a path before anyone buys." data-sources="Makefile .github/workflows/docs.yml bin/lib.sh bin/preflight.sh docs/95-how-it-was-built.adoc">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">18 · What to copy into your next account deliverable</span><span class="min">1 min</span></div>
+            <h2>Ten things to lift, each an afternoon&#x27;s work</h2>
+            
+          </div>
+          <div class="body nogfx"><div class="checklist"><div>One repository, one Makefile; CI runs the labs before it builds anything, and publishes only from main</div><div>Labs as step scripts with the expected output as the acceptance criterion; simulate by default, live on demand</div><div>One file owns each fact; generate the catalogue, the pptx and the diagrams from it, and fail on unknown ids</div><div>Keep a headless browser in the loop: screenshot and measure after every change; render the pptx to PNG</div><div>Commit the verification scripts beside the deliverable; a scratch space is not a repository</div><div>Write a CLAUDE.md with the build and test commands and mirror it as AGENTS.md so any harness can read it</div><div>Subagents for parallel writing; independent refuters for every external claim; quote only what came back confirmed</div><div>Deny rules and hooks before auto mode for anything that pushes, deletes or spends</div><div>Checkpoint to git before limits or compaction hit; files are the memory, the conversation is not</div><div>Map the customer&#x27;s data category to a model path before anyone buys; the endpoint is the boundary</div></div></div>
+          
+          <span class="slidenum">19 / 20</span>
+        </article>
+<article class="slide" data-title="Claims that could not be read from a primary page this week" data-notes="Keep this page in the deck but do not present it. It is the list a peer needs before repeating anything from slides nine and ten in a customer meeting. The verifiers were web agents that could only read pages the session&#x27;s network allowed; a redirect across hosts, a DNS failure or a PDF host that did not resolve all count as unclear, not as false. Re-run the checks from a workstation with normal egress before the next briefing." data-sources="workflow wf_6709034d-006 verdict table, 2026-11-19">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">Appendix · not presented · verify before quoting</span><span class="min">0 min</span></div>
+            <h2>Claims that could not be read from a primary page this week</h2>
+            <p class="lede">Thirty-three high-stakes claims were sent to independent verifiers with orders to read the source. Thirty-one came back unclear (pages unreachable, redirected or silent) and two refuted. Only sentences confirmed from page text appear on slides 9 and 10. These did not make it.</p>
+          </div>
+          <div class="body nogfx"><ul class="pts"><li>FedRAMP status of Claude Enterprise and the Anthropic API bought directly (reported as not authorized, in process): the FAQ page redirected and was not read; check the FedRAMP Marketplace</li>
+<li>The litigation behind the DoD note: a D.C. Circuit ruling of 25 September 2026, a presidential directive, GSA schedule removal and restoration, the CDAO contract history, migration of classified workloads: court, CRS and press pages were unreachable</li>
+<li>GSA OneGov terms: the 2025 one-dollar offer and the October 2026 consumption discount: the GSA release was unreachable; say only that an arrangement exists and confirm terms with GSA or the reseller</li>
+<li>IRS Publication 1075 cloud conditions for Federal Tax Information: the IRS page was unreachable; say FTI in the cloud is governed by Pub 1075 and the Office of Safeguards</li>
+<li>Bedrock GovCloud current model list and per-model IL4/5 status; Vertex IL5; Foundry in Azure Government: none stated on the pages read</li>
+<li>Claude Code supply-chain incidents reported in the press (npm packaging, a dependency window, typosquats): not checked against primary statements</li>
+<li>Red Hat AI Factory with NVIDIA dates and partner list; OGX, llm-d, MCP gateway and AAP MCP server statuses; OpenShell and several harness licences: in the material at stated confidence, not verdict-checked</li>
+<li>A2A governance, AGENTS.md dates and adoption figures, Section 508 conformance reports, PIV/CAC support (absence inferred, not stated), compaction thresholds and usage-limit numbers: unverified or fast-moving</li></ul></div>
+          
+          <span class="slidenum">20 / 20</span>
+        </article>
+  </div>
+  <div class="notes" id="notes" hidden><b>Presenter notes</b><span id="notes-text"></span><span id="notes-src"></span></div>
+  <div class="bar">
+    <span class="hint"><kbd>←</kbd> <kbd>→</kbd> move · <kbd>N</kbd> notes · <kbd>F</kbd> full screen · <kbd>D</kbd> dark · 28 minutes</span>
+    <span class="grp"><button class="ghost" id="prev">← Prev</button><span id="pos"></span><button class="ghost" id="next">Next →</button></span>
+  </div>
+</div>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var cur = 0, notes = document.getElementById('notes'), nt = document.getElementById('notes-text'), ns = document.getElementById('notes-src'), pos = document.getElementById('pos');
+  function go(i){
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function(s, k){ s.setAttribute('data-active', k === cur ? 'true' : 'false'); });
+    nt.textContent = slides[cur].dataset.notes || '';
+    ns.textContent = slides[cur].dataset.sources ? 'Sources: ' + slides[cur].dataset.sources : '';
+    pos.textContent = String(cur + 1).padStart(2, '0') + ' / ' + slides.length;
+    try { history.replaceState(null, '', '#slide-' + (cur + 1)); } catch (e) {}
+  }
+  document.getElementById('prev').addEventListener('click', function(){ go(cur - 1); });
+  document.getElementById('next').addEventListener('click', function(){ go(cur + 1); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') go(0); else if (e.key === 'End') go(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') notes.hidden = !notes.hidden;
+    else if (e.key === 'd' || e.key === 'D') document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    else if (e.key === 'f' || e.key === 'F') { var st = document.getElementById('stage'); if (document.fullscreenElement) document.exitFullscreen(); else if (st.requestFullscreen) st.requestFullscreen(); }
+  });
+  var m = /^#slide-(\d+)$/.exec(location.hash || '');
+  go(m ? parseInt(m[1], 10) - 1 : 0);
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+})();
+</script>
+</body>
+</html>

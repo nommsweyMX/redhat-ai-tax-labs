@@ -38,6 +38,26 @@ Drop the illustrated renders into `slides/assets/graphics/` (see its README) and
 
 toc::[]
 
+== How it was built
+
+For colleagues who want the method rather than the labs, three pages sit beside
+the kit, all generated from JSON by `bin/build-brief.py`:
+
+* `/how-it-was-built.html` — a 15-minute methods briefing: the open-source
+  toolchain, how the kit was synthesized, how an agent harness works, and
+  where it fits and fails for Fed Civ and DoD customers.
+* `/how-it-was-built-talk.html` — the longer talk (about 28 minutes): how the
+  kit originated and progressed round by round, where everything ran, and
+  what the agent was doing in the background, with the briefing material
+  after it. The timeline and growth charts are drawn from
+  `slides/how-it-was-built-history.json`, mined from the git log.
+* `/how-it-was-built-essay.html` — the essay-length companion, also a chapter
+  of the documentation book.
+
+Every federal and product claim on those pages is limited to what was read
+on a primary page on the date shown, and each page carries a
+verify-before-quoting list.
+
 == Quick start
 
 [source,bash]
@@ -90,7 +110,7 @@ Nothing above needs a cluster, a GPU, or credentials.
 | Generated `.pptx` for platforms that require a slide upload.
 
 | `bin/`
-| Shared lab runtime, preflight check, all-labs runner, PowerPoint builder.
+| Shared lab runtime, preflight check, all-labs runner, PowerPoint builder, the how-it-was-built page builder and the git-history miner behind its charts.
 |===
 
 == The labs
@@ -177,6 +197,8 @@ make docs      # docs/index.adoc  -> build/docs/index.html
 make slides    # slides/slides.adoc -> build/slides.html (reveal.js)
 make pptx      # slides/exports/redhat-ai-tax-administration.pptx
 make adventure # slides/adventure.html from bin/adventure-inventory.json
+make brief     # the how-it-was-built briefing, talk, essay and AsciiDoc chapter
+make history   # slides/how-it-was-built-history.json from the git log
 make pdf       # build/redhat-ai-tax-administration.pdf
 make test      # shell syntax check + run all labs in simulate mode
 make all       # everything above

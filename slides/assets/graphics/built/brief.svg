@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The original ask: a one-hour virtual event on 17 September 2026 for about 56 IRS and adjacent-agency registrants, hosted by Carahsoft with Four Inc. and presented by Red Hat; an abstract naming five outcomes; and six standing rules the builder set on day one."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<rect x="14" y="14" width="300" height="196" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="30" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">THE EVENT</text>
+<text x="30" y="62.0" text-anchor="start" font-size="15" font-weight="800" fill="var(--ink)">AI foundations for intelligent</text><text x="30" y="81.0" text-anchor="start" font-size="15" font-weight="800" fill="var(--ink)">tax administration</text>
+<text x="30" y="108.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">17 September 2026 · 1:00 to 2:00 PM Eastern · virtual</text><text x="30" y="124.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">Carahsoft hosting · Four Inc. distributing</text><text x="30" y="140.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">Red Hat presenting: two solution architects</text><text x="30" y="156.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">about 56 registrants, IRS and adjacent agencies,</text><text x="30" y="172.0" text-anchor="start" font-size="10.5" font-weight="400" fill="var(--ink-2)">most of them new to Red Hat</text>
+<text x="30" y="198" font-size="10" font-style="italic" fill="var(--ink-3)">the brief was one abstract and one wish</text>
+<rect x="330" y="14" width="296" height="196" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.3"/>
+<text x="346" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">FIVE OUTCOMES IN THE ABSTRACT</text>
+<rect x="346" y="52" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="68" font-size="10.5" font-weight="700" fill="var(--accent-ink)">01</text>
+<text x="382" y="68" font-size="11" font-weight="600" fill="var(--ink)">Modernize operations</text>
+<rect x="346" y="82" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="98" font-size="10.5" font-weight="700" fill="var(--accent-ink)">02</text>
+<text x="382" y="98" font-size="11" font-weight="600" fill="var(--ink)">Serve a model inside the boundary</text>
+<rect x="346" y="112" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="128" font-size="10.5" font-weight="700" fill="var(--accent-ink)">03</text>
+<text x="382" y="128" font-size="11" font-weight="600" fill="var(--ink)">Ground answers in agency guidance</text>
+<rect x="346" y="142" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="158" font-size="10.5" font-weight="700" fill="var(--accent-ink)">04</text>
+<text x="382" y="158" font-size="11" font-weight="600" fill="var(--ink)">Prove it to the security office</text>
+<rect x="346" y="172" width="264" height="24" rx="12" fill="var(--surface)" stroke="var(--border)"/>
+<text x="360" y="188" font-size="10.5" font-weight="700" fill="var(--accent-ink)">05</text>
+<text x="382" y="188" font-size="11" font-weight="600" fill="var(--ink)">Survive filing season</text>
+<rect x="14" y="224" width="612" height="162" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="30" y="248" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--ink-3)">STANDING RULES, SET ON DAY ONE AND NEVER RELAXED</text>
+<rect x="30" y="262" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="30" y="272" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="44" y="283" font-size="10.5" font-weight="800" fill="var(--ink)">Everything public, open source</text>
+<text x="44" y="300" font-size="9.5" fill="var(--ink-2)">one repo, MIT, no secrets</text>
+<rect x="230" y="262" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="230" y="272" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="244" y="283" font-size="10.5" font-weight="800" fill="var(--ink)">No model names in the files</text>
+<text x="244" y="300" font-size="9.5" fill="var(--ink-2)">the kit outlives any model</text>
+<rect x="430" y="262" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="430" y="272" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="444" y="283" font-size="10.5" font-weight="800" fill="var(--ink)">Every claim runs in a shell</text>
+<text x="444" y="300" font-size="9.5" fill="var(--ink-2)">a slide line is a lab step</text>
+<rect x="30" y="320" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="30" y="330" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="44" y="341" font-size="10.5" font-weight="800" fill="var(--ink)">Laptop first, cluster when real</text>
+<text x="44" y="358" font-size="9.5" fill="var(--ink-2)">simulate mode, then live mode</text>
+<rect x="230" y="320" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="230" y="330" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="244" y="341" font-size="10.5" font-weight="800" fill="var(--ink)">A console the audience never sees</text>
+<text x="244" y="358" font-size="9.5" fill="var(--ink-2)">notes follow the deck window to window</text>
+<rect x="430" y="320" width="188" height="48" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<rect x="430" y="330" width="4" height="28" rx="2" fill="var(--accent)"/>
+<text x="444" y="341" font-size="10.5" font-weight="800" fill="var(--ink)">End hands-on</text>
+<text x="444" y="358" font-size="9.5" fill="var(--ink-2)">not with a thank-you slide</text>
+</svg>

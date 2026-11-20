@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The build pipeline: inputs (the event abstract, two planning calls, a review transcript, the presenter's script, five graphics) flow into single sources of truth (the deck HTML, the lab run scripts, a ladder map, an inventory JSON), which generators turn into the console, reveal slides, PowerPoint, docs and the adventure page; a render-and-measure loop with Playwright checks every output and feeds fixes back to the sources; GitHub Actions runs the labs in simulate mode and publishes to Pages."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<defs><marker id="pl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker><marker id="plr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+<g font-size="10.5" fill="var(--ink-2)">
+<rect x="14" y="20" width="150" height="130" rx="10" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="89" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Inputs</text>
+<text x="26" y="64">event abstract</text><text x="26" y="80">two planning calls</text><text x="26" y="96">review transcript</text><text x="26" y="112">presenter's own script</text><text x="26" y="128">five graphics (renders)</text><text x="26" y="144">eight real workflows</text>
+<rect x="190" y="20" width="160" height="130" rx="10" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.4"/>
+<text x="270" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Sources of truth</text>
+<text x="202" y="64" font-family="Red Hat Mono" font-size="9.5">slides/deck.html</text><text x="202" y="80" font-family="Red Hat Mono" font-size="9.5">labs/*/run.sh</text><text x="202" y="96" font-family="Red Hat Mono" font-size="9.5">slides/ladder-map.json</text><text x="202" y="112" font-family="Red Hat Mono" font-size="9.5">adventure-inventory.json</text><text x="202" y="128" font-family="Red Hat Mono" font-size="9.5">docs/*.adoc</text><text x="202" y="144" font-size="9.5" fill="var(--ink-3)">change once, regenerate the rest</text>
+<rect x="376" y="20" width="250" height="130" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<text x="501" y="42" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Generators and outputs</text>
+<text x="388" y="64">presenter console · patch scripts</text><text x="388" y="80">asciidoctor → docs HTML · PDF</text><text x="388" y="96">asciidoctor-revealjs → reveal deck</text><text x="388" y="112">python-pptx → native PowerPoint</text><text x="388" y="128">build-adventure.py → catalogue page</text><text x="388" y="144">EN/ES text table → one deck, two languages</text>
+</g>
+<line x1="164" y1="85" x2="186" y2="85" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<line x1="350" y1="85" x2="372" y2="85" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<path d="M501 150 V192" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<path d="M270 196 V156" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-dasharray="5 4" marker-end="url(#plr)"/>
+<text x="282" y="179" font-size="10" font-weight="700" fill="var(--accent-ink)">fixes go back to the source</text>
+<rect x="190" y="196" width="436" height="80" rx="10" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1.4"/>
+<text x="408" y="220" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">Render, measure, fix — every round, both languages, both views</text>
+<text x="408" y="242" text-anchor="middle" font-size="10" fill="var(--ink-2)">Playwright + Chromium screenshots · overflow and text-extent checks · Spanish coverage</text>
+<text x="408" y="262" text-anchor="middle" font-size="10" fill="var(--ink-2)">LibreOffice + pdftoppm to eyeball the pptx · every lab runs in simulate mode, end to end</text>
+<path d="M408 276 V302" stroke="var(--ink-3)" stroke-width="2" marker-end="url(#pl)"/>
+<rect x="14" y="306" width="612" height="76" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.4"/>
+<text x="320" y="330" text-anchor="middle" font-size="12" font-weight="800" fill="var(--ink)">GitHub Actions: lint → run every lab (simulate) → build → publish to Pages</text>
+<text x="320" y="352" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">The labs gate the docs. A broken lab blocks the site. Everything public, MIT, one URL.</text>
+<text x="320" y="370" text-anchor="middle" font-size="10" fill="var(--ink-3)">plus a hosted artifact for review, and a presenter console that follows the deck window to window</text>
+</svg>

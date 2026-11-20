@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The research workflow behind this briefing: the brief fans out to four researchers in parallel (architecture, federal, open source, inventory); their high-stakes claims fan out to 33 verifiers, one claim each, of which 31 came back unclear because pages were unreachable and 2 refuted; a synthesizer and a completeness critic produce the outline. 39 agents, 301 tool calls, 36.7 minutes, 1.71 million tokens."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<defs><marker id="fl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<text x="150" y="24" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">RESEARCH · 4 IN PARALLEL</text>
+<text x="352" y="24" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">VERIFY · 33, ONE CLAIM EACH</text>
+<text x="546" y="24" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">SYNTHESIZE · 1 + A CRITIC</text>
+<rect x="14" y="124" width="70" height="56" rx="8" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="49" y="148.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">the brief</text><text x="49" y="161.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">in a script</text>
+<rect x="100" y="36" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="56" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">architecture</text>
+<text x="150" y="71" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 59, 98 59" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 59 C218 59, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<rect x="100" y="94" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="114" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">federal fit</text>
+<text x="150" y="129" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 117, 98 117" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 117 C218 117, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<rect x="100" y="152" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="172" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">open source</text>
+<text x="150" y="187" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 175, 98 175" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 175 C218 175, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<rect x="100" y="210" width="100" height="46" rx="8" fill="var(--steel-wash)" stroke="var(--steel)"/>
+<text x="150" y="230" text-anchor="middle" font-size="10.5" font-weight="800" fill="var(--ink)">kit inventory</text>
+<text x="150" y="245" text-anchor="middle" font-size="9" fill="var(--ink-2)">reads docs, writes claims</text>
+<path d="M84 152 C92 152, 92 233, 98 233" fill="none" stroke="var(--ink-3)" stroke-width="1.2" marker-end="url(#fl)"/>
+<path d="M200 233 C218 233, 218 152, 230 152" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+<circle cx="244" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="265" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="286" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="307" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="328" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="349" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="370" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="391" cy="118" r="7" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>refuted by page text</title></circle>
+<circle cx="412" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="433" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="454" cy="118" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="244" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="265" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="286" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="307" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="328" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="349" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="370" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="391" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="412" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="433" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="454" cy="152" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="244" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="265" cy="186" r="7" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>refuted by page text</title></circle>
+<circle cx="286" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="307" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="328" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="349" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="370" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="391" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="412" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="433" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<circle cx="454" cy="186" r="7" fill="var(--border-strong)" stroke="var(--surface)" stroke-width="2"><title>unclear: page unreachable from the sandbox</title></circle>
+<text x="352" y="212.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">each verifier reads the primary page</text><text x="352" y="224.0" text-anchor="middle" font-size="9.5" font-weight="400" fill="var(--ink-2)">and tries to refute its claim</text>
+<circle cx="244" cy="248" r="5" fill="var(--border-strong)"/><text x="254" y="252" font-size="9.5" fill="var(--ink-2)">31 unclear: page unreachable</text>
+<circle cx="398" cy="248" r="5" fill="var(--accent)"/><text x="408" y="252" font-size="9.5" fill="var(--ink-2)">2 refuted · 0 confirmed</text>
+<path d="M468 152 H486" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#fl)"/>
+<rect x="490" y="96" width="112" height="52" rx="8" fill="var(--violet-wash)" stroke="var(--violet)"/>
+<text x="546" y="118.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">synthesizer</text><text x="546" y="131.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">drafts the outline</text>
+<path d="M546 148 V166" stroke="var(--ink-3)" stroke-width="1.5" marker-end="url(#fl)"/>
+<rect x="490" y="170" width="112" height="52" rx="8" fill="var(--violet-wash)" stroke="var(--violet)"/>
+<text x="546" y="192.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">critic</text><text x="546" y="205.0" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ink)">what is missing?</text>
+<rect x="14" y="276" width="612" height="56" rx="8" fill="var(--accent-wash)" stroke="var(--accent)" stroke-width="1.3"/>
+<text x="320" y="298" text-anchor="middle" font-size="11.5" font-weight="800" fill="var(--ink)">Rule that fell out of it: only sentences confirmed from page text went on the federal slides.</text>
+<text x="320" y="318" text-anchor="middle" font-size="10" fill="var(--ink-2)">Everything else moved to an appendix marked verify before quoting. The refuted claims never appeared.</text>
+<rect x="14" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="24" y="366" font-size="14" font-weight="800" fill="var(--ink)">39</text>
+<text x="24" y="382" font-size="9" fill="var(--ink-3)">agents</text>
+<rect x="92" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="102" y="366" font-size="14" font-weight="800" fill="var(--ink)">301</text>
+<text x="102" y="382" font-size="9" fill="var(--ink-3)">tool calls</text>
+<rect x="170" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="180" y="366" font-size="14" font-weight="800" fill="var(--ink)">36.7</text>
+<text x="180" y="382" font-size="9" fill="var(--ink-3)">minutes</text>
+<rect x="248" y="346" width="70" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="258" y="366" font-size="14" font-weight="800" fill="var(--ink)">1.71M</text>
+<text x="258" y="382" font-size="9" fill="var(--ink-3)">tokens</text>
+<rect x="326" y="346" width="262" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="336" y="366" font-size="14" font-weight="800" fill="var(--ink)">8</text>
+<text x="336" y="382" font-size="9" fill="var(--ink-3)">subagents wrote the step cards, earlier</text>
+</svg>

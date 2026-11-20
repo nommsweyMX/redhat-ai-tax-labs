@@ -214,4 +214,8 @@ include::08-lab-grand-demo.adoc[]
 
 include::90-facilitator-guide.adoc[]
 
+include::95-how-it-was-built.adoc[]
+
+include::96-how-it-was-built-essay.adoc[]
+
 :leveloffset: -1

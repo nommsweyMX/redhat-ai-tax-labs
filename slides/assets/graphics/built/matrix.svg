@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Where Claude Code fits by data category, as read on Anthropic pages on 19 November 2026: the commercial API and claude.ai surfaces for public content only; Bedrock in AWS GovCloud for FedRAMP High and IL4 and IL5 workloads; Vertex AI with Assured Workloads for FedRAMP High and IL2; Claude for Government in a FedRAMP High environment; AWS Secret and Top Secret regions via Bedrock for classified; Microsoft Foundry with no federal authorization read. The DoD designation note on Anthropic's page is shown separately."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<text x="14" y="34" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">PATH</text>
+<text x="321.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">PUBLIC CONTENT</text>
+<text x="411.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">CUI · FTI</text>
+<text x="501.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">IL4 · IL5</text>
+<text x="591.0" y="34" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">IL6 · TS</text>
+<rect x="14" y="44" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="63" font-size="12" font-weight="800" fill="var(--ink)">Anthropic API · claude.ai surfaces</text>
+<text x="26" y="80" font-size="9.5" fill="var(--ink-3)">cloud sessions, artifacts, connectors, routines</text>
+<rect x="305.0" y="53" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="53" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="411.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="485.0" y="53" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="501.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="575.0" y="53" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="73" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="93" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="112" font-size="12" font-weight="800" fill="var(--ink)">Bedrock · AWS GovCloud</text>
+<text x="26" y="129" font-size="9.5" fill="var(--ink-3)">FedRAMP High · IL4/5 announced Jun 2025 · per model</text>
+<rect x="305.0" y="102" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="102" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="411.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="485.0" y="102" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="501.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="575.0" y="102" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="122" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="142" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="161" font-size="12" font-weight="800" fill="var(--ink)">Vertex AI · Assured Workloads</text>
+<text x="26" y="178" font-size="9.5" fill="var(--ink-3)">FedRAMP High · IL2 announced Apr 2025 · IL5 unconfirmed</text>
+<rect x="305.0" y="151" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="151" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="411.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="485.0" y="151" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="151" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="191" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="210" font-size="12" font-weight="800" fill="var(--ink)">Claude for Government</text>
+<text x="26" y="227" font-size="9.5" fill="var(--ink-3)">GA 30 Sep 2026 · FedRAMP High environment · Code early access</text>
+<rect x="305.0" y="200" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="200" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="411.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="485.0" y="200" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="200" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="220" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="240" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="259" font-size="12" font-weight="800" fill="var(--ink)">Bedrock · AWS Secret / Top Secret</text>
+<text x="26" y="276" font-size="9.5" fill="var(--ink-3)">stated on the page · arrange through AWS · Code not stated</text>
+<rect x="305.0" y="249" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="321.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="395.0" y="249" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="411.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="485.0" y="249" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="249" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="591.0" y="269" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="14" y="289" width="622" height="44" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="308" font-size="12" font-weight="800" fill="var(--ink)">Microsoft Foundry</text>
+<text x="26" y="325" font-size="9.5" fill="var(--ink-3)">no federal authorization read</text>
+<rect x="305.0" y="298" width="32" height="28" rx="6" fill="var(--good-wash)"/>
+<text x="321.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--good)">✓</text>
+<rect x="395.0" y="298" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="411.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="485.0" y="298" width="32" height="28" rx="6" fill="var(--surface-2)"/>
+<text x="501.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink-3)">—</text>
+<rect x="575.0" y="298" width="32" height="28" rx="6" fill="var(--accent-wash)"/>
+<text x="591.0" y="318" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent-ink)">✗</text>
+<rect x="14" y="340" width="622" height="40" rx="8" fill="var(--accent-wash)" stroke="var(--accent)"/>
+<text x="26" y="357" font-size="11" font-weight="800" fill="var(--accent-ink)">DoD: a supply-chain-risk note on Anthropic's own government page (read 2026-11-19)</text>
+<text x="26" y="372" font-size="9.5" fill="var(--ink-2)">"applies to the use of Claude as a direct part of DoW contracts and subcontracts"</text>
+<text x="14" y="396" font-size="9.5" fill="var(--ink-3)">✓ stated on an Anthropic page we read on 2026-11-19 · — not stated there · ✗ no authorization found · AWS authorizes each model separately</text>
+</svg>

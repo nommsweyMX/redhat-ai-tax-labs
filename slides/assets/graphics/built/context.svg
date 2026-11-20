@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The context window on one turn: a bar split into the system prompt and tool definitions, the standing rules, the conversation so far, tool results which take most of the room, the reply, and free space. The first parts repeat every turn and are cached. When the window fills, the model writes a summary and continues from it; this session was compacted twice. Below: what is in the window versus what is not."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<text x="14" y="22" font-size="12.5" font-weight="800" fill="var(--ink)">One turn, as the model sees it</text>
+<text x="626" y="22" text-anchor="end" font-size="9.5" fill="var(--ink-3)">proportions illustrative; they change every turn</text>
+<path d="M14 52 V46 H216.0 V52" fill="none" stroke="var(--violet)" stroke-width="1.5"/>
+<text x="115.0" y="42" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--violet)">repeated every turn, cached, cheap</text>
+<path d="M220.0 52 V46 H626 V52" fill="none" stroke="var(--amber)" stroke-width="1.5"/>
+<text x="423.0" y="42" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--amber)">new this turn: what the tools returned</text>
+<rect x="14.0" y="60" width="89.8" height="44" rx="6" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="58.9" y="80.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-2)">System prompt</text><text x="58.9" y="92.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-2)">and tool</text>
+<rect x="105.8" y="60" width="28.6" height="44" rx="6" fill="var(--accent-wash)" stroke="var(--border-strong)"/>
+<line x1="120.1" y1="104" x2="120.1" y2="130" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="120.1" y="140" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--accent-ink)">Standing rules</text>
+<rect x="136.4" y="60" width="77.6" height="44" rx="6" fill="var(--steel-wash)" stroke="var(--border-strong)"/>
+<text x="175.18" y="80.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--steel)">Conversation</text><text x="175.18" y="92.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--steel)">so far</text>
+<rect x="216.0" y="60" width="334.6" height="44" rx="6" fill="var(--amber-wash)" stroke="var(--border-strong)"/>
+<text x="383.26" y="86.0" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--amber)">Tool results: file excerpts, command output, screenshots</text>
+<rect x="552.6" y="60" width="28.6" height="44" rx="6" fill="var(--good-wash)" stroke="var(--border-strong)"/>
+<line x1="566.9" y1="104" x2="566.9" y2="116" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="566.9" y="126" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--good)">Reply</text>
+<rect x="583.2" y="60" width="40.8" height="44" rx="6" fill="var(--surface)" stroke="var(--border-strong)"/>
+<line x1="603.6" y1="104" x2="603.6" y2="130" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="603.6" y="140" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--ink-3)">free</text>
+<rect x="14" y="152" width="612" height="62" rx="8" fill="var(--surface)" stroke="var(--border-strong)"/>
+<text x="28" y="173" font-size="11" font-weight="800" fill="var(--ink)">When the window fills: compaction</text>
+<text x="28" y="190.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">The model writes a summary of the conversation and continues from it. This session was compacted twice.</text><text x="28" y="203.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">Details survived because they were in files and commit messages, not because the model remembered them.</text>
+<rect x="14" y="228" width="300" height="148" rx="8" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="28" y="250" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--good)">IN THE WINDOW</text>
+<text x="28" y="270.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the rules it was given, every turn</text><text x="28" y="288.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the excerpts it chose to read</text><text x="28" y="306.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the output of the commands it ran</text><text x="28" y="324.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the screenshots it asked for</text><text x="28" y="342.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the summary of what came before</text>
+<rect x="326" y="228" width="300" height="148" rx="8" fill="var(--accent-wash)" stroke="var(--accent)"/>
+<text x="340" y="250" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="var(--accent-ink)">NOT IN THE WINDOW</text>
+<text x="340" y="270.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the rest of the repository</text><text x="340" y="288.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">last round&#x27;s screenshots</text><text x="340" y="306.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">the scratch directory after a reset</text><text x="340" y="324.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">anything nobody wrote down</text><text x="340" y="342.0" text-anchor="start" font-size="10" font-weight="400" fill="var(--ink-2)">your intent, unless you said it</text>
+<text x="320" y="394" text-anchor="middle" font-size="10" fill="var(--ink-3)">so the method follows: write it down, keep it in the repo, make every check a script</text>
+</svg>

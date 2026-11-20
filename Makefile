@@ -12,7 +12,7 @@ IMAGE     := docker.io/asciidoctor/docker-asciidoctor:latest
 RUNTIME   := $(shell command -v podman 2>/dev/null || command -v docker 2>/dev/null)
 RUN       := $(RUNTIME) run --rm -v "$(CURDIR):/documents:z" -w /documents $(IMAGE)
 
-.PHONY: all docs slides pptx adventure pdf test lint labs clean help
+.PHONY: all docs slides pptx adventure brief history graphics pdf test lint labs clean help
 
 help:
 	@echo "Targets:"
@@ -20,11 +20,14 @@ help:
 	@echo "  make slides  build/slides.html        reveal.js deck"
 	@echo "  make pptx    $(PPTX)"
 	@echo "  make adventure slides/adventure.html   the self-guided catalogue"
+	@echo "  make brief     the how-it-was-built briefing, talk, essay and AsciiDoc chapter"
+	@echo "  make history   slides/how-it-was-built-history.json from the git log"
+	@echo "  make graphics  standalone SVGs and PNGs of the briefing graphics (needs Playwright)"
 	@echo "  make pdf     build/*.pdf              printable documentation"
 	@echo "  make test    lint + run all labs in simulate mode"
 	@echo "  make all     everything"
 
-all: docs slides pptx adventure pdf
+all: docs slides pptx adventure brief pdf
 
 $(BUILD):
 	@mkdir -p $(BUILD)
@@ -61,11 +64,23 @@ pptx:
 adventure:
 	python3 bin/build-adventure.py --out slides/adventure.html
 
+brief:
+	python3 bin/build-brief.py --outline slides/how-it-was-built.json --out slides/how-it-was-built.html
+	python3 bin/build-brief.py --outline slides/how-it-was-built-talk.json --out slides/how-it-was-built-talk.html
+	python3 bin/build-brief.py --essay slides/how-it-was-built-essay.json --out slides/how-it-was-built-essay.html --adoc docs/96-how-it-was-built-essay.adoc
+
+history:
+	python3 bin/mine-history.py --ref origin/main --out slides/how-it-was-built-history.json
+
+graphics:
+	python3 bin/build-brief.py --svg-dir slides/assets/graphics/built
+	node bin/render-graphics.js slides/assets/graphics/built docs/images/built
+
 lint:
 	@echo "Checking shell syntax..."
 	@for f in bin/*.sh labs/*/run.sh; do bash -n "$$f" || exit 1; done
 	@echo "Checking Python syntax..."
-	@python3 -m py_compile bin/build-pptx.py labs/lab04-rag/*.py
+	@python3 -m py_compile bin/build-pptx.py bin/build-adventure.py bin/build-brief.py bin/mine-history.py labs/lab04-rag/*.py
 	@echo "OK"
 
 labs:

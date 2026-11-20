@@ -1,0 +1,478 @@
+{
+ "title": "How the IRS AI kit was built, and what the AI was doing",
+ "subtitle": "A longer talk for Red Hat account solution architects: how the kit originated and progressed, where it ran, what the agent was doing in the background, the open-source toolchain, and where agentic tooling fits and fails for Fed Civ and DoD customers. Extends the 15-minute methods briefing.",
+ "total_minutes": 28,
+ "companion": {
+  "essay": "how-it-was-built-essay.html",
+  "brief": "how-it-was-built.html",
+  "handout": "docs/95-how-it-was-built.adoc"
+ },
+ "leave_behind": [
+  "docs/95-how-it-was-built.adoc",
+  "docs/96-how-it-was-built-essay.adoc",
+  "slides/how-it-was-built-essay.html",
+  "slides/how-it-was-built-talk.html"
+ ],
+ "slides": [
+  {
+   "kind": "title",
+   "minutes": 0.5,
+   "eyebrow": "Red Hat · account solution architects · how it was built · November 2026",
+   "title": "How the IRS AI kit was built, and what the AI was doing",
+   "lede": "Twenty-three days, forty-four commits, nine requests in plain language. Where it ran, what the agent did in the background, what the tools were, and where this way of working fits and fails for federal customers.",
+   "hosts": [
+    "Red Hat",
+    "Four Inc.",
+    "Carahsoft"
+   ],
+   "bullets": [],
+   "graphic": "",
+   "notes": "About twenty-eight minutes: eighteen slides and an appendix you do not present. The first third is the story: the ask, the rounds, the growth, the machines it ran on. The middle third is the machinery: one round traced call by call, the context window, the fan-out of subagents and workflows, and the gates. The last third is the briefing material: the toolchain, the architecture, the federal fit, the gaps and the rule. Everything on the federal slides is limited to what was read on an Anthropic page on 19 November 2026; the appendix lists what could not be read. The companion essay carries the long form and the table of numbers behind the growth charts.",
+   "sources": [
+    "https://nommsweymx.github.io/redhat-ai-tax-labs/",
+    "https://github.com/nommsweyMX/redhat-ai-tax-labs"
+   ],
+   "n": 1
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "01 · The ask",
+   "title": "A one-hour event, an abstract, and six rules set on day one",
+   "lede": "The brief was thin on purpose: five outcomes from the event abstract and a wish to end hands-on. The rules came from the builder and never relaxed.",
+   "bullets": [
+    "**The event:** 17 September 2026, 1:00 to 2:00 PM Eastern, virtual; Carahsoft hosting, Four Inc. distributing, Red Hat presenting; about 56 registrants from the IRS and adjacent agencies",
+    "**The abstract named five outcomes:** modernize operations, serve a model inside the boundary, ground answers in agency guidance, prove it to the security office, survive filing season",
+    "**The rules:** everything public and open source; no model names in the files; every claim on a slide is a command a lab runs; laptop first, cluster when real; a console the audience never sees",
+    "**Solve a problem someone has.** Every lab started from a queue, a pager or an accreditation question; nothing else got in",
+    "**Why it matters for the method:** a thin brief with hard rules is what an agent can work from, and the rules are the part a person must write"
+   ],
+   "graphic": "brief",
+   "graphic_key": "brief",
+   "notes": "Start with the ask because everything that follows was shaped by it. The brief was one abstract and one wish. The abstract gave five outcomes; the wish was to end the hour hands-on rather than with a thank-you slide. The rules were the builder's and they did the real work: public and open source meant nothing sensitive could ever enter the session; no model names meant the kit would outlive any vendor's release; every claim must run meant the labs disciplined the slides rather than the other way round; laptop first meant the labs had to carry their own expected output; and the console rule meant two windows, one of which the audience never sees. Say plainly that the rules were written by a person before the first prompt, and that this is the part of the method that cannot be delegated.",
+   "sources": [
+    "docs/00-event-brief.adoc",
+    "session notes: standing rules"
+   ],
+   "n": 2
+  },
+  {
+   "minutes": 2,
+   "eyebrow": "02 · Origins",
+   "title": "Twenty-three days, forty-four commits, nine requests in plain language",
+   "lede": "Each round was a request typed into Claude Code on the web, sometimes with a file attached; each landed on main the same day. The last merge was 38 minutes before the event opened.",
+   "bullets": [
+    "**26 Aug:** the first commit carried a deck, six labs, docs, a Makefile and the CI workflow, generated in one round from the abstract",
+    "**2 to 3 Sep:** the current Red Hat AI stack replaced a retired product name; two planning calls were folded in from notes; an audit against the notes found six gaps, fixed the same evening",
+    "**8 to 16 Sep:** the data-to-judgement ladder became the theme and a JSON source of truth; English and Spanish; step cards on every lab step; a review transcript mined and its suggestions verified before use",
+    "**17 Sep, 07:51 to 16:22 UTC:** five renders uploaded, Lab 08 end to end, slide 7, Show and Tell faces, the title pyramid; the event opened at 17:00 UTC",
+    "**Nine rounds, not nine days of work:** each round was hours, and most of each hour was verification"
+   ],
+   "graphic": "timeline",
+   "graphic_key": "timeline",
+   "notes": "Walk the axis left to right. The ticks are the 44 commits on main; the dots are the rounds. Point out two things. First, the shape: a burst at the start, a pause, then a steady cadence of one request every day or two, each merged the same day. Second, the morning of the event: five rounds between 07:51 and 16:22 UTC, the last merge 38 minutes before the event opened at 1 PM Eastern. That is not a boast; it is a warning and a method. It was possible because every round ended with the same checks, run by scripts, so the risk of a late change was bounded. The dates and times are from the git log and anyone with a clone can reproduce the picture with bin/mine-history.py.",
+   "sources": [
+    "git log --reverse origin/main",
+    "bin/mine-history.py",
+    "slides/how-it-was-built-history.json"
+   ],
+   "n": 3
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "03 · How it grew",
+   "title": "What the rounds added, read from the git tree",
+   "lede": "Six measures of the kit after every commit on main. Each panel has its own scale; the shape is the point.",
+   "bullets": [
+    "**Deck size** 84 to 718 KB: the jumps are Spanish (10 Sep), step cards (14 Sep) and the illustrated pop-outs with vector fallbacks (16 Sep)",
+    "**Slides** 9 to 18 and **labs** 6 to 8: most of the structure existed on day one; later rounds deepened rather than widened",
+    "**Spanish strings** 0 to 575, **inline SVG graphics** 1 to 19, **presenter-console sections** 0 to 26",
+    "**Files** 40 to 62, across 26 states of main; every number here is re-derived by a script, not typed",
+    "**The lesson:** growth went into verification and explanation, not features; that is where the agent's time went too"
+   ],
+   "graphic": "growth",
+   "graphic_key": "growth",
+   "notes": "Read the shapes, not the numbers. The deck grew eight and a half times, but the slide count only doubled; what grew was the apparatus around each slide: a second language, a second face, a card for every lab step, a vector fallback for every picture. The labs went from six to eight; the structure was right early and the rounds deepened it. One honest note: these are the first-parent states of main, so a side branch that was behind main for a day does not show as a dip. The data file in the repository carries every commit, with a flag for which ones are states of main, and the essay prints the table.",
+   "sources": [
+    "slides/how-it-was-built-history.json",
+    "bin/mine-history.py"
+   ],
+   "n": 4
+  },
+  {
+   "n": 5,
+   "minutes": 1,
+   "eyebrow": "04 · What was built",
+   "title": "One repository, six faces of the same hour",
+   "lede": "Everything renders from one git repository: the deck you open from disk, the labs you run in a shell, and the console, docs, slides and PowerPoint generated beside them.",
+   "bullets": [
+    "**18 slides, 8 labs, 43 real commands** with their expected output, English and Spanish, Show and Tell faces, light and dark",
+    "**The deck is one file:** 731 KB of HTML, CSS, JavaScript and inline SVG, no framework, no build step, no server",
+    "**Eight virtual terminals** play the labs hands-free or let the room type the commands; a card explains every step",
+    "**A presenter console** follows the deck window to window; nothing on the shared screen changes",
+    "**44 commits in three weeks,** every push tested and published by GitHub Actions to Pages"
+   ],
+   "graphic": "faces",
+   "graphic_key": "faces",
+   "notes": "Start with what exists so the methods have something to point at. The deck is a single HTML file: an attendee can open it from a USB stick, and the only network dependency is the Red Hat fonts. The eight labs are bash scripts that pair every real product command with its expected output, so they run on any laptop in simulate mode and against RHEL AI, OpenShift AI, Ansible Automation Platform, TrustyAI and pgvector in live mode. The console, the docs book, the reveal.js cut, the PDF, the PowerPoint and the adventure catalogue are all generated beside them. One honest note: the README said seventeen slides for two months after the eighteenth was added; this branch fixes it. Hand-typed numbers drift; generated ones do not. That is the first lesson of the method.",
+   "sources": [
+    "slides/deck.html",
+    "labs/*/run.sh",
+    "slides/presenter-notes.html",
+    ".github/workflows/docs.yml"
+   ]
+  },
+  {
+   "minutes": 2,
+   "eyebrow": "05 · Where it ran",
+   "title": "Six places, one of them ephemeral, none of them yours",
+   "lede": "The person worked from a browser. The agent worked in a managed container that was thrown away. The model ran at an API endpoint. GitHub tested and published. The audience saw Pages.",
+   "bullets": [
+    "**The person:** Claude Code on the web, from a laptop and a phone; plain-language requests, uploaded notes, a transcript, a script and five graphics; every diff read before it merged",
+    "**The container:** Anthropic-managed Linux, a fresh clone each session; bash, git, Python, node, Playwright with Chromium, LibreOffice; a scratch directory that did not survive; egress through an allow-list",
+    "**The model:** an API endpoint; every excerpt read, every command output and every screenshot went there as context, and tokens came back",
+    "**GitHub:** the repository; Actions runners that lint, run all eight labs in simulate mode, build docs, slides and PDF, and publish to Pages; a hosted artifact copy on claude.ai for review",
+    "**The labs run elsewhere:** on the attendee's laptop in simulate mode, or on OpenShift AI, RHEL AI, Ansible Automation Platform and pgvector in live mode"
+   ],
+   "graphic": "where",
+   "graphic_key": "where",
+   "notes": "This is the slide the security people in your account will want. Name each box and say what crossed each arrow. Requests and uploads crossed from the person to the container. File excerpts, command output and screenshots crossed from the container to the model, and tokens came back. Commits crossed to GitHub over HTTPS through the proxy. Pages served the audience. Two negatives matter as much: the agent never ran on a laptop, and it never ran inside an agency. That is why this shape was acceptable here: the content was public and open source from the first commit. The same shape would not be acceptable for CUI or FTI, which is where the deployment slides later in the talk pick up. One more detail from the builder: when the session resumed two months later the container was new and the scratch directory was empty. Only what was committed survived.",
+   "sources": [
+    "session notes: where it ran",
+    ".github/workflows/docs.yml",
+    "https://code.claude.com/docs/en/claude-code-on-the-web"
+   ],
+   "n": 6
+  },
+  {
+   "n": 7,
+   "minutes": 1.5,
+   "eyebrow": "06 · The toolchain",
+   "title": "Every tool in the chain is open source, and most of it is boring on purpose",
+   "lede": "Five shelves: what we authored by hand, what the labs call, what generates the derived outputs, what checks them, and what publishes.",
+   "bullets": [
+    "**Authoring:** hand-written HTML, CSS and JavaScript with inline SVG; AsciiDoc with speaker notes; Python standard-library generators",
+    "**Labs:** a 120-line bash runtime, Python retrieval helpers, Ansible rulebooks and playbooks, KServe manifests, a seed taxonomy in YAML",
+    "**Docs and exports:** Asciidoctor in its official container for HTML, reveal.js and PDF; python-pptx drawing native, editable shapes",
+    "**Verification:** make lint and make test, Playwright with Chromium measuring every slide, LibreOffice and pdftoppm to eyeball the pptx",
+    "**Publishing:** Git, GitHub Actions, GitHub Pages, an MIT licence; the licences of every tool are in the handout"
+   ],
+   "graphic": "toolchain",
+   "graphic_key": "toolchain",
+   "verify": "the Playwright, Spanish-coverage and patch scripts lived in the session's scratch space and were never committed; two months later that space had been cleared and they were gone. Commit the harness, not just the deliverable.",
+   "notes": "Group one is what a person types. The deck is deliberately framework-free, so there is nothing to install and nothing to break. The narrative deck is AsciiDoc with notes blocks, built by asciidoctor-revealjs. Group two is the lab engine: bin/lib.sh gives you lab_header, lab_section, lab_note, step and lab_footer; each step pairs a real command with a heredoc of expected output; in simulate mode the heredoc streams, in live mode the command runs and the heredoc is what you compare against. The header comment says it plainly: the simulated output is not decoration, it is the acceptance criterion. What the 43 steps call is the Red Hat stack itself: podman, vLLM through the AI Inference Server image, KServe, oc, ansible-navigator and ansible-rulebook, cosign, the Compliance Operator, TrustyAI, Loki, pgvector, SDG Hub and Training Hub. Group three generates: Asciidoctor runs in the official container so nobody installs Ruby; python-pptx draws native shapes with the palette and pyramid geometry copied from the deck tokens, so a customer can edit the PowerPoint. Group four checks: make lint is bash -n plus py_compile, make test runs all eight labs; a headless browser screenshots and measures every slide; LibreOffice renders the pptx to PNG. Group five publishes. Be straight with the room about the verify note on the slide.",
+   "sources": [
+    "bin/lib.sh",
+    "Makefile",
+    "bin/build-pptx.py",
+    "bin/build-adventure.py",
+    ".gitattributes"
+   ]
+  },
+  {
+   "n": 8,
+   "minutes": 1.5,
+   "eyebrow": "07 · How it was synthesized",
+   "title": "Messy inputs, one owner per fact, generate the rest, measure every round",
+   "lede": "The discipline that held nine rounds of changes together: push each fact into exactly one file, let generators and a render-and-measure loop do everything after that.",
+   "bullets": [
+    "**Inputs:** the event abstract, two planning calls, a review transcript, the presenter's own script, five illustrated renders, eight real workflows",
+    "**One file owns each fact:** the ladder map, the run scripts, the narrative source, the catalogue inventory, the product-name attributes, the deck tokens",
+    "**Generators read them and fail loudly** on an unknown id: the catalogue page, the PowerPoint, the title pyramid SVG",
+    "**After every change:** all eight labs run, all 18 slides are screenshotted and measured in both languages and both faces",
+    "**The CI gate:** a broken lab blocks the docs build and the Pages publish; the labs gate the story"
+   ],
+   "graphic": "pipeline",
+   "graphic_key": "pipeline",
+   "notes": "This is the slide to spend time on. The inputs were messy: an abstract, two planning calls whose notes arrived as files, a review transcript, the presenter's own script and console additions, and five renders he had made elsewhere. The discipline was to give each fact one owner. Rungs and chapters live in ladder-map.json; commands and expected output live in run.sh; the spoken narrative in slides.adoc; the catalogue in adventure-inventory.json; product names in attributes.adoc; colours and the pyramid geometry in the deck tokens, which the PowerPoint builder copies. Generators read those files and stop on anything they do not recognise. Two surfaces are still hand-copied: the deck's own lab table and the docs technology table, and that is exactly where the surviving drift came from. The loop after every change was: run every lab in simulate mode, screenshot all eighteen slides in English and Spanish, Show and Tell, measure text extents against their containers, check Spanish coverage, render the pptx to PNG. Fixes went back to the source file, never to the output. Then CI repeated the cheap half of that on every push, and only a green run published.",
+   "sources": [
+    "slides/ladder-map.json",
+    "bin/adventure-inventory.json",
+    "bin/build-adventure.py",
+    "bin/build-pptx.py",
+    "docs/attributes.adoc",
+    ".github/workflows/docs.yml"
+   ]
+  },
+  {
+   "n": 9,
+   "minutes": 1.5,
+   "eyebrow": "08 · How an agent works",
+   "title": "The model proposes; the harness decides, executes and records",
+   "lede": "Strip the branding away and Claude Code is a loop: assemble context, call the model, gate the tool call, run it, append the result, repeat until the model stops asking for tools.",
+   "bullets": [
+    "**The request** is the system prompt, every CLAUDE.md and rules file, the tool descriptions, any matching skills, and the conversation so far, already compacted if long",
+    "**The model returns text or a tool call.** It never runs anything itself; the harness does, locally or in a cloud sandbox",
+    "**The gate** runs before execution: deny rules win in every mode, then allow rules, then the mode: ask a person, plan only, a classifier model, or bypass",
+    "**Hooks** run before and after each tool; the result is appended and the whole transcript goes back, often dozens of times per turn",
+    "**Federal consequence:** every file read, command output and fetched page is sent to the model endpoint; the endpoint and your egress rules are the boundary"
+   ],
+   "graphic": "agent-loop",
+   "graphic_key": "agent-loop",
+   "notes": "This is the whole product once the vocabulary is removed. Claude Code assembles a request and sends it to whichever endpoint the environment variables select: Anthropic's API by default, or Amazon Bedrock, Google's Vertex AI, or Microsoft Foundry. The model replies with text or a structured tool call: read this file, run this command, edit that line, ask a subagent. The harness decides whether the call runs. Deny rules always win; allow rules come next; then the mode. In the default mode a person is asked; plan mode refuses writes; auto mode sends the action to a classifier model; bypass just runs. A pre-tool hook can veto with an exit code. The result is appended and the loop continues. Prompt caching makes the repeated prefix cheap; compaction summarises old steps and is lossy. Subagents are the same loop with a fresh context window and a narrower tool list, returning a summary. The sentence to leave with the room is the last bullet: everything the agent reads goes to the endpoint. The endpoint is the boundary, not the model.",
+   "sources": [
+    "https://code.claude.com/docs/en/how-claude-code-works",
+    "https://code.claude.com/docs/en/permission-modes",
+    "https://code.claude.com/docs/en/hooks",
+    "https://code.claude.com/docs/en/context-window"
+   ]
+  },
+  {
+   "minutes": 2,
+   "eyebrow": "09 · One round, concretely",
+   "title": "One ordinary round, call by call",
+   "lede": "A request like \"make the YAML graphic more solid\" became twenty to sixty tool calls. This is the shape of nearly every round.",
+   "bullets": [
+    "**Find, do not read:** the agent searched the 700 KB deck for markers and read 40 to 80 line excerpts; whole-file reads would have filled the window in two rounds",
+    "**Patch scripts over hand edits:** a Python script with one assertion per replacement; a mismatch stopped the round instead of corrupting the file",
+    "**Render and measure:** Playwright screenshots of the touched slides in English and Spanish, Show and Tell; text extents measured against their boxes; the model read the screenshots as images",
+    "**The same gates every round:** the full overflow check, every lab in simulate mode, bash -n, py_compile; then commit, merge, push, watch the Pages run, republish the review copy",
+    "**A person reads the diff** before the merge, and the reply says what was verified and what was not"
+   ],
+   "graphic": "trace",
+   "graphic_key": "trace",
+   "notes": "Slow down here; this is the slide that answers \"what is it actually doing\". Walk the twelve steps. Emphasise three. Step two: it searched rather than read, because the context window is finite and a 700 KB file would consume it; choosing what to read is most of the agent's skill. Step four: it wrote a patch script rather than editing by hand, and each replacement asserted exactly one match, so a drifted file stopped the round rather than being silently damaged. Steps six and seven: it screenshotted its own work and looked at the pictures, then measured text against boxes with code, because its own reading of a picture is not a measurement. The gates in step eight ran whether or not the round touched the labs. Nothing in this list is clever; what made it work is that it ran every time.",
+   "sources": [
+    "session notes: a typical round",
+    "bin/render-graphics.js and bin/mine-history.py (the two verification scripts now committed)"
+   ],
+   "n": 10
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "10 · What the model sees",
+   "title": "The context window is the whole world, and it is small",
+   "lede": "On every turn the model receives one long text: its instructions, the conversation, and whatever the tools returned. Nothing else exists for it.",
+   "bullets": [
+    "**Repeated every turn:** the system prompt, the tool definitions and the standing rules; prompt caching makes that prefix cheap, which is why the rules can be long",
+    "**New every turn:** the tool results; file excerpts, command output and screenshots take most of the room, which is why the agent reads excerpts",
+    "**Compaction:** when the window fills, the model writes a summary and continues from it; this session was compacted twice, and details survived only where they were in files and commit messages",
+    "**Not in the window:** the rest of the repository, last round's screenshots, a cleared scratch directory, and your intent unless you said it",
+    "**The method follows from the limit:** write it down, keep it in the repo, make every check a script"
+   ],
+   "graphic": "context",
+   "graphic_key": "context",
+   "notes": "Most misunderstandings about agents come from imagining a memory that is not there. The model has no state between turns except this text. Three consequences. First, standing rules work because they are literally re-read every turn; the trailer on every commit and the rule never to push to the wrong repository were held that way. Second, the agent reads excerpts because the window is the budget. Third, compaction: the builder watched the conversation summarised twice, and what survived was what had been written to files. Say the last bullet twice if you need to; it is the operational lesson of the whole talk.",
+   "sources": [
+    "https://code.claude.com/docs/en/context-window",
+    "session notes: compaction"
+   ],
+   "n": 11
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "11 · Many hands",
+   "title": "Subagents and workflows: many hands, one rule for what ships",
+   "lede": "When a job split cleanly, it was split. Eight subagents wrote step cards for eight labs. For this briefing, a scripted workflow ran 39 agents: research, verify, synthesize.",
+   "bullets": [
+    "**Subagents** are fresh contexts given a brief; they return a file, not a memory; a merge script with a word budget refused step cards that ran long",
+    "**Workflows** are scripts that fan agents out and back in deterministically; the September one mined a review transcript and set three refuters on each suggestion",
+    "**This briefing's workflow:** 4 researchers in parallel, 33 verifiers with one claim each, a synthesizer and a completeness critic; 301 tool calls, 36.7 minutes, 1.71 million tokens",
+    "**The result was mostly \"unclear\":** 31 pages unreachable from the sandbox, 2 claims refuted, 0 confirmed; so only sentences confirmed from page text went on the federal slides",
+    "**The rule:** parallelism buys coverage, not truth; the verifiers' job was to refute, and what they could not check went to an appendix"
+   ],
+   "graphic": "fanout",
+   "graphic_key": "fanout",
+   "notes": "Two mechanisms, one rule. A subagent is a fresh context given a brief; it cannot see the parent's conversation, so it has to be told everything in the brief, and it hands back a file. That is why eight could write step cards at once and why a merge script, not a conversation, enforced the word budget. A workflow is a script: the fan-out and fan-in are code, and the agents fill in the leaves. For this briefing the workflow ran four researchers, then sent thirty-three high-stakes claims to verifiers told to refute them, then a synthesizer and a critic asking what was missing. Be candid about the outcome: thirty-one came back unclear because the sandbox could not reach the pages, two were refuted, none were confirmed by the verifiers. The verified federal wording came from pages the main session read itself, and anything it could not read is in the appendix. Parallel agents buy coverage; they do not buy truth.",
+   "sources": [
+    "workflow wf_6709034d-006 result, 2026-11-19",
+    "session notes: step cards, review transcript"
+   ],
+   "n": 12
+  },
+  {
+   "n": 13,
+   "minutes": 1.5,
+   "eyebrow": "12 · Gates, limits and what hurt",
+   "title": "Gates, limits and what hurt",
+   "lede": "An agent that can run commands needs a gate in front of every one. This session ran in an auto mode where a classifier judged each action; it was also where most of the friction lived.",
+   "bullets": [
+    "**The gate:** a permission mode, allow and deny rules, hooks before and after tool calls, and in auto mode a classifier model; it refused an ordinary push and a force-with-lease as destructive, then allowed the same push later",
+    "**Usage limits** stopped agents and a workflow mid-round; their file edits had landed, so verification was re-run by hand",
+    "**Compaction twice, and a scratch directory cleared between containers:** fonts, verification scripts and patch scripts were gone two months later",
+    "**Egress policy** blocked the published site, so deploys were checked through the GitHub API; **account-level actions** such as creating a public repository were not possible for the agent at all",
+    "**What the repository can prove:** commit trailers with a session link, a claude/ branch, two merged pull requests; no CLAUDE.md and, until this branch, no committed verification scripts. That gap is the lesson"
+   ],
+   "graphic": "hurt",
+   "graphic_key": "hurt",
+   "notes": "Each tile is a pain and its lesson. Start with the gate, because it is the thing your customers will ask about: every shell command and every git action passed a permission check, and in this session's auto mode a classifier model made the call. It refused an ordinary push and a force-with-lease as destructive, then allowed the same push a few minutes later. A non-deterministic gate needs a deterministic fallback: a person with the command and the reason. Then the limits: usage limits killed agents and a workflow mid-round, and because every agent wrote files rather than messages the work survived and only the verification had to be redone. Compaction and the cleared scratch directory are the same lesson from two sides: the repository is the memory, the conversation is not; this branch commits the two verification scripts that were lost. Egress policy and account-level actions are the boundaries of what an agent in a managed container can do: it could not load the published site and it could not create a repository. People create, agents prepare. Close on what the repository can prove without trusting anyone: trailers, a branch name, two pull requests, and until now no committed harness.",
+   "sources": [
+    "git log --format=%s on main",
+    "https://support.claude.com/en/articles/15910845",
+    "https://www.anthropic.com/engineering/claude-code-auto-mode",
+    "https://code.claude.com/docs/en/context-window"
+   ]
+  },
+  {
+   "n": 14,
+   "minutes": 1.5,
+   "eyebrow": "13 · The architecture in one picture",
+   "title": "Three layers enforce; the rest advise, extend or host",
+   "lede": "Permission rules, hooks and a sandbox are the only parts the model cannot talk its way around. CLAUDE.md, skills, subagents, MCP servers and plugins are context, delegation and distribution.",
+   "bullets": [
+    "**Enforce:** allow, ask and deny rules (deny wins in every mode); hooks on tool events; whatever OS sandbox or container you add",
+    "**Advise:** CLAUDE.md and rules files are context, not configuration; skills are procedures the model may follow and scripts it may run",
+    "**Extend:** subagents with their own context window and tool list; MCP servers; plugins bundle skills, agents, hooks and MCP into one install",
+    "**Hosted surfaces need a claude.ai login:** cloud sessions, artifacts, routines; none of them exist when the CLI points at Bedrock, Vertex or Foundry",
+    "**Providers are environment variables;** the Agent SDK runs the same binary inside your own container behind your own API"
+   ],
+   "graphic": "architecture",
+   "graphic_key": "architecture",
+   "notes": "One picture for the suite. Three layers enforce: permission rules, hooks and whatever sandbox you add. Everything else advises or extends. CLAUDE.md is context, not configuration, and the documentation says so; a model can and occasionally will deviate, so anything that must be guaranteed belongs in a rule or a hook. Skills are directories with a SKILL.md and optional scripts; slash commands are skills now. Subagents are files in .claude/agents with their own window, tool list and mode, and they cannot nest. MCP servers are registered per user, per project in .mcp.json, or by enterprise managed configuration, which can take exclusive control. Plugins bundle skills, agents, hooks and MCP servers and install from marketplaces, Anthropic's own among them. All of these are files in a repository, which is why they version well and why a cloned repository is a supply-chain event: a project-level hook is arbitrary code execution with the user's privileges. The hosted surfaces on the right all need a claude.ai login and none exist on the Bedrock, Vertex or Foundry paths. The Agent SDK is the platform story: the same binary, spawned as a subprocess in your container, behind your own HTTP or WebSocket API.",
+   "sources": [
+    "https://code.claude.com/docs/en/feature-availability",
+    "https://code.claude.com/docs/en/memory",
+    "https://code.claude.com/docs/en/skills",
+    "https://code.claude.com/docs/en/plugins",
+    "https://code.claude.com/docs/en/sub-agents",
+    "https://code.claude.com/docs/en/agent-sdk/hosting"
+   ]
+  },
+  {
+   "n": 15,
+   "minutes": 1.5,
+   "eyebrow": "14 · AI Factory and the open-source equivalents",
+   "title": "The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary",
+   "lede": "Same architecture, different packaging: OpenShift AI, vLLM and Granite underneath; Llama Stack and MCP as the agent layer; an open harness in a policy-enforced sandbox; no vendor account in the loop.",
+   "bullets": [
+    "**AI Factory names two things:** NVIDIA's validated design with OpenShift AI as a platform layer, and the Red Hat AI Factory with NVIDIA bundle; the press release could not be read this week, so say it with that caveat",
+    "**The kit already runs the open core:** OpenShift AI, vLLM through Red Hat AI Inference, Granite, pgvector, Ansible, Sigstore; it is not a validated design and should not be called one",
+    "**The agent layer maps one to one:** Llama Stack (OGX in OpenShift AI 3.5) for the API, MCP as the tool seam with the Connectivity Link gateway and the AAP MCP server, OpenShell as the sandbox",
+    "**Harnesses that take an OpenAI-compatible endpoint and no vendor account:** goose, OpenHands, Aider, Cline, Qwen Code, Codex CLI; Gemini CLI does not",
+    "**MCP is neutral ground:** donated to the Agentic AI Foundation under the Linux Foundation on 9 December 2025 by Anthropic, Block and OpenAI; Red Hat polices it at the gateway"
+   ],
+   "graphic": "boundary",
+   "graphic_key": "boundary",
+   "notes": "Two things are called AI Factory, and the Red Hat press release was not reachable from the session this week, so give both with that caveat: NVIDIA's Enterprise AI Factory validated design, where OpenShift AI is a verified platform layer, and the Red Hat AI Factory with NVIDIA bundle of Red Hat AI Enterprise and NVIDIA AI Enterprise on partner hardware. What matters for us is that the kit already runs the open core of the same pattern on the same platform: vLLM through Red Hat AI Inference, Granite from the validated-models collections, pgvector, Ansible and Event-Driven Ansible, Sigstore. No NVIDIA entitlement, no validated rack design, and we must not describe it as one. The agent layer maps cleanly. Llama Stack, now OGX in OpenShift AI 3.5, is the API server for inference, vector stores, safety, tools and agents. MCP is the tool seam, and Red Hat polices it: the Connectivity Link MCP gateway enforcing guardrails on tool calls, and the Ansible Automation Platform MCP server so an agent can only launch pre-approved job templates under AAP role-based access, with Event-Driven Ansible for approvals and audit. OpenShell is the sandbox: default-deny egress, policy at the network and application layer, denial logs. The harness list is the point: goose, OpenHands, Aider, Cline, Qwen Code and Codex CLI all take an OpenAI-compatible base URL, so they run against vLLM in the enclave with no vendor account. Gemini CLI does not. Red Hat has also documented pointing Claude Code itself at Red Hat AI Inference on OpenShift; check the current article before quoting it. Product statuses in this paragraph move; the appendix lists which ones were not verdict-checked.",
+   "sources": [
+    "https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/overview-of-ogx_rag",
+    "https://www.redhat.com/en/blog/model-context-protocol-gateway-red-hat-openshift-now-generally-available",
+    "https://www.redhat.com/en/blog/beyond-container-boundaries-kernel-level-agent-security-red-hat-openshift-ai-35",
+    "https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/",
+    "https://block.github.io/goose/docs/getting-started/providers",
+    "https://docs.openhands.dev/openhands/usage/llms/local-llms"
+   ]
+  },
+  {
+   "n": 16,
+   "minutes": 1.5,
+   "eyebrow": "15 · Where Claude Code fits today",
+   "title": "Fed Civ and DoD paths, limited to what Anthropic's own pages said on 19 November 2026",
+   "lede": "Two cloud inference paths with federal authorizations, one Anthropic-sold government environment, a classified path through AWS, and a stop sign for DoD work.",
+   "bullets": [
+    "**Bedrock in AWS GovCloud:** FedRAMP High and DoD IL4/5 announced June 2025; AWS authorizes each model separately, so pin the model; the CLI switch is one environment variable",
+    "**Vertex AI with Assured Workloads:** FedRAMP High and IL2 announced April 2025; IL5 is not confirmed on any page we read",
+    "**Claude for Government:** GA on 30 September 2026 in a FedRAMP High environment; Code runs on the workstation and inference is proxied inside the boundary; no body logging, no DLP, Code in early access",
+    "**Classified:** the government page says Claude is in the AWS Secret region (IL6) and Top Secret regions via Bedrock, arranged through AWS; nothing public says the Claude Code harness runs there",
+    "**DoD:** the same page carries a supply-chain-risk note that the designation applies to Claude used as a direct part of DoW contracts and subcontracts; the commercial API, claude.ai surfaces and Foundry carry no federal authorization on any page read"
+   ],
+   "graphic": "matrix",
+   "graphic_key": "matrix",
+   "verify": "the litigation behind the DoD note, the GSA OneGov terms, the IRS Publication 1075 specifics and the DoD contract history could not be read from primary pages this week. The appendix lists them.",
+   "notes": "Everything on this slide was read on an Anthropic page on the nineteenth of November and the date is on the slide. Bedrock in AWS GovCloud is the workhorse path for FedRAMP High and IL4 and IL5, with the caveat that AWS authorizes models one at a time and the 2025 announcement named 2025 models; pin the model you demo to the authorized list. Vertex with Assured Workloads is FedRAMP High and IL2; IL5 is not confirmed. Claude for Government reached general availability on the thirtieth of September in a FedRAMP High environment; Claude Code sessions run on the workstation, model requests are proxied to an endpoint inside the boundary, the service does not log request or response bodies, Anthropic telemetry endpoints are not contacted, and there is no inline DLP; the Code client is early access. For classified work the page says Claude is available in the AWS Secret region at IL6 and in Top Secret regions through Bedrock, arranged with the AWS account team; nothing public says the Claude Code harness is offered there. The DoD line matters most for this room: Anthropic's own government page carries a supply-chain-risk note that the Department of War designation applies to the use of Claude as a direct part of DoW contracts and subcontracts, and it cites a September 2026 court ruling. Treat DoD programs and defence-contract work as closed to Claude proposals until counsel says otherwise, and position vendor-neutral architecture there. The commercial API, claude.ai surfaces and Microsoft Foundry: no federal authorization on any page read.",
+   "sources": [
+    "https://www.anthropic.com/news/claude-in-amazon-bedrock-fedramp-high",
+    "https://claude.com/blog/claude-on-google-cloud-fedramp-high",
+    "https://claude.com/blog/claude-for-government-is-now-generally-available",
+    "https://claude.com/docs/government/security/security-and-data-handling",
+    "https://claude.com/solutions/government",
+    "https://code.claude.com/docs/en/amazon-bedrock"
+   ]
+  },
+  {
+   "n": 17,
+   "minutes": 1.5,
+   "eyebrow": "16 · Where it fails to perform",
+   "title": "Eight gaps for Fed Civ and DoD, and a mitigation for each",
+   "lede": "None of the mitigations is to wait for a better model. Each is a configuration, a procurement decision, or an open-source substitute you already know how to sell.",
+   "bullets": [
+    "**Structural:** no on-premises or air-gapped Claude was found on any page; the classified paths are AWS regions; the DoD designation blocks regardless of technology",
+    "**Boundary:** cloud sessions, artifacts, connectors and routines are commercial claude.ai; deny them in managed settings and sign in with cloud IAM, which cannot publish artifacts at all",
+    "**Supply chain and injection:** the npm CLI, plugins, skills and MCP servers are code you run; Anthropic's own page says no system is immune; pin, mirror, sandbox, and treat every tool result as untrusted",
+    "**Control and audit:** the auto-mode classifier is a model with a 17% miss rate in Anthropic's own test; OpenTelemetry export is opt-in; the only transcript may be on a laptop; no PIV/CAC; accessibility reports cover the tool, not what it generates"
+   ],
+   "graphic": "gaps",
+   "graphic_key": "gaps",
+   "notes": "Read this as a ledger. The air gap is structural: no page offers model weights or a disconnected deployment, so the honest answer for an enclave is an open harness against vLLM in OpenShell, with the capability loss that implies. The DoD designation blocks regardless of technology. The boundary leaks are configuration: deny the claude.ai-tied surfaces in managed settings and authenticate with cloud IAM, which cannot publish artifacts; put DLP at your proxy because Claude for Government has none. Supply chain and injection are the posture you already preach for Ansible collections and IDE extensions: install from a mirrored, pinned source, allow only reviewed marketplaces, run MCP servers from agency-built containers, deny-by-default egress, and treat tickets, pull-request comments, web pages and documents as untrusted input to a privileged agent. The classifier is a model-based control; Anthropic's March 2026 post reports a 17% false-negative rate on real over-eager actions and a stop after three consecutive or twenty total denials. Encode allow, deny and ask rules and pre-tool hooks the binary enforces, and disable auto mode where policy requires. For audit, turn on OpenTelemetry org-wide to an agency collector; the raw-bodies option exports the whole conversation to your collector and never to Anthropic, and events carry the user's email and session id. Records officers will tell you NARA now treats prompts, outputs and agent logs as potential federal records. Identity goes through your IdP with PIV enforced there. And Section 508: the vendor's conformance reports cover the tool; the HTML pages, slides and documents it generates are yours to test.",
+   "sources": [
+    "https://code.claude.com/docs/en/security",
+    "https://code.claude.com/docs/en/monitoring-usage",
+    "https://www.anthropic.com/engineering/claude-code-auto-mode",
+    "https://code.claude.com/docs/en/artifacts",
+    "https://code.claude.com/docs/en/claude-code-on-the-web",
+    "https://www.archives.gov/records-mgmt/memos/ac-11-2026"
+   ]
+  },
+  {
+   "n": 18,
+   "minutes": 1,
+   "eyebrow": "17 · The rule that ran the kit, and the making of it",
+   "title": "Solve a problem someone has; keep judgement human; right tool, right time",
+   "lede": "The title-slide pyramid, data to information to knowledge to judgement, is the test every tool choice in the repository passed, and the one to apply to agent tooling.",
+   "bullets": [
+    "**Solve a problem someone has:** every lab opens from a queue, a pager or an accreditation question; Lab 04 is about the refusal, not the answer",
+    "**Keep judgement human:** Lab 05 escalates a provenance mismatch instead of fixing it; Lab 08 ships a Lightspeed draft with two human review edits visible in the file",
+    "**Right tool, right time:** a frontier model in a commercial cloud built this public content; an open model in the enclave is the answer for the customer's data"
+   ],
+   "graphic": "pyramid",
+   "graphic_key": "pyramid",
+   "notes": "This is the kit's own argument and it is why the toolchain looks the way it does. The pyramid asks, at each layer, what the question is, what lives there and who does the work. The labs answer it. Lab 04 refuses below a relevance threshold and exits with a code a workflow can route to a person: the important behaviour is the refusal, not the answer. Lab 05's rulebook deliberately does not self-remediate a provenance mismatch. Lab 08 ships the Lightspeed-drafted rulebook with two review edits you can see in the file, a threshold raised and a maintenance-window guard added, and records the change as a ticket and a knowledge entry. The data hygiene is in the labs too: the retrieval corpus is git-ignored, inference is bound to the loopback address, digests are asserted, FIPS mode and the compliance scan are read in Lab 06. Apply the same test to agent tooling: a classifier where a deny rule would do is a tool looking for a mission; a commercial web session holding federal tax information is the wrong tool at the wrong time; a frontier model drafting public slides with a person reading every diff is exactly right.",
+   "sources": [
+    "slides/deck.html (TITLE_LAYERS, PYR_TIERS)",
+    "labs/lab04-rag/query.py",
+    "labs/lab05-ansible/rulebooks/inference_saturation.yml",
+    "labs/lab08-grand-demo/rulebooks/memory_pressure.yml"
+   ]
+  },
+  {
+   "n": 19,
+   "kind": "checklist",
+   "minutes": 1,
+   "eyebrow": "18 · What to copy into your next account deliverable",
+   "title": "Ten things to lift, each an afternoon's work",
+   "lede": "",
+   "bullets": [
+    "One repository, one Makefile; CI runs the labs before it builds anything, and publishes only from main",
+    "Labs as step scripts with the expected output as the acceptance criterion; simulate by default, live on demand",
+    "One file owns each fact; generate the catalogue, the pptx and the diagrams from it, and fail on unknown ids",
+    "Keep a headless browser in the loop: screenshot and measure after every change; render the pptx to PNG",
+    "Commit the verification scripts beside the deliverable; a scratch space is not a repository",
+    "Write a CLAUDE.md with the build and test commands and mirror it as AGENTS.md so any harness can read it",
+    "Subagents for parallel writing; independent refuters for every external claim; quote only what came back confirmed",
+    "Deny rules and hooks before auto mode for anything that pushes, deletes or spends",
+    "Checkpoint to git before limits or compaction hit; files are the memory, the conversation is not",
+    "Map the customer's data category to a model path before anyone buys; the endpoint is the boundary"
+   ],
+   "graphic": "",
+   "notes": "Ten things to lift. The Makefile and the workflow are a copy-and-paste template: test gates build, build runs in one container, publish only from main. The lab runtime plus one run.sh gives you the step-script pattern in an hour, and preflight.sh tells attendees what they can run live; NO_COLOR for screen shares and LAB_PACE=step on a projector. Put facts in one file each and generate the rest; make generators fail on unknown ids and grep for drift before you present. Keep a headless browser in the loop and commit those scripts; this kit did not, and lost them. On the agent side: a CLAUDE.md with the build and test commands, mirrored as AGENTS.md because Codex, Gemini CLI and goose read that; subagents for the embarrassingly parallel writing and independent refuters for every external claim; deterministic rules and hooks before auto mode for anything that pushes; checkpoints before limits or compaction; and a verdict table with an as-of date so you only quote verified wording. The last item is the whole federal conversation in one line: map the data category to a path before anyone buys.",
+   "sources": [
+    "Makefile",
+    ".github/workflows/docs.yml",
+    "bin/lib.sh",
+    "bin/preflight.sh",
+    "docs/95-how-it-was-built.adoc"
+   ]
+  },
+  {
+   "n": 20,
+   "minutes": 0,
+   "eyebrow": "Appendix · not presented · verify before quoting",
+   "title": "Claims that could not be read from a primary page this week",
+   "lede": "Thirty-three high-stakes claims were sent to independent verifiers with orders to read the source. Thirty-one came back unclear (pages unreachable, redirected or silent) and two refuted. Only sentences confirmed from page text appear on slides 9 and 10. These did not make it.",
+   "bullets": [
+    "FedRAMP status of Claude Enterprise and the Anthropic API bought directly (reported as not authorized, in process): the FAQ page redirected and was not read; check the FedRAMP Marketplace",
+    "The litigation behind the DoD note: a D.C. Circuit ruling of 25 September 2026, a presidential directive, GSA schedule removal and restoration, the CDAO contract history, migration of classified workloads: court, CRS and press pages were unreachable",
+    "GSA OneGov terms: the 2025 one-dollar offer and the October 2026 consumption discount: the GSA release was unreachable; say only that an arrangement exists and confirm terms with GSA or the reseller",
+    "IRS Publication 1075 cloud conditions for Federal Tax Information: the IRS page was unreachable; say FTI in the cloud is governed by Pub 1075 and the Office of Safeguards",
+    "Bedrock GovCloud current model list and per-model IL4/5 status; Vertex IL5; Foundry in Azure Government: none stated on the pages read",
+    "Claude Code supply-chain incidents reported in the press (npm packaging, a dependency window, typosquats): not checked against primary statements",
+    "Red Hat AI Factory with NVIDIA dates and partner list; OGX, llm-d, MCP gateway and AAP MCP server statuses; OpenShell and several harness licences: in the material at stated confidence, not verdict-checked",
+    "A2A governance, AGENTS.md dates and adoption figures, Section 508 conformance reports, PIV/CAC support (absence inferred, not stated), compaction thresholds and usage-limit numbers: unverified or fast-moving"
+   ],
+   "graphic": "",
+   "notes": "Keep this page in the deck but do not present it. It is the list a peer needs before repeating anything from slides nine and ten in a customer meeting. The verifiers were web agents that could only read pages the session's network allowed; a redirect across hosts, a DNS failure or a PDF host that did not resolve all count as unclear, not as false. Re-run the checks from a workstation with normal egress before the next briefing.",
+   "sources": [
+    "workflow wf_6709034d-006 verdict table, 2026-11-19"
+   ]
+  }
+ ]
+}

@@ -32,13 +32,23 @@ jobs:
           done
 
       - name: Check Python syntax
-        run: python3 -m py_compile bin/build-pptx.py bin/build-adventure.py labs/lab04-rag/*.py
+        run: python3 -m py_compile bin/build-pptx.py bin/build-adventure.py bin/build-brief.py bin/mine-history.py labs/lab04-rag/*.py
 
       - name: Run every lab in simulate mode
         env:
           LAB_SPEED: "0"
           NO_COLOR: "1"
         run: ./bin/run-all-labs.sh
+
+      - name: Check that the generated methods pages match their sources
+        run: |
+          python3 bin/build-brief.py --outline slides/how-it-was-built.json --out /tmp/brief.html
+          python3 bin/build-brief.py --outline slides/how-it-was-built-talk.json --out /tmp/talk.html
+          python3 bin/build-brief.py --essay slides/how-it-was-built-essay.json --out /tmp/essay.html --adoc /tmp/essay.adoc
+          cmp /tmp/brief.html slides/how-it-was-built.html
+          cmp /tmp/talk.html slides/how-it-was-built-talk.html
+          cmp /tmp/essay.html slides/how-it-was-built-essay.html
+          cmp /tmp/essay.adoc docs/96-how-it-was-built-essay.adoc
 
   build:
     name: Build docs, slides and exports
@@ -67,6 +77,8 @@ jobs:
           cp slides/deck.html build/deck.html
           cp slides/presenter-notes.html build/presenter-notes.html
           cp slides/adventure.html build/adventure.html
+          cp slides/how-it-was-built.html slides/how-it-was-built-talk.html slides/how-it-was-built-essay.html build/
+          mkdir -p build/docs && cp -r docs/images build/docs/images
           [ -d slides/assets ] && cp -r slides/assets build/assets || true
           mkdir -p build/exports
           cp -r slides/exports/. build/exports/ 2>/dev/null || true

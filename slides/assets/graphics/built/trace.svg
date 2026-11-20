@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="One ordinary round as twelve steps: request, grep the deck, read excerpts, write a patch script, run it behind the permission gate, screenshot and measure with Playwright, look at the screenshots and fix, run the overflow check and the labs, commit merge and push, watch the Pages run through the GitHub MCP server, republish the hosted artifact, reply."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<rect x="14" y="14" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="39" r="12" fill="var(--ink-3)"/>
+<text x="34" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">1</text>
+<text x="54" y="33" font-size="11" font-weight="800" fill="var(--ink)">Request</text>
+<text x="111" y="33" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">PERSON</text>
+<text x="54" y="47.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">A sentence or two in plain language, sometimes</text><text x="54" y="58.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">with a file attached.</text>
+<rect x="14" y="72" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="97" r="12" fill="var(--steel)"/>
+<text x="34" y="101" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">2</text>
+<text x="54" y="91" font-size="11" font-weight="800" fill="var(--ink)">Grep</text>
+<text x="90" y="91" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--steel)">SEARCH</text>
+<text x="54" y="105.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Search the 700 KB deck for the markers to change</text><text x="54" y="116.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">instead of reading it whole.</text>
+<rect x="14" y="130" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="155" r="12" fill="var(--steel)"/>
+<text x="34" y="159" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">3</text>
+<text x="54" y="149" font-size="11" font-weight="800" fill="var(--ink)">Read</text>
+<text x="90" y="149" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--steel)">READ</text>
+<text x="54" y="163.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Read 40 to 80 line excerpts around each match.</text><text x="54" y="174.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Each excerpt enters the context.</text>
+<rect x="14" y="188" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="213" r="12" fill="var(--violet)"/>
+<text x="34" y="217" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">4</text>
+<text x="54" y="207" font-size="11" font-weight="800" fill="var(--ink)">Write</text>
+<text x="97" y="207" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--violet)">WRITE</text>
+<text x="54" y="221.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Write a Python patch script. Every replacement</text><text x="54" y="232.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">asserts exactly one match first.</text>
+<rect x="14" y="246" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="271" r="12" fill="var(--violet)"/>
+<text x="34" y="275" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">5</text>
+<text x="54" y="265" font-size="11" font-weight="800" fill="var(--ink)">Bash</text>
+<text x="90" y="265" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--violet)">SHELL</text>
+<text x="54" y="279.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Run it. A permission gate sits in front of every</text><text x="54" y="290.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">shell command.</text>
+<rect x="14" y="304" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="34" cy="329" r="12" fill="var(--good)"/>
+<text x="34" y="333" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">6</text>
+<text x="54" y="323" font-size="11" font-weight="800" fill="var(--ink)">Playwright</text>
+<text x="132" y="323" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--good)">BROWSER</text>
+<text x="54" y="337.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Screenshot the touched slides in EN and ES, Show</text><text x="54" y="348.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">and Tell; measure text against its box.</text>
+<rect x="326" y="14" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="39" r="12" fill="var(--good)"/>
+<text x="346" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">7</text>
+<text x="366" y="33" font-size="11" font-weight="800" fill="var(--ink)">Look</text>
+<text x="402" y="33" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--good)">IMAGE</text>
+<text x="366" y="47.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">The model reads the screenshots as images and</text><text x="366" y="58.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">fixes what overflows. Repeat.</text>
+<rect x="326" y="72" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="97" r="12" fill="var(--violet)"/>
+<text x="346" y="101" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">8</text>
+<text x="366" y="91" font-size="11" font-weight="800" fill="var(--ink)">Bash</text>
+<text x="402" y="91" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--violet)">SHELL</text>
+<text x="366" y="105.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Overflow check on all 18 slides; every lab in</text><text x="366" y="116.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">simulate mode; bash -n; py_compile.</text>
+<rect x="326" y="130" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="155" r="12" fill="var(--accent)"/>
+<text x="346" y="159" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">9</text>
+<text x="366" y="149" font-size="11" font-weight="800" fill="var(--ink)">git</text>
+<text x="395" y="149" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--accent)">GIT</text>
+<text x="366" y="163.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Commit on the branch with the fixed trailer; merge</text><text x="366" y="174.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">to main; push through the proxy.</text>
+<rect x="326" y="188" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="213" r="12" fill="var(--amber)"/>
+<text x="346" y="217" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">10</text>
+<text x="366" y="207" font-size="11" font-weight="800" fill="var(--ink)">GitHub MCP</text>
+<text x="444" y="207" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--amber)">API</text>
+<text x="366" y="221.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Watch the Pages run finish. The site itself is</text><text x="366" y="232.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">unreachable from the sandbox.</text>
+<rect x="326" y="246" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="271" r="12" fill="var(--amber)"/>
+<text x="346" y="275" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">11</text>
+<text x="366" y="265" font-size="11" font-weight="800" fill="var(--ink)">Artifact</text>
+<text x="430" y="265" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--amber)">HOST</text>
+<text x="366" y="279.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">Republish the hosted copy so the presenter can</text><text x="366" y="290.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">review on any device.</text>
+<rect x="326" y="304" width="300" height="50" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+<circle cx="346" cy="329" r="12" fill="var(--ink-3)"/>
+<text x="346" y="333" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">12</text>
+<text x="366" y="323" font-size="11" font-weight="800" fill="var(--ink)">Reply</text>
+<text x="409" y="323" font-size="8.5" font-weight="700" letter-spacing="1" fill="var(--ink-3)">PERSON</text>
+<text x="366" y="337.0" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">What changed, what was verified, what was not. A</text><text x="366" y="348.5" text-anchor="start" font-size="9.3" font-weight="400" fill="var(--ink-2)">person reads the diff.</text>
+<rect x="14" y="366" width="612" height="24" rx="6" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="320" y="382" text-anchor="middle" font-size="10" fill="var(--ink-2)">a typical round: 20 to 60 tool calls · every result returns to the model as text or an image · nothing runs without the gate</text>
+</svg>

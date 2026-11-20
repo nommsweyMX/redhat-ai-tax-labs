@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Six things that hurt while building the kit, each with the lesson: usage limits mid-task, context compaction, the permission classifier, the cleared scratchpad, the egress policy, and account-level actions the agent could not take."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<rect x="14" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="26" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="34" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Usage limits mid-task</text>
+<text x="34" y="68" font-size="10" fill="var(--ink-2)">→ checkpoint early; every agent output is a file</text>
+<rect x="324" y="14" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="26" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="344" y="45" font-size="13.5" font-weight="800" fill="var(--ink)">Context compaction, twice</text>
+<text x="344" y="68" font-size="10" fill="var(--ink-2)">→ the repo and commit messages are the memory</text>
+<rect x="14" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="118" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="34" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">Permission classifier</text>
+<text x="34" y="160" font-size="10" fill="var(--ink-2)">→ a push refused, then allowed; keep a human fallback</text>
+<rect x="324" y="106" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="118" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="344" y="137" font-size="13.5" font-weight="800" fill="var(--ink)">Scratchpad cleared</text>
+<text x="344" y="160" font-size="10" fill="var(--ink-2)">→ the check scripts vanished; commit the harness</text>
+<rect x="14" y="198" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="14" y="210" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="34" y="229" font-size="13.5" font-weight="800" fill="var(--ink)">Egress policy</text>
+<text x="34" y="252" font-size="10" fill="var(--ink-2)">→ no path to the live site; verified via the API</text>
+<rect x="324" y="198" width="298" height="80" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<rect x="324" y="210" width="6" height="56" rx="3" fill="var(--amber)"/>
+<text x="344" y="229" font-size="13.5" font-weight="800" fill="var(--ink)">Account-level actions</text>
+<text x="344" y="252" font-size="10" fill="var(--ink-2)">→ no repo creation; people create, agents prepare</text>
+</svg>

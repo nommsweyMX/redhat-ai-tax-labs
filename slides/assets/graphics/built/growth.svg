@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Six small charts of growth from 26 August to 17 September 2026, each with its own scale: deck size 84 to 718 KB, slides 9 to 18, labs 6 to 8, Spanish strings 0 to 575, inline SVG graphics 1 to 19, presenter-console sections 0 to 26."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<defs><clipPath id="gclip"><rect x="0" y="0" width="640" height="400"/></clipPath></defs>
+<rect x="14" y="14" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="34" font-size="11.5" font-weight="800" fill="var(--ink)">Deck size, KB</text>
+<line x1="26" y1="156" x2="176" y2="156" stroke="var(--border)" stroke-width="1"/>
+<path d="M29.0 144.5 H29.0 V144.5 H29.0 V144.5 H34.7 V140.4 H34.8 V140.6 H73.3 V136.6 H73.4 V134.3 H75.1 V134.3 H81.6 V132.5 H81.7 V132.5 H86.8 V132.5 H112.1 V130.8 H112.3 V130.3 H112.3 V130.2 H112.6 V129.6 H122.7 V117.9 H150.6 V118.3 H150.7 V109.0 H160.8 V67.8 H167.3 V67.8 H169.0 V62.1 H169.0 V62.1 H169.2 V60.6 H169.3 V58.8 H169.4 V58.8 H169.6 V57.9 H176.0 V156 H26 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M29.0 144.5 H29.0 V144.5 H29.0 V144.5 H34.7 V140.4 H34.8 V140.6 H73.3 V136.6 H73.4 V134.3 H75.1 V134.3 H81.6 V132.5 H81.7 V132.5 H86.8 V132.5 H112.1 V130.8 H112.3 V130.3 H112.3 V130.2 H112.6 V129.6 H122.7 V117.9 H150.6 V118.3 H150.7 V109.0 H160.8 V67.8 H167.3 V67.8 H169.0 V62.1 H169.0 V62.1 H169.2 V60.6 H169.3 V58.8 H169.4 V58.8 H169.6 V57.9 H176.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="176" cy="57.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>718 on 2026-09-17</title></circle>
+<text x="184" y="61.9" font-size="11" font-weight="800" fill="var(--ink)">718</text>
+<text x="26" y="138.5" font-size="9.5" fill="var(--ink-3)">84</text>
+<text x="26" y="170" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="176" y="170" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="222" y="14" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="234" y="34" font-size="11.5" font-weight="800" fill="var(--ink)">Slides</text>
+<line x1="234" y1="156" x2="384" y2="156" stroke="var(--border)" stroke-width="1"/>
+<path d="M237.0 106.9 H237.0 V106.9 H237.0 V106.9 H242.7 V106.9 H242.8 V106.9 H281.3 V85.1 H281.4 V63.3 H283.1 V63.3 H289.6 V63.3 H289.7 V63.3 H294.8 V63.3 H320.1 V63.3 H320.3 V63.3 H320.3 V63.3 H320.6 V63.3 H330.7 V63.3 H358.6 V63.3 H358.7 V63.3 H368.8 V63.3 H375.3 V63.3 H377.0 V57.9 H377.0 V57.9 H377.2 V57.9 H377.3 V57.9 H377.4 V57.9 H377.6 V57.9 H384.0 V156 H234 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M237.0 106.9 H237.0 V106.9 H237.0 V106.9 H242.7 V106.9 H242.8 V106.9 H281.3 V85.1 H281.4 V63.3 H283.1 V63.3 H289.6 V63.3 H289.7 V63.3 H294.8 V63.3 H320.1 V63.3 H320.3 V63.3 H320.3 V63.3 H320.6 V63.3 H330.7 V63.3 H358.6 V63.3 H358.7 V63.3 H368.8 V63.3 H375.3 V63.3 H377.0 V57.9 H377.0 V57.9 H377.2 V57.9 H377.3 V57.9 H377.4 V57.9 H377.6 V57.9 H384.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="384" cy="57.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>18 on 2026-09-17</title></circle>
+<text x="392" y="61.9" font-size="11" font-weight="800" fill="var(--ink)">18</text>
+<text x="234" y="100.9" font-size="9.5" fill="var(--ink-3)">9</text>
+<text x="234" y="170" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="384" y="170" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="430" y="14" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="442" y="34" font-size="11.5" font-weight="800" fill="var(--ink)">Labs</text>
+<line x1="442" y1="156" x2="592" y2="156" stroke="var(--border)" stroke-width="1"/>
+<path d="M445.0 82.4 H445.0 V82.4 H445.0 V82.4 H450.7 V82.4 H450.8 V82.4 H489.3 V82.4 H489.4 V70.1 H491.1 V70.1 H497.6 V70.1 H497.7 V70.1 H502.8 V70.1 H528.1 V70.1 H528.3 V70.1 H528.3 V70.1 H528.6 V70.1 H538.7 V70.1 H566.6 V70.1 H566.7 V70.1 H576.8 V70.1 H583.3 V70.1 H585.0 V57.9 H585.0 V57.9 H585.2 V57.9 H585.3 V57.9 H585.4 V57.9 H585.6 V57.9 H592.0 V156 H442 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M445.0 82.4 H445.0 V82.4 H445.0 V82.4 H450.7 V82.4 H450.8 V82.4 H489.3 V82.4 H489.4 V70.1 H491.1 V70.1 H497.6 V70.1 H497.7 V70.1 H502.8 V70.1 H528.1 V70.1 H528.3 V70.1 H528.3 V70.1 H528.6 V70.1 H538.7 V70.1 H566.6 V70.1 H566.7 V70.1 H576.8 V70.1 H583.3 V70.1 H585.0 V57.9 H585.0 V57.9 H585.2 V57.9 H585.3 V57.9 H585.4 V57.9 H585.6 V57.9 H592.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="592" cy="57.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>8 on 2026-09-17</title></circle>
+<text x="600" y="61.9" font-size="11" font-weight="800" fill="var(--ink)">8</text>
+<text x="442" y="76.4" font-size="9.5" fill="var(--ink-3)">6</text>
+<text x="442" y="170" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="592" y="170" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="14" y="198" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="26" y="218" font-size="11.5" font-weight="800" fill="var(--ink)">Spanish strings</text>
+<line x1="26" y1="340" x2="176" y2="340" stroke="var(--border)" stroke-width="1"/>
+<path d="M29.0 340.0 H29.0 V340.0 H29.0 V340.0 H34.7 V340.0 H34.8 V340.0 H73.3 V340.0 H73.4 V340.0 H75.1 V340.0 H81.6 V340.0 H81.7 V340.0 H86.8 V340.0 H112.1 V340.0 H112.3 V340.0 H112.3 V340.0 H112.6 V340.0 H122.7 V262.7 H150.6 V262.5 H150.7 V262.5 H160.8 V250.6 H167.3 V250.6 H169.0 V248.5 H169.0 V248.5 H169.2 V242.5 H169.3 V241.9 H169.4 V241.9 H169.6 V241.9 H176.0 V340 H26 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M29.0 340.0 H29.0 V340.0 H29.0 V340.0 H34.7 V340.0 H34.8 V340.0 H73.3 V340.0 H73.4 V340.0 H75.1 V340.0 H81.6 V340.0 H81.7 V340.0 H86.8 V340.0 H112.1 V340.0 H112.3 V340.0 H112.3 V340.0 H112.6 V340.0 H122.7 V262.7 H150.6 V262.5 H150.7 V262.5 H160.8 V250.6 H167.3 V250.6 H169.0 V248.5 H169.0 V248.5 H169.2 V242.5 H169.3 V241.9 H169.4 V241.9 H169.6 V241.9 H176.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="176" cy="241.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>575 on 2026-09-17</title></circle>
+<text x="184" y="245.9" font-size="11" font-weight="800" fill="var(--ink)">575</text>
+<text x="26" y="334.0" font-size="9.5" fill="var(--ink-3)">0</text>
+<text x="26" y="354" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="176" y="354" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="222" y="198" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="234" y="218" font-size="11.5" font-weight="800" fill="var(--ink)">Inline SVG graphics</text>
+<line x1="234" y1="340" x2="384" y2="340" stroke="var(--border)" stroke-width="1"/>
+<path d="M237.0 334.8 H237.0 V334.8 H237.0 V334.8 H242.7 V319.3 H242.8 V319.3 H281.3 V303.8 H281.4 V303.8 H283.1 V303.8 H289.6 V298.7 H289.7 V298.7 H294.8 V298.7 H320.1 V298.7 H320.3 V298.7 H320.3 V298.7 H320.6 V278.0 H330.7 V278.0 H358.6 V293.5 H358.7 V293.5 H368.8 V257.3 H375.3 V257.3 H377.0 V252.2 H377.0 V252.2 H377.2 V252.2 H377.3 V247.0 H377.4 V247.0 H377.6 V241.9 H384.0 V340 H234 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M237.0 334.8 H237.0 V334.8 H237.0 V334.8 H242.7 V319.3 H242.8 V319.3 H281.3 V303.8 H281.4 V303.8 H283.1 V303.8 H289.6 V298.7 H289.7 V298.7 H294.8 V298.7 H320.1 V298.7 H320.3 V298.7 H320.3 V298.7 H320.6 V278.0 H330.7 V278.0 H358.6 V293.5 H358.7 V293.5 H368.8 V257.3 H375.3 V257.3 H377.0 V252.2 H377.0 V252.2 H377.2 V252.2 H377.3 V247.0 H377.4 V247.0 H377.6 V241.9 H384.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="384" cy="241.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>19 on 2026-09-17</title></circle>
+<text x="392" y="245.9" font-size="11" font-weight="800" fill="var(--ink)">19</text>
+<text x="234" y="328.8" font-size="9.5" fill="var(--ink-3)">1</text>
+<text x="234" y="354" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="384" y="354" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<rect x="430" y="198" width="196" height="168" rx="10" fill="var(--surface)" stroke="var(--border)"/>
+<text x="442" y="218" font-size="11.5" font-weight="800" fill="var(--ink)">Presenter-console sections</text>
+<line x1="442" y1="340" x2="592" y2="340" stroke="var(--border)" stroke-width="1"/>
+<path d="M445.0 340.0 H445.0 V340.0 H445.0 V340.0 H450.7 V340.0 H450.8 V340.0 H489.3 V340.0 H489.4 V340.0 H491.1 V249.4 H497.6 V249.4 H497.7 V249.4 H502.8 V249.4 H528.1 V249.4 H528.3 V249.4 H528.3 V249.4 H528.6 V249.4 H538.7 V249.4 H566.6 V249.4 H566.7 V249.4 H576.8 V249.4 H583.3 V249.4 H585.0 V241.9 H585.0 V241.9 H585.2 V241.9 H585.3 V241.9 H585.4 V241.9 H585.6 V241.9 H592.0 V340 H442 Z" fill="var(--accent)" opacity=".1"/>
+<path d="M445.0 340.0 H445.0 V340.0 H445.0 V340.0 H450.7 V340.0 H450.8 V340.0 H489.3 V340.0 H489.4 V340.0 H491.1 V249.4 H497.6 V249.4 H497.7 V249.4 H502.8 V249.4 H528.1 V249.4 H528.3 V249.4 H528.3 V249.4 H528.6 V249.4 H538.7 V249.4 H566.6 V249.4 H566.7 V249.4 H576.8 V249.4 H583.3 V249.4 H585.0 V241.9 H585.0 V241.9 H585.2 V241.9 H585.3 V241.9 H585.4 V241.9 H585.6 V241.9 H592.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="592" cy="241.9" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"><title>26 on 2026-09-17</title></circle>
+<text x="600" y="245.9" font-size="11" font-weight="800" fill="var(--ink)">26</text>
+<text x="442" y="334.0" font-size="9.5" fill="var(--ink-3)">0</text>
+<text x="442" y="354" font-size="8.5" fill="var(--ink-3)">26 Aug</text>
+<text x="592" y="354" text-anchor="end" font-size="8.5" fill="var(--ink-3)">17 Sep</text>
+<text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">one scale per panel · the state of main after each of its commits, read from the git tree · bin/mine-history.py regenerates the data</text>
+</svg>

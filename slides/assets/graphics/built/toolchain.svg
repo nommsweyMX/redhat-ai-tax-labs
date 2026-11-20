@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The toolchain in five shelves: authoring, labs, docs and exports, verification, publishing; every item open source."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<rect x="14" y="14" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="14" width="8" height="68" rx="4" fill="var(--accent)"/>
+<text x="34" y="40" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent)">AUTHORING</text>
+<rect x="34" y="50" width="166" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="117.0" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">HTML · CSS · JS, one file</text>
+<rect x="208" y="50" width="129" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="272.5" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">inline SVG graphics</text>
+<rect x="345" y="50" width="93" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="391.5" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Red Hat fonts</text>
+<rect x="446" y="50" width="111" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="501.5" y="65" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">EN/ES text table</text>
+<rect x="14" y="90" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="90" width="8" height="68" rx="4" fill="var(--good)"/>
+<text x="34" y="116" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">LABS</text>
+<rect x="34" y="126" width="142" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="105.0" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">bash runtime · step()</text>
+<rect x="184" y="126" width="117" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="242.5" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Python · pgvector</text>
+<rect x="309" y="126" width="154" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="386.0" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Ansible · EDA rulebooks</text>
+<rect x="471" y="126" width="117" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="529.5" y="141" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">KServe · qna.yaml</text>
+<rect x="14" y="166" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="166" width="8" height="68" rx="4" fill="var(--steel)"/>
+<text x="34" y="192" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">DOCS + EXPORTS</text>
+<rect x="34" y="202" width="148" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="108.0" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">AsciiDoc · Asciidoctor</text>
+<rect x="190" y="202" width="154" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="267.0" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">revealjs · pdf backends</text>
+<rect x="352" y="202" width="81" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="392.5" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">python-pptx</text>
+<rect x="441" y="202" width="136" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="509.0" y="217" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Makefile · container</text>
+<rect x="14" y="242" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="242" width="8" height="68" rx="4" fill="var(--violet)"/>
+<text x="34" y="268" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--violet)">VERIFY</text>
+<rect x="34" y="278" width="142" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="105.0" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Playwright · Chromium</text>
+<rect x="184" y="278" width="129" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="248.5" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">measurement scripts</text>
+<rect x="321" y="278" width="148" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="395.0" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">LibreOffice · pdftoppm</text>
+<rect x="477" y="278" width="136" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="545.0" y="293" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">bash -n · py_compile</text>
+<rect x="14" y="318" width="612" height="68" rx="10" fill="var(--surface)" stroke="var(--border-strong)"/>
+<rect x="14" y="318" width="8" height="68" rx="4" fill="var(--amber)"/>
+<text x="34" y="344" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--amber)">PUBLISH</text>
+<rect x="34" y="354" width="87" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="77.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">Git · GitHub</text>
+<rect x="129" y="354" width="99" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="178.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">GitHub Actions</text>
+<rect x="236" y="354" width="87" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="279.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">GitHub Pages</text>
+<rect x="331" y="354" width="81" height="22" rx="11" fill="var(--surface-2)" stroke="var(--border)"/>
+<text x="371.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">MIT licence</text>
+<text x="320" y="396" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">no framework, no build step for the deck itself: open the file, present</text></svg>

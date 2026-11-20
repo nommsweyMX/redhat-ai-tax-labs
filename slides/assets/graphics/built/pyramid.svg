@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The data-to-judgement pyramid beside three rules: solve a problem someone has; keep judgement human; right tool, right time."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<g><polygon points="160,30 300,330 20,330" fill="none" stroke="var(--border-strong)"/>
+<polygon points="160,32 221,164 99,164" fill="var(--violet)"/>
+<polygon points="97,168 223,168 231,186 89,186" fill="#1D4ED8"/>
+<polygon points="88,190 232,190 262,254 58,254" fill="var(--good)"/>
+<polygon points="56,258 264,258 271,272 49,272" fill="#D99A00"/>
+<polygon points="48,276 272,276 291,316 29,316" fill="#C2410C"/>
+<polygon points="27,320 293,320 298,330 22,330" fill="var(--accent)"/>
+<text x="160" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">04</text>
+<text x="160" y="230" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">03</text>
+<text x="160" y="302" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">02</text>
+<text x="160" y="352" text-anchor="middle" font-size="9.5" font-weight="700" letter-spacing=".8" fill="var(--ink-3)">DATA · INFORMATION · KNOWLEDGE · JUDGEMENT</text></g>
+<g font-size="12" fill="var(--ink-2)">
+<rect x="330" y="40" width="296" height="90" rx="10" fill="var(--accent-wash)" stroke="var(--accent)"/>
+<text x="348" y="68" font-size="14" font-weight="800" fill="var(--ink)">Solve a problem someone has</text>
+<text x="348" y="90" font-size="11">Every lab started from a queue, a pager or an</text><text x="348" y="108" font-size="11">accreditation question. Nothing else got in.</text>
+<rect x="330" y="146" width="296" height="90" rx="10" fill="var(--violet-wash)" stroke="var(--violet)"/>
+<text x="348" y="174" font-size="14" font-weight="800" fill="var(--ink)">Keep judgement human</text>
+<text x="348" y="196" font-size="11">The agent drafted, measured and proposed;</text><text x="348" y="214" font-size="11">a person read every diff and signed off.</text>
+<rect x="330" y="252" width="296" height="90" rx="10" fill="var(--good-wash)" stroke="var(--good)"/>
+<text x="348" y="280" font-size="14" font-weight="800" fill="var(--ink)">Right tool, right time</text>
+<text x="348" y="302" font-size="11">A frontier model in the cloud for public content;</text><text x="348" y="320" font-size="11">an open model inside the enclave for the data.</text>
+</g>
+<text x="320" y="384" text-anchor="middle" font-size="11" fill="var(--ink-3)">the same rules that run the deck ran the making of it</text>
+</svg>

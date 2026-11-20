@@ -28,3 +28,4 @@
 // Repository layout.
 :labs-dir: labs
 :repo-url: https://github.com/nommsweyMX/redhat-ai-tax-labs
+:imagesdir: images
