@@ -54,7 +54,7 @@ ul.pts li b{color:var(--ink)}
 .agenda div{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:baseline;font-size:.78rem;color:var(--ink-2);border-bottom:1px solid var(--border);padding:4px 0}
 .agenda i{font-style:normal;font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--accent)}
 .agenda span.m{font-family:"Red Hat Mono",monospace;font-size:.64rem;color:var(--ink-3)}
-.agenda.four{grid-template-columns:repeat(4,1fr);max-width:none;gap:2px 14px}.agenda.four div{font-size:.72rem;padding:3px 0}
+.agenda.four{grid-template-columns:repeat(4,1fr);max-width:none;gap:0 14px;margin-top:12px}.agenda.four div{font-size:.7rem;padding:2px 0;line-height:1.3}
 .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .checklist div{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface-2);font-size:.84rem;color:var(--ink-2);display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start}
 .checklist div::before{content:"✓";font-family:"Red Hat Mono",monospace;font-weight:700;color:var(--good)}
@@ -108,8 +108,8 @@ button.ghost{padding:10px 16px;font-size:.8rem}
           <h2>How the IRS AI kit was built, and what the AI was doing</h2>
           <p class="kicker">Twenty-three days, forty-four commits, nine requests in plain language. Where it ran, what the agent did in the background, what the tools were, and where this way of working fits and fails for federal customers.</p>
           <div class="hosts"><span class="host">Red Hat</span><span class="host">Four Inc.</span><span class="host">Carahsoft</span></div>
-          <div class="agenda"><div><i>01</i><span>A one-hour event, an abstract, and six rules set on day one</span><span class="m">1.5 min</span></div><div><i>02</i><span>Twenty-three days, forty-four commits, nine requests in plain language</span><span class="m">2 min</span></div><div><i>03</i><span>What the rounds added, read from the git tree</span><span class="m">1.5 min</span></div><div><i>04</i><span>One repository, six faces of the same hour</span><span class="m">1 min</span></div><div><i>05</i><span>Six places, one of them ephemeral, none of them yours</span><span class="m">2 min</span></div><div><i>06</i><span>Every tool in the chain is open source, and most of it is boring on purpose</span><span class="m">1.5 min</span></div><div><i>07</i><span>Messy inputs, one owner per fact, generate the rest, measure every round</span><span class="m">1.5 min</span></div><div><i>08</i><span>The model proposes; the harness decides, executes and records</span><span class="m">1.5 min</span></div><div><i>09</i><span>One ordinary round, call by call</span><span class="m">2 min</span></div><div><i>10</i><span>The context window is the whole world, and it is small</span><span class="m">1.5 min</span></div><div><i>11</i><span>Subagents and workflows: many hands, one rule for what ships</span><span class="m">1.5 min</span></div><div><i>12</i><span>Gates, limits and what hurt</span><span class="m">1.5 min</span></div><div><i>13</i><span>Three layers enforce; the rest advise, extend or host</span><span class="m">1.5 min</span></div><div><i>14</i><span>The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary</span><span class="m">1.5 min</span></div><div><i>15</i><span>Fed Civ and DoD paths, limited to what Anthropic&#x27;s own pages said on 19 November 2026</span><span class="m">1.5 min</span></div><div><i>16</i><span>Eight gaps for Fed Civ and DoD, and a mitigation for each</span><span class="m">1.5 min</span></div><div><i>17</i><span>Solve a problem someone has; keep judgement human; right tool, right time</span><span class="m">1 min</span></div><div><i>18</i><span>Ten things to lift, each an afternoon&#x27;s work</span><span class="m">1 min</span></div></div>
-          <span class="slidenum">01 / 20</span>
+          <div class="agenda four"><div><i>01</i><span>A one-hour event, an abstract, and six rules set on day one</span><span class="m">1.5 min</span></div><div><i>02</i><span>Twenty-three days, forty-four commits, nine requests in plain language</span><span class="m">2 min</span></div><div><i>03</i><span>What the rounds added, read from the git tree</span><span class="m">1.5 min</span></div><div><i>04</i><span>One repository, six faces of the same hour</span><span class="m">1 min</span></div><div><i>05</i><span>Six places, one of them ephemeral, none of them yours</span><span class="m">2 min</span></div><div><i>06</i><span>Every tool in the chain is open source, and most of it is boring on purpose</span><span class="m">1.5 min</span></div><div><i>07</i><span>Messy inputs, one owner per fact, generate the rest, measure every round</span><span class="m">1.5 min</span></div><div><i>08</i><span>The model proposes; the harness decides, executes and records</span><span class="m">1.5 min</span></div><div><i>09</i><span>One ordinary round, call by call</span><span class="m">2 min</span></div><div><i>10</i><span>The context window is the whole world, and it is small</span><span class="m">1.5 min</span></div><div><i>11</i><span>Subagents and workflows: many hands, one rule for what ships</span><span class="m">1.5 min</span></div><div><i>12</i><span>Gates, limits and what hurt</span><span class="m">1.5 min</span></div><div><i>13</i><span>Three layers enforce; the rest advise, extend or host</span><span class="m">1.5 min</span></div><div><i>14</i><span>The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary</span><span class="m">1.5 min</span></div><div><i>15</i><span>Fed Civ and DoD paths, limited to what Anthropic&#x27;s own pages said on 19 November 2026</span><span class="m">1.5 min</span></div><div><i>16</i><span>Eight gaps for Fed Civ and DoD, and a mitigation for each</span><span class="m">1.5 min</span></div><div><i>17</i><span>Built to be changed: sources of truth, generators, gates</span><span class="m">1.5 min</span></div><div><i>18</i><span>A new use case as a lab, end to end: Lab 09 in five hours</span><span class="m">1.5 min</span></div><div><i>19</i><span>What the eight labs already cover, and what each use case needs</span><span class="m">1.5 min</span></div><div><i>20</i><span>Turn a customer conversation into a lab in an afternoon</span><span class="m">1.5 min</span></div><div><i>21</i><span>Solve a problem someone has; keep judgement human; right tool, right time</span><span class="m">1 min</span></div><div><i>22</i><span>Ten things to lift, each an afternoon&#x27;s work</span><span class="m">1 min</span></div></div>
+          <span class="slidenum">01 / 24</span>
         </article>
 <article class="slide" data-title="A one-hour event, an abstract, and six rules set on day one" data-notes="Start with the ask because everything that follows was shaped by it. The brief was one abstract and one wish. The abstract gave five outcomes; the wish was to end the hour hands-on rather than with a thank-you slide. The rules were the builder&#x27;s and they did the real work: public and open source meant nothing sensitive could ever enter the session; no model names meant the kit would outlive any vendor&#x27;s release; every claim must run meant the labs disciplined the slides rather than the other way round; laptop first meant the labs had to carry their own expected output; and the console rule meant two windows, one of which the audience never sees. Say plainly that the rules were written by a person before the first prompt, and that this is the part of the method that cannot be delegated." data-sources="docs/00-event-brief.adoc session notes: standing rules">
           <div class="rule"></div>
@@ -173,7 +173,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="444" y="358" font-size="9.5" fill="var(--ink-2)">not with a thank-you slide</text>
 </svg></div></div>
           
-          <span class="slidenum">02 / 20</span>
+          <span class="slidenum">02 / 24</span>
         </article>
 <article class="slide" data-title="Twenty-three days, forty-four commits, nine requests in plain language" data-notes="Walk the axis left to right. The ticks are the 44 commits on main; the dots are the rounds. Point out two things. First, the shape: a burst at the start, a pause, then a steady cadence of one request every day or two, each merged the same day. Second, the day of the event: the presenter uploaded the five renders at 13:51 UTC, then five agent rounds landed between 14:14 and 16:22 UTC, eleven commits in all, the last merge 38 minutes before the event opened at 1 PM Eastern. That is not a boast; it is a warning and a method. It was possible because every round ended with the same checks, run by scripts, so the risk of a late change was bounded. The dates and times are from the git log, normalised to UTC because the web commits were stamped in a minus-six zone, and anyone with a clone can reproduce the picture with bin/mine-history.py." data-sources="git log --reverse origin/main bin/mine-history.py slides/how-it-was-built-history.json">
           <div class="rule"></div>
@@ -276,7 +276,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">44 commits on main, each a tick · nine rounds, each a request in plain language · times from the git log, normalised to UTC</text>
 </svg></div></div>
           
-          <span class="slidenum">03 / 20</span>
+          <span class="slidenum">03 / 24</span>
         </article>
 <article class="slide" data-title="What the rounds added, read from the git tree" data-notes="Read the shapes, not the numbers. The deck grew eight and a half times, but the slide count only doubled; what grew was the apparatus around each slide: a second language, a second face, a card for every lab step, a vector fallback for every picture. The labs went from six to eight; the structure was right early and the rounds deepened it. One honest note: these are the first-parent states of main, so a side branch that was behind main for a day does not show as a dip. The data file in the repository carries every commit, with a flag for which ones are states of main, and the essay prints the table." data-sources="slides/how-it-was-built-history.json bin/mine-history.py">
           <div class="rule"></div>
@@ -354,7 +354,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="392" text-anchor="middle" font-size="10" fill="var(--ink-3)">one scale per panel · the state of main after each of its commits, read from the git tree · bin/mine-history.py regenerates the data</text>
 </svg></div></div>
           
-          <span class="slidenum">04 / 20</span>
+          <span class="slidenum">04 / 24</span>
         </article>
 <article class="slide" data-title="One repository, six faces of the same hour" data-notes="Start with what exists so the methods have something to point at. The deck is a single HTML file: an attendee can open it from a USB stick, and the only network dependency is the Red Hat fonts. The eight labs are bash scripts that pair every real product command with its expected output, so they run on any laptop in simulate mode and against RHEL AI, OpenShift AI, Ansible Automation Platform, TrustyAI and pgvector in live mode. The console, the docs book, the reveal.js cut, the PDF, the PowerPoint and the adventure catalogue are all generated beside them. One honest note: the README said seventeen slides for two months after the eighteenth was added; this branch fixes it. Hand-typed numbers drift; generated ones do not. That is the first lesson of the method." data-sources="slides/deck.html labs/*/run.sh slides/presenter-notes.html .github/workflows/docs.yml">
           <div class="rule"></div>
@@ -394,7 +394,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="375" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">nommsweymx.github.io/redhat-ai-tax-labs · a hosted artifact for review after every round</text>
 </svg></div></div>
           
-          <span class="slidenum">05 / 20</span>
+          <span class="slidenum">05 / 24</span>
         </article>
 <article class="slide" data-title="Six places, one of them ephemeral, none of them yours" data-notes="This is the slide the security people in your account will want. Name each box and say what crossed each arrow. Requests and uploads crossed from the person to the container. File excerpts, command output and screenshots crossed from the container to the model, and tokens came back. Commits crossed to GitHub over HTTPS through the proxy. Pages served the audience. Two negatives matter as much: the agent never ran on a laptop, and it never ran inside an agency. That is why this shape was acceptable here: the content was public and open source from the first commit. The same shape would not be acceptable for CUI or FTI, which is where the deployment slides later in the talk pick up. One more detail from the builder: when the session resumed two months later the container was new and the scratch directory was empty. Only what was committed survived." data-sources="session notes: where it ran .github/workflows/docs.yml https://code.claude.com/docs/en/claude-code-on-the-web">
           <div class="rule"></div>
@@ -449,7 +449,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="392" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">two months later the container was new and the scratch directory was empty; only what was committed survived</text>
 </svg></div></div>
           
-          <span class="slidenum">06 / 20</span>
+          <span class="slidenum">06 / 24</span>
         </article>
 <article class="slide" data-title="Every tool in the chain is open source, and most of it is boring on purpose" data-notes="Group one is what a person types. The deck is deliberately framework-free, so there is nothing to install and nothing to break. The narrative deck is AsciiDoc with notes blocks, built by asciidoctor-revealjs. Group two is the lab engine: bin/lib.sh gives you lab_header, lab_section, lab_note, step and lab_footer; each step pairs a real command with a heredoc of expected output; in simulate mode the heredoc streams, in live mode the command runs and the heredoc is what you compare against. The header comment says it plainly: the simulated output is not decoration, it is the acceptance criterion. What the 43 steps call is the Red Hat stack itself: podman, vLLM through the AI Inference Server image, KServe, oc, ansible-navigator and ansible-rulebook, cosign, the Compliance Operator, TrustyAI, Loki, pgvector, SDG Hub and Training Hub. Group three generates: Asciidoctor runs in the official container so nobody installs Ruby; python-pptx draws native shapes with the palette and pyramid geometry copied from the deck tokens, so a customer can edit the PowerPoint. Group four checks: make lint is bash -n plus py_compile, make test runs all eight labs; a headless browser screenshots and measures every slide; LibreOffice renders the pptx to PNG. Group five publishes. Be straight with the room about the verify note on the slide." data-sources="bin/lib.sh Makefile bin/build-pptx.py bin/build-adventure.py .gitattributes">
           <div class="rule"></div>
@@ -520,7 +520,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="371.5" y="369" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--ink)">MIT licence</text>
 <text x="320" y="396" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">no framework, no build step for the deck itself: open the file, present</text></svg></div></div>
           <div class="verify"><b>Verify before quoting</b> · the Playwright, Spanish-coverage and patch scripts lived in the session&#x27;s scratch space and were never committed; two months later that space had been cleared and they were gone. Commit the harness, not just the deliverable.</div>
-          <span class="slidenum">07 / 20</span>
+          <span class="slidenum">07 / 24</span>
         </article>
 <article class="slide" data-title="Messy inputs, one owner per fact, generate the rest, measure every round" data-notes="This is the slide to spend time on. The inputs were messy: an abstract, two planning calls whose notes arrived as files, a review transcript, the presenter&#x27;s own script and console additions, and five renders he had made elsewhere. The discipline was to give each fact one owner. Rungs and chapters live in ladder-map.json; commands and expected output live in run.sh; the spoken narrative in slides.adoc; the catalogue in adventure-inventory.json; product names in attributes.adoc; colours and the pyramid geometry in the deck tokens, which the PowerPoint builder copies. Generators read those files and stop on anything they do not recognise. Two surfaces are still hand-copied: the deck&#x27;s own lab table and the docs technology table, and that is exactly where the surviving drift came from. The loop after every change was: run every lab in simulate mode, screenshot all eighteen slides in English and Spanish, Show and Tell, measure text extents against their containers, check Spanish coverage, render the pptx to PNG. Fixes went back to the source file, never to the output. Then CI repeated the cheap half of that on every push, and only a green run published." data-sources="slides/ladder-map.json bin/adventure-inventory.json bin/build-adventure.py bin/build-pptx.py docs/attributes.adoc .github/workflows/docs.yml">
           <div class="rule"></div>
@@ -562,7 +562,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="370" text-anchor="middle" font-size="10" fill="var(--ink-3)">plus a hosted artifact for review, and a presenter console that follows the deck window to window</text>
 </svg></div></div>
           
-          <span class="slidenum">08 / 20</span>
+          <span class="slidenum">08 / 24</span>
         </article>
 <article class="slide" data-title="The model proposes; the harness decides, executes and records" data-notes="This is the whole product once the vocabulary is removed. Claude Code assembles a request and sends it to whichever endpoint the environment variables select: Anthropic&#x27;s API by default, or Amazon Bedrock, Google&#x27;s Vertex AI, or Microsoft Foundry. The model replies with text or a structured tool call: read this file, run this command, edit that line, ask a subagent. The harness decides whether the call runs. Deny rules always win; allow rules come next; then the mode. In the default mode a person is asked; plan mode refuses writes; auto mode sends the action to a classifier model; bypass just runs. A pre-tool hook can veto with an exit code. The result is appended and the loop continues. Prompt caching makes the repeated prefix cheap; compaction summarises old steps and is lossy. Subagents are the same loop with a fresh context window and a narrower tool list, returning a summary. The sentence to leave with the room is the last bullet: everything the agent reads goes to the endpoint. The endpoint is the boundary, not the model." data-sources="https://code.claude.com/docs/en/how-claude-code-works https://code.claude.com/docs/en/permission-modes https://code.claude.com/docs/en/hooks https://code.claude.com/docs/en/context-window">
           <div class="rule"></div>
@@ -604,7 +604,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="367" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink)">The loop repeats until the model stops asking for tools. Every arrow is a seam you can log, gate or cut.</text>
 </svg></div></div>
           
-          <span class="slidenum">09 / 20</span>
+          <span class="slidenum">09 / 24</span>
         </article>
 <article class="slide" data-title="One ordinary round, call by call" data-notes="Slow down here; this is the slide that answers &quot;what is it actually doing&quot;. Walk the twelve steps. Emphasise three. Step two: it searched rather than read, because the context window is finite and a 700 KB file would consume it; choosing what to read is most of the agent&#x27;s skill. Step four: it wrote a patch script rather than editing by hand, and each replacement asserted exactly one match, so a drifted file stopped the round rather than being silently damaged. Steps six and seven: it screenshotted its own work and looked at the pictures, then measured text against boxes with code, because its own reading of a picture is not a measurement. The gates in step eight ran whether or not the round touched the labs. Nothing in this list is clever; what made it work is that it ran every time." data-sources="session notes: a typical round bin/render-graphics.js and bin/mine-history.py (the two verification scripts now committed)">
           <div class="rule"></div>
@@ -694,7 +694,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="382" text-anchor="middle" font-size="10" fill="var(--ink-2)">a typical round: 20 to 60 tool calls · every result returns to the model as text or an image · nothing runs without the gate</text>
 </svg></div></div>
           
-          <span class="slidenum">10 / 20</span>
+          <span class="slidenum">10 / 24</span>
         </article>
 <article class="slide" data-title="The context window is the whole world, and it is small" data-notes="Most misunderstandings about agents come from imagining a memory that is not there. The model has no state between turns except this text. Three consequences. First, standing rules work because they are literally re-read every turn; the trailer on every commit and the rule never to push to the wrong repository were held that way. Second, the agent reads excerpts because the window is the budget. Third, compaction: the builder watched the conversation summarised twice, and what survived was what had been written to files. Say the last bullet twice if you need to; it is the operational lesson of the whole talk." data-sources="https://code.claude.com/docs/en/context-window session notes: compaction">
           <div class="rule"></div>
@@ -741,7 +741,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="394" text-anchor="middle" font-size="10" fill="var(--ink-3)">so the method follows: write it down, keep it in the repo, make every check a script</text>
 </svg></div></div>
           
-          <span class="slidenum">11 / 20</span>
+          <span class="slidenum">11 / 24</span>
         </article>
 <article class="slide" data-title="Subagents and workflows: many hands, one rule for what ships" data-notes="Two mechanisms, one rule. A subagent is a fresh context given a brief; it cannot see the parent&#x27;s conversation, so it has to be told everything in the brief, and it hands back a file. That is why eight could write step cards at once and why a merge script, not a conversation, enforced the word budget. A workflow is a script: the fan-out and fan-in are code, and the agents fill in the leaves. For this briefing the workflow ran four researchers, then sent thirty-three high-stakes claims to verifiers told to refute them, then a synthesizer and a critic asking what was missing. Be candid about the outcome: thirty-one came back unclear because the sandbox could not reach the pages, two were refuted, none were confirmed by the verifiers. The verified federal wording came from pages the main session read itself, and anything it could not read is in the appendix. Parallel agents buy coverage; they do not buy truth." data-sources="workflow wf_6709034d-006 result, 2026-11-19 session notes: step cards, review transcript">
           <div class="rule"></div>
@@ -843,7 +843,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="336" y="382" font-size="9" fill="var(--ink-3)">subagents wrote the step cards, earlier</text>
 </svg></div></div>
           
-          <span class="slidenum">12 / 20</span>
+          <span class="slidenum">12 / 24</span>
         </article>
 <article class="slide" data-title="Gates, limits and what hurt" data-notes="Each tile is a pain and its lesson. Start with the gate, because it is the thing your customers will ask about: every shell command and every git action passed a permission check, and in this session&#x27;s auto mode a classifier model made the call. It refused an ordinary push and a force-with-lease as destructive, then allowed the same push a few minutes later. A non-deterministic gate needs a deterministic fallback: a person with the command and the reason. Then the limits: usage limits killed agents and a workflow mid-round, and because every agent wrote files rather than messages the work survived and only the verification had to be redone. Compaction and the cleared scratch directory are the same lesson from two sides: the repository is the memory, the conversation is not; this branch commits the two verification scripts that were lost. Egress policy and account-level actions are the boundaries of what an agent in a managed container can do: it could not load the published site and it could not create a repository. People create, agents prepare. Close on what the repository can prove without trusting anyone: trailers, a branch name, two pull requests, and until now no committed harness." data-sources="git log --format=%s on main https://support.claude.com/en/articles/15910845 https://www.anthropic.com/engineering/claude-code-auto-mode https://code.claude.com/docs/en/context-window">
           <div class="rule"></div>
@@ -883,7 +883,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="344" y="252" font-size="10" fill="var(--ink-2)">→ no repo creation; people create, agents prepare</text>
 </svg></div></div>
           
-          <span class="slidenum">13 / 20</span>
+          <span class="slidenum">13 / 24</span>
         </article>
 <article class="slide" data-title="Three layers enforce; the rest advise, extend or host" data-notes="One picture for the suite. Three layers enforce: permission rules, hooks and whatever sandbox you add. Everything else advises or extends. CLAUDE.md is context, not configuration, and the documentation says so; a model can and occasionally will deviate, so anything that must be guaranteed belongs in a rule or a hook. Skills are directories with a SKILL.md and optional scripts; slash commands are skills now. Subagents are files in .claude/agents with their own window, tool list and mode, and they cannot nest. MCP servers are registered per user, per project in .mcp.json, or by enterprise managed configuration, which can take exclusive control. Plugins bundle skills, agents, hooks and MCP servers and install from marketplaces, Anthropic&#x27;s own among them. All of these are files in a repository, which is why they version well and why a cloned repository is a supply-chain event: a project-level hook is arbitrary code execution with the user&#x27;s privileges. The hosted surfaces on the right all need a claude.ai login and none exist on the Bedrock, Vertex or Foundry paths. The Agent SDK is the platform story: the same binary, spawned as a subprocess in your container, behind your own HTTP or WebSocket API." data-sources="https://code.claude.com/docs/en/feature-availability https://code.claude.com/docs/en/memory https://code.claude.com/docs/en/skills https://code.claude.com/docs/en/plugins https://code.claude.com/docs/en/sub-agents https://code.claude.com/docs/en/agent-sdk/hosting">
           <div class="rule"></div>
@@ -937,7 +937,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 </g>
 </svg></div></div>
           
-          <span class="slidenum">14 / 20</span>
+          <span class="slidenum">14 / 24</span>
         </article>
 <article class="slide" data-title="The kit is the open core of the AI Factory pattern, and every harness feature has a counterpart inside the boundary" data-notes="Two things are called AI Factory, and the Red Hat press release was not reachable from the session this week, so give both with that caveat: NVIDIA&#x27;s Enterprise AI Factory validated design, where OpenShift AI is a verified platform layer, and the Red Hat AI Factory with NVIDIA bundle of Red Hat AI Enterprise and NVIDIA AI Enterprise on partner hardware. What matters for us is that the kit already runs the open core of the same pattern on the same platform: vLLM through Red Hat AI Inference, Granite from the validated-models collections, pgvector, Ansible and Event-Driven Ansible, Sigstore. No NVIDIA entitlement, no validated rack design, and we must not describe it as one. The agent layer maps cleanly. Llama Stack, now OGX in OpenShift AI 3.5, is the API server for inference, vector stores, safety, tools and agents. MCP is the tool seam, and Red Hat polices it: the Connectivity Link MCP gateway enforcing guardrails on tool calls, and the Ansible Automation Platform MCP server so an agent can only launch pre-approved job templates under AAP role-based access, with Event-Driven Ansible for approvals and audit. OpenShell is the sandbox: default-deny egress, policy at the network and application layer, denial logs. The harness list is the point: goose, OpenHands, Aider, Cline, Qwen Code and Codex CLI all take an OpenAI-compatible base URL, so they run against vLLM in the enclave with no vendor account. Gemini CLI does not. Red Hat has also documented pointing Claude Code itself at Red Hat AI Inference on OpenShift; check the current article before quoting it. Product statuses in this paragraph move; the appendix lists which ones were not verdict-checked." data-sources="https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/3.5/html/working_with_ogx/overview-of-ogx_rag https://www.redhat.com/en/blog/model-context-protocol-gateway-red-hat-openshift-now-generally-available https://www.redhat.com/en/blog/beyond-container-boundaries-kernel-level-agent-security-red-hat-openshift-ai-35 https://blog.modelcontextprotocol.io/posts/2025-12-09-mcp-joins-agentic-ai-foundation/ https://block.github.io/goose/docs/getting-started/providers https://docs.openhands.dev/openhands/usage/llms/local-llms">
           <div class="rule"></div>
@@ -1004,7 +1004,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">Same question as the pyramid: where does the data live? That decides the architecture.</text>
 </svg></div></div>
           
-          <span class="slidenum">15 / 20</span>
+          <span class="slidenum">15 / 24</span>
         </article>
 <article class="slide" data-title="Fed Civ and DoD paths, limited to what Anthropic&#x27;s own pages said on 19 November 2026" data-notes="Everything on this slide was read on an Anthropic page on the nineteenth of November and the date is on the slide. Bedrock in AWS GovCloud is the workhorse path for FedRAMP High and IL4 and IL5, with the caveat that AWS authorizes models one at a time and the 2025 announcement named 2025 models; pin the model you demo to the authorized list. Vertex with Assured Workloads is FedRAMP High and IL2; IL5 is not confirmed. Claude for Government reached general availability on the thirtieth of September in a FedRAMP High environment; Claude Code sessions run on the workstation, model requests are proxied to an endpoint inside the boundary, the service does not log request or response bodies, Anthropic telemetry endpoints are not contacted, and there is no inline DLP; the Code client is early access. For classified work the page says Claude is available in the AWS Secret region at IL6 and in Top Secret regions through Bedrock, arranged with the AWS account team; nothing public says the Claude Code harness is offered there. The DoD line matters most for this room: Anthropic&#x27;s own government page carries a supply-chain-risk note that the Department of War designation applies to the use of Claude as a direct part of DoW contracts and subcontracts, and it cites a September 2026 court ruling. Treat DoD programs and defence-contract work as closed to Claude proposals until counsel says otherwise, and position vendor-neutral architecture there. The commercial API, claude.ai surfaces and Microsoft Foundry: no federal authorization on any page read." data-sources="https://www.anthropic.com/news/claude-in-amazon-bedrock-fedramp-high https://claude.com/blog/claude-on-google-cloud-fedramp-high https://claude.com/blog/claude-for-government-is-now-generally-available https://claude.com/docs/government/security/security-and-data-handling https://claude.com/solutions/government https://code.claude.com/docs/en/amazon-bedrock">
           <div class="rule"></div>
@@ -1095,7 +1095,7 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="14" y="396" font-size="9.5" fill="var(--ink-3)">✓ stated on an Anthropic page we read on 2026-11-19 · — not stated there · ✗ no authorization found · AWS authorizes each model separately</text>
 </svg></div></div>
           <div class="verify"><b>Verify before quoting</b> · the litigation behind the DoD note, the GSA OneGov terms, the IRS Publication 1075 specifics and the DoD contract history could not be read from primary pages this week. The appendix lists them.</div>
-          <span class="slidenum">16 / 20</span>
+          <span class="slidenum">16 / 24</span>
         </article>
 <article class="slide" data-title="Eight gaps for Fed Civ and DoD, and a mitigation for each" data-notes="Read this as a ledger. The air gap is structural: no page offers model weights or a disconnected deployment, so the honest answer for an enclave is an open harness against vLLM in OpenShell, with the capability loss that implies. The DoD designation blocks regardless of technology. The boundary leaks are configuration: deny the claude.ai-tied surfaces in managed settings and authenticate with cloud IAM, which cannot publish artifacts; put DLP at your proxy because Claude for Government has none. Supply chain and injection are the posture you already preach for Ansible collections and IDE extensions: install from a mirrored, pinned source, allow only reviewed marketplaces, run MCP servers from agency-built containers, deny-by-default egress, and treat tickets, pull-request comments, web pages and documents as untrusted input to a privileged agent. The classifier is a model-based control; Anthropic&#x27;s March 2026 post reports a 17% false-negative rate on real over-eager actions and a stop after three consecutive or twenty total denials. Encode allow, deny and ask rules and pre-tool hooks the binary enforces, and disable auto mode where policy requires. For audit, turn on OpenTelemetry org-wide to an agency collector; the raw-bodies option exports the whole conversation to your collector and never to Anthropic, and events carry the user&#x27;s email and session id. Records officers will tell you NARA now treats prompts, outputs and agent logs as potential federal records. Identity goes through your IdP with PIV enforced there. And Section 508: the vendor&#x27;s conformance reports cover the tool; the HTML pages, slides and documents it generates are yours to test." data-sources="https://code.claude.com/docs/en/security https://code.claude.com/docs/en/monitoring-usage https://www.anthropic.com/engineering/claude-code-auto-mode https://code.claude.com/docs/en/artifacts https://code.claude.com/docs/en/claude-code-on-the-web https://www.archives.gov/records-mgmt/memos/ac-11-2026">
           <div class="rule"></div>
@@ -1142,12 +1142,314 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="344" y="344" font-size="10" fill="var(--ink-2)">→ OTel opt-in; no PIV/CAC; ACRs cover the tool only</text>
 </svg></div></div>
           
-          <span class="slidenum">17 / 20</span>
+          <span class="slidenum">17 / 24</span>
+        </article>
+<article class="slide" data-title="Built to be changed: sources of truth, generators, gates" data-notes="Start with what owns what. The lab scripts own the facts: a step command and the heredoc it must print, and the header of bin/lib.sh says the heredoc is the acceptance criterion, not decoration. The deck, the presenter console, the reveal source and the PowerPoint builder are four hand-written copies of the same story, and nothing in the repository compared them until the checks that now sit in bin were written. Three things are generated and committed: the catalogue page, the PowerPoint export and the methods pages. CI copies the first two verbatim and regenerates the third only to compare it against what you committed, so forgetting a make target publishes the old version. The gate is make test: syntax, Python compile, every lab in simulate mode. A broken lab blocks the site. The knobs graphic is the extension-point table: the area you change, the file that owns it, and what the change looks like. The commit that added Lab 08 is the honest size of a change: eighteen files." data-sources="bin/lib.sh bin/run-all-labs.sh Makefile .github/workflows/docs.yml slides/deck.html slides/presenter-notes.html slides/ladder-map.json bin/adventure-inventory.json bin/build-adventure.py bin/build-pptx.py">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">17 · Built to be changed</span><span class="min">1.5 min</span></div>
+            <h2>Built to be changed: sources of truth, generators, gates</h2>
+            <p class="lede">The deck has no build step. Each fact has one owner file, a few outputs are generated, and one gate runs every lab before anything publishes.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Owner files.</b> labs/labNN/run.sh heredocs are the acceptance criterion (bin/lib.sh:11-12); slides/deck.html, presenter-notes.html and slides.adoc are hand-kept copies of the same talk.</li>
+<li><b>Generators.</b> make adventure builds slides/adventure.html from the inventory and ladder-map; make pptx and make brief build the export and the methods pages; CI copies them and never rebuilds.</li>
+<li><b>Gate.</b> make test runs bash -n, py_compile and all eight labs in simulate mode in under a second; CI runs the same before the docs build and publishes only from main (docs.yml:22-55, :94).</li>
+<li><b>What must also change.</b> The commit that added Lab 08 touched 18 files (git show --stat 7dd52f2): script, docs, README, inventory, ladder-map, deck, console, pptx, preflight.</li>
+<li><b>Checks ship in bin/.</b> check-labs-parity, check-agree, check-es-keys, check-markers, check-chain, deck-measure, check-i18n: nothing in the repository compared the copies before.</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The kit's extension points: for each area, the file that owns it and what you change there.">
+<rect x="14" y="14" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="24" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="34" font-size="12" font-weight="800" fill="var(--ink)">Slides</text>
+<text x="30" y="50" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/deck.html</text>
+<text x="30" y="66" font-size="9.5" fill="var(--ink-2)">one &lt;article class=slide&gt; each</text>
+<rect x="324" y="14" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="24" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="34" font-size="12" font-weight="800" fill="var(--ink)">Spanish</text>
+<text x="340" y="50" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/deck.html ES_TEXT</text>
+<text x="340" y="66" font-size="9.5" fill="var(--ink-2)">one entry per English string</text>
+<rect x="14" y="88" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="98" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="108" font-size="12" font-weight="800" fill="var(--ink)">Labs</text>
+<text x="30" y="124" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">labs/labNN/run.sh</text>
+<text x="30" y="140" font-size="9.5" fill="var(--ink-2)">step() + expected output</text>
+<rect x="324" y="88" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="98" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="108" font-size="12" font-weight="800" fill="var(--ink)">Docs</text>
+<text x="340" y="124" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">docs/NN-lab-*.adoc</text>
+<text x="340" y="140" font-size="9.5" fill="var(--ink-2)">header table + sections</text>
+<rect x="14" y="162" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="172" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="182" font-size="12" font-weight="800" fill="var(--ink)">Catalogue</text>
+<text x="30" y="198" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">bin/adventure-inventory.json</text>
+<text x="30" y="214" font-size="9.5" fill="var(--ink-2)">one item each; make adventure</text>
+<rect x="324" y="162" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="172" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="182" font-size="12" font-weight="800" fill="var(--ink)">Ladder</text>
+<text x="340" y="198" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/ladder-map.json</text>
+<text x="340" y="214" font-size="9.5" fill="var(--ink-2)">rung per slide and lab</text>
+<rect x="14" y="236" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="246" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="256" font-size="12" font-weight="800" fill="var(--ink)">Console</text>
+<text x="30" y="272" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/presenter-notes.html</text>
+<text x="30" y="288" font-size="9.5" fill="var(--ink-2)">a section per slide and lab</text>
+<rect x="324" y="236" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="246" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="256" font-size="12" font-weight="800" fill="var(--ink)">PowerPoint</text>
+<text x="340" y="272" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">bin/build-pptx.py</text>
+<text x="340" y="288" font-size="9.5" fill="var(--ink-2)">block order; make pptx</text>
+<rect x="14" y="310" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="320" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="330" font-size="12" font-weight="800" fill="var(--ink)">Graphics</text>
+<text x="30" y="346" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/assets/graphics/</text>
+<text x="30" y="362" font-size="9.5" fill="var(--ink-2)">drop in by filename</text>
+<rect x="324" y="310" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="320" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="330" font-size="12" font-weight="800" fill="var(--ink)">Gates</text>
+<text x="340" y="346" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">.github/workflows/docs.yml</text>
+<text x="340" y="362" font-size="9.5" fill="var(--ink-2)">labs run before docs build</text>
+</svg></div></div>
+          
+          <span class="slidenum">18 / 24</span>
+        </article>
+<article class="slide" data-title="A new use case as a lab, end to end: Lab 09 in five hours" data-notes="This slide is the recipe as it was actually run, not as it was planned. The use case came from the kit&#x27;s own methods page, correspondence triage, and the first thing written was the output of the last command: a reviewer&#x27;s worklist with the reviewer column empty. Everything else was built backwards from that. The script follows the shape of Lab 07 line for line, with one addition: step three is a letter the routing guide says the model must not decide, so the helper exits 3 and the step tolerates it. The helpers are standard-library Python, the model is a variable with a neutral default, and live mode runs against the Lab 01 endpoint on the loopback address. Then the long tail: the docs chapter, the index, six count strings in the README, the preflight line, the inventory item, the ladder-map entry, the deck&#x27;s terminal and cards, the hash regex, the console section, the reveal and PowerPoint tables. The newlab graphic is that order. Every gate passed, and the whole change is one 23-file commit." data-sources="labs/lab07-ops-notebook/run.sh bin/lib.sh docs/07-lab-ops-notebook.adoc docs/index.adoc README.adoc bin/preflight.sh bin/adventure-inventory.json slides/ladder-map.json slides/deck.html slides/presenter-notes.html bin/build-pptx.py">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">18 · A new use case as a lab</span><span class="min">1.5 min</span></div>
+            <h2>A new use case as a lab, end to end: Lab 09 in five hours</h2>
+            <p class="lede">Correspondence triage, executed: expected output first, run.sh on the lib.sh contract, then every mirror the kit keeps by hand. 23 files, one commit.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Expected output first.</b> Five heredocs are the acceptance criterion; triage.py and route.py were then made to print exactly those lines; live against a stub endpoint diffs empty against simulate.</li>
+<li><b>The lib.sh contract.</b> set -euo pipefail, source ../../bin/lib.sh, LAB_STEPS_TOTAL=5, VAR=${VAR:-default} knobs, require_cmd python3, lab_section plus step plus lab_note, lab_footer, TAKEAWAY.</li>
+<li><b>Judgement stays human.</b> Step 3 is the letter the model must not decide (exit 3 tolerated in the command); step 5 is the reviewer&#x27;s worklist with the reviewer column empty.</li>
+<li><b>Then the mirrors.</b> docs/09 and the index include, README row and six count strings, preflight, inventory and ladder-map, deck LABS and LAB_CARDS, the #lab regex, console section, pptx.</li>
+<li><b>Gates passed.</b> make test in 0.9 s, parity for the new lab and the Spanish checks clean, the docs book renders, the catalogue rebuilt; about five hours by hand, one 23-file commit.</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="A new use case becomes a lab in ordered steps: from naming the problem owner and the rung, through writing the expected output and the run script, to the docs, catalogue, deck, CI and a live run.">
+<defs><marker id="nl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<rect x="14" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="32" cy="42" r="11" fill="var(--steel)"/>
+<text x="32" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">1</text>
+<text x="24" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Name the problem</text><text x="24" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">owner and the queue</text>
+<line x1="126" y1="80.0" x2="137" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="139" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="157" cy="42" r="11" fill="var(--steel)"/>
+<text x="157" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">2</text>
+<text x="149" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Place it on the</text><text x="149" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">ladder; pick the</text><text x="149" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">product</text>
+<line x1="251" y1="80.0" x2="262" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="264" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="282" cy="42" r="11" fill="var(--steel)"/>
+<text x="282" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">3</text>
+<text x="274" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Write the expected</text><text x="274" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">output first (the</text><text x="274" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">heredocs)</text>
+<line x1="376" y1="80.0" x2="387" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="389" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="407" cy="42" r="11" fill="var(--steel)"/>
+<text x="407" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">4</text>
+<text x="399" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Copy the lab07</text><text x="399" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">shape into the new</text><text x="399" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">lab directory</text>
+<line x1="501" y1="80.0" x2="512" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="514" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.4"/>
+<circle cx="532" cy="42" r="11" fill="var(--good)"/>
+<text x="532" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">5</text>
+<text x="524" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Ship the assets and</text><text x="524" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">helpers the live</text><text x="524" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">commands read</text>
+<line x1="570.0" y1="136" x2="570.0" y2="188" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="514" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.4"/>
+<circle cx="532" cy="210" r="11" fill="var(--good)"/>
+<text x="532" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">6</text>
+<text x="524" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">make test: bash -n,</text><text x="524" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">py_compile, all</text><text x="524" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">labs simulate</text>
+<line x1="514" y1="248.0" x2="503" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="389" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.4"/>
+<circle cx="407" cy="210" r="11" fill="var(--good)"/>
+<text x="407" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">7</text>
+<text x="399" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Docs chapter, index</text><text x="399" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">include, README</text><text x="399" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">row, preflight</text>
+<line x1="389" y1="248.0" x2="378" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="264" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--violet)" stroke-width="1.4"/>
+<circle cx="282" cy="210" r="11" fill="var(--violet)"/>
+<text x="282" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">8</text>
+<text x="274" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Inventory item and</text><text x="274" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">ladder-map; make</text><text x="274" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">adventure</text>
+<line x1="264" y1="248.0" x2="253" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="139" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--violet)" stroke-width="1.4"/>
+<circle cx="157" cy="210" r="11" fill="var(--violet)"/>
+<text x="157" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">9</text>
+<text x="149" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Deck LABS and</text><text x="149" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">cards, preview</text><text x="149" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">card, #lab regex</text>
+<line x1="139" y1="248.0" x2="128" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="14" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--violet)" stroke-width="1.4"/>
+<circle cx="32" cy="210" r="11" fill="var(--violet)"/>
+<text x="32" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">10</text>
+<text x="24" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Run it live; a</text><text x="24" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">divergence is the</text><text x="24" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">finding</text>
+<rect x="14" y="372" width="10" height="10" rx="3" fill="var(--steel)"/><text x="30" y="381" font-size="9.5" fill="var(--ink-2)">decide</text>
+<rect x="85.6" y="372" width="10" height="10" rx="3" fill="var(--good)"/><text x="101.6" y="381" font-size="9.5" fill="var(--ink-2)">build and check</text>
+<rect x="207.6" y="372" width="10" height="10" rx="3" fill="var(--violet)"/><text x="223.6" y="381" font-size="9.5" fill="var(--ink-2)">ship and run live</text>
+<text x="626" y="381" text-anchor="end" font-size="9.5" fill="var(--ink-3)">the expected output is the acceptance criterion</text>
+</svg></div></div>
+          
+          <span class="slidenum">19 / 24</span>
+        </article>
+<article class="slide" data-title="What the eight labs already cover, and what each use case needs" data-notes="The catalogue answers the question an account team asks first: does the kit already prove this, and if not, how far is it. Twenty-three rows in the chapter, eight on this graphic, chosen to span the IRS, other federal civilian agencies, a state revenue department and two DoD business systems. Read the effort column as three kinds of work. S is hours on a lab that already runs: new corpus, new prompt, new expected output, thresholds in a manifest. M is a new lab in an existing shape, which is the Lab 09 story on the previous slide, two to five days once you count every mirror. L is a new lab that also needs a helper the kit does not ship or a product surface no standalone lab shows; the scoring rows are the example, and the kit&#x27;s own event brief marks exam selection as a No, governance first. Two things never change across the rows: the rung vocabulary comes from the ladder-map file, and the last step is always a person&#x27;s screen." data-sources="slides/ladder-map.json bin/build-brief.py docs/00-event-brief.adoc labs/lab01-rhel-ai/run.sh labs/lab03-openshift-ai/run.sh labs/lab04-rag/run.sh labs/lab05-ansible/run.sh labs/lab06-trust/run.sh labs/lab08-grand-demo/run.sh">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">19 · What it already covers</span><span class="min">1.5 min</span></div>
+            <h2>What the eight labs already cover, and what each use case needs</h2>
+            <p class="lede">Twenty-three use cases across IRS, federal civilian, state revenue and DoD, mapped to lab steps, products and the files that change. Most are retargets.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Covered as shipped (S, hours).</b> Surge autoscaling (Lab 03), cited answers with a refusal (Lab 04), the authorizing official&#x27;s evidence (Lab 06): change knobs, corpus and expected output.</li>
+<li><b>Retarget (S to M).</b> Claims, helpline, evidence-request and acquisition questions are Lab 04 with a different public corpus and prompt; intake triage is Lab 01 with a different inquiry.json.</li>
+<li><b>New lab in an existing shape (M, two to five days).</b> Correspondence triage, entry classification, readiness rulebooks: copy the lab07 shape and add the mirrors from the Lab 08 commit.</li>
+<li><b>New lab plus unshipped helpers (L).</b> Fraud or claim scoring: no standalone lab serves a tabular scorer; Lab 08 step 4 shows the pattern. Governance first: the event brief marks that row No.</li>
+<li><b>The constant.</b> Every row ends on a person&#x27;s screen; rungs come only from slides/ladder-map.json chips; nothing reaches a slide until a lab prints it.</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="Eight specific use cases across the IRS, other federal civilian agencies, state revenue and DoD business systems, each with its rung, the closest existing labs and what changes.">
+<text x="22" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">USE CASE</text>
+<text x="180" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">AGENCY</text>
+<text x="276" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">RUNG</text>
+<text x="380" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">LABS</text>
+<text x="472" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">WHAT CHANGES</text>
+<rect x="14" y="36" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="59" font-size="11" font-weight="800" fill="var(--ink)">Correspondence triage</text>
+<text x="180" y="59" font-size="10" fill="var(--ink-2)">IRS</text>
+<rect x="276" y="46" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="55" r="3.5" fill="var(--good)"/>
+<text x="294" y="59" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="59" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 01 + 04 + 09</text>
+<text x="472" y="59" font-size="9.8" fill="var(--ink-2)">new lab, routing guide in git</text>
+<rect x="14" y="77" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="100" font-size="11" font-weight="800" fill="var(--ink)">Filing-season autoscale</text>
+<text x="180" y="100" font-size="10" fill="var(--ink-2)">IRS</text>
+<rect x="276" y="87" width="88" height="18" rx="9" fill="#C2410C" opacity=".14"/>
+<circle cx="286" cy="96" r="3.5" fill="#C2410C"/>
+<text x="294" y="100" font-size="9.5" font-weight="700" fill="var(--ink)">information</text>
+<text x="380" y="100" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 03</text>
+<text x="472" y="100" font-size="9.8" fill="var(--ink-2)">manifest replicas, hey run</text>
+<rect x="14" y="118" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="141" font-size="11" font-weight="800" fill="var(--ink)">Claims evidence summaries</text>
+<text x="180" y="141" font-size="10" fill="var(--ink-2)">SSA / VA</text>
+<rect x="276" y="128" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="137" r="3.5" fill="var(--good)"/>
+<text x="294" y="141" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="141" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 04</text>
+<text x="472" y="141" font-size="9.8" fill="var(--ink-2)">swap corpus, prompt, threshold</text>
+<rect x="14" y="159" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="182" font-size="11" font-weight="800" fill="var(--ink)">Helpline answer drafts</text>
+<text x="180" y="182" font-size="10" fill="var(--ink-2)">CMS</text>
+<rect x="276" y="169" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="178" r="3.5" fill="var(--good)"/>
+<text x="294" y="182" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="182" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 04 + 06</text>
+<text x="472" y="182" font-size="9.8" fill="var(--ink-2)">cite handbook; agent sends</text>
+<rect x="14" y="200" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="223" font-size="11" font-weight="800" fill="var(--ink)">Entry classification</text>
+<text x="180" y="223" font-size="10" fill="var(--ink-2)">CBP</text>
+<rect x="276" y="210" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="219" r="3.5" fill="var(--good)"/>
+<text x="294" y="223" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="223" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 02 + 03</text>
+<text x="472" y="223" font-size="9.8" fill="var(--ink-2)">tune on your taxonomy</text>
+<rect x="14" y="241" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="264" font-size="11" font-weight="800" fill="var(--ink)">Refund-hold contact triage</text>
+<text x="180" y="264" font-size="10" fill="var(--ink-2)">State revenue</text>
+<rect x="276" y="251" width="88" height="18" rx="9" fill="var(--accent)" opacity=".14"/>
+<circle cx="286" cy="260" r="3.5" fill="var(--accent)"/>
+<text x="294" y="264" font-size="9.5" font-weight="700" fill="var(--ink)">data → info</text>
+<text x="380" y="264" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 01 + 02 + 03</text>
+<text x="472" y="264" font-size="9.8" fill="var(--ink-2)">retarget knobs and heredocs</text>
+<rect x="14" y="282" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="305" font-size="11" font-weight="800" fill="var(--ink)">Readiness rulebooks</text>
+<text x="180" y="305" font-size="10" fill="var(--ink-2)">DoD logistics</text>
+<rect x="276" y="292" width="88" height="18" rx="9" fill="var(--violet)" opacity=".14"/>
+<circle cx="286" cy="301" r="3.5" fill="var(--violet)"/>
+<text x="294" y="305" font-size="9.5" font-weight="700" fill="var(--ink)">judgement</text>
+<text x="380" y="305" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 05 + 07</text>
+<text x="472" y="305" font-size="9.8" fill="var(--ink-2)">rulebooks, your telemetry</text>
+<rect x="14" y="323" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="346" font-size="11" font-weight="800" fill="var(--ink)">Audit evidence packs</text>
+<text x="180" y="346" font-size="10" fill="var(--ink-2)">DoD finance</text>
+<rect x="276" y="333" width="88" height="18" rx="9" fill="var(--violet)" opacity=".14"/>
+<circle cx="286" cy="342" r="3.5" fill="var(--violet)"/>
+<text x="294" y="346" font-size="9.5" font-weight="700" fill="var(--ink)">judgement</text>
+<text x="380" y="346" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 04 + 06</text>
+<text x="472" y="346" font-size="9.8" fill="var(--ink-2)">TrustyAI reports per run</text>
+<text x="320" y="392" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">the full catalogue is in the docs chapter · in every row the determination stays with a person</text>
+</svg></div></div>
+          
+          <span class="slidenum">20 / 24</span>
+        </article>
+<article class="slide" data-title="Turn a customer conversation into a lab in an afternoon" data-notes="The afternoon plan is a page you fill in during the conversation and a prompt you paste afterwards. The page has ten fields, and only two of them end the conversation: the success output, the exact lines the last command will print as the owner would read them, and who signs. Everything else can be filled from the kit. Placing the use case on the ladder takes ten minutes with the definitions in the ladder-map file, and it has one hard stop: if the model would make the determination, the event brief already marks that row No. Then write backwards from the signer&#x27;s screen, copy the shape of Lab 07, and let the gates argue: syntax, step count, every lab in simulate mode, a model-name grep whose pattern comes from the attributes file, asset presence, inventory fields, the chip string matching the docs. The agent prompt in the chapter carries all of that. Four hours gets a lab that passes make test and a docs chapter; the live run is a separate session, and a divergence there is the finding." data-sources="bin/lib.sh labs/lab07-ops-notebook/run.sh slides/ladder-map.json docs/00-event-brief.adoc docs/attributes.adoc bin/adventure-inventory.json bin/build-adventure.py bin/preflight.sh docs/index.adoc">
+          <div class="rule"></div>
+          <div class="head">
+            <div class="meta"><span class="eyebrow">20 · In an afternoon</span><span class="min">1.5 min</span></div>
+            <h2>Turn a customer conversation into a lab in an afternoon</h2>
+            <p class="lede">Leave the meeting with the success output and the signer written down; the rest is the lab07 shape, the gates and one agent prompt.</p>
+          </div>
+          <div class="body"><ul class="pts"><li><b>Thirty minutes in the room.</b> Problem owner, trigger (queue, pager or accreditation question), where the data lives and who may read it, who signs, the exact lines the last command prints.</li>
+<li><b>Place it, pick the product.</b> Rung definitions in ladder-map.json:4-35, technologies at :361-385; if the model would make the determination, stop (docs/00-event-brief.adoc:47-49).</li>
+<li><b>Write backwards.</b> The last step is the signer&#x27;s screen ending in a status only a person changes; one step is the refusal; step 1 shows where the data lives. Figures are representative; say so.</li>
+<li><b>One prompt, eighteen checks.</b> The R7 agent prompt carries the brief as fields and ends with C1 to C18: bash -n, step count, make test, model-name grep, asset presence, inventory fields, parity.</li>
+<li><b>Four hours, simulate-ready.</b> Live rehearsal is a separate session; exit 1 with the expected output printed under a step is the finding, not something to edit away.</li></ul><div class="gfx"><svg viewBox="0 0 640 400" role="img" aria-label="The lab brief: ten fields filled in the room (problem owner, trigger, data location, rung, product, success output, who signs, nearest lab, live inputs, sample data), eight time boxes from the conversation at 0:00 to review and commit at 3:15, and the gates that run before anyone sees a slide.">
+<rect x="14" y="14" width="400" height="348" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>
+<text x="30" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">LAB BRIEF · ONE PAGE, FILLED IN THE ROOM</text>
+<rect x="30" y="54" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="68" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">a</text>
+<text x="58" y="68" font-size="10.5" font-weight="500" fill="var(--ink)">Problem owner: role and team, never a name</text>
+<line x1="58" y1="78" x2="398" y2="78" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="84" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="98" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">b</text>
+<text x="58" y="98" font-size="10.5" font-weight="500" fill="var(--ink)">Trigger: queue, pager or accreditation question</text>
+<line x1="58" y1="108" x2="398" y2="108" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="114" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="128" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">c</text>
+<text x="58" y="128" font-size="10.5" font-weight="500" fill="var(--ink)">Data: system, boundary it must not leave, who may read it</text>
+<line x1="58" y1="138" x2="398" y2="138" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="144" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="158" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">d</text>
+<text x="58" y="158" font-size="10.5" font-weight="500" fill="var(--ink)">Rung this lab proves; who climbs the next one</text>
+<line x1="58" y1="168" x2="398" y2="168" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="174" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="188" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">e</text>
+<text x="58" y="188" font-size="10.5" font-weight="500" fill="var(--ink)">Product that serves the rung; the chip string</text>
+<line x1="58" y1="198" x2="398" y2="198" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="204" width="20" height="20" rx="5" fill="var(--accent)" stroke="var(--accent)"/>
+<text x="40" y="218" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">f</text>
+<text x="58" y="218" font-size="10.5" font-weight="700" fill="var(--ink)">Success output: the exact lines the last command prints</text>
+<line x1="58" y1="228" x2="398" y2="228" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="234" width="20" height="20" rx="5" fill="var(--accent)" stroke="var(--accent)"/>
+<text x="40" y="248" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">g</text>
+<text x="58" y="248" font-size="10.5" font-weight="700" fill="var(--ink)">Who signs: the lab ends on their screen</text>
+<line x1="58" y1="258" x2="398" y2="258" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="264" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="278" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">h</text>
+<text x="58" y="278" font-size="10.5" font-weight="500" fill="var(--ink)">Nearest existing lab to copy from</text>
+<line x1="58" y1="288" x2="398" y2="288" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="294" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="308" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">i</text>
+<text x="58" y="308" font-size="10.5" font-weight="500" fill="var(--ink)">Live inputs: ${VAR:-default} knobs, CLI tools</text>
+<line x1="58" y1="318" x2="398" y2="318" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="30" y="324" width="20" height="20" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/>
+<text x="40" y="338" text-anchor="middle" font-size="10" font-weight="800" fill="var(--ink-2)">j</text>
+<text x="58" y="338" font-size="10.5" font-weight="500" fill="var(--ink)">Sample data allowed in the repo; what stays out</text>
+<line x1="58" y1="348" x2="398" y2="348" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>
+<rect x="430" y="14" width="196" height="214" rx="10" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1.3"/>
+<text x="446" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">TIME BOXES · FOUR HOURS</text>
+<text x="446" y="60" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">0:00</text>
+<text x="486" y="60" font-size="10.5" fill="var(--ink-2)">conversation</text>
+<text x="446" y="81" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">0:30</text>
+<text x="486" y="81" font-size="10.5" fill="var(--ink-2)">ladder and product</text>
+<text x="446" y="102" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">0:45</text>
+<text x="486" y="102" font-size="10.5" fill="var(--ink-2)">expected output</text>
+<text x="446" y="123" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">1:30</text>
+<text x="486" y="123" font-size="10.5" fill="var(--ink-2)">run.sh</text>
+<text x="446" y="144" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">2:15</text>
+<text x="486" y="144" font-size="10.5" fill="var(--ink-2)">gates</text>
+<text x="446" y="165" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">2:20</text>
+<text x="486" y="165" font-size="10.5" fill="var(--ink-2)">docs chapter</text>
+<text x="446" y="186" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">2:50</text>
+<text x="486" y="186" font-size="10.5" fill="var(--ink-2)">register, make adventure</text>
+<text x="446" y="207" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">3:15</text>
+<text x="486" y="207" font-size="10.5" fill="var(--ink-2)">review and commit</text>
+<rect x="430" y="242" width="196" height="120" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.3"/>
+<text x="446" y="266" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">GATES BEFORE ANY SLIDE</text>
+<text x="446" y="284.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">bash -n · step count matches</text><text x="446" y="297.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">make lint · run-all-labs · make test</text><text x="446" y="310.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">model-name grep · asset presence</text><text x="446" y="323.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">inventory fields · ladder-map chip</text><text x="446" y="336.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">equals the docs Rung row</text><text x="446" y="349.0" text-anchor="start" font-size="9.8" font-weight="400" fill="var(--ink-2)">make adventure comes back clean</text>
+<text x="320" y="388" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink)">Stop the conversation only when (f) and (g) are written down. Nothing reaches a slide until a lab prints it.</text>
+</svg></div></div>
+          
+          <span class="slidenum">21 / 24</span>
         </article>
 <article class="slide" data-title="Solve a problem someone has; keep judgement human; right tool, right time" data-notes="This is the kit&#x27;s own argument and it is why the toolchain looks the way it does. The pyramid asks, at each layer, what the question is, what lives there and who does the work. The labs answer it. Lab 04 refuses below a relevance threshold and exits with a code a workflow can route to a person: the important behaviour is the refusal, not the answer. Lab 05&#x27;s rulebook deliberately does not self-remediate a provenance mismatch. Lab 08 ships the Lightspeed-drafted rulebook with two review edits you can see in the file, a threshold raised and a maintenance-window guard added, and records the change as a ticket and a knowledge entry. The data hygiene is in the labs too: the retrieval corpus is git-ignored, inference is bound to the loopback address, digests are asserted, FIPS mode and the compliance scan are read in Lab 06. Apply the same test to agent tooling: a classifier where a deny rule would do is a tool looking for a mission; a commercial web session holding federal tax information is the wrong tool at the wrong time; a frontier model drafting public slides with a person reading every diff is exactly right." data-sources="slides/deck.html (TITLE_LAYERS, PYR_TIERS) labs/lab04-rag/query.py labs/lab05-ansible/rulebooks/inference_saturation.yml labs/lab08-grand-demo/rulebooks/memory_pressure.yml">
           <div class="rule"></div>
           <div class="head">
-            <div class="meta"><span class="eyebrow">17 · The rule that ran the kit, and the making of it</span><span class="min">1 min</span></div>
+            <div class="meta"><span class="eyebrow">21 · The rule that ran the kit, and the making of it</span><span class="min">1 min</span></div>
             <h2>Solve a problem someone has; keep judgement human; right tool, right time</h2>
             <p class="lede">The title-slide pyramid, data to information to knowledge to judgement, is the test every tool choice in the repository passed, and the one to apply to agent tooling.</p>
           </div>
@@ -1179,18 +1481,18 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <text x="320" y="384" text-anchor="middle" font-size="11" fill="var(--ink-3)">the same rules that run the deck ran the making of it</text>
 </svg></div></div>
           
-          <span class="slidenum">18 / 20</span>
+          <span class="slidenum">22 / 24</span>
         </article>
 <article class="slide" data-title="Ten things to lift, each an afternoon&#x27;s work" data-notes="Ten things to lift. The Makefile and the workflow are a copy-and-paste template: test gates build, build runs in one container, publish only from main. The lab runtime plus one run.sh gives you the step-script pattern in an hour, and preflight.sh tells attendees what they can run live; NO_COLOR for screen shares and LAB_PACE=step on a projector. Put facts in one file each and generate the rest; make generators fail on unknown ids and grep for drift before you present. Keep a headless browser in the loop and commit those scripts; this kit did not, and lost them. On the agent side: a CLAUDE.md with the build and test commands, mirrored as AGENTS.md because Codex, Gemini CLI and goose read that; subagents for the embarrassingly parallel writing and independent refuters for every external claim; deterministic rules and hooks before auto mode for anything that pushes; checkpoints before limits or compaction; and a verdict table with an as-of date so you only quote verified wording. The last item is the whole federal conversation in one line: map the data category to a path before anyone buys." data-sources="Makefile .github/workflows/docs.yml bin/lib.sh bin/preflight.sh docs/95-how-it-was-built.adoc">
           <div class="rule"></div>
           <div class="head">
-            <div class="meta"><span class="eyebrow">18 · What to copy into your next account deliverable</span><span class="min">1 min</span></div>
+            <div class="meta"><span class="eyebrow">22 · What to copy into your next account deliverable</span><span class="min">1 min</span></div>
             <h2>Ten things to lift, each an afternoon&#x27;s work</h2>
             
           </div>
           <div class="body nogfx"><div class="checklist"><div>One repository, one Makefile; CI runs the labs before it builds anything, and publishes only from main</div><div>Labs as step scripts with the expected output as the acceptance criterion; simulate by default, live on demand</div><div>One file owns each fact; generate the catalogue, the pptx and the diagrams from it, and fail on unknown ids</div><div>Keep a headless browser in the loop: screenshot and measure after every change; render the pptx to PNG</div><div>Commit the verification scripts beside the deliverable; a scratch space is not a repository</div><div>Write a CLAUDE.md with the build and test commands and mirror it as AGENTS.md so any harness can read it</div><div>Subagents for parallel writing; independent refuters for every external claim; quote only what came back confirmed</div><div>Deny rules and hooks before auto mode for anything that pushes, deletes or spends</div><div>Checkpoint to git before limits or compaction hit; files are the memory, the conversation is not</div><div>Map the customer&#x27;s data category to a model path before anyone buys; the endpoint is the boundary</div></div></div>
           
-          <span class="slidenum">19 / 20</span>
+          <span class="slidenum">23 / 24</span>
         </article>
 <article class="slide" data-title="Claims that could not be read from a primary page this week" data-notes="Keep this page in the deck but do not present it. It is the list a peer needs before repeating anything from slides nine and ten in a customer meeting. The verifiers were web agents that could only read pages the session&#x27;s network allowed; a redirect across hosts, a DNS failure or a PDF host that did not resolve all count as unclear, not as false. Re-run the checks from a workstation with normal egress before the next briefing." data-sources="workflow wf_6709034d-006 verdict table, 2026-11-19">
           <div class="rule"></div>
@@ -1208,12 +1510,12 @@ button.ghost{padding:10px 16px;font-size:.8rem}
 <li>Red Hat AI Factory with NVIDIA dates and partner list; OGX, llm-d, MCP gateway and AAP MCP server statuses; OpenShell and several harness licences: in the material at stated confidence, not verdict-checked</li>
 <li>A2A governance, AGENTS.md dates and adoption figures, Section 508 conformance reports, PIV/CAC support (absence inferred, not stated), compaction thresholds and usage-limit numbers: unverified or fast-moving</li></ul></div>
           
-          <span class="slidenum">20 / 20</span>
+          <span class="slidenum">24 / 24</span>
         </article>
   </div>
   <div class="notes" id="notes" hidden><b>Presenter notes</b><span id="notes-text"></span><span id="notes-src"></span></div>
   <div class="bar">
-    <span class="hint"><kbd>←</kbd> <kbd>→</kbd> move · <kbd>N</kbd> notes · <kbd>F</kbd> full screen · <kbd>D</kbd> dark · 28 minutes</span>
+    <span class="hint"><kbd>←</kbd> <kbd>→</kbd> move · <kbd>N</kbd> notes · <kbd>F</kbd> full screen · <kbd>D</kbd> dark · 34 minutes</span>
     <span class="grp"><button class="ghost" id="prev">← Prev</button><span id="pos"></span><button class="ghost" id="next">Next →</button></span>
   </div>
 </div>

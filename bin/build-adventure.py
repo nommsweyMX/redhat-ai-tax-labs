@@ -313,7 +313,7 @@ def build(out: Path, base: str = "./") -> None:
   <div class="links">{lk}</div>
 </article>'''
 
-    guides = [by_id[i] for i in ["readme", "docs-index", "ladder", "event-brief", "facilitator-guide", "page-presenter-console"] if i in by_id]
+    guides = [by_id[i] for i in ["readme", "docs-index", "ladder", "event-brief", "facilitator-guide", "adapting-the-kit", "page-presenter-console"] if i in by_id]
     exports = [by_id[i] for i in ["deck-labs", "deck-demo", "reveal-slides", "pptx-export", "pdf-export"] if i in by_id]
     tools = [by_id[i] for i in ["lib-sh", "preflight", "run-all-labs", "makefile", "docs-workflow", "build-pptx", "attributes", "ladder-map", "repo-hygiene"] if i in by_id]
     data = [by_id[i] for i in ["taxonomy-qna", "rag-corpus", "rag-ingest", "rag-query"] if i in by_id]

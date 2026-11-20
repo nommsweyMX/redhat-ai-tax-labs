@@ -219,3 +219,6 @@ include::95-how-it-was-built.adoc[]
 include::96-how-it-was-built-essay.adoc[]
 
 :leveloffset: -1
+
+// Level-2 headings of its own, so it sits outside the offset block.
+include::91-adapting-the-kit.adoc[]

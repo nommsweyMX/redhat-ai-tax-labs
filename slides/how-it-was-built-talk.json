@@ -1,13 +1,14 @@
 {
  "title": "How the IRS AI kit was built, and what the AI was doing",
  "subtitle": "A longer talk for Red Hat account solution architects: how the kit originated and progressed, where it ran, what the agent was doing in the background, the open-source toolchain, and where agentic tooling fits and fails for Fed Civ and DoD customers. Extends the 15-minute methods briefing.",
- "total_minutes": 28,
+ "total_minutes": 34,
  "companion": {
   "essay": "how-it-was-built-essay.html",
   "brief": "how-it-was-built.html",
   "handout": "docs/95-how-it-was-built.adoc"
  },
  "leave_behind": [
+  "docs/91-adapting-the-kit.adoc",
   "docs/95-how-it-was-built.adoc",
   "docs/96-how-it-was-built-essay.adoc",
   "slides/how-it-was-built-essay.html",
@@ -403,9 +404,128 @@
    ]
   },
   {
-   "n": 18,
+   "minutes": 1.5,
+   "eyebrow": "17 · Built to be changed",
+   "title": "Built to be changed: sources of truth, generators, gates",
+   "lede": "The deck has no build step. Each fact has one owner file, a few outputs are generated, and one gate runs every lab before anything publishes.",
+   "bullets": [
+    "**Owner files.** labs/labNN/run.sh heredocs are the acceptance criterion (bin/lib.sh:11-12); slides/deck.html, presenter-notes.html and slides.adoc are hand-kept copies of the same talk.",
+    "**Generators.** make adventure builds slides/adventure.html from the inventory and ladder-map; make pptx and make brief build the export and the methods pages; CI copies them and never rebuilds.",
+    "**Gate.** make test runs bash -n, py_compile and all eight labs in simulate mode in under a second; CI runs the same before the docs build and publishes only from main (docs.yml:22-55, :94).",
+    "**What must also change.** The commit that added Lab 08 touched 18 files (git show --stat 7dd52f2): script, docs, README, inventory, ladder-map, deck, console, pptx, preflight.",
+    "**Checks ship in bin/.** check-labs-parity, check-agree, check-es-keys, check-markers, check-chain, deck-measure, check-i18n: nothing in the repository compared the copies before."
+   ],
+   "graphic": "knobs",
+   "graphic_key": "knobs",
+   "notes": "Start with what owns what. The lab scripts own the facts: a step command and the heredoc it must print, and the header of bin/lib.sh says the heredoc is the acceptance criterion, not decoration. The deck, the presenter console, the reveal source and the PowerPoint builder are four hand-written copies of the same story, and nothing in the repository compared them until the checks that now sit in bin were written. Three things are generated and committed: the catalogue page, the PowerPoint export and the methods pages. CI copies the first two verbatim and regenerates the third only to compare it against what you committed, so forgetting a make target publishes the old version. The gate is make test: syntax, Python compile, every lab in simulate mode. A broken lab blocks the site. The knobs graphic is the extension-point table: the area you change, the file that owns it, and what the change looks like. The commit that added Lab 08 is the honest size of a change: eighteen files.",
+   "sources": [
+    "bin/lib.sh",
+    "bin/run-all-labs.sh",
+    "Makefile",
+    ".github/workflows/docs.yml",
+    "slides/deck.html",
+    "slides/presenter-notes.html",
+    "slides/ladder-map.json",
+    "bin/adventure-inventory.json",
+    "bin/build-adventure.py",
+    "bin/build-pptx.py"
+   ],
+   "_adapt": true,
+   "n": 18
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "18 · A new use case as a lab",
+   "title": "A new use case as a lab, end to end: Lab 09 in five hours",
+   "lede": "Correspondence triage, executed: expected output first, run.sh on the lib.sh contract, then every mirror the kit keeps by hand. 23 files, one commit.",
+   "bullets": [
+    "**Expected output first.** Five heredocs are the acceptance criterion; triage.py and route.py were then made to print exactly those lines; live against a stub endpoint diffs empty against simulate.",
+    "**The lib.sh contract.** set -euo pipefail, source ../../bin/lib.sh, LAB_STEPS_TOTAL=5, VAR=${VAR:-default} knobs, require_cmd python3, lab_section plus step plus lab_note, lab_footer, TAKEAWAY.",
+    "**Judgement stays human.** Step 3 is the letter the model must not decide (exit 3 tolerated in the command); step 5 is the reviewer's worklist with the reviewer column empty.",
+    "**Then the mirrors.** docs/09 and the index include, README row and six count strings, preflight, inventory and ladder-map, deck LABS and LAB_CARDS, the #lab regex, console section, pptx.",
+    "**Gates passed.** make test in 0.9 s, parity for the new lab and the Spanish checks clean, the docs book renders, the catalogue rebuilt; about five hours by hand, one 23-file commit."
+   ],
+   "graphic": "newlab",
+   "graphic_key": "newlab",
+   "notes": "This slide is the recipe as it was actually run, not as it was planned. The use case came from the kit's own methods page, correspondence triage, and the first thing written was the output of the last command: a reviewer's worklist with the reviewer column empty. Everything else was built backwards from that. The script follows the shape of Lab 07 line for line, with one addition: step three is a letter the routing guide says the model must not decide, so the helper exits 3 and the step tolerates it. The helpers are standard-library Python, the model is a variable with a neutral default, and live mode runs against the Lab 01 endpoint on the loopback address. Then the long tail: the docs chapter, the index, six count strings in the README, the preflight line, the inventory item, the ladder-map entry, the deck's terminal and cards, the hash regex, the console section, the reveal and PowerPoint tables. The newlab graphic is that order. Every gate passed, and the whole change is one 23-file commit.",
+   "sources": [
+    "labs/lab07-ops-notebook/run.sh",
+    "bin/lib.sh",
+    "docs/07-lab-ops-notebook.adoc",
+    "docs/index.adoc",
+    "README.adoc",
+    "bin/preflight.sh",
+    "bin/adventure-inventory.json",
+    "slides/ladder-map.json",
+    "slides/deck.html",
+    "slides/presenter-notes.html",
+    "bin/build-pptx.py"
+   ],
+   "_adapt": true,
+   "n": 19
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "19 · What it already covers",
+   "title": "What the eight labs already cover, and what each use case needs",
+   "lede": "Twenty-three use cases across IRS, federal civilian, state revenue and DoD, mapped to lab steps, products and the files that change. Most are retargets.",
+   "bullets": [
+    "**Covered as shipped (S, hours).** Surge autoscaling (Lab 03), cited answers with a refusal (Lab 04), the authorizing official's evidence (Lab 06): change knobs, corpus and expected output.",
+    "**Retarget (S to M).** Claims, helpline, evidence-request and acquisition questions are Lab 04 with a different public corpus and prompt; intake triage is Lab 01 with a different inquiry.json.",
+    "**New lab in an existing shape (M, two to five days).** Correspondence triage, entry classification, readiness rulebooks: copy the lab07 shape and add the mirrors from the Lab 08 commit.",
+    "**New lab plus unshipped helpers (L).** Fraud or claim scoring: no standalone lab serves a tabular scorer; Lab 08 step 4 shows the pattern. Governance first: the event brief marks that row No.",
+    "**The constant.** Every row ends on a person's screen; rungs come only from slides/ladder-map.json chips; nothing reaches a slide until a lab prints it."
+   ],
+   "graphic": "usecases",
+   "graphic_key": "usecases",
+   "notes": "The catalogue answers the question an account team asks first: does the kit already prove this, and if not, how far is it. Twenty-three rows in the chapter, eight on this graphic, chosen to span the IRS, other federal civilian agencies, a state revenue department and two DoD business systems. Read the effort column as three kinds of work. S is hours on a lab that already runs: new corpus, new prompt, new expected output, thresholds in a manifest. M is a new lab in an existing shape, which is the Lab 09 story on the previous slide, two to five days once you count every mirror. L is a new lab that also needs a helper the kit does not ship or a product surface no standalone lab shows; the scoring rows are the example, and the kit's own event brief marks exam selection as a No, governance first. Two things never change across the rows: the rung vocabulary comes from the ladder-map file, and the last step is always a person's screen.",
+   "sources": [
+    "slides/ladder-map.json",
+    "bin/build-brief.py",
+    "docs/00-event-brief.adoc",
+    "labs/lab01-rhel-ai/run.sh",
+    "labs/lab03-openshift-ai/run.sh",
+    "labs/lab04-rag/run.sh",
+    "labs/lab05-ansible/run.sh",
+    "labs/lab06-trust/run.sh",
+    "labs/lab08-grand-demo/run.sh"
+   ],
+   "_adapt": true,
+   "n": 20
+  },
+  {
+   "minutes": 1.5,
+   "eyebrow": "20 · In an afternoon",
+   "title": "Turn a customer conversation into a lab in an afternoon",
+   "lede": "Leave the meeting with the success output and the signer written down; the rest is the lab07 shape, the gates and one agent prompt.",
+   "bullets": [
+    "**Thirty minutes in the room.** Problem owner, trigger (queue, pager or accreditation question), where the data lives and who may read it, who signs, the exact lines the last command prints.",
+    "**Place it, pick the product.** Rung definitions in ladder-map.json:4-35, technologies at :361-385; if the model would make the determination, stop (docs/00-event-brief.adoc:47-49).",
+    "**Write backwards.** The last step is the signer's screen ending in a status only a person changes; one step is the refusal; step 1 shows where the data lives. Figures are representative; say so.",
+    "**One prompt, eighteen checks.** The R7 agent prompt carries the brief as fields and ends with C1 to C18: bash -n, step count, make test, model-name grep, asset presence, inventory fields, parity.",
+    "**Four hours, simulate-ready.** Live rehearsal is a separate session; exit 1 with the expected output printed under a step is the finding, not something to edit away."
+   ],
+   "graphic": "afternoon",
+   "notes": "The afternoon plan is a page you fill in during the conversation and a prompt you paste afterwards. The page has ten fields, and only two of them end the conversation: the success output, the exact lines the last command will print as the owner would read them, and who signs. Everything else can be filled from the kit. Placing the use case on the ladder takes ten minutes with the definitions in the ladder-map file, and it has one hard stop: if the model would make the determination, the event brief already marks that row No. Then write backwards from the signer's screen, copy the shape of Lab 07, and let the gates argue: syntax, step count, every lab in simulate mode, a model-name grep whose pattern comes from the attributes file, asset presence, inventory fields, the chip string matching the docs. The agent prompt in the chapter carries all of that. Four hours gets a lab that passes make test and a docs chapter; the live run is a separate session, and a divergence there is the finding.",
+   "sources": [
+    "bin/lib.sh",
+    "labs/lab07-ops-notebook/run.sh",
+    "slides/ladder-map.json",
+    "docs/00-event-brief.adoc",
+    "docs/attributes.adoc",
+    "bin/adventure-inventory.json",
+    "bin/build-adventure.py",
+    "bin/preflight.sh",
+    "docs/index.adoc"
+   ],
+   "_adapt": true,
+   "n": 21,
+   "graphic_key": "afternoon"
+  },
+  {
+   "n": 22,
    "minutes": 1,
-   "eyebrow": "17 · The rule that ran the kit, and the making of it",
+   "eyebrow": "21 · The rule that ran the kit, and the making of it",
    "title": "Solve a problem someone has; keep judgement human; right tool, right time",
    "lede": "The title-slide pyramid, data to information to knowledge to judgement, is the test every tool choice in the repository passed, and the one to apply to agent tooling.",
    "bullets": [
@@ -424,10 +544,10 @@
    ]
   },
   {
-   "n": 19,
+   "n": 23,
    "kind": "checklist",
    "minutes": 1,
-   "eyebrow": "18 · What to copy into your next account deliverable",
+   "eyebrow": "22 · What to copy into your next account deliverable",
    "title": "Ten things to lift, each an afternoon's work",
    "lede": "",
    "bullets": [
@@ -453,7 +573,7 @@
    ]
   },
   {
-   "n": 20,
+   "n": 24,
    "minutes": 0,
    "eyebrow": "Appendix · not presented · verify before quoting",
    "title": "Claims that could not be read from a primary page this week",
@@ -474,5 +594,129 @@
     "workflow wf_6709034d-006 verdict table, 2026-11-19"
    ]
   }
- ]
+ ],
+ "graphic_data": {
+  "knobs": [
+   {
+    "area": "Slides",
+    "file": "slides/deck.html",
+    "change": "one <article class=slide> each"
+   },
+   {
+    "area": "Spanish",
+    "file": "slides/deck.html ES_TEXT",
+    "change": "one entry per English string"
+   },
+   {
+    "area": "Labs",
+    "file": "labs/labNN/run.sh",
+    "change": "step() + expected output"
+   },
+   {
+    "area": "Docs",
+    "file": "docs/NN-lab-*.adoc",
+    "change": "header table + sections"
+   },
+   {
+    "area": "Catalogue",
+    "file": "bin/adventure-inventory.json",
+    "change": "one item each; make adventure"
+   },
+   {
+    "area": "Ladder",
+    "file": "slides/ladder-map.json",
+    "change": "rung per slide and lab"
+   },
+   {
+    "area": "Console",
+    "file": "slides/presenter-notes.html",
+    "change": "a section per slide and lab"
+   },
+   {
+    "area": "PowerPoint",
+    "file": "bin/build-pptx.py",
+    "change": "block order; make pptx"
+   },
+   {
+    "area": "Graphics",
+    "file": "slides/assets/graphics/",
+    "change": "drop in by filename"
+   },
+   {
+    "area": "Gates",
+    "file": ".github/workflows/docs.yml",
+    "change": "labs run before docs build"
+   }
+  ],
+  "newlab": [
+   "Name the problem owner and the queue",
+   "Place it on the ladder; pick the product",
+   "Write the expected output first (the heredocs)",
+   "Copy the lab07 shape into the new lab directory",
+   "Ship the assets and helpers the live commands read",
+   "make test: bash -n, py_compile, all labs simulate",
+   "Docs chapter, index include, README row, preflight",
+   "Inventory item and ladder-map; make adventure",
+   "Deck LABS and cards, preview card, #lab regex",
+   "Run it live; a divergence is the finding"
+  ],
+  "usecases": [
+   {
+    "use_case": "Correspondence triage",
+    "agency": "IRS",
+    "rung": "knowledge",
+    "labs": "Lab 01 + 04 + 09",
+    "change": "new lab, routing guide in git"
+   },
+   {
+    "use_case": "Filing-season autoscale",
+    "agency": "IRS",
+    "rung": "information",
+    "labs": "Lab 03",
+    "change": "manifest replicas, hey run"
+   },
+   {
+    "use_case": "Claims evidence summaries",
+    "agency": "SSA / VA",
+    "rung": "knowledge",
+    "labs": "Lab 04",
+    "change": "swap corpus, prompt, threshold"
+   },
+   {
+    "use_case": "Helpline answer drafts",
+    "agency": "CMS",
+    "rung": "knowledge",
+    "labs": "Lab 04 + 06",
+    "change": "cite handbook; agent sends"
+   },
+   {
+    "use_case": "Entry classification",
+    "agency": "CBP",
+    "rung": "knowledge",
+    "labs": "Lab 02 + 03",
+    "change": "tune on your taxonomy"
+   },
+   {
+    "use_case": "Refund-hold contact triage",
+    "agency": "State revenue",
+    "rung": "data → info",
+    "labs": "Lab 01 + 02 + 03",
+    "change": "retarget knobs and heredocs"
+   },
+   {
+    "use_case": "Readiness rulebooks",
+    "agency": "DoD logistics",
+    "rung": "judgement",
+    "labs": "Lab 05 + 07",
+    "change": "rulebooks, your telemetry"
+   },
+   {
+    "use_case": "Audit evidence packs",
+    "agency": "DoD finance",
+    "rung": "judgement",
+    "labs": "Lab 04 + 06",
+    "change": "TrustyAI reports per run"
+   }
+  ]
+ }
 }

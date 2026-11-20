@@ -1,0 +1,10 @@
+# Strings bin/check-i18n.js must not report as untranslated: product names,
+# identifiers, code and labels that stay English in every language, as real
+# tools do (docs/90-facilitator-guide.adoc, "The deck's switches").
+# One exact string per line, or a /regex/ (JavaScript syntax, optional flags).
+/^Lab \d\d · /
+/^Labs? \d\d( · \d\d)*$/
+/^(SELinux|TrustyAI|Ansible|Event-Driven|GPU|Red Hat OpenShift( AI)?|SDG Hub · Training Hub|inferenceservice\.yaml)$/
+/^(AI Inference Server · OpenShift AI|Sigstore \/ cosign|RHEL FIPS mode|RHEL · OpenShift|Compliance Operator|oc-mirror · registry)$/
+Four Inc.
+Carahsoft

@@ -80,7 +80,7 @@ lint:
 	@echo "Checking shell syntax..."
 	@for f in bin/*.sh labs/*/run.sh; do bash -n "$$f" || exit 1; done
 	@echo "Checking Python syntax..."
-	@python3 -m py_compile bin/build-pptx.py bin/build-adventure.py bin/build-brief.py bin/mine-history.py labs/lab04-rag/*.py
+	@python3 -m py_compile bin/build-pptx.py bin/build-adventure.py bin/build-brief.py bin/mine-history.py labs/lab04-rag/*.py bin/check-labs-parity.py bin/check-es-keys.py bin/check-agree.py bin/check-chain.py bin/check-i18n-static.py
 	@echo "OK"
 
 labs:

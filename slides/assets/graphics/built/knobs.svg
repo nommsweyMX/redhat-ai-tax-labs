@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="The kit's extension points: for each area, the file that owns it and what you change there."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<rect x="14" y="14" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="24" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="34" font-size="12" font-weight="800" fill="var(--ink)">Slides</text>
+<text x="30" y="50" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/deck.html</text>
+<text x="30" y="66" font-size="9.5" fill="var(--ink-2)">one &lt;article class=slide&gt; each</text>
+<rect x="324" y="14" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="24" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="34" font-size="12" font-weight="800" fill="var(--ink)">Spanish</text>
+<text x="340" y="50" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/deck.html ES_TEXT</text>
+<text x="340" y="66" font-size="9.5" fill="var(--ink-2)">one entry per English string</text>
+<rect x="14" y="88" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="98" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="108" font-size="12" font-weight="800" fill="var(--ink)">Labs</text>
+<text x="30" y="124" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">labs/labNN/run.sh</text>
+<text x="30" y="140" font-size="9.5" fill="var(--ink-2)">step() + expected output</text>
+<rect x="324" y="88" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="98" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="108" font-size="12" font-weight="800" fill="var(--ink)">Docs</text>
+<text x="340" y="124" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">docs/NN-lab-*.adoc</text>
+<text x="340" y="140" font-size="9.5" fill="var(--ink-2)">header table + sections</text>
+<rect x="14" y="162" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="172" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="182" font-size="12" font-weight="800" fill="var(--ink)">Catalogue</text>
+<text x="30" y="198" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">bin/adventure-inventory.json</text>
+<text x="30" y="214" font-size="9.5" fill="var(--ink-2)">one item each; make adventure</text>
+<rect x="324" y="162" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="172" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="182" font-size="12" font-weight="800" fill="var(--ink)">Ladder</text>
+<text x="340" y="198" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/ladder-map.json</text>
+<text x="340" y="214" font-size="9.5" fill="var(--ink-2)">rung per slide and lab</text>
+<rect x="14" y="236" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="246" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="256" font-size="12" font-weight="800" fill="var(--ink)">Console</text>
+<text x="30" y="272" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/presenter-notes.html</text>
+<text x="30" y="288" font-size="9.5" fill="var(--ink-2)">a section per slide and lab</text>
+<rect x="324" y="236" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="246" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="256" font-size="12" font-weight="800" fill="var(--ink)">PowerPoint</text>
+<text x="340" y="272" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">bin/build-pptx.py</text>
+<text x="340" y="288" font-size="9.5" fill="var(--ink-2)">block order; make pptx</text>
+<rect x="14" y="310" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="14" y="320" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="30" y="330" font-size="12" font-weight="800" fill="var(--ink)">Graphics</text>
+<text x="30" y="346" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">slides/assets/graphics/</text>
+<text x="30" y="362" font-size="9.5" fill="var(--ink-2)">drop in by filename</text>
+<rect x="324" y="310" width="298" height="66" rx="9" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.2"/>
+<rect x="324" y="320" width="5" height="46" rx="2.5" fill="var(--steel)"/>
+<text x="340" y="330" font-size="12" font-weight="800" fill="var(--ink)">Gates</text>
+<text x="340" y="346" font-size="9.5" font-family="Red Hat Mono, monospace" fill="var(--steel)">.github/workflows/docs.yml</text>
+<text x="340" y="362" font-size="9.5" fill="var(--ink-2)">labs run before docs build</text>
+</svg>

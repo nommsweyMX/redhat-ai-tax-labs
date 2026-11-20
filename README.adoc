@@ -53,6 +53,10 @@ the kit, all generated from JSON by `bin/build-brief.py`:
   `slides/how-it-was-built-history.json`, mined from the git log.
 * `/how-it-was-built-essay.html` — the essay-length companion, also a chapter
   of the documentation book.
+* `/docs/#adapting-the-kit` — how to modify the deck and the labs for your
+  own use case: the extension points, eight verified recipes with agent
+  prompts and checks, a 23-row use-case catalogue, and the one-page lab
+  brief. The checks it names ship in `bin/check-*`.
 
 Every federal and product claim on those pages is limited to what was read
 on a primary page on the date shown, and each page carries a

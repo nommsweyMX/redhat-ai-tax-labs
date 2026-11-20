@@ -1,0 +1,1014 @@
+[#adapting-the-kit]
+== Adapting the kit: modify the deck and the labs for your own use case
+
+This chapter is for the account solution architect who has to take this kit to a different room: another agency, another mission, another presenter, or a use case the eight labs do not yet prove. It names the file that owns each fact, the files that copy it by hand, the generators that must be re-run, the gates that stop a broken change, and eight recipes (R1 to R8) that were executed in scratch clones of this repository at commit e877414 and corrected against what the files actually contain. The checks were re-run at 2ee707f, the head of `all-in-one-preso` when this chapter was written, which differs from e877414 only in bin/build-brief.py below line 1189 and in docs/96. Line numbers are for that tree; after your first insertion into a file, find things by the markers quoted here, not by number.
+
+=== How the kit is organized for change
+
+.The extension points: for each area, the file that owns it and what you change there
+image::built/knobs.png[The extension points, pdfwidth=100%]
+
+*Sources of truth.* Each fact has one owner file; everything else is a copy.
+
+* `labs/labNN-<name>/run.sh` owns what a lab does. A lab is a linear list of `step "<command>" <<'OUT' ... OUT` calls on the runtime in `bin/lib.sh`: simulate mode prints the heredoc, live mode `eval`s the command in the lab directory and prints the heredoc only when the command exits non-zero (bin/lib.sh:92-106). The header says it plainly: "The simulated output is not decoration: it is the acceptance criterion" (bin/lib.sh:11-12). Discovery is the glob `labs/lab*/run.sh` in bin/run-all-labs.sh:11, which `cd`s into each directory first (:14). Nothing registers a lab.
+* `docs/0N-lab-<name>.adoc` owns the written walkthrough: `[#lab-0N]` anchor, a five-row header table (Product, Rung, Time, Script, Outcome), Objective, Prerequisites, a Walkthrough table with one row per step, What good looks like, Troubleshooting, Discussion questions (docs/07-lab-ops-notebook.adoc:1-13, 45, 57, 89, 113, 128). docs/index.adoc pulls chapters in between `:leveloffset: +1` (:193) and `:leveloffset: -1` (:221); product names come from docs/attributes.adoc:15-20 (`{rhel}`, `{rhaiis}`, `{ocp}`, `{rhoai}`, `{aap}`, `{eda}`), which reach only the AsciiDoc book.
+* `slides/deck.html` owns the interactive deck, and it has no build step: 4,947 lines, about 753 KB, one `<article class="slide" data-title=... data-rungs=... data-notes=...>` per slide (18 of them, from line 940 to 1870). Everything else is derived at load time from DOM order (`var slides = ...querySelectorAll('.slide')`, 1995) or keyed on `data-title`: `CHAPTERS` (2096), `TITLES_ES` (2558), `SLIDE_GFX` (2181), 103 CSS selector occurrences on 87 lines. The Labs view is `var LABS = [` (3226 to 3937, 42 `cmd:` entries) and `var LAB_CARDS = [` (3948 to 4265, 42 step cards plus 8 wrap cards); Spanish is `var ES_TEXT = {` (2577, 605 entries) applied by `setLang` (4869) over `I18N_SEL` (4856).
+* `slides/presenter-notes.html` owns the presenter console: 26 `<section class="step">` in deck order, `var SLIDE_N = 18` (1755), lab steps derived as `steps.length - SLIDE_N` (1756), and jump buttons whose `data-goto` values are absolute 0-based step indices (1121, 1258, 1593, 1680, 1681).
+* `slides/slides.adoc` (18 `==` slides, 18 `[.notes]` blocks) and `bin/build-pptx.py` (`DECK_RUNGS` keyed by data-title at 156, `add_spine` indexing it at 248, eleven hand-coded slide blocks, default output at 1145) are two more hand-written copies of the narrative.
+* `slides/ladder-map.json` declares itself the single source of truth for rung tagging and says the deck, console, slides.adoc, docs and README must agree with it (line 2). Only bin/build-adventure.py reads it (:104), and only its `rungs` and `technologies`. The chip vocabulary is `labs[].chip` (:289-360) plus the four `rungs` keys.
+* `bin/adventure-inventory.json` (57 items) owns the catalogue page. bin/build-adventure.py sorts labs and slides by id and derives their number from the id suffix (:107-115), links `./#lab-N` (:121), hard-codes `./#slide-18` (:131) and `./#slide-6` (:456), aborts on an unknown id in a reading path (:244), and renders guide cards from a hard-coded id list (:316).
+
+*Generators.* Four `make` targets rebuild committed outputs: `make adventure` writes slides/adventure.html (Makefile:64-65); `make pptx` writes slides/exports/redhat-ai-tax-administration.pptx with python-pptx (:61-62); `make brief` writes the three how-it-was-built pages and docs/96 (:67-70), and the CI test job regenerates and `cmp`s them (docs.yml:43-51); `make graphics` renders the methods-page SVGs and PNGs with Node Playwright (:75-77). `node bin/regen-title-pyramid.js` rewrites the title slide's pyramid SVG from the deck's own function (R5). Nothing generates slides/deck.html, slides/presenter-notes.html or slides/slides.adoc from anything else.
+
+*Gates.* `make lint` runs `bash -n` over bin/*.sh and labs/*/run.sh and `py_compile` over a fixed list ending `labs/lab04-rag/*.py` (Makefile:79-84, list at :83); `make test` adds every lab in simulate mode with `LAB_SPEED=0 NO_COLOR=1` (:89-90) and ends `All labs completed.` in under a second. CI runs the same test job (docs.yml:28-41), then the build job copies deck.html, presenter-notes.html, adventure.html and the exports verbatim (:76-84), and publishes only on push to `main` (:10, :94). A broken lab blocks the site. The book itself is rendered in CI without `--failure-level` (docs.yml:63), so a warning you do not catch locally publishes. `make docs` needs a running podman or docker daemon, not just the binary: Makefile:12 picks the runtime with `command -v` and `check-runtime` (:35-41) tests only that, so a docker binary with no daemon passes the check and fails at the container run with an unrelated error. To render the book without a container, with the user-installed gem (2.0.26 at the time of writing) and warnings treated as failures:
+
+[source,bash]
+----
+A="$(ruby -e 'puts Gem.user_dir')/bin/asciidoctor"
+[ -x "$A" ] || gem install --user-install --no-document asciidoctor
+"$A" --failure-level WARN -D <scratch>/build -o index.html docs/index.adoc    # keep -D outside the repository
+----
+
+*The blast radius.* The commit that last added a lab and a slide together, `git show --stat 7dd52f2`, touched 18 files: README.adoc, bin/adventure-inventory.json, bin/build-adventure.py, bin/build-pptx.py, bin/preflight.sh, docs/08-lab-grand-demo.adoc, docs/90-facilitator-guide.adoc, docs/index.adoc, four files under labs/lab08-grand-demo/, slides/adventure.html, slides/deck.html, the .pptx export, slides/ladder-map.json, slides/presenter-notes.html and slides/slides.adoc. Use that list as the checklist for any change of the same kind.
+
+*Standing rules.* They apply to every recipe below.
+
+. Public and open source only. No customer records, logs, hostnames, non-public guidance, named individuals or registrant counts enter a tracked file. Sample content is illustrative and says so (README.adoc:212-223). Customer corpora stay out the way labs/lab04-rag/corpus/ does (.gitignore:11-13).
+. No model names in files. Commands use the kit's variables (`+$MODEL_REPO+`, `+$MODEL_PATH+`, `+$BASE_MODEL+`, `+$MODEL_REF+`); prose, product strings and heredocs say "the model" or a neutral artefact name. Do not use the `base-model` and `tuned-model` attributes (docs/attributes.adoc:24-25) in new prose: they render as model names. Several shipped files still carry one; do not copy them.
+. Every claim a slide makes is something a lab prints in simulate mode and runs in live mode. The deck's `LABS` terminals are transcribed from run.sh, never the other way round.
+. Labs run on a laptop with nothing installed (`make test`) and against a real environment with `LAB_MODE=live` and the `+VAR="${VAR:-default}"+` knobs at the top of each script.
+. Judgement stays human. The ladder's top rung is "deliberately human; automation executes what was decided, it never decides" (slides/ladder-map.json, `rungs.judgement.definition`). The last step of every lab is a person's screen.
+
+*Working rules.* Work in a clone (`git clone -q /home/user/redhat-ai-tax-labs <scratch>/adapt-<label>`), never in the shared checkout. Never reflow or reformat slides/deck.html: line 2151 is a 171,286-character base64 literal and the script is one IIFE (1990 to 4946). Edit by marker with `sed -n`, `grep -n` and anchored replacements that assert the anchor occurs once. Regenerate and commit every generated output alongside its source.
+
+*Defects you inherit.* Known at e877414, so you do not debug them as your own mistakes: `LAB_PACE=step` never pauses, because `read -r key` at bin/lib.sh:64 reads the heredoc that `expected="$(cat)"` (:78) already consumed; the deck's terminals already diverge from run.sh in 46 places (Lab 04 has five steps in run.sh and four `cmd:` entries in the deck); "seven labs" survives on 18 deck lines, 9 console lines and 5 inventory lines although eight labs ship; the console's slide-17 heading still reads "Seven labs" (presenter-notes.html:1219); `CHROME.es.show` is defined twice (2529 and 2542) so the Spanish terminal button reads "Mostrar" while `wrongHint` says "Ver"; 42 `ES_TEXT` keys have no English source left; Lab 04 steps 4 and 5 exit 3 by design on a refusal (labs/lab04-rag/query.py:148, :156), which live mode counts as a failure; Labs 02, 07 and 08 call helper scripts that are not in the repository.
+
+*The adaptation checks.* The repository had no check that its copies agree. Eight small scripts and one allowlist were written and run while these recipes were verified; they are committed beside the builders in `bin/`, and the Python ones are in the `py_compile` lists at Makefile:83 and docs.yml:35. `check-labs-parity.py` compares the deck's `LABS` with run.sh (commands with the knob defaults substituted, output lines with `note` lines excluded) and counts each lab's `LAB_CARDS` facets against its deck steps plus the wrap; `--lab NN` reports one lab, so a new lab is judged apart from the 46 divergence entries the eight shipped labs carry today (none of them from the cards). `check-es-keys.py` lists `ES_TEXT` keys with no English source (42 today). `check-agree.py` compares the deck articles with `CHAPTERS`, `TITLES_ES`, `SLIDE_GFX`, ladder-map, inventory, console, pptx, slides.adoc and docs (one FAIL today, the console heading at 1219). `check-markers.sh` greps old mission and event markers with the methods pages excluded (729 lines today with its built-in pattern, 784 with the mission regex the R1 Checks block adds). `check-chain.py` checks the slide chain after an add, remove or move (0 findings today). `deck-measure.js` renders every slide in both languages, faces and themes with Playwright (56 overflow lines today at 1280x800, 28 at 1920x1080). `check-i18n.js` and `check-i18n-static.py`, with the `bin/i18n-keep-english.txt` allowlist, measure translation coverage in a browser and from the text (0 missing, 6 unreachable, 63 stale and 1 duplicate today in the browser; the static one exits 1 on its 42 stale entries). The two browser checks need `npm i -g playwright` and a Chromium, and take `NODE_PATH` and `CHROMIUM` exactly as the R4 Checks block shows; bin/render-graphics.js:16 reads the same `CHROMIUM` variable. Run them before you edit, so you know which findings are yours.
+
+=== R1. Retarget the deck and the labs to a different agency and mission
+
+Use this when the shape fits (six chapters, the ladder, eighteen slides, eight labs) but the story does not. It keeps every `data-title`, `CHAPTERS` entry, rung, chapter and lab slot, so nothing positional moves. The worked example is a state department of revenue with a refund-review backlog. A names-and-faces-only pass (presenters, account executive, partners, date, site, logos) is R5.
+
+*What changes.*
+
+* A one-page retarget brief and an identifier map, written first and frozen: agency, mission, problem owner, the four "operating reality" cards, the lifecycle stages with the one marked No, the five outcomes mapped to labs, presenters, partners, date, site and repo, Spanish yes or no, graphics plan. Decide outcome 01 once: the deck pillar says "Labs 05 · 07" (slides/deck.html:1296-1327) and docs/index.adoc:117 says lab-05 and lab-08.
+* The eight `run.sh` files and their support files: the `+VAR="${VAR:-default}"+` knobs, every literal in the heredocs, and the files the heredocs claim to print, changed together. Lab 01 and Lab 03 share a byte-identical `assets/inquiry.json`. Lab 02's seed directory `taxonomy/knowledge/gov/tax/notices` is itself mission-named: the knob default at run.sh:7 and the literal path in the step 2 heredoc at run.sh:44 (step 1 at :22 reads the knob and needs no edit). Lab 03's manifest pins `name`, `namespace` and `storageUri` (manifests/inferenceservice-tax-classifier.yaml:8-9, :32) and `oc apply -n $NS` refuses an object whose namespace differs from NS. Lab 05's rulebook names four job templates in one organization (rulebooks/inference_saturation.yml:21-22, :34-35, :43-44, :52-53). Lab 06's TrustyAI manifest has two documents with two namespaces (:11, :33) and model label selectors (:39, :51-52); the fairness `group` label lives in the step 5 expected output (run.sh:66-67), not in the manifest. Lab 07's product string carries a model name (run.sh:2, :12). Lab 08 runs `python` where only `python3` is guarded (:54, :66, :80, :126 versus :15).
+* docs/attributes.adoc (:23-26, :30), docs/00-event-brief.adoc (operating reality :4-27, lifecycle table :29-68, adoption bullet :170), each lab chapter's Outcome row and Objective, docs/index.adoc, docs/90-facilitator-guide.adoc (delete private names and registrant counts rather than renaming them), README.adoc.
+* slides/deck.html: slide markup, SVG text and aria-labels, every `data-notes` attribute (presenter names in 14 of 18, mission words in 12); `var LABS` transcribed from the final run.sh with knob defaults substituted; the 42 cards and 8 wraps in `var LAB_CARDS`; `GRAPHICS` titles, captions and points (2154-2179); the Spanish decision.
+* slides/presenter-notes.html (26 sections, the run-of-show rows at 290-306, every `h2` equal to the deck `h2`), slides/slides.adoc, bin/build-pptx.py and the regenerated .pptx, slides/ladder-map.json lab titles if a title changes, bin/adventure-inventory.json and bin/build-adventure.py (`SITE`, `REPO` at :23-24, the header date :439, the contact block :511-514) with `make adventure`.
+* Mission-named outputs and URLs: Makefile:10 (PPTX) and :55-59 (PDF), docs.yml:72, build-pptx.py:1145, attributes.adoc:30, and 56 site or repo URL literals in hand-maintained files. The repo URL is spelled with a capital `MX` in some files; a case-sensitive sed misses it.
+* slides/assets/graphics/*.png (five renders with burned-in mission text, 1.6 to 2.1 MB each) and the vector fallbacks' text; partner logo filenames.
+
+*Steps.*
+
+. Fork, clone, branch. Write the brief and the identifier map before touching a file.
+. Baseline: `make test`, then the four checks (parity 46 entries, es-keys 42, agree 1 FAIL, markers 784 with the regex in the Checks block, 729 without it). Confirm `make adventure && make brief && git status --porcelain` prints nothing.
+. Labs first, in number order. For each run.sh change the knob default, the heredoc and any manifest that pins the same value together; keep `LAB_STEPS_TOTAL` equal to the number of `step` calls; use the variables in commands and "the model" in output. Then the support files: both `inquiry.json` copies, the seed YAML (`git mv` the directory, update run.sh:7 and :44, paste the real `head -24` into the step 1 heredoc, put the real seed count at :46), the manifests, lab04 `query.py` and `ingest.py` table name and `SYSTEM_PROMPT` (query.py:33-42), lab05 inventory, playbook and rulebook, lab06 manifest, lab07 and lab08 heredocs. After each lab: `cd labs/labNN && LAB_SPEED=0 NO_COLOR=1 bash run.sh`, then `make test`.
+. Docs: attributes, event brief, the eight lab chapters, docs/00a where it quotes lab output, index, facilitator guide, README.
+. Deck markup (940 to 1903): keep every `data-title` and `data-rungs`; edit visible text, SVG text, aria-labels and `data-notes`. Fix "seven labs" to "eight" at 1817, 1831 and 1940 while there.
+. Deck data: transcribe each lab into `LABS` (a typed command must equal `steps[i].cmd` after whitespace and case normalisation, deck.html `submit()`), rewrite the cards, rewrite `GRAPHICS` text; run the parity check until clean or every remaining line is a recorded decision.
+. Spanish: keep it (rewrite every affected `ES_TEXT` key and value plus the `es:{}` blocks) or drop it by hiding the button (`hidden` on the `#lang-es` button at 916). Never delete the element alone: `setLang` (4873) and the click binding (4904) call `getElementById('lang-es')` and the deck's initialisation after them would not run.
+. Console, slides.adoc, build-pptx.py (rebuild in a venv outside the clone: `python3 -m venv /tmp/pptx-venv && /tmp/pptx-venv/bin/pip install python-pptx`; .gitignore:9 ignores `labs/*/.venv/` only, so a `.venv` at the root would show up in `git add -A`), ladder-map, inventory and `make adventure`, names and URLs with a scoped case-insensitive sed that excludes the generated methods pages, graphics and logos.
+. Run every check, walk the deck in a browser with the console open, then rehearse live per lab in the customer's estate and record every divergence as a finding.
+
+*Agent prompt.*
+
+[source]
+----
+You are retargeting the Red Hat AI tax-administration kit to a new agency and
+mission. Work in a clone, never in the shared checkout. Standing rules:
+public and open source only; no model names in files (use $MODEL_REPO,
+$MODEL_PATH, $BASE_MODEL, $MODEL_REF in commands and "the model" in prose);
+every slide claim is something a lab prints, so labs/*/run.sh heredocs are the
+acceptance criterion and slides/deck.html LABS is transcribed from them; every
+lab still passes `make test` and runs with LAB_MODE=live and the env knobs;
+judgement stays human. Keep the structure: do not change any data-title,
+data-rungs, CHAPTERS, TITLES_ES, SLIDE_GFX key, SLIDE_N, inventory id or
+ladder-map n.
+
+Brief: agency <AGENCY>; mission and backlog <MISSION>; problem owner and
+queue <OWNER/QUEUE>; four operating-reality cards <DEMAND / SYSTEMS / DATA /
+CONSTRAINT>; lifecycle stages with the No stage <STAGES>; five outcomes mapped
+to labs <OUTCOMES, with the outcome-01 choice>; identifier map old -> new
+<TABLE>; presenters <P>; account executive <AE>; partners <PARTNERS>; date
+<DATE>; site <SITE>; repo <REPO>; Spanish <keep|drop>; graphics <delete|replace>.
+
+Order: (1) baseline make test and the four checks, record 46 / 42 / 1 FAIL /
+784 (729 without the mission regex); (2) labs 01..08 run.sh plus support
+files, knob and heredoc together, LAB_STEPS_TOTAL unchanged, run each lab then
+make test; (3) docs/attributes, docs/00, docs/0N, docs/00a, docs/index,
+docs/90 (delete private names), README; (4) slides/deck.html markup,
+data-notes, LABS from run.sh, the 42+8 cards, GRAPHICS text; (5) Spanish per
+the brief, hide the button rather than delete the element;
+(6) slides/presenter-notes.html; (7) slides/slides.adoc;
+(8) bin/build-pptx.py and a venv rebuild; (9) slides/ladder-map.json titles;
+(10) bin/adventure-inventory.json and bin/build-adventure.py, make adventure;
+(11) names and URLs with a case-insensitive grep that excludes the methods
+pages, adventure.html, built SVGs and bin/build-brief.py; (12) graphics and
+logos; (13) leave the how-it-was-built pages as history.
+
+Report, with numbers: make test; parity (justify each remaining line);
+es-keys at or below 42 if Spanish is kept; check-agree OK; markers 0;
+model-name grep leaving only the knob defaults and attributes.adoc:24-25;
+private-name grep 0; make adventure && make brief && git status --porcelain
+empty; pptx rebuilt; a browser pass with no console errors (EN/ES, S, G on
+the eight graphic slides, N, P, #labs typed to the wrap card, #demo). Then
+the live rehearsal: every divergence is a finding; change a heredoc only when
+the real output differs in substance. Never invent output you cannot run.
+----
+
+*Checks.* The model-name pattern is read from docs/attributes.adoc:24-25 so this chapter never spells one, but that catches only the family the kit already uses. Set `MODEL_PAT` to the families your customer's estate serves, separated by `|`, before running the check; exclude product names such as the retrieval client with a second `grep -v`.
+
+[source,bash]
+----
+make test                                   # ends 'All labs completed.'
+python3 -I bin/check-labs-parity.py .       # baseline 46 divergence entries; target 0 or justified
+python3 -I bin/check-es-keys.py .           # '605 ES_TEXT keys, 42 not found'; not above 42 if Spanish stays
+python3 -I bin/check-agree.py .             # must print 'cross-file agreement: OK'
+bash bin/check-markers.sh . 'tax_administration|revenue-modernization|Revenue Modernization|AM-refund-trace|tax-model-assurance|tax-trustyai|server1-taxreturns|filing_status'
+                                            # 784 before the retarget; must end 'lines still carrying old-mission markers: 0'
+PAT="${MODEL_PAT:-$(sed -n 's/^:\(base\|tuned\)-model: \([a-z]*\).*/\2/p' docs/attributes.adoc | sort -u | paste -sd'|')}"   # MODEL_PAT='familyA|familyB' widens it
+git grep -n -i -E "$PAT" -- labs docs slides/deck.html slides/slides.adoc slides/presenter-notes.html bin/build-pptx.py bin/adventure-inventory.json \
+  | grep -v -E 'attributes.adoc:(2[4-5]):|^labs/[^:]+:[0-9]+:(MODEL_REPO|MODEL_PATH|BASE_MODEL|MODEL_REF|EMBED_MODEL)="\$\{'
+                                            # 131 lines before the retarget; must print nothing after it
+make adventure && make brief && git status --porcelain      # expect empty
+python3 -m venv /tmp/pptx-venv && /tmp/pptx-venv/bin/pip install -q python-pptx && /tmp/pptx-venv/bin/python bin/build-pptx.py --out slides/exports/<new-name>.pptx
+test "$(grep -c '<article class="slide' slides/deck.html)" = "$(grep -o 'SLIDE_N = [0-9]*' slides/presenter-notes.html | grep -o '[0-9]*')" && echo console-ok
+for d in labs/lab*/; do n=$(grep -c '^step "' "$d/run.sh"); t=$(sed -n 's/^LAB_STEPS_TOTAL=//p' "$d/run.sh"); [ "$n" = "$t" ] || echo "$d: $n steps, total $t"; done
+git grep -n -i -E 'nommsweymx' -- . ':!slides/adventure.html' ':!slides/how-it-was-built*' ':!docs/9[56]-*' ':!slides/assets/graphics/built' ':!bin/build-brief.py' | wc -l   # 56 today, 0 after the URL pass
+cd labs/lab03-openshift-ai && NS=<theirs> ISVC=<theirs> LAB_MODE=live LAB_PACE=step ./run.sh   # per lab, in the customer estate
+----
+
+*Effort.* 8 to 10 working days without Spanish, 11 to 13 with it; half a day for names and faces only (R5).
+
+=== R2. Add a new lab for a specific use case, end to end
+
+.A new use case as a lab, in the order the gates expect
+image::built/newlab.png[A new lab, step by step, pdfwidth=100%]
+
+Use this when a customer conversation surfaces a use case the eight labs do not prove directly and the deck must be able to claim it. The worked example was executed: Lab 09, correspondence triage (classify the letter, route it to the queue the routing guide names with the section cited, leave the determination to a person). It added a lab directory and every hand-maintained mirror a lab has, in 23 files, and passed every gate. Do not use it to add a slide; that chain is positional and is R4.
+
+*What changes.*
+
+* `labs/lab09-<slug>/run.sh` on the lab07 shape: shebang and comment, `set -euo pipefail`, `source "$(dirname "${BASH_SOURCE[0]}")/../../bin/lib.sh"`, `LAB_STEPS_TOTAL=5`, knobs (`INFERENCE_ENDPOINT`, `MODEL_NAME` defaulting to `the-model`, `GUIDE`), `require_cmd python3`, `lab_header "09" "<title>" "<product>"`, goal notes, five `lab_section` plus `step` plus `lab_note` blocks, `lab_footer`, a TAKEAWAY heredoc. Step 3 tolerates a designed refusal with `|| [ \$? -eq 3 ]`; the backslash is required because the step string is double-quoted and `eval`'d later (bin/lib.sh:94). Step 5 is the reviewer's worklist with the reviewer column empty.
+* `triage.py` and `route.py` (standard library only, no model name, `REFER_EXIT = 3`), two illustrative letters and a JSON routing guide under `assets/`. Everything a live command reads exists under the lab directory, because `step()` runs in the current directory.
+* `.gitignore`: `labs/*/out/` and `labs/*/worklist/` for live-run output.
+* Makefile:83 and docs.yml:35: append `labs/lab09-<slug>/*.py` to both `py_compile` lists or the helpers are never syntax-checked. bin/preflight.sh: a `check "lab09-<slug>" python3` line after :27.
+* `docs/09-lab-<slug>.adoc` in the docs/07 shape, and docs/index.adoc: the include after :213, the abstract count at :14 (drop the previous clause's leading "and" at :19), the Who-this-is-for row, the five-outcomes row, the TIP at :173.
+* README.adoc: a table row after :160 and six count strings (:11, :74, :87, :97, :100, :237).
+* bin/adventure-inventory.json: a lab-09 item after the lab-08 item (all thirteen fields; `highlights`, `rung`, `what_you_learn`, `path` are read without `.get`, build-adventure.py:273-281), lab-08 `next` set to `["lab-09"]` (:205), and the count prose in the deck-labs, deck-demo, readme, preflight, run-all-labs, pdf-export, ladder-map, slide-17 and talk-track items; bin/build-adventure.py: a PATHS step, the kicker at :441, :232 and :463; `make adventure`.
+* slides/ladder-map.json: `{"n": 9, "title": ..., "rungs": [...], "chip": "information → knowledge"}` after the n:8 object (an existing chip string, so no new Spanish key).
+* slides/deck.html: a ninth `LABS` object before `  ];` above `/* ---------------- TERMINAL ENGINE` (the Lab 08 object has no trailing comma, so insert `  },` then the object); a ninth `LAB_CARDS` block before `  ];` above `function cardText(c, f){` (that block already ends with a comma); a preview card before `<div class="card takeaway-card">` and the rule `.slide[data-title="Labs preview"] .c4{grid-template-columns:repeat(3,1fr)}` after :230 so nine cards tile 3x3; the hash regex at :4933 from `[1-8]` to `[1-9]`; the lab-count strings and their `ES_TEXT` twins on the same lines (1851 and 3138, 1909 and 3186, 1940 and 3219, 1984 and 2726, 946 and 2758, 1817 and 2711, 1831 and 3134); two new `ES_TEXT` lines for the card's h4 and p.
+* slides/presenter-notes.html: a `data-label="Lab 09 · hands-on"` section between the Lab 08 `</section>` and `</main>`; `SLIDE_N` and every `data-goto` stay, because no slide was added; the comment at :1754, the slide-17 heading at :1219, the run-of-show skim row at :303 and five count phrases.
+* slides/slides.adoc and bin/build-pptx.py: a table row each and the count strings; rebuild the .pptx in a venv. docs/90-facilitator-guide.adoc: a skim-row entry and a `Lab 09::` paragraph.
+
+*Steps.*
+
+. Clone and branch. The worked example is not shipped as a patch; everything below is built by hand, by anchor.
+. Write the expected output first: the five heredocs. Then write run.sh around them, `chmod +x`, LF endings only.
+. Write the helpers and assets so live mode is real, then run it both ways from the lab directory: simulate, and live against a stub endpoint (a 25-line `http.server` that answers any POST with an OpenAI-style `choices[0].message.content` holding a canned JSON verdict, chosen by a phrase in the prompt) with `INFERENCE_ENDPOINT` pointed at it; `diff` the two transcripts with the `mode:` line filtered out and expect no output.
+. Register the helpers in both `py_compile` lists, add the preflight line and the ignore patterns; `make lint` then `LAB_SPEED=0 NO_COLOR=1 ./bin/run-all-labs.sh`.
+. Docs chapter, index, README; each replacement anchored to a string that occurs once. Render the book with `--failure-level WARN` (the Gates paragraph).
+. Inventory item, builder edits, ladder-map entry; validate the JSON with `python3 -I -m json.tool`; `make adventure` (expect 58 inventory items) and keep slides/adventure.html.
+. Deck by anchor: the `LABS` object (every `cmd` equal to run.sh with `$GUIDE` resolved and `\$?` unescaped; every `out` array the heredoc lines plus, where run.sh has trailing `lab_note` lines, one `['note', ...]` line, the convention Labs 01 and 07 already follow), the cards block, the preview card and rule, the regex, the count strings with their Spanish, the two new dictionary lines. Then `python3 -I bin/check-labs-parity.py . --lab 09`, which must print OK for the new lab alone.
+. Console section, slides.adoc row, build-pptx.py row and rebuild, facilitator guide.
+. Run the checks, then the browser pass: `#lab-9` opens the Labs view on terminal 09 (without the regex edit it is silently ignored; `#lab-9` matches neither the lab regex at 4933 nor the slide regex at 4939), nine preview cards in three columns in both faces and both languages, `#demo` wraps to `lab 9/9`, and the console lands on `Lab 09 · hands-on` from the hash and from a posted `{type:'deck-slide', mode:'demo', lab:9}` message.
+. Commit everything together: the worked example was 23 files, 968 insertions, 99 deletions with the regenerated .pptx.
+
+*Agent prompt.*
+
+[source]
+----
+You are adding a new lab to the Red Hat AI tax-administration labs kit for a
+specific customer use case (recipe R2; worked example Lab 09, correspondence
+triage). Work in a scratch clone; never modify the shared checkout.
+
+Standing rules: public and open source only, illustrative sample data that
+says so, live-run output directories in .gitignore; no model names in files
+(MODEL_NAME="${MODEL_NAME:-the-model}", prose says "the model"); write the
+expected output first as the OUT heredocs and make the helpers print exactly
+that; every deck command byte-identical to the run.sh step with $VAR defaults
+resolved and \$? unescaped, every deck out array the heredoc lines plus at
+most one trailing note line; the lab runs in simulate mode with nothing
+installed and in live mode against the Lab 01 endpoint on 127.0.0.1 plus files
+in the lab directory, helpers shipped, standard library only; a designed
+non-zero exit is tolerated in the command with `|| [ \$? -eq 3 ]`; judgement
+stays human: the model classifies and drafts, a file your experts own decides
+what is never routed, the last screen shows where a named person takes over,
+and the rung chip is one of the strings in slides/ladder-map.json.
+
+Edits by anchor, in this order: (1) labs/labNN-<slug>/run.sh on the lib.sh
+contract plus assets and helpers, chmod +x, LF, simulate and a live rehearsal
+against a stub that diffs empty; (2) Makefile:83 and
+.github/workflows/docs.yml:35 py_compile lists, bin/preflight.sh, .gitignore;
+(3) docs/NN-lab-<slug>.adoc in the docs/07 shape, docs/index.adoc include,
+abstract count and clause, Who-this-is-for row, outcomes row, TIP count;
+render the book with --failure-level WARN and zero warnings; (4) README.adoc
+row and six count strings; (5) bin/adventure-inventory.json item (title
+starts "Lab NN", then an em dash, U+2014, with a space on each side, then the
+title, exactly as the lab-08 item spells it: short_title strips that prefix at
+build-adventure.py:143-146, and a hyphen would leave "Lab NN - ..." on the
+card; highlights, rung, what_you_learn, path mandatory), previous lab's next,
+count prose, bin/build-adventure.py PATHS step and three count strings,
+slides/ladder-map.json labs[] entry, make adventure, commit
+slides/adventure.html; (6) slides/deck.html LABS object before
+`  ];` above `/* ---------------- TERMINAL ENGINE`, LAB_CARDS block before
+`  ];` above `function cardText(c, f){`, preview card before
+`<div class="card takeaway-card">` with a 3-column rule, the #lab regex range,
+every lab-count string with its ES_TEXT twin, ES_TEXT entries for new
+strings; (7) slides/presenter-notes.html section before `</main>`, the
+`Lab 01..NN follow` comment, the slide-17 h2 count, the skim row, the count
+phrases; (8) slides/slides.adoc and bin/build-pptx.py rows and counts, rebuild
+the .pptx (venv with python-pptx) and commit it; (9) docs/90 skim row and a
+`Lab NN::` entry.
+
+Run and report verbatim: make test; python3 -I bin/check-labs-parity.py .
+--lab NN (every new cmd identical to run.sh, every out array the heredoc
+lines, LAB_CARDS facets == (steps + 1) x 2; the other labs' 46 inherited
+entries are the baseline, not yours); python3 -I bin/check-i18n-static.py
+slides/deck.html and bin/check-i18n.js with MISSING 0 (the preview card, the
+labs intro, the closing and the demo foot carry new strings); node --check on
+the extracted deck script; the #lab regex grep; json.tool on the inventory,
+ladder-map and assets; make adventure and grep -c lab-card-N; preflight;
+the step-1 heredoc equals the asset it cats; the console section count; the
+broad stale-count grep (returns only the two hand-made graphic lines); the
+docs book renders with zero warnings; the rebuilt .pptx shows N rows; git -C
+<shared checkout> status --short | wc -l prints 0. Finish with the browser
+pass (#lab-N, #slide-N, preview cards and columns, EN/ES, Show face, #demo to
+lab N/N, console landing on the new section). Report every anchor as
+file:line.
+----
+
+*Checks.*
+
+[source,bash]
+----
+make test                                   # nine 'Lab complete' lines, 'All labs completed.'
+test "$(grep -c '^step "' labs/lab09-*/run.sh)" = "$(sed -n 's/^LAB_STEPS_TOTAL=//p' labs/lab09-*/run.sh)" && echo steps-match
+diff <(sed -n '/^step "cat assets\/letter-0001.txt"/,/^OUT$/p' labs/lab09-*/run.sh | sed '1d;$d') labs/lab09-*/assets/letter-0001.txt && echo 'step 1 heredoc == asset'
+file labs/lab09-*/run.sh | grep -v CRLF && test -x labs/lab09-*/run.sh && echo 'LF and executable'
+python3 -I bin/check-labs-parity.py . --lab 09     # 'labs/deck parity (lab 09): OK'; before the deck edit it prints 'no LABS entry in the deck'
+python3 -I -c "import re;h=open('slides/deck.html',encoding='utf-8').read();open('/tmp/deck-scripts.js','w').write('\n;\n'.join(re.findall(r'<script>(.*?)</script>',h,re.S)))" && node --check /tmp/deck-scripts.js && echo 'deck script parses'
+grep -n '#lab-?0?(\[1-9\])' slides/deck.html            # exactly one line
+grep -c 'Lab 09 · ' slides/deck.html; grep -n 'Labs preview"\] \.c4' slides/deck.html
+python3 -I -m json.tool bin/adventure-inventory.json >/dev/null && python3 -I -m json.tool slides/ladder-map.json >/dev/null && echo 'json OK'
+make adventure && grep -c 'lab-card-9' slides/adventure.html        # 'Wrote ... 58 inventory items', then 3
+./bin/preflight.sh | grep lab09
+grep -c 'data-label="Lab 0' slides/presenter-notes.html             # 9
+grep -n 'Seven lab\|seven lab\|Eight lab\|eight lab\|seven labs\|eight labs\|all seven\b\|eight virtual\|Eight runnable' \
+  slides/deck.html slides/presenter-notes.html slides/slides.adoc README.adoc docs/index.adoc docs/90-facilitator-guide.adoc \
+  bin/adventure-inventory.json bin/build-adventure.py bin/build-pptx.py slides/adventure.html \
+  | grep -v 'stations\|GRAPHICS\|Graphic (G)\|choose-your-path\|Only one card\|seven labs one to one'
+                                            # expect exactly the two hand-made graphic lines
+python3 -c 'import pptx' && make pptx || (python3 -m venv /tmp/pptx-venv && /tmp/pptx-venv/bin/pip install -q python-pptx && /tmp/pptx-venv/bin/python bin/build-pptx.py --out slides/exports/redhat-ai-tax-administration.pptx)
+git add -A && git diff --cached --stat | tail -1 && git reset -q   # the worked example: 23 files changed, 968 insertions(+), 99 deletions(-)
+----
+
+*Effort.* About five hours by hand for the worked example, with the deck mirror, the console section and the rebuilt .pptx; the simulate and stub rehearsal is the part that cannot be skipped.
+
+=== R3. Point an existing lab at a customer environment (live mode)
+
+Use this when a customer already runs part of the stack and one of the eight labs should execute against it: a rehearsal before a session, a proof in their namespace, or measured figures in place of the kit's representative ones. The runtime already supports it (bin/lib.sh:7-9); the work is making the knobs, the require_cmd lists, the manifests and the heredocs agree. Labs 01, 03, 04, 05 and 06 can run live as shipped with three caveats: Lab 03 step 4 (`oc get ... -w`, run.sh:39) and Lab 05 step 3 (`ansible-rulebook`, run.sh:63) never return on their own, like Lab 01 step 3; Lab 04 steps 4 and 5 exit 3 on a refusal by design, so a working Lab 04 ends with rc 1 and "2 of 5 steps did not exit cleanly"; Labs 02, 07 and 08 need helper scripts the repository does not ship.
+
+*What changes.*
+
+* `labs/labNN-<name>/.env` (new, never committed): the customer's values for the knobs the lab reads (NS, ISVC, LOKI_URL, AAP_URL, CONTROLLER, INVENTORY, MODEL_REF, GPU_NODE; for Lab 04 also PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD, EMBED_ENDPOINT, INFERENCE_ENDPOINT). Loaded with `set -a; . ./.env; set +a`. Defaults in run.sh stay neutral.
+* `.gitignore`: `labs/*/.env`, `labs/*/live-*.log`, `labs/*/local/`. Today `git check-ignore labs/lab01-rhel-ai/.env` returns 1.
+* `bin/lib.sh:64`: make `LAB_PACE=step` pause, failing closed without a terminal: `local key; if ! read -r key </dev/tty 2>/dev/null; then printf '\n%sno terminal to pause on. Run from a terminal, or with LAB_PACE=auto.%s\n' "$C_ERR" "$C_RESET"; exit 2; fi`. Do not guard with `[[ -r /dev/tty ]]`: it is true whenever the device node exists and the lab runs on unpaused under `setsid`. `make test` is unaffected because `LAB_PACE=auto` returns at :62.
+* `run.sh` knobs for file paths a customer must swap, in the kit's own pattern: `MANIFEST` (lab03:34), `PGVECTOR_MANIFEST` (lab04:18), `TRUSTYAI_MANIFEST` and `COSIGN_KEY` (lab06:61, :19); the customer copies live under `labs/labNN/local/`.
+* `require_cmd` lists extended to every binary the steps call, mirrored in bin/preflight.sh:20-27: lab01 adds `ss` (:52); lab03 adds `curl jq hey` (:47, :56); lab05 adds `awx` (:78); lab06 adds `ssh curl` (:31, :61); lab07 adds `llama-stack-client` (:41) and `awx` (:63), mirrored at preflight.sh:26; lab08 adds `awk column` (:26) and either `python` or a change of :54, :66, :80, :126 to `python3`.
+* Manifests in `local/` copies: lab03 name, namespace and storageUri (:8-9, :32); lab04 pgvector.yaml namespaces and database (:5, :19, :37) with the `pgvector-auth` secret created out of band (:40, :43); lab06 both namespaces (:11, :33) and the model label selectors (:39, :51-52).
+* Request bodies and model flags set to the served ids: `"model"` on line 2 of both `inquiry.json` files, lab04 run.sh:26 `--embed-model` and query.py:122-123 defaults, lab05 playbook :24 and :33, lab01 run.sh:45 `--model` path consistent with `MODEL_PATH`.
+* After a clean live run: the heredoc lines of the steps that ran, sanitised; the docs chapter's Prerequisites, Walkthrough cells and "What good looks like" with the date and environment class; docs/index.adoc:188-191, docs/90-facilitator-guide.adoc:258-259 and README.adoc:220-223 qualified per lab; the deck `out` arrays and card text; the console `div.o` excerpts; the inventory prerequisites and highlights, then `make adventure`.
+
+*Steps.*
+
+. Read what will execute: `grep -n '^step "' labs/labNN-*/run.sh` and `./bin/preflight.sh`. Mark the steps that never return (Lab 01 step 3, Lab 03 step 4, Lab 05 step 3) and the destructive ones (Lab 03 step 6 load test, Lab 06 step 2 SSH, Lab 08 step 6, which commits and runs `gh pr create` in the current directory, run.sh:98).
+. Patch bin/lib.sh:64 and prove it: `timeout 6 script -qec "LAB_PACE=step NO_COLOR=1 LAB_SPEED=0 bash labs/lab01-rhel-ai/run.sh" /dev/null; echo $?` must print 124; `setsid --wait env LAB_PACE=step bash labs/lab01-rhel-ai/run.sh </dev/null` must exit 2; `make test` must still pass.
+. Add the ignore patterns, write `.env`, log in out of band (`podman login`, `oc login`, the pgvector-auth secret, the signing key under `local/`).
+. Make the `local/` manifests and the model ids agree with `.env`.
+. Extend `require_cmd` and preflight. Probe the guard without running the lab: `LAB_MODE=live bash -c 'source bin/lib.sh; require_cmd <list>'` exits 2 until satisfied, then 0. Never probe with `LAB_MODE=live bash run.sh`: the run where the guard passes executes every step unpaced.
+. Rehearse in simulate mode with `.env` loaded and read every `$ ` line: that is what live mode will `eval` in this directory.
+. Run live, paced, from the lab directory, with `tee` to a log; `s` skips a step, `q` stops. Read rc 2 (tool missing or no terminal), rc 1 (a step exited non-zero; the expected output is printed under it and the Takeaway never prints), rc 0 (every step that ran exited zero; grep the transcript for `(skipped)`). Then `diff` the simulate and live transcripts: the `mode:` line and Lab 05 step 2's abridged `cat` are expected; every other hunk is a divergence to classify in writing before you touch a heredoc.
+. Update heredocs only for steps whose output you can explain, sanitised, with `<<'OUT'` kept; propagate to the docs chapter, the three honesty statements, the deck, the console and the inventory.
+. Before committing: `git status --short` shows no `.env`, `local/` or `live-*.log`; the model-name grep over `git diff -U0` adds nothing; `git diff | grep -niE 'token|password|bearer|secret'` is read line by line.
+
+*Agent prompt.*
+
+[source]
+----
+You are making one existing lab of the Red Hat AI labs kit run with
+LAB_MODE=live against a customer environment. Work on a branch of a fresh
+clone. Standing rules: nothing customer-specific enters a tracked file (values
+go in labs/<lab>/.env and local/, both ignored); no model names in files (say
+"the model"); a heredoc line and its deck and docs mirrors say the same thing;
+the lab still passes make test; keep the refusal and review steps, never
+automate a determination.
+
+Read first: bin/lib.sh (the pause at 61-70, step at 75-108, footer 110-117,
+require_cmd 120-132); the lab's knobs (lines 7-13) and require_cmd; the three
+blocking steps (Lab 01 step 3, Lab 03 step 4 `oc get ... -w`, Lab 05 step 3
+`ansible-rulebook`); the destructive ones (Lab 03 step 6, Lab 06 step 2,
+Lab 08 step 6); Lab 04 exits 3 on a refusal at query.py:148 and :156.
+
+Do, in order: (1) patch bin/lib.sh:64 to read from /dev/tty and exit 2 when
+there is none, verify with the script/timeout check (124) and make test;
+(2) append labs/*/.env, labs/*/live-*.log, labs/*/local/ to .gitignore and
+verify with git check-ignore -v; (3) write the customer values into
+labs/<lab>/.env only, adding MANIFEST / PGVECTOR_MANIFEST / TRUSTYAI_MANIFEST
+/ COSIGN_KEY knobs in the ${VAR:-default} pattern when a step hard-codes a
+path; (4) local/ copies of the manifests with namespace equal to NS and the
+served model ids in inquiry.json line 2, lab04 run.sh:26 and query.py:122-123,
+lab05 playbook :24 and :33; tell the operator which logins and secrets to
+create out of band; (5) extend require_cmd to every binary the steps call and
+mirror bin/preflight.sh:20-27; probe with `LAB_MODE=live bash -c 'source
+bin/lib.sh; require_cmd <list>'`, never with the lab; (6) simulate with .env
+loaded, show every `$ ` line to the operator; (7) only on confirmation,
+`LAB_MODE=live LAB_PACE=step NO_COLOR=1 bash run.sh 2>&1 | tee
+live-$(date +%F).log` from the lab directory, pressing s at the blocking and
+destructive steps unless cleared; (8) diff the transcripts and classify every
+hunk; (9) for steps that ran cleanly, replace the heredoc with sanitised live
+output, keep <<'OUT' and LAB_STEPS_TOTAL; (10) propagate to docs/0N, the
+three honesty statements, slides/deck.html LABS out lines and cards,
+slides/presenter-notes.html div.o lines, bin/adventure-inventory.json, then
+make adventure.
+
+Report verbatim: bash -n; make test; preflight; the step-count test; both
+transcripts and their diff; git status --short with no .env, local/ or
+live-*.log; the secret grep reviewed; git diff -U0 piped through the model-name
+grep (pattern read from docs/attributes.adoc:24-25, widened with MODEL_PAT to
+the families the customer serves) adding nothing; make adventure and its
+diff. If the lab is 02, 07 or 08, stop and report that live mode needs the
+unshipped helper scripts before any step past the first can pass.
+----
+
+*Checks.* Set `MODEL_PAT` to the model families your customer's estate serves, separated by `|`, before the model-name grep; the default pattern is the one family docs/attributes.adoc:24-25 carries, and a pasted id from another vendor would pass it. Exclude product names such as the retrieval client with a second `grep -v`.
+
+[source,bash]
+----
+bash -n bin/lib.sh labs/labNN-<name>/run.sh && make lint && make test
+./bin/preflight.sh
+test "$(grep -c '^step "' labs/labNN-<name>/run.sh)" = "$(sed -n 's/^LAB_STEPS_TOTAL=//p' labs/labNN-<name>/run.sh)" && echo step-count-ok
+timeout 6 script -qec "LAB_PACE=step LAB_MODE=simulate NO_COLOR=1 LAB_SPEED=0 bash labs/lab01-rhel-ai/run.sh" /dev/null; echo $?   # 124 after the lib.sh:64 patch, 0 before
+setsid --wait env LAB_PACE=step NO_COLOR=1 LAB_SPEED=0 bash labs/lab01-rhel-ai/run.sh </dev/null >/dev/null 2>&1; echo $?       # 2 after the fail-closed patch
+git check-ignore -v labs/labNN-<name>/.env labs/labNN-<name>/local/x labs/labNN-<name>/live-2026-11-20.log
+LAB_MODE=live NO_COLOR=1 bash -c 'source bin/lib.sh; require_cmd <the extended list>'; echo rc=$?    # 2 until satisfied, then 0; runs no step
+cd labs/labNN-<name> && set -a && . ./.env && set +a && LAB_MODE=simulate NO_COLOR=1 LAB_SPEED=0 bash run.sh | tee live-$(date +%F)-sim.log
+cd labs/labNN-<name> && set -a && . ./.env && set +a && LAB_MODE=live LAB_PACE=step NO_COLOR=1 bash run.sh 2>&1 | tee live-$(date +%F).log; echo rc=${PIPESTATUS[0]}
+diff labs/labNN-<name>/live-$(date +%F)-sim.log labs/labNN-<name>/live-$(date +%F).log
+git status --short | grep -E '\.env|local/|live-.*\.log' && echo 'STOP: customer files staged'
+PAT="${MODEL_PAT:-$(sed -n 's/^:\(base\|tuned\)-model: \([a-z]*\).*/\2/p' docs/attributes.adoc | sort -u | paste -sd'|')}"
+git diff -U0 | grep -iE "$PAT" | grep -v -E 'llama-stack-client'     # must add no new model-name line; the second grep -v drops the product client
+make adventure && git diff --stat slides/adventure.html
+----
+
+*Effort.* 20 to 30 minutes once for bin/lib.sh, .gitignore and preflight, then 2 to 4 hours per lab for `.env`, the `local/` manifests, the live run and the propagation; 1 to 3 days per lab for the unshipped helpers of Labs 02, 07 and 08.
+
+=== R4. Add, remove or reorder slides and chapters without breaking the chain
+
+Use this whenever the number or order of slides changes or a chapter is added, split, merged or renamed. Slide numbering, the rail, `#slide-N` hashes and the console sync are all derived from DOM order at load time, while nine other files carry positional copies by hand. Retitling a visible `<h2>` is cheap; renaming a `data-title` key is the most expensive change in the kit (103 selector occurrences plus every keyed table).
+
+*What changes.*
+
+* slides/deck.html: the `<article class="slide" ...>` itself, copied from the "Why now" article (955-1003) and placed at the DOM position you want numbered. Every article needs `<span class="slidenum"></span>`: the loop at 2270-2272 is unguarded, and a missing span throws before the rail, the rungs and the Labs view initialise (verified: an empty rail, no active slide, the clock stuck on "16:9"). Then `CHAPTERS` (2096-2103, the title in exactly one chapter, chapters contiguous in DOM order or the rail prints a duplicate header), `TITLES_ES` (2558-2567), `SLIDE_GFX` (2181-2186) only with a pop-out, `ES_TEXT` entries for every string an `I18N_SEL` selector matches, a Show face rule beside 517-563, and the positional literals in slide text: the AO table cells at 1885, 1886, 1890 and the closing card at 1936 with their Spanish twins at 2649, 2650, 2655 and 3214. The cell "Slide 09 · base band" (1885, 2649, build-pptx.py:1110) is already one short: Architecture is slide 10.
+* slides/presenter-notes.html: the `<section class="step" data-label="Slide NN / T">` at the same index; every slide `data-label` and the `#pos` default (283) renumbered to the new total; `var SLIDE_N = T` (1755); every `data-goto` recomputed (Slide k becomes k-1, Lab k becomes T+k-1) and its button text; the run-of-show rows (290-306) copied from the facilitator guide; the prose that cites slide numbers, 48 lines today by `grep -n '[Ss]lides\? [0-9]' | grep -v data-label`.
+* slides/slides.adoc: a `== <visible title>` section with a `Rung:` line and a `[.notes]` block at the matching position.
+* bin/build-pptx.py: a `DECK_RUNGS` entry equal to the article's `data-rungs` (mandatory even if not exported: `add_spine` indexes it at 248), a block in `build()` if exported, the "Slide NN" cells at 1110, 1114, 1128; rebuild and commit the .pptx.
+* slides/ladder-map.json: the `slides[]` entry at its position with `n`, `title` equal to the key and `rungs` equal to `data-rungs` exactly, later `n` renumbered, `chapters[]` mirroring `CHAPTERS`.
+* bin/adventure-inventory.json: a kind "slide" item with the positional id, every later `slide-NN` id shifted, the slide `next` chain rewritten in DOM order (it is in the pre-reflow order today), anchors `data-title="<key>"` and `console step: Slide NN / T`; bin/build-adventure.py: every `("slide-NN", "<description>")` tuple in PATHS re-mapped by its description (fifteen today at 155-218; an id that still exists does not abort the build), `./#slide-18` (131), `./#slide-6` (456), "Eighteen slides" (473); `make adventure`.
+* docs/90-facilitator-guide.adoc timing table rows 45-56, chapter names in rows 45-51 and prose 189-196, prose slide numbers at 27, 29, 59-60, 64 (stale today: it says slide 17 for One loop, which is 14), 72; README.adoc:97.
+* `bin/check-chain.py` and `bin/deck-measure.js`, the two checks written for this recipe.
+
+*Steps.*
+
+. Branch; baseline `python3 -I bin/check-chain.py .` (0 findings) and `deck-measure.js` at 1280x800 and 1920x1080 (56 and 28 OVERFLOW lines on the committed tree; Security posture scrolls in English Tell). The gate is no new lines, not zero.
+. Decide the chapter first: a new slide goes inside one contiguous `CHAPTERS` run; a new chapter also changes ladder-map `chapters[]`, the console's static `.chapter` labels and the guide's table and prose.
+. Edit the article, then the keyed tables by marker (`var CHAPTERS = [`, `var TITLES_ES = {`, `var SLIDE_GFX = {`, `var ES_TEXT = {`), the Show face rule, the positional literals and their Spanish twins.
+. Console: section at the same index, labels, `#pos`, `SLIDE_N`, `data-goto` values and texts, `.kind`, `.chapter`, `.time`, run-of-show rows, prose.
+. slides.adoc section; build-pptx.py entry and block and cells; venv rebuild of the .pptx.
+. ladder-map `slides[]` and `chapters[]`; inventory ids, next chain and anchors; PATHS re-mapping and the three hard-coded literals; `make adventure`.
+. Facilitator guide and README; methods pages only with `make brief` and all four regenerated files committed.
+. Gate: `check-chain.py` 0 findings; `deck-measure.js` diffed against the baseline with no new OVERFLOW line and none on the touched slide in all eight combinations; `make lint && make test`; `make adventure` then a clean `git status` for slides/adventure.html; pptx rebuilt. Prove the console in a browser: open `#slide-T`, press P, step with the arrows, confirm the badge and `#pos`; judge by the clock and the badge, not the rail highlight, which is already off by the chapter-header count (go() marks `railnav.children` by index, 2381-2384).
+. Commit together and compare `git status --short` with the file list of 7dd52f2.
+
+*Agent prompt.*
+
+[source]
+----
+You are adapting the Red Hat AI tax-administration kit. Task: <ADD | REMOVE |
+MOVE> the slide <data-title key> <at DOM position P / into chapter C> in
+slides/deck.html and keep every positional copy of the slide list in step.
+Standing rules: public and open source; no model names ("the model"); every
+claim on the slide names the lab that prints it; make test stays green;
+judgement stays human. Work on a branch; edit deck.html by grep marker and
+sed -n excerpts, never reflow it; edit bottom-up or re-grep after each edit.
+
+Order: (1) baseline python3 -I bin/check-chain.py . (0 findings) and
+bin/deck-measure.js at 1280x800 and 1920x1080, keep the logs (56 and 28
+OVERFLOW lines exist today); (2) the article inside `<div class="stage"
+id="stage"`, copied from "Why now", with .rule, .slide-head, .slide-body and
+the closing <span class="slidenum"></span>, unique data-title, data-rungs,
+data-notes; (3) var CHAPTERS (one chapter, contiguous), var TITLES_ES, var
+SLIDE_GFX only with a pop-out, var ES_TEXT one entry per matched English
+innerHTML (whitespace collapsed, entities and inline tags included), a Show
+face rule next to the existing `:root[data-view="show"] .slide[data-title=`
+rules; on a key rename every `.slide[data-title="Old"]` occurrence and
+renderLoopSlide; (4) the positional literals: grep -n '[Ss]lide [0-9]'
+in the markup (AO table, closing card) and their four ES_TEXT twins; fix
+"Slide 09 · base band" to 10 in the deck, its twin and build-pptx.py;
+(5) slides/presenter-notes.html: section at the same index, all slide
+data-labels and id="pos" renumbered to T, var SLIDE_N = T, every data-goto
+recomputed (Slide k -> k-1, Lab k -> T+k-1) with its text, .kind/.chapter/
+.time, the run-of-show table from docs/90, and grep -n '[Ss]lides\? [0-9]'
+prose (48 lines today); (6) slides/slides.adoc section (counts of ^== and
+^[.notes] equal T); (7) bin/build-pptx.py DECK_RUNGS entry equal to
+data-rungs, a block if exported, "Slide NN" cells, venv rebuild, commit the
+.pptx; (8) slides/ladder-map.json slides[] and chapters[]; (9) the inventory
+slide item with positional id, shifted ids, next chain in DOM order,
+anchors; bin/build-adventure.py PATHS tuples re-mapped by description,
+./#slide-18, ./#slide-6, "Eighteen slides"; make adventure; (10) docs/90
+table rows 45-56, chapter names at 45-51 and 189-196, prose at 27, 29,
+59-60, 64 (says 17, should be 14), 72; README.adoc "eighteen slides".
+
+Report verbatim: check-chain 0 findings; the two deck-measure runs diffed
+against the baseline (no new OVERFLOW lines, none on the touched slide); the
+ES-MISSING lines for the touched slide; make lint && make test; make adventure
+and a clean git status for slides/adventure.html; the pptx rebuild line; the
+console one-liner for #lab-1 and #slide-T; a manual pass of #slide-T, P, S,
+G, EN/ES and the theme on the touched slide, judged by the clock and the
+console badge, not the rail highlight; git status --short against the files
+in git show --stat 7dd52f2 with a reason for every file you did not touch.
+----
+
+*Checks.* The browser checks need `npm i -g playwright` and a Chromium; `NODE_PATH` points node at the global modules and `CHROMIUM` at the browser binary (bin/render-graphics.js:16 reads the same variable, so `make graphics` takes it too).
+
+[source,bash]
+----
+python3 -I bin/check-chain.py .                           # '<T> slides, <C> chapters, <T+8> console steps checked: 0 finding(s)'
+NODE_PATH="$(npm root -g)" CHROMIUM="${CHROMIUM:-$(command -v google-chrome chromium chromium-browser 2>/dev/null | head -1)}" node bin/deck-measure.js slides/deck.html /tmp/shots-before 1280 800 > /tmp/before-1280.log   # before editing
+NODE_PATH="$(npm root -g)" CHROMIUM="${CHROMIUM:-$(command -v google-chrome chromium chromium-browser 2>/dev/null | head -1)}" node bin/deck-measure.js slides/deck.html /tmp/shots-after 1280 800 > /tmp/after-1280.log
+diff <(grep '^OVERFLOW' /tmp/before-1280.log) <(grep '^OVERFLOW' /tmp/after-1280.log)   # only '<' lines allowed; repeat at 1920 1080
+tail -1 /tmp/after-1280.log                               # '... 0 page error(s)'; a TypeError means a missing slidenum span
+grep -n '[Ss]lide [0-9]' slides/deck.html | awk -F: '$1>925 && $1<1990'; grep -n '"Slide [0-9]' bin/build-pptx.py
+grep -n '[Ss]lides\? [0-9]' slides/presenter-notes.html | grep -v data-label; grep -n -i 'slides\? [0-9]' docs/90-facilitator-guide.adoc
+grep -o '\.slide\[data-title="<Old key>"\]' slides/deck.html | wc -l      # 0 after a key rename
+grep -c '^== ' slides/slides.adoc; grep -c '^\[.notes\]' slides/slides.adoc   # both equal T
+make lint && make test && make adventure && git status --short slides/adventure.html
+python3 -m venv /tmp/pptx-venv && /tmp/pptx-venv/bin/pip -q install python-pptx && /tmp/pptx-venv/bin/python bin/build-pptx.py --out slides/exports/redhat-ai-tax-administration.pptx
+grep -n '"slide-[0-9][0-9]"\|#slide-' bin/build-adventure.py            # every PATHS tuple still names the slide its description means
+for h in '#lab-1' '#slide-<T>'; do NODE_PATH="$(npm root -g)" CHROMIUM="${CHROMIUM:-$(command -v google-chrome chromium chromium-browser 2>/dev/null | head -1)}" node -e "const {chromium}=require('playwright');(async()=>{const b=await chromium.launch(process.env.CHROMIUM?{executablePath:process.env.CHROMIUM}:{});const p=await b.newPage();await p.goto('file://'+process.cwd()+'/slides/presenter-notes.html'+process.argv[1]);await p.waitForTimeout(300);console.log(process.argv[1],'->',await p.evaluate(()=>document.getElementById('pos').textContent));await b.close();})()" "$h"; done
+git status --short; git show --stat --format= 7dd52f2
+----
+
+*Effort.* 1 to 1.5 hours to reorder slides, 1.5 to 2 hours to remove one, 2.5 to 4 hours to add one, plus 30 minutes per new chapter.
+
+=== R5. Change graphics, logos, presenters and partners
+
+Use this when the narrative and the labs stay but the pictures and credits change: a replaced render behind a G pop-out, a pop-out on a slide that has none, the title pyramid's wording, the point of contact, account executive, presenters, partners or event line, partner logos, or a methods-page graphic. Nothing checks that the pop-out captions, console beats, speaker notes, pptx strings and catalogue strings agree; the checks at the end are the only gate.
+
+*What changes.*
+
+* `slides/assets/graphics/<slug>.png`: the drop-in render, keyed by filename. `GRAPHICS[slug].file` is `assets/graphics/<slug>.png` (deck.html:2154, 2159, 2165, 2170, 2175) and `openGraphic` draws the vector fallback first, then swaps the image in on `img.onload`, leaving a foot line that names the missing file otherwise. A wrong filename fails silently. The five committed renders are 1.6 to 2.1 MB each, above the README's own 1.5 MB guidance, and carry English mission text that no language switch touches.
+* The `GRAPHICS` registry between `/*__GRAPHICS_START__*/` (2153) and `/*__GRAPHICS_END__*/` (2180): `{file, title, caption, points, es:{...}, fallback()}`. The pop-out renders no words; `points` are read by nothing in the deck and live only in the console beats and the `data-notes` tails. The `one-foundation` fallback overlays labels on an embedded 171,286-character base64 image (2151, 2164) and its labels carry mission text.
+* `SLIDE_GFX` (2181-2186) or a `data-gfx="<slug>"` attribute on the article (`gfxKeyFor` prefers it, 2188-2191; no shipped slide uses it). Never address `SLIDE_GFX` by line number after inserting a `GRAPHICS` entry: everything below 2180 shifts.
+* The `data-notes` "GRAPHIC (G)" tail on each of the eight mapped slides, the matching `<div class="beat gfx">` blocks in slides/presenter-notes.html (425, 705, 759, 807, 921, 980, 1204, 1250), the eight-slide list in the console tip (320) and in docs/90-facilitator-guide.adoc:209-210, and the table in slides/assets/README.md. Two beats and three captions still say "seven labs".
+* The title pyramid: `TITLE_LAYERS` (2017-2048), `TITLE_STR` (2049-2056), `titlePyramidSVG` (2057-2092), with three frozen copies: slides/assets/graphics/title-pyramid.svg (light literals), the inline SVG inside `<div class="tpyr">` in the console (presenter-notes.html:392, colour tokens kept) and `TITLE_LAYERS` in bin/build-pptx.py:257-272. `bin/regen-title-pyramid.js` evaluates the deck's own function: `node bin/regen-title-pyramid.js en > slides/assets/graphics/title-pyramid.svg` reproduces the committed file (verified equal apart from `<x/>` versus `<x></x>` serialisation) and `node bin/regen-title-pyramid.js en --tokens` reproduces the console's inline copy, to paste between the `tpyr` div's tags. slides/assets/README.md:33-37 says the same: change the layers in the deck, then regenerate, never hand-edit.
+* The title eyebrow and hosts (944, 947), the Next steps cards and contact panel (1817, 1820, 1824-1831, 1836), the Labs-view closing cards (1936-1938) and takeaway (1940), with their `ES_TEXT` keys (2710, 2711, 2756, 2758, 3122, 3124, 3125, 3129, 3134, 3212-3219; 3123 is already dead); the same strings in slides/slides.adoc (20, 26, 856-859), bin/build-pptx.py (545, 553, 1020-1029 and the notes at 353, 852-853, 989), bin/build-adventure.py (439, 502, 511-514), bin/adventure-inventory.json (606, 796), slides/presenter-notes.html, docs/90-facilitator-guide.adoc, the `hosts` arrays in slides/how-it-was-built*.json and the `g_brief` literals in bin/build-brief.py:494-498.
+* Presenter names: free text in roughly 300 places (deck 34 plus 19, console 63 plus 95, slides.adoc 44, docs/90 26, inventory 16, build-pptx.py 11, build-adventure.py 5, a note in slides/ladder-map.json:258, one historical sentence in slides/how-it-was-built-essay.json:34). The planted-question choreography assumes two presenters; a single-presenter event rewrites the beats.
+* Logos: `slides/assets/logo-redhat.svg`, `logo-four-inc.svg`, `logo-carahsoft.svg` (absent today) picked up by the `<img ... onload=... onerror="this.remove()">` tiles at 1827-1829 and by `logo()` in bin/build-adventure.py:81-88 (calls at 513); `make adventure` afterwards. `.logo.img > :not(img){display:none}` (767) hides the wordmark the moment a file loads, so a blank SVG leaves an empty tile.
+* Methods pages: `def g_<key>()` registered in `GRAPHICS` (bin/build-brief.py:911-918) and selected by a slide's `graphic_key` (952; `graphic` is read for essay sections only); `make brief` and the four regenerated files committed, because CI `cmp`s them. `make graphics` needs Playwright and a Chromium (`CHROMIUM=<path>`, read at bin/render-graphics.js:16) and, as checked out, also rewrites built/growth and built/timeline and creates three untracked pairs; commit only your key's pair.
+
+*Steps.*
+
+. Swap a render by exact filename; re-caption the entry in both languages and rewrite the fallback's `aria-label` and visible text; mirror the words into the `data-notes` tail and the console beat; fix the lab count in whatever you touch.
+. Add a pop-out: a `GRAPHICS["<slug>"]` entry before the END marker, a `SLIDE_GFX` row or `data-gfx`, the notes tail, the beat, the eight-slide lists, the README row.
+. Change the pyramid wording in `TITLE_LAYERS` and `TITLE_STR`, regenerate title-pyramid.svg with `node bin/regen-title-pyramid.js en > slides/assets/graphics/title-pyramid.svg` and the console copy with `node bin/regen-title-pyramid.js en --tokens`, mirror bin/build-pptx.py:257-275, rebuild the .pptx.
+. Change contact, account executive, event line, partners and presenters in every carrier listed above; move each changed English string's `ES_TEXT` entry to the new key; `make adventure`, `make brief` if the brief literals changed, rebuild the .pptx.
+. Drop logos in under the exact filenames, `make adventure`, open the deck and confirm each tile shows an image.
+. Methods pages: function, registration, `graphic_key` and `graphic`, `make brief`, `make graphics`.
+. Run the checks and the browser pass: G on every mapped slide in both themes (the foot line must vanish when the PNG loads), Z, ES, the Labs view map, P and the console beat side by side.
+
+*Agent prompt.*
+
+[source]
+----
+You are adapting the Red Hat AI tax-administration kit for a new customer.
+Scope: graphics, logos, presenters and partners only (recipe R5). Do not add,
+remove or reorder slides, do not touch labs/*/run.sh, do not change slide
+prose beyond the strings named below. Standing rules: public and open source
+(no non-redistributable imagery or logos, no portraits without consent); no
+model names ("the model"; never the base-model or tuned-model attributes);
+every caption claim is something a lab runs and the lab count is honest (eight
+labs ship; many strings still say seven); make test still passes; judgement
+stays human in every picture.
+
+Work in a clone; edit slides/deck.html by marker (GRAPHICS_START/END, var
+SLIDE_GFX, var TITLE_LAYERS, class="tpyr"), never by the line numbers after
+your first insertion, never reformat it (line 2151 is a 171,286-character
+literal). Do, in order: (1) render swaps by exact filename under
+slides/assets/graphics/ and re-caption EN and ES, rewriting the fallback
+aria-label and text; (2) new pop-outs as a GRAPHICS entry plus a SLIDE_GFX row
+or data-gfx; (3) title-pyramid wording in TITLE_LAYERS/TITLE_STR, then
+`node bin/regen-title-pyramid.js en > slides/assets/graphics/title-pyramid.svg`
+and `node bin/regen-title-pyramid.js en --tokens` for the console's tpyr copy,
+mirror bin/build-pptx.py; (4) contact, account executive, event line, partners
+and presenter names in deck.html markup, data-notes and ES_TEXT, slides.adoc,
+build-pptx.py, build-adventure.py, adventure-inventory.json,
+presenter-notes.html, docs/90, the build-brief.py g_brief literals and the
+how-it-was-built hosts arrays; (5) partner logo files and make adventure;
+(6) a methods-page graphic key, make brief, then make graphics with NODE_PATH
+and CHROMIUM set as the Checks block shows. For every pop-out you add or
+re-caption, write the same title, caption and points into the slide's
+data-notes GRAPHIC (G) tail and the console .beat.gfx block, and keep the
+eight-slide lists current.
+
+Before you report, run and paste: node --check on the extracted deck script;
+the GRAPHICS/SLIDE_GFX/data-gfx consistency snippet and the file-presence
+loop; the title-pyramid regeneration equality against the committed file and
+the console copy; console/deck parity (GRAPHIC (G) tails == beat gfx blocks ==
+SLIDE_GFX rows + data-gfx); logo embedding count from
+python3 bin/build-adventure.py --out /tmp/adv.html; make brief leaving no
+uncommitted generated file; file and du -k on the PNGs; the repo-wide
+leftover-name grep and the pptx XML scan; the orphaned-ES_TEXT-key scan for
+the contact strings; make test. Then the browser pass: G on every mapped
+slide in light and dark, Z, ES, the Labs view map, P with the console beat,
+slides/adventure.html logo tiles. Report what you regenerated and any caption
+claim you dropped because no lab backs it.
+----
+
+*Checks.*
+
+[source,bash]
+----
+awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' slides/deck.html > /tmp/deck.js && node --check /tmp/deck.js && echo 'deck script OK'
+grep -o 'file:"assets/graphics/[^"]*"' slides/deck.html | cut -d'"' -f2 | sort -u | while read f; do [ -f "slides/$f" ] && printf 'ok %s %s KB\n' "$f" "$(du -k "slides/$f" | cut -f1)" || echo "MISSING slides/$f"; done
+echo "tails: $(grep -c 'GRAPHIC (G)' slides/deck.html) beats: $(grep -c '<div class="beat gfx">' slides/presenter-notes.html) rows: $(( $(sed -n '/^  var SLIDE_GFX = {/,/^  };/p' slides/deck.html | grep -o "'[^']*':'[a-z-]*'" | wc -l) + $(grep -o 'data-gfx="' slides/deck.html | wc -l) ))"   # 8 / 8 / 8 today
+norm(){ sed -E 's#<([a-zA-Z]+)([^>]*)></\1>#<\1\2/>#g' "$1" | tr -d '\n' | sed 's/>[[:space:]]*</></g'; }
+node bin/regen-title-pyramid.js en > /tmp/tp.svg && cmp <(norm /tmp/tp.svg) <(norm slides/assets/graphics/title-pyramid.svg) && echo 'title-pyramid.svg is current'
+node bin/regen-title-pyramid.js en --tokens > /tmp/tp-tokens.svg && python3 -I -c "import re,sys;c=open('slides/presenter-notes.html',encoding='utf-8').read();m=re.search(r'<div class=\"tpyr\">(<svg.*?</svg>)</div>',c,re.S);n=lambda s:re.sub(r'>\s+<','><',re.sub(r'<([a-zA-Z]+)([^>]*)></\1>',r'<\1\2/>',s)).strip();print('console pyramid current' if n(m.group(1))==n(open('/tmp/tp-tokens.svg',encoding='utf-8').read()) else 'console pyramid STALE')"
+python3 bin/build-adventure.py --out /tmp/adv.html && echo "embedded: $(grep -o 'class="logo img"' /tmp/adv.html | wc -l) wordmarks: $(grep -o 'class="logo"' /tmp/adv.html | wc -l) files: $(ls slides/assets/logo-*.svg 2>/dev/null | wc -l)"
+python3 -m py_compile bin/build-brief.py && make brief && git status --short slides/how-it-was-built*.html docs/96-how-it-was-built-essay.adoc   # clean after commit; CI cmp's these
+NODE_PATH="$(npm root -g)" node -e "require('playwright'); console.log('playwright ok')" && NODE_PATH="$(npm root -g)" CHROMIUM="${CHROMIUM:-$(command -v google-chrome chromium chromium-browser 2>/dev/null | head -1)}" make graphics && git status --short slides/assets/graphics/built docs/images/built
+grep -rIn --exclude-dir=.git --exclude-dir=exports 'Brad\|Jon\b\|Scalio\|Keam\|Ted Craig\|bscalio@\|jkeam@' . | grep -v how-it-was-built-history.json | awk -F: '{c[$1]++} END{for(f in c) print c[f], f}' | sort -rn
+python3 - <<'PY'
+import zipfile
+z=zipfile.ZipFile('slides/exports/redhat-ai-tax-administration.pptx'); t=' '.join(z.read(n).decode('utf-8','ignore') for n in z.namelist() if n.endswith('.xml'))
+print('pptx:',{p:t.count(p) for p in ['Brad','Ted Craig','bscalio@','Carahsoft','seven labs','eight labs']})
+PY
+ls -d labs/lab*/ | wc -l; grep -rIn 'seven labs' slides/deck.html slides/presenter-notes.html bin/adventure-inventory.json | cut -c1-100   # eight directories; fix the counts you touch
+make test
+----
+
+*Effort.* 30 to 45 minutes per render swap, 1.5 to 2.5 hours per new pop-out, 2 to 4 hours for a presenter and partner change, about a day for everything.
+
+=== R6. Add a language or change the Spanish
+
+Use this when a reviewer wants different Spanish wording, when you edited English copy in slides/deck.html (every English edit silently orphans its translation), or when a customer needs a third language or Spanish replaced. It applies to the deck only: the presenter console, slides.adoc, the .pptx and the docs book have no language layer. Terminal commands and output stay English in every language (docs/90-facilitator-guide.adoc:158-161).
+
+*What changes.*
+
+* `var ES_TEXT = {` (2577-3222; 605 entries, 596 distinct keys). The key is the element's English `innerHTML` with whitespace collapsed (`setLang`, 4878-4882): entities stay entities (`&amp;`, `&nbsp;`), inline tags are part of the key (33 keys contain one), quotes and dashes must match byte for byte. A missing key leaves English silently. Nine keys appear twice; a JS object keeps the last one.
+* `var I18N_SEL` (4856-4867, 51 selectors): the elements `setLang` visits. The Adoption-path phase headers (1774, 1784, 1794) have translations at 3089-3094 but no selector reaches `<header><b>` or `<header><span>`; appending `'.slide header b', '.slide header span'` to line 4866 fixes it (verified: UNREACHABLE 6 to 0).
+* `var TITLES_ES` (2558-2567) for the rail; `var CHROME` (2494-2547, 58 entries, 57 distinct keys) for buttons and headings through `C(k)`; `es:{}` sub-objects inside `LABS` (eight, read by `LT()` at 2549), `LAB_CARDS` (50 cards, read by `cardText()` at 4267), `GRAPHICS` (five, `gfxText()` at 2187) and `CHAPTERS` (2096-2103); position-indexed pairs in `RUNGN` (2571), `TITLE_LAYERS` and `TITLE_STR` (2017-2056), `LOOP_STATIONS` (4321-4330) and two literal ternaries in the stage map (4336, 4345). Field rules: `LABS` `youll` and `watch` are innerHTML and may carry `<b>`; `title`, `goal`, `take` pass through `esc()`, `theory` and every card facet through `textContent`, so a tag there is displayed literally.
+* The 36 `html[lang="es"]` CSS rules (567-626) that compress type for Spanish; a third language needs its own set and a third button beside `#lang-en` and `#lang-es` (915-916).
+* For a third language, the engine: the twelve `lang === 'es'` tests (2058, 2108, 2187, 2295, 2308, 2550, 2554, 2569, 4268, 4333, 4873, 4880) and the `[L]` indexing become a `LANGS` list, a `LANG_IDX` map, a `LI(arr)` helper with an English fallback and a `TEXT[lang]` dictionary lookup; with `lang='fr'` and no change the two-element arrays return `undefined` and `esc()` renders the word on the spines, the pyramid and the stage map. Fix the `CHROME` `show` duplicate at the same time (rename the 2516 and 2542 pair to `viewShow` and point line 4893 at it).
+* `bin/check-i18n.js`, `bin/check-i18n-static.py` and `bin/i18n-keep-english.txt`: the coverage checks and the allowlist of strings that stay English (identifiers, product names, `Lab NN · ...` tags; one literal or `/regex/` per line). The headless one ends with `process.exitCode = ...`, not `process.exit(...)`, because a piped `--json` report is otherwise cut at 65,536 bytes; keep that if you edit it.
+
+*Steps.*
+
+. Confirm the engine is where this says: `grep -n "var ES_TEXT\|var I18N_SEL\|function setLang\|var TITLES_ES\|var CHROME\|lang === 'es'" slides/deck.html` (2577, 4856, 4869, 2558, 2494 and twelve test lines). Edit bottom-up.
+. Baseline the checks: static (605 entries, 596 distinct, 1 duplicate with different values, 42 stale) and headless (728 elements walked, MISSING 0, kept English 65, UNREACHABLE 6, stale 63, 0 JS errors, overflow en 2 and es 3).
+. Track A, change existing Spanish: find the entry by its English, edit the value; if the string is not in `ES_TEXT` it is in one of the other layers.
+. Track B, after English edits: add one entry per MISSING line as the checker prints it (already normalised and entity-encoded), delete stale entries, add a selector for every UNREACHABLE line, fill `es:{}` for new labs, cards, graphics and chapters, add a `TITLES_ES` entry for a new slide. Fix the three inherited defects: the header selectors, the `show` duplicate, the "governed by" duplicate (2671 versus 2856).
+. Track C, a third language: the anchored generalisation (28 edits, verified to take the `lang === 'es'` count from 12 to 0), then `check-i18n.js --lang xx --allow-missing 9999` prints the translator's work list (595 dictionary entries, 16 rail titles, 5 chapter names, 8 labs by 7 fields, 50 cards by 3 facets, 5 graphics, 57 chrome keys, 20 pyramid strings and 4 pairs, 4 rung names, 16 station pairs, 2 loop-map literals). Commands, output, product names and "Lab NN · ..." tags stay English; "the model" stays unnamed.
+. Re-run both checks until MISSING 0, UNREACHABLE 0, duplicates 0, JS errors 0; `make test`; walk all 18 slides in both faces, the Labs and Demo views, switch back and confirm nothing foreign remains, reload and confirm the choice persisted.
+
+*Agent prompt.*
+
+[source]
+----
+Task: R6 on slides/deck.html (branch all-in-one-preso): change the Spanish /
+repair translation coverage / add a third language <code>. Standing rules:
+public and open source; no model names ("the model" / "el modelo"); a
+translation may change words, never the claim a lab prints; make test stays
+green; judgement stays human; commands, output, product names, hostnames and
+"Lab NN · ..." tags stay English in every language. The file is ~753 KB and one
+IIFE (1990 to 4946): grep for markers, read excerpts, edit bottom-up, never
+reflow.
+
+Engine: setLang (4869-4902) walks querySelectorAll(I18N_SEL) (4856-4867),
+stores the English innerHTML once in data-i18n-en (4878), keys ES_TEXT by
+en.replace(/\s+/g,' ').trim() (4881) and replaces innerHTML when the key
+exists (4882); a missing key leaves the element as it is. Rail titles from
+TITLES_ES (2558), chrome from CHROME via C() (2494-2548; `show` is duplicated
+and the es values differ), lab briefings from LABS[n].es via LT() (2549),
+cards from LAB_CARDS via cardText() (4267, textContent), pop-outs from
+GRAPHICS[k].es (2187), chapters from CHAPTERS[].es (2108), spines, pyramid
+and stage map from RUNGN, TITLE_LAYERS, TITLE_STR and LOOP_STATIONS indexed
+by language position. CSS compression is the html[lang="es"] block (567-626).
+
+Do: (1) scratch clone; (2) baseline bin/check-i18n-static.py and
+bin/check-i18n.js (with bin/i18n-keep-english.txt) and record it (0 missing,
+65 kept, 6 unreachable, 63 stale, 1 duplicate; static 42 stale); (3) the
+requested change: edit ES_TEXT values for wording; after English edits add
+entries keyed by the new wording and delete the stale ones; append
+'.slide header b', '.slide header span' to I18N_SEL; fix the CHROME show
+duplicate (rename the 2516/2542 pair to viewShow, point 4893 at it) and the
+'governed by' duplicate; for a third language generalise the twelve
+lang === 'es' tests and the position-indexed arrays (LANGS, LANG_IDX, LI(),
+TEXT[lang], TITLES[lang], English fallback) until grep -c "lang === 'es'"
+prints 0, then fill the work list for --lang <code>; (4) checks before you
+report: check-i18n-static.py exit 0; check-i18n.js (and --lang <code>) with
+MISSING 0, UNREACHABLE 0, duplicates 0, JS errors 0, no new overflow; make
+test; git diff --stat touching only slides/deck.html, bin/i18n-keep-english.txt
+if you add an allowlist line, and the doc lines in docs/90, README and
+docs/95; an EN -> ES -> EN round trip in a browser leaves nothing foreign and
+the choice survives a reload. Do not touch presenter-notes.html, slides.adoc
+or build-pptx.py. Report before/after numbers, every selector you added,
+every claim-bearing string you confirmed against a run.sh.
+----
+
+*Checks.*
+
+[source,bash]
+----
+python3 -I bin/check-i18n-static.py slides/deck.html         # exit 0 wanted; today exit 1: 605/596, 1 duplicate, 42 stale
+NODE_PATH="$(npm root -g)" CHROMIUM="${CHROMIUM:-$(command -v google-chrome chromium chromium-browser 2>/dev/null | head -1)}" node bin/check-i18n.js slides/deck.html      # MISSING 0, UNREACHABLE 0, duplicates 0, JS errors 0 wanted; today 0 / 6 / 1 / 0
+NODE_PATH="$(npm root -g)" CHROMIUM="${CHROMIUM:-$(command -v google-chrome chromium chromium-browser 2>/dev/null | head -1)}" node bin/check-i18n.js slides/deck.html --lang fr --allow-missing 9999 --json > /tmp/i18n-fr.json   # third language work list; read it from the file
+grep -c "lang === 'es'" slides/deck.html                     # third language: 12 before, 0 after the generalisation
+grep -c 'html\[lang="es"\]' slides/deck.html                 # 36 compression rules exist; the new language needs its own
+python3 -I - <<'EOF'
+import re,collections
+L=open('slides/deck.html',encoding='utf-8').read().split('\n')
+a=next(i for i,l in enumerate(L) if l.startswith('  var ES_TEXT = {')); b=next(i for i in range(a,len(L)) if L[i]=='  };')
+k=[m.group(1) for m in (re.match(r'^\s*"((?:[^"\\]|\\.)*)"\s*:\s*"',l) for l in L[a:b]) if m]; c=collections.Counter(k)
+print('entries',len(k),'distinct',len(c),'dupes',[x for x,n in c.items() if n>1])
+EOF
+make test
+git diff --stat                                              # slides/deck.html, bin/i18n-keep-english.txt and doc lines only
+----
+
+*Effort.* 5 to 15 minutes per slide of Spanish wording, a day of Track B after a full retarget, half a day for the engine plus 2 to 3 translator days for a third language.
+
+=== R7. Turn a customer conversation into a use-case lab in an afternoon
+
+Use this when a conversation hands you one concrete pain in the owner's words (a queue someone triages, a pager someone carries, an accreditation question someone must answer) and you want to leave with a lab that runs on a laptop before any environment exists. Check the catalogue first: if the ask is a Lab 04 or Lab 06 row whose change is "swap knobs, corpus and two queries", reskin that lab. If the honest answer is that the model would make the determination, stop: the lifecycle table marks that row No (docs/00-event-brief.adoc:47-49).
+
+*What changes.* `labs/lab09-<slug>/brief.md` (the one-page template below, kept beside the script; nothing in bin/ or CI reads it), `labs/lab09-<slug>/run.sh` and `assets/`, `docs/09-lab-<slug>.adoc`, docs/index.adoc (include after :213, counts at :14 and :173, a Who-this-is-for row), bin/adventure-inventory.json and `make adventure`, slides/ladder-map.json `labs[]`, bin/preflight.sh, README.adoc row and counts, docs/90-facilitator-guide.adoc `Lab 09::` entry, `bin/check-labs-parity.py --lab 09` for the deck mirror, and, only if the lab must appear in the browser deck, the R2 deck and console edits. The template to copy is labs/lab07-ops-notebook/run.sh; replace its line 2 and the third argument of `lab_header` at line 12 first, both carry a model name, and do not copy the Product row of docs/07-lab-ops-notebook.adoc:6 either.
+
+*Steps.*
+
+. In the room (30 min): fill the brief. Stop only when the success output (the exact lines the last command prints) and who signs are written down.
+. Place it on the ladder (10 min) with the definitions in slides/ladder-map.json:4-35 and docs/index.adoc:32-42; a queue is information or knowledge (Labs 01 and 04), a pager is data to information plus executes judgement (Labs 07 and 05), an accreditation question is evidence to judgement (Lab 06).
+. Pick the product (5 min) from the technology table (slides/ladder-map.json:361-385) and the chip string from `labs[].chip`.
+. Write the expected output first (45 min), last step first: the screen a named role signs, then the refusal step (the Lab 04 pattern, run.sh:59-65), then back to step 1, which shows where the data lives. Figures are representative and the chapter says so.
+. Write run.sh (45 min) from the lab07 shape: knobs for the data location, the product command in steps 2 and 3 with a `lab_note` naming the rung and who climbs next, one refusal step, a last `lab_section` that is the signer's screen ending in a status only a person changes, `require_cmd` for the live tools, `LAB_STEPS_TOTAL` equal to the step count, `chmod +x`, LF. Every file a live command reads exists under the lab directory.
+. Gates (5 min): `bash -n`, the step-count test, `make lint`, `run-all-labs`, `make test`, from the lab directory and from the root.
+. Docs chapter and index (30 min); inventory, ladder-map, preflight, README, facilitator guide, `make adventure` (25 min); the count grep.
+. Deck mirror only if required (90 min): the R2 edits with `cmd` written as run.sh's command with the knob defaults substituted (the deck has no shell), then `check-labs-parity.py --lab 09`.
+. Live rehearsal when an environment exists: exit 2 is a missing tool, exit 1 is a divergence printed under the step; write it into the chapter, do not edit the heredoc to match.
+
+*Agent prompt.*
+
+[source]
+----
+You are adapting the Red Hat AI tax labs kit for a specific customer use
+case. Work on a branch; do not commit or push unless told. Read first:
+bin/lib.sh, labs/lab07-ops-notebook/run.sh, labs/lab04-rag/run.sh,
+labs/lab08-grand-demo/run.sh, docs/07-lab-ops-notebook.adoc,
+docs/08-lab-grand-demo.adoc, slides/ladder-map.json 1-45 and 289-385,
+bin/adventure-inventory.json 162-212, bin/build-adventure.py 100-150 and
+238-290, bin/preflight.sh, README.adoc 60-80 and 110-245, docs/index.adoc,
+Makefile, .github/workflows/docs.yml, .gitignore.
+
+STANDING RULES: (1) public and open source only; sample data illustrative and
+said so; live-read local data ignored beside .gitignore:12-13; (2) no model
+names in any file you write ("the model", the-model, $MODEL_REF, $ENDPOINT);
+lab07 run.sh lines 2 and 12 and docs/07 line 6 carry one, do not copy them;
+(3) every claim is a step "<command>" <<'OUT' ... OUT whose heredoc is the
+acceptance criterion; (4) simulate on a laptop with nothing installed, live
+against a real environment, every live input a ${VAR:-default} knob, every
+live tool in require_cmd and bin/preflight.sh, every file a live command reads
+present under the lab directory; (5) judgement stays human: the last step is
+the evidence a named role signs.
+
+THE BRIEF: owner role {{owner_role}}; trigger {{trigger}}; data location
+{{data_location}}; rung {{rung}} and who climbs next {{next_rung_owner}};
+product {{product}}; success output {{success_output}}; who signs
+{{signer_role}}; nearest lab {{nearest_lab}}; live inputs {{live_inputs}};
+public sample data {{sample_data}}; slug/title {{slug}} / {{title}}.
+
+DO: A. save the brief as labs/lab09-{{slug}}/brief.md. B. run.sh on the lab07
+shape (shebang; comment; set -euo pipefail; source via BASH_SOURCE;
+LAB_STEPS_TOTAL=N; knobs; require_cmd {{tools}}; lab_header "09" "{{title}}"
+"{{product}}"; goal notes; N blocks of lab_section, step, lab_note;
+lab_footer; TAKEAWAY), last heredoc first; step 1 shows where the data lives,
+one step is the refusal, the last is the signer's screen ending in a status
+only a person changes; chmod +x; LF; assets under the lab directory.
+C. docs/09-lab-{{slug}}.adoc in the docs/07 shape with attribute names only in
+the Product row and the chip string in the Rung row; include after docs/index
+line 213; Who-this-is-for row; outcomes row if it applies; counts at 14 and
+173. D. inventory item (thirteen fields; title "Lab 09", then an em dash,
+U+2014, with a space on each side, then {{title}}, exactly as the lab-08 item
+spells it; site_url /docs/index.html#lab-09), lab-08 next -> ["lab-09"];
+ladder-map labs[] entry; preflight line; README row and counts; docs/90
+"Lab 09::" entry; make adventure. E. only if DECK=yes, the R2 deck and
+console edits.
+
+CHECKS (paste the output; a failure is a finding to fix):
+C1 bash -n labs/lab09-{{slug}}/run.sh
+C2 test "$(grep -c '^step "' labs/lab09-{{slug}}/run.sh)" = "$(sed -n 's/^LAB_STEPS_TOTAL=//p' labs/lab09-{{slug}}/run.sh)" && echo steps-match
+C3 ! grep -l $'\r' labs/lab09-{{slug}}/run.sh && test -x labs/lab09-{{slug}}/run.sh && echo lf-and-executable
+C4 make lint
+C5 LAB_SPEED=0 NO_COLOR=1 ./bin/run-all-labs.sh | grep -E '^>>> lab09|Lab complete|All labs|!!!'
+C6 make test
+C7 PAT="${MODEL_PAT:-$(sed -n 's/^:\(base\|tuned\)-model: \([a-z]*\).*/\2/p' docs/attributes.adoc | sort -u | paste -sd'|')}"; grep -rniE "$PAT" labs/lab09-{{slug}}/ docs/09-lab-{{slug}}.adoc | grep -v -E 'llama-stack-client' | grep -q . && echo MODEL-NAME-FOUND || echo no-model-names
+   (set MODEL_PAT='familyA|familyB' to the families the customer's estate serves; the default is the one family docs/attributes.adoc:24-25 carries)
+C8 (cd labs/lab09-{{slug}} && LAB_SPEED=0 NO_COLOR=1 bash run.sh | tail -12)
+C9 (cd labs/lab09-{{slug}} && for f in $(grep -oE '@?assets/[A-Za-z0-9_./-]+' run.sh | tr -d @ | sort -u); do test -f "$f" && echo "present $f" || echo "MISSING $f"; done)
+C10 python3 bin/build-adventure.py --out /tmp/adv-check.html && grep -c 'id="lab-card-9"' /tmp/adv-check.html && make adventure && git status --short slides/adventure.html
+C11 ./bin/preflight.sh | grep lab09
+C12 if [ "$DECK" = yes ]; then python3 -I bin/check-labs-parity.py . --lab 09; else echo deck-not-mirrored; fi
+   (without --lab the script also prints the 46 entries the shipped labs carry; those are the baseline, only lines naming lab09 are yours)
+C13 if [ "$DECK" = yes ]; then grep -n '#lab-?0?(\[1-9\])' slides/deck.html; fi
+C14 grep -rn -iE '\b(seven|eight)\b' README.adoc docs/ slides/slides.adoc slides/presenter-notes.html slides/deck.html bin/adventure-inventory.json bin/build-pptx.py | grep -viE 'eighteen|eight stations|eight-station|Seven questions|eight real workflows|eight places|eight slides|eight cards|Eight subagents'
+C15 python3 -c "import json; inv=json.load(open('bin/adventure-inventory.json'))['items']; lab=[i for i in inv if i['id']=='lab-09'][0]; print([k for k in ['id','kind','title','path','site_url','audience','minutes','rung','prerequisites','what_you_learn','highlights','next','anchors'] if k not in lab] or 'all fields', [i for i in inv if i['id']=='lab-08'][0]['next'])"
+C16 python3 -c "import json; l=json.load(open('slides/ladder-map.json'))['labs']; print([x['n'] for x in l], l[-1]['chip'])" && grep -n '^| Rung' docs/09-lab-{{slug}}.adoc
+C17 git status --short   # compare with git show --stat 7dd52f2
+C18 when given an environment: (cd labs/lab09-{{slug}} && {{live_env}} LAB_MODE=live ./run.sh; echo exit=$?)
+
+REPORT: the file list, C1 to C17 verbatim, one line per step naming its rung,
+product and who climbs next, any output you could not write honestly, and
+every count string you changed by hand.
+----
+
+*Checks.* The C1 to C18 list in the prompt is the check list; run it from the clone root. Two earlier drafts of these checks lied and are worth remembering: a model-name grep that also lists the name of the kit's retrieval stack flags the Lab 07 client at run.sh:41, hence the pattern is read from docs/attributes.adoc, widened with `MODEL_PAT` for the families the customer serves, and the product client is dropped with a second `grep -v`; and `test ... && parity || echo deck-not-mirrored` prints "deck-not-mirrored" with exit 0 when parity reports a divergence, hence the `if`.
+
+*Effort.* Four hours from the conversation to a lab that passes `make test`, with the docs chapter and the catalogue entry (the time boxes are in the afternoon plan below); 90 minutes more if the lab must appear in the browser deck; the live rehearsal is a separate session.
+
+=== R8. Add a chapter of your own to the book and the catalogue
+
+Use this for a customer appendix, a runbook or a catalogue like this one. The writing is yours; three mechanics are not obvious from the files.
+
+* Placement decides heading levels. docs/index.adoc includes the lab chapters between `:leveloffset: +1` (:193) and `:leveloffset: -1` (:221), so a chapter written with a level-0 `=` title goes inside that block, as the lab chapters are, and one written with `==` sections under a `==` title goes after :221; the other way round demotes or promotes every heading in it. Give it a `[#anchor]` on the line above the title so README.adoc and docs/index.adoc can cross-reference it, and render the book with `--failure-level WARN` (the Gates paragraph), because CI renders without it (docs.yml:63).
+* The catalogue page renders guide cards from a hard-coded id list, not from the item's `kind`: `guides = [by_id[i] for i in ["readme", "docs-index", "ladder", "event-brief", "facilitator-guide", "page-presenter-console"] if i in by_id]` at bin/build-adventure.py:316. A new item in bin/adventure-inventory.json is counted (`Wrote ... 58 inventory items`) but never drawn until its id is in that list. Copy the facilitator-guide item's thirteen fields (`id`, `kind`, `title`, `path`, `site_url`, `what_you_learn`, `highlights`, `audience`, `prerequisites`, `minutes`, `rung`, `anchors`, `next`); `rung` is drawn as a chip only when it is under 40 characters (:305).
+* Write the inventory back the way it is stored, one-space indentation and raw UTF-8: `json.dumps(data, indent=1, ensure_ascii=False)` plus a trailing newline. Any other indentation or `ensure_ascii` rewrites every line of the file and buries your item in the diff.
+
+Then `make adventure`, commit slides/adventure.html with the chapter, and add the chapter to the include list and to README.adoc:90 where the guides are named. `make test` does not change: nothing in bin/ or CI reads a chapter.
+
+=== Use-case catalogue: what the kit already covers and what each case needs
+
+.Eight rows of the catalogue, as the methods talk shows them
+image::built/usecases.png[Eight use cases against the labs that cover them, pdfwidth=100%]
+
+This table is the kit's only catalogue; add rows here, not in a second file. Rungs are the chip strings from slides/ladder-map.json `labs[].chip` and its four `rungs` keys. Steps are the `lab_section` numbers in the scripts, not the deck's hand-copied terminals (Lab 04 has five steps in run.sh and four in the deck). Effort: S is hours on an existing lab (knobs, corpus, expected output, thresholds); M is two to five days for a new lab in an existing shape with every mirror (R2); L is a new lab plus a helper the kit does not ship or a product surface no standalone lab shows, plus a live rehearsal. "Covered" is a simulate-mode statement; Labs 02, 07 and 08 call helpers that are not in the repository (lab02 run.sh:43, :52, :64, :73; lab07 :29, :76; lab08 :54, :66, :80, :126), so rows that lean on them say so. In every row the determination stays with a person. The methods talk's use-case graphic shows eight of these rows and points here.
+
+[cols="3,2,2,2,2,2,4,1", options="header"]
+|===
+| Use case | Agency | Problem owner | Rung | Products | Closest labs | What changes | Effort
+
+| Correspondence triage: classify a letter, name the missing document, route to the guide's queue with the section cited, draft for a reviewer
+| IRS; any notice-driven agency
+| Accounts Management correspondence lead; the reviewer signs
+| information → knowledge
+| {rhaiis}; {rhoai} with pgvector
+| Lab 01 step 5; Lab 04 steps 3 to 4; the executed Lab 09 of R2
+| New lab on the lab07 shape: a routing guide in git, a refusal that exits 3, a reviewer worklist last. Or a retarget of assets/inquiry.json (:8) and lab01 run.sh:58-71.
+| M (5 h built)
+
+| Notice-family and routing-queue tuning from seed YAML a reviewer approves in a pull request
+| IRS; any agency with a notice taxonomy
+| Correspondence policy owners with the data team
+| knowledge
+| SDG Hub + Training Hub on Red Hat AI
+| Lab 02 steps 1 to 5
+| Covered in simulate mode. Replace `seed_examples` in the seed YAML (labs/lab02-customization/taxonomy/knowledge/gov/tax/notices/qna.yaml) with published notice descriptions and rename the evaluation rows (run.sh:76-79). Live mode needs the sdg-hub and training-hub libraries, GPU hours and the four helpers the kit does not ship.
+| S walk; L live
+
+| Filing-season surge: an autoscaling classifier that absorbs the peak with no application change
+| IRS
+| Enterprise operations and the owner of the taxpayer-facing path
+| information at scale
+| {rhoai} with KServe and vLLM
+| Lab 03 steps 3 to 6
+| Covered. minReplicas, maxReplicas, scaleTarget and the digest in manifests/inferenceservice-tax-classifier.yaml:23-26 and :32; the rehearsal is the hey step (run.sh:56).
+| S
+
+| Assistor answers from published guidance, with a refusal when the corpus is silent
+| IRS
+| Taxpayer Services quality lead; the governance board
+| knowledge
+| {rhoai} with pgvector
+| Lab 04 steps 2 to 5
+| Covered. Guidance into labs/lab04-rag/corpus/ (git-ignored); SYSTEM_PROMPT (query.py:33-42); RELEVANCE_THRESHOLD (query.py:30); the refusal exits 3 (:148, :156).
+| S
+
+| Batch-window outage prediction with a reviewed, event-driven remediation
+| IRS mainframe
+| Enterprise computing centre operations
+| data → information → knowledge → judgement
+| {rhoai}; OpenShift Logging; Ansible Lightspeed; {eda}
+| Lab 08 steps 2 to 7; Lab 07 steps 2 to 3
+| Rename the LPARs, jobs and abend codes in lab08 run.sh:40-75 and rulebooks/memory_pressure.yml:58-68; LOKI_URL. Live mode needs four unshipped wrappers.
+| M walk; L live
+
+| Authorization evidence for an AI workload: signature, FIPS, scan, drift and fairness, decision left to the AO
+| IRS cyber; any authorizing official
+| Authorizing official and ISSO
+| evidence → judgement
+| {rhel} FIPS mode; Compliance Operator; TrustyAI; Sigstore; {aap} job history
+| Lab 06 steps 1 to 5; Lab 05 step 4
+| Covered. MODEL_REF and GPU_NODE (run.sh:8-9), the key (:19); thresholds in trustyai-service.yaml:39 and :51-52; the fairness group label is in the step 5 output (run.sh:66-67), not the manifest.
+| S
+
+| Disability claim evidence summaries with citations for examiners
+| SSA (DDS)
+| Disability determinations quality lead; the examiner decides
+| knowledge
+| {rhoai} with pgvector; TrustyAI
+| Lab 04 steps 2 to 5; Lab 06 step 5
+| Corpus becomes public POMS sections and the listings (your copy); the prompt summarises evidence against the listing and refers to the examiner; new step 3 to 5 questions and output.
+| S retarget; M own lab
+
+| 800-number and field-office inquiry triage and routing
+| SSA
+| Office of Operations (800-number network, field operations)
+| data → information
+| {rhaiis}; {rhoai} with KServe
+| Lab 01 steps 3 to 5; Lab 03 steps 3 to 6
+| Retarget: the categories named in the system prompt (assets/inquiry.json:8) become benefit verification, address change, card replacement and appeal status; routing becomes the field-office or processing-centre queue; the step 5 heredoc (lab01 run.sh:60-65) rewritten.
+| S
+
+| Claims intake mail triage: route a letter to the right lane and name the missing form
+| VA (VBA)
+| Claims intake centre
+| data → information; knowledge once tuned
+| {rhaiis}; SDG Hub + Training Hub; {rhoai}
+| Lab 01 steps 3 to 5; Lab 02; Lab 03 steps 3 to 6
+| inquiry.json carries a synthetic letter and the intake lanes; seed YAML from the public adjudication manual; evaluation rows renamed (lab02 run.sh:76-79).
+| M
+
+| Contact-centre answer drafts grounded in public benefits guidance; the agent edits and sends
+| VA
+| Veterans Experience Office; contact-centre operations
+| knowledge
+| {rhoai} with pgvector
+| Lab 04 steps 2 to 5
+| Corpus becomes public benefits pages and regulations; SYSTEM_PROMPT (query.py:33-42) says the draft is for an agent to edit and send; the refusal text names the referral path.
+| S
+
+| Helpline answer drafts grounded in the public handbook, with a fairness band
+| CMS
+| Contact-centre operations
+| knowledge
+| {rhoai} with pgvector; TrustyAI
+| Lab 04 steps 2 to 5; Lab 06 step 5
+| Corpus becomes the public handbook and manuals; the prompt says the agent edits and sends; the fairness group label in lab06 run.sh:66-67 becomes an attribute the policy office approves.
+| S
+
+| Claim anomaly scoring for program integrity, with a reviewer deciding
+| CMS
+| Center for Program Integrity; review-contractor oversight
+| information
+| {rhoai} (KServe sklearn runtime); TrustyAI; {aap} with {eda}
+| Lab 08 step 4; Lab 06 step 5; Lab 03 steps 3 to 4; Lab 05 steps 2 to 3
+| New lab: no standalone lab serves a tabular scorer (lab08 run.sh:66 shows the pattern). Serve a scorer, print a score per claim, drift and fairness alerts, and a rulebook rule that opens a review case instead of acting (the outside-window rule, memory_pressure.yml:42-56). Payment decisions stay with the reviewer.
+| L
+
+| Entry classification assist with cited rulings
+| CBP
+| Centers of Excellence and Expertise
+| information → knowledge
+| SDG Hub + Training Hub; {rhoai} with KServe and pgvector
+| Lab 02; Lab 03 steps 3 to 6; Lab 04
+| Seed YAML from public tariff chapter notes; inquiry.json an entry description; evaluation rows become heading accuracy and cited ruling; the import specialist signs.
+| M
+
+| Request-for-evidence checklist drafts grounded in the public policy manual
+| USCIS
+| Service center adjudication leads
+| knowledge
+| {rhoai} with pgvector
+| Lab 04 steps 2 to 5; Lab 01 step 5
+| Corpus becomes the public manual; the prompt yields a checklist of evidence, never an outcome; the refusal routes to the adjudicator.
+| S retarget; M own lab
+
+| Contracting-officer answers grounded in the FAR and GSAM
+| GSA
+| Federal Acquisition Service; Office of Acquisition Policy
+| knowledge
+| {rhoai} with pgvector
+| Lab 04 steps 2 to 5
+| Corpus becomes the public FAR and GSAM; SYSTEM_PROMPT cites part and section; RELEVANCE_THRESHOLD (query.py:30) tuned on your own held-out questions.
+| S
+
+| IT service-desk ticket triage with event-driven remediation of the common cases
+| GSA; any CIO service desk
+| Office of the CIO service desk; platform operations
+| data → information; executes judgement
+| {rhaiis}; {aap} with {eda}; OpenShift Logging
+| Lab 01 steps 3 to 5; Lab 05 steps 2 to 3; Lab 07 steps 2 to 3
+| inquiry.json carries a ticket and its categories; a rulebook maps a ticket category to an existing job template the way inference_saturation.yml:15-53 maps alerts; keep an escalate-only rule (:37-44) for anything security-related.
+| M
+
+| Refund-hold contact triage with the state's own letter codes (the R1 worked example)
+| State revenue
+| Refund Review unit; the identity-verification examiner
+| data → information
+| {rhaiis}; SDG Hub + Training Hub; {rhoai}
+| Lab 01 step 5; Lab 02; Lab 03
+| Retarget: both inquiry.json copies, the lab01 step 5 heredoc (:60-70), the seed YAML, the manifest name, namespace and storageUri (:8-9, :32), the load rehearsal month.
+| S per lab; R1 in full
+
+| Refund fraud and identity scoring with a human release
+| State revenue
+| Fraud and discovery unit; refund review
+| information
+| {rhoai} (KServe sklearn runtime); TrustyAI; Sigstore; {eda}
+| Lab 03 steps 3 to 4; Lab 06 steps 1 and 5; Lab 08 step 4
+| New lab: serve a signed tabular scorer, print a score per refund, drift and fairness alerts, a rule that holds for review and never releases or denies. Governance first.
+| L
+
+| Integrated tax system and batch incident notebook
+| State revenue
+| IT operations; the on-call team
+| information → knowledge
+| {rhoai}; OpenShift Logging; pgvector
+| Lab 07 steps 2 to 5; Lab 08 steps 2 to 3
+| LOKI_URL and NS (lab07 run.sh:7-8); systems, change records and runbooks renamed in the heredocs. Live mode needs ingest_ops.py (:29) and mttr_report.py (:76), which the kit does not ship.
+| M
+
+| Readiness and supply-system outage prediction with reviewed remediation
+| DoD logistics
+| Programme office sustainment and SRE team
+| data → information; executes judgement
+| {aap} with {eda}; {rhoai}; OpenShift Logging
+| Lab 05 steps 1 to 4; Lab 07 steps 2 to 3; Lab 08 steps 3 to 7
+| Rulebook conditions and job-template names (inference_saturation.yml:21-53); hosts in lab05 inventory/prod.ini; telemetry sources; keep the outside-window rule that opens a change request (memory_pressure.yml:42-56).
+| M
+
+| Pay-inquiry triage and routing
+| DoD pay
+| Customer care; military pay operations
+| data → information
+| {rhaiis}; SDG Hub + Training Hub; {rhoai}
+| Lab 01 step 5; Lab 02; Lab 03
+| Categories become allotment, tax-form reissue, debt and travel voucher; routing becomes the pay-operations queues; seed YAML from public pay guidance; the heredocs rewritten.
+| S to M
+
+| Audit evidence packs: cited guidance and per-run assurance evidence
+| DoD audit and finance
+| Audit-remediation leads; the financial-improvement office
+| knowledge; evidence → judgement
+| {rhoai} with pgvector; TrustyAI; Compliance Operator; {aap}
+| Lab 04 steps 2 to 3; Lab 06 steps 3 to 5; Lab 05 step 4
+| Corpus becomes public audit-remediation guidance; TrustyAI and Compliance Operator results printed per run; the awx job list step is the evidence export. The auditor's opinion stays human.
+| M
+
+| Compliance remediation drafts, merged by a person before they run
+| DoD cyber; the ISSM
+| Component cyber and the ISSM; the platform team
+| knowledge; executes judgement
+| Compliance Operator; Ansible Lightspeed; {aap} with {eda}
+| Lab 06 steps 3 to 4; Lab 08 steps 5 to 6
+| The profile names in the lab06 step 3 output (run.sh:40) become the ones your cluster lists; prompts/memory-pressure.txt (lab08 run.sh:80) becomes a remediation prompt; the pull-request review step (:98) stays.
+| M
+|===
+
+=== The afternoon plan
+
+.The lab brief, the time boxes and the gates
+image::built/afternoon.png[The lab brief, pdfwidth=100%]
+
+Four hours from a thirty-minute conversation to a lab that passes `make test`, with the docs chapter and the catalogue entry: brief 30 min; ladder and product 15; expected output 45; run.sh 45; gates 5; docs 30; registration and `make adventure` 25; review and commit 15. Add 90 minutes if the lab must appear in the browser deck. The live rehearsal is a separate session. Copy the page below into `labs/lab09-<slug>/brief.md` and fill it in the room; stop the conversation only when (f) and (g) are written down.
+
+[source]
+----
+LAB BRIEF                                    date:            owner of this page:
+
+(a) Problem owner (role and team, never a name):
+(b) Trigger: [ ] queue  [ ] pager  [ ] accreditation question
+    The sentence they said:
+(c) Data location: system / boundary it must not leave / who may read it /
+    identifiers it carries:
+(d) Rung this lab proves: [ ] data  [ ] information  [ ] knowledge
+    Who climbs the next rung (role):
+    If the model would make the determination: STOP (event brief, row marked No).
+(e) Product that serves the rung (slides/ladder-map.json technologies):
+    Chip string for the Rung row (labs[].chip):
+(f) Success output: the exact lines the LAST command prints, as the owner reads them:
+
+(g) Who signs (role). The lab ends on their screen; its heredoc ends in a
+    status only a person changes:
+(h) Nearest existing lab to copy from (catalogue row):
+(i) Live inputs: ${VAR:-default} knobs:            CLI tools for require_cmd:
+(j) Public sample data allowed in the repository:        What must stay out:
+
+Time boxes: 0:00 conversation  0:30 ladder+product  0:45 expected output
+            1:30 run.sh  2:15 gates  2:20 docs  2:50 register  3:15 review+commit
+Gates before anyone sees a slide: bash -n, step count == LAB_STEPS_TOTAL,
+make lint, run-all-labs, make test, model-name grep, asset presence,
+inventory fields, ladder-map chip == docs Rung row, make adventure clean.
+----
+
+A row marked "new lab" is the input to R2, never to the deck. A row marked "covered" or "retarget" is R1 or R3 work on a lab that already runs. Either way nothing reaches a slide until a lab prints it.

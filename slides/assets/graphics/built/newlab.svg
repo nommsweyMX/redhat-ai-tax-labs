@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="A new use case becomes a lab in ordered steps: from naming the problem owner and the rung, through writing the expected output and the run script, to the docs, catalogue, deck, CI and a live run."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<defs><marker id="nl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3)"/></marker></defs>
+<rect x="14" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="32" cy="42" r="11" fill="var(--steel)"/>
+<text x="32" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">1</text>
+<text x="24" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Name the problem</text><text x="24" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">owner and the queue</text>
+<line x1="126" y1="80.0" x2="137" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="139" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="157" cy="42" r="11" fill="var(--steel)"/>
+<text x="157" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">2</text>
+<text x="149" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Place it on the</text><text x="149" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">ladder; pick the</text><text x="149" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">product</text>
+<line x1="251" y1="80.0" x2="262" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="264" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="282" cy="42" r="11" fill="var(--steel)"/>
+<text x="282" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">3</text>
+<text x="274" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Write the expected</text><text x="274" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">output first (the</text><text x="274" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">heredocs)</text>
+<line x1="376" y1="80.0" x2="387" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="389" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.4"/>
+<circle cx="407" cy="42" r="11" fill="var(--steel)"/>
+<text x="407" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">4</text>
+<text x="399" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Copy the lab07</text><text x="399" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">shape into the new</text><text x="399" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">lab directory</text>
+<line x1="501" y1="80.0" x2="512" y2="80.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="514" y="24" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.4"/>
+<circle cx="532" cy="42" r="11" fill="var(--good)"/>
+<text x="532" y="46" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">5</text>
+<text x="524" y="70.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Ship the assets and</text><text x="524" y="83.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">helpers the live</text><text x="524" y="97.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">commands read</text>
+<line x1="570.0" y1="136" x2="570.0" y2="188" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="514" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.4"/>
+<circle cx="532" cy="210" r="11" fill="var(--good)"/>
+<text x="532" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">6</text>
+<text x="524" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">make test: bash -n,</text><text x="524" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">py_compile, all</text><text x="524" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">labs simulate</text>
+<line x1="514" y1="248.0" x2="503" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="389" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--good)" stroke-width="1.4"/>
+<circle cx="407" cy="210" r="11" fill="var(--good)"/>
+<text x="407" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">7</text>
+<text x="399" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Docs chapter, index</text><text x="399" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">include, README</text><text x="399" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">row, preflight</text>
+<line x1="389" y1="248.0" x2="378" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="264" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--violet)" stroke-width="1.4"/>
+<circle cx="282" cy="210" r="11" fill="var(--violet)"/>
+<text x="282" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">8</text>
+<text x="274" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Inventory item and</text><text x="274" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">ladder-map; make</text><text x="274" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">adventure</text>
+<line x1="264" y1="248.0" x2="253" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="139" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--violet)" stroke-width="1.4"/>
+<circle cx="157" cy="210" r="11" fill="var(--violet)"/>
+<text x="157" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">9</text>
+<text x="149" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Deck LABS and</text><text x="149" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">cards, preview</text><text x="149" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">card, #lab regex</text>
+<line x1="139" y1="248.0" x2="128" y2="248.0" stroke="var(--ink-3)" stroke-width="1.6" marker-end="url(#nl)"/>
+<rect x="14" y="192" width="112" height="112" rx="10" fill="var(--surface)" stroke="var(--violet)" stroke-width="1.4"/>
+<circle cx="32" cy="210" r="11" fill="var(--violet)"/>
+<text x="32" y="214" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">10</text>
+<text x="24" y="238.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">Run it live; a</text><text x="24" y="251.5" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">divergence is the</text><text x="24" y="265.0" text-anchor="start" font-size="9.8" font-weight="600" fill="var(--ink)">finding</text>
+<rect x="14" y="372" width="10" height="10" rx="3" fill="var(--steel)"/><text x="30" y="381" font-size="9.5" fill="var(--ink-2)">decide</text>
+<rect x="85.6" y="372" width="10" height="10" rx="3" fill="var(--good)"/><text x="101.6" y="381" font-size="9.5" fill="var(--ink-2)">build and check</text>
+<rect x="207.6" y="372" width="10" height="10" rx="3" fill="var(--violet)"/><text x="223.6" y="381" font-size="9.5" fill="var(--ink-2)">ship and run live</text>
+<text x="626" y="381" text-anchor="end" font-size="9.5" fill="var(--ink-3)">the expected output is the acceptance criterion</text>
+</svg>

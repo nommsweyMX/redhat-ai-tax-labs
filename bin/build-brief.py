@@ -68,7 +68,7 @@ ul.pts li b{color:var(--ink)}
 .agenda div{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:baseline;font-size:.78rem;color:var(--ink-2);border-bottom:1px solid var(--border);padding:4px 0}
 .agenda i{font-style:normal;font-family:"Red Hat Mono",monospace;font-size:.68rem;color:var(--accent)}
 .agenda span.m{font-family:"Red Hat Mono",monospace;font-size:.64rem;color:var(--ink-3)}
-.agenda.four{grid-template-columns:repeat(4,1fr);max-width:none;gap:2px 14px}.agenda.four div{font-size:.72rem;padding:3px 0}
+.agenda.four{grid-template-columns:repeat(4,1fr);max-width:none;gap:0 14px;margin-top:12px}.agenda.four div{font-size:.7rem;padding:2px 0;line-height:1.3}
 .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .checklist div{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface-2);font-size:.84rem;color:var(--ink-2);display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start}
 .checklist div::before{content:"✓";font-family:"Red Hat Mono",monospace;font-weight:700;color:var(--good)}
@@ -908,13 +908,46 @@ def g_usecases() -> str:
     out.append('</svg>')
     return '\n'.join(out)
 
+def g_afternoon() -> str:
+    """The one-page lab brief filled in the room, the time boxes and the gates."""
+    fields = [('a', 'Problem owner: role and team, never a name'), ('b', 'Trigger: queue, pager or accreditation question'),
+              ('c', 'Data: system, boundary it must not leave, who may read it'), ('d', 'Rung this lab proves; who climbs the next one'),
+              ('e', 'Product that serves the rung; the chip string'), ('f', 'Success output: the exact lines the last command prints'),
+              ('g', 'Who signs: the lab ends on their screen'), ('h', 'Nearest existing lab to copy from'),
+              ('i', 'Live inputs: ${VAR:-default} knobs, CLI tools'), ('j', 'Sample data allowed in the repo; what stays out')]
+    boxes = [('0:00', 'conversation'), ('0:30', 'ladder and product'), ('0:45', 'expected output'), ('1:30', 'run.sh'),
+             ('2:15', 'gates'), ('2:20', 'docs chapter'), ('2:50', 'register, make adventure'), ('3:15', 'review and commit')]
+    out = ['<svg viewBox="0 0 640 400" role="img" aria-label="The lab brief: ten fields filled in the room (problem owner, trigger, data location, rung, product, success output, who signs, nearest lab, live inputs, sample data), eight time boxes from the conversation at 0:00 to review and commit at 3:15, and the gates that run before anyone sees a slide.">']
+    out.append('<rect x="14" y="14" width="400" height="348" rx="10" fill="var(--surface)" stroke="var(--border-strong)" stroke-width="1.3"/>')
+    out.append('<text x="30" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--accent-ink)">LAB BRIEF · ONE PAGE, FILLED IN THE ROOM</text>')
+    for i, (k, label) in enumerate(fields):
+        y = 54 + i * 30
+        hot = k in ('f', 'g')
+        out.append(f'<rect x="30" y="{y}" width="20" height="20" rx="5" fill="{"var(--accent)" if hot else "var(--surface-2)"}" stroke="{"var(--accent)" if hot else "var(--border-strong)"}"/>')
+        out.append(f'<text x="40" y="{y + 14}" text-anchor="middle" font-size="10" font-weight="800" fill="{"#fff" if hot else "var(--ink-2)"}">{k}</text>')
+        out.append(f'<text x="58" y="{y + 14}" font-size="10.5" font-weight="{"700" if hot else "500"}" fill="var(--ink)">{E(label)}</text>')
+        out.append(f'<line x1="58" y1="{y + 24}" x2="398" y2="{y + 24}" stroke="var(--border)" stroke-width="1" stroke-dasharray="2 3"/>')
+    out.append('<rect x="430" y="14" width="196" height="214" rx="10" fill="var(--steel-wash)" stroke="var(--steel)" stroke-width="1.3"/>')
+    out.append('<text x="446" y="38" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--steel)">TIME BOXES · FOUR HOURS</text>')
+    for i, (tm, what) in enumerate(boxes):
+        y = 60 + i * 21
+        out.append(f'<text x="446" y="{y}" font-size="10.5" font-weight="800" font-family="Red Hat Mono, monospace" fill="var(--ink)">{tm}</text>')
+        out.append(f'<text x="486" y="{y}" font-size="10.5" fill="var(--ink-2)">{E(what)}</text>')
+    out.append('<rect x="430" y="242" width="196" height="120" rx="10" fill="var(--good-wash)" stroke="var(--good)" stroke-width="1.3"/>')
+    out.append('<text x="446" y="266" font-size="10.5" font-weight="700" letter-spacing="1.4" fill="var(--good)">GATES BEFORE ANY SLIDE</text>')
+    out.append(_lines(446, 284, ['bash -n · step count matches', 'make lint · run-all-labs · make test', 'model-name grep · asset presence', 'inventory fields · ladder-map chip', 'equals the docs Rung row', 'make adventure comes back clean'], 9.8, 'var(--ink-2)', 13))
+    out.append('<text x="320" y="388" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink)">Stop the conversation only when (f) and (g) are written down. Nothing reaches a slide until a lab prints it.</text>')
+    out.append('</svg>')
+    return '\n'.join(out)
+
+
 GRAPHICS = {
     'agent-loop': g_agent_loop, 'architecture': g_architecture, 'boundary': g_boundary,
     'pipeline': g_pipeline, 'toolchain': g_toolchain, 'gaps': g_gaps, 'pyramid': g_pyramid,
     'hurt': g_hurt, 'faces': g_faces, 'matrix': g_matrix,
     'brief': g_brief, 'timeline': g_timeline, 'growth': g_growth, 'where': g_where,
     'trace': g_trace, 'context': g_context, 'fanout': g_fanout,
-    'knobs': g_knobs, 'newlab': g_newlab, 'usecases': g_usecases,
+    'knobs': g_knobs, 'newlab': g_newlab, 'usecases': g_usecases, 'afternoon': g_afternoon,
 }
 
 # --------------------------------------------------------------------------- page

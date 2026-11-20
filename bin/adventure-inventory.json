@@ -240,8 +240,8 @@
    "title": "Interactive deck — Demo view",
    "path": "slides/deck.html",
    "site_url": "/#demo",
-   "audience": "Kiosk screens, booth loops and anyone who wants to watch all seven labs play themselves",
-   "minutes": "Loops through all seven labs continuously; speed 1×, 1.6×, 2.4× or 4×",
+   "audience": "Kiosk screens, booth loops and anyone who wants to watch all eight labs play themselves",
+   "minutes": "Loops through all eight labs continuously; speed 1×, 1.6×, 2.4× or 4×",
    "rung": "All four rungs (each lab's chip shown in the header as it plays)",
    "prerequisites": "A browser. Open the deck with #demo on the URL to start in Demo view already playing; otherwise press the sidebar Demo button.",
    "what_you_learn": "An automated walkthrough that types each lab's commands and prints the representative output, then shows the takeaway and moves to the next lab — the whole hands-on track without touching the keyboard.",
@@ -263,7 +263,7 @@
    "title": "README — the kit in one page",
    "path": "README.adoc",
    "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/README.adoc",
-   "what_you_learn": "What the repository holds (seven labs, docs, deck, exports, bin/), the three-command quick start, the seven-lab table with product and rung, the two lab modes, and the honesty note about sample content.",
+   "what_you_learn": "What the repository holds (eight labs, docs, deck, exports, bin/), the three-command quick start, the eight-lab table with product and rung, the two lab modes, and the honesty note about sample content.",
    "highlights": [
     "Quick start: ./bin/preflight.sh, then LAB_PACE=step ./labs/lab01-rhel-ai/run.sh, then ./bin/run-all-labs.sh — no cluster, GPU or credentials.",
     "Lab table: 01 AI Inference Server, 02 SDG Hub + Training Hub, 03 OpenShift AI, 04 pgvector, 05 Ansible, 06 Compliance/TrustyAI/Sigstore, 07 Logging.",
@@ -418,6 +418,33 @@
    ]
   },
   {
+   "id": "adapting-the-kit",
+   "kind": "guide",
+   "title": "Adapting the kit — modify the deck and the labs for your own use case",
+   "path": "docs/91-adapting-the-kit.adoc",
+   "site_url": "https://nommsweymx.github.io/redhat-ai-tax-labs/docs/index.html#adapting-the-kit",
+   "what_you_learn": "How the kit is organized for change (one owner file per fact, generators, the gates), eight verified recipes with ready-to-paste agent prompts and checks, a 23-row use-case catalogue across IRS, federal civilian, state revenue and DoD, and the one-page lab brief for turning a customer conversation into a lab in an afternoon.",
+   "highlights": [
+    "R2 was executed end to end: Lab 09, correspondence triage, in 23 files, passing every gate.",
+    "Checks ship in bin/: check-labs-parity, check-agree, check-es-keys, check-chain, check-i18n, deck-measure, check-markers.",
+    "Every recipe ends with the commands that prove it; nothing reaches a slide until a lab prints it.",
+    "The catalogue marks each use case S, M or L and names the closest existing labs."
+   ],
+   "audience": "Solution architects adapting the kit for another agency or mission; anyone adding a lab or a slide.",
+   "prerequisites": "A clone, Python 3 and bash; Node with Playwright for the browser checks; the gem or container asciidoctor for the book.",
+   "minutes": "25",
+   "rung": "knowledge (the method, written down)",
+   "anchors": [
+    "adapting-the-kit"
+   ],
+   "next": [
+    "facilitator-guide",
+    "lab-07",
+    "ladder-map",
+    "docs-workflow"
+   ]
+  },
+  {
    "id": "attributes",
    "kind": "spec",
    "title": "Shared AsciiDoc attributes — product names and lab defaults",
@@ -491,7 +518,7 @@
    "title": "bin/preflight.sh — which labs can run live here",
    "path": "bin/preflight.sh",
    "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/bin/preflight.sh",
-   "what_you_learn": "A never-failing readiness report: for each of the seven labs it lists the CLI tools LAB_MODE=live needs and prints 'live ready' or 'simulate only (missing: ...)'.",
+   "what_you_learn": "A never-failing readiness report: for each of the eight labs it lists the CLI tools LAB_MODE=live needs and prints 'live ready' or 'simulate only (missing: ...)'.",
    "highlights": [
     "lab01 needs podman huggingface-cli curl jq; lab03 needs oc curl jq hey; lab05 needs ansible-navigator ansible-rulebook.",
     "lab06 needs oc cosign ssh; lab07 needs logcli python3; lab02 and lab04 need python3 (lab04 also oc).",
@@ -510,7 +537,7 @@
   {
    "id": "run-all-labs",
    "kind": "tool",
-   "title": "bin/run-all-labs.sh — walk all seven labs end to end",
+   "title": "bin/run-all-labs.sh — walk all eight labs end to end",
    "path": "bin/run-all-labs.sh",
    "site_url": "https://github.com/nommsweyMX/redhat-ai-tax-labs/blob/main/bin/run-all-labs.sh",
    "what_you_learn": "The rehearsal and CI smoke test: cds into each labs/lab*/ directory, runs run.sh, counts failures and exits 1 if any lab failed.",
@@ -1198,7 +1225,7 @@
    "rung": "all four (each step carries its rung chips and an 'On the ladder' beat)",
    "minutes": "60 (Sept 17, 1:00–2:00 PM)",
    "audience": "Presenters; self-guided readers who want the full talk track",
-   "what_you_learn": "The talk track behind every slide and lab: what is on screen, what to say, the five planted questions, per-command 'say' lines for all seven labs, and the ladder mapping per step.",
+   "what_you_learn": "The talk track behind every slide and lab: what is on screen, what to say, the five planted questions, per-command 'say' lines for all eight labs, and the ladder mapping per step.",
    "highlights": [
     "Run of show: slides 0–34 min, Lab 01 live 34–42, Lab 05 live 42–50, skim the rest 50–56, questions 56–60.",
     "Only 30 minutes? Slides 1, 2, 8 plus Lab 01 and the drift section of Lab 06.",

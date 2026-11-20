@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Eight specific use cases across the IRS, other federal civilian agencies, state revenue and DoD business systems, each with its rung, the closest existing labs and what changes."><style>:root{--ground:#FBF9F8;--surface:#FFFFFF;--surface-2:#F4EFED;--border:#E6DDDA;--border-strong:#CFC2BE;--ink:#1B1211;--ink-2:#54423E;--ink-3:#7E6A64;--accent:#CC0000;--accent-ink:#A30000;--accent-wash:#FBEAE8;--steel:#286C88;--steel-wash:#E7F1F5;--amber:#96620A;--amber-wash:#F8EFDC;--good:#1E7A55;--good-wash:#E4F3EC;--violet:#5B2E91;--violet-wash:#EFE6F7;--term-bg:#120D0C;--term-bg-2:#1C1513;--term-border:#3A2B27;--term-ink:#E8DFDC;--term-dim:#93807B;--term-green:#4FC1A0;--term-blue:#77B9E0;--shadow:0 1px 2px rgba(27,18,17,.06),0 8px 28px -14px rgba(27,18,17,.28)}text{font-family:"Red Hat Text",system-ui,sans-serif}</style><rect width="640" height="400" fill="var(--surface)"/>
+<text x="22" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">USE CASE</text>
+<text x="180" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">AGENCY</text>
+<text x="276" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">RUNG</text>
+<text x="380" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">LABS</text>
+<text x="472" y="26" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="var(--ink-3)">WHAT CHANGES</text>
+<rect x="14" y="36" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="59" font-size="11" font-weight="800" fill="var(--ink)">Correspondence triage</text>
+<text x="180" y="59" font-size="10" fill="var(--ink-2)">IRS</text>
+<rect x="276" y="46" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="55" r="3.5" fill="var(--good)"/>
+<text x="294" y="59" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="59" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 01 + 04 + 09</text>
+<text x="472" y="59" font-size="9.8" fill="var(--ink-2)">new lab, routing guide in git</text>
+<rect x="14" y="77" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="100" font-size="11" font-weight="800" fill="var(--ink)">Filing-season autoscale</text>
+<text x="180" y="100" font-size="10" fill="var(--ink-2)">IRS</text>
+<rect x="276" y="87" width="88" height="18" rx="9" fill="#C2410C" opacity=".14"/>
+<circle cx="286" cy="96" r="3.5" fill="#C2410C"/>
+<text x="294" y="100" font-size="9.5" font-weight="700" fill="var(--ink)">information</text>
+<text x="380" y="100" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 03</text>
+<text x="472" y="100" font-size="9.8" fill="var(--ink-2)">manifest replicas, hey run</text>
+<rect x="14" y="118" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="141" font-size="11" font-weight="800" fill="var(--ink)">Claims evidence summaries</text>
+<text x="180" y="141" font-size="10" fill="var(--ink-2)">SSA / VA</text>
+<rect x="276" y="128" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="137" r="3.5" fill="var(--good)"/>
+<text x="294" y="141" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="141" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 04</text>
+<text x="472" y="141" font-size="9.8" fill="var(--ink-2)">swap corpus, prompt, threshold</text>
+<rect x="14" y="159" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="182" font-size="11" font-weight="800" fill="var(--ink)">Helpline answer drafts</text>
+<text x="180" y="182" font-size="10" fill="var(--ink-2)">CMS</text>
+<rect x="276" y="169" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="178" r="3.5" fill="var(--good)"/>
+<text x="294" y="182" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="182" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 04 + 06</text>
+<text x="472" y="182" font-size="9.8" fill="var(--ink-2)">cite handbook; agent sends</text>
+<rect x="14" y="200" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="223" font-size="11" font-weight="800" fill="var(--ink)">Entry classification</text>
+<text x="180" y="223" font-size="10" fill="var(--ink-2)">CBP</text>
+<rect x="276" y="210" width="88" height="18" rx="9" fill="var(--good)" opacity=".14"/>
+<circle cx="286" cy="219" r="3.5" fill="var(--good)"/>
+<text x="294" y="223" font-size="9.5" font-weight="700" fill="var(--ink)">knowledge</text>
+<text x="380" y="223" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 02 + 03</text>
+<text x="472" y="223" font-size="9.8" fill="var(--ink-2)">tune on your taxonomy</text>
+<rect x="14" y="241" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="264" font-size="11" font-weight="800" fill="var(--ink)">Refund-hold contact triage</text>
+<text x="180" y="264" font-size="10" fill="var(--ink-2)">State revenue</text>
+<rect x="276" y="251" width="88" height="18" rx="9" fill="var(--accent)" opacity=".14"/>
+<circle cx="286" cy="260" r="3.5" fill="var(--accent)"/>
+<text x="294" y="264" font-size="9.5" font-weight="700" fill="var(--ink)">data → info</text>
+<text x="380" y="264" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 01 + 02 + 03</text>
+<text x="472" y="264" font-size="9.8" fill="var(--ink-2)">retarget knobs and heredocs</text>
+<rect x="14" y="282" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="305" font-size="11" font-weight="800" fill="var(--ink)">Readiness rulebooks</text>
+<text x="180" y="305" font-size="10" fill="var(--ink-2)">DoD logistics</text>
+<rect x="276" y="292" width="88" height="18" rx="9" fill="var(--violet)" opacity=".14"/>
+<circle cx="286" cy="301" r="3.5" fill="var(--violet)"/>
+<text x="294" y="305" font-size="9.5" font-weight="700" fill="var(--ink)">judgement</text>
+<text x="380" y="305" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 05 + 07</text>
+<text x="472" y="305" font-size="9.8" fill="var(--ink-2)">rulebooks, your telemetry</text>
+<rect x="14" y="323" width="612" height="37" rx="7" fill="var(--surface)" stroke="var(--border)"/>
+<text x="22" y="346" font-size="11" font-weight="800" fill="var(--ink)">Audit evidence packs</text>
+<text x="180" y="346" font-size="10" fill="var(--ink-2)">DoD finance</text>
+<rect x="276" y="333" width="88" height="18" rx="9" fill="var(--violet)" opacity=".14"/>
+<circle cx="286" cy="342" r="3.5" fill="var(--violet)"/>
+<text x="294" y="346" font-size="9.5" font-weight="700" fill="var(--ink)">judgement</text>
+<text x="380" y="346" font-size="10" font-family="Red Hat Mono, monospace" fill="var(--steel)">Lab 04 + 06</text>
+<text x="472" y="346" font-size="9.8" fill="var(--ink-2)">TrustyAI reports per run</text>
+<text x="320" y="392" text-anchor="middle" font-size="9.5" fill="var(--ink-3)">the full catalogue is in the docs chapter · in every row the determination stays with a person</text>
+</svg>
